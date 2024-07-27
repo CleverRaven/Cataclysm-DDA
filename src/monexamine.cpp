@@ -42,7 +42,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const efftype_id effect_bleed("bleed");
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_harnessed( "harnessed" );
