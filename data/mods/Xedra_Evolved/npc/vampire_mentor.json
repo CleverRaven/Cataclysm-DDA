@@ -86,20 +86,23 @@
       {
         "text": "I've lost the book you gave me.  Do you have another?",
         "topic": "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW",
-        "condition": { "and": [ { "u_has_var": "received_mentor_book", "value": "yes" }, { "not": { "u_has_item": "vampire_mentor_book" } } ] }
+        "condition": {
+          "and": [ { "u_has_var": "received_mentor_book", "value": "yes" }, { "not": { "u_has_item": "vampire_mentor_book" } } ]
+        }
       },
       {
         "text": "I have brought back the components you need for the ritual.",
         "topic": "TALK_VAMPIRE_MENTOR_MAKE_TIER_5",
-        "condition": { 
-          "and": [ 
-            { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" }, 
-            { "u_has_item": "stormwrought_blood_charged" }, 
+        "condition": {
+          "and": [
+            { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" },
+            { "u_has_item": "stormwrought_blood_charged" },
             { "u_has_items": { "item": "concentrated_underhill_essence", "count": 400 } },
-            { "u_has_item": "dream_drainer_heart" },  
-            { "u_has_item": "moonstruck_pearl" },  
-            { "u_has_item": "abyssal_hunger_shard" } ]
-           },
+            { "u_has_item": "dream_drainer_heart" },
+            { "u_has_item": "moonstruck_pearl" },
+            { "u_has_item": "abyssal_hunger_shard" }
+          ]
+        },
         "effect": [
           { "u_sell_item": "stormwrought_blood_charged", "count": 1 },
           { "u_sell_item": "concentrated_underhill_essence", "count": 400 },
@@ -143,7 +146,13 @@
       },
       {
         "text": "I want to become a stronger vampire.",
-        "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, { "not": { "u_has_trait": "BLOOD_DRINKER" } } ] },
+        "condition": {
+          "and": [
+            { "u_has_trait": "VAMPIRE4" },
+            { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
+            { "not": { "u_has_trait": "BLOOD_DRINKER" } }
+          ]
+        },
         "topic": "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER"
       },
       {
@@ -302,17 +311,31 @@
       "no": "You are now ready to fully walk the path.  This time, you'll need to gather a few components before the ritual can be done.  I'll give you this book so you know what to look for."
     },
     "responses": [
-      { "text": "I'll begin the search then.", "topic": "TALK_VAMPIRE_MENTOR_GATHER_TIER_5", 
-      "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, 
-      "effect": [
-        { "u_spawn_item": "vampire_mentor_book" },
-        { "u_add_var": "received_mentor_book", "value": "yes" },
-        { "assign_mission": "GET_COMPONENTS_FOR_TIER_5" }
-      ]
-    },
-      { "text": "A book? You said I would only need a few components!", "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, "topic": "TALK_VAMPIRE_MENTOR_WHY_BOOK" },
-      { "text": "It's progressing.  See you.", "condition": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" }, "topic": "TALK_DONE" },
-      { "text": "It'll wait for now.  See you.", "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, "topic": "TALK_DONE" }
+      {
+        "text": "I'll begin the search then.",
+        "topic": "TALK_VAMPIRE_MENTOR_GATHER_TIER_5",
+        "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
+        "effect": [
+          { "u_spawn_item": "vampire_mentor_book" },
+          { "u_add_var": "received_mentor_book", "value": "yes" },
+          { "assign_mission": "GET_COMPONENTS_FOR_TIER_5" }
+        ]
+      },
+      {
+        "text": "A book? You said I would only need a few components!",
+        "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
+        "topic": "TALK_VAMPIRE_MENTOR_WHY_BOOK"
+      },
+      {
+        "text": "It's progressing.  See you.",
+        "condition": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "It'll wait for now.  See you.",
+        "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -379,24 +402,24 @@
     "id": [ "TALK_VAMPIRE_MENTOR_GATHER_TIER_5" ],
     "type": "talk_topic",
     "dynamic_line": "Here's the book.  It contains everything you need to know about the components you need to acquire.  Be sure to read it thoroughly as the rituals have very specific conditions to be accomplished.  Come back here when you'll have them all and you will fully walk the path.",
-    "responses": [
-      { "text": "Thank you.  I'll bring back these components.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Thank you.  I'll bring back these components.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_VAMPIRE_MENTOR_WHY_BOOK" ],
     "type": "talk_topic",
     "dynamic_line": "This book contains the rituals allowing to obtain the components.  Each of them requires a complicated process to get.  I'm giving you this book so you won't come back asking for more information every two hours.",
     "responses": [
-      { "text": "I'll begin the search then.", "topic": "TALK_VAMPIRE_MENTOR_GATHER_TIER_5", 
-      "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, 
-      "effect": [
-        { "u_spawn_item": "vampire_mentor_book" },
-        { "u_add_var": "received_mentor_book", "value": "yes" },
-        { "assign_mission": "GET_COMPONENTS_FOR_TIER_5" }
-      ]
-    }
-  ]
+      {
+        "text": "I'll begin the search then.",
+        "topic": "TALK_VAMPIRE_MENTOR_GATHER_TIER_5",
+        "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
+        "effect": [
+          { "u_spawn_item": "vampire_mentor_book" },
+          { "u_add_var": "received_mentor_book", "value": "yes" },
+          { "assign_mission": "GET_COMPONENTS_FOR_TIER_5" }
+        ]
+      }
+    ]
   },
   {
     "id": [ "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW" ],
@@ -447,16 +470,17 @@
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
       { "u_add_trait": "BLOOD_DRINKER" },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
-      { "u_message": "Your thirst for blood grows, and so does your power, as you reach the final state of vampirism.", "type": "mixed" }
+      {
+        "u_message": "Your thirst for blood grows, and so does your power, as you reach the final state of vampirism.",
+        "type": "mixed"
+      }
     ]
   },
   {
     "id": [ "TALK_VAMPIRE_MENTOR_BECAME_TIER_5" ],
     "type": "talk_topic",
     "dynamic_line": "You have now reached the apex of the vampiric condition and do not need further guidance.  Go forth and claim your title and crown of ruler of the night!  Make it clear that you are the one on the throne!",
-    "responses": [
-      { "text": "Got it.  Farewell, my friend.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Got it.  Farewell, my friend.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_VAMPIRE_MENTOR_CURE" ],
