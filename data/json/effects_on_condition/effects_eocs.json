@@ -98,9 +98,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
     "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
-    "effect": [
-      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } }
-    ]
+    "effect": [ { "set_string_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -167,7 +165,7 @@
       ]
     },
     "effect": [
-      { "u_message": "The growth in your <global_val:IMPREGNATED_BODYPART> itches!" },
+      { "u_message": "The growth in your <global_val:IMPREGNATED_BODYPART> itches!", "type": "bad" },
       {
         "u_add_effect": "formication",
         "duration": 360,
