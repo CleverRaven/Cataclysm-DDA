@@ -156,7 +156,6 @@
     "description": "Unnatural bulges line the neck of this obviously-mutated coyote; green-tinted foam flecks from its lips, and there's a crazed look in its eyes.",
     "copy-from": "mon_coyote",
     "aggression": 20,
-    "morale": 20,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "path_settings": { "max_dist": 7 },
