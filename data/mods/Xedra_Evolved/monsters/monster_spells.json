@@ -292,9 +292,7 @@
     "max_aoe": 1,
     "message": "",
     "sound_description": "A crackling sound!",
-    "extra_effects": [
-      { "id": "XE_line_bash" }
-    ]
+    "extra_effects": [ { "id": "XE_line_bash" } ]
   },
   {
     "id": "mon_luna_attuned_revenant_moon_withdrawal",
@@ -337,9 +335,7 @@
     "max_aoe": 1,
     "message": "",
     "sound_description": "A crackling sound!",
-    "extra_effects": [
-      { "id": "XE_line_bash" }
-    ]
+    "extra_effects": [ { "id": "XE_line_bash" } ]
   },
   {
     "type": "SPELL",
