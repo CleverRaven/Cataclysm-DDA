@@ -163,14 +163,14 @@
         { "u_has_effect": "dermatik" },
         { "not": { "u_has_effect": "formication" } },
         { "not": { "u_has_effect": "took_antihistamine" } },
-        { "x_in_y_chance": { "x": 60, "y": { "math": [ "max(360, 2000 - u_vitamin('dermatik_larva_size'))" ] } } }
+        { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(360, 2000 - u_vitamin('dermatik_larva_size'))" ] } } }
       ]
     },
     "effect": [
       { "u_message": "The growth in your <global_val:IMPREGNATED_BODYPART> itches!" },
       {
         "u_add_effect": "formication",
-        "duration": 6,
+        "duration": 360,
         "target_part": { "global_val": "IMPREGNATED_BODYPART" },
         "intensity": { "math": [ "u_effect_intensity('dermatik_visible', 'bodypart': IMPREGNATED_BODYPART)" ] }
       }
