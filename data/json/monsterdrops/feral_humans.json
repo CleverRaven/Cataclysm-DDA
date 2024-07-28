@@ -32,8 +32,8 @@
     "entries": [
       {
         "distribution": [
-          { "item": "crowbar", "prob": 40, "damage": [ 1, 3 ] },
-          { "item": "makeshift_crowbar", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "crowbar", "prob": 60, "damage": [ 1, 3 ] },
+          { "item": "claw_bar", "prob": 30, "damage": [ 1, 3 ] },
           { "item": "heavy_crowbar", "prob": 10, "damage": [ 2, 4 ] }
         ]
       },

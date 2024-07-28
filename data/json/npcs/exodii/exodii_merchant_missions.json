@@ -509,5 +509,30 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "id": "MISSION_EXODII_PAY_BACK_RIOT_GEAR",
+    "type": "mission_definition",
+    "name": { "str": "Pay Back The Riot Gear to Rubik" },
+    "goal": "MGOAL_NULL",
+    "difficulty": 1,
+    "value": 0,
+    "fail": { "effect": { "math": [ "faction_trust('exodii')", "-=", "20" ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "deadline_low": 20,
+    "deadline_high": 20,
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
   }
 ]

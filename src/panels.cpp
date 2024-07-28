@@ -167,12 +167,18 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y;
     const int start_x = start_input.x;
     const point mid( width / 2, height / 2 );
     map &here = get_map();
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
+
+    oter_display_options opts( global_omt, sight_points );
+    if( targ != overmap::invalid_tripoint ) {
+        opts.mission_target = targ;
+    }
+    opts.hilite_pc = true;
+    opts.hilite_mission = true;
 
     // i scans across width, with 0 in the middle(ish)
     //     -(w/2) ... w-(w/2)-1
@@ -181,80 +187,31 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     // w:11  -5 ... 5
     // w:12  -6 ... 5
     // w:13  -6 ... 6
-    for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+    int left = -( width / 2 );
+    int right = width - ( width / 2 ) + 1;
+    int top = -( height / 2 );
+    int bottom = height - ( height / 2 );
+
+    opts.mission_inbounds = targ.x() >= left + curs.x() && targ.x() <= right + curs.x() &&
+                            targ.y() >= top + curs.y() && targ.y() <= bottom + curs.y();
+
+    for( int i = left; i <= right; i++ ) {
         // j scans across height, with 0 in the middle(ish)
         // (same algorithm)
-        for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
+        for( int j = top; j <= bottom; j++ ) {
             // omp is the current overmap point, at the current z-level
             const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
             // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
+
             const bool seen = overmap_buffer.seen( omp );
-            if( overmap_buffer.has_note( omp ) ) {
-                const std::string &note_text = overmap_buffer.note( omp );
-                std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
-                ter_sym = sym_color.first;
-                ter_color = sym_color.second;
-            } else if( !seen ) {
-                // Always gray # for unseen
-                ter_sym = "#";
-                ter_color = c_dark_gray;
-            } else if( overmap_buffer.has_vehicle( omp ) ) {
-                ter_color = c_cyan;
-                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
-            } else {
-                // Otherwise, get symbol and color appropriate for the terrain
-                const oter_id &cur_ter = overmap_buffer.ter( omp );
-                ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omp ) ) {
-                    ter_color = c_dark_gray;
-                } else {
-                    ter_color = cur_ter->get_color();
-                }
-            }
-            if( !drew_mission && targ.xy() == omp.xy() ) {
-                // If there is a mission target, and it's not on the same
-                // overmap terrain as the player character, mark it.
-                // TODO: Inform player if the mission is above or below
-                drew_mission = true;
-                if( i != 0 || j != 0 ) {
-                    ter_color = red_background( ter_color );
-                }
-            }
+            oter_display_args args( seen );
+            args.edge_tile = i == left || i == right || j == top || j == bottom;
+            std::tie( ter_sym, ter_color ) = oter_symbol_and_color( omp, args, opts );
             // TODO: Build colorized string instead of writing directly to window
-            if( i == 0 && j == 0 ) {
-                // Highlight player character position in center of minimap
-                mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
-            } else {
-                mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color,
-                          ter_sym );
-            }
-
-            if( i < -1 || i > 1 || j < -1 || j > 1 ) {
-                // Show hordes on minimap, leaving a one-tile space around the player
-                int horde_size = overmap_buffer.get_horde_size( omp );
-                if( horde_size >= HORDE_VISIBILITY_SIZE &&
-                    overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), c_green,
-                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                }
-            }
+            mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color, ter_sym );
         }
-    }
-
-    // When the mission marker is not visible within the current overmap extents,
-    // draw an arrow at the edge of the map pointing in the general mission direction.
-    // TODO: Replace `drew_mission` with a function like `is_mission_on_map`
-    if( !drew_mission ) {
-        char glyph = '*';
-        if( targ.z() > you.posz() ) {
-            glyph = '^';
-        } else if( targ.z() < you.posz() ) {
-            glyph = 'v';
-        }
-        const point arrow = display::mission_arrow_offset( you, width, height );
-        mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
     }
 }
 

@@ -1134,7 +1134,7 @@ input_event input_context::get_raw_input()
     return next_action;
 }
 
-#if !(defined(TILES) || defined(_WIN32))
+#if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {

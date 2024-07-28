@@ -1099,6 +1099,17 @@ conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view me
     };
 }
 
+conditional_t::func f_npc_is_travelling( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const Character *traveller = d.actor( is_npc )->get_character();
+        if( !traveller ) {
+            return false;
+        }
+        return !traveller->omt_path.empty();
+    };
+}
+
 conditional_t::func f_npc_allies( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -1449,8 +1460,8 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
         !npc_to_check->is_following() ) {
             return false;
         }
-        return rl_dist( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw() ) < 5 &&
-               get_map().clear_path( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw(), 5, 0, 100 );
+        return rl_dist( npc_to_check->pos_bub(), d_npc->pos_bub() ) < 5 &&
+               get_map().clear_path( npc_to_check->pos_bub(), d_npc->pos_bub(), 5, 0, 100 );
     };
 }
 
@@ -1647,18 +1658,19 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
 {
     str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
     var_info loc_var = read_var_info( jo.get_object( "loc" ) );
-    bool terrain = true;
-    if( member == "map_terrain_id" ) {
-        terrain = true;
-    } else if( member == "map_furniture_id" ) {
-        terrain = false;
-    }
-    return [terrain, furn_type, loc_var]( dialogue const & d ) {
+
+    return [member, furn_type, loc_var]( dialogue const & d ) {
         tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
-        if( terrain ) {
+        if( member == "map_terrain_id" ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
-        } else {
+        } else if( member == "map_furniture_id" ) {
             return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
+        } else if( member == "map_field_id" ) {
+            const field &fields_here = get_map().field_at( loc );
+            return !!fields_here.find_field( field_type_id( furn_type.evaluate( d ) ) );
+        } else {
+            debugmsg( "Invalid map id: %s", member );
+            return false;
         }
     };
 }
@@ -2470,6 +2482,7 @@ parsers = {
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
+    {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
@@ -2487,6 +2500,7 @@ std::vector<condition_parser>
 parsers_simple = {
     {"u_male", "npc_male", &conditional_fun::f_is_male },
     {"u_female", "npc_female", &conditional_fun::f_is_female },
+    {"u_is_travelling", "npc_is_travelling", &conditional_fun::f_npc_is_travelling },
     {"has_no_assigned_mission", &conditional_fun::f_no_assigned_mission },
     {"has_assigned_mission", &conditional_fun::f_has_assigned_mission },
     {"has_many_assigned_missions", &conditional_fun::f_has_many_assigned_missions },

@@ -15,5 +15,60 @@
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "salamander_explosion_trap_spell_activated" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_species_snare",
+    "name": "species snare trap",
+    "color": "red",
+    "symbol": "~",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_nether_snare",
+    "name": "pentagram snare trap",
+    "color": "red",
+    "symbol": "X",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_robot_snare",
+    "name": "QR snare trap",
+    "color": "red",
+    "symbol": "e",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_cyborg_snare",
+    "name": "ARG snare trap",
+    "color": "red",
+    "symbol": "<",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_fae_snare",
+    "name": "changeling snare trap",
+    "color": "red",
+    "symbol": "$",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
   }
 ]

@@ -212,7 +212,51 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE",
     "effect": [
       { "u_assign_activity": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", "duration": "2400 minutes" },
-      { "u_add_effect": "effect_vitakin_healing_trance", "duration": "2400 minutes" }
+      { "u_add_effect": "effect_vitakin_healing_trance", "duration": "2400 minutes" },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "time_in_future": [
+          { "math": [ "180 + (u_spell_level('vita_healing_trance') * 12)" ] },
+          { "math": [ "900 + (u_spell_level('vita_healing_trance') * 48)" ] }
+        ]
+      },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+    "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
+    "effect": [
+      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 12)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 48)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+    "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
+        ]
+      }
     ]
   },
   {
@@ -228,7 +272,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_HEALING_TRANCE_REMOVE",
-    "effect": [ { "u_lose_effect": "effect_vitakin_healing_trance" } ]
+    "effect": [
+      { "u_lose_effect": "effect_vitakin_healing_trance" },
+      { "u_message": "You exit your trance and your wounds feel less painful", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CANCELLING_ACTIVITY_CANCELS_REVITALIZATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vitakin_healing_trance" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_REMOVE" } ]
   },
   {
     "type": "effect_on_condition",

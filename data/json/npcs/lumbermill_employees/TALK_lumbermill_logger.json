@@ -75,8 +75,14 @@
         {
           "npc_has_var": "exodii_mission_wh_correct",
           "value": "no",
-          "yes": ", then frowns.  \"I think I'd remember something like that, no.  Sorry.\"",
-          "no": ", looking thoughtful.  \"You know, around the time things really went bad, I remember a really awful portal storm.  A while later, I saw something like that in the distance.  Could be what you're talking about.\""
+          "yes": {
+            "gendered_line": ", then frowns.  \"I think I'd remember something like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"You know, around the time things really went bad, I remember a really awful portal storm.  A while later, I saw something like that in the distance.  Could be what you're talking about.\"",
+            "relevant_genders": [ "npc" ]
+          }
         }
       ]
     },

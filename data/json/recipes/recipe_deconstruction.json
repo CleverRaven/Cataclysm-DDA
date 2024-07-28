@@ -2023,14 +2023,6 @@
     "components": [ [ [ "copper_wire", 1 ] ] ]
   },
   {
-    "result": "copper_wire",
-    "type": "uncraft",
-    "time": "1 s",
-    "//": "I made this a near instant conversion.  Raw copper wire is essentially just copper and imo should be freely converted without a huge time investment or tool requirement, they are effectively identical items.",
-    "activity_level": "LIGHT_EXERCISE",
-    "components": [ [ [ "copper", 1 ] ] ]
-  },
-  {
     "result": "camera",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

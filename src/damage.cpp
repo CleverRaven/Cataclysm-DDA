@@ -112,7 +112,7 @@ static damage_info_order::info_disp read_info_disp( const std::string &s )
     }
 }
 
-void damage_type::load( const JsonObject &jo, std::string_view )
+void damage_type::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
@@ -151,11 +151,11 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     }
 
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, std::string( src ) ) );
     }
 
     for( JsonValue jv : jo.get_array( "ondamage_eocs" ) ) {
-        ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, std::string( src ) ) );
     }
 }
 

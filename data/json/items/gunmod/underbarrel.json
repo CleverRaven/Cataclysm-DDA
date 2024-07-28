@@ -433,37 +433,6 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
-    "id": "pipe_launcher40mm",
-    "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
-    "name": { "str": "40mm pipe launcher" },
-    "description": "A home-built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
-    "weight": "2080 g",
-    "volume": "750 ml",
-    "price": "250 USD",
-    "price_postapoc": "5 USD",
-    "install_time": "10 m",
-    "material": [ "steel", "plastic" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "gun_data": {
-      "barrel_length": "370 mm",
-      "ammo": "40x46mm",
-      "skill": "launcher",
-      "dispersion": 450,
-      "durability": 10,
-      "blackpowder_tolerance": 60,
-      "clip_size": 1
-    },
-    "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
-    "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
     "id": "pistol_bayonet",
     "type": "GUNMOD",
     "name": { "str": "pistol bayonet" },

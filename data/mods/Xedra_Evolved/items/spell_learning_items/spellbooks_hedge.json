@@ -60,7 +60,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
     "id": "spellbook_hedge_ward_dreams",
@@ -79,5 +79,56 @@
     "symbol": "?",
     "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
+  },
+  {
+    "id": "spellbook_hedge_snare_changelings",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
+    "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": "10 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
+  },
+  {
+    "id": "spellbook_hedge_clairvoyance_cone",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
+    "description": "A short parchment that will supposedly teach you how to see through walls.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] }
+  },
+  {
+    "id": "spellbook_hedge_bathhouse_midnight",
+    "//": "divination spells are appropriate here too",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
+      "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
+    },
+    "description": "This encyclopediac tome by W. F. Ryan concerns a wide variety of folk magic practices in pre-modern Russia, including their social context, the way that the Church had to work against folk practices like leaving items on the altar for six weeks so they would gain protective powers, the dangers of being alone in the bathhouse, ways to find and keep a husband or wife, when to throw an axe handle over your shoulder when walking into the forest, and how the government mostly suppressed magic because magical power (real or imagined) would have been a threat to secular power.  The description of some of these rituals are extremely detailed.",
+    "weight": "771 g",
+    "volume": "1357 ml",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
+    }
   }
 ]

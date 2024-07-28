@@ -34,8 +34,10 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -1574,7 +1576,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos.raw() ) );
+                                   get_map().tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -2402,7 +2404,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3768,7 +3770,7 @@ void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*
     }
     const recipe item_recipe = craft->get_making();
     // practice recipe items with no components can be safely removed
-    if( item_recipe.category == "CC_PRACTICE" && craft->components.empty() ) {
+    if( item_recipe.category->is_practice && craft->components.empty() ) {
         craft_item.remove_item();
     }
 }
@@ -4865,7 +4867,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             loc.carrier()->add_msg_if_player( m_neutral,
                                               _( "The %s no longer fits in your inventory so you drop it instead." ),
                                               reloadable_name );
-            get_map().add_item_or_charges( loc.position(), reloadable );
+            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
     }

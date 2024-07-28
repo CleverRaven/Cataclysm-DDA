@@ -23,7 +23,7 @@
     "max_level": 15,
     "damage_type": "light",
     "flags": [ "VERBAL", "LOUD", "NO_HANDS" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "energy_source": "MANA"
   },
   {
@@ -44,7 +44,7 @@
     "components": "spell_components_rune_animist",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(500, 4)" ] },
     "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS", "CONSUMES_RUNES" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "difficulty": 3
   },
   {
@@ -66,7 +66,7 @@
     "base_energy_cost": 5000,
     "energy_increment": 500.0,
     "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "final_energy_cost": 10000
   },
   {
@@ -91,7 +91,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000, 30)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000, 0.034)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -234,7 +234,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 40)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000, 40)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000, 0.034)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -409,7 +409,7 @@
     "min_aoe": 1,
     "max_aoe": 3,
     "aoe_increment": 0.1,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "necrotic"
   },
   {
@@ -433,7 +433,7 @@
     "spell_class": "ANIMIST",
     "energy_source": "HP",
     "//": "I'm not sure if this should train anything, since it's an innate ability.",
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -467,7 +467,7 @@
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300, 1)" ] },
     "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(30, 1)" ] },
     "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-14, 0.051)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "energy_source": "MANA"
   },
   {
@@ -494,7 +494,7 @@
     "base_energy_cost": 300,
     "energy_source": "MANA",
     "damage_type": "necrotic",
-    "extra_effects": [ { "id": "life_detonation_explosion" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "life_detonation_explosion" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "life_detonation_explosion",
@@ -540,7 +540,7 @@
     "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
     "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-200, 0.007)" ] },
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_channeling_setup" } ]
+    "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "id": "soulrend",
@@ -565,7 +565,7 @@
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200, 1)" ] },
     "min_range": 3,
     "max_range": 6,
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "range_increment": 0.2
   },
   {
@@ -592,7 +592,7 @@
     "energy_source": "MANA",
     "shape": "blast",
     "effect": "attack",
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "learn_spells": { "soulrend": 20 }
   },
   {
@@ -619,7 +619,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3600, 8)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12000, 8)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000, 0.12)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "spirit_walk",
@@ -643,7 +643,7 @@
     "final_energy_cost": 200,
     "min_range": 5,
     "max_range": 15,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "range_increment": 1.0
   },
   {
@@ -665,7 +665,7 @@
     "difficulty": 9,
     "max_level": 25,
     "base_casting_time": 100,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "energy_source": "MANA"
   },
   {
@@ -695,7 +695,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(6000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(60000, 30)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(2160, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "bleed",
@@ -724,7 +724,7 @@
     "duration_increment": 20,
     "min_dot": { "math": [ "evocation_proficiency_bonus_calculate(2, 0.2)" ] },
     "max_dot": { "math": [ "evocation_proficiency_bonus_calculate(52, 0.2)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "dot_increment": 2
   },
   {
@@ -749,7 +749,7 @@
     "base_energy_cost": 6,
     "energy_source": "HP",
     "learn_spells": { "animist_summon_decaying_boneclub_plus": 20 },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 6
   },
   {
@@ -777,7 +777,7 @@
     "final_energy_cost": 3,
     "energy_increment": -0.2,
     "energy_source": "HP",
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 7
   },
   {
@@ -808,7 +808,7 @@
     "max_dot": 6,
     "energy_source": "MANA",
     "difficulty": 3,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "necrotic"
   },
   {
@@ -833,7 +833,11 @@
     "max_level": 25,
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "devour_damage" }, { "id": "devour_healing", "hit_self": true }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [
+      { "id": "devour_damage" },
+      { "id": "devour_healing", "hit_self": true },
+      { "id": "eoc_evocation_setup", "hit_self": true }
+    ]
   },
   {
     "id": "devour_damage",
@@ -881,7 +885,7 @@
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000, 5400)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 0.074)" ] },
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 10)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "id": "animist_summon_watcher",
@@ -907,7 +911,7 @@
     "energy_source": "MANA",
     "base_casting_time": 500,
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(150, 1)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "animist_mass_hiding_aoe",
@@ -921,7 +925,7 @@
     "max_level": 20,
     "effect": "attack",
     "effect_str": "telepathic_ignorance",
-    "extra_effects": [ { "id": "animist_mass_hiding_self", "hit_self": true }, { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "animist_mass_hiding_self", "hit_self": true }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "shape": "blast",
     "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(3000, 5)" ] },
     "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(63000, 5)" ] },
@@ -971,7 +975,7 @@
     "energy_source": "MANA",
     "base_casting_time": 30000,
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600, 3)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "animist_spirit_walking",
@@ -995,7 +999,7 @@
     "base_energy_cost": 1200,
     "final_energy_cost": 850,
     "energy_increment": -17.5,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1030,7 +1034,7 @@
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000, 3000)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 0.07)" ] },
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250, 2)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "id": "animist_slow_food_rotting_spell",
@@ -1048,7 +1052,8 @@
     "max_level": 15,
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(550, 5)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(90000, 100)" ] }
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(90000, 100)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1073,7 +1078,7 @@
     "description": "I cast Magic… Fissile?  At the darkness?",
     "valid_targets": [ "hostile" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
-    "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(1, 0.2)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.083)" ] },
     "damage_type": "necrotic",

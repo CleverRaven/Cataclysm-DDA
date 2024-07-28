@@ -105,7 +105,7 @@ void mission_ui::draw_mission_ui()
 
         p_impl.last_action = ctxt.handle_input();
 
-        if( p_impl.last_action == "QUIT" ) {
+        if( p_impl.last_action == "QUIT" || !p_impl.get_is_open() ) {
             break;
         }
     }

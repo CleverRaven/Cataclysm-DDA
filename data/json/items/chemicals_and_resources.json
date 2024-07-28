@@ -56,7 +56,7 @@
   {
     "type": "AMMO",
     "id": "chunk_sulfur",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
@@ -123,7 +123,7 @@
   {
     "type": "AMMO",
     "id": "material_limestone",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "limestone" },
@@ -140,7 +140,7 @@
   {
     "type": "AMMO",
     "id": "material_quicklime",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "quicklime" },
@@ -207,14 +207,13 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "limestone shard" },
-    "category": "spare_parts",
+    "category": "chems",
     "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": "5 USD",
     "price_postapoc": "10 cent",
     "material": [ "stone" ],
     "weight": "2700 g",
     "volume": "1 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -235,7 +234,7 @@
   {
     "type": "GENERIC",
     "id": "material_rhodonite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "rhodonite" },
@@ -251,7 +250,7 @@
   {
     "type": "GENERIC",
     "id": "material_zincite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "zincite" },
@@ -1200,8 +1199,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -1215,8 +1213,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1230,8 +1227,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1245,8 +1241,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "180 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1260,8 +1255,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1275,8 +1269,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1290,8 +1283,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1305,8 +1297,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1320,8 +1311,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1335,8 +1325,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1874,7 +1863,8 @@
     "description": "A grayish, flexible vesicle filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "triffid_fungicide",
@@ -1884,7 +1874,8 @@
     "description": "A triffid sac filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
     "material": [ "veggy" ],
     "color": "light_blue",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "conc_venom",
@@ -1934,7 +1925,7 @@
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "red phosphorous" },
-    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
+    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it in small portions as a propellant for bullets.",
     "weight": "10 g",
     "volume": "5 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8-2.0 g/cm3",
@@ -1943,7 +1934,23 @@
     "color": "red",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "stack_size": 25
+    "stack_size": 1
+  },
+  {
+    "id": "red_phosphorous_small",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "small portion of red phosphorous" },
+    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
+    "weight": "100 mg",
+    "volume": "5 ml",
+    "container": "bottle_plastic_small",
+    "symbol": "=",
+    "color": "red",
+    "price": "50 cent",
+    "price_postapoc": "2 cent",
+    "stack_size": 100
   },
   {
     "id": "white_phosphorous",
@@ -1960,7 +1967,7 @@
     "color": "white",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "stack_size": 25
+    "stack_size": 1
   },
   {
     "id": "acetic_anhydride",
@@ -2100,7 +2107,6 @@
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
     "charges": 1,
-    "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },

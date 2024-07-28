@@ -189,7 +189,7 @@
     "id": "TALK_REFUGEE_Mandeep_Survival2",
     "dynamic_line": "*smiles, very briefly, and nods.  \"Very well.  The blockage had forced us to go through the woods, and our rusty old sedan was not suited to it.  We must have jarred something loose, because we were not far past the trailer when there was a loud bang, and the wheels stopped turning.  The engine spun and the axles rattled, but it was all sound and fury, signifying nothing.  We'd moved far enough from the overturned trailer to buy time, but as we got out of the vehicle, we could hear their moans on the wind, drawing closer.\"  As he dives into the story, Mandeep becomes more animated, his resonant accented voice carrying naturally over the rolling cadence of his words.  \"I am no mechanic, and even if I were, there was no time for repairs.  We took what we owned and carried on on foot.  The center was not far, I knew, and at least Guneet and I had our kirpan, should we be forced to defend ourselves.\"  He touches the handle of the sword at his side, giving you a moment to interrupt if you want.",
     "responses": [
-      { "text": "(Say nothing)", "topic": "TALK_REFUGEE_Mandeep_Survival3" },
+      { "text": "[Say nothing.]", "topic": "TALK_REFUGEE_Mandeep_Survival3" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },

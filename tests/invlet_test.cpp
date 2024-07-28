@@ -266,28 +266,28 @@ static void pick_up_from_feet( Character &you, const std::string &id )
 
 static void wear_from_feet( Character &you, const std::string &id )
 {
-    map_stack items = get_map().i_at( you.pos() );
+    map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( you.pos_bub() ), id );
     REQUIRE( found );
 
     you.wear_item( *found, false );
-    get_map().i_rem( you.pos(), found );
+    get_map().i_rem( you.pos_bub(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
 static void wield_from_feet( Character &you, const std::string &id )
 {
-    map_stack items = get_map().i_at( you.pos() );
+    map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( you.pos_bub() ), id );
     REQUIRE( found );
 
     you.wield( *found );
-    get_map().i_rem( you.pos(), found );
+    get_map().i_rem( you.pos_bub(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }

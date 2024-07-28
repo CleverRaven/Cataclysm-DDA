@@ -17,7 +17,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 2,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +74,7 @@
     "primary_material": "dried_vegetable",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -93,7 +94,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 3,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -114,7 +116,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -134,7 +136,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ] ]
+    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -154,7 +156,7 @@
     "primary_material": "powder",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN", "SOFT" ],
-    "vitamins": [ [ "vitC", 7 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -228,7 +230,7 @@
     "phase": "liquid",
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
@@ -287,7 +289,8 @@
     "phase": "liquid",
     "charges": 8,
     "fun": 10,
-    "flags": [ "USE_EAT_VERB" ]
+    "flags": [ "USE_EAT_VERB" ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -350,7 +353,8 @@
     "//": "most of the water weight and volume is lost",
     "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -410,7 +414,8 @@
     "price_postapoc": "50 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -465,7 +470,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -522,7 +527,7 @@
     "material": [ "fruit" ],
     "volume": "125 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -541,14 +546,14 @@
     "material": [ "fruit" ],
     "volume": "60 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "hardtack_pudding",
     "looks_like": "biscuit",
     "name": { "str": "hardtack pudding" },
-    "weight": "250 g",
+    "weight": "15 g",
     "color": "brown",
     "spoils_in": "5 days",
     "container": "can_medium",
@@ -560,11 +565,11 @@
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "material": [ "fruit", "wheat" ],
-    "volume": "500 ml",
+    "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -585,7 +590,7 @@
     "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -649,7 +654,7 @@
     "sealed": true,
     "fun": 9,
     "//": "this item is intended to generally be inherited from the fruit and alcohol used.",
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   }
 ]

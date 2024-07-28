@@ -284,6 +284,14 @@
     "entries": [ { "item": "sw_619", "charges": [ 0, 7 ] }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_colt_python",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "colt_python", "charges": [ 0, 6 ] }, { "group": "on_hand_357" } ]
+  },
+  {
     "id": "nested_model_10_revolver",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -777,6 +785,23 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "sw629", "charges": [ 0, 6 ] }, { "group": "on_hand_44" } ]
+  },
+  {
+    "id": "nested_colt_anaconda",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "colt_anaconda_8", "prob": 97, "charges": [ 0, 6 ] },
+          { "item": "colt_anaconda_6", "prob": 143, "charges": [ 0, 6 ] },
+          { "item": "colt_anaconda_4", "prob": 51, "charges": [ 0, 6 ] }
+        ]
+      },
+      { "group": "on_hand_44" }
+    ]
   },
   {
     "id": "nested_usp_45",
@@ -1370,6 +1395,14 @@
     "entries": [ { "item": "marlin_9a", "charges": [ 0, 19 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rossi_gallery",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_gallery", "charges": [ 0, 15 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_mosin44",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1523,19 +1556,6 @@
       { "item": "g3mag" },
       { "item": "g3mag", "prob": 50 },
       { "group": "on_hand_308" }
-    ]
-  },
-  {
-    "id": "nested_hk_g36",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk_g36", "charges": [ 0, 30 ] },
-      { "item": "g36mag_30rd" },
-      { "item": "g36mag_30rd", "prob": 50 },
-      { "group": "on_hand_223" }
     ]
   },
   {
@@ -1845,6 +1865,19 @@
       { "item": "sig_assault_rifle", "charges": [ 0, 30 ] },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_sl8",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "sl8", "charges": [ 0, 10 ] },
+      { "item": "sl8mag" },
+      { "item": "sl8mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2683,6 +2716,19 @@
       { "item": "clip_77mm_arisaka" },
       { "item": "clip_77mm_arisaka", "prob": 50 },
       { "group": "on_hand_77mm_arisaka" }
+    ]
+  },
+  {
+    "id": "nested_rp63",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rp63", "charges": [ 0, 6 ] },
+      { "item": "38_speedloader6" },
+      { "item": "38_speedloader6", "prob": 50 },
+      { "group": "on_hand_357_38mixed" }
     ]
   },
   {

@@ -71,7 +71,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    const tripoint &pt = attack.end_point;
+    const tripoint_bub_ms &pt = tripoint_bub_ms( attack.end_point );
 
     if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
@@ -173,7 +173,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt, dropped_item );
+            tr.trigger( pt.raw(), dropped_item );
         }
     }
 }
@@ -297,8 +297,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * sin( rad ) );
+        target.x = std::clamp( source.x + roll_remainder( new_range * cos( rad ) ), 0, MAPSIZE_X - 1 );
+        target.y = std::clamp( source.y + roll_remainder( new_range * sin( rad ) ), 0, MAPSIZE_Y - 1 );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );
@@ -486,8 +486,18 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
+            if( proj.count > 1 ) {
+                if( rl_dist( source, tp ) > 1 ) {
+                    proj.impact = proj.shot_impact;
+                }
+            }
             here.shoot( tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
+        }
+        if( !has_momentum && proj.count > 1 && rl_dist( source, tp ) <= 1 ) {
+            // Track that we hit an obstacle while wadded up,
+            // to cancel out of applying the other projectiles.
+            proj.count = 1;
         }
 
         if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
@@ -511,7 +521,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
+    bool dealt_damage = attack.dealt_dam.total_damage() > 0;
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
         explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );

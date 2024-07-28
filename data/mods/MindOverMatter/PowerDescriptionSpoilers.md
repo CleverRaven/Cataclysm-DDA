@@ -557,6 +557,15 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
 *Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
 
+## Sensor Interference (C)
+*Difficulty*: 5<br />
+*Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 20 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 50 squares<br />
+*Duration*: 2 to 3 seconds plus three-quarters of a second to a second and a half per power level.<br />
+*Stamina Cost*: 6000, minus 150 per level to a minimum of 2200<br />
+*Channeling Time*: 200 moves, minus 9.5 moves per level to a minimum of 80<br />
+*Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
+*Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
+
 ## Veil of Light
 *Difficulty*: 6<br />
 *Target*: Self<br />

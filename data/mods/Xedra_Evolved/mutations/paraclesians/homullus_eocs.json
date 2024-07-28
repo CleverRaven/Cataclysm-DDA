@@ -53,17 +53,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_SELF_DECEPTION",
-    "effect": {
-      "u_add_morale": "morale_homullus_self_deception",
-      "bonus": 10,
-      "max_bonus": 30,
-      "duration": {
-        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
-      },
-      "decay_start": {
-        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+    "effect": [
+      { "u_lose_morale": "morale_homullus_self_deception" },
+      {
+        "u_add_morale": "morale_homullus_self_deception",
+        "bonus": { "math": [ "( 5 + u_spell_level('homullus_self_deception_spell') ) * scaling_factor(u_val('perception') )" ] },
+        "max_bonus": 40,
+        "duration": {
+          "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
+        },
+        "decay_start": {
+          "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+        }
       }
-    }
+    ]
   },
   {
     "type": "effect_on_condition",

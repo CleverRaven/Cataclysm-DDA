@@ -500,6 +500,57 @@
     }
   },
   {
+    "id": "photokinetic_stun_robots",
+    "type": "SPELL",
+    "name": "[Ψ]Sensor Jamming",
+    "description": "Unleash a localized burst of electromagnetic radiation, overloading any electronic sensory equipment in the area.",
+    "message": "You unleash an electromagnetic wave!",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "sensor_stun",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_stun_robots') * 200) + 75) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_stun_robots') * 300) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2200,
+    "energy_increment": -150,
+    "base_casting_time": 200,
+    "final_casting_time": 80,
+    "casting_time_increment": -9.5,
+    "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
+  },
+  {
     "id": "photokinetic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Veil of Light",
@@ -537,7 +588,7 @@
     "id": "photokinetic_light_flash",
     "type": "SPELL",
     "name": "[Ψ]Star Flash",
-    "description": "Create a destructive flash of light.",
+    "description": "Create a destructive flash of light in a line, damaging all targets caught in the beam.",
     "message": "You fire a searing wave of light!",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],

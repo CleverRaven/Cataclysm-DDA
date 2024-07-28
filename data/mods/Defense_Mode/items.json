@@ -8,7 +8,6 @@
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "$",
     "material": [ "paper" ]

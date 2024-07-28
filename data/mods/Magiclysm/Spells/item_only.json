@@ -677,6 +677,7 @@
     "max_damage": -1,
     "effect": "attack",
     "shape": "blast",
+    "message": "You start regenerating!",
     "flags": [ "SILENT" ]
   },
   {
@@ -795,5 +796,27 @@
     "max_damage": 6,
     "min_range": 1,
     "max_range": 1
+  },
+  {
+    "id": "forge_teleport",
+    "type": "SPELL",
+    "name": "Forge Teleport",
+    "description": "Travel to the forge marking your return point in the process.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FORGE_TELEPORT",
+    "shape": "blast",
+    "base_casting_time": 30000
+  },
+  {
+    "id": "forge_return_teleport",
+    "type": "SPELL",
+    "name": "Forge Return Teleport",
+    "description": "Travel back to your saved forge return point.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FORGE_RETURN_TELEPORT",
+    "shape": "blast",
+    "base_casting_time": 30000
   }
 ]

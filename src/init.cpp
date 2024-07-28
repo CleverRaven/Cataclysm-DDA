@@ -37,6 +37,7 @@
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "emit.h"
+#include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
@@ -298,11 +299,12 @@ void DynamicDataLoader::initialize()
     add( "scent_type", &scent_type::load_scent_type );
     add( "disease_type", &disease_type::load_disease_type );
     add( "ascii_art", &ascii_art::load_ascii_art );
+    add( "end_screen", &end_screen::load_end_screen );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
-    add( "snippet", []( const JsonObject & jo ) {
-        SNIPPET.load_snippet( jo );
+    add( "snippet", []( const JsonObject & jo, const std::string & src ) {
+        SNIPPET.load_snippet( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );
@@ -728,7 +730,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Math functions" ), &jmath_func::finalize },
-            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
@@ -764,6 +765,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
+            { _( "Math expressions" ), &finalize_conditions },
         }
     };
 

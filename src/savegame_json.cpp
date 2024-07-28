@@ -1629,7 +1629,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "grab_point", grab_point );
     std::string grab_typestr = "OBJECT_NONE";
-    if( grab_point.x != 0 || grab_point.y != 0 ) {
+    if( grab_point.x() != 0 || grab_point.y() != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr );
     } else {
@@ -4703,7 +4703,7 @@ void submap::store( JsonOut &jsout ) const
     int count = 0;
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save radiation, re-examine this because it doesn't look like it works right
             int r = get_radiation( p );
             if( r == lastrad ) {
@@ -4725,12 +4725,12 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save furniture
             if( get_furn( p ) ) {
                 jsout.start_array();
-                jsout.write( p.x );
-                jsout.write( p.y );
+                jsout.write( p.x() );
+                jsout.write( p.y() );
                 jsout.write( get_furn( p ).obj().id );
                 jsout.end_array();
             }
@@ -4756,14 +4756,16 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save traps
             if( get_trap( p ) ) {
                 jsout.start_array();
-                jsout.write( p.x );
-                jsout.write( p.y );
+                jsout.write( p.x() );
+                jsout.write( p.y() );
+                const trap_id &trap_at = get_trap( p );
                 // TODO: jsout should support writing an id like jsout.write( trap_id )
-                jsout.write( get_trap( p ).id().str() );
+                jsout.write( trap_at.id().str() );
+                jsout.write( trap_at->trap_item_type );
                 jsout.end_array();
             }
         }
@@ -4796,8 +4798,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( const submap::cosmetic_t &cosm : cosmetics ) {
         jsout.start_array();
-        jsout.write( cosm.pos.x );
-        jsout.write( cosm.pos.y );
+        jsout.write( cosm.pos.x() );
+        jsout.write( cosm.pos.y() );
         jsout.write( cosm.type );
         jsout.write( cosm.str );
         jsout.end_array();
@@ -4812,8 +4814,8 @@ void submap::store( JsonOut &jsout ) const
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
         jsout.write( elem.count );
-        jsout.write( elem.pos.x );
-        jsout.write( elem.pos.y );
+        jsout.write( elem.pos.x() );
+        jsout.write( elem.pos.y() );
         jsout.write( elem.faction_id );
         jsout.write( elem.mission_id );
         jsout.write( elem.friendly );
@@ -4998,17 +5000,17 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         while( items_json.has_more() ) {
             int i = items_json.next_int();
             int j = items_json.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
 
-            if( !items_json.next_value().read( m->itm[p.x][p.y], false ) ) {
+            if( !items_json.next_value().read( m->itm[p.x()][p.y()], false ) ) {
                 debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
             }
             // some portion could've been read even if error occurred
-            for( item &it : m->itm[p.x][p.y] ) {
+            for( item &it : m->itm[p.x()][p.y()] ) {
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, p );
+                active_items.add( it, point_sm_ms( p ) );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5020,7 +5022,14 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
             m->trp[p.x][p.y] = trid.id();
-            if( trap_entry.size() > 3 ) {
+            if( trap_entry.has_more() ) {
+                std::optional<std::string> trap_item_type = std::nullopt;
+                trap_entry.read_next( trap_item_type );
+                if( trap_item_type.has_value() ) {
+                    const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_item_type.value() ) );
+                }
+            }
+            if( trap_entry.size() > 4 ) {
                 trap_entry.throw_error( "Too many values for trap entry" );
             }
         }
@@ -5057,7 +5066,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray graffiti_entry : graffiti_json ) {
             int i = graffiti_entry.next_int();
             int j = graffiti_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             set_graffiti( p, graffiti_entry.next_string() );
             if( graffiti_entry.size() > 3 ) {
                 graffiti_entry.throw_error( "Too many values for graffiti" );
@@ -5070,7 +5079,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray cosmetic_entry : cosmetics_json ) {
             int i = cosmetic_entry.next_int();
             int j = cosmetic_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             std::string type;
             std::string str;
             JsonValue cosmetic_value = cosmetic_entry.next_value();
@@ -5108,7 +5117,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, point_sm_ms( p ), faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {

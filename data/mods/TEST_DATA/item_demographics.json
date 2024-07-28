@@ -699,7 +699,8 @@
             "cp33": 10,
             "ruger_charger": 10,
             "ruger_charger_auto": 10,
-            "ruger_1022_auto": 10
+            "ruger_1022_auto": 10,
+            "rossi_gallery": 10
           }
         },
         {
@@ -712,13 +713,13 @@
             "scar_l": 1,
             "m16a4": 1,
             "m16_auto_rifle": 1,
-            "hk_g36": 1,
             "m249": 1,
             "m249_semi": 1,
             "m27_assault_rifle": 1,
             "m4_carbine": 1,
             "ruger_mini": 1,
             "sig_assault_rifle": 1,
+            "sl8": 1,
             "steyr_aug": 1,
             "ak556": 1,
             "minidraco556": 1,
@@ -782,7 +783,7 @@
           "weight": 34,
           "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
         },
-        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "chiappa_rhino": 1 } },
+        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1 } },
         {
           "type": "shot",
           "weight": 26,
@@ -1100,7 +1101,6 @@
             "henry_big_boy": 1,
             "hk417_13": 1,
             "hk_g3": 1,
-            "hk_g36": 1,
             "hk_g80": 1,
             "hk_mp5_10_semi": 1,
             "hk_usc45": 1,
@@ -1176,6 +1176,7 @@
             "rm51_assault_rifle": 1,
             "rm614_lmg": 1,
             "rm88_battle_rifle": 1,
+            "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,
             "ruger_arr": 1,
@@ -1190,6 +1191,7 @@
             "sig_assault_rifle": 1,
             "sig_mcx_rattler_sbr": 1,
             "sks": 1,
+            "sl8": 1,
             "smle_mk3": 1,
             "steyr_aug": 1,
             "tac338": 1,

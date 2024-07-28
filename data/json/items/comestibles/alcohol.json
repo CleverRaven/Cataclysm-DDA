@@ -25,7 +25,8 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NO_AUTO_CONSUME" ],
     "fun": 25,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -53,7 +54,8 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NO_AUTO_CONSUME" ],
     "fun": 25,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -593,7 +595,8 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 2,
-    "freezing_point": -7
+    "freezing_point": -7,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -678,7 +681,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -794,7 +798,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -823,7 +827,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -856,7 +860,8 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -886,7 +891,8 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -920,7 +926,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ], [ "fruit_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -955,7 +961,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
-    "vitamins": [ [ "vitC", 105 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 105 ], [ "calcium", 2 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -1390,7 +1396,7 @@
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
     "freezing_point": -30
   },
   {
@@ -1419,7 +1425,7 @@
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
     "freezing_point": -30
   },
   {
@@ -1556,7 +1562,8 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -33,
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1585,7 +1592,8 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1692,7 +1700,7 @@
     "primary_material": "alcohol",
     "volume": "12 ml",
     "fun": -1,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1722,7 +1730,7 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "freezing_point": -11
   },
   {
@@ -1784,7 +1792,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 25,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1813,7 +1821,8 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

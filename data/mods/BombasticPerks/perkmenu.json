@@ -807,6 +807,47 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_blood_drinker" } },
+        "text": "Gain [<trait_name:perk_blood_drinker>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_blood_drinker>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_blood_drinker>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_blood_drinker", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have the Squeamish, Meat Intolerance, Herbivore, or Vegan traits.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "not": { "u_has_any_trait": [ "SQUEAMISH", "VEGETARIAN", "HERBIVORE", "VEGAN" ] } }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_blood_drinking_heal" } },
+        "text": "Gain [<trait_name:perk_blood_drinking_heal>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_blood_drinking_heal>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_blood_drinking_heal>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_blood_drinking_heal", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_blood_drinker>.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_blood_drinker" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_long_shot" } },
         "text": "Gain [<trait_name:perk_long_shot>]",
         "effect": [
