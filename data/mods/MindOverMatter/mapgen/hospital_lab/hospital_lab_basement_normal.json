@@ -3,9 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "phavian_hospital_main_floor_z3_nw", "phavian_hospital_main_floor_z3_n", "phavian_hospital_main_floor_z3_ne" ],
-      [ "phavian_hospital_main_floor_z3_w", "phavian_hospital_main_floor_z3", "phavian_hospital_main_floor_z3_e" ],
-      [ "phavian_hospital_main_floor_z3_sw", "phavian_hospital_main_floor_z3_s", "phavian_hospital_main_floor_z3_se" ]
+      [ "phavian_hospital_basement_nw", "phavian_hospital_basement_ne" ],
+      [ "phavian_hospital_basement_sw", "phavian_hospital_basement_se" ]
     ],
     "weight": 250,
     "object": {
@@ -60,17 +59,14 @@
         "............................................###.",
         "................................................"
       ],
-      "palettes": [ "hospital_2" ],
+      "palettes": [ "phavian_hospital_lab" ],
       "terrain": {
-        "¢": "f_counter",
-        "Ŧ": "t_linoleum_white",
-        "£": "t_linoleum_whitefloor_olight",
         ".": "t_soil",
         "°": "t_wall_metal",
         ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
-        "˽": "t_card_science",
+        "˽": "t_card_reader_broken",
         "-": "t_metal_floor",
-        "/": "t_secretdoor_strconcrete_c"
+        "£": "t_linoleum_whitefloor_olight"
       },
       "furniture": { "`": "f_dishwasher", "³": "f_rack" },
       "items": {

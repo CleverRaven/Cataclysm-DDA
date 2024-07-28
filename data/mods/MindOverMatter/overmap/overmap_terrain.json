@@ -293,5 +293,23 @@
     "sym": "L",
     "see_cost": 5,
     "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavian_hospital_main_floor_z3_nw_upper",
+      "phavian_hospital_main_floor_z3_ncw_upper",
+      "phavian_hospital_main_floor_z3_nce_upper",
+      "phavian_hospital_main_floor_z3_ne_upper",
+      "phavian_hospital_main_floor_z3_sw_upper",
+      "phavian_hospital_main_floor_z3_scw_upper",
+      "phavian_hospital_main_floor_z3_sce_upper",
+      "phavian_hospital_main_floor_z3_se_upper"
+    ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": 5,
+    "color": "light_red"
   }
 ]
