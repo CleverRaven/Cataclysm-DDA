@@ -61,7 +61,7 @@
         "coverage": 18
       },
       {
-        "name": "the lungs",
+        "name": "the vitals",
         "armor_mult": { "physical": 0.45 },
         "difficulty": { "ranged": 4 },
         "damage_mult": { "physical": 2 },
@@ -73,7 +73,7 @@
             "intensity": [ 10, 15 ],
             "duration": [ 10, 20 ],
             "chance": 75,
-            "message": "The %s is shot in the lungs!",
+            "message": "The %s is shot in the vitals!",
             "damage_required": [ 1, 10 ]
           },
           {
@@ -81,7 +81,7 @@
             "intensity": [ 20, 30 ],
             "duration": [ 20, 30 ],
             "chance": 85,
-            "message": "The %s is shot in the lungs!",
+            "message": "The %s is shot in the vitals!",
             "damage_required": [ 11, 50 ]
           },
           {
@@ -89,7 +89,7 @@
             "intensity": [ 30, 40 ],
             "duration": [ 30, 40 ],
             "chance": 95,
-            "message": "The %s is shot in the lungs!",
+            "message": "The %s is shot in the vitals!",
             "damage_required": [ 51, 100 ]
           }
         ]
