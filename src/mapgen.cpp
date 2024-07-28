@@ -100,10 +100,8 @@ static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
 
-static const furn_str_id furn_f_vending_o( "f_vending_o" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
-
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
 static const item_group_id Item_spawn_data_bed( "bed" );
@@ -240,10 +238,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                const std::vector<bool>::iterator iter = generated.begin() + grid_pos;
-                generated.emplace( iter, MAPBUFFER.submap_exists( p_sm_base.xy() + pos ) );
+                // For some reason 'emplace' doesn't work. emplacing data later overwrote data...
+                generated[grid_pos] = MAPBUFFER.submap_exists( p_sm_base.xy() + pos );
 
-                if( !generated.at( grid_pos ) || save_results ) {
+                if( !generated.at( grid_pos ) || !save_results ) {
                     setsubmap( grid_pos, new submap() );
 
                     // Generate uniform submaps immediately and cheaply.
@@ -281,6 +279,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
+
                 if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
                     uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
@@ -309,7 +308,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                                  !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
-        if( ( !save_results || any_missing ) &&
+        if( ( any_missing || !save_results ) &&
             uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
             draw_map( dat );
         }
@@ -328,7 +327,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             }
         }
 
-        if( !save_results || any_missing ) {
+        if( any_missing || !save_results ) {
 
             // At some point, we should add region information so we can grab the appropriate extras
             map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
