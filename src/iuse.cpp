@@ -5908,7 +5908,8 @@ static std::string effects_description_for_creature( Creature *const creature, s
         for( const auto &pair : vec_effect_status ) {
             if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
                 if( !pair.second.status.empty() ) {
-                    figure_effects += string_format( "%s%s  ", pronoun_gender, pair.second.status );
+                    figure_effects += string_format( pgettext( "effects_description_for_creature", "%s%s  " ),
+                                                     pronoun_gender, pair.second.status );
                 }
                 if( !pair.second.pose.empty() ) {
                     pose = pair.second.pose.translated();
