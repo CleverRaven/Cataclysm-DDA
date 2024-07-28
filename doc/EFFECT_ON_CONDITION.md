@@ -3899,7 +3899,7 @@ Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, fo
 ```
 
 #### `u_set_field`, `npc_set_field`
-spawn a field around player. it is recommended to not use it in favor of `u_transform_radius`, if possible
+spawn a field in a square around player. it is recommended to not use it in favor of `u_transform_radius` or `u_emit` if possible
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
@@ -3915,6 +3915,26 @@ spawn a field around player. it is recommended to not use it in favor of `u_tran
 Spawn blood 10 tiles around the player outdoor
 ```json
 { "u_set_field": "fd_blood", "radius": 10, "outdoor_only": true, "intensity": 3 }
+```
+
+#### `u_emit`, `npc_emit`
+Emit a field using `type: emit`
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_emit", "npc_emit" | **mandatory** | string or [variable object](##variable-object) | id of emit that would be spawned |
+| "chance_mult" | optional | int, [variable object](##variable-object) or value between two | default 1; multiplies emit `chance` field on this number | 
+| "target_var" | optional | [variable object](##variable-object) | if used, the emission would spawn from this location instead of you or NPC | 
+
+##### Examples
+Spawn `emit_tear_gas_toad` (spawns 3 `fd_tear_gas`) with double of it's chance ( 15 * 2 = 30% chance ) around the player
+```json
+{ "u_emit": "emit_tear_gas_toad", "chance_mult": 2 }
+```
+
+Does the same, but spawns it from coordinates, stored in context var `loc`
+```json
+{ "u_emit": "emit_tear_gas_toad", "chance_mult": 2, "target_var": { "context_val": "loc" } }
 ```
 
 #### `turn_cost`
