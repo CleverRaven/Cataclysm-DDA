@@ -61,31 +61,39 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 
 ### Typical Alpha and Beta Talkers by cases
 
-| EOC                                              | Alpha (possible types)      | Beta (possible types)       |
-| ------------------------------------------------ | ----------------------      | --------------------------- |
-| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |
+| EOC                                              | Alpha (possible types)      | Beta (possible types)       | variables sent              |
+| ------------------------------------------------ | ----------------------      | --------------------------- | --------------------------- |
+| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |                             |
 | Talk with monster                                | player (Avatar)             | monster (monster)           |
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
 | SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
-| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 |
+| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
 | countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
 | COMESTIBLE: "consumption_effect_on_conditions"   | user (Character)            | item (item)                 |
 | activity_type: "completion_eoc"                  | character (Character)       | NONE                        |
 | activity_type: "do_turn_eoc"                     | character (Character)       | NONE                        |
 | addiction_type: "effect_on_condition"            | character (Character)       | NONE                        |
-| bionics: "activated_eocs"                        | character (Character)       | NONE                        |
+| bionics: "activated_eocs"                        | character (Character)       | NONE                        | `act_cost`, int, cost of activation of item
 | bionics: "deactivated_eocs"                      | character (Character)       | NONE                        |
 | bionics: "processed_eocs"                        | character (Character)       | NONE                        |
 | mutation: "activated_eocs"                       | character (Character)       | NONE                        |
 | mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
 | mutation: "processed_eocs"                       | character (Character)       | NONE                        |
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
-| monster death: "death_function"                  | killed monster (monster)    | you (avatar)                |
+| monster death: "death_function"                  | victim (Creature)           | NONE                        |
+| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error
+Some actions sent additional context variables, that can be used in EoC, for example, in format:
 
-Using `use_action: "type": "effect_on_conditions"` automatically passes the context variable `id`, that stores the id of an item that was activated
-Using `bionics: "activated_eocs"` automatically passes the context variable `act_cost` that stores the value of `act_cost` field
+```json
+{ "compare_string": [ "bio_uncanny_dodge", { "context_val": "id" } ] }
+```
+
+```json
+{ "math": [ "_act_cost", "==", "2000" ] }
+```
+
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
