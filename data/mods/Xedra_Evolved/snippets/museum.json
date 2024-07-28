@@ -28,7 +28,11 @@
         "name": "Alternate Worlds Exhibit 6",
         "text": "Natives in Vermont traded these anachronistic objects to early missionaries."
       },
-      { "id": "museum_plaques_items_6", "name": "Alternate Worlds Exhibit 7", "text": "Found in a smugglers stash in a cave in Rhode Island." }
+      {
+        "id": "museum_plaques_items_6",
+        "name": "Alternate Worlds Exhibit 7",
+        "text": "Found in a smugglers stash in a cave in Rhode Island."
+      }
     ]
   },
   {
