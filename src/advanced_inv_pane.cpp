@@ -84,6 +84,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     filter = save_state->filter;
     if( area == AIM_CONTAINER ) {
         container = save_state->container;
+    }
     container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 
