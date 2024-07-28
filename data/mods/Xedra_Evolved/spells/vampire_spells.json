@@ -171,7 +171,6 @@
     },
     "targeted_monster_ids": [
       "mon_wolf",
-      "mon_wolf_mutant_huge",
       "mon_wolf_pup",
       "mon_coyote",
       "mon_coyote_mutant_shark",

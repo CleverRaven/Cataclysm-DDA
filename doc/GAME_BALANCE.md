@@ -81,7 +81,7 @@ High damage: 6 (highest day one threat; feral human, mi-go )
 
 Superhuman damage: 8 (deadly endgame threat; hulk, wild boar, Exodii quadruped )
 
-Maximum dice size for balance purposes: 12 (hardest possible hitter; dire wolf )
+Maximum dice size for balance purposes: 12 (hardest possible hitter; hunting horror )
 
 This is how hard the monster hits.
 
