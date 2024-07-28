@@ -499,9 +499,9 @@
   {
     "id": "pyrokinetic_aura",
     "type": "SPELL",
-    "name": "[Ψ]Blazing Aura",
-    "description": "Surround yourself with a cloud of flames, damaging anyone in melee combat with you.  The flames also produce light.",
-    "message": "You set the air around yourself ablaze.",
+    "name": "[Ψ]Blazing Aura (C)",
+    "description": "Surround yourself with a cloud of flames, damaging anyone in melee combat with you.  The flames also produce light.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
@@ -509,8 +509,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_pyrokinetic_aura",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_BLAZING_AURA_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -523,12 +523,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 6500,
-    "final_energy_cost": 3500,
-    "energy_increment": -175,
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -6.5,
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_aura') > -1 ? 0 : max((6500 - (u_spell_level('pyrokinetic_aura') * 175)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_aura') > -1 ? 10 : max((125 -(u_spell_level('pyrokinetic_aura') * 6.5)), 50)"
+      ]
+    },
     "sound_id": "fire_spell"
   },
   {
