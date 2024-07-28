@@ -133,6 +133,17 @@
     "melee_damage": { "bash": 19, "cut": 41, "heat": 21 }
   },
   {
+    "type": "GENERIC",
+    "id": "salamagman_macuahuitl",
+    "name": { "str": "obsidian macuahuitl" },
+    "description": "Astute observers of Mesoamerican history may recognize this as a macuahuitl, the favored weapon of the Aztecs.  This macuahuitl looks as though it was made deep inside of a black mirror.",
+    "copy-from": "lc_aztec_sword",
+    "price": 400000,
+    "price_postapoc": 120000,
+    "material": [ "tezcatlipocas_blood" ],
+    "melee_damage": { "bash": 24, "cut": 30, "heat": 21 }
+  },
+  {
     "id": "distant_thunder",
     "type": "SPELL",
     "name": "Distant Thunder",
