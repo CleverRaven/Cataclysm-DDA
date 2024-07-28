@@ -63,7 +63,7 @@
     "id": "22_ar15mag_28",
     "type": "MAGAZINE",
     "name": { "str": ".22 28-round conversion magazine" },
-    "description": "A black, 10-round polymer magazine for AR-platform rifles converted to fire .22 Long Rifle ammunition.",
+    "description": "A black, 28-round polymer magazine for AR-platform rifles converted to fire .22 Long Rifle ammunition.",
     "weight": "220 g",
     "volume": "220 ml",
     "longest_side": "184 mm",
