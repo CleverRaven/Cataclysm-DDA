@@ -369,50 +369,6 @@
         "pack_size": [ 1, 8 ],
         "conditions": [ "NIGHT" ]
       },
-      { "monster": "mon_coyote_wolf", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 8 ] },
-      {
-        "monster": "mon_coyote_wolf",
-        "weight": 2,
-        "cost_multiplier": 2,
-        "pack_size": [ 1, 8 ],
-        "conditions": [ "NIGHT" ]
-      },
-      { "monster": "mon_coyote_wolf", "weight": 1, "cost_multiplier": 2, "ends": "3 days", "pack_size": [ 1, 8 ] },
-      {
-        "monster": "mon_coyote_wolf",
-        "weight": 2,
-        "cost_multiplier": 2,
-        "ends": "3 days",
-        "pack_size": [ 1, 8 ],
-        "conditions": [ "NIGHT" ]
-      },
-      { "monster": "mon_coyote_wolf", "weight": 1, "cost_multiplier": 2, "ends": "7 days", "pack_size": [ 1, 8 ] },
-      {
-        "monster": "mon_coyote_wolf",
-        "weight": 2,
-        "cost_multiplier": 2,
-        "ends": "7 days",
-        "pack_size": [ 1, 8 ],
-        "conditions": [ "NIGHT" ]
-      },
-      { "monster": "mon_coyote_wolf", "weight": 1, "cost_multiplier": 2, "ends": "28 days", "pack_size": [ 1, 8 ] },
-      {
-        "monster": "mon_coyote_wolf",
-        "weight": 2,
-        "cost_multiplier": 2,
-        "ends": "28 days",
-        "pack_size": [ 1, 8 ],
-        "conditions": [ "NIGHT" ]
-      },
-      { "monster": "mon_coyote_wolf", "weight": 1, "cost_multiplier": 2, "ends": "90 days", "pack_size": [ 1, 8 ] },
-      {
-        "monster": "mon_coyote_wolf",
-        "weight": 2,
-        "cost_multiplier": 2,
-        "ends": "90 days",
-        "pack_size": [ 1, 8 ],
-        "conditions": [ "NIGHT" ]
-      },
       { "monster": "mon_zolf", "weight": 2, "cost_multiplier": 2, "starts": "3 days", "pack_size": [ 1, 4 ] },
       { "monster": "mon_zolf", "weight": 2, "cost_multiplier": 2, "starts": "7 days", "pack_size": [ 1, 4 ] },
       { "monster": "mon_zolf", "weight": 2, "cost_multiplier": 2, "starts": "28 days", "pack_size": [ 1, 4 ] },
