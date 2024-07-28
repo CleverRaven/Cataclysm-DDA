@@ -1237,11 +1237,16 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 }
 
-static void test_string( const std::string &info, const std::string &tested )
+// Check that a string is provided in some iteminfo
+// By providing last_pos, order can also be checked
+static void test_string( const std::string &info, const std::string &tested, size_t &last_pos )
 {
     INFO( string_format( "Checking for \"%s\" in:", tested ) );
     INFO( info );
-    CHECK( info.find( tested ) != std::string::npos );
+    size_t pos = info.find( tested );
+    CHECK( pos != std::string::npos );
+    CHECK( pos >= last_pos );
+    last_pos = pos;
 }
 
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
@@ -1294,6 +1299,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         REQUIRE( hazmat.get_covered_body_parts().any() );
         expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
 
+        const std::string bp_header_string = "<color_c_white>Protection for</color>:";
         const std::vector<std::string> bodyparts = {
             "The <color_c_cyan>arms</color>.",
             " The <color_c_cyan>eyes</color>.",
@@ -1307,6 +1313,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         const std::string coverage_string =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
             "  Default:  <color_c_yellow>100</color>\n";
+        const std::string prot_header_string = "<color_c_white>Protection</color>:\n";
         const std::string bash_string = "  Bash: <color_c_yellow>4.00</color>\n";
         const std::string cut_string = "  Cut: <color_c_yellow>4.00</color>\n";
         const std::string ballistic_string = "  Ballistic: <color_c_yellow>2.00</color>\n";
@@ -1316,17 +1323,20 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         const std::string env_string = "  Environmental: <color_c_yellow>20</color>\n";
         // Protection info displayed on two lines
         const std::string info = item_info_str( hazmat, protection );
+        size_t pos = 0;
+        test_string( info, bp_header_string, pos );
         for( const std::string &bodyparts_string : bodyparts ) {
-            test_string( info, bodyparts_string );
+            test_string( info, bodyparts_string, pos );
         }
-        test_string( info, coverage_string );
-        test_string( info, bash_string );
-        test_string( info, cut_string );
-        test_string( info, ballistic_string );
-        test_string( info, pierce_string );
-        test_string( info, acid_string );
-        test_string( info, fire_string );
-        test_string( info, env_string );
+        test_string( info, coverage_string, pos );
+        test_string( info, prot_header_string, pos );
+        test_string( info, bash_string, pos );
+        test_string( info, cut_string, pos );
+        test_string( info, ballistic_string, pos );
+        test_string( info, pierce_string, pos );
+        test_string( info, acid_string, pos );
+        test_string( info, fire_string, pos );
+        test_string( info, env_string, pos );
     }
 
     SECTION( "check that material resistances are properly overriden" ) {
@@ -1353,6 +1363,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         const std::string coverage_str =
             "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
             "  Default:  <color_c_yellow>100</color>\n";
+        const std::string prot_header_str = "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>2.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>2.00</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>2.00</color>\n";
@@ -1360,18 +1371,20 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         const std::string acid_str = "  Acid: <color_c_yellow>9.00</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>10</color>\n";
-        test_string( info, protection_head_str );
+        size_t pos = 0;
+        test_string( info, protection_head_str, pos );
         for( const std::string &bodyparts_str : bodyparts ) {
-            test_string( info, bodyparts_str );
+            test_string( info, bodyparts_str, pos );
         }
-        test_string( info, coverage_str );
-        test_string( info, bash_str );
-        test_string( info, cut_str );
-        test_string( info, ballistic_str );
-        test_string( info, pierce_str );
-        test_string( info, acid_str );
-        test_string( info, fire_str );
-        test_string( info, env_str );
+        test_string( info, coverage_str, pos );
+        test_string( info, prot_header_str, pos );
+        test_string( info, bash_str, pos );
+        test_string( info, cut_str, pos );
+        test_string( info, ballistic_str, pos );
+        test_string( info, pierce_str, pos );
+        test_string( info, acid_str, pos );
+        test_string( info, fire_str, pos );
+        test_string( info, env_str, pos );
     }
 
     SECTION( "complex protection from physical and environmental damage" ) {
@@ -1399,14 +1412,15 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
             "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
         const std::string pierce_str =
             "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
-        test_string( info, encumbrance_str );
-        test_string( info, bodyparts_str );
-        test_string( info, coverage_str );
-        test_string( info, protection_str );
-        test_string( info, bash_str );
-        test_string( info, cut_str );
-        test_string( info, ballistic_str );
-        test_string( info, pierce_str );
+        size_t pos = 0;
+        test_string( info, encumbrance_str, pos );
+        test_string( info, bodyparts_str, pos );
+        test_string( info, coverage_str, pos );
+        test_string( info, protection_str, pos );
+        test_string( info, bash_str, pos );
+        test_string( info, cut_str, pos );
+        test_string( info, ballistic_str, pos );
+        test_string( info, pierce_str, pos );
     }
 
     SECTION( "pet armor with good physical and environmental protection" ) {
@@ -1418,18 +1432,21 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
 
         const std::string info = item_info_str( meower_armor, protection );
+        const std::string header_str = "<color_c_white>Protection</color>:\n";
         const std::string bash_str = "  Bash: <color_c_yellow>3.00</color>\n";
         const std::string cut_str = "  Cut: <color_c_yellow>4.00</color>\n";
         const std::string ballistic_str = "  Ballistic: <color_c_yellow>10.00</color>\n";
         const std::string acid_str = "  Acid: <color_c_yellow>5.00</color>\n";
         const std::string fire_str = "  Fire: <color_c_yellow>3.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>10</color>\n";
-        test_string( info, bash_str );
-        test_string( info, cut_str );
-        test_string( info, ballistic_str );
-        test_string( info, acid_str );
-        test_string( info, fire_str );
-        test_string( info, env_str );
+        size_t pos = 0;
+        test_string( info, header_str, pos );
+        test_string( info, bash_str, pos );
+        test_string( info, cut_str, pos );
+        test_string( info, ballistic_str, pos );
+        test_string( info, acid_str, pos );
+        test_string( info, fire_str, pos );
+        test_string( info, env_str, pos );
     }
 }
 
@@ -3065,13 +3082,14 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         const std::string fire_string = "  Fire: <color_c_yellow>1.50</color>\n";
         const std::string env_string = "  Environmental: <color_c_yellow>6</color>\n";
 
-        test_string( info, header_string );
-        test_string( info, bash_string );
-        test_string( info, cut_string );
-        test_string( info, ballistic_string );
-        test_string( info, acid_string );
-        test_string( info, fire_string );
-        test_string( info, env_string );
+        size_t pos = 0;
+        test_string( info, header_string, pos );
+        test_string( info, bash_string, pos );
+        test_string( info, cut_string, pos );
+        test_string( info, ballistic_string, pos );
+        test_string( info, acid_string, pos );
+        test_string( info, fire_string, pos );
+        test_string( info, env_string, pos );
     };
 
     copy_from_test( a_str );
@@ -3093,13 +3111,14 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         const std::string fire_str = "  Fire: <color_c_yellow>1.75</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>7</color>\n";
 
-        test_string( info, header_str );
-        test_string( info, bash_str );
-        test_string( info, cut_str );
-        test_string( info, ballistic_str );
-        test_string( info, acid_str );
-        test_string( info, fire_str );
-        test_string( info, env_str );
+        size_t pos = 0;
+        test_string( info, header_str, pos );
+        test_string( info, bash_str, pos );
+        test_string( info, cut_str, pos );
+        test_string( info, ballistic_str, pos );
+        test_string( info, acid_str, pos );
+        test_string( info, fire_str, pos );
+        test_string( info, env_str, pos );
     };
 
     proportional_test( a_copy_prop_str );
@@ -3120,13 +3139,14 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
         const std::string env_str = "  Environmental: <color_c_yellow>8</color>\n";
 
-        test_string( info, header_str );
-        test_string( info, bash_str );
-        test_string( info, cut_str );
-        test_string( info, ballistic_str );
-        test_string( info, acid_str );
-        test_string( info, fire_str );
-        test_string( info, env_str );
+        size_t pos = 0;
+        test_string( info, header_str, pos );
+        test_string( info, bash_str, pos );
+        test_string( info, cut_str, pos );
+        test_string( info, ballistic_str, pos );
+        test_string( info, acid_str, pos );
+        test_string( info, fire_str, pos );
+        test_string( info, env_str, pos );
     };
 
     relative_test( a_copy_rel_str );
