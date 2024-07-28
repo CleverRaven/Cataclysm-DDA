@@ -83,8 +83,9 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | mutation: "processed_eocs"                       | character (Character)       | NONE                        |
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
 | monster death: "death_function"                  | victim (Creature)           | NONE                        |
-| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error
-Some actions sent additional context variables, that can be used in EoC, for example, in format:
+| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating with npc
+
+Some actions sent additional context variables, that can be used in EoC, in format:
 
 ```json
 { "compare_string": [ "bio_uncanny_dodge", { "context_val": "id" } ] }
@@ -285,6 +286,22 @@ Checks there is portal storm **and** you have `MAKAYLA_MUTATOR` mutation **and**
 ```
 
 ## Possible conditions
+
+### `has_alpha`, `has_beta`
+- type: simple string
+- return true if alpha or beta talker exist
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+return true if beta talker exists
+```json
+"condition": "has_beta",
+```
 
 ### `u_male`, `u_female`, `npc_male`, `npc_female`
 - type: simple string
