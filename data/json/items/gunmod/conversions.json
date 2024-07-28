@@ -423,7 +423,7 @@
     "overwrite_min_cycle_recoil": 83,
     "//0": "AR has too big recoil for .22 round, 83 is right on the edge of being able to use blackpowder loaded and ratshot",
     "ammo_modifier": [ "22" ],
-    "magazine_adaptor": [ [ "22", [ "22_ar15mag_10", "  22_ar15mag_28" ] ] ],
+    "magazine_adaptor": [ [ "22", [ "22_ar15mag_10", "22_ar15mag_28" ] ] ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "22_ar15mag_10", "22_ar15mag_28" ] } ],
     "min_skills": [ [ "weapon", 2 ] ],
     "damage_modifier": { "damage_type": "bullet", "amount": 2 },
