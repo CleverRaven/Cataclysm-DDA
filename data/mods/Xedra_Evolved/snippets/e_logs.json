@@ -55,7 +55,7 @@
   {
     "type": "snippet",
     "category": "local_files_simple",
-    "//": "This is extending the vanilla snippets belonging to mostly work of random people: chat logs, SMSes, popular photos and videos that people share, or something they can film by themselves. ",
+    "//": "This is extending the vanilla snippets belonging to mostly work of random people: chat logs, SMSes, popular photos and videos that people share, or something they can film by themselves.",
     "text": [
       {
         "id": "xe_local_files_simple_1",
