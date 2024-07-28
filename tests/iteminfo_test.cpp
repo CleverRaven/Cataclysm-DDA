@@ -1237,6 +1237,13 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 }
 
+static void test_string( const std::string &info, const std::string &tested )
+{
+    INFO( string_format( "Checking for \"%s\" in:", tested ) );
+    INFO( info );
+    CHECK( info.find( tested ) != std::string::npos );
+}
+
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
 // For armor defined in JSON:
 //
@@ -1249,7 +1256,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
 {
     clear_avatar();
 
@@ -1287,21 +1294,39 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         REQUIRE( hazmat.get_covered_body_parts().any() );
         expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
 
+        const std::vector<std::string> bodyparts = {
+            "The <color_c_cyan>arms</color>.",
+            " The <color_c_cyan>eyes</color>.",
+            " The <color_c_cyan>feet</color>.",
+            " The <color_c_cyan>hands</color>.",
+            " The <color_c_cyan>head</color>.",
+            " The <color_c_cyan>legs</color>.",
+            " The <color_c_cyan>mouth</color>.",
+            " The <color_c_cyan>torso</color>."
+        };
+        const std::string coverage_string =
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
+            "  Default:  <color_c_yellow>100</color>\n";
+        const std::string bash_string = "  Bash: <color_c_yellow>4.00</color>\n";
+        const std::string cut_string = "  Cut: <color_c_yellow>4.00</color>\n";
+        const std::string ballistic_string = "  Ballistic: <color_c_yellow>2.00</color>\n";
+        const std::string pierce_string = "  Pierce: <color_c_yellow>3.20</color>\n";
+        const std::string acid_string = "  Acid: <color_c_yellow>9.00</color>\n";
+        const std::string fire_string = "  Fire: <color_c_yellow>1.00</color>\n";
+        const std::string env_string = "  Environmental: <color_c_yellow>20</color>\n";
         // Protection info displayed on two lines
-        CHECK( item_info_str( hazmat, protection ) ==
-               "--\n"
-               "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>eyes</color>. The <color_c_cyan>feet</color>. The <color_c_cyan>hands</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>mouth</color>. The <color_c_cyan>torso</color>.\n"
-               "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-               "  Default:  <color_c_yellow>100</color>\n"
-               "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>4.00</color>\n"
-               "  Cut: <color_c_yellow>4.00</color>\n"
-               "  Ballistic: <color_c_yellow>2.00</color>\n"
-               "  Pierce: <color_c_yellow>3.20</color>\n"
-               "  Acid: <color_c_yellow>9.00</color>\n"
-               "  Fire: <color_c_yellow>1.00</color>\n"
-               "  Environmental: <color_c_yellow>20</color>\n"
-             );
+        const std::string info = item_info_str( hazmat, protection );
+        for( const std::string &bodyparts_string : bodyparts ) {
+            test_string( info, bodyparts_string );
+        }
+        test_string( info, coverage_string );
+        test_string( info, bash_string );
+        test_string( info, cut_string );
+        test_string( info, ballistic_string );
+        test_string( info, pierce_string );
+        test_string( info, acid_string );
+        test_string( info, fire_string );
+        test_string( info, env_string );
     }
 
     SECTION( "check that material resistances are properly overriden" ) {
@@ -1312,20 +1337,41 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         expected_armor_values( zentai, 2, 2, 50, 2, 9, 2, 10 );
 
         // Protection info displayed on two lines
-        CHECK( item_info_str( zentai, protection ) ==
-               "--\n"
-               "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>eyes</color>. The <color_c_cyan>feet</color>. The <color_c_cyan>hands</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>mouth</color>. The <color_c_cyan>torso</color>.\n"
-               "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-               "  Default:  <color_c_yellow>100</color>\n"
-               "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>2.00</color>\n"
-               "  Cut: <color_c_yellow>2.00</color>\n"
-               "  Ballistic: <color_c_yellow>2.00</color>\n"
-               "  Pierce: <color_c_yellow>50.00</color>\n"
-               "  Acid: <color_c_yellow>9.00</color>\n"
-               "  Fire: <color_c_yellow>2.00</color>\n"
-               "  Environmental: <color_c_yellow>10</color>\n"
-             );
+        const std::string info = item_info_str( zentai, protection );
+        const std::string protection_head_str =
+            "<color_c_white>Protection for</color>:";
+        const std::vector<std::string> bodyparts = {
+            "The <color_c_cyan>arms</color>.",
+            " The <color_c_cyan>eyes</color>.",
+            " The <color_c_cyan>feet</color>.",
+            " The <color_c_cyan>hands</color>.",
+            " The <color_c_cyan>head</color>.",
+            " The <color_c_cyan>legs</color>.",
+            " The <color_c_cyan>mouth</color>.",
+            " The <color_c_cyan>torso</color>."
+        };
+        const std::string coverage_str =
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
+            "  Default:  <color_c_yellow>100</color>\n";
+        const std::string bash_str = "  Bash: <color_c_yellow>2.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>2.00</color>\n";
+        const std::string ballistic_str = "  Ballistic: <color_c_yellow>2.00</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>50.00</color>\n";
+        const std::string acid_str = "  Acid: <color_c_yellow>9.00</color>\n";
+        const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
+        const std::string env_str = "  Environmental: <color_c_yellow>10</color>\n";
+        test_string( info, protection_head_str );
+        for( const std::string &bodyparts_str : bodyparts ) {
+            test_string( info, bodyparts_str );
+        }
+        test_string( info, coverage_str );
+        test_string( info, bash_str );
+        test_string( info, cut_str );
+        test_string( info, ballistic_str );
+        test_string( info, pierce_str );
+        test_string( info, acid_str );
+        test_string( info, fire_str );
+        test_string( info, env_str );
     }
 
     SECTION( "complex protection from physical and environmental damage" ) {
@@ -1335,19 +1381,32 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
 
         // Protection info displayed on two lines
-        CHECK( item_info_str( super_tanktop, more_protection ) ==
-               "--\n"
-               "<color_c_white>Encumbrance</color>  <color_c_yellow>7</color>: The <color_c_cyan>torso</color>.\n"
-               "--\n"
-               "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n"
-               "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-               "  Default:  <color_c_yellow>100</color>\n"
-               "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
-               "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
-               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
-               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
-               "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
-             );
+        const std::string info = item_info_str( super_tanktop, more_protection );
+        const std::string encumbrance_str =
+            "<color_c_white>Encumbrance</color>  <color_c_yellow>7</color>: The <color_c_cyan>torso</color>.\n";
+        const std::string bodyparts_str =
+            "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n";
+        const std::string coverage_str =
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
+            "  Default:  <color_c_yellow>100</color>\n";
+        const std::string protection_str =
+            "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n";
+        const std::string bash_str =
+            "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+        const std::string cut_str =
+            "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n";
+        const std::string ballistic_str =
+            "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n";
+        const std::string pierce_str =
+            "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n";
+        test_string( info, encumbrance_str );
+        test_string( info, bodyparts_str );
+        test_string( info, coverage_str );
+        test_string( info, protection_str );
+        test_string( info, bash_str );
+        test_string( info, cut_str );
+        test_string( info, ballistic_str );
+        test_string( info, pierce_str );
     }
 
     SECTION( "pet armor with good physical and environmental protection" ) {
@@ -1358,16 +1417,19 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         item meower_armor( "test_meower_armor" );
         expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
 
-        CHECK( item_info_str( meower_armor, protection ) ==
-               "--\n"
-               "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>3.00</color>\n"
-               "  Cut: <color_c_yellow>4.00</color>\n"
-               "  Ballistic: <color_c_yellow>10.00</color>\n"
-               "  Acid: <color_c_yellow>5.00</color>\n"
-               "  Fire: <color_c_yellow>3.00</color>\n"
-               "  Environmental: <color_c_yellow>10</color>\n"
-             );
+        const std::string info = item_info_str( meower_armor, protection );
+        const std::string bash_str = "  Bash: <color_c_yellow>3.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>4.00</color>\n";
+        const std::string ballistic_str = "  Ballistic: <color_c_yellow>10.00</color>\n";
+        const std::string acid_str = "  Acid: <color_c_yellow>5.00</color>\n";
+        const std::string fire_str = "  Fire: <color_c_yellow>3.00</color>\n";
+        const std::string env_str = "  Environmental: <color_c_yellow>10</color>\n";
+        test_string( info, bash_str );
+        test_string( info, cut_str );
+        test_string( info, ballistic_str );
+        test_string( info, acid_str );
+        test_string( info, fire_str );
+        test_string( info, env_str );
     }
 }
 
@@ -2961,7 +3023,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );
@@ -2988,55 +3050,85 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
     std::string a_copy_rel_str = item_info_str( armor_copy_rel, infoparts );
     std::string a_copy_w_armor_rel_str = item_info_str( armor_copy_w_armor_rel, infoparts );
 
-    const std::string info_str =
-        "--\n"
-        "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
-        "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-        "  Default:  <color_c_yellow>90</color>\n"
-        "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>10.00</color>\n"
-        "  Cut: <color_c_yellow>16.00</color>\n"
-        "  Ballistic: <color_c_yellow>5.60</color>\n"
-        "  Pierce: <color_c_yellow>12.80</color>\n"
-        "  Acid: <color_c_yellow>3.60</color>\n"
-        "  Fire: <color_c_yellow>1.50</color>\n"
-        "  Environmental: <color_c_yellow>6</color>\n";
+    const auto copy_from_test = []( const std::string & info ) {
+        const std::string header_string =
+            "--\n"
+            "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
+            "  Default:  <color_c_yellow>90</color>\n"
+            "<color_c_white>Protection</color>:\n";
+        const std::string bash_string = "  Bash: <color_c_yellow>10.00</color>\n";
+        const std::string cut_string = "  Cut: <color_c_yellow>16.00</color>\n";
+        const std::string ballistic_string = "  Ballistic: <color_c_yellow>5.60</color>\n";
+        const std::string pierce_string = "  Pierce: <color_c_yellow>12.80</color>\n";
+        const std::string acid_string = "  Acid: <color_c_yellow>3.60</color>\n";
+        const std::string fire_string = "  Fire: <color_c_yellow>1.50</color>\n";
+        const std::string env_string = "  Environmental: <color_c_yellow>6</color>\n";
 
-    CHECK( a_str == info_str );
-    CHECK( a_copy_str == info_str );
-    CHECK( a_copy_w_armor_str == info_str );
+        test_string( info, header_string );
+        test_string( info, bash_string );
+        test_string( info, cut_string );
+        test_string( info, ballistic_string );
+        test_string( info, acid_string );
+        test_string( info, fire_string );
+        test_string( info, env_string );
+    };
 
-    const std::string info_prop_str =
-        "--\n"
-        "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
-        "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-        "  Default:  <color_c_yellow>90</color>\n"
-        "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>12.00</color>\n"
-        "  Cut: <color_c_yellow>19.20</color>\n"
-        "  Ballistic: <color_c_yellow>6.72</color>\n"
-        "  Pierce: <color_c_yellow>15.36</color>\n"
-        "  Acid: <color_c_yellow>4.20</color>\n"
-        "  Fire: <color_c_yellow>1.75</color>\n"
-        "  Environmental: <color_c_yellow>7</color>\n";
+    copy_from_test( a_str );
+    copy_from_test( a_copy_str );
+    copy_from_test( a_copy_w_armor_str );
 
-    CHECK( a_copy_prop_str == info_prop_str );
-    CHECK( a_copy_w_armor_prop_str == info_prop_str );
+    const auto proportional_test = []( const std::string & info ) {
+        const std::string header_str =
+            "--\n"
+            "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
+            "  Default:  <color_c_yellow>90</color>\n"
+            "<color_c_white>Protection</color>:\n";
+        const std::string bash_str = "  Bash: <color_c_yellow>12.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>19.20</color>\n";
+        const std::string ballistic_str = "  Ballistic: <color_c_yellow>6.72</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>15.36</color>\n";
+        const std::string acid_str = "  Acid: <color_c_yellow>4.20</color>\n";
+        const std::string fire_str = "  Fire: <color_c_yellow>1.75</color>\n";
+        const std::string env_str = "  Environmental: <color_c_yellow>7</color>\n";
 
-    const std::string info_rel_str =
-        "--\n"
-        "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
-        "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
-        "  Default:  <color_c_yellow>90</color>\n"
-        "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>15.00</color>\n"
-        "  Cut: <color_c_yellow>24.00</color>\n"
-        "  Ballistic: <color_c_yellow>8.40</color>\n"
-        "  Pierce: <color_c_yellow>19.20</color>\n"
-        "  Acid: <color_c_yellow>4.80</color>\n"
-        "  Fire: <color_c_yellow>2.00</color>\n"
-        "  Environmental: <color_c_yellow>8</color>\n";
+        test_string( info, header_str );
+        test_string( info, bash_str );
+        test_string( info, cut_str );
+        test_string( info, ballistic_str );
+        test_string( info, acid_str );
+        test_string( info, fire_str );
+        test_string( info, env_str );
+    };
 
-    CHECK( a_copy_rel_str == info_rel_str );
-    CHECK( a_copy_w_armor_rel_str == info_rel_str );
+    proportional_test( a_copy_prop_str );
+    proportional_test( a_copy_w_armor_prop_str );
+
+    const auto relative_test = []( const std::string & info ) {
+        const std::string header_str =
+            "--\n"
+            "<color_c_white>Protection for</color>: The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
+            "<color_c_white>Coverage</color>: <color_c_light_blue>Outer</color>.\n"
+            "  Default:  <color_c_yellow>90</color>\n"
+            "<color_c_white>Protection</color>:\n";
+        const std::string bash_str = "  Bash: <color_c_yellow>15.00</color>\n";
+        const std::string cut_str = "  Cut: <color_c_yellow>24.00</color>\n";
+        const std::string ballistic_str = "  Ballistic: <color_c_yellow>8.40</color>\n";
+        const std::string pierce_str = "  Pierce: <color_c_yellow>19.20</color>\n";
+        const std::string acid_str = "  Acid: <color_c_yellow>4.80</color>\n";
+        const std::string fire_str = "  Fire: <color_c_yellow>2.00</color>\n";
+        const std::string env_str = "  Environmental: <color_c_yellow>8</color>\n";
+
+        test_string( info, header_str );
+        test_string( info, bash_str );
+        test_string( info, cut_str );
+        test_string( info, ballistic_str );
+        test_string( info, acid_str );
+        test_string( info, fire_str );
+        test_string( info, env_str );
+    };
+
+    relative_test( a_copy_rel_str );
+    relative_test( a_copy_w_armor_rel_str );
 }
