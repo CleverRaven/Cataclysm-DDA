@@ -6319,7 +6319,7 @@ talk_effect_fun_t::func f_emit( const JsonObject &jo, std::string_view member,
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
-        tripoint target = target_pos.raw();
+        tripoint target = get_map().getlocal( target_pos );
         get_map().emit_field( target, emit_id( emit.evaluate( d ) ), chance_mult.evaluate( d ) );
     };
 }
