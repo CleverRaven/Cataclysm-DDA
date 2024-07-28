@@ -127,7 +127,7 @@
     "min_duration": 3000,
     "max_duration": 18000
   },
-    {
+  {
     "id": "death_guilt",
     "type": "SPELL",
     "name": { "str": "Death Guilt" },
