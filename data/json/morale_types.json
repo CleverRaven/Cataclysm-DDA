@@ -438,10 +438,5 @@
     "id": "morale_asocial",
     "type": "morale_type",
     "text": "Spent time alone"
-  },
-  {
-    "id": "morale_parasites_hosted",
-    "type": "morale_type",
-    "text": "Parasites hosted"
   }
 ]
