@@ -3479,7 +3479,8 @@ Weakpoints only match if they share the same id, so it's important to define the
 ],
 "milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
   "into": "flour",                           // The item id of the result of the milling.
-  "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
+  "recipe": "paste_nut_mill_10_1"            // Reference to the recipe that performs the task. The syntax is <product name>_mill_<source amount>_<product amount>. The recipe is then defined as a normal recipe for the source with the product as its result and an id_suffix of "mill_X_Y". 
+                                             // See data/json/recipes/food/milling.json for such recipes. Can also use "milling": { "into": "null", "recipe": "" } to override milling from a copied base item.
 },
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "nanofab_template_group": "nanofab_recipes", // This item is nanofabricator recipe, and point to itemgroup with items, that it could possibly contain; require nanofab_template_group
