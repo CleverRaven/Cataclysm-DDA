@@ -1954,7 +1954,7 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
         for( int y = -1; y <= 1; ++y ) {
             const tripoint offset( x, y, 0 );
             overmap_buffer.ter_set( ava_pos + offset, oter );
-            overmap_buffer.set_seen( ava_pos + offset, true );
+            overmap_buffer.set_seen( ava_pos + offset, om_vision_level::full );
         }
     }
 }

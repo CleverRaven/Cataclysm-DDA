@@ -862,6 +862,8 @@ class Character : public Creature, public visitable
         bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range( float light_level ) const;
+        /** Returns the distance the player can see on the overmap, modified by zoom & height */
+        int overmap_modified_sight_range( float light_level ) const;
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */

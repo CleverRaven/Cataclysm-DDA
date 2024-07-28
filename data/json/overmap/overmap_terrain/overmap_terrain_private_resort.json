@@ -5,6 +5,7 @@
     "name": "private resort",
     "sym": "p",
     "color": "yellow",
+    "vision_levels": "large_building",
     "see_cost": 5,
     "mondensity": 1,
     "flags": [ "RISK_EXTREME", "SOURCE_DRINK", "SOURCE_LUXURY" ]

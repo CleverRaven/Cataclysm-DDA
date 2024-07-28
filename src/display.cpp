@@ -1123,7 +1123,8 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     const int top = -( height / 2 );
     const int bottom = height + top - 1;
 
-    oter_display_options opts( center_xyz, u.overmap_sight_range( g->light_level( u.posz() ) ) );
+    oter_display_options opts( center_xyz,
+                               u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
     opts.showhordes = true;
     if( mission_xyz != overmap::invalid_tripoint ) {
         opts.mission_target = mission_xyz;
@@ -1175,7 +1176,8 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         return e->string_id;
     }
-    return overmap_buffer.ter( loc )->get_name();
+    om_vision_level seen = overmap_buffer.seen( loc );
+    return overmap_buffer.ter( loc )->get_name( seen );
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the
