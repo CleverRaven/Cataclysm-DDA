@@ -2270,7 +2270,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "Petri dish", "str_pl": "Petri dishes" },
-    "description": "A 9mm Petri dish, commonly used in labs dealing with microorganisms or tissue samples.",
+    "description": "A 90 mm Petri dish, commonly used in labs dealing with microorganisms or tissue samples.",
     "weight": "25 g",
     "volume": "145 ml",
     "longest_side": "96 mm",
