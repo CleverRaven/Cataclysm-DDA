@@ -2716,6 +2716,9 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
+    map &here = get_map();
+    std::vector<tripoint> trajectory = here.find_clear_path( pos(), tar );
+
     units::angle target_angle = coord_to_angle( pos(), tar );
     double dispersion = throwing ? throwing_dispersion( it, nullptr ) : total_gun_dispersion( it,
                         recoil_total(), it.ammo_data()->ammo->shot_spread ).max();
@@ -2728,6 +2731,13 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         }
         const Creature &ally = *ally_p;
 
+        // TODO: When lines are straight again, optimize for small distances
+        for( tripoint &p : trajectory ) {
+            if( ally.pos() == p ) {
+                return false;
+            }
+        }
+
         // TODO: Extract common functions with turret target selection
         units::angle safe_angle_ally = safe_angle;
         units::angle ally_angle = coord_to_angle( pos(), ally.pos() );
@@ -2735,7 +2745,8 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
-            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s was in %s line of fire", ally.get_name(), get_name() );
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s was in %s line of fire", ally.get_name(),
+                           get_name() );
             return false;
         }
     }
