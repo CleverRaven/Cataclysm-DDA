@@ -1268,25 +1268,23 @@ void Character::hardcoded_effects( effect &it )
     map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
-    if (id == effect_formication) {
+    if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
-        if (x_in_y(intense, 600 + 300 * get_int()) && !has_effect(effect_narcosis)) {
-            if (!is_npc()) {
+        if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
+            if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
-                add_msg(m_warning, _("You start scratching your %s!"),
-                    body_part_name_accusative(bp));
-            }
-            else {
+                add_msg( m_warning, _( "You start scratching your %s!" ),
+                         body_part_name_accusative( bp ) );
+            } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees(pos(), _("%1$s starts scratching their %2$s!"), get_name(),
-                    body_part_name_accusative(bp));
+                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
+                                        body_part_name_accusative( bp ) );
             }
-            mod_moves(-to_moves<int>(1_seconds) * 1.5);
-            mod_pain(1);
-            apply_damage(nullptr, bp, 1);
+            mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
+            mod_pain( 1 );
+            apply_damage( nullptr, bp, 1 );
         }
-    }
-    else if (id == effect_evil) {
+    } else if( id == effect_evil ) {
         // Major effects, all bad.
         mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
         int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
