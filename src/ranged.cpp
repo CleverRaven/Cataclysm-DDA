@@ -615,6 +615,15 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
+dispersion_sources Character::total_gun_dispersion( const item &gun, double recoil,
+        int spread ) const
+{
+    dispersion_sources dispersion = get_weapon_dispersion( gun );
+    dispersion.add_range( recoil );
+    dispersion.add_spread( spread );
+    return dispersion;
+}
+
 int Character::gun_engagement_moves( const item &gun, int target, int start,
                                      const Target_attributes &attributes ) const
 {
@@ -984,9 +993,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
         }
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-        dispersion.add_spread( proj.shot_spread );
+
+        dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
         bool first = true;
         bool headshot = false;
