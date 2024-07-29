@@ -173,7 +173,7 @@
     ],
     "name": "open air",
     "sym": ".",
-    "vision_levels": "large_building",
+    "vision_levels": "roof_or_air",
     "looks_like": "lab_surface_brick_block5C2",
     "color": "blue",
     "see_cost": 1
