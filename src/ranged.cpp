@@ -1382,6 +1382,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
+    impact.add_damage( damage_bash,
+                       enchantment_cache->get_value_add( enchant_vals::mod::THROW_DAMAGE ) );
+    impact.mult_damage( 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::THROW_DAMAGE ) );
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
