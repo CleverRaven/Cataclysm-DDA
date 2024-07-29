@@ -501,7 +501,6 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
-        nmenu.w_y_setup = 0;
         nmenu.query();
         return nmenu.ret;
     }
@@ -536,7 +535,6 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
-        nmenu.w_y_setup = 0;
         nmenu.query();
         return nmenu.ret;
     }

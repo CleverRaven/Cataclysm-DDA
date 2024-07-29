@@ -114,20 +114,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     }
 }
 
-// uilist_callback whose sole responsibility is to draw the
-// connecting borders between the uilist and the info window.
-class app_uilist_handler : public uilist_callback
-{
-        void refresh( uilist *imenu ) override {
-            //NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( imenu->window, point( 0, 0 ), c_white, LINE_XXXO );
-            mvwputch( imenu->window, point( win_width - 1, 0 ), c_white, LINE_XOXX );
-            wnoutrefresh( imenu->window );
-        }
-};
-
-static app_uilist_handler app_callback;
-
 player_activity veh_app_interact::run( vehicle &veh, const point &p )
 {
     veh_app_interact ap( veh, p );
@@ -187,7 +173,6 @@ void veh_app_interact::init_ui_windows()
     }
     const int width_info = win_width - 2;
     const int height_input = app_actions.size();
-    const int width_input = win_width;
     const int height = height_info + height_input + 2;
 
     // Center the UI
@@ -196,13 +181,8 @@ void veh_app_interact::init_ui_windows()
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
-    // Setup modifications to the uilist to integrate it into the UI
-    imenu.w_width_setup = width_input;
-    imenu.w_x_setup = topleft.x;
-    imenu.w_y_setup = topleft.y + height_info;
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
-    imenu.callback = &app_callback;
     imenu.setup();
 }
 
@@ -633,7 +613,7 @@ void veh_app_interact::app_loop()
             ui.reset();
             shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
             ui_manager::redraw();
-            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> input_ui = imenu.create_or_get_ui();
             imenu.query();
         }
 

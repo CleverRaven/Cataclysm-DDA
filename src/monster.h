@@ -151,6 +151,7 @@ class monster : public Creature
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        void print_info_imgui() const;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;

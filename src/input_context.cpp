@@ -682,7 +682,7 @@ void keybindings_ui::draw_controls()
     scroll_offset = SIZE_MAX;
     size_t legend_idx = 0;
     for( ; legend_idx < 4; legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
         ImGui::SameLine();
         std::string button_text_no_color = remove_color_tags( buttons[legend_idx].second );
         ImGui::SetCursorPosX( str_width_to_pixels( width ) - ( get_text_width(
@@ -693,7 +693,7 @@ void keybindings_ui::draw_controls()
         ImGui::EndDisabled();
     }
     for( ; legend_idx < legend.size(); legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
     }
     draw_filter( *ctxt, status == kb_menu_status::filter );
     if( last_status != status && status == kb_menu_status::filter ) {
@@ -769,8 +769,9 @@ void keybindings_ui::draw_controls()
             key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
             bool is_selected = false;
             bool is_hovered = false;
-            draw_colored_text( key_text, col, 0.0f, status == kb_menu_status::show ? nullptr : &is_selected,
-                               nullptr, &is_hovered );
+            cataimgui::draw_colored_text( key_text, col, 0.0f,
+                                          status == kb_menu_status::show ? nullptr : &is_selected,
+                                          nullptr, &is_hovered );
             if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }

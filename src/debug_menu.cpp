@@ -585,7 +585,6 @@ static void monster_edit_menu()
 
     pointmenu_cb callback( locations );
     monster_menu.callback = &callback;
-    monster_menu.w_y_setup = 0;
     monster_menu.query();
     if( monster_menu.ret < 0 || static_cast<size_t>( monster_menu.ret ) >= locations.size() ) {
         return;
@@ -928,7 +927,15 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
     }
 
     while( true ) {
-        const int group = uilist( msg, menu );
+        // TODO(db48x): go back to allowing a uilist to have both a
+        // titlebar and descriptive text, so that this menu makes
+        // sense and can be auto–sized.
+        uilist debug = uilist();
+        debug.text = msg;
+        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
+        debug.entries = menu;
+        debug.query();
+        const int group = debug.ret;
 
         int action;
 
@@ -2121,7 +2128,6 @@ static faction *select_faction()
         factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
     }
 
-    factionlist.w_y_setup = 0;
     factionlist.query();
     if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
         return nullptr;
@@ -2145,7 +2151,6 @@ static void character_edit_menu()
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
@@ -3088,7 +3093,6 @@ static npc *select_follower_to_export()
         popup( _( "There's no one to export!" ) );
         return nullptr;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return nullptr;
@@ -3151,6 +3155,7 @@ static void bleed_self()
 static void change_weather()
 {
     uilist weather_menu;
+    weather_menu.text = _( "Select new weather pattern:" );
     weather_manager &weather = get_weather();
     weather_generator wgen = weather.get_cur_weather_gen();
     weather_menu.text = _( "Select new weather pattern:" );
@@ -3292,7 +3297,6 @@ static void import_folower()
     for( const cata_path &path : npc_files ) {
         filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
     }
-    filemenu.w_y_setup = 0;
     filemenu.query();
     if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
         return;
@@ -3530,8 +3534,8 @@ static void vehicle_export()
 static void wind_direction()
 {
     uilist wind_direction_menu;
-    weather_manager &weather = get_weather();
     wind_direction_menu.text = _( "Select new wind direction:" );
+    weather_manager &weather = get_weather();
     wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                   _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
     int count = 1;
@@ -3552,8 +3556,8 @@ static void wind_direction()
 static void wind_speed()
 {
     uilist wind_speed_menu;
-    weather_manager &weather = get_weather();
     wind_speed_menu.text = _( "Select new wind speed:" );
+    weather_manager &weather = get_weather();
     wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                               _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
     int count = 1;

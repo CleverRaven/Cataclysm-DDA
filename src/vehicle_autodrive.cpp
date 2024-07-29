@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "flood_fill.h"

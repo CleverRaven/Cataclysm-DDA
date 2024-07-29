@@ -149,22 +149,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( !hmenu.entries.empty() ) {
         hmenu.selected = hmenu.entries.size() - 1;
 
-        hmenu.w_height_setup = [&]() -> int {
-            // number of lines that make up the menu window: 2*border+entries
-            int height = 2 + hmenu.entries.size();
-            if( getbegy( w_full ) < height )
-            {
-                height = std::max( getbegy( w_full ), 4 );
-            }
-            return height;
-        };
-        hmenu.w_x_setup = [&]( int ) -> int {
-            return getbegx( w_full );
-        };
-        hmenu.w_y_setup = [&]( const int height ) -> int {
-            return std::max( getbegy( w_full ) - height, 0 );
-        };
-
         bool finished = false;
         do {
             hmenu.query();

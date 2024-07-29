@@ -853,8 +853,6 @@ void computer_session::action_list_mutations()
 
         uilist wmenu;
 
-        wmenu.w_x_setup = 30;
-
         for( const trait_id &traits_iter : category_mutations ) {
             wmenu.addentry( -1, true, -2, traits_iter.obj().name() );
         }

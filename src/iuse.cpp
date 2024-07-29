@@ -5872,6 +5872,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         explicit ef_con( const translation &status ) :
             status( status ), intensity_lower_limit( 0 ) {}
     };
+    // NOLINTBEGIN(cata-text-style): the spaces at the end of strings are required for concatenation
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
         { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>.  " ) ) },
         { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>.  " ), 1 ) },
@@ -5880,9 +5881,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
         { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>.  " ) ) },
         { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
         { effect_boomered, ef_con( to_translation( " has <color_magenta>bile</color> covering their eyes.  " ) ) },
         { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
@@ -5898,14 +5897,13 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
         { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>.  " ) ) },
         { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle.  " ) ) },
         { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached.  " ) ) },
         { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>.  " ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
+    // NOLINTEND(cata-text-style)
 
     std::string figure_effects;
     if( creature ) {
@@ -7286,7 +7284,6 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {

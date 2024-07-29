@@ -483,14 +483,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager

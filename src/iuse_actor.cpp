@@ -2351,11 +2351,9 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint 
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height_setup = 24;
-    spellbook_uilist.w_width_setup = 80;
+    spellbook_uilist.desired_bounds = { -1.0, -1.0, 80 * ImGui::CalcTextSize( "X" ).x, 24 * ImGui::GetTextLineHeightWithSpacing() };
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -5430,7 +5428,6 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
-    tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
     tmenu.query();
     const int choice = tmenu.ret;

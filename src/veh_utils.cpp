@@ -432,7 +432,6 @@ bool veh_menu::query()
 
     menu.title = title;
     menu.entries = get_uilist_entries();
-    menu.desc_lines_hint = desc_lines_hint;
     menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),
     []( const uilist_entry & it ) {
         return !it.desc.empty();
@@ -450,7 +449,7 @@ bool veh_menu::query()
 
     if( locations.size() == items.size() ) { // all items have valid location attached
         menu.callback = &cb;
-        menu.w_x_setup = 4; // move menu to the left so more space around vehicle is visible
+        menu.desired_bounds = { 4.0, -1.0, -1.0, -1.0 };
     } else {
         menu.callback = nullptr;
     }
