@@ -1173,7 +1173,7 @@
     "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
