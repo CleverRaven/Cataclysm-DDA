@@ -363,7 +363,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        if( !overmap_buffer.seen( elem ) ) {
+        if( overmap_buffer.seen( elem ) == om_vision_level::unseen ) {
             continue;
         }
         std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );

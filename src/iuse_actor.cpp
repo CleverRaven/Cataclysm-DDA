@@ -66,6 +66,7 @@
 #include "music.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -1221,7 +1222,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
-        if( !overmap_buffer.seen( place ) ) {
+        if( overmap_buffer.seen( place ) == om_vision_level::unseen ) {
             // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
             get_avatar().map_revealed_omts.emplace( place );
         }

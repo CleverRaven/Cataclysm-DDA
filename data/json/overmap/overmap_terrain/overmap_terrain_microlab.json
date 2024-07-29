@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_generic",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -26,6 +27,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_sub_station",
+    "vision_levels": "underground_stone",
     "name": "subway station?",
     "sym": "S",
     "color": "light_blue",
@@ -56,6 +58,7 @@
       "microlab_generic_isolated_stairs_up",
       "microlab_generic_isolated_elevator_pit"
     ],
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
@@ -76,6 +79,7 @@
       "microlab_portal_security_hallway1",
       "microlab_portal_security_hallway2"
     ],
+    "vision_levels": "underground_stone",
     "name": "physics lab",
     "sym": "L",
     "color": "red",
@@ -85,6 +89,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "microlab_generic_hallway" ],
+    "vision_levels": "underground_stone",
     "name": "lab hallway",
     "color": "light_red",
     "see_cost": 5,
@@ -93,6 +98,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "microlab_reactor", "microlab_reactor_b" ],
+    "vision_levels": "underground_stone",
     "name": "science lab reactor",
     "sym": "L",
     "color": "light_red",
@@ -109,6 +115,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_distorted_hallway",
+    "vision_levels": "underground_stone",
     "name": "distorted hallway",
     "color": "light_red",
     "see_cost": 5,
@@ -117,6 +124,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
+    "vision_levels": "underground_stone",
     "name": "physics department elevator",
     "color": "light_red",
     "sym": "L",
@@ -125,6 +133,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "microlab_portal_MSU14_elevator" ],
+    "vision_levels": "underground_stone",
     "name": "Hub 14 elevator",
     "color": "cyan",
     "sym": "L",
@@ -133,6 +142,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "microlab_portal_MSU14" ],
+    "vision_levels": "underground_stone",
     "name": "Hub 14",
     "sym": "L",
     "color": "cyan",
@@ -142,6 +152,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_portal_elevator_nether_glass",
+    "vision_levels": "underground_stone",
     "name": "lost level",
     "color": "black",
     "sym": " ",
@@ -150,6 +161,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_surface",
+    "vision_levels": "underground_stone",
     "name": "lab",
     "sym": "L",
     "color": "blue",
@@ -163,6 +175,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_ratkin",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "green",
@@ -190,6 +203,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_sub_station_ratkin",
+    "vision_levels": "underground_stone",
     "name": "pump station?",
     "sym": "P",
     "color": "green",
@@ -200,6 +214,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_ratkin_sub_entry",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "green",
