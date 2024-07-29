@@ -2935,8 +2935,8 @@
       { "vitamin": "iron", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
       { "vitamin": "calcium", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
       { "vitamin": "mutant_toxin", "rate": [ [ 1, 1 ] ], "tick": [ "5 m" ] },
-	  { "vitamin": "blood", "rate": [ [ -6, -6 ] ], "tick": [ "1 s" ] },
-	  { "vitamin": "redcells", "rate": [ [ -12, -12 ] ], "tick": [ "1 s" ] }
+	    { "vitamin": "blood", "rate": [ [ -6, -6 ] ], "tick": [ "1 s" ] },
+	    { "vitamin": "redcells", "rate": [ [ -12, -12 ] ], "tick": [ "1 s" ] }
     ],
     "base_mods": {
       "hunger_min": [ 1 ],
