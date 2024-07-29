@@ -5496,7 +5496,7 @@ void map::draw_map( mapgendata &dat )
         // not one of the hardcoded ones!
         // load from JSON???
         debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                  terrain_type.id().c_str(), terrain_type->get_name(), function_key.c_str() );
+                  terrain_type.id().c_str(), terrain_type->get_name( om_vision_level::full ), function_key.c_str() );
         fill_background( this, ter_t_floor );
     }
 

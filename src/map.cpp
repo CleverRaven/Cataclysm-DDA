@@ -7230,7 +7230,7 @@ void map::update_visibility_cache( const int zlev )
                 const tripoint sm( gridx, gridy, 0 );
                 const tripoint_abs_sm abs_sm = map::abs_sub + sm;
                 const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sm );
-                overmap_buffer.set_seen( abs_omt, true );
+                overmap_buffer.set_seen( abs_omt, om_vision_level::full );
             }
         }
     }

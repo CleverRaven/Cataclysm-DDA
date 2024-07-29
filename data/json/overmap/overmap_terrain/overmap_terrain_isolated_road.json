@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "isolated_road_field_0", "isolated_road_field_1", "isolated_road_field_1_roof" ],
+    "vision_levels": "open_land",
     "name": "yard",
     "sym": ".",
     "color": "green",
@@ -10,6 +11,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
+    "vision_levels": "isolated_building",
     "name": "gunsmith's home",
     "sym": "v",
     "color": "red",
@@ -19,6 +21,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
+    "vision_levels": "isolated_building",
     "name": "blacksmith's home",
     "sym": "^",
     "color": "cyan",
@@ -28,6 +31,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "gunshow_0", "gunshow_1", "gunshow_0_roof", "gunshow_1_roof" ],
+    "vision_levels": "blends_till_details",
     "name": "gun show",
     "sym": "G",
     "color": "red",

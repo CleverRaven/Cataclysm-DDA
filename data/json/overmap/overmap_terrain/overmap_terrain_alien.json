@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "exo_safehouse_stone_0",
+    "vision_levels": "isolated_building",
     "name": "unusual stone barn",
     "sym": "^",
     "color": "brown",
@@ -11,24 +12,21 @@
   {
     "type": "overmap_terrain",
     "id": "exo_safehouse_stone_1",
-    "name": "unusual stone barn",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 2,
+    "copy-from": "exo_safehouse_stone_0",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "exo_safehouse_stone_2",
+    "vision_levels": "roof_or_air",
     "name": "unusual stone barn roof",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 2,
+    "copy-from": "exo_safehouse_stone_0",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "exo_warehouse_1",
+    "vision_levels": "isolated_building",
     "name": "strange warehouse",
     "sym": "#",
     "color": "light_gray",
@@ -38,15 +36,13 @@
   {
     "type": "overmap_terrain",
     "id": "exo_warehouse_2",
-    "name": "strange warehouse",
-    "sym": "#",
-    "color": "light_gray",
-    "see_cost": 2,
+    "copy-from": "exo_warehouse_1",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "slimepit_bottom" ],
+    "vision_levels": "underground_dirt",
     "name": "slime pit",
     "sym": "~",
     "color": "light_green",
@@ -57,11 +53,13 @@
     "type": "overmap_terrain",
     "id": [ "slimepit_top" ],
     "copy-from": "slimepit_bottom",
+    "vision_levels": "natural_depression",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "exodii_base_x0y0z0",
+    "vision_levels": "large_outcropping",
     "name": "rocky butte",
     "sym": "%",
     "color": "light_gray",
@@ -71,6 +69,7 @@
   {
     "type": "overmap_terrain",
     "id": "exodii_base_x0y3z0",
+    "vision_levels": "large_outcropping",
     "name": "ground-level entrance",
     "sym": "?",
     "color": "white",
@@ -100,6 +99,7 @@
   {
     "type": "overmap_terrain",
     "id": "exodii_base_x0y0z1",
+    "vision_levels": "large_outcropping",
     "name": "scrap metal encampment",
     "sym": "%",
     "color": "light_gray",

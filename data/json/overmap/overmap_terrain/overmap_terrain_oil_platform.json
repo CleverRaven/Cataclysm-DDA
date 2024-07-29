@@ -36,6 +36,7 @@
       "oil_platform_4b_5",
       "oil_platform_4c_5"
     ],
+    "vision_levels": "large_structure",
     "name": "oil platform",
     "sym": "O",
     "color": "red",
@@ -54,6 +55,7 @@
       "oil_platform_3b_4",
       "oil_platform_3c_4"
     ],
+    "vision_levels": "large_structure",
     "name": "oil platform",
     "sym": "O",
     "color": "red",
@@ -159,6 +161,7 @@
       "oil_platform_4b_z-9",
       "oil_platform_4c_z-9"
     ],
+    "vision_levels": "large_structure",
     "name": "oil platform",
     "sym": "O",
     "color": "red",

@@ -48,6 +48,7 @@
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
 #include "shadowcasting.h"
@@ -1974,8 +1975,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             here.rebuild_vehicle_level_caches();
         } else if( gpmenu.ret == 3 ) {
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                   orig_oters->get_name(), orig_oters.id().str(),
-                   omt_ref->get_name(), omt_ref.id().str() );
+                   orig_oters->get_name( om_vision_level::full ), orig_oters.id().str(),
+                   omt_ref->get_name( om_vision_level::full ), omt_ref.id().str() );
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
@@ -2147,8 +2148,8 @@ void editmap::edit_mapgen()
 
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().str() );
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = id->get_color();
-        gmenu.entries[i].extratxt.txt = id->get_symbol();
+        gmenu.entries[i].extratxt.color = id->get_color( om_vision_level::full );
+        gmenu.entries[i].extratxt.txt = id->get_symbol( om_vision_level::full );
     }
     real_coords tc;
 

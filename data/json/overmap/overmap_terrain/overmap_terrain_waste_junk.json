@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_sewer",
+    "vision_levels": "underground_dirt",
     "name": "sewer",
     "color": "green",
     "see_cost": 5,
@@ -30,6 +31,7 @@
     "type": "overmap_terrain",
     "id": [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0", "sewage_treatment_1_1_0" ],
     "name": "sewage treatment plant",
+    "vision_levels": "isolated_building",
     "sym": "P",
     "color": "red",
     "see_cost": 5,
@@ -38,6 +40,7 @@
   {
     "type": "overmap_terrain",
     "id": "sewage_treatment_0_0_roof",
+    "vision_levels": "always_full",
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -47,6 +50,7 @@
     "type": "overmap_terrain",
     "id": [ "sewage_treatment_1_0_roof", "sewage_treatment_1_1_roof", "sewage_treatment_1_0_upper_roof" ],
     "name": "sewage treatment plant roof",
+    "vision_levels": "isolated_building",
     "sym": "P",
     "color": "red",
     "see_cost": 5
@@ -57,6 +61,7 @@
     "name": "sewage treatment plant",
     "sym": "O",
     "color": "blue",
+    "vision_levels": "single_water",
     "see_cost": 5,
     "flags": [ "KNOWN_DOWN" ]
   },
@@ -66,6 +71,7 @@
     "name": "sewage treatment plant roof",
     "sym": "O",
     "color": "blue",
+    "vision_levels": "roof_or_air",
     "see_cost": 5
   },
   {
@@ -81,6 +87,7 @@
     "name": "sewage treatment plant - underground",
     "sym": "P",
     "color": "green",
+    "vision_levels": "underground_dirt",
     "see_cost": 5,
     "extras": "build",
     "flags": [ "KNOWN_UP" ]
@@ -91,6 +98,7 @@
     "name": "toxic waste dump",
     "sym": "D",
     "color": "pink",
+    "vision_levels": "isolated_building",
     "see_cost": 2,
     "flags": [ "RISK_HIGH" ]
   },
@@ -113,6 +121,7 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
+    "vision_levels": "isolated_building",
     "see_cost": 5,
     "flags": [ "RISK_HIGH" ]
   },
@@ -120,6 +129,7 @@
     "type": "overmap_terrain",
     "id": "pump_station_1",
     "copy-from": "generic_city_building",
+    "vision_levels": "isolated_building",
     "name": "pump station",
     "sym": "P",
     "color": "red",
@@ -129,6 +139,7 @@
     "type": "overmap_terrain",
     "id": [ "pump_station_1_roof", "pump_station_2_roof" ],
     "copy-from": "generic_city_building",
+    "vision_levels": "roof_or_air",
     "name": "pump station roof",
     "sym": "P",
     "color": "red",
@@ -138,6 +149,7 @@
     "type": "overmap_terrain",
     "id": "pump_station_2",
     "copy-from": "generic_city_building",
+    "vision_levels": "isolated_building",
     "name": "pump station",
     "sym": "P",
     "color": "red",
@@ -147,6 +159,7 @@
     "type": "overmap_terrain",
     "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ],
     "name": "pump station",
+    "vision_levels": "isolated_building",
     "sym": "P",
     "color": "green",
     "see_cost": 999,
