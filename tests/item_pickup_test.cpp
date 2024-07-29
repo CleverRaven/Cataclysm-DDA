@@ -7,7 +7,7 @@
 #include "rng.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior

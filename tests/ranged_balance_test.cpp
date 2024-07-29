@@ -312,7 +312,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "a skilled shooter with a carbine" ) {
-        arm_shooter( shooter, "modular_m4_carbine", { "red_dot_sight" }, "556_m855a1" );
+        arm_shooter( shooter, "debug_modular_m4_carbine", { "red_dot_sight" }, "556_m855a1" );
         test_shooting_scenario( shooter, 10, 15, 48 );
         test_fast_shooting( shooter, 80, 0.3 );
     }
