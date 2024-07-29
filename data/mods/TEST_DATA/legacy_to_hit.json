@@ -1415,14 +1415,7 @@
   {
     "type": "test_data",
     "//": "Generic Guns",
-    "legacy_to_hit": [
-      "ammo_pouch",
-      "bot_antimateriel",
-      "bot_rifleturret",
-      "bot_secubot",
-      "bot_talon_m202a1",
-      "bot_turret"
-    ]
+    "legacy_to_hit": [ "ammo_pouch", "bot_antimateriel", "bot_rifleturret", "bot_secubot", "bot_talon_m202a1", "bot_turret" ]
   },
   {
     "type": "test_data",
