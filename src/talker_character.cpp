@@ -262,7 +262,7 @@ void talker_character::mutate_towards( const trait_id &trait, const mutation_cat
     me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
 }
 
-void talker_character::set_trait_purifiability( const trait_id &trait, const bool purifiable )
+void talker_character::set_trait_purifiability( const trait_id &trait, const bool &purifiable )
 {
     // If we want to set it non-purifiable and we didn't already do that and we really do have the trait
     if( me_chr->has_trait( trait ) ) {

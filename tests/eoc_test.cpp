@@ -82,11 +82,11 @@ effect_on_condition_EOC_meta_test_talker_type( "EOC_meta_test_talker_type" );
 static const effect_on_condition_id
 effect_on_condition_EOC_mon_nearby_test( "EOC_mon_nearby_test" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
-static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE( "EOC_TEST_PURIFIABILITY_TRUE" );
+static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
 static const effect_on_condition_id
