@@ -88,7 +88,7 @@
         "       -........-       ",
         "       -......N.-       ",
         "       -..&.....-       ",
-        "       -........-       ",
+        "       -...1....-       ",
         "       -........--      ",
         "       5.....=...5      ",
         "       -.........-      ",
@@ -104,7 +104,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "1": { "chunks": [ [ "residential_1x2_solar", 6 ], [ "residential_2x2_solar", 4 ], [ "null", 88 ] ] } }
     }
   },
   {

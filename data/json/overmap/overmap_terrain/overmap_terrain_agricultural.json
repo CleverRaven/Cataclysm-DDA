@@ -4,6 +4,7 @@
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
+    "vision_levels": "blends_till_details",
     "travel_cost_type": "dirt_road",
     "see_cost": 2,
     "mondensity": 2,
@@ -28,6 +29,7 @@
     "name": "rural building",
     "sym": "#",
     "color": "i_brown",
+    "vision_levels": "isolated_building",
     "delete": { "flags": [ "RISK_HIGH" ] },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
   },
@@ -91,6 +93,7 @@
       "farm_9"
     ],
     "copy-from": "generic_rural_building",
+    "vision_levels": "farm_field",
     "name": "farm field"
   },
   {
@@ -138,6 +141,7 @@
     ],
     "copy-from": "generic_rural_building",
     "name": "farm field",
+    "vision_levels": "farm_field",
     "see_cost": 2,
     "extras": "agricultural",
     "looks_like": "farm_5",
@@ -149,6 +153,7 @@
     "copy-from": "generic_rural_building",
     "name": "hay field",
     "color": "brown",
+    "vision_levels": "farm_field",
     "see_cost": 2,
     "extras": "agricultural",
     "looks_like": "ranch_camp_76",
@@ -248,6 +253,7 @@
     "id": "farm_stills_11",
     "copy-from": "generic_rural_building",
     "name": "orchard",
+    "vision_levels": "isolated_building",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "color": "brown"
   },
@@ -258,6 +264,7 @@
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "vision_levels": "first_glance_forest",
     "looks_like": "forest",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 5 },
     "mondensity": 3
@@ -269,6 +276,7 @@
     "name": "orchard processing",
     "sym": "T",
     "color": "i_light_green",
+    "vision_levels": "isolated_building",
     "mondensity": 3
   },
   {
@@ -278,6 +286,7 @@
     "name": "orchard stall",
     "sym": "T",
     "color": "i_light_green",
+    "vision_levels": "isolated_building",
     "mondensity": 3
   },
   {
@@ -524,6 +533,7 @@
     "id": [ "forest_trail_intersection" ],
     "copy-from": "generic_rural_building",
     "name": "forest trail",
+    "vision_levels": "forested",
     "sym": "O",
     "color": "green"
   },
@@ -531,6 +541,7 @@
     "type": "overmap_terrain",
     "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ],
     "copy-from": "generic_rural_building",
+    "vision_levels": "blends_till_details",
     "name": "moonshine still",
     "sym": "S"
   },
@@ -545,6 +556,7 @@
     "type": "overmap_terrain",
     "id": "TreeFarm_1b",
     "copy-from": "generic_rural_building",
+    "vision_levels": "forested",
     "name": "tree farm",
     "sym": "T",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 2 ], "chance": 20 },

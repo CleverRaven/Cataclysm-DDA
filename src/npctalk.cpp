@@ -4330,11 +4330,11 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
                      popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
     ( dialogue const & d ) {
-        Character *target;
+        Character const *target;
         if( global ) {
             target = &get_player_character();
         } else {
-            target = d.actor( is_npc )->get_character();
+            target = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
         }
         if( !target || target->is_npc() ) {
             return;

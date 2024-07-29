@@ -34,6 +34,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "faeblood_hallu_light",
+    "recurrence": [ "29 minutes", "29 minutes" ],
+    "global": true,
+    "condition": { "u_has_effect": "drank_fae_blood_hallucination", "intensity": 3 },
+    "effect": [ { "u_add_effect": "hallu", "intensity": 1, "duration": "30 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "faeblood_hallu_hard",
+    "recurrence": [ "29 minutes", "29 minutes" ],
+    "condition": { "u_has_effect": "drank_fae_blood_hallucination", "intensity": 4 },
+    "effect": [
+      { "u_add_effect": "hallu", "intensity": 1, "duration": "30 minutes" },
+      { "u_add_effect": "visuals", "intensity": 1, "duration": "30 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_EATER_CHECK",
     "global": true,
     "recurrence": [ "12 hours", "72 hours" ],

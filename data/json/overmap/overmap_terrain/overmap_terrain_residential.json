@@ -600,6 +600,7 @@
     "name": "apartment tower",
     "sym": "A",
     "color": "light_green",
+    "vision_levels": "large_city_building",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",
@@ -609,6 +610,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "apartments_tower_roof_any",
+    "vision_levels": "roof_or_air",
     "name": "apartment tower roof",
     "sym": "A",
     "color": "light_green",
@@ -747,6 +749,7 @@
     "type": "overmap_terrain",
     "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "blends_till_outlines",
     "name": "homeless camp",
     "sym": "H",
     "color": "green"
@@ -773,6 +776,7 @@
     "id": "derelict_property_roof",
     "type": "overmap_terrain",
     "name": "derelict property roof",
+    "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "i_brown",
     "see_cost": 5,

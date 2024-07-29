@@ -3479,7 +3479,8 @@ Weakpoints only match if they share the same id, so it's important to define the
 ],
 "milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
   "into": "flour",                           // The item id of the result of the milling.
-  "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
+  "recipe": "paste_nut_mill_10_1"            // Reference to the recipe that performs the task. The syntax is <product name>_mill_<source amount>_<product amount>. The recipe is then defined as a normal recipe for the source with the product as its result and an id_suffix of "mill_X_Y". 
+                                             // See data/json/recipes/food/milling.json for such recipes. Can also use "milling": { "into": "null", "recipe": "" } to override milling from a copied base item.
 },
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "nanofab_template_group": "nanofab_recipes", // This item is nanofabricator recipe, and point to itemgroup with items, that it could possibly contain; require nanofab_template_group
@@ -3588,6 +3589,7 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+  "eoc": [ "EOC_CAUSE_PAIN", "EOC_CAUSE_VOMIT" ], // Runs EoC when hit the target. See EFFECT_ON_CONDITION.md#typical-alpha-and-beta-talkers-by-cases for more information
   "spell_data": { "id": "bear_trap" } // Spell, that would be casted when projectile hits an enemy
   "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, //another example
   "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.

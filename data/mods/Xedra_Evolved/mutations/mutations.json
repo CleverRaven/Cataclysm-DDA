@@ -127,7 +127,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE",
-    "name": { "str": "Infected with the vampire disease." },
+    "name": { "str": "Infected with the vampire disease" },
     "points": 0,
     "description": "You have developed a thirst for the blood of your fellow humans.",
     "starting_trait": false,
@@ -259,7 +259,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE2",
-    "name": { "str": "Walking the shadowed path of blood." },
+    "name": { "str": "Walking the shadowed path of blood" },
     "points": 0,
     "description": "You have new fangs to go along with your thirst for blood.",
     "starting_trait": false,
@@ -384,7 +384,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE3",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Mortal hungers are replaced with immortal hungers" },
     "points": 0,
     "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism.",
     "starting_trait": false,
@@ -459,7 +459,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE4",
-    "name": { "str": "Discarded their mortality." },
+    "name": { "str": "Discarded their mortality" },
     "points": 0,
     "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.",
     "starting_trait": false,
@@ -568,7 +568,8 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Corpse-like Flesh" },
-    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.",
+    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.  In addition, your scent is now something most mundane creatures cannot understand.",
+    "scent_type": "sc_vampire",
     "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
   },
   {
@@ -707,14 +708,27 @@
   {
     "type": "mutation",
     "id": "BLOOD_DRINKER",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Fully fueled by the Blood" },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
+    "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
+    "//": "When weariness can be modified through Json, see if this mutation should make the player immune to it.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "KCAL", "multiply": -100 },
+          { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

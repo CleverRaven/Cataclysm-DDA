@@ -52,6 +52,7 @@
 #include "npc.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmap.h"
 #include "path_info.h"
 #include "pixel_minimap.h"
 #include "rect_range.h"
@@ -100,7 +101,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 16> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 17> TILE_CATEGORY_IDS = {{
         "", // TILE_CATEGORY::NONE,
         "vehicle_part", // TILE_CATEGORY::VEHICLE_PART,
         "terrain", // TILE_CATEGORY::TERRAIN,
@@ -114,6 +115,7 @@ static const std::array<std::string, 16> TILE_CATEGORY_IDS = {{
         "hit_entity", // TILE_CATEGORY::HIT_ENTITY,
         "weather", // TILE_CATEGORY::WEATHER,
         "overmap_terrain", // TILE_CATEGORY::OVERMAP_TERRAIN
+        "overmap_vision_level", // TILE_CATEGORY::OVERMAP_VISION_LEVEL
         "overmap_weather", // TILE_CATEGORY::OVERMAP_WEATHER
         "map_extra", // TILE_CATEGORY::MAP_EXTRA
         "overmap_note", // TILE_CATEGORY::OVERMAP_NOTE
@@ -2325,6 +2327,18 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                     looks_like_jumps_limit );
         case TILE_CATEGORY::MONSTER:
             return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
+        case TILE_CATEGORY::OVERMAP_VISION_LEVEL: {
+            size_t id_end = id.find( '$' );
+            om_vision_level level = io::string_to_enum<om_vision_level>( id.substr( id_end + 1 ) );
+            oter_vision_id vision_id( id.substr( 0, id_end ) );
+            // This shouldn't fail, but better safe than sorry
+            const oter_vision::level *viewed = vision_id->viewed( level );
+            if( viewed != nullptr && !viewed->looks_like.empty() ) {
+                return find_tile_looks_like( viewed->looks_like, TILE_CATEGORY::OVERMAP_TERRAIN, variant,
+                                             looks_like_jumps_limit - 1 );
+            }
+            return std::nullopt;
+        }
         case TILE_CATEGORY::OVERMAP_TERRAIN: {
             std::optional<tile_lookup_res> ret;
             const oter_type_str_id type_tmp( id );
@@ -2501,7 +2515,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                                                   1.0f ) ) );
         }
 
-        if( prevent_occlusion_transp && retract > 0 ) {
+        // Adding to the id like this breaks the fragile string handling that vision level uses for looks_like.
+        if( prevent_occlusion_transp && retract > 0 && category != TILE_CATEGORY::OVERMAP_VISION_LEVEL ) {
             res = find_tile_looks_like( id + "_transparent", category, variant );
             if( res ) {
                 tt = &res -> tile();
@@ -2614,6 +2629,16 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                 sym = weather_def->symbol;
                 col = weather_def->map_color;
             }
+        } else if( category == TILE_CATEGORY::OVERMAP_VISION_LEVEL ) {
+            size_t id_end = id.find( '$' );
+            om_vision_level level = io::string_to_enum<om_vision_level>( id.substr( id_end + 1 ) );
+            oter_vision_id vision_id( id.substr( 0, id_end ) );
+            // if we have gotten this far, this call can't fail, because the id never would have
+            // been generated to get it. Nonetheless, better safe than sorry
+            if( const oter_vision::level *viewed = vision_id->viewed( level ) ) {
+                sym = viewed->symbol;
+                col = viewed->color;
+            }
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -2623,9 +2648,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                     rota %= om_direction::size;
                     sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
                 } else {
-                    sym = tmp->symbol;
+                    sym = tmp->get_uint32_symbol();
                 }
-                col = tmp->color;
+                col = tmp->get_color();
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
             sym = static_cast<uint8_t>( id[5] );
@@ -5380,6 +5405,17 @@ void cata_tiles::do_tile_loading_report()
     oter_types.erase( std::unique( oter_types.begin(), oter_types.end() ), oter_types.end() );
     tile_loading_report_seq_ids( oter_types, TILE_CATEGORY::OVERMAP_TERRAIN );
 
+    std::vector<std::string> oter_vision_levels;
+    for( const oter_vision &level : oter_vision::get_all() ) {
+        oter_vision_levels.push_back( level.get_id().str() + "$" +
+                                      io::enum_to_string( om_vision_level::details ) );
+        oter_vision_levels.push_back( level.get_id().str() + "$" +
+                                      io::enum_to_string( om_vision_level::outlines ) );
+        oter_vision_levels.push_back( level.get_id().str() + "$" +
+                                      io::enum_to_string( om_vision_level::vague ) );
+    }
+    tile_loading_report_seq_ids( oter_vision_levels, TILE_CATEGORY::OVERMAP_VISION_LEVEL );
+
     std::vector<map_extra_id> map_extra_ids = MapExtras::get_all_function_names();
     map_extra_ids.erase(
         std::remove_if( map_extra_ids.begin(), map_extra_ids.end(),
@@ -5390,7 +5426,7 @@ void cata_tiles::do_tile_loading_report()
 
     // TODO: OVERMAP_NOTE
 
-    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 16,
+    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 17,
                    "If you add more tile categories then update this tile loading report and then "
                    "increment the value in this static_assert accordingly" );
 

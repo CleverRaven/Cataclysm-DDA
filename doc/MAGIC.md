@@ -904,6 +904,7 @@ Character status value  | Description
 `SWEAT_MULTIPLIER`      | Affects how much your body can sweat. Affects all bodyparts at once. Since it's a percent, using `multiply` is recommended.
 `THIRST`                | 
 `THROW_STR`             | Increases your strength for throwing purposes. Not limited by your throwing skill (you still throw it as precise as your skill allows you, just further). Only additive. Rule of thumb: one additional point of strength allow you to throw 113 g object 10 tiles further, or 1130 g object 1 tile further, limited by [ str * 3 + skill ]. Full calculations are in Character::throw_range
+`THROW_DAMAGE`          | Increases the damage of any thrown projectile. `add` adds this amount of damage to the projectile as bash damage, `multiply` would increase all projectile damage, not only bash type.
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.

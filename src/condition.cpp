@@ -1314,6 +1314,20 @@ conditional_t::func f_player_see( bool is_npc )
     };
 }
 
+conditional_t::func f_has_alpha()
+{
+    return []( dialogue const & d ) {
+        return d.has_alpha;
+    };
+}
+
+conditional_t::func f_has_beta()
+{
+    return []( dialogue const & d ) {
+        return d.has_beta;
+    };
+}
+
 conditional_t::func f_no_assigned_mission()
 {
     return []( dialogue const & d ) {
@@ -1967,17 +1981,18 @@ template<class T>
 static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
         std::function<T( const std::string & )> ret_func )
 {
-    if( jo.get_string( "mutator" ) == "mon_faction" ) {
+    const std::string &mutator = jo.get_string( "mutator" );
+    if( mutator == "mon_faction" ) {
         str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
         return [mtypeid, ret_func]( const dialogue & d ) {
             return ret_func( ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str() );
         };
-    } else if( jo.get_string( "mutator" ) == "game_option" ) {
+    } else if( mutator == "game_option" ) {
         str_or_var option = get_str_or_var( jo.get_member( "option" ), "option" );
         return [option, ret_func]( const dialogue & d ) {
             return ret_func( get_option<std::string>( option.evaluate( d ) ) );
         };
-    } else if( jo.get_string( "mutator" ) == "valid_technique" ) {
+    } else if( mutator == "valid_technique" ) {
         std::vector<str_or_var> blacklist;
         if( jo.has_array( "blacklist" ) ) {
             for( const JsonValue &jv : jo.get_array( "blacklist" ) ) {
@@ -1998,14 +2013,15 @@ static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
             return ret_func( d.actor( false )->get_random_technique( *d.actor( true )->get_creature(),
                              crit, dodge_counter, block_counter, bl ).str() );
         };
-    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
+    } else if( mutator == "u_loc_relative" || mutator == "npc_loc_relative" ) {
         str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
-        return [target, ret_func]( const dialogue & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
+        bool use_beta_talker = mutator == "npc_loc_relative";
+        return [target, use_beta_talker, ret_func]( const dialogue & d ) {
+            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( use_beta_talker )->pos() );
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
         };
-    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
+    } else if( mutator == "topic_item" ) {
         return [ret_func]( const dialogue & d ) {
             return ret_func( d.cur_item.str() );
         };
@@ -2554,6 +2570,8 @@ parsers_simple = {
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
+    {"has_alpha", &conditional_fun::f_has_alpha },
+    {"has_beta", &conditional_fun::f_has_beta },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

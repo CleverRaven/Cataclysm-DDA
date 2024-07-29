@@ -76,6 +76,7 @@
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -3790,7 +3791,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         // FIXME: this is terrible and should be a property instead of a name check...
-        return ter.obj().is_wooded() || ter.obj().get_name() == _( "field" );
+        return ter.obj().is_wooded() || ter.obj().get_name( om_vision_level::full ) == _( "field" );
     };
     while( !q.empty() ) {
         tripoint_abs_omt tpt = q.front();
