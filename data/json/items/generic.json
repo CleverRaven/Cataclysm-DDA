@@ -1121,7 +1121,7 @@
     "longest_side": "80 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1173,7 +1173,7 @@
     "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
