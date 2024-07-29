@@ -3589,6 +3589,7 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+  "eoc": [ "EOC_CAUSE_PAIN", "EOC_CAUSE_VOMIT" ], // Runs EoC when hit the target. See EFFECT_ON_CONDITION.md#typical-alpha-and-beta-talkers-by-cases for more information
   "spell_data": { "id": "bear_trap" } // Spell, that would be casted when projectile hits an enemy
   "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, //another example
   "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.

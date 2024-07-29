@@ -75,7 +75,7 @@ struct dealt_projectile_attack {
 };
 
 void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<ammo_effect_str_id> &effects, bool dealt_damage );
+                         const std::set<ammo_effect_str_id> &effects, int dealt_damage );
 int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,

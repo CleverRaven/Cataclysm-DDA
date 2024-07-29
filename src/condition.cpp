@@ -1314,6 +1314,20 @@ conditional_t::func f_player_see( bool is_npc )
     };
 }
 
+conditional_t::func f_has_alpha()
+{
+    return []( dialogue const & d ) {
+        return d.has_alpha;
+    };
+}
+
+conditional_t::func f_has_beta()
+{
+    return []( dialogue const & d ) {
+        return d.has_beta;
+    };
+}
+
 conditional_t::func f_no_assigned_mission()
 {
     return []( dialogue const & d ) {
@@ -2554,6 +2568,8 @@ parsers_simple = {
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
+    {"has_alpha", &conditional_fun::f_has_alpha },
+    {"has_beta", &conditional_fun::f_has_beta },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
