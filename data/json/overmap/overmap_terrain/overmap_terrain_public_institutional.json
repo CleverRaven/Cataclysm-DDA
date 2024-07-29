@@ -680,7 +680,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_8" ],
-    "name": "road",
+    "copy-from": "road_abstract",
     "sym": "│"
   },
   {
