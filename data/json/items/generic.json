@@ -1883,8 +1883,7 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "weight": "56 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1899,8 +1898,7 @@
     "material": [ "plastic" ],
     "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "18 ml",
-    "to_hit": -1
+    "volume": "18 ml"
   },
   {
     "type": "GENERIC",
@@ -1914,9 +1912,7 @@
     "price_postapoc": "25 cent",
     "material": [ "aluminum", "plastic" ],
     "weight": "113 g",
-    "volume": "1 L",
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -1930,8 +1926,7 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "weight": "114 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1946,7 +1941,8 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "480 g",
     "volume": "250 ml",
-    "to_hit": -1
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1960,8 +1956,7 @@
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
     "weight": "114 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1974,9 +1969,10 @@
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "weight": "13000 g",
-    "volume": "15000 ml",
-    "to_hit": -4
+    "weight": "13 kg",
+    "volume": "15 L",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -1991,7 +1987,8 @@
     "material": [ "plastic" ],
     "weight": "500 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2006,7 +2003,6 @@
     "material": [ "glass" ],
     "weight": "1 g",
     "volume": "2 ml",
-    "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
   },
@@ -2036,8 +2032,7 @@
     "price_postapoc": "10 cent",
     "material": [ "glass" ],
     "weight": "30 g",
-    "volume": "2 ml",
-    "to_hit": -3
+    "volume": "2 ml"
   },
   {
     "type": "GENERIC",
@@ -2052,8 +2047,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "317 g",
     "volume": "2500 ml",
-    "to_hit": -1,
-    "flags": [ "TRADER_AVOID" ]
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2070,8 +2066,9 @@
     "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
-    "to_hit": -1,
-    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2184,7 +2181,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "2100 g",
     "volume": "2 L",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -2203,7 +2200,9 @@
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
-    "volume": "1 L"
+    "volume": "1 L",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -2218,7 +2217,8 @@
     "material": [ "ceramic" ],
     "weight": "362 g",
     "volume": "500 ml",
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -2232,7 +2232,8 @@
     "material": [ "glass" ],
     "weight": "8 kg",
     "volume": "8500 ml",
-    "to_hit": -6
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pipe_cleaner",
@@ -2259,8 +2260,8 @@
     "material": [ "plastic", "steel" ],
     "weight": "725 g",
     "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -2350,7 +2351,7 @@
     "material": [ "glass" ],
     "weight": "300 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ],
     "melee_damage": { "bash": 2 }
   },
@@ -2368,7 +2369,7 @@
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "115 kg",
     "volume": "20 L",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 20 }
   },
   {
@@ -2509,7 +2510,6 @@
     "category": "chems",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": "30 g",
-    "to_hit": -3,
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2611,8 +2611,7 @@
     "price_postapoc": "10 cent",
     "material": [ "freshclay" ],
     "weight": "530 g",
-    "volume": "250 ml",
-    "to_hit": -4
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2628,7 +2627,9 @@
     "weight": "969 g",
     "volume": "500 ml",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 8 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 },
+    "//": "I consider this value to be too high, but lowering it further would put it below rocks, and rocks are a staple of balance due to ferals."
   },
   {
     "type": "GENERIC",
@@ -2643,8 +2644,7 @@
     "price_postapoc": "25 cent",
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2659,8 +2659,7 @@
     "price_postapoc": "15 cent",
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2675,7 +2674,7 @@
     "material": [ "soil" ],
     "weight": "1750 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "target": "adobe_brick",
       "msg": "You test the brick, and it seems solid enough to use.",
@@ -2685,7 +2684,7 @@
       "not_ready_msg": "The brick is still too damp to bear weight.",
       "//": "Should be about a week. Irl it's ten days, so make big batches."
     },
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2703,7 +2702,8 @@
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 10 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -2718,8 +2718,7 @@
     "price_postapoc": "10 cent",
     "material": [ "soil" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2732,9 +2731,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2747,9 +2744,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2762,9 +2757,7 @@
     "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
