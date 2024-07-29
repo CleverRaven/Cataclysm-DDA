@@ -687,7 +687,6 @@
       "ksg-25",
       "ksub2000",
       "landmine",
-      "lanyard",
       "large_damaged_shelter_kit",
       "large_shelter_kit",
       "large_space_heater",
@@ -1422,9 +1421,7 @@
       "bot_rifleturret",
       "bot_secubot",
       "bot_talon_m202a1",
-      "bot_turret",
-      "broken_secubot",
-      "broken_talon_m202a1"
+      "bot_turret"
     ]
   },
   {
