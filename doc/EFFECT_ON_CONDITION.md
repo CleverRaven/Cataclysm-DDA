@@ -1043,7 +1043,7 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
   "type": "effect_on_condition",
   "id": "EOC_ter_furn_check",
   "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
@@ -3649,8 +3649,8 @@ Spawn a plastic bottle on ground
   "type": "effect_on_condition",
   "id": "EOC_map_spawn_item",
   "effect": [
-    { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
-    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+    { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "u_loc_relative", "target": "(0,1,0)" } }
   ]
 },
 ```
