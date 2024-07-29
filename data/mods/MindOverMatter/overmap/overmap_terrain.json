@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": [ "nether_crystal_field" ],
     "name": "crystal outcroppings",
-    "vision_levels": "unusual_structure",
+    "vision_levels": "blends_till_outlines",
     "sym": "*",
     "color": "white",
     "flags": [ "NO_ROTATE" ],
