@@ -11,7 +11,6 @@
     "volume": "2625 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -36,8 +35,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "30gal_barrel",
@@ -82,7 +80,7 @@
     "volume": "105 L",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -112,7 +110,7 @@
     "volume": "210 L",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -160,7 +158,6 @@
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
@@ -179,7 +176,6 @@
     "volume": "14 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
@@ -198,7 +194,6 @@
     "volume": "10 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -251,7 +246,6 @@
     "volume": "42 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
@@ -269,7 +263,6 @@
     "volume": "2 L",
     "price": "4 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -314,7 +307,6 @@
     "volume": "10 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
@@ -394,7 +386,7 @@
     "id": "dry_bag_large",
     "type": "GENERIC",
     "category": "container",
-    "//": "For reference was used Extrawheel Dry bag Sailor 80L",
+    "//1": "For reference was used Extrawheel Dry bag Sailor 80L",
     "name": { "str": "large dry bag" },
     "looks_like": "bag_canvas",
     "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
@@ -404,7 +396,8 @@
     "longest_side": "35 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
@@ -417,7 +410,8 @@
         "moves": 800
       }
     ],
-    "color": "blue"
+    "color": "blue",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_body_bag",
@@ -461,7 +455,8 @@
     "longest_side": "150 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "leather" ],
     "symbol": ")",
     "pocket_data": [
@@ -473,7 +468,8 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_iv",
@@ -487,7 +483,6 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
@@ -565,7 +560,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -598,7 +592,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown",
@@ -629,7 +622,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -690,7 +682,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown",
@@ -743,7 +734,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -775,7 +765,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -807,12 +796,13 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bottle_glass_seasoning_small",
@@ -826,7 +816,7 @@
     "longest_side": "72 mm",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -843,7 +833,8 @@
         "moves": 200
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bottle_twoliter",
@@ -887,7 +878,6 @@
     "volume": "295 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1665,7 +1655,6 @@
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -1692,8 +1681,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "can_drink",
@@ -1706,7 +1694,6 @@
     "volume": "262 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
@@ -1724,8 +1711,7 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "carton_sealed",
@@ -1740,7 +1726,6 @@
     "longest_side": "32 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic", "aluminum", "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1769,7 +1754,6 @@
     "volume": "2003 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1798,7 +1782,6 @@
     "longest_side": "29 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -1912,7 +1895,6 @@
     "longest_side": "20 cm",
     "price": "8 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -1980,7 +1962,7 @@
     "volume": "295 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
@@ -1994,7 +1976,9 @@
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "clay_hydria",
@@ -2008,7 +1992,7 @@
     "volume": "17700 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2023,7 +2007,8 @@
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "clay_watercont",
@@ -2037,6 +2022,7 @@
     "volume": "44250 ml",
     "price": "100 USD",
     "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2050,7 +2036,9 @@
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "cup_plastic",
@@ -2063,7 +2051,6 @@
     "volume": "262 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2120,7 +2107,6 @@
     "longest_side": "132 mm",
     "price": "4 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "glass", "rubber" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2136,8 +2122,7 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 3 }
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "test_tube",
@@ -2152,7 +2137,6 @@
     "longest_side": "100 mm",
     "price": "3 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ { "type": "glass", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2168,8 +2152,7 @@
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "beaker",
@@ -2184,7 +2167,7 @@
     "longest_side": "72 mm",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2200,7 +2183,8 @@
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "gradcylinder",
@@ -2215,7 +2199,7 @@
     "longest_side": "25 cm",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
@@ -2233,7 +2217,8 @@
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "test_tube_micro",
@@ -2247,7 +2232,6 @@
     "volume": "2ml",
     "price": "10 cent",
     "price_postapoc": "5 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
@@ -2307,7 +2291,7 @@
     "longest_side": "13 cm",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -2367,7 +2351,7 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 },
+    "melee_damage": { "bash": 4 },
     "//": "Based on https://www.amazon.com/dp/B0936RC7M1"
   },
   {
@@ -2400,7 +2384,7 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 4 },
+    "melee_damage": { "bash": 2 },
     "//2": "Based on https://www.kilnerjar.co.uk/0025400-preserve-jar-05-litre/"
   },
   {
@@ -2415,6 +2399,7 @@
     "longest_side": "33 cm",
     "price": "12 USD 50 cent",
     "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -2429,7 +2414,8 @@
         "max_contains_weight": "15 kg"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jerrycan_big",
@@ -2444,7 +2430,7 @@
     "longest_side": "47 cm",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
@@ -2461,7 +2447,7 @@
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "jug_clay",
@@ -2475,6 +2461,7 @@
     "volume": "1180 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2489,7 +2476,7 @@
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "jug_plastic",
@@ -2505,7 +2492,6 @@
     "longest_side": "28 cm",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2537,7 +2523,7 @@
     "price": "12 USD",
     "//1": "Price calculated from https://www.uline.com/Product/Detail/S-22157/Hazardous-Materials-Packaging/Metal-F-Style-Can-with-Cap-1-Gallon",
     "price_postapoc": "4 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "longest_side": "24 cm",
     "symbol": ")",
@@ -2553,7 +2539,8 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet"
+    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "keg",
@@ -2567,7 +2554,7 @@
     "volume": "50050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2598,7 +2585,7 @@
     "volume": "52500 ml",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2615,7 +2602,7 @@
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "large_stomach_sealed",
@@ -2628,7 +2615,6 @@
     "volume": "500 ml",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2640,8 +2626,7 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "metal_tank",
@@ -2655,7 +2640,7 @@
     "volume": "60050 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2687,7 +2672,7 @@
     "//": "230 x 116 mm cylinder, 2.5mm thickness with some additional weight for attachments",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2703,7 +2688,7 @@
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "canteen_wood",
@@ -2717,7 +2702,6 @@
     "volume": "1750 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -2755,7 +2739,6 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2767,8 +2750,7 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "waterproof_smart_phone_case",
@@ -3435,7 +3417,6 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3459,8 +3440,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -3474,7 +3454,6 @@
     "volume": "500 ml",
     "price": "40 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3497,8 +3476,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -3512,7 +3490,6 @@
     "volume": "750 ml",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3535,8 +3512,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 3 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "wooden_barrel",
@@ -3550,7 +3526,7 @@
     "volume": "110 L",
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
@@ -3707,7 +3683,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -3853,6 +3828,7 @@
     "volume": "3003 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
@@ -3869,7 +3845,8 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "survival_kit_box",
@@ -3883,6 +3860,7 @@
     "volume": "2300 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
@@ -3896,7 +3874,8 @@
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "large_survival_kit_box",
@@ -4038,7 +4017,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -4063,7 +4041,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -4088,7 +4065,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -4113,7 +4089,6 @@
     "volume": "3200 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -4139,7 +4114,6 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4167,7 +4141,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4195,7 +4168,6 @@
     "volume": "450 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4224,7 +4196,6 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4252,7 +4223,6 @@
     "volume": "12 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4280,7 +4250,6 @@
     "volume": "12 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4309,7 +4278,6 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -4339,6 +4307,7 @@
     "longest_side": "91 cm",
     "price": "100 USD",
     "price_postapoc": "15 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4353,7 +4322,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_medium_drying",
@@ -4367,6 +4336,7 @@
     "longest_side": "91 cm",
     "price": "50 USD",
     "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4390,7 +4360,7 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_small",
@@ -4404,6 +4374,7 @@
     "longest_side": "91 cm",
     "price": "50 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4419,7 +4390,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_small_drying",
@@ -4433,6 +4404,7 @@
     "longest_side": "91 cm",
     "price": "15 USD",
     "price_postapoc": "3 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4457,7 +4429,7 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_large",
@@ -4471,6 +4443,7 @@
     "longest_side": "183 cm",
     "price": "500 USD",
     "price_postapoc": "25 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4486,7 +4459,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "aquarium_large_drying",
@@ -4500,6 +4473,7 @@
     "longest_side": "183 cm",
     "price": "200 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4524,7 +4498,7 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "small_propane_tank",
@@ -4540,7 +4514,7 @@
     "longest_side": "30 cm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4555,7 +4529,7 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "medium_propane_tank",
@@ -4571,7 +4545,7 @@
     "longest_side": "50 cm",
     "price": "20 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4586,7 +4560,7 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "large_propane_tank",
@@ -4602,7 +4576,7 @@
     "longest_side": "117 cm",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4617,7 +4591,7 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "xl_propane_tank",
@@ -4633,7 +4607,7 @@
     "longest_side": "122 cm",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4648,7 +4622,7 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "small_biogas_tank",
@@ -4762,7 +4736,7 @@
     "volume": "130 L",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4792,7 +4766,7 @@
     "volume": "230 L",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4877,7 +4851,6 @@
     "volume": "2500 ml",
     "price": "3 USD",
     "price_postapoc": "60 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "6",
     "color": "brown",
@@ -5042,7 +5015,6 @@
     "longest_side": "10 cm",
     "price": "15 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "looks_like": "clay_canister",
     "symbol": ")",
