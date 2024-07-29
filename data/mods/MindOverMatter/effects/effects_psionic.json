@@ -233,16 +233,10 @@
     "name": [ "Hardened Skin" ],
     "desc": [ "Your skin is more resilient thanks to psionic energy." ],
     "apply_message": "",
-    "remove_message": "The tingling fades away.",
-    "decay_messages": [
-      [ "The minor scratches you've gotten slowly start to ache as your powers fade.", "bad" ],
-      [ "The tingle across your skin is starting to lessen.", "bad" ]
-    ],
+    "remove_message": "The slight itching and waxiness in your skin fades away.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 62,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
     "enchantments": [
       {

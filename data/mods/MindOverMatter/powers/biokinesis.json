@@ -210,9 +210,9 @@
   {
     "id": "biokin_armor_skin",
     "type": "SPELL",
-    "name": "[Ψ]Hardened Skin",
-    "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.",
-    "message": "Your skin itches slightly and takes on a waxy appearance.",
+    "name": "[Ψ]Hardened Skin (C)",
+    "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -220,26 +220,30 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_armor_skin",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_HARDENED_SKIN_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('biokin_armor_skin') * 800) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 8600) + 35600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('biokin_armor_skin') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 24400) + 69300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 750,
-    "energy_increment": -125,
-    "base_casting_time": 150,
-    "final_casting_time": 50,
-    "casting_time_increment": -8.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_armor_skin') * 125)), 750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 10 : max((150 -(u_spell_level('biokin_armor_skin') * 8.5)), 50)"
+      ]
+    }
   },
   {
     "id": "biokin_adrenaline",

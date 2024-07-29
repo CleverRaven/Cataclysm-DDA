@@ -239,6 +239,7 @@
           "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
           "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
           "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+          "EOC_BIOKIN_REMOVE_HARDENED_SKIN",
           "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
           "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
           "EOC_BIOKIN_REMOVE_HAMMERHAND",
@@ -284,7 +285,6 @@
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "u_lose_effect": "effect_biokin_armor_skin" },
       { "u_lose_effect": "effect_biokin_sealed" },
       { "u_lose_effect": "effect_biokin_combat_dance" },
       { "u_lose_effect": "effect_biokin_perfected_motion" },
@@ -319,6 +319,7 @@
           "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
           "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
           "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+          "EOC_BIOKIN_REMOVE_HARDENED_SKIN",
           "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
           "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
           "EOC_BIOKIN_REMOVE_HAMMERHAND",
