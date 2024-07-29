@@ -96,6 +96,12 @@
     "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_762" } ]
   },
   {
+    "id": "ar15_22",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_22" } ]
+  },
+  {
     "id": "mdrx_223",
     "type": "item_group",
     "subtype": "collection",
