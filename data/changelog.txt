@@ -135,6 +135,10 @@ Add TEMPORARY_SHAPESHIFT flag, use it to recalculate size before standard size f
 sunset/sunrise appreciation
 Add ITEM_WATERPROOFING flag, add to Magiclysm/XE content
 Make salvaged combat exoskeletons repairable
+Add persistent boomer bile effect that causes a stench and skin irritation
+Place_vending function can place unpowered machines
+Add option to make the bleeding of a pet stop
+Add different levels of vision to the overmap
 
 
 ## Content:
@@ -297,6 +301,10 @@ Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 Adds a home canning hobby/background to character creation
 Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
+Further improve Barry Isherwood's rescue mission.
+Scorched zombie audit
+A new type of house
+Better organize the crafting recipes of mesoamerican weaponry
 
 
 ## Interface:
@@ -371,6 +379,9 @@ Add the 12-bit rainbow as color palette option
 NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
 Prevent automatically assigning keys to passive bionics
 Zone Manager: "Show All / Hide Distant" highlights selection
+Add sorting by amount and value/volume in advanced inventory search
+Addiction withdrawals are a toggleable distraction
+The filter is reset when you open the construction menu
 
 
 ## Mods:
@@ -572,6 +583,30 @@ Aftershock: Add a tool and gadget trader to Port Augustmoon.
 [Magiclysm] Add mana trait NPC trait groups
 [Xedra Evolved] Add Skinchanger profession + hedge magic spell
 Add more quests to Boann and the possibility to leave the world
+Add WATERWALKING flag, implement it in Magiclysm/XE
+[Magiclysm] Artificer attunement passively recharges batteries in inventory
+[Magiclysm] Change Blood Mage attunement's bleed immunity to very slow bleeding
+Isolation protocol: Increase danger timer and remove sealed hallways from the mapgen pool.
+[Magiclysm] Add Slow Magus spell
+[Magiclysm] Vulcanists are immune to smoke and blistering
+[Xedra Evolved] Add waterwalking hedge magic spell
+[MoM] Rework Extended and Torrential channeling recipe learning
+[Magiclysm] Reduce effect of Gaia's Chosen thorns
+[MoM] You can always stop concentrating
+[MoM] Add MUSCLE_VEH_BOOST flag to appropriate powers
+[Xedra Evolved] Add Fulgurating Strikes Sylph trait
+[Xedra Evolved] Move Nuckalavees to XE
+[Magiclysm] Add mana mutagen as a possibility to mutagenic kits
+[Xedra Evolved] Replace solid fog field with solid fog terrain
+[MoM] Switch Astral Projection rider powers over to PSIONIC flag
+Document how spellcasting proficiencies work.
+[Magiclysm] Make the Artificer and Storm Elemental attunement innately immune to EMPs
+[Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
+[Sky Island] Add Flotation Stone craft
+[Xedra Evolved] Add the To Bless the Sacred Weapon charm
+[MoM] Perfected Motion lets you run on water
+[Bombastic Perks] Sword and sorcery-esque perks
+[XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
 
 
 ## Balance:
@@ -655,6 +690,10 @@ Science item group no longer littered with personal prescriptions
 more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
+Sledgehammer Audit
+Adjust crude gun spawns
+Replace G36 with SL8
+Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
 
 
 ## Bugfixes:
@@ -864,6 +903,15 @@ Prevent the unique Isherwood Migo Tower from Spawning in Innawoods.
 [Bombastic Perks] Make perks unpurifiable
 bugfixes related to burning buildings
 Civilianize Semi Auto MP40
+Stop wasting dodge attempts on things you can't even see
+fix error during player proficiency training
+[MoM] Fix possibility of studying new powers concurrently.
+Adjusts mods of crude guns
+Remove makeshift launchers
+Fix house_detatched5 basement and roof
+[AFS/MoM] Fix concentration proficiency leveling EoC
+Fix of bread sale from Dana Nunez
+Wrong header restoring saved AIM layout
 
 
 ## Performance:
@@ -987,6 +1035,7 @@ Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
+Added Russian 'ё' to remove_accent function
 
 
 # 0.G (Gaiman)
