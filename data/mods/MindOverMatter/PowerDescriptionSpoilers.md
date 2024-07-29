@@ -317,7 +317,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Zap a single target with a jolt of electricity, doing 2 to 7 plus 1 to 1.5 per power level electrical damage, as well as dazing them for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 
-## Electrical Discharge
+## Electrical Discharge (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 5 minutes to 13 minutes and 20 seconds, plus 1 minute and 20 seconds to 3 minutes and 45 seconds per power level<br />
@@ -326,7 +326,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Build up a charge in the psion's body, zapping anyone who attacks them 50% of the time for 1 to 5 damage, plus 1/4 (i.e., one point per four levels) to 1/2 damage per power level.  The power also renders the psion's gear and bionic power immune to EMP attacks.<br />
 *Prerequisites*: Static Touch 4<br />
 
-## Voltaic Strikes
+## Voltaic Strikes (C)
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 4 minutes to 10 minutes, plus 55 seconds to 1 minute 30 seconds per power level.<br />
