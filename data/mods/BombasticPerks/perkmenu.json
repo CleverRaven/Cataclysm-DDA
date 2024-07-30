@@ -200,7 +200,7 @@
         "condition": { "not": { "u_has_trait": "perk_pantherish_grace" } },
         "text": "Gain [<trait_name:perk_pantherish_grace>]",
         "effect": [
-          { "set_string_var": "<trait_name:perk_mighty_thews>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_name:perk_pantherish_grace>", "target_var": { "context_val": "trait_name" } },
           {
             "set_string_var": "<trait_description:perk_pantherish_grace>",
             "target_var": { "context_val": "trait_description" }
