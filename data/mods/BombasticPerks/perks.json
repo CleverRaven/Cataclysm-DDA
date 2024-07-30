@@ -936,13 +936,17 @@
     "name": { "str": "Peer pressure" },
     "points": 0,
     "purifiable": false,
-    "description": "You know how to leverage your allies' presence when talking with others, granting you a small boost to social aptitudes for each nearby ally.",
+    "description": "You know how to leverage your allies' presence when talking with others, granting you a small boost to lying, persuading and intimidating for each nearby ally.",
     "category": [ "perk" ],
-    "social_modifiers": {
-      "persuade": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] },
-      "lie": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] },
-      "intimidate": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] }
-    }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } },
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } },
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -976,6 +980,8 @@
     "purifiable": false,
     "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
     "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
     "activated_eocs": [ "EOC_unopenable_grip" ]
   },
   {
@@ -986,6 +992,8 @@
     "purifiable": false,
     "description": "You somehow learned to focus on an item to make it emit radiation forever.  You still have trouble understanding how this could ever be useful, but maybe you might find a use for it.  Activate to use.",
     "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
     "activated_eocs": [ "EOC_radio_infusion" ]
   },
   {
@@ -996,7 +1004,7 @@
     "purifiable": false,
     "description": "You love the rush of taking different drugs at once, and now this rush is much more impactful than before.  You gain +3 speed for each recreational or combat-enhancing drug currently affecting you.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter" ] } } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -1017,6 +1025,8 @@
     "purifiable": false,
     "description": "Your blood might not be able to make weapons, but it still can make anything coated with sturdier but unable to be repaired.  Activate to use.",
     "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
     "activated_eocs": [ "EOC_forge_blood" ]
   },
   {

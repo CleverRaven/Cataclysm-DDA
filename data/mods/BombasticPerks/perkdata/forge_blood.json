@@ -30,10 +30,10 @@
                     ],
                     "false_effect": [ { "u_message": "You do not have enough blood to safely use this ability.", "type": "bad" } ]
                   }
-                ],
-                "false_effect": [ { "u_message": "This object is durable enough, there's no need to use your blood on it.", "type": "mixed" } ]
+                ]
               }
-            ]
+            ],
+            "false_effect": [ { "u_message": "This object is durable enough, there's no need to use your blood on it.", "type": "mixed" } ]
           }
         ]
       }
