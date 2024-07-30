@@ -205,6 +205,8 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
             }
         }
     }
+    mut_count = enchantment_cache->modify_value( enchant_vals::mod::MUT_INSTABILITY_MOD, mut_count );
+    mut_count = std::max( mut_count, 0 );
     return mut_count;
 }
 
