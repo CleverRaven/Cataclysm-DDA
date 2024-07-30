@@ -421,5 +421,11 @@
     "type": "ammo_effect",
     "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "GENE_STING_BARB",
+    "type": "ammo_effect",
+    "//": "runs EoC that cause you to mutate",
+    "eoc": [ "EOC_random_mutate" ]
   }
 ]

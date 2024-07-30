@@ -617,7 +617,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": { "and": [ { "math": [ "_damage_taken", ">", "0" ] }, "u_is_npc" ] },
+    "condition": { "and": [ { "math": [ "_proj_damage", ">", "0" ] }, "u_is_npc" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
       { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
