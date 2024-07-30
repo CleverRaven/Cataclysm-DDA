@@ -181,7 +181,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
-    "harvest": "fae_changeling",
+    "harvest": "fae_march_lord",
     "families": [ "prof_wp_demihuman" ],
     "vision_day": 50,
     "vision_night": 6,

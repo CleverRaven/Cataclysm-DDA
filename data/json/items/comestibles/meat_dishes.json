@@ -1313,40 +1313,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "cheeseburger_wheat_free",
-    "name": { "str": "wheat-free cheeseburger" },
-    "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chump %s" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast cheeseburger" } }
-    ],
-    "weight": "333 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 380,
-    "description": "A wheat-free sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the Cataclysm.",
-    "price": "10 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "flesh", "veggy", "milk" ],
-    "primary_material": "processed_food",
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
-    "fun": 5,
-    "vitamins": [
-      [ "vitC", 1 ],
-      [ "calcium", 57 ],
-      [ "iron", 65 ],
-      [ "meat_allergen", 1 ],
-      [ "veggy_allergen", 1 ],
-      [ "milk_allergen", 1 ]
-    ]
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "deluxe_cheeseburger",
     "copy-from": "cheeseburger",
     "name": { "str": "deluxe cheeseburger" },
@@ -1365,28 +1331,6 @@
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ],
-      [ "milk_allergen", 1 ]
-    ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "deluxe_cheeseburger_wheat_free",
-    "copy-from": "cheeseburger_wheat_free",
-    "name": { "str": "deluxe wheat-free cheeseburger" },
-    "weight": "380 g",
-    "calories": 500,
-    "description": "A wheat-free cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
-    "price_postapoc": "3 USD",
-    "material": [ "flesh", "milk", "veggy", "tomato" ],
-    "primary_material": "processed_food",
-    "volume": "350 ml",
-    "fun": 7,
-    "vitamins": [
-      [ "vitC", 30 ],
-      [ "calcium", 60 ],
-      [ "iron", 65 ],
-      [ "meat_allergen", 1 ],
-      [ "veggy_allergen", 1 ],
       [ "milk_allergen", 1 ]
     ]
   },
@@ -1415,32 +1359,6 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "hamburger_wheat_free",
-    "name": { "str": "wheat-free hamburger" },
-    "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "wheat-free bobburger" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "wheat-free Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast burger" } }
-    ],
-    "weight": "300 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 258,
-    "description": "A wheat-free sandwich of minced meat with condiments.",
-    "price": "9 USD",
-    "price_postapoc": "2 USD",
-    "material": [ "flesh", "veggy" ],
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1477,39 +1395,6 @@
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ]
     ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "sloppyjoe_wheat_free",
-    "name": { "str": "wheat-free sloppy joe" },
-    "conditional_names": [
-      {
-        "type": "VITAMIN",
-        "condition": "human_flesh_vitamin",
-        "name": { "str": "wheat-free manwich", "str_pl": "wheat-free manwiches" }
-      },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "wheat-free manfriendwich", "str_pl": "wheat-free manfriendwiches" }
-      },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
-    ],
-    "weight": "313 g",
-    "color": "brown",
-    "spoils_in": "1 day 12 hours",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 391,
-    "description": "A sandwich consisting of ground meat and tomato sauce served on wheat-free bread.",
-    "price": "9 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "flesh", "tomato", "veggy" ],
-    "volume": "300 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

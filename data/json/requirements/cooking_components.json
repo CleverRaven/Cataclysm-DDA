@@ -10,10 +10,8 @@
         [ "bread_flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
-        [ "flatbread_wheat_free", 1 ],
         [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
-        [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
@@ -40,12 +38,6 @@
     ]
   },
   {
-    "id": "bread_toastable_wheat_free",
-    "type": "requirement",
-    "//": "Wheat free bread appropriate for toast.",
-    "components": [ [ [ "bread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ], [ "cornbread", 1 ] ] ]
-  },
-  {
     "id": "bread_sandwich",
     "type": "requirement",
     "//": "Bread appropriate for sandwiches.",
@@ -61,23 +53,10 @@
     ]
   },
   {
-    "id": "bread_sandwich_wheat_free",
-    "type": "requirement",
-    "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [
-      [
-        [ "bread_toastable_wheat_free", 1, "LIST" ],
-        [ "flatbread_wheat_free", 1 ],
-        [ "tortilla_corn", 1 ],
-        [ "toast_wheat_free", 1 ]
-      ]
-    ]
-  },
-  {
     "id": "any_bread",
     "type": "requirement",
     "//": "Any type of bread",
-    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ] ]
   },
   {
     "id": "any_peanutbutter",

@@ -82,7 +82,9 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;
     filter = save_state->filter;
-    container = save_state->container;
+    if( area == AIM_CONTAINER ) {
+        container = save_state->container;
+    }
     container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 

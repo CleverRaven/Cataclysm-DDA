@@ -4947,7 +4947,20 @@
     "name": "macuahuitls",
     "description": "Recipes for making macuahuitls.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_aztec_sword", "mc_aztec_sword", "hc_aztec_sword", "ch_aztec_sword", "qt_aztec_sword" ]
+    "nested_category_data": [ "glass_macuahuitl", "teeth_macuahuitl", "aztec_sword_scrap", "aztec_sword_stone", "nested_steel_aztec_sword" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_steel_aztec_sword",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "steel bladed macuahuitls",
+    "description": "Recipes related to constructing different qualities of steel bladed macuahuitls.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_aztec_sword", "mc_aztec_sword", "hc_aztec_sword", "ch_aztec_sword", "qt_aztec_sword" ],
+    "difficulty": 5
   },
   {
     "id": "nested_aztec_spear",
@@ -4958,7 +4971,32 @@
     "name": "tepoztopilis",
     "description": "Recipes for making tepoztopilis.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_aztec_spear", "mc_aztec_spear", "hc_aztec_spear", "ch_aztec_spear", "qt_aztec_spear" ]
+    "nested_category_data": [ "aztec_spear_glass", "aztec_spear_scrap", "aztec_spear_stone", "nested_steel_aztec_spear" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_steel_aztec_spear",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "steel bladed tepoztopilis",
+    "description": "Recipes related to constructing different qualities of steel bladed tepoztopilis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_aztec_spear", "mc_aztec_spear", "hc_aztec_spear", "ch_aztec_spear", "qt_aztec_spear" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_atlatl_spear",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "name": "atlatl spears",
+    "description": "Recipes for making atlatl spears.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "wood_atlatl_spear", "bronze_atlatl_spear", "steel_atlatl_spear" ],
+    "difficulty": 3
   },
   {
     "id": "nested_methanol_tank",

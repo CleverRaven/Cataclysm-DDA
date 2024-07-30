@@ -61,7 +61,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "effect_pyrokinetic_flash",
+    "effect_str": "blind",
     "shape": "blast",
     "affected_body_parts": [ "eyes" ],
     "min_range": {

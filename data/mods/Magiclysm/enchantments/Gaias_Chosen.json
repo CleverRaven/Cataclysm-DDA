@@ -8,7 +8,7 @@
     "shape": "blast",
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "min_damage": 3,
-    "max_damage": 15,
+    "max_damage": 12,
     "valid_targets": [ "hostile" ],
     "damage_type": "cut",
     "min_range": 1,
@@ -19,8 +19,8 @@
     "id": "GAIAS_CHOSEN",
     "condition": "ALWAYS",
     "name": { "str": "Gaia's Champion" },
-    "description": "Your Gaia's Chosen abilities grant you a larger HP pool, and enemies have a chance to impale themselves upon your thorns when they attack you.",
-    "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "PAIN", "multiply": 0.25 } ],
+    "description": "Your Gaia's Chosen abilities grant you a larger HP pool, and enemies have a chance to impale themselves upon your thorns when they attack you.  However, the thorns growing from your skin means you feel pain more acutely.",
+    "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "PAIN", "multiply": 0.15 } ],
     "hit_me_effect": [
       {
         "id": "GAIAS_CHOSEN_THORNS",

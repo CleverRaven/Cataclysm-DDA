@@ -202,6 +202,8 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
     aim.dispersion = dispersion.roll();
+    add_msg_debug( debugmode::DF_BALLISTIC, "Dispersion rolled / max : %f / %f; %f / %f degrees",
+                   aim.dispersion, dispersion.max(), aim.dispersion / 60.0, dispersion.max() / 60.0 );
 
     // an isosceles triangle is formed by the intended and actual target tiles
     aim.missed_by_tiles = iso_tangent( range, units::from_arcmin( aim.dispersion ) );
@@ -521,7 +523,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    bool dealt_damage = attack.dealt_dam.total_damage() > 0;
+    int dealt_damage = attack.dealt_dam.total_damage();
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {

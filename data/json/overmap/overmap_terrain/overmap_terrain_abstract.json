@@ -2,12 +2,14 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_cropland",
+    "vision_levels": "open_land",
     "name": "generic_cropland",
     "land_use_code": "cropland"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_pasture",
+    "vision_levels": "open_land",
     "name": "generic_pasture",
     "land_use_code": "pasture"
   },
@@ -15,12 +17,14 @@
     "type": "overmap_terrain",
     "abstract": "generic_forest",
     "name": "generic_forest",
+    "vision_levels": "forested",
     "land_use_code": "forest",
     "connect_group": "forest"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_wetland",
+    "vision_levels": "forested_swampy",
     "name": "generic_wetland",
     "land_use_code": "wetland"
   },
@@ -33,6 +37,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_open_land",
+    "vision_levels": "open_land",
     "name": "generic_open_land",
     "land_use_code": "open_land"
   },
@@ -99,12 +104,14 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_transitional",
+    "vision_levels": "blends_till_details",
     "name": "generic_transitional",
     "land_use_code": "transitional"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_transportation",
+    "vision_levels": "blends_till_outlines",
     "name": "generic_transportation",
     "land_use_code": "transportation"
   },

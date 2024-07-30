@@ -758,6 +758,7 @@
       [ "stopcock", 3 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
+      { "item": "petri_dish", "prob": 5 },
       [ "rack_test_tube", 5 ],
       [ "test_tube_micro", 5 ],
       [ "rack_test_tube_micro", 5 ],

@@ -414,5 +414,18 @@
     "description": "This shoggoth is for testing purposes only.",
     "copy-from": "mon_shoggoth",
     "delete": { "special_attacks": [ "SPLIT" ] }
+  },
+  {
+    "id": "mon_test_shotgun_0_bullet",
+    "type": "MONSTER",
+    "name": { "str": "chonky thing with 0 ballistic armor" },
+    "description": "Used to replace the now-obsoleted dire wolf in the shotgun damage test.",
+    "copy-from": "mon_cow",
+    "volume": "600 L",
+    "weight": "600 kg",
+    "hp": 300,
+    "dodge": 2,
+    "bleed_rate": 60,
+    "armor": { "bash": 8, "cut": 10, "electric": 1 }
   }
 ]
