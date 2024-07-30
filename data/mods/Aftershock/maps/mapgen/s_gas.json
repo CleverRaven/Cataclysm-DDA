@@ -55,7 +55,7 @@
         { "group": "softdrugs", "x": [ 15, 18 ], "y": [ 19, 20 ], "chance": 80, "repeat": [ 0, 2 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
-      "vendingmachines": { "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true } }
+      "vendingmachines": { "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } }
     }
   }
 ]

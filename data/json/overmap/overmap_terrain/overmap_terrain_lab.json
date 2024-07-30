@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -12,6 +13,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
@@ -22,6 +24,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_core",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -32,6 +35,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_escape_cells",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -41,6 +45,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_escape_entrance",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -51,6 +56,7 @@
   {
     "type": "overmap_terrain",
     "id": "ants_lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -61,6 +67,7 @@
   {
     "type": "overmap_terrain",
     "id": "ants_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
@@ -71,6 +78,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_finale",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
@@ -81,6 +89,7 @@
   {
     "type": "overmap_terrain",
     "id": "ice_lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -91,6 +100,7 @@
   {
     "type": "overmap_terrain",
     "id": "ice_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
@@ -101,6 +111,7 @@
   {
     "type": "overmap_terrain",
     "id": "ice_lab_core",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
@@ -111,6 +122,7 @@
   {
     "type": "overmap_terrain",
     "id": "ice_lab_finale",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
@@ -121,6 +133,7 @@
   {
     "type": "overmap_terrain",
     "id": "tower_lab",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "light_blue",
@@ -131,6 +144,7 @@
   {
     "type": "overmap_terrain",
     "id": "tower_lab_stairs",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "blue",
@@ -141,6 +155,7 @@
   {
     "type": "overmap_terrain",
     "id": "tower_lab_finale",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "cyan",
@@ -157,6 +172,7 @@
       "office_tower_lab_b2_roof",
       "office_tower_lab_b3_roof"
     ],
+    "vision_levels": "roof_or_air",
     "name": "science lab tower roof",
     "sym": "L",
     "color": "cyan",
@@ -166,6 +182,7 @@
   {
     "type": "overmap_terrain",
     "id": "lab_train_depot",
+    "vision_levels": "underground_stone",
     "name": "science train depot",
     "sym": "L",
     "color": "light_blue",
@@ -177,6 +194,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_train_depot",
+    "vision_levels": "underground_stone",
     "name": "central train depot",
     "copy-from": "lab_train_depot",
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
@@ -184,6 +202,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
+    "vision_levels": "forested",
     "name": "forest",
     "looks_like": "forest",
     "land_use_code": "forest",
@@ -195,6 +214,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_shaft",
+    "vision_levels": "underground_stone",
     "name": "access shaft",
     "sym": "0",
     "color": "light_gray",
@@ -204,6 +224,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_central_lab",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
@@ -229,6 +250,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
@@ -239,6 +261,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "blue",
@@ -249,6 +272,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_core",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
@@ -259,6 +283,7 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_finale",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
@@ -269,6 +294,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
+    "vision_levels": "underground_dirt",
     "name": "lab basement",
     "sym": "L",
     "color": "white",
@@ -293,6 +319,7 @@
     ],
     "name": "parking lot",
     "//": "parking lot attached to Research facility.",
+    "vision_levels": "large_pavement",
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
@@ -319,6 +346,7 @@
       "lab_surface_parking_blockD1",
       "lab_surface_parking_blockE1"
     ],
+    "vision_levels": "large_pavement",
     "name": "parking lot",
     "//": "parking lot attached to modular mutagen lab.",
     "sym": "_",
@@ -345,6 +373,7 @@
       "lab_surface_brick_blockE4"
     ],
     "name": "research facility",
+    "vision_levels": "large_building",
     "sym": "l",
     "color": "light_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
@@ -356,6 +385,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_blockC3",
     "name": "research facility entrance",
+    "vision_levels": "large_building",
     "sym": "L",
     "color": "white",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
@@ -412,6 +442,7 @@
       "lab_surface_brick_block5E0",
       "lab_surface_brick_block5E1"
     ],
+    "vision_levels": "roof_or_air",
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -499,6 +530,7 @@
       "lab_surface_brick_block5E4"
     ],
     "name": "research facility, roof",
+    "vision_levels": "roof_or_air",
     "sym": "l",
     "color": "dark_gray",
     "see_cost": 2
@@ -515,6 +547,7 @@
       "lab_2x2_MUT_tier_2_SW",
       "lab_2x2_MUT_tier_2_SE"
     ],
+    "vision_levels": "underground_stone",
     "name": "Lab Research Zone",
     "sym": "L",
     "color": "light_blue",
@@ -525,6 +558,7 @@
     "type": "overmap_terrain",
     "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
     "name": "Lab Recreation Zone",
+    "vision_levels": "underground_stone",
     "sym": "X",
     "color": "white",
     "see_cost": 5,
@@ -541,6 +575,7 @@
       "lab_security_z-6_final_flr"
     ],
     "name": "Lab Security Zone",
+    "vision_levels": "underground_stone",
     "sym": "S",
     "//": "6 underground levels for a modular security tower.",
     "color": "yellow",
@@ -567,6 +602,7 @@
       "lab_2x2_cargo_SE"
     ],
     "name": "Lab Cargo Zone",
+    "vision_levels": "underground_stone",
     "sym": "C",
     "color": "white",
     "see_cost": 5,
@@ -592,6 +628,7 @@
       "lab_1x1x2_RES_8_apartments_lower"
     ],
     "name": "Lab Residential Zone",
+    "vision_levels": "underground_stone",
     "sym": "R",
     "color": "green",
     "see_cost": 5,
@@ -615,6 +652,7 @@
       "lab_security_z0S"
     ],
     "name": "Trans-Coast Logistics",
+    "vision_levels": "large_building",
     "sym": "F",
     "//": "Front/Fake company entrance for a lab.  Includes main and auxiliary entrances including the start of the security tower.",
     "color": "light_gray",
@@ -626,6 +664,7 @@
     "type": "overmap_terrain",
     "id": [ "full_basic_lab_roof", "lab_security_z0S_roof", "lab_security_z0N_roof" ],
     "name": "Trans-Coast Logistics Roof",
+    "vision_levels": "roof_or_air",
     "sym": "F",
     "color": "light_gray",
     "see_cost": 5,
@@ -635,6 +674,7 @@
     "type": "overmap_terrain",
     "id": [ "lab_health_z-2_A", "lab_health_z-2_B", "lab_health_z-3_A" ],
     "name": "Lab Health Clinic",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
     "see_cost": 5,
@@ -645,6 +685,7 @@
     "type": "overmap_terrain",
     "id": [ "lab_health_z-3_B" ],
     "name": "Lab Health Clinic",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
     "see_cost": 5,
@@ -654,6 +695,7 @@
     "type": "overmap_terrain",
     "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
     "name": "Lab Maintenance Zone",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "cyan",
     "see_cost": 5,

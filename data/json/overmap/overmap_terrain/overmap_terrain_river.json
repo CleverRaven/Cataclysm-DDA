@@ -3,6 +3,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_river",
     "copy-from": "generic_water",
+    "vision_levels": "water_body",
     "name": "river",
     "sym": "R",
     "color": "blue",

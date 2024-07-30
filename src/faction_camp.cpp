@@ -4994,7 +4994,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
 
     const oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
+    if( must_see && overmap_buffer.seen( omt_tgt ) == om_vision_level::unseen ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }

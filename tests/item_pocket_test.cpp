@@ -2873,3 +2873,56 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
         }
     }
 }
+
+// Reproduce previous segfault from https://github.com/CleverRaven/Cataclysm-DDA/issues/75156
+TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    item pill( "tums" ); // "antacid pill"
+    REQUIRE( u.wear_item( item( "backpack" ) ) );
+    item_location backpack_loc = u.top_items_loc().front();
+    item *backpack = backpack_loc.get_item();
+    GIVEN( "spillable container contains two pillbottles, one with 4 pills and one with 1 pill" ) {
+        // Starting inventory looks like:
+        //   backpack >
+        //     steel_pan >
+        //       bottle_plastic_small > antacid tablet (1)
+        //       bottle_plastic_small > antacid tablet (4)
+        // It's a bit odd that we managed to put bottles into the frying
+        // pan in the first place, since the pan would normally reject that
+        // with a message stating that it would spill.
+        REQUIRE( backpack->put_in( item( "steel_pan" ), pocket_type::CONTAINER ).success() );
+        item *steelpan = backpack->all_items_top().front();
+        REQUIRE( steelpan->put_in( pill.in_its_container( 1 ), pocket_type::CONTAINER ).success() );
+        REQUIRE( steelpan->put_in( pill.in_its_container( 4 ), pocket_type::CONTAINER ).success() );
+        WHEN( "unload the pillbottle that only has one pill" ) {
+            item *bottle1 = steelpan->all_items_top().front();
+            item_location steelpan_loc( backpack_loc, steelpan );
+            item_location bottle1_loc( steelpan_loc, bottle1 );
+            unload_activity_actor::unload( u, bottle1_loc );
+            THEN( "pill is unloaded into bottle that previously had 4 pills, remaining empty bottle is kept" ) {
+                // Expected inventory after unloading should be:
+                //   backpack >
+                //     steel_pan
+                //     bottle_plastic_small
+                //     bottle_plastic_small > antacid tablet (5)
+                CHECK( here.i_at( u.pos_bub() ).empty() ); // no items spilled to ground
+                CHECK( u.top_items_loc().size() == 1 ); // backpack is still only inventory item
+                const std::list<item *> backpack_items_list = backpack->all_items_top();
+                const std::vector<item *> backpack_items_vec( backpack_items_list.begin(),
+                        backpack_items_list.end() );
+                CHECK( backpack_items_vec.size() == 3 );
+                CHECK( backpack_items_vec[0]->typeId().str() == "steel_pan" );
+                CHECK( backpack_items_vec[0]->empty() );
+                CHECK( backpack_items_vec[1]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[1]->empty() );
+                CHECK( backpack_items_vec[2]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[2]->all_items_top().size() == 5 );
+                CHECK_FALSE( static_cast<bool>( bottle1_loc ) );
+            }
+        }
+    }
+}

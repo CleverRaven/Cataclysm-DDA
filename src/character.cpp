@@ -1292,7 +1292,9 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
 
 int Character::overmap_sight_range( float light_level ) const
 {
+    // How many map tiles I can given the light??
     int sight = sight_range( light_level );
+    // What are these doing???
     if( sight < SEEX ) {
         sight = 0;
     }
@@ -1300,38 +1302,50 @@ int Character::overmap_sight_range( float light_level ) const
         sight /= ( SEEX / 2 );
     }
 
+    // Clamp it for some reason?
     if( sight > 0 ) {
         sight = 6;
     }
 
+    // enchantment modifiers
     sight += enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
-
     float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
 
     // If sight got changed due OVERMAP_SIGHT, process the rest of the modifiers, otherwise skip them
     if( sight > 0 ) {
         // The higher your perception, the farther you can see.
         sight += static_cast<int>( get_per() / 2 );
-        // The higher up you are, the farther you can see.
-        sight += std::max( 0, posz() ) * 2;
-
-        // Binoculars double your sight range.
-        // When adding checks here, also call game::update_overmap_seen at the place they first become true
-        const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
-                               has_flag( json_flag_ENHANCED_VISION ) ||
-                               ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
-                               get_map().veh_at( pos_bub() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
-
-        if( has_optic ) {
-            multiplier += 1;
-        }
     }
 
     if( sight == 0 ) {
         return 0;
     }
 
-    sight = std::round( sight * multiplier );
+    return std::max<int>( std::round( sight * multiplier ), 3 );
+}
+
+int Character::overmap_modified_sight_range( float light_level ) const
+{
+    int sight = overmap_sight_range( light_level );
+
+    // The higher up you are, the farther you can see.
+    sight += std::max( 0, posz() ) * 2;
+
+    // Binoculars double your sight range.
+    // When adding checks here, also call game::update_overmap_seen at the place they first become true
+    const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
+                           has_flag( json_flag_ENHANCED_VISION ) ||
+                           ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
+                           get_map().veh_at( pos_bub() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
+
+    if( has_optic ) {
+        sight *= 2;
+    }
+
+    if( sight == 0 ) {
+        return 0;
+    }
+
     return std::max( sight, 3 );
 }
 
@@ -5997,7 +6011,8 @@ int Character::throw_range( const item &it ) const
         tmp.charges = 1;
     }
 
-    int str = get_arm_str();
+    int ench_bonus = enchantment_cache->get_value_add( enchant_vals::mod::THROW_STR );
+    int str = get_arm_str() + ench_bonus;
 
     /** @ARM_STR determines maximum weight that can be thrown */
     if( ( tmp.weight() / 113_gram ) > str * 15 )  {
@@ -6019,12 +6034,10 @@ int Character::throw_range( const item &it ) const
     if( ret < 1 ) {
         return 1;
     }
-    // Cap at double our strength + skill
-    /** @EFFECT_STR caps throwing range */
 
-    /** @EFFECT_THROW caps throwing range */
-    if( ret > round( str * 3 + get_skill_level( skill_throw ) ) ) {
-        return round( str * 3 + get_skill_level( skill_throw ) );
+    // Cap at triple of our strength + skill
+    if( ret > round( str * 3 + get_skill_level( skill_throw ) + ench_bonus ) ) {
+        return round( str * 3 + get_skill_level( skill_throw ) + ench_bonus );
     }
 
     return ret;

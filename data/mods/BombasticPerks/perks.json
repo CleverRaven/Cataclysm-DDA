@@ -107,6 +107,33 @@
   },
   {
     "type": "mutation",
+    "id": "perk_mighty_thews",
+    "name": { "str": "Mighty Thews" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your rippling muscles enable you to split the skulls of your enemies.  +5% to Lifting, Grip, and Manipulator limb scores.",
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_mighty_thews", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_pantherish_grace",
+    "name": { "str": "Pantherish Grace" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your movements bring to mind a multitude of cat-based metaphors.  +5% to Balance, Footing, and Reaction limb scores.",
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_pantherish_grace", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_eagle_eyes",
+    "name": { "str": "Eagle Eyes" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your sharp gazes misses little.  +25% to Vision and Night Vision limb scores.",
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_eagle_eyes", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_holdout_pocket",
     "name": { "str": "Holdout Pocket" },
     "points": 0,
@@ -776,6 +803,25 @@
     "purifiable": false,
     "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_rage_against_unnatural",
+    "name": { "str": "In a Crimson Mist" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Far from being terrified or even unnerved by the creatures of the Nether, their presence fills you with atavistic killing fury.  You do +35% melee damage when in melee combat with Nether beings and take 15% less damage from all sources, but if you attack any other target when there is a Nether-beast to slay, you suffer a large penalty to your accuracy.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "test_eoc": "EOC_perk_rage_against_the_unnatural_nether_list" },
+            { "not": { "u_has_effect": "effect_perk_rage_against_the_unnatural_penalty" } }
+          ]
+        },
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.35 }, { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

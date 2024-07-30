@@ -312,8 +312,36 @@
   },
   {
     "type": "effect_type",
+    "id": "drank_fae_blood_hallucination",
+    "name": [ "Altered vision", "Distorted vision", "Hallucination", "Severe hallucination" ],
+    "apply_message": [
+      [ "Your vision twists a little after drinking that Fae blood.", "mixed" ],
+      [ "Your vision starts distorting a little more as you drink the Fae blood.", "mixed" ],
+      [ "Your vision starts seeing things that aren't there as you drink the Fae blood.", "mixed" ],
+      [
+        "Drinking that much Fae blood has left your vision almost unable to differentiate between reality and illusion.",
+        "bad"
+      ]
+    ],
+    "decay_messages": [
+      [ "Your vision is normal again.", "good" ],
+      [ "Your vision is almost back to normal.", "good" ],
+      [ "You stopped seeing things, but your vision still twists and deforms what you see.", "good" ],
+      [ "Your ability to differentiate what is real and what isn't is a little better now.", "good" ]
+    ],
+    "max_intensity": 4,
+    "blood_analysis_description": "Unknown Hallucinogens.",
+    "//": "Lighter scaling to factor the two hallucination effects the player will receive at intensity 3 and 4.",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.05 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.05 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "poisoned_blood",
-    "//": "Should happen if you consume blood treatments after gaining Vampire4 trait.  Currently unobtainable.",
+    "//": "Should happen if you consume blood treatments after gaining Vampire4 trait.",
     "name": [ "Poisoned blood" ],
     "desc": [ "You have poisoned your own blood!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
@@ -336,7 +364,7 @@
   {
     "type": "effect_type",
     "id": "poisoned_blood2",
-    "//": "Should happen if you consume blood treatments after gaining Vampire5 trait.  Currently unobtainable.",
+    "//": "Should happen if you consume blood treatments after gaining Vampire5 trait.",
     "rating": "bad",
     "chance_kill": [ [ 1, 1 ] ],
     "chance_kill_resist": [ [ 1, 1 ] ],
@@ -1865,5 +1893,53 @@
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dream_drainer_speed",
+    "name": [ "Accelerated" ],
+    "desc": [ "A burst of speed." ],
+    "max_duration": "25 s",
+    "apply_message": "You feel your legs are much longer now.",
+    "remove_message": "Your body shrinks back into its normal space.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 70 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dream_drainer_armor",
+    "name": [ "Armored" ],
+    "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "max_duration": "25 s",
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_BASH", "add": -15 },
+          { "value": "ARMOR_STAB", "add": -15 },
+          { "value": "ARMOR_CUT", "add": -15 },
+          { "value": "ARMOR_HEAT", "add": -15 },
+          { "value": "ARMOR_COLD", "add": -15 },
+          { "value": "ARMOR_ELEC", "add": -15 },
+          { "value": "ARMOR_ACID", "add": -15 },
+          { "value": "ARMOR_BULLET", "add": -15 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "effect_moon_withdrawal",
+    "type": "effect_type",
+    "max_duration": "11 s",
+    "name": [ "Moon-starved" ],
+    "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": -130 } ] } ]
   }
 ]

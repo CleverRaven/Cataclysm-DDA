@@ -8,8 +8,8 @@
         {
           "u_has_var": "dialogue_dave_u_cardboard_gift",
           "value": "finished",
-          "yes": "\"We hope our gift to you will help repay our great debt.\"",
-          "no": "\"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
+          "yes": "  \"We hope our gift to you will help repay our great debt.\"",
+          "no": "  \"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
         }
       ]
     },
@@ -46,7 +46,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Different2",
-    "dynamic_line": "\"We were… I… we can scarcely remember those times.\"  Dave looks pained.  \"No, we had no doctor.  We didn't need one.  We had a job and… and… we don't like to talk about this.\"",
+    "dynamic_line": "We were… I… we can scarcely remember those times.\"  Dave looks pained.  \"No, we had no doctor.  We didn't need one.  We had a job and… and… we don't like to talk about this.",
     "responses": [
       {
         "text": "Come on, Dave.  We're friends.  I won't use this against you or anything.",
@@ -97,19 +97,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Gift",
-    "dynamic_line": "\"You've given us an idea, a way we could repay a small fraction of your aid.  Come back in a day, and your blessing will be here for you.\"",
+    "dynamic_line": "You've given us an idea, a way we could repay a small fraction of your aid.  Come back in a day, and your blessing will be here for you.",
     "responses": [ { "text": "See you in a day, then.", "topic": "TALK_DINODAVE_Gift_Bye" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Gift_Bye",
-    "dynamic_line": "\"Make sure you don't let the sandman in.  He can't be trusted.\"",
+    "dynamic_line": "Make sure you don't let the sandman in.  He can't be trusted.",
     "responses": [ { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Gift_Given",
-    "dynamic_line": "\"Indeed, my knight.  I was hesitant to grant you this power, but you have proven your worth and fealty many times over.  Make sure it does not fall into the wrong hands.  May it help you on your journey.\"",
+    "dynamic_line": "Indeed, my knight.  I was hesitant to grant you this power, but you have proven your worth and fealty many times over.  Make sure it does not fall into the wrong hands.  May it help you on your journey.",
     "responses": [
       {
         "text": "[Take the gift.]",

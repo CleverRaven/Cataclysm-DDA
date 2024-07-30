@@ -1,16 +1,8 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "mi-go_camp1",
-    "name": "mi-go encampment",
-    "sym": "<",
-    "color": "dark_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mi-go_camp1-1",
+    "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
+    "vision_levels": "isolated_tower",
     "name": "mi-go encampment",
     "sym": "<",
     "color": "dark_gray",
@@ -20,11 +12,9 @@
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2",
-    "name": "mi-go encampment",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
@@ -32,8 +22,7 @@
     "name": "mi-go spire",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
@@ -41,8 +30,7 @@
     "name": "mi-go landing platform",
     "sym": "_",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
@@ -50,8 +38,7 @@
     "name": "mi-go landing roof",
     "sym": "_",
     "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
@@ -66,16 +53,14 @@
       "mi-go_scout_tower_4"
     ],
     "name": "mi-go scout tower",
-    "sym": ">",
-    "color": "light_gray",
-    "mondensity": 2,
-    "flags": [ "RISK_EXTREME" ]
+    "copy-from": "mi-go_camp1"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_portal",
     "name": "mi-go structure",
     "sym": "=",
+    "vision_levels": "blends_till_details",
     "color": "dark_gray",
     "mondensity": 2,
     "flags": [ "RISK_EXTREME" ]
@@ -84,6 +69,7 @@
     "type": "overmap_terrain",
     "id": "mi-go_portal_roof",
     "name": "mi-go structure roof",
+    "vision_levels": "roof_or_air",
     "sym": "=",
     "color": "dark_gray",
     "mondensity": 2,

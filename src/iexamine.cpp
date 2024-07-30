@@ -67,6 +67,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -1239,7 +1240,8 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
             _rotate_point_sm( { examp.xy(), z }, _get_rot_delta( this_omt, that_omt ), sm_orig );
 
         if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
-            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
+            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name(
+                                             om_vision_level::full );
             std::string const name = string_format(
                                          "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
             choice.addentry( z + uilist_positive, z != examp.z, MENU_AUTOASSIGN, name );
