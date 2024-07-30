@@ -560,51 +560,6 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "streetsweeper",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "automatic shotgun" },
-    "description": "This shotgun, deemed a destructive device, resembles a comically oversized revolver.  It can hold 12 rounds of 12 gauge shot, and fire all of them in under 3 seconds",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "streetsweeper",
-        "name": { "str": "Cobray Streetsweeper" },
-        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch."
-      }
-    ],
-    "weight": "4200 g",
-    "volume": "3193 ml",
-    "longest_side": "592 mm",
-    "barrel_length": "470 mm",
-    "looks_like": "revolver_shotgun",
-    "price": "1 kUSD 200 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "dispersion": 855,
-    "durability": 6,
-    "clip_size": 12,
-    "reload": 220,
-    "barrel_volume": "505 ml",
-    "default_mods": [ "grip" ],
-    "built_in_mods": [ "wire_stock" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "tavor_12",
     "copy-from": "shotgun_base",
     "type": "GUN",

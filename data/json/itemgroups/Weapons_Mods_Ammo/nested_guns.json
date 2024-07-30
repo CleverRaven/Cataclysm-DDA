@@ -2268,14 +2268,6 @@
     ]
   },
   {
-    "id": "nested_streetsweeper",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "streetsweeper", "charges": [ 0, 12 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
     "id": "nested_saiga_410",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

@@ -442,8 +442,7 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express",
-      "streetsweeper"
+      "remington_870_express"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

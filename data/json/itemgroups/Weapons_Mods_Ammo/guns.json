@@ -642,7 +642,6 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_saiga_12", "prob": 50 },
-      { "group": "nested_streetsweeper", "prob": 4 },
       { "group": "nested_saiga_410", "prob": 40 }
     ]
   },
@@ -653,7 +652,6 @@
     "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
     "items": [
       { "item": "saiga_12", "prob": 25 },
-      { "item": "streetsweeper", "prob": 4 },
       { "item": "winchester_1887", "prob": 10 },
       { "item": "winchester_1897", "prob": 20 },
       { "item": "saiga_410", "prob": 10 }
