@@ -505,7 +505,7 @@ std::map<const itype *, std::pair<int, int>> Single_item_creator::every_item_min
             // since modifier is std::optional it might not be present
             // if not - we return [0,1] if item has probability to spawn less than a hundred
             // and [1,1] otherwise
-            if ( modifier )
+            if( modifier )
                 return { std::make_pair( i, modifier->count ) };
             else
                 return { std::make_pair( i, std::make_pair( probability < 100 ? 0 : 1, 1 ) ) };
