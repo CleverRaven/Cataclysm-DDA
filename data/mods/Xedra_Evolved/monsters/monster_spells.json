@@ -148,8 +148,9 @@
     "id": "death_shadowman",
     "type": "SPELL",
     "name": { "str": "Shadowman Death" },
-    "valid_targets": [ "ally", "hostile", "self" ],
+    "valid_targets": [ "ground", "ally", "hostile", "self" ],
     "description": "Eliminates any dream shadows in the area.",
+    "max_level": 1,
     "teachable": false,
     "effect": "banishment",
     "shape": "blast",
@@ -160,7 +161,7 @@
     "min_aoe": 60,
     "max_aoe": 60,
     "extra_effects": [ { "id": "CLOSE_DREAMWOUND_SHADOW", "hit_self": true } ],
-    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_FAIL", "SILENT", "IGNORE_WALLS" ]
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_FAIL", "SILENT", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ]
   },
   {
     "type": "SPELL",

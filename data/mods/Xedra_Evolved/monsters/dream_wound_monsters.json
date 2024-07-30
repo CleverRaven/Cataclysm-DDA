@@ -158,7 +158,7 @@
       },
       [ "scratch", 15 ]
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_shadowman" } },
+    "death_function": { "effect": { "id": "death_shadowman", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "regenerates_in_dark": true,
     "flags": [
       "SEES",
