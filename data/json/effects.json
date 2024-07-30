@@ -2958,8 +2958,8 @@
     "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
     "desc": [
       "You can feel something wriggling beneath the skin…",
-      "There's a small lump under your skin, it shifts and writhes with a life of its own...",
-      "An area of your flesh bulges unnaturally, stretched by the presence of something inside. It feels like it's desperately trying to push its way out..."
+      "There's a small lump under your skin, it shifts and writhes with a life of its own…",
+      "An area of your flesh bulges unnaturally, stretched by the presence of something inside.  It feels like it's desperately trying to push its way out…"
     ],
     "rating": "bad",
     "max_intensity": 3,
