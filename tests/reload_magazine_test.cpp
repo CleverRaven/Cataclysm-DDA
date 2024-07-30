@@ -25,8 +25,8 @@ static const itype_id itype_357mag_fmj( "357mag_fmj" );
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
-static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
+static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 
