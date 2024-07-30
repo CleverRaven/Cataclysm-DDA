@@ -320,7 +320,7 @@
   {
     "id": "mon_dire_hound",
     "type": "MONSTER",
-    "name": { "str": "direhound", "str_pl": "direhounds" },
+    "name": { "str": "direhound" },
     "description": "This large canid has grown to terrifying proportions, roughly three times the size of some of its brethren.  Its teeth give steak knives a run for their money, and it looks to be the social center of any surrounding dogs.",
     "//": "I've considered having this be an evolution point for several canid species outside of dogs, such as wolves or coyotes.",
     "default_faction": "dog",
