@@ -897,6 +897,37 @@
   },
   {
     "type": "mutation",
+    "id": "perk_thickblood",
+    "name": { "str": "Thick-blooded" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your blood has always been thicker than most, making you lose less of it when bleeding.",
+    "category": [ "perk" ],
+    "flags": [ "BLEEDSLOW" ]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "type": "mutation",
     "id": "perk_portal_storm_mutator_bird",
     "name": { "str": "Stormwrought: Bird" },
     "points": 0,
