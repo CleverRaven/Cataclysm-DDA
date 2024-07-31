@@ -94,7 +94,6 @@
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
-static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
 static const ammo_effect_str_id ammo_effect_JET( "JET" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
@@ -132,8 +131,6 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -144,13 +141,7 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_targeted( "targeted" );
 
-static const gun_mode_id gun_mode_AUTO( "AUTO" );
-
-static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
-static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
-static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
@@ -161,7 +152,6 @@ static const itype_id itype_bot_c4_hack( "bot_c4_hack" );
 static const itype_id itype_bot_flashbang_hack( "bot_flashbang_hack" );
 static const itype_id itype_bot_gasbomb_hack( "bot_gasbomb_hack" );
 static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
-static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -210,7 +200,6 @@ static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
 static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
 static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_triffid( "mon_triffid" );
@@ -221,10 +210,7 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
@@ -243,7 +229,6 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
-static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
@@ -320,25 +305,6 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
         }
         return false;
     }
-}
-
-static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
-{
-    npc tmp;
-    tmp.name = _( "The " ) + z->name();
-    tmp.set_fake( true );
-    tmp.recoil = 0;
-    tmp.setpos( z->pos() );
-    tmp.str_cur = str;
-    tmp.dex_cur = dex;
-    tmp.int_cur = inte;
-    tmp.per_cur = per;
-    if( z->friendly != 0 ) {
-        tmp.set_attitude( NPCATT_FOLLOW );
-    } else {
-        tmp.set_attitude( NPCATT_KILL );
-    }
-    return tmp;
 }
 
 bool mattack::none( monster * )
