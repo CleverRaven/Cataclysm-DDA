@@ -6203,6 +6203,20 @@ Fields can exist on top of terrain/furniture, and support different intensity le
   }
 ```
 
+## Emits
+Defines field emissions 
+
+```c++
+{
+  "id": "emit_rad_cloud", // id of emission
+  "type": "emit",         
+  "field": "fd_nuke_gas", // field, that would be emitted
+  "intensity": 3,         // intensity of the field to be emitted
+  "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
+  "chance": 50            // chance to emit one unit of field, from 1 to 100
+},
+```
+
 ## Immunity data
 Immunity data can be provided at the field level or at the effect level based on intensity and body part. At the field level it applies immunity to all effects.
 

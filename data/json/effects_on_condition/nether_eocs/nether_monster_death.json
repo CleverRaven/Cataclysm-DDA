@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_YUGG_DEATH",
     "effect": [
-      { "u_location_variable": { "context_val": "death_loc" } },
+      { "npc_location_variable": { "context_val": "death_loc" } },
       {
         "switch": { "math": [ "rand(4)" ] },
         "cases": [
@@ -62,13 +62,7 @@
           {
             "case": 4,
             "effect": [
-              {
-                "u_set_field": "fd_fog",
-                "radius": 10,
-                "intensity": 99,
-                "hit_player": true,
-                "target_var": { "context_val": "death_loc" }
-              },
+              { "u_emit": "emit_fog_plume", "target_var": { "context_val": "death_loc" } },
               {
                 "if": "player_see_u",
                 "then": {
