@@ -40,8 +40,7 @@
     "default": "mon_dream_shadow",
     "monsters": [
       { "monster": "mon_dream_shadow", "weight": 500, "cost_multiplier": 0 },
-      { "monster": "mon_dream_shadowbeast", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_dream_shadowman", "weight": 10, "cost_multiplier": 0 }
+      { "monster": "mon_dream_shadowbeast", "weight": 200, "cost_multiplier": 0 }
     ]
   },
   {

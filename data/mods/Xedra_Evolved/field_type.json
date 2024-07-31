@@ -52,11 +52,7 @@
       {
         "name": "roiling shadows",
         "color": "black_green",
-        "transparent": false,
-        "monster_spawn_chance": 600,
-        "monster_spawn_count": 1,
-        "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_DREAM_WOUND_SHADOW"
+        "transparent": false
       }
     ],
     "description_affix": "under",

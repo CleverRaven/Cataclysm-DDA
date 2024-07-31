@@ -154,7 +154,7 @@
     "teachable": false,
     "effect": "banishment",
     "shape": "blast",
-    "targeted_monster_ids": [ "mon_dream_shadowbeast", "mon_dream_shadow", "mon_dream_shadowman" ],
+    "targeted_monster_ids": [ "mon_dream_shadowbeast", "mon_dream_shadow" ],
     "damage_type": "pure",
     "min_damage": 407,
     "max_damage": 407,
