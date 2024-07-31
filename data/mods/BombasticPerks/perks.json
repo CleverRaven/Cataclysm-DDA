@@ -941,9 +941,9 @@
     "enchantments": [
       {
         "values": [
-          { "value": "SOCIAL_LIE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } },
-          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } },
-          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') * 0.5" ] } }
+          { "value": "SOCIAL_LIE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] } },
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] } },
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] } }
         ]
       }
     ]
