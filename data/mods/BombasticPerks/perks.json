@@ -954,7 +954,7 @@
     "name": { "str": "Numb from the toxin" },
     "points": 0,
     "purifiable": false,
-    "description": "Poisons tend to make you feel numb.  When poisonned, feel 80% less pain.",
+    "description": "Poisons tend to make you feel numb.  When poisoned, feel 80% less pain.",
     "category": [ "perk" ],
     "enchantments": [
       {
