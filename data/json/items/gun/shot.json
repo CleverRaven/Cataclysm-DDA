@@ -855,7 +855,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
-    "id": "tar_12p",
+    "id": "ar12_shotgun",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
     "type": "GUN",
@@ -866,13 +866,28 @@
       {
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
-        "description": "Not related to soviet weapon designer Tokarev, this turkish shotgun uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize shotgun magazines of different sizes."
-      }
+        "description": "Not related to soviet weapon designer Tokarev, this turkish shotgun uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr80",
+        "name": { "str": "VR 80" },
+        "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
+      },
+      {
+        "id": "boss25",
+        "name": { "str": "BOSS 25" },
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      { "id": "ar12s", "name": { "str": "AR-12S" }, "description": "Creatred by Charles Daly." },
+      { "id": "ar12a", "name": { "str": "AR-12A" }, "description": "Charles Daly." },
+      { "id": "gf25", "name": { "str": "GF25" }, "description": "GForce Arms." },
+      { "id": "mka1919", "name": { "str": "MKA 1919" }, "description": "Akdal Arms." },
+      { "id": "krx", "name": { "str": "KRX" }, "description": "TriStar Arms." },
+      { "id": "vr60", "name": { "str": "VR60" }, "description": "Rock Island Armory." }
     ],
-    "weight": "3071 g",
-    "//": "3401 g - 330 g of magazine",
-    "volume": "7020 ml",
-    "longest_side": "958 mm",
+    "weight": "3335 g",
+    "volume": "3443 ml",
+    "longest_side": "990 mm",
     "barrel_length": "469 mm",
     "price": "320 USD",
     "price_postapoc": "12 USD",
@@ -892,7 +907,52 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_10", "mka_1919_20" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "gfy_1",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "bullpup shotgun" },
+    "description": "Curious magazine-fed shotgun, made using bullpup scheme.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "gfy_1",
+        "name": { "str": "GFY-1" },
+        "description": "Work of GForce Arms, this curious bullpup shotgun is compact, familar to any rifleman, and can use standard MKA 1919 magazines."
+      },
+      {
+        "id": "bp12",
+        "name": { "str": "BP-12" },
+        "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept variety of MKA 1919 magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "3443 ml",
+    "longest_side": "723 mm",
+    "barrel_length": "469 mm",
+    "price": "325 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
     "melee_damage": { "bash": 9 }
   },
   {

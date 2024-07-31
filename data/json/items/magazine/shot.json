@@ -282,6 +282,32 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },
   {
+    "id": "mka_1919_5",
+    "copy-from": "mka_1919_10",
+    "type": "MAGAZINE",
+    "name": { "str": "shotgun 5-round magazine" },
+    "description": "5-round box magazine for rifle-like magazine-fed shotguns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mka_1919_5",
+        "name": { "str": "MKA 1919 5-round magazine" },
+        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is a box shaped, and can hold 5 shots."
+      }
+    ],
+    "weight": "313 g",
+    "volume": "430 ml",
+    "longest_side": "156 mm",
+    "price": "27 USD",
+    "price_postapoc": "1 USD",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_COMPACT" ],
+    "material": [ "lc_steel", "plastic" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+  },
+  {
     "id": "mka_1919_10",
     "type": "MAGAZINE",
     "name": { "str": "shotgun 10-round magazine" },
