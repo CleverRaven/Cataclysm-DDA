@@ -322,6 +322,7 @@
     "special_attacks": [
       {
         "type": "gun",
+        "id": "g_launcher",
         "cooldown": 4,
         "move_cost": 150,
         "gun_type": "m320",
@@ -340,6 +341,7 @@
       },
       {
         "type": "gun",
+        "id": "rifle",
         "cooldown": 2,
         "move_cost": 150,
         "gun_type": "modular_m16_auto_rifle",
@@ -402,6 +404,7 @@
       [ "TAZER", 4 ],
       {
         "type": "gun",
+        "id": "g_launcher",
         "cooldown": 4,
         "move_cost": 150,
         "gun_type": "m320",
@@ -420,6 +423,7 @@
       },
       {
         "type": "gun",
+        "id": "rifle",
         "cooldown": 2,
         "move_cost": 150,
         "gun_type": "modular_m16_auto_rifle",
