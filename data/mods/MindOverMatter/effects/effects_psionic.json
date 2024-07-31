@@ -1338,12 +1338,9 @@
     "desc": [ "You are surrounded by flames." ],
     "apply_message": "",
     "remove_message": "The flames surrounding you gutter out.",
-    "decay_messages": [ [ "The flames around you spark fitfully.", "bad" ], [ "Your aura of flames is beginning to fade.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 31,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "enchantments": [ "enchant_pyrokinetic_aura" ]
   },
   {
