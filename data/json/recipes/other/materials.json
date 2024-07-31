@@ -60,6 +60,7 @@
     "difficulty": 1,
     "time": "10m",
     "autolearn": true,
+    "charges": 50,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "components": [ [ [ "pebble", 10 ] ] ]
   },
