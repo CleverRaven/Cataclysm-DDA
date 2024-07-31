@@ -2013,7 +2013,7 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     point_sm_ms l;
     const submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to process terrain at (%d,%d) of submap of (%d,%d,%d) but the submap is not loaded. my_MAPSIZE: %d",
+        debugmsg( "Tried to process terrain at (%d,%d) of submap of (%d,%d,%d) but the submap is not loaded.  my_MAPSIZE: %d",
                   l.x(), l.y(), p.x(), p.y(), p.z(), my_MAPSIZE );
         return ter_str_id::NULL_ID().id();
     }
