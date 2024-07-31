@@ -1616,7 +1616,7 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_peptone_broth",
     "category": "chems",
     "price": "1 cent",
@@ -1626,7 +1626,6 @@
     "color": "yellow",
     "container": "bottle_plastic_small",
     "description": "A pre-mixed salty solution of protein and sugar meant for bacteria to eat.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
