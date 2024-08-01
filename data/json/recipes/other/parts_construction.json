@@ -664,7 +664,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 m",
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 2 ] ],
     "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
