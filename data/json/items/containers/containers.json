@@ -149,7 +149,6 @@
   {
     "id": "bag_durasack_cement",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "durable plastic sack, cement" },
     "looks_like": "bag_plastic",
     "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
