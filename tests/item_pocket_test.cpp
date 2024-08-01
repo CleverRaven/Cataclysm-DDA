@@ -1729,7 +1729,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns_and_gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "modular_m4_carbine" );
+    item m4a1( "debug_modular_m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );
