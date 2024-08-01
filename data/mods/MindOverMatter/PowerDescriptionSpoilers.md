@@ -688,7 +688,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Heat nearby air to produce warmth. The spot chosen will shed heat for the duration of the power. Four different intensities are selectable: 6 degrees, 16 degrees, 40 degrees, and 75 degrees.<br />
 *Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7<br />
 
-## Blazing Aura
+## Blazing Aura (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 45 seconds to 3 minutes, plus 7 to 19 seconds per power level<br />
