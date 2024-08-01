@@ -786,11 +786,10 @@
         { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
         { "value": "DODGE_CHANCE", "add": 25 },
         { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
-      ],
-      "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ]
+      ]
     }
   ],
-  "flags": [ "TEMPORARY_SHAPESHIFT" ],
+  "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ],
   "override_look": { "id": "mon_darkman", "tile_category": "monster" }
 },
   {
@@ -835,7 +834,7 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "This person is now a renfield, a human obsessed with serving their vampire masters.  This obsession impedes their cognition as they struggle to thing about anything but serving said vampire masters.",
+    "description": "This person is now a renfield, a human obsessed with serving their vampire masters.  This obsession impedes their cognition as they struggle to think about anything but serving said vampire masters.",
     "mixed_effect": true,
     "starting_trait": false,
     "purifiable": false,

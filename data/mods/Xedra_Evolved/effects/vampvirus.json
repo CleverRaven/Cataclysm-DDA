@@ -302,7 +302,6 @@
           }
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_VAMPVIRUS3",
           "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
           "effect": {
@@ -337,7 +336,6 @@
           }
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_VAMPVIRUS4",
           "condition": { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
           "effect": {

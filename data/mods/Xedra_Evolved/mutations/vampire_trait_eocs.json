@@ -772,7 +772,7 @@
         "math": [
           "u_vampire_hypnotic_gaze_power_level",
           "=",
-          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits * 3.5) "
+          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits * 3.5)"
         ]
       },
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -1381,7 +1381,16 @@
     "condition": { "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "not": { "u_has_effect": "last_breath_mist_cooldown" }}, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] } ] },
     "effect": [
       "u_prevent_death",
-      { "run_eocs": [ "EOC_VAMPIRE_MIST_FORM_activated", "EOC_VAMPIRE_MIST_FORM_TRAIT_activated" ] },
+      { "run_eocs": [ "EOC_VAMPIRE_MIST_FORM_TRAIT_activated" ] },
+      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 30)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 30)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 30)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 30)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 30)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 30)" ] },
+      { "u_lose_effect": "downed" },
+      { "u_lose_effect": "stunned" },
+      { "math": [ "u_pain()", "-=", 500 ] },
       { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
       { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" },
@@ -1418,11 +1427,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLIND_THE_SUN",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "2000" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "2000" ] },
     "effect": [
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "3000" ] },
-      { "custom_light_level": 0, "length": [ { "math": [ "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270)" ] } ] },
-      { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the world in darkness for a short period of time.", "type": "good" }
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+      { "math": [ "sunless_time", "=", "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))" ] },
+      { "custom_light_level": 0, "length": [ { "math": [ "sunless_time * time(' 1 m')" ] }, { "math": [ "sunless_time * time(' 1 m')" ] } ] },
+      { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.", "type": "good" }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
   }
