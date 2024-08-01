@@ -6343,6 +6343,30 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     };
 }
 
+talk_effect_fun_t::func f_get_random_bodypart( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var type = get_str_or_var( jo.get_member( member ), member );
+    std::optional<var_info> target_var = read_var_info( jo.get_object( "target_var" ) );
+
+    return [is_npc, type, target_var]( dialogue & d ) {
+        Character *guy = d.actor( is_npc )->get_character();
+
+        if( guy ) {
+            if( type.evaluate( d ) == "ANY" ) {
+                std::string bp = guy->get_random_body_part().id().str();
+                write_var_value( target_var.value().type, target_var.value().name, &d, bp );
+                return;
+            } else {
+                std::string bp = guy->get_random_body_part_of_type( io::string_to_enum<body_part_type::type>
+                                 ( type.evaluate( d ) ) ).id().str();
+                write_var_value( target_var.value().type, target_var.value().name, &d, bp );
+                return;
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
