@@ -149,37 +149,37 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 {
 
     SECTION( "empty gun" ) {
-        item gun( "sw_610" );
+        item gun( "bond_410" );
 
         SECTION( "with one round" ) {
-            item ammo( "40sw" );
+            item ammo( "45colt_fmj" );
             test_reloading( gun, ammo );
         }
     }
 
     SECTION( "gun with casings and ammo" ) {
-        item gun( "sw_610" );
-        gun.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 3 ).set_flag( json_flag_CASING ),
+        item gun( "bond_410" );
+        gun.put_in( item( "45colt_fmj", calendar::turn, 3 ), pocket_type::MAGAZINE );
+        gun.force_insert_item( item( "45colt_casing", calendar::turn, 3 ).set_flag( json_flag_CASING ),
                                pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
-            item ammo( "40sw" );
+            item ammo( "45colt_fmj" );
             test_reloading( gun, ammo );
         }
 
         SECTION( "with large stack of rounds" ) {
-            item ammo( "40sw", calendar::turn, 500 );
+            item ammo( "45colt_fmj", calendar::turn, 500 );
             test_reloading( gun, ammo );
         }
 
         SECTION( "with one ammo of different type" ) {
-            item ammo( "bp_40sw" );
+            item ammo( "45colt_cowboy" );
             test_reloading( gun, ammo );
         }
 
         SECTION( "with one ammo of different ammo type" ) {
-            item ammo( "10mm_fmj" );
+            item ammo( "410shot_000" );
             test_reloading( gun, ammo, false );
         }
 
@@ -190,17 +190,17 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
     }
 
     SECTION( "full of casings" ) {
-        item gun( "sw_610" );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
+        item gun( "bond_410" );
+        gun.force_insert_item( item( "45colt_casing", calendar::turn, 2 ).set_flag( json_flag_CASING ),
                                pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
-            item ammo( "40sw" );
+            item ammo( "45colt_fmj" );
             test_reloading( gun, ammo );
         }
 
         SECTION( "with large stack of rounds" ) {
-            item ammo( "40sw", calendar::turn, 500 );
+            item ammo( "45colt_fmj", calendar::turn, 500 );
             test_reloading( gun, ammo );
         }
 
@@ -492,7 +492,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -502,7 +502,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -522,7 +522,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
     SECTION( "full gun" ) {
         item gun( "sw_610" );
-        gun.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
+        gun.put_in( item( "10mm_fmj", calendar::turn, 6 ), pocket_type::MAGAZINE );
         REQUIRE( gun.is_magazine_full() );
 
         SECTION( "empty speedloader" ) {
@@ -533,7 +533,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -543,7 +543,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -563,7 +563,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
     SECTION( "gun full of casings" ) {
         item gun( "sw_610" );
-        gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
+        gun.force_insert_item( item( "10mm_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
                                pocket_type::MAGAZINE );
 
         SECTION( "empty speedloader" ) {
@@ -574,7 +574,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -584,7 +584,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
+            speedloader.put_in( item( "10mm_fmj", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -777,7 +777,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", calendar::turn_zero ) );
 
-    item_location ammo = dummy.i_add( item( "40sw", calendar::turn_zero, item::default_charges_tag{} ) );
+    item_location ammo = dummy.i_add( item( "10mm_fmj", calendar::turn_zero, item::default_charges_tag{} ) );
     item_location gun = dummy.i_add( item( "sw_610", calendar::turn_zero, item::default_charges_tag{} ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
@@ -918,7 +918,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player armed with a revolver and ammo for it" ) {
-        item_location ammo = dummy.i_add( item( "40sw", calendar::turn_zero, 100 ) );
+        item_location ammo = dummy.i_add( item( "10mm_fmj", calendar::turn_zero, 100 ) );
         REQUIRE( ammo->is_ammo() );
 
         dummy.set_wielded_item( item( "sw_610", calendar::turn_zero, 0 ) );
