@@ -351,9 +351,12 @@
                   "effect": [
                     {
                       "u_roll_remainder": [
-
-
-
+                        "VAMPIRE_MASTER_MORTAL_MIND",
+                        "VAMPIRE_DISTILLATE_INNER_BLOOD",
+                        "VAMPIRE_SHADOW_FORM",
+                        "VAMPIRE_LAST_BREATH_MIST",
+                        "VAMPIRE_IRON_MIND",
+                        "VAMPIRE_BLIND_THE_SUN"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],

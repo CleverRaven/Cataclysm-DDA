@@ -171,7 +171,13 @@
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
-        "u_roll_remainder": [ "VAMPIRE4" ],
+        "u_roll_remainder": [ 
+          "VAMPIRE_MASTER_MORTAL_MIND",
+          "VAMPIRE_DISTILLATE_INNER_BLOOD",
+          "VAMPIRE_SHADOW_FORM",
+          "VAMPIRE_LAST_BREATH_MIST",
+          "VAMPIRE_IRON_MIND",
+          "VAMPIRE_BLIND_THE_SUN" ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
         "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_04" ]

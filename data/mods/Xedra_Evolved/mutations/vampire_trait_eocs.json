@@ -1049,6 +1049,8 @@
             "id": "EOC_VAMPIRE_BAT_FORM_deactivated",
             "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
             "effect": [
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 },
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
@@ -1088,6 +1090,8 @@
             "id": "EOC_VAMPIRE_WOLF_FORM_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
             "effect": [
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
@@ -1136,6 +1140,8 @@
             "id": "EOC_VAMPIRE_MIST_FORM_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
             "effect": [
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
               { "u_add_trait": "VAMPIRE_MIST_FORM_TRAITS" },
@@ -1281,5 +1287,142 @@
         "type": "good"
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_vampire_no_gorge_issues",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "effect_vampire_no_gorge_issues", "intensity": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_SHADOW_FORM_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_SHADOW_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_SHADOW_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "500" ] },
+            "effect": [
+              { "run_eocs": "EOC_VAMPIRE_BAT_FORM_deactivated" },
+              { "run_eocs": "EOC_VAMPIRE_WOLF_FORM_deactivated" },
+              { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_BAT_FORM_deactivate_future", "time_in_future": 0 },
+              { "queue_eocs": "EOC_VAMPIRE_WOLF_FORM_deactivate_future", "time_in_future": 0 },
+              { "queue_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "800" ] },
+              { "u_add_trait": "VAMPIRE_SHADOW_FORM_TRAITS" },
+              {
+                "u_message": "Shadows surround you until only your now-glowing eyes remain visible.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to shroud yourself in shadow.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_SHADOW_FORM_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_SHADOW_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "Your eyes stop glowing and the shadows surrounding you dissipate.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_SHADOW_FORM_TRAITS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_SHADOW_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_SHADOW_FORM_BLOOD_COST",
+    "recurrence": [ "1 s", "1 s" ],
+    "condition": { "u_has_trait": "VAMPIRE_SHADOW_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_SHADOW_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_SHADOW_FORM_BLOOD_COST_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "5" ] },
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain the shadows surrounding you.", "type": "bad" },
+              { "run_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_SHADOW_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_last_breath_mist",
+    "//": "This EOC is called when the player dies.  If the player has enough blood and this ability isn't in cooldown, it'll save their life and execute multiple effects.  If it can't trigger, the player dies as usual.",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "not": { "u_has_effect": "last_breath_mist_cooldown" }}, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] } ] },
+    "effect": [
+      "u_prevent_death",
+      { "run_eocs": [ "EOC_VAMPIRE_MIST_FORM_activated", "EOC_VAMPIRE_MIST_FORM_TRAIT_activated" ] },
+      { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
+      { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" },
+      {
+        "u_teleport": { "global_val": "last_breath_new_pos" },
+        "force": true
+      },
+      {
+        "u_message": "As you are about to die, your body instinctively turns to mist before reappearing nearby with some of its wounds closed.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_MIST_FORM_TRAIT_activated",
+    "//": "Ensure the trait properly activates when the ability triggers",
+    "effect": { "u_activate_trait": "VAMPIRE_MIST_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIST_FORM_BEFORE_LAST_BREATH",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Makes gaining last breath's mist without knowing mist form grants mist form instead.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "VAMPIRE_LAST_BREATH_MIST", { "context_val": "trait" } ] },
+        { "not": { "u_has_trait": "VAMPIRE_MIST_FORM" } }
+      ]
+    },
+    "effect": [ { "u_lose_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "u_add_trait": "VAMPIRE_MIST_FORM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLIND_THE_SUN",
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "2000" ] },
+    "effect": [
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+      { "custom_light_level": 0, "length": [ { "math": [ "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270)" ] } ] },
+      { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the world in darkness for a short period of time.", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
   }
 ]
