@@ -6,7 +6,6 @@
     "name": { "str": "wrist-stunner" },
     "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
     "price": "7 kUSD 200 USD",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "color": "cyan",
     "range": 10,

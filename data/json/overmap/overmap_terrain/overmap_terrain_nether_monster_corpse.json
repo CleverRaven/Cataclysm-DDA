@@ -3,6 +3,7 @@
     "type": "overmap_terrain",
     "id": "corpse_surface",
     "name": "monster corpse",
+    "vision_levels": "natural_outcropping",
     "copy-from": "corpse_bowels_empty_edge",
     "flags": [ "RISK_HIGH", "REQUIRES_PREDECESSOR" ],
     "sym": "T"
@@ -17,6 +18,7 @@
       "corpse_bowels_lcorner",
       "corpse_bowels_empty_edge"
     ],
+    "vision_levels": "underground_dirt",
     "name": "monster corpse bowels",
     "sym": "O",
     "color": "light_red",
@@ -26,6 +28,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "corpse_bowels_mid" ],
+    "vision_levels": "underground_dirt",
     "name": "monster corpse bowels",
     "sym": "O",
     "color": "light_red",
@@ -54,6 +57,7 @@
     "type": "overmap_terrain",
     "id": "corpse_tentacle_surface_entry",
     "copy-from": "corpse_bowels_empty_edge",
+    "vision_levels": "natural_outcropping",
     "name": "monster corpse",
     "sym": "M",
     "color": "blue",

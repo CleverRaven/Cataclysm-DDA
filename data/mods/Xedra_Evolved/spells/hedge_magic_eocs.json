@@ -330,5 +330,147 @@
       { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
       { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER",
+    "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+    "effect": [
+      {
+        "u_message": "You drop the bark on the water and recite the words of the charm, and as you take your first step, the water feels firm under your feet.",
+        "type": "good"
+      },
+      { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on water or the charm will have no effect.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_hedge_walk_on_water" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
+            "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+            "effect": [
+              {
+                "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water')", "<=", "2" ] },
+                "then": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 2 } ],
+                "else": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 } ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
+              { "u_lose_effect": "effect_hedge_walk_on_water" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_walk_on_water" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESS_STEEL_WEAPON",
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [
+        { "material": "iron", "wielded_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_EFFECT",
+          "effect": [
+            { "npc_set_flag": "BLESSED_WEAPON" },
+            { "npc_set_flag": "HEDGE_ENCHANTED" },
+            {
+              "u_message": "You pass the weapon through the candleflame after rubbing the mixture of salt and herbs on it while slowly reciting the words of the charm, and when you have finished you feel a sense of surety while holding it",
+              "type": "good"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLESSED_WEAPON_ATTACKS",
+    "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits", "!=", "false" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLESSED_WEAPON_ATTACKS_2",
+            "condition": {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "ABERRATION" },
+                { "npc_has_species": "NETHER_EMANATION" },
+                { "npc_has_species": "HORROR" }
+              ]
+            },
+            "effect": [
+              { "npc_location_variable": { "context_val": "nether_hellbeast" } },
+              {
+                "u_cast_spell": { "id": "hedge_blessed_weapon_nether_damage" },
+                "loc": { "context_val": "nether_hellbeast" }
+              },
+              { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM",
+    "condition": { "u_has_wielded_with_flag": "HEDGE_ENCHANTED" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "HEDGE_ENCHANTED" ], "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS_CHECK_DAMAGE",
+            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null') * 0.90" ] },
+            "effect": [
+              { "npc_unset_flag": "BLESSED_WEAPON" },
+              { "npc_unset_flag": "HEDGE_ENCHANTED" },
+              { "u_message": "You no longer feel a sense of purity from your weapon", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

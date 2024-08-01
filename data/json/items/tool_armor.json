@@ -3324,7 +3324,6 @@
     "volume": "15 L",
     "price": "5 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -2,
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",

@@ -3496,6 +3496,12 @@ void unload_activity_actor::unload( Character &who, item_location &target )
                 it.on_contents_changed();
                 who.invalidate_weight_carried_cache();
                 handler.handle_by( who );
+                // Warning: the above call to `contents_change_handler::handle_by` will
+                // call `Character::handle_contents_changed`, which might invalidate items
+                // and item_locations. See description for `::handle_contents_changed`
+                // in character.h .
+                // Therefore, it is important that we don't use `target` or `it` after here.
+                break;
             }
         }
 
@@ -6642,6 +6648,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
+    if( !it ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
     item *used_tool = it->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );

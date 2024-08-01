@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_ravine",
+    "vision_levels": "always_full",
     "name": "ravine",
     "sym": ".",
     "color": "blue",

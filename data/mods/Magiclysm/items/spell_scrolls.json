@@ -742,6 +742,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_slow",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Slow", "str_pl": "Scrolls of Slow" },
+    "description": "This spell slows a single target greatly for its duration.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_slow" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_beam",
     "//": "Magus spell",
     "name": { "str": "Scroll of Mana Beam", "str_pl": "Scrolls of Mana Beam" },

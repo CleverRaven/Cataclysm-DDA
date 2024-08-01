@@ -382,8 +382,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
-    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
-    "prereqs2": [ "ELECTRICAL_FIELD" ],
+    "prereqs": [ "SYLPH_LIGHTNING_MELEE_ATTACKS" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
     "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
@@ -398,6 +397,36 @@
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_LIGHTNING_MELEE_ATTACKS",
+    "name": { "str": "Fulgurating Strikes" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
+    "prereqs2": [ "ELECTRICAL_FIELD" ],
+    "description": "At will, the Sylph may cause their attacks to carry a charge, whose power grows with their mastery of lightning.  Each attack costs mana while this trait is active.",
+    "category": [ "SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE",
+    "name": { "str": "Fulgurating Strikes Active" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.",
+    "category": [ "SYLPH" ],
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ "ench_sylph_fulgurating_strikes_basic", "ench_sylph_fulgurating_strikes_advanced" ]
   },
   {
     "type": "mutation",

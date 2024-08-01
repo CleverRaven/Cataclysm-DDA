@@ -4789,10 +4789,15 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
         }
     }
 
-    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
-                            &results_from_base_group ) );
-    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
-                            &results_from_mission_group ) );
+    while( results_from_base_group > 0 ) {
+        make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
+                                &results_from_base_group ) );
+    }
+
+    while( results_from_mission_group > 0 ) {
+        make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
+                                &results_from_mission_group ) );
+    }
 }
 
 void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
@@ -4989,7 +4994,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
 
     const oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
-    if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
+    if( must_see && overmap_buffer.seen( omt_tgt ) == om_vision_level::unseen ) {
         errors = true;
         popup( _( "You must be able to see the target that you select." ) );
     }

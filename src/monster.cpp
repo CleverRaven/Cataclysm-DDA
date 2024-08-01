@@ -2857,7 +2857,7 @@ void monster::die( Creature *nkiller )
     if( type->mdeath_effect.eoc.has_value() ) {
         //Not a hallucination, go process the death effects.
         if( type->mdeath_effect.eoc.value().is_valid() ) {
-            dialogue d( get_talker_for( *this ), nullptr );
+            dialogue d( killer == nullptr ? nullptr : get_talker_for( killer ), get_talker_for( *this ) );
             type->mdeath_effect.eoc.value()->activate( d );
         } else {
             debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );

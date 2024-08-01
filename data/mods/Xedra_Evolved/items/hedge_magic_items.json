@@ -112,7 +112,7 @@
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
-    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE", "HEDGE_ENCHANTED" ],
     "use_action": {
       "type": "transform",
       "need_charges": 1,
@@ -138,7 +138,7 @@
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
-    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
     "relic_data": {
@@ -173,7 +173,7 @@
     "material": "wool",
     "symbol": "*",
     "color": "green_green",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "HEDGE_ENCHANTED" ],
     "use_action": {
       "type": "place_trap",
       "trap": "tr_fae_snare",
@@ -196,7 +196,7 @@
     "fun": -5,
     "symbol": "q",
     "color": "blue",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "HEDGE_ENCHANTED" ],
     "phase": "solid",
     "use_action": {
       "type": "effect_on_conditions",
@@ -256,7 +256,7 @@
     "name": { "str": "bearskin talisman" },
     "copy-from": "item_hedge_turn_into_bear_off",
     "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",
-    "extend": { "flags": [ "NO_TAKEOFF", "SKINCHANGED" ] },
+    "extend": { "flags": [ "NO_TAKEOFF", "SKINCHANGED", "HEDGE_ENCHANTED" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Activate to remove the mantle and end the magic.",

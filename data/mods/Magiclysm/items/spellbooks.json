@@ -523,7 +523,15 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb", "magus_ranged_increase" ]
+      "spells": [
+        "phase_door",
+        "magus_escape",
+        "magus_haste",
+        "magus_slow",
+        "magus_slowfall",
+        "magus_spiderclimb",
+        "magus_ranged_increase"
+      ]
     }
   },
   {

@@ -214,7 +214,6 @@
     "material": [ "stone" ],
     "weight": "2700 g",
     "volume": "1 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1200,8 +1199,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -1215,8 +1213,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1230,8 +1227,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1245,8 +1241,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "180 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1260,8 +1255,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1275,8 +1269,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1290,8 +1283,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1305,8 +1297,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1320,8 +1311,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1335,8 +1325,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1627,20 +1616,16 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_peptone_broth",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "name": { "str_sp": "peptone broth powder" },
+    "name": { "str_sp": "peptone water powder" },
     "symbol": ";",
-    "quench": -15,
-    "fun": -4,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "description": "A pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate, you could eat it too; it's not much different from cup noodle stock.",
-    "comestible_type": "INVALID",
+    "description": "A pre-mixed salty solution of protein and sugar meant for bacteria to eat.",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
