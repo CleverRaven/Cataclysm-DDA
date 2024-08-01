@@ -901,7 +901,7 @@
       {
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
-        "description": "Not related to soviet weapon designer Tokarev, this turkish shotgun uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+        "description": "Not related to soviet weapon designer Tokarev, this Turkish shotgun uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
@@ -916,7 +916,7 @@
       {
         "id": "ar12s",
         "name": { "str": "AR-12S" },
-        "description": "Creatred by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+        "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12a",
@@ -936,7 +936,7 @@
       {
         "id": "krx",
         "name": { "str": "KRX" },
-        "description": "Creatred by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+        "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr60",
