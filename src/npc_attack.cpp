@@ -312,7 +312,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         }
     } else if( source.mem_combat.formation_distance != -1 &&
                source.mem_combat.formation_distance <= target_distance &&
-               rng( -10, 10 ) > source.personality.aggression ) {
+               rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX ) > source.personality.aggression ) {
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
                        "<color_light_gray>%s decided to fall back to formation with allies.</color>", source.name );
         source.look_for_player( get_player_character() );
