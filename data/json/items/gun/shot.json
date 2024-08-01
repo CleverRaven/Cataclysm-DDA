@@ -525,6 +525,41 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
+    "id": "shotgun_triple",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": { "str": "triple barrel shotgun" },
+    "description": "Pretty modern-looking shotgun, that has three barrels.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "triple_honcho",
+        "name": { "str": "Triple Honcho" },
+        "description": "Made by Charles Daly, this modern three-barrel shotgun has a unique balance on how much it cost, and how little firepower it can release with it's 18.5 inch barrels.  Luckily you do not need to pay the full price for it anymore."
+      }
+    ],
+    "clip_size": 3,
+    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "weight": "2721 g",
+    "volume": "2926 ml",
+    "longest_side": "686 mm",
+    "barrel_length": "469 mm",
+    "price": "2000 USD",
+    "price_postapoc": "2 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 3 } } ]
+  },
+  {
     "id": "shotgun_s",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
@@ -878,12 +913,36 @@
         "name": { "str": "BOSS 25" },
         "description": "Manufactured in Turkey, this work of Farncolin Arms uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
-      { "id": "ar12s", "name": { "str": "AR-12S" }, "description": "Creatred by Charles Daly." },
-      { "id": "ar12a", "name": { "str": "AR-12A" }, "description": "Charles Daly." },
-      { "id": "gf25", "name": { "str": "GF25" }, "description": "GForce Arms." },
-      { "id": "mka1919", "name": { "str": "MKA 1919" }, "description": "Akdal Arms." },
-      { "id": "krx", "name": { "str": "KRX" }, "description": "TriStar Arms." },
-      { "id": "vr60", "name": { "str": "VR60" }, "description": "Rock Island Armory." }
+      {
+        "id": "ar12s",
+        "name": { "str": "AR-12S" },
+        "description": "Creatred by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "ar12a",
+        "name": { "str": "AR-12A" },
+        "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "gf25",
+        "name": { "str": "GF25" },
+        "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "mka1919",
+        "name": { "str": "MKA 1919" },
+        "description": "First of it's type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
+      },
+      {
+        "id": "krx",
+        "name": { "str": "KRX" },
+        "description": "Creatred by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr60",
+        "name": { "str": "VR60" },
+        "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
+      }
     ],
     "weight": "3335 g",
     "volume": "3443 ml",
