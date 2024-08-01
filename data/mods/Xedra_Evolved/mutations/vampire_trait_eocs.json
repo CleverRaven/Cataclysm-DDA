@@ -66,7 +66,8 @@
       { "math": [ "u_vampire_total_tier_one_traits", "=", "vampire_total_tier_one_traits()" ] },
       { "math": [ "u_vampire_total_tier_two_traits", "=", "vampire_total_tier_two_traits()" ] },
       { "math": [ "u_vampire_total_tier_three_traits", "=", "vampire_total_tier_three_traits()" ] },
-      { "math": [ "u_vampire_total_tier_four_traits", "=", "vampire_total_tier_four_traits_plus_potence()" ] }
+      { "math": [ "u_vampire_total_tier_four_traits", "=", "vampire_total_tier_four_traits_plus_potence()" ] },
+      { "math": [ "u_vampire_total_tier_five_traits", "=", "vampire_total_tier_five_traits()" ] }
     ]
   },
   {
@@ -88,7 +89,7 @@
                 "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350)  +        (vampire_total_tier_four_traits_plus_potence() * 500))"
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
                   ]
                 }
               }
@@ -142,7 +143,7 @@
                 "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350)  +        (vampire_total_tier_four_traits_plus_potence() * 500))"
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
                   ]
                 }
               }
@@ -176,7 +177,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits_plus_potence() * 400))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
                   ]
                 }
               }
@@ -230,7 +231,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) +        (vampire_total_tier_four_traits_plus_potence() * 400))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
                   ]
                 }
               }
@@ -264,7 +265,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits_plus_potence() * 400))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
                   ]
                 }
               }
@@ -318,7 +319,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits_plus_potence() * 400))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
                   ]
                 }
               }
@@ -361,7 +362,7 @@
         "math": [
           "u_val('stamina')",
           "+=",
-          "min((1500 + (vampire_total_tier_one_traits() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500)), 15000)"
+          "min((1500 + (vampire_total_tier_one_traits() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits() * 2000)), 15000)"
         ]
       }
     ],
@@ -403,7 +404,7 @@
                 "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125)  +        (vampire_total_tier_four_traits_plus_potence() * 200))"
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
                   ]
                 }
               }
@@ -457,7 +458,7 @@
                 "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125)  +        (vampire_total_tier_four_traits_plus_potence() * 200))"
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
                   ]
                 }
               }
@@ -483,42 +484,42 @@
         "math": [
           "u_hp('arm_l')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('arm_r')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('leg_l')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('leg_r')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('torso')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('head')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits_plus_potence() * 2.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
         ]
       }
     ],
@@ -543,7 +544,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits_plus_potence() * 30))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
                   ]
                 }
               }
@@ -597,7 +598,7 @@
                 "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits_plus_potence() * 30))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
                   ]
                 }
               }
@@ -621,7 +622,7 @@
         "math": [
           "u_vampire_fear_gaze_power_level",
           "=",
-          "(n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) "
+          "(n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) + (n_vampire_total_tier_five_traits * 3)"
         ]
       },
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -675,7 +676,7 @@
                 "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150)  +        (vampire_total_tier_four_traits_plus_potence() * 225))"
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
                   ]
                 }
               }
@@ -726,7 +727,7 @@
                 "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225))"
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
                   ]
                 }
               }
@@ -756,7 +757,7 @@
         "math": [
           "u_val('mana')",
           "+=",
-          "min((150 + (vampire_total_tier_one_traits() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150)), 1500)"
+          "min((150 + (vampire_total_tier_one_traits() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits() * 200)), 1500)"
         ]
       }
     ],
@@ -771,7 +772,7 @@
         "math": [
           "u_vampire_hypnotic_gaze_power_level",
           "=",
-          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) "
+          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits * 3.5) "
         ]
       },
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -805,7 +806,7 @@
                 "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
                   ]
                 }
               }
@@ -853,7 +854,7 @@
                 "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
                   ]
                 }
               }
@@ -971,7 +972,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits * 0.3)"
               ]
             }
           },
@@ -979,7 +980,7 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits * 0.3)"
               ]
             }
           },
