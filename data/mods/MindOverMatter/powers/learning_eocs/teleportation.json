@@ -1,0 +1,759 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_PHASE",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('teleport_blink')", ">=", "6" ] } ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_phase')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_phase" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_phase')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_phase" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could control your teleporting, traveling short distances without crossing the intervening space, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_STRIDE",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_phase')", ">=", "4" ] },
+                { "math": [ "u_spell_level('teleport_slow')", ">=", "6" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_stride')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_stride" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_stride')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_stride" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than expanding space, you could collapse it, making each of your steps cover a larger area of ground despite not moving any more quickly, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_TRANSPOSE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_displacement')", ">=", "5" ] },
+                { "math": [ "u_spell_level('teleport_stride')", ">=", "5" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_transpose')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_transpose" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_transpose" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could combine moving yourself and moving a target to swap places, moving them to your previous location while you take their place, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_DISPLACEMENT",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_phase')", ">=", "5" ] },
+                { "math": [ "u_spell_level('teleport_slow')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_displacement')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_displacement" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_displacement')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_displacement" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could teleport only your target, sending them somewhere nearby away from you, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_COLLAPSE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('teleport_slow')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('teleport_transpose')", ">=", "6" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('teleport_stride')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_collapse')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_collapse" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_collapse')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_collapse" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could warp space to such a degree that you could redirect your targets' movement, forcing them to travel toward a central point regardless of their intent, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_FARSTEP",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('teleport_stride')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('teleport_collapse')", ">=", "6" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('teleport_phase')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_farstep')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_farstep" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_farstep')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_farstep" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could travel much further distances, crossing dozens of meters in moments, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_BANISH",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('teleport_farstep')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('teleport_collapse')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('teleport_transpose')", ">=", "8" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('teleport_displacement')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_banish')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_banish" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_banish" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could send your target somewhere *else*, some other place far from you in the endless parade of realities, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_GATEWAY",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_stride')", ">=", "10" ] },
+                { "math": [ "u_spell_level('teleport_farstep')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_gateway')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_gateway" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_gateway" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Once you properly study a location so you're familiar enough with it, you could return there in moments even if you're fifty miles away, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_BREACH",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('teleport_displacement')", ">=", "12" ] },
+                    { "math": [ "u_spell_level('teleport_banish')", ">=", "7" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('teleport_gateway')", ">=", "6" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('teleport_breach')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_breach" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_breach')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_teleport_breach" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Just as you can send a target away from you, you could open up a portal to the Nether and allow some of its denizens to come through to Earth, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  }
+]

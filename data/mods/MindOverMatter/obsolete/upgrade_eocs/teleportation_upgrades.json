@@ -1,0 +1,87 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_TELEPORTER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "TELEPORTER" },
+    "effect": [ { "math": [ "u_teleportation_has_been_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_teleportation_has_been_updated", "!=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_teleportation_has_been_updated", "=", "1" ] },
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_PHASE",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_STRIDE",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_TRANSPOSE",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_DISPLACEMENT",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_COLLAPSE",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_FARSTEP",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_BANISH",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_GATEWAY",
+          "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_BREACH"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_PHASE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_STRIDE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_stride')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_stride" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_TRANSPOSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_transpose')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_transpose" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_DISPLACEMENT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_displacement')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_displacement" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_COLLAPSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_collapse')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_collapse" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_FARSTEP",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_farstep')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_farstep" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_BANISH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_banish')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_banish" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_GATEWAY",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPORTER_UPDATE_BREACH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_breach')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_teleport_breach" } ]
+  }
+]

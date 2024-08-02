@@ -22,19 +22,12 @@
     "max_range": 15,
     "range_increment": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 800,
-    "final_energy_cost": 250,
+    "base_energy_cost": 900,
+    "final_energy_cost": 350,
     "energy_increment": -55,
     "base_casting_time": 50,
-    "final_casting_time": 0,
-    "casting_time_increment": -4,
-    "learn_spells": {
-      "teleport_phase": 5,
-      "teleport_transpose": 8,
-      "teleport_farstep": 12,
-      "teleport_gateway": 18,
-      "teleport_area_attune": 18
-    }
+    "final_casting_time": 5,
+    "casting_time_increment": -3.5
   },
   {
     "id": "teleport_slow",
@@ -69,7 +62,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('teleport_slow') * 75) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_slow') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -79,8 +72,7 @@
     "base_casting_time": 80,
     "final_casting_time": 35,
     "casting_time_increment": -4.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_collapse": 7, "teleport_stride": 10, "teleport_displacement": 12, "teleport_banish": 18 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_phase",
@@ -106,12 +98,11 @@
     "max_range": 4,
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 1000,
+    "final_energy_cost": 1250,
     "energy_increment": -65,
     "base_casting_time": 65,
     "final_casting_time": 15,
-    "casting_time_increment": -3,
-    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 15, "teleport_area_attune": 15 }
+    "casting_time_increment": -3
   },
   {
     "id": "teleport_stride",
@@ -131,24 +122,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('teleport_stride') * 300) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_stride') * 1100) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('teleport_stride') * 400) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_stride') * 3700) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((2500 - (u_spell_level('teleport_stride') * 125)), 750)"
+        "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((3500 - (u_spell_level('teleport_stride') * 95)), 1750)"
       ]
     },
     "base_casting_time": {
       "math": [ "u_effect_intensity('effect_teleport_stride') > -1 ? 10 : max((85 -(u_spell_level('teleport_stride') * 7)), 25)" ]
-    },
-    "learn_spells": { "teleport_collapse": 6, "teleport_phase": 8, "teleport_farstep": 14 }
+    }
   },
   {
     "id": "teleport_transpose",
@@ -174,13 +164,12 @@
     "max_range": 80,
     "energy_source": "STAMINA",
     "base_energy_cost": 2750,
-    "final_energy_cost": 1250,
-    "energy_increment": -95,
-    "base_casting_time": 55,
-    "final_casting_time": 0,
-    "casting_time_increment": -2.75,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_displacement": 5, "teleport_stride": 7, "teleport_farstep": 9, "teleport_banish": 15 }
+    "final_energy_cost": 1500,
+    "energy_increment": -85,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_displacement",
@@ -193,24 +182,23 @@
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 5,
+    "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_teleporter_teleporting_damage",
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 1250,
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1750,
     "energy_increment": -65,
-    "base_casting_time": 75,
+    "base_casting_time": 95,
     "final_casting_time": 25,
-    "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_banish": 10 }
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_collapse",
@@ -229,20 +217,13 @@
     "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
     "shape": "blast",
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1500,
+    "base_energy_cost": 5500,
+    "final_energy_cost": 3000,
     "energy_increment": -75,
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": {
-      "teleport_displacement": 4,
-      "teleport_banish": 9,
-      "teleport_gateway": 12,
-      "teleport_area_attune": 12,
-      "teleport_summon": 15
-    }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_collapse_01",
@@ -548,13 +529,12 @@
     },
     "max_range": 80,
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 1750,
+    "base_energy_cost": 6500,
+    "final_energy_cost": 2750,
     "energy_increment": -105,
     "base_casting_time": 75,
     "final_casting_time": 30,
-    "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_area_attune": 9, "teleport_gateway": 9, "teleport_banish": 12 }
+    "casting_time_increment": -3
   },
   {
     "id": "teleport_banish",
@@ -590,13 +570,12 @@
     "max_range": 80,
     "energy_source": "STAMINA",
     "base_energy_cost": 7500,
-    "final_energy_cost": 3500,
-    "energy_increment": -200,
+    "final_energy_cost": 4600,
+    "energy_increment": -170,
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_summon": 7 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_gateway",
@@ -617,11 +596,10 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 6000,
-    "energy_increment": -300,
+    "energy_increment": -200,
     "base_casting_time": 200,
     "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "teleport_area_attune": 1, "teleport_banish": 6 }
+    "casting_time_increment": -5.5
   },
   {
     "id": "teleport_area_attune",
