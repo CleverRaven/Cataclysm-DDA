@@ -434,6 +434,11 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+// Used for quick setup
+static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+           trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+
 static std::string first_word( const std::string &str )
 {
     const size_t space_pos = str.find( ' ' );
@@ -443,7 +448,7 @@ static std::string first_word( const std::string &str )
     return str.substr( 0, space_pos );
 }
 
-static bool is_debug_character()
+bool is_debug_character()
 {
     static const std::unordered_set<std::string> debug_names = {
         "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
@@ -3606,6 +3611,27 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
+void do_debug_quick_setup()
+{
+    if( !debug_mode ) {
+        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
+        // Save a few keypresses.
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+    }
+    Character &u = get_avatar();
+    normalize_body( u );
+    // Specifically only adds mutations instead of toggling them.
+    u.set_mutations( setup_traits );
+    u.remove_weapon();
+    u.clear_worn();
+    item backpack( "debug_backpack" );
+    u.wear_item( backpack );
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+        u.set_skill_level( pair.first, 10 );
+    }
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -3646,11 +3672,6 @@ void debug()
     }
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
-
-    // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
-                                       trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-                                       trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -4100,23 +4121,7 @@ void debug()
         }
 
         case debug_menu_index::QUICK_SETUP: {
-            if( !debug_mode ) {
-                // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
-                // Save a few keypresses.
-                debug_mode = true;
-                debugmode::enabled_filters.clear();
-            }
-            Character &u = get_avatar();
-            normalize_body( u );
-            // Specifically only adds mutations instead of toggling them.
-            u.set_mutations( setup_traits );
-            u.remove_weapon();
-            u.clear_worn();
-            item backpack( "debug_backpack" );
-            u.wear_item( backpack );
-            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
-                u.set_skill_level( pair.first, 10 );
-            }
+            do_debug_quick_setup();
             break;
         }
 
