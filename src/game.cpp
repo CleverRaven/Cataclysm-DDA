@@ -80,6 +80,7 @@
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
@@ -1138,6 +1139,10 @@ bool game::start_game()
     get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
 
     effect_on_conditions::load_new_character( u );
+    if( debug_menu::is_debug_character() ) {
+        debug_menu::do_debug_quick_setup();
+        add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
+    }
     return true;
 }
 
