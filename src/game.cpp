@@ -5598,7 +5598,8 @@ bool game::npc_menu( npc &who )
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
                     !u.is_mounted(), 's', _( "Swap positions" ) );
-    amenu.addentry( push, (debug_mode || (!who.is_enemy() && !who.in_sleep_state())) && !who.is_mounted(), 'p', _("Push away"));
+    amenu.addentry( push, ( debug_mode || ( !who.is_enemy() && !who.in_sleep_state() ) ) &&
+                    !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( examine_status, true, 'e', _( "Examine status" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
