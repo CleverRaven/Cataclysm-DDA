@@ -174,12 +174,18 @@
       {
         "text": "And hopefully we won't ever be.  Anyway, now that introductions are over, let's talk about something else.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
-        "effect": { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" }
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
       },
       {
         "text": "That's true, though I do have some more scrabbling to do.  See you later.",
         "topic": "TALK_DONE",
-        "effect": { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" }
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
       }
     ]
   },
@@ -189,21 +195,51 @@
     "dynamic_line": "Yes, I made it myself.  It took a lot of effort, but you can see it's secure.  A spring, the wall to keep out any wandering wildlife, a garden.  I can live here until things settle down.  And if they never do, well, I have my little plot of the forest.",
     "responses": [
       {
-        "text": "And a lovely plot it is.  Anyway, let's talk about something else",
+        "text": "And a lovely plot it is.  Anyway, let's talk about something else.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
-        "effect": { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" }
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      },
+      {
+        "text": "Yeah, sure.  Hopefully you get left alone.  Can I ask you about something else?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
       }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_DRUID",
-    "dynamic_line": "*looks more closely at you.  \"You're a druid too?  I was worried there weren't any of us left, with how many people died in <the_cataclysm>.  It's good to see ",
+    "dynamic_line": "*looks more closely at you.  \"You're a druid too?  I was worried there weren't any of us left, with how many people died in <the_cataclysm>.  It's good to see not all of us went mad or died.  You're welcome to stay here as long as you like.",
     "responses": [
       {
-        "text": "And a lovely plot it is.  Anyway, let's talk about something else",
+        "text": "Thank you.  I appreciate that.",
         "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
-        "effect": { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" }
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+    "dynamic_line": {
+      "math": [ "time_since(n_player_met_druid_shifter)", ">=", "time('14 d')" ],
+      "yes": [ "Good to see you're still alive.", "Hey, good to see you." ],
+      "no": "Yes?"
+    },
+    "responses": [
+      {
+        "text": "Is there anything I can do for you?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MISSION_ONE",
+        "condition": { "math": [ "n_player_has_completed_mission_one", "!=", "1" ] }
       }
     ]
   }

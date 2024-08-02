@@ -815,8 +815,8 @@
     "type": "GENERIC",
     "copy-from": "q_staff",
     "name": { "str": "Druidic staff", "str_pl": "Druidic staves" },
-    "//": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
-    "description": "A staff looking more like a tree branch than a weapon, with runes carved into its full length.  It fills you with an invigorating sensation when out in the wilderness.  There are two Druid runes carved into the wood.",
+    "//": "Similar to the Magus staff, but not as useful as a melee weapon and with conditional mana regen.",
+    "description": "A staff looking more like a tree branch than a weapon, with runes carved into its full length and a few leaves still sprouting from the top.  It fills you with an invigorating sensation when out in the wilderness.  There are two Druid runes carved into the wood.",
     "weight": "1600 g",
     "volume": "1550 ml",
     "longest_side": "185 cm",
@@ -858,7 +858,7 @@
     "color": "geen",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
-    "melee_damage": { "bash": 34 }
+    "melee_damage": { "bash": 25 }
   },
   {
     "id": "rune_kelvinist_weapon",
