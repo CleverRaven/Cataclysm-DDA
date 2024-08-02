@@ -198,7 +198,7 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 }
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
       { "value": "CARRY_WEIGHT", "multiply": 0.8 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
