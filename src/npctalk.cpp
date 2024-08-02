@@ -6348,7 +6348,6 @@ talk_effect_fun_t::func f_get_random_bodypart( const JsonObject &jo, std::string
 {
     str_or_var type = get_str_or_var( jo.get_member( member ), member );
     std::optional<var_info> target_var = read_var_info( jo.get_object( "target_var" ) );
-
     return [is_npc, type, target_var]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
 
