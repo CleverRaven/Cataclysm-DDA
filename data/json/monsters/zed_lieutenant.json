@@ -505,7 +505,13 @@
     "category": "Shadow_Warnings_Snippets_early",
     "text": [
       "Even out here you can still see the burning cities lighting up the horizon.  What scares you most is not the gunshots you sometimes hear in the far distance, but the idea of what people keep shooting at.  Tonight you hear automatic gunfire winding down into single shots.\n\nJust what could make them shoot that much, all the way out here?",
-      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
+      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here.",
+      "You have a vague feeling of being watched.",
+      "Your ears perk up as something rustles, but it just turns out to be unnaturally withered and blackened vegetation you stepped on.  Wait, this can not have happened on its own.",
+      "The night feels longer than usual.",
+      "You suddenly yearn for a beautiful sunrise.",
+      "The wind faintly cries into the night.",
+      "The darkness makes you nervous."
     ]
   },
   {
@@ -514,7 +520,14 @@
     "text": [
       "The nights are mostly calm and lonely nowadays, but you could almost swear it's been getting darker since the Cataclysm.  Every once in a while you feel like the darkness is creeping up on you when you turn your back.",
       "The wind sure is howling tonight.  It almost sounds like something is out there.  Out here.  With you.",
-      "In the distance you think you saw something …skitter?  Crawl?  It didn't move like anything you've seen before.  Whatever it was, it's probably a bad idea to let it surprise you in unfamiliar terrain in the darkness."
+      "In the distance you think you saw something …skitter?  Crawl?  It didn't move like anything you've seen before.  Whatever it was, it's probably a bad idea to let it surprise you in unfamiliar terrain in the darkness.",
+      "You gut tells you that something is right around the corner.",
+      "You narrowly avoid stepping into a black tangle of withered, blackened vegetation.  A trail of weird soot leads away from it.",
+      "The night feels like it is dragging on for eternity.",
+      "You suddenly long for a bright and beautiful morning, almost as in desperation.",
+      "Suddenly, there are some vague, but threatening shapes in the distance you do not recognize.",
+      "For a moment, the wind picks up and whistles an eerie song.",
+      "The darkness makes you anxious."
     ]
   }
 ]
