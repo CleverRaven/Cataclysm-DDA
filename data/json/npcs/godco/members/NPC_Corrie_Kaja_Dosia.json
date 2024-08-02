@@ -40,7 +40,7 @@
     "id": "TALK_GODCO_Corrie_1",
     "dynamic_line": {
       "math": [ "n_val( 'npc_anger' )", ">=", "5" ],
-      "yes": "&Corrie briefly glances at you and shoots a glare. \"What do you want?\"",
+      "yes": "&Corrie briefly glances at you and shoots a glare.  \"What do you want?\"",
       "no": "Hey there, <name_g>.  Welcome to the losers club."
     },
     "responses": [
