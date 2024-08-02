@@ -2487,6 +2487,72 @@
     ]
   },
   {
+    "id": "SKYISLAND_bunker_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Construct: Climate Control",
+    "description": "Completing this mission will instantly enhance the bunker on your home island.\n\nCraft a Lukewarm Sphere from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_climatecontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_climatecontrol" },
+        {
+          "u_message": "The bunker is expansive, but it's too hot in summer and much too cold in winter.  A climate control system would make it a more comfortable place to rest when not on raids.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_bunker_temperature_adaptation", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_climatecontrol" },
+        { "run_eocs": "EOC_skyisland_build_climatecontrol" },
+        { "u_message": "Construction complete.  The bunker's temperature is now controlled.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_climatecontrol",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Lukewarm Sphere" },
+    "description": "This strange metaphysical artifact is used to build infrastructure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Climate Control",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_climatecontrol",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "BLOW_HOT_AIR", "level": 1 } ],
+    "components": [
+      [ [ "coat_winter", 1 ] ],
+      [ [ "down_blanket", 1 ] ],
+      [ [ "mask_ski", 1 ] ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "flag_swimsuit", 1 ], [ "trunks", 1 ], [ "bikini_bottom_short", 1 ], [ "bikini_bottom", 1 ] ],
+      [ [ "tshirt_cropped", 1 ] ],
+      [ [ "large_space_heater", 1 ] ],
+      [ [ "mountable_cooler", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_westroom1",
     "type": "mission_definition",
     "name": "Construct: West Room 1",
