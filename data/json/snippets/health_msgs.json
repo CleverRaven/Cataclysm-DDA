@@ -2,12 +2,12 @@
   {
     "type": "snippet",
     "category": "health_great",
-    "text": "You feel great!  It doesn't seem like wounds could even slow you down for more than a day."
+    "text": "You feel great! It doesn't seem like wounds could even slow you down for more than a day."
   },
   {
     "type": "snippet",
     "category": "health_great",
-    "text": "Within moments you're ready and up.  You don't feel like anything could stop you today!"
+    "text": "Within moments you're ready and up. You don't feel like anything could stop you today!"
   },
   {
     "type": "snippet",
@@ -22,7 +22,32 @@
   {
     "type": "snippet",
     "category": "health_great",
-    "text": "You're up and you feel fantastic.  No sickness is going to keep you down today!"
+    "text": "You're up and you feel fantastic. No sickness is going to keep you down today!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You wake up feeling invincible, ready to take on any challenge that comes your way."
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "Your body feels as light as a feather, every movement effortless and smooth."
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You wake up with a smile, knowing today is going to be a great day."
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "Strength and vitality surge through you, making you feel unstoppable."
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You feel a powerful sense of well-being, as if every cell in your body is thriving."
   },
   {
     "type": "snippet",
@@ -51,13 +76,38 @@
   },
   {
     "type": "snippet",
-    "category": "health_good",
-    "text": "You feel good.  Healthy living does seem to have some rewards."
+    "category": "health_very_good",
+    "text": "You feel refreshed and ready to start the day with enthusiasm."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "Your body feels rejuvenated, as if you've been given a new lease on life."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "You wake up feeling revitalized, your energy levels high and stable."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "Any lingering fatigue from yesterday has vanished, leaving you feeling strong and capable."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "You stretch and feel a wonderful sense of vitality coursing through your body."
   },
   {
     "type": "snippet",
     "category": "health_good",
-    "text": "Getting out of bed doesn't seem too hard today.  You could get used to this!"
+    "text": "You feel good. Healthy living does seem to have some rewards."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "Getting out of bed doesn't seem too hard today. You could get used to this!"
   },
   {
     "type": "snippet",
@@ -76,8 +126,33 @@
   },
   {
     "type": "snippet",
+    "category": "health_good",
+    "text": "You wake up feeling clear-headed and ready to tackle the day ahead."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "Your body feels responsive and agile, making movement a pleasure."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "You stretch and feel a pleasant sense of readiness in your muscles."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "You feel energized and alert, ready to face whatever the day throws at you."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "You wake up with a sense of purpose, feeling good about the day ahead."
+  },
+  {
+    "type": "snippet",
     "category": "health_bad",
-    "text": "You feel cruddy.  Maybe you should consider eating a bit healthier."
+    "text": "You feel cruddy. Maybe you should consider eating a bit healthier."
   },
   {
     "type": "snippet",
@@ -92,12 +167,37 @@
   {
     "type": "snippet",
     "category": "health_bad",
-    "text": "Your stomach gurgles.  It's probably nothing, but maybe you should look into eating something healthy."
+    "text": "Your stomach gurgles. It's probably nothing, but maybe you should look into eating something healthy."
   },
   {
     "type": "snippet",
     "category": "health_bad",
-    "text": "You struggle to awareness.  Being awake seems somewhat harder to reach today."
+    "text": "You struggle to awareness. Being awake seems somewhat harder to reach today."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You wake up feeling a bit off, as if something is not quite right."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "Your body feels sluggish, making every movement an effort."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You get up feeling like you didn't get enough rest, even if you slept for hours."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "There's a nagging discomfort in your body, making it hard to focus on anything else."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You feel a general sense of malaise, as if something is draining your energy."
   },
   {
     "type": "snippet",
@@ -126,6 +226,31 @@
   },
   {
     "type": "snippet",
+    "category": "health_very_bad",
+    "text": "You wake up feeling drained, as if you haven't slept at all."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Every movement feels like a chore, your muscles aching with every step."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "You feel a pervasive sense of exhaustion, making it hard to even think clearly."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Your body feels heavy and uncooperative, resisting every effort to get up."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "You wake up with a sense of dread, knowing today will be a struggle."
+  },
+  {
+    "type": "snippet",
     "category": "health_horrible",
     "text": "You get up feeling horrible, as if something was messing with your body."
   },
@@ -151,18 +276,103 @@
   },
   {
     "type": "snippet",
+    "category": "health_horrible",
+    "text": "You wake up feeling like you've been hit by a truck, every part of your body protesting."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "A deep, bone-weary exhaustion fills you, making it hard to even lift your head."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "You feel a persistent ache in your body, as if you were fighting off a severe illness."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "Every joint and muscle screams in protest as you try to get up."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "You wake up feeling completely depleted, with no energy to face the day."
+  },
+  {
+    "type": "snippet",
     "category": "empty_starving",
-    "text": "You're too weak to be hungry anymore.  Is this what starving to death feels like?"
+    "text": "You're too weak to be hungry anymore. Is this what starving to death feels like?"
+  },
+  {
+    "type": "snippet",
+    "category": "empty_starving",
+    "text": "Your body feels like it's eating itself from the inside out."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_starving",
+    "text": "Every movement feels like a monumental effort, your limbs trembling from weakness."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_starving",
+    "text": "You can't remember the last time you had a proper meal, and it's starting to take its toll."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_starving",
+    "text": "You feel a deep, gnawing emptiness in your stomach that never goes away."
   },
   {
     "type": "snippet",
     "category": "starving",
-    "text": "Even though you've eaten not too long ago you still feel drained of energy.  It will take more than that to get you back up."
+    "text": "Even though you've eaten not too long ago you still feel drained of energy. It will take more than that to get you back up."
+  },
+  {
+    "type": "snippet",
+    "category": "starving",
+    "text": "You feel like a bottomless pit, no amount of food seems to satisfy your hunger."
+  },
+  {
+    "type": "snippet",
+    "category": "starving",
+    "text": "Your body is crying out for nourishment, every cell feeling the lack of sustenance."
+  },
+  {
+    "type": "snippet",
+    "category": "starving",
+    "text": "You feel dizzy and lightheaded from the constant hunger."
+  },
+  {
+    "type": "snippet",
+    "category": "starving",
+    "text": "Your hands tremble as you try to find something, anything, to eat."
   },
   {
     "type": "snippet",
     "category": "empty_emaciated",
-    "text": "Your empty stomach gnaws at you.  You really need something to eat."
+    "text": "Your empty stomach gnaws at you. You really need something to eat."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_emaciated",
+    "text": "You feel like a shadow of your former self, your body wasting away."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_emaciated",
+    "text": "Every rib is visible, your skin stretched thin over your bones."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_emaciated",
+    "text": "You feel a deep, bone-deep weariness, as if your body is giving up."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_emaciated",
+    "text": "Your muscles are wasting away, leaving you feeling weak and frail."
   },
   {
     "type": "snippet",
@@ -171,8 +381,48 @@
   },
   {
     "type": "snippet",
+    "category": "emaciated",
+    "text": "Your body is little more than skin and bones."
+  },
+  {
+    "type": "snippet",
+    "category": "emaciated",
+    "text": "You feel a constant, gnawing hunger that never seems to go away."
+  },
+  {
+    "type": "snippet",
+    "category": "emaciated",
+    "text": "Every movement is an effort, your body weak and frail."
+  },
+  {
+    "type": "snippet",
+    "category": "emaciated",
+    "text": "You feel like you're wasting away, your body slowly consuming itself."
+  },
+  {
+    "type": "snippet",
     "category": "empty_malnutrition",
     "text": "You feel weak due to malnutrition."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_malnutrition",
+    "text": "Your body feels starved of essential nutrients, leaving you feeling weak and sick."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_malnutrition",
+    "text": "You feel a persistent ache in your bones, a sign of severe malnutrition."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_malnutrition",
+    "text": "Your skin is pale and sallow, a sign of your body's desperate need for nutrients."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_malnutrition",
+    "text": "You feel a constant sense of fatigue, your body struggling to function."
   },
   {
     "type": "snippet",
@@ -181,12 +431,72 @@
   },
   {
     "type": "snippet",
+    "category": "malnutrition",
+    "text": "You feel a persistent sense of hunger, even after eating."
+  },
+  {
+    "type": "snippet",
+    "category": "malnutrition",
+    "text": "Your body feels weak and frail, a sign of severe malnutrition."
+  },
+  {
+    "type": "snippet",
+    "category": "malnutrition",
+    "text": "You feel a constant sense of fatigue, your body struggling to function."
+  },
+  {
+    "type": "snippet",
+    "category": "malnutrition",
+    "text": "You feel a persistent ache in your bones, a sign of severe malnutrition."
+  },
+  {
+    "type": "snippet",
     "category": "empty_low_cal",
-    "text": "You've lost quite a bit of weight recently.  You might want to eat more food."
+    "text": "You've lost quite a bit of weight recently. You might want to eat more food."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_low_cal",
+    "text": "Your clothes hang loosely on your frame, a sign of your recent weight loss."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_low_cal",
+    "text": "You feel a persistent sense of fatigue, your body struggling to function."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_low_cal",
+    "text": "Your body feels weak and frail, a sign of your recent weight loss."
+  },
+  {
+    "type": "snippet",
+    "category": "empty_low_cal",
+    "text": "You feel a constant sense of hunger, your body desperate for calories."
   },
   {
     "type": "snippet",
     "category": "low_cal",
     "text": "You feel that you need to consume more calories."
+  },
+  {
+    "type": "snippet",
+    "category": "low_cal",
+    "text": "Your body feels weak and frail, a sign of your recent weight loss."
+  },
+  {
+    "type": "snippet",
+    "category": "low_cal",
+    "text": "You feel a persistent sense of fatigue, your body struggling to function."
+  },
+  {
+    "type": "snippet",
+    "category": "low_cal",
+    "text": "Your clothes hang loosely on your frame, a sign of your recent weight loss."
+  },
+  {
+    "type": "snippet",
+    "category": "low_cal",
+    "text": "You feel a constant sense of hunger, your body desperate for calories."
   }
 ]
