@@ -147,6 +147,26 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bag_durasack_cement",
+    "type": "GENERIC",
+    "name": { "str": "durable plastic sack, cement" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "//": "durasack woven polypropylene bags",
+    "copy-from": "bag_durasack",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Instructions on what to do with the contents of the bag.",
+      "effect_on_conditions": [ "EOC_CEMENT_INSTRUCTIONS" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CEMENT_INSTRUCTIONS",
+    "condition": { "and": [ { "u_has_trait": "ILLITERATE" }, { "not": "u_driving" } ] },
+    "effect": [ { "u_learn_recipe": "mortar_build" } ]
+  },
+  {
     "id": "bag_canvas",
     "type": "GENERIC",
     "category": "container",
