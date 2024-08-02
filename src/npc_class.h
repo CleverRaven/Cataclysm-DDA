@@ -75,6 +75,7 @@ class npc_class
         translation job_description;
 
         bool common = true;
+        double common_spawn_weight = 1;
 
         distribution bonus_str;
         distribution bonus_dex;
