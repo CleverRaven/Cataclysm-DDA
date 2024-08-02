@@ -794,7 +794,10 @@
     "difficulty": 1,
     "value": 0,
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ]
+      "effect": [
+        { "u_spawn_item": "icon", "count": 4 },
+        { "npc_add_var": "writing_manuscript", "type": "timer", "context": "trade", "time": true }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
