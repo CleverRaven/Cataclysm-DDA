@@ -528,14 +528,14 @@
     "id": "shotgun_triple",
     "copy-from": "shotgun_s",
     "type": "GUN",
-    "name": { "str": "triple barrel shotgun" },
-    "description": "Pretty modern-looking shotgun, that has three barrels.",
+    "name": { "str": "triple-barrelled shotgun" },
+    "description": "A pretty modern-looking shotgun that has three barrels.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "triple_honcho",
         "name": { "str": "Triple Honcho" },
-        "description": "Made by Charles Daly, this modern three-barrel shotgun has a unique balance on how much it cost, and how little firepower it can release with it's 18.5 inch barrels.  Luckily you do not need to pay the full price for it anymore."
+        "description": "Made by Charles Daly, this modern three-barrel shotgun had a unique balance between how much it cost and how little firepower it could release with its 18.5-inch barrels.  Luckily, you do not need to pay the full price for it anymore."
       }
     ],
     "clip_size": 3,
@@ -895,23 +895,23 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "rifle shotgun" },
-    "description": "Despite looking like a military-issued rifle, it is, in fact, a shotgun.  Accept variery of magazines.",
+    "description": "Despite looking like a military-issued rifle, this is, in fact, a shotgun.  It can accept a variety of magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
-        "description": "Not related to soviet weapon designer Tokarev, this Turkish shotgun uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilise MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
         "name": { "str": "VR 80" },
-        "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
+        "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
       },
       {
         "id": "boss25",
         "name": { "str": "BOSS 25" },
-        "description": "Manufactured in Turkey, this work of Farncolin Arms uses AR-12 shotgun platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilise MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",
