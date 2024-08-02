@@ -721,8 +721,8 @@ class talker
                                                bool, const std::vector<matec_id> & = {} ) const {
             return matec_id();
         }
-        virtual bodypart_id get_random_body_part_of_type(body_part_type::type /* part_type */) const; 
-        virtual bodypart_id get_random_body_part(bool /* main = false */) const;
+        virtual bodypart_id get_random_body_part_of_type( body_part_type::type part_type ) const;
+        virtual bodypart_id get_random_body_part( bool main = false ) const;
         virtual void learn_martial_art( const matype_id & ) const {}
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {
