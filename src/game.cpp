@@ -5631,8 +5631,8 @@ bool game::npc_menu( npc &who )
             add_msg( _( "You cannot swap places while grabbing something." ) );
         }
     } else if( choice == push ) {
-        if (!obeys) {
-            if (!query_yn(_(who.name + " may be upset by this. Continue?"))) {
+        if( !obeys ) {
+            if( !query_yn( _( who.name + " may be upset by this. Continue?" ) ) ) {
                 return true;
             }
             npc_opinion &attitude = who.op_of_u;
