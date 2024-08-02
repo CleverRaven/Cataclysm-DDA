@@ -1318,10 +1318,7 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "800" ] },
               { "u_add_trait": "VAMPIRE_SHADOW_FORM_TRAITS" },
-              {
-                "u_message": "Shadows surround you until only your now-glowing eyes remain visible.",
-                "type": "good"
-              }
+              { "u_message": "Shadows surround you until only your now-glowing eyes remain visible.", "type": "good" }
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to shroud yourself in shadow.", "type": "bad" },
@@ -1408,7 +1405,13 @@
     "id": "EOC_last_breath_mist",
     "//": "This EOC is called when the player dies.  If the player has enough blood and this ability isn't in cooldown, it'll save their life and execute multiple effects.  If it can't trigger, the player dies as usual.",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "not": { "u_has_effect": "last_breath_mist_cooldown" }}, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" },
+        { "not": { "u_has_effect": "last_breath_mist_cooldown" } },
+        { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] }
+      ]
+    },
     "effect": [
       "u_prevent_death",
       { "run_eocs": [ "EOC_VAMPIRE_MIST_FORM_TRAIT_activated" ] },
@@ -1424,10 +1427,7 @@
       { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
       { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" },
-      {
-        "u_teleport": { "global_val": "last_breath_new_pos" },
-        "force": true
-      },
+      { "u_teleport": { "global_val": "last_breath_new_pos" }, "force": true },
       {
         "u_message": "As you are about to die, your body instinctively turns to mist before reappearing nearby with some of its wounds closed.",
         "popup": true
@@ -1444,12 +1444,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MIST_FORM_BEFORE_LAST_BREATH",
     "//": "Makes gaining last breath's mist without knowing mist form grants mist form instead.",
-    "condition": {
-      "and": [ 
-        { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" },
-        { "not": { "u_has_trait": "VAMPIRE_MIST_FORM" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "not": { "u_has_trait": "VAMPIRE_MIST_FORM" } } ] },
     "effect": [ { "u_lose_trait": "VAMPIRE_LAST_BREATH_MIST" }, { "u_add_trait": "VAMPIRE_MIST_FORM" } ]
   },
   {
@@ -1457,33 +1452,37 @@
     "id": "EOC_VAMPIRE_BLIND_THE_SUN",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "2000" ] },
     "effect": {
-        "run_eocs": [
-          {
-            "id": "EOC_BLIND_THE_SUN_CHECK_FOR_STORM",
-            "condition": {
-              "or": [
-                { "is_weather": "portal_storm" },
-                { "is_weather": "early_portal_storm" }
+      "run_eocs": [
+        {
+          "id": "EOC_BLIND_THE_SUN_CHECK_FOR_STORM",
+          "condition": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "early_portal_storm" } ] },
+          "effect": [
+            {
+              "u_message": "You feel that the anomalous energies of the storm would do quick work of any darkness you could summon, so you decide to not attempt to blot out the sun for now.",
+              "type": "bad"
+            }
+          ],
+          "false_effect": [
+            { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+            {
+              "math": [
+                "sunless_time",
+                "=",
+                "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))"
               ]
             },
-            "effect": [
-              { "u_message": "You feel that the anomalous energies of the storm would do quick work of any darkness you could summon, so you decide to not attempt to blot out the sun for now.", "type": "bad" }
-            ],
-            "false_effect": [
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
-              { "math": [ "sunless_time", "=", "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))" ] },
-              { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
-              {
-                "queue_eocs": "EOC_UNBLOT_THE_SUN",
-                "time_in_future": { "math": [ "sunless_time" ] }
-              },
-              { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.", "type": "good" }
-            ]
-          }
-    ]
+            { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
+            { "queue_eocs": "EOC_UNBLOT_THE_SUN", "time_in_future": { "math": [ "sunless_time" ] } },
+            {
+              "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.",
+              "type": "good"
+            }
+          ]
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
   },
-  "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
-},
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOT_THE_SUN",

@@ -132,9 +132,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE4",
-    "effect": {
-      "u_message": "You can advance no further without more guidance from your mentor."
-    }
+    "effect": { "u_message": "You can advance no further without more guidance from your mentor." }
   },
   {
     "type": "effect_on_condition",

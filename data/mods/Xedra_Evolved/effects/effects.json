@@ -1954,6 +1954,8 @@
     "type": "effect_type",
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
-    "desc": [ "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet." ]
+    "desc": [
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+    ]
   }
 ]

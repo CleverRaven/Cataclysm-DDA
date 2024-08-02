@@ -765,33 +765,33 @@
     "activated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_deactivated" ]
   },
-{
-  "type": "mutation",
-  "id": "VAMPIRE_SHADOW_FORM_TRAITS",
-  "name": { "str": "Shadow Form" },
-  "points": 0,
-  "description": "You are shrouded in shadow.  This provides the actual effects of Shadow form.  Should not be player-visible.",
-  "starting_trait": false,
-  "purifiable": false,
-  "valid": false,
-  "player_display": false,
-  "enchantments": [
-    {
-      "condition": "ALWAYS",
-      "values": [
-        { "value": "SPEED", "multiply": 0.5 },
-        { "value": "STRENGTH", "add": 3 },
-        { "value": "DEXTERITY", "add": 3 },
-        { "value": "NIGHT_VIS", "add": 50 },
-        { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
-        { "value": "DODGE_CHANCE", "add": 15 },
-        { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
-      ]
-    }
-  ],
-  "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ],
-  "override_look": { "id": "mon_darkman", "tile_category": "monster" }
-},
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SHADOW_FORM_TRAITS",
+    "name": { "str": "Shadow Form" },
+    "points": 0,
+    "description": "You are shrouded in shadow.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "NIGHT_VIS", "add": 50 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
+          { "value": "DODGE_CHANCE", "add": 15 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ]
+      }
+    ],
+    "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ],
+    "override_look": { "id": "mon_darkman", "tile_category": "monster" }
+  },
   {
     "type": "mutation",
     "id": "VAMPIRE_LAST_BREATH_MIST",
