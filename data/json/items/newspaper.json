@@ -624,19 +624,21 @@
     "price_postapoc": "0 cent",
     "material": [ "paper", "wood" ],
     "flags": [ "TRADER_AVOID" ],
-	"variants": [
-       { "id": "hp_original",
-	   "name": { "str": "Picture" },
-	   "description": "<home_pictures>",
-	   "expand_snippets": true,
-	   "weight": 200
-	  },
-	  { "id": "hp_snippet_nested",
-	   "name": { "str": "Picture" },
-	   "description": "<hp_nested>",
-	   "expand_snippets": true,
-	   "weight": 800
-	  }
-	  ]
+    "variants": [
+      {
+        "id": "hp_original",
+        "name": { "str": "Picture" },
+        "description": "<home_pictures>",
+        "expand_snippets": true,
+        "weight": 200
+      },
+      {
+        "id": "hp_snippet_nested",
+        "name": { "str": "Picture" },
+        "description": "<hp_nested>",
+        "expand_snippets": true,
+        "weight": 800
+      }
+    ]
   }
 ]
