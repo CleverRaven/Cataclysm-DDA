@@ -1456,18 +1456,34 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLIND_THE_SUN",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "2000" ] },
-    "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
-      { "math": [ "sunless_time", "=", "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))" ] },
-      { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
-      {
-        "queue_eocs": "EOC_UNBLOT_THE_SUN",
-        "time_in_future": { "math": [ "sunless_time" ] }
-      },
-      { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.", "type": "good" }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
+    "effect": {
+        "run_eocs": [
+          {
+            "id": "EOC_BLIND_THE_SUN_CHECK_FOR_STORM",
+            "condition": {
+              "or": [
+                { "is_weather": "portal_storm" },
+                { "is_weather": "early_portal_storm" }
+              ]
+            },
+            "effect": [
+              { "u_message": "You feel that the anomalous energies of the storm would do quick work of any darkness you could summon, so you decide to not attempt to blot out the sun for now.", "type": "bad" }
+            ],
+            "false_effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
+              { "math": [ "sunless_time", "=", "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))" ] },
+              { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
+              {
+                "queue_eocs": "EOC_UNBLOT_THE_SUN",
+                "time_in_future": { "math": [ "sunless_time" ] }
+              },
+              { "u_message": "Using your mastery over the Shadowed Path, you blot out the sun, covering the region around you in darkness for a short period of time.", "type": "good" }
+            ]
+          }
+    ]
   },
+  "false_effect": [ { "u_message": "You don't have enough blood to blot out the sun.", "type": "bad" } ]
+},
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOT_THE_SUN",
