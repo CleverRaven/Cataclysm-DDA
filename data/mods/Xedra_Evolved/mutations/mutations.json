@@ -770,7 +770,7 @@
     "id": "VAMPIRE_SHADOW_FORM_TRAITS",
     "name": { "str": "Shadow Form" },
     "points": 0,
-    "description": "You are shrouded in shadow.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
