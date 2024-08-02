@@ -593,7 +593,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RATTLE", mattack::rattle );
     add_hardcoded_attack( "ACID", mattack::acid );
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
-    add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
     add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
@@ -601,7 +600,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
     add_hardcoded_attack( "RESURRECT", mattack::resurrect );
     add_hardcoded_attack( "SMASH", mattack::smash );
-    add_hardcoded_attack( "SCIENCE", mattack::science );
     add_hardcoded_attack( "GROWPLANTS", mattack::growplants );
     add_hardcoded_attack( "GROW_VINE", mattack::grow_vine );
     add_hardcoded_attack( "VINE", mattack::vine );
@@ -633,10 +631,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
     add_hardcoded_attack( "SPEAKER", mattack::speaker );
-    add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
-    add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
-    add_hardcoded_attack( "MULTI_ROBOT", mattack::multi_robot );
     add_hardcoded_attack( "RATKING", mattack::ratking );
     add_hardcoded_attack( "GENERATOR", mattack::generator );
     add_hardcoded_attack( "UPGRADE", mattack::upgrade );
@@ -664,9 +659,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );
     add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
-    add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
     add_hardcoded_attack( "DOOT", mattack::doot );
-    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
