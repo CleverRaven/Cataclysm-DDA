@@ -5639,7 +5639,7 @@ bool game::npc_menu( npc &who )
             attitude.anger += 3;
             attitude.trust -= 3;
             attitude.value -= 1;
-            who.form_opinion(u);
+            who.form_opinion( u );
 
         }
         // TODO: Make NPCs protest when displaced onto dangerous crap
