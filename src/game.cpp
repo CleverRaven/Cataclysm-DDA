@@ -1141,6 +1141,7 @@ bool game::start_game()
     effect_on_conditions::load_new_character( u );
     if( debug_menu::is_debug_character() ) {
         debug_menu::do_debug_quick_setup();
+        add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
     }
     return true;
 }

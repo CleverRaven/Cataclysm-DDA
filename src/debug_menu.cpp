@@ -457,6 +457,32 @@ bool is_debug_character()
            debug_names.count( first_word( world_generator->active_world->world_name ) );
 }
 
+static void prompt_or_do_map_reveal( int reveal_level = 0 )
+{
+    if( reveal_level == 0 ) {
+        uilist vis_sel;
+        vis_sel.text = _( "Reveal at which vision level?" );
+        for( int i = static_cast<int>( om_vision_level::unseen );
+             i < static_cast<int>( om_vision_level::last ); ++i ) {
+            vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+        }
+        vis_sel.query();
+        reveal_level = vis_sel.ret;
+        if( reveal_level == UILIST_CANCEL ) {
+            return;
+        }
+    }
+    overmap &cur_om = g->get_cur_om();
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( reveal_level ), true );
+            }
+        }
+    }
+    add_msg( m_good, _( "Current overmap revealed." ) );
+}
+
 static int player_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
@@ -3630,6 +3656,7 @@ void do_debug_quick_setup()
     for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         u.set_skill_level( pair.first, 10 );
     }
+    prompt_or_do_map_reveal( static_cast<int>( om_vision_level::full ) );
 }
 
 void debug()
@@ -3689,26 +3716,7 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
-            uilist vis_sel;
-            vis_sel.text = _( "Reveal at which vision level?" );
-            for( int i = static_cast<int>( om_vision_level::unseen );
-                 i < static_cast<int>( om_vision_level::last ); ++i ) {
-                vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
-            }
-            vis_sel.query();
-            int vis_ret = vis_sel.ret;
-            if( vis_ret == UILIST_CANCEL ) {
-                break;
-            }
-            overmap &cur_om = g->get_cur_om();
-            for( int i = 0; i < OMAPX; i++ ) {
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( vis_ret ), true );
-                    }
-                }
-            }
-            add_msg( m_good, _( "Current overmap revealed." ) );
+            prompt_or_do_map_reveal();
         }
         break;
 
