@@ -637,7 +637,7 @@
         "name": { "str": "Picture" },
         "description": "<hp_nested>",
         "expand_snippets": true,
-        "weight": 800
+        "weight": 40
       }
     ]
   }
