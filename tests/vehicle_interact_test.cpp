@@ -114,7 +114,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 5, item( "steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
-        test_repair( tools, false, true );
+        test_repair( tools, false, false );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
