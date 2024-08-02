@@ -135,6 +135,10 @@ Add TEMPORARY_SHAPESHIFT flag, use it to recalculate size before standard size f
 sunset/sunrise appreciation
 Add ITEM_WATERPROOFING flag, add to Magiclysm/XE content
 Make salvaged combat exoskeletons repairable
+Add persistent boomer bile effect that causes a stench and skin irritation
+Place_vending function can place unpowered machines
+Add option to make the bleeding of a pet stop
+Add different levels of vision to the overmap
 
 
 ## Content:
@@ -371,6 +375,9 @@ Add the 12-bit rainbow as color palette option
 NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
 Prevent automatically assigning keys to passive bionics
 Zone Manager: "Show All / Hide Distant" highlights selection
+Add sorting by amount and value/volume in advanced inventory search
+Addiction withdrawals are a toggleable distraction
+The filter is reset when you open the construction menu
 
 
 ## Mods:
@@ -572,6 +579,16 @@ Aftershock: Add a tool and gadget trader to Port Augustmoon.
 [Magiclysm] Add mana trait NPC trait groups
 [Xedra Evolved] Add Skinchanger profession + hedge magic spell
 Add more quests to Boann and the possibility to leave the world
+[Magiclysm] Artificer attunement passively recharges batteries in inventory
+Isolation protocol: Increase danger timer and remove sealed hallways from the mapgen pool.
+[Magiclysm] Add Slow Magus spell
+[Magiclysm] Vulcanists are immune to smoke and blistering
+[MoM] Add MUSCLE_VEH_BOOST flag to appropriate powers
+Document how spellcasting proficiencies work.
+[Magiclysm] Make the Artificer and Storm Elemental attunement innately immune to EMPs
+[Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
+[Bombastic Perks] Sword and sorcery-esque perks
+[XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
 
 
 ## Balance:
@@ -655,6 +672,7 @@ Science item group no longer littered with personal prescriptions
 more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
+Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
 
 
 ## Bugfixes:
@@ -864,6 +882,9 @@ Prevent the unique Isherwood Migo Tower from Spawning in Innawoods.
 [Bombastic Perks] Make perks unpurifiable
 bugfixes related to burning buildings
 Civilianize Semi Auto MP40
+Stop wasting dodge attempts on things you can't even see
+[MoM] Fix possibility of studying new powers concurrently.
+Wrong header restoring saved AIM layout
 
 
 ## Performance:

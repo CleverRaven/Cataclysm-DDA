@@ -269,6 +269,7 @@ Use the `Home` key to return to the top.
   - [`tiles-new`](#tiles-new)
 - [Obsoletion and migration](#obsoletion-and-migration)
 - [Field types](#field-types)
+  - [Emits](#emits)
   - [Immunity data](#immunity-data)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
@@ -3589,6 +3590,7 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+  "eoc": [ "EOC_CAUSE_PAIN", "EOC_CAUSE_VOMIT" ], // Runs EoC when hit the target. See EFFECT_ON_CONDITION.md#typical-alpha-and-beta-talkers-by-cases for more information
   "spell_data": { "id": "bear_trap" } // Spell, that would be casted when projectile hits an enemy
   "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, //another example
   "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.
@@ -4200,7 +4202,7 @@ Gun mods can be defined like this:
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
 "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ], // Optional field, alters the original pockets of the weapon ; share the syntax with pocket_data; pocket type MAGAZINE and MAGAZINE_WELL are always overwritten, pocket type CONTAINER is always added to existing pockets; for MAGAZINE and MAGAZINE_WELL both ammo_modifier and magazine_adaptor fields are required to correctly migrate ammo type; type: TOOLMOD can use this field also
-"damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
+"damage_modifier": { "damage_type": "bullet", "amount": -1 }, // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
@@ -6200,6 +6202,20 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       ]
     }
   }
+```
+
+## Emits
+Defines field emissions 
+
+```c++
+{
+  "id": "emit_rad_cloud", // id of emission
+  "type": "emit",         
+  "field": "fd_nuke_gas", // field, that would be emitted
+  "intensity": 3,         // intensity of the field to be emitted
+  "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
+  "chance": 50            // chance to emit one unit of field, from 1 to 100
+},
 ```
 
 ## Immunity data

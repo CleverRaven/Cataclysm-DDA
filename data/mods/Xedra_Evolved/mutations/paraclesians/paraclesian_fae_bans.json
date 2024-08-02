@@ -77,7 +77,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
-            { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+            { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
           ]
         }
       ]

@@ -897,6 +897,146 @@
   },
   {
     "type": "mutation",
+    "id": "perk_thickblood",
+    "name": { "str": "Thick-blooded" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your blood has always been thicker than most, making you lose less of it when bleeding.",
+    "category": [ "perk" ],
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_dream_armor",
+    "name": { "str": "Armor of dreams" },
+    "points": 0,
+    "purifiable": false,
+    "description": "People often say that they feel safer when they sleep, but in your case you are literally safer when asleep.  As long as you sleep, most attacks won't injure you.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": { "u_has_effect": "sleep" }, "values": [ { "value": "ARMOR_ALL", "add": -100 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_redrage",
+    "name": { "str": "Red rage" },
+    "points": 0,
+    "purifiable": false,
+    "description": "You hate the feeling of your blood leaking so much that it empowers you.  Deal more melee damage the more you are bleeding.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_peer_pressure",
+    "name": { "str": "Peer pressure" },
+    "points": 0,
+    "purifiable": false,
+    "description": "You know how to leverage your allies' presence when talking with others, granting you a small boost to lying, persuading and intimidating for each nearby ally.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] } },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] }
+          },
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_poison_painkill",
+    "name": { "str": "Numb from the toxin" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Poisons tend to make you feel numb.  When poisoned, feel 80% less pain.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_has_effect": "poison" },
+            { "u_has_effect": "venom_dmg" },
+            { "u_has_effect": "venom_weaken" },
+            { "u_has_effect": "badpoison" },
+            { "u_has_effect": "foodpoison" },
+            { "u_has_effect": "paralyzepoison" }
+          ]
+        },
+        "values": [ { "value": "PAIN", "multiply": -0.8 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_unopenable_grip",
+    "name": { "str": "Unopenable grip" },
+    "points": 0,
+    "purifiable": false,
+    "description": "After being stolen the things you held in your hands countless times, your grip became strong enough to keep anything in your hands as long as you will it.  Activate to toggle the ability to drop your held item.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_unopenable_grip" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_radio_infusion",
+    "name": { "str": "Radioactive infusion" },
+    "points": 0,
+    "purifiable": false,
+    "description": "You somehow learned to focus on an item to make it emit radiation forever.  You still have trouble understanding how this could ever be useful, but maybe you might find a use for it.  Activate to use.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_radio_infusion" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_speedballing",
+    "name": { "str": "Speedballing" },
+    "points": 0,
+    "purifiable": false,
+    "description": "You love the rush of taking different drugs at once, and now this rush is much more impactful than before.  You gain +3 speed for each recreational or combat-enhancing drug currently affecting you.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_flawless_memory",
+    "name": { "str": "Flawless memory" },
+    "points": 0,
+    "purifiable": false,
+    "description": "You cannot forget anything at all, ever.  This makes your skills rustproof, grant you the ability to memorize books for you to read in your head later and make you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SKILL_RUST_RESIST", "add": 100 } ] } ],
+    "integrated_armor": [ "integrated_memory" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_forge_blood",
+    "name": { "str": "Blood of the Forge" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Your blood might not be able to make weapons, but it still can make anything coated with sturdier but unable to be repaired.  Activate to use.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_forge_blood" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_portal_storm_mutator_bird",
     "name": { "str": "Stormwrought: Bird" },
     "points": 0,
