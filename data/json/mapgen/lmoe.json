@@ -70,7 +70,13 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "bunker_ext" ],
-      "place_nested": [ { "chunks": [ "null", "lmoe_solar" ], "x": 11, "y": 10 } ]
+      "place_nested": [
+        {
+          "chunks": [ [ "residential_1x2_solar", 3 ], [ "residential_2x2_solar", 1 ], [ "residential_1x3_solar", 2 ], [ "null", 94 ] ],
+          "x": 11,
+          "y": 10
+        }
+      ]
     }
   },
   {

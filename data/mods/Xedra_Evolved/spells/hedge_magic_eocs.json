@@ -384,5 +384,93 @@
       ]
     },
     "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESS_STEEL_WEAPON",
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [
+        { "material": "iron", "wielded_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_EFFECT",
+          "effect": [
+            { "npc_set_flag": "BLESSED_WEAPON" },
+            { "npc_set_flag": "HEDGE_ENCHANTED" },
+            {
+              "u_message": "You pass the weapon through the candleflame after rubbing the mixture of salt and herbs on it while slowly reciting the words of the charm, and when you have finished you feel a sense of surety while holding it",
+              "type": "good"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLESSED_WEAPON_ATTACKS",
+    "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits", "!=", "false" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLESSED_WEAPON_ATTACKS_2",
+            "condition": {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "ABERRATION" },
+                { "npc_has_species": "NETHER_EMANATION" },
+                { "npc_has_species": "HORROR" }
+              ]
+            },
+            "effect": [
+              { "npc_location_variable": { "context_val": "nether_hellbeast" } },
+              {
+                "u_cast_spell": { "id": "hedge_blessed_weapon_nether_damage" },
+                "loc": { "context_val": "nether_hellbeast" }
+              },
+              { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM",
+    "condition": { "u_has_wielded_with_flag": "HEDGE_ENCHANTED" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "HEDGE_ENCHANTED" ], "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS_CHECK_DAMAGE",
+            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null') * 0.90" ] },
+            "effect": [
+              { "npc_unset_flag": "BLESSED_WEAPON" },
+              { "npc_unset_flag": "HEDGE_ENCHANTED" },
+              { "u_message": "You no longer feel a sense of purity from your weapon", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

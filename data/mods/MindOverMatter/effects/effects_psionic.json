@@ -233,16 +233,10 @@
     "name": [ "Hardened Skin" ],
     "desc": [ "Your skin is more resilient thanks to psionic energy." ],
     "apply_message": "",
-    "remove_message": "The tingling fades away.",
-    "decay_messages": [
-      [ "The minor scratches you've gotten slowly start to ache as your powers fade.", "bad" ],
-      [ "The tingle across your skin is starting to lessen.", "bad" ]
-    ],
+    "remove_message": "The slight itching and waxiness in your skin fades away.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 62,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
     "enchantments": [
       {
@@ -490,7 +484,7 @@
         ]
       }
     ],
-    "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT", "UNCANNY_DODGE", "WATERWALKING", "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
@@ -963,12 +957,9 @@
     "desc": [ "Your body is filled with electrical currents." ],
     "apply_message": "",
     "remove_message": "The tingling on your skin fades.",
-    "decay_messages": [ [ "The protective electrical currents are nearly gone.", "bad" ], [ "Your skin is losing its charge.", "bad" ] ],
     "rating": "good",
-    "max_duration": "20 minutes",
+    "max_duration": "7 days",
     "max_intensity": 49,
-    "dur_add_perc": 10,
-    "int_dur_factor": "25 s",
     "enchantments": [ "enchant_electrokin_zap_enemies" ],
     "flags": [ "EMP_IMMUNE" ]
   },
@@ -979,12 +970,9 @@
     "desc": [ "Your melee attacks unleash electrical blasts." ],
     "apply_message": "",
     "remove_message": "Your hands no longer spark with electricity.",
-    "decay_messages": [ [ "The charge in your hands is nearly gone.", "bad" ], [ "The current in your hands is fading.", "bad" ] ],
     "rating": "good",
-    "max_duration": "20 minutes",
+    "max_duration": "7 days",
     "max_intensity": 73,
-    "dur_add_perc": 10,
-    "int_dur_factor": "17 s",
     "enchantments": [ "enchant_electrokin_electric_strikes" ]
   },
   {
@@ -1350,12 +1338,9 @@
     "desc": [ "You are surrounded by flames." ],
     "apply_message": "",
     "remove_message": "The flames surrounding you gutter out.",
-    "decay_messages": [ [ "The flames around you spark fitfully.", "bad" ], [ "Your aura of flames is beginning to fade.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 31,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "enchantments": [ "enchant_pyrokinetic_aura" ]
   },
   {

@@ -17,12 +17,14 @@
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -39,8 +41,8 @@
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "flag.h"
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -54,6 +56,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_tied( "tied" );
+
 
 static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
 static const flag_id json_flag_TACK( "TACK" );
@@ -92,6 +95,34 @@ void attach_saddle_to( monster &z )
     z.add_effect( effect_monster_saddled, 1_turns, true );
     z.tack_item = cata::make_value<item>( *loc.get_item() );
     loc.remove_item();
+}
+
+void bandage_animal( monster &z )
+{
+    if( !z.has_effect( effect_bleed ) ) {
+        return;
+    }
+    item_location wieldede_item = get_player_character().get_wielded_item();
+    if( !wieldede_item ) {
+        add_msg( _( "I need to have in hand something to stop the bleeding of %s" ), z.name() );
+        return;
+    }
+    const use_function *usage = wieldede_item.get_item()->type->get_use( "heal" );
+    if( usage == nullptr ) {
+        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
+                 wieldede_item.get_item()->display_name() );
+        return;
+    }
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( usage->get_actor_ptr() );
+    if( actor->bleed ) {
+        z.remove_effect( effect_bleed );
+        wieldede_item.remove_item();
+        add_msg( _( "The bleeding of %s stopped" ), z.name() );
+
+    } else {
+        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
+                 wieldede_item.get_item()->display_name() );
+    }
 }
 
 void remove_saddle_from( monster &z )
@@ -606,7 +637,8 @@ bool monexamine::pet_menu( monster &z )
         insert_bat,
         check_bat,
         attack,
-        talk_to
+        talk_to,
+        stop_bleeding
     };
 
     uilist amenu;
@@ -709,6 +741,9 @@ bool monexamine::pet_menu( monster &z )
     }
     if( !z.type->chat_topics.empty() ) {
         amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
+    }
+    if( z.has_effect( effect_bleed ) ) {
+        amenu.addentry( stop_bleeding, true, 'B', _( "Treat bleeding from %s" ), pet_name );
     }
     if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         if( z.has_flag( mon_flag_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
@@ -845,6 +880,9 @@ bool monexamine::pet_menu( monster &z )
         case talk_to:
             get_avatar().talk_to( get_talker_for( z ) );
             break;
+        case stop_bleeding:
+            bandage_animal( z );
+            break;
         default:
             break;
     }
@@ -932,7 +970,8 @@ bool monexamine::mfriend_menu( monster &z )
         push_monster,
         rename,
         attack,
-        talk_to
+        talk_to,
+        stop_bleeding
     };
 
     uilist amenu;
@@ -974,6 +1013,9 @@ bool monexamine::mfriend_menu( monster &z )
             break;
         case talk_to:
             get_avatar().talk_to( get_talker_for( z ) );
+            break;
+        case stop_bleeding:
+            bandage_animal( z );
             break;
         default:
             break;

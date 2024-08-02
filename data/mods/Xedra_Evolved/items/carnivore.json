@@ -66,23 +66,20 @@
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "id": "fae_blood",
     "name": { "str_sp": "fae blood" },
-    "weight": "2 g",
+    "weight": "260 g",
     "color": "cyan",
     "container": "flask_glass",
     "symbol": "~",
     "description": "Blood, from a specific part of the Nether.  Disgusting!",
     "price": "75 cent",
     "material": [ "fae_blood" ],
-    "volume": "1 ml",
+    "volume": "250 ml",
     "phase": "liquid",
-    "category": "fuel",
-    "ammo_type": "fae_blood",
-    "damage": { "damage_type": "stab", "amount": 0, "armor_penetration": 0 },
-    "range": 4,
-    "effects": [ "NEVER_MISFIRES" ]
+    "copy-from": "animal_blood"
   },
   {
     "id": "fae_meat_cooked",

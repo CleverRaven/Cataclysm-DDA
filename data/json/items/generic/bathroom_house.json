@@ -412,7 +412,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",

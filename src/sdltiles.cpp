@@ -659,11 +659,16 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
     return std::make_pair( tripoint_abs_omt( arr_pos ), mission_arrow_variant );
 }
 
-std::string cata_tiles::get_omt_id_rotation_and_subtile(
+std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
     const tripoint_abs_omt &omp, int &rota, int &subtile )
 {
     auto oter_at = []( const tripoint_abs_omt & p ) {
-        const oter_id &cur_ter = overmap_buffer.ter( p );
+        oter_id cur_ter = overmap_buffer.ter( p );
+        om_vision_level vision = overmap_buffer.seen( p );
+        if( cur_ter->blends_adjacent( vision ) ) {
+            oter_vision::blended_omt info = oter_vision::get_blended_omt_info( p, vision );
+            cur_ter = info.id;
+        }
 
         if( !uistate.overmap_show_forest_trails &&
             ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
@@ -705,7 +710,10 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         ot.get_rotation_and_subtile( rota, subtile );
     }
 
-    return ot_type_id.id().str();
+    om_vision_level vision = overmap_buffer.seen( omp );
+    std::string id = ot_id->get_tileset_id( vision );
+    bool is_omt = id.substr( 0, 3 ) == "om#";
+    return std::make_pair( id.substr( 3 ), is_omt );
 }
 
 static point draw_string( Font &font,
@@ -780,7 +788,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             you.overmap_sight_range( g->light_level( you.posz() ) ) :
+                             you.overmap_modified_sight_range( g->light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
     const bool show_map_revealed = uistate.overmap_show_revealed_omts;
@@ -797,9 +805,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = origin + point( col, row );
 
-            const bool see = overmap_buffer.seen( omp );
-            const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
-                                      you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
+            const om_vision_level vision = overmap_buffer.seen( omp );
+            const bool los = overmap_buffer.seen_more_than( omp, om_vision_level::details ) &&
+                             ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
+                               you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
             // the full string from the ter_id including _north etc.
             std::string id;
             TILE_CATEGORY category = TILE_CATEGORY::OVERMAP_TERRAIN;
@@ -816,11 +825,15 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 } else {
                     id = "unexplored_terrain";
                 }
-            } else if( !see ) {
+            } else if( vision == om_vision_level::unseen ) {
                 id = "unknown_terrain";
             } else {
-                id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                bool is_omt = false;
+                std::tie( id, is_omt ) = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
                 mx = overmap_buffer.extra( omp );
+                if( !is_omt ) {
+                    category = TILE_CATEGORY::OVERMAP_VISION_LEVEL;
+                }
             }
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
@@ -840,7 +853,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
-            if( see ) {
+            if( vision != om_vision_level::unseen ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
                     const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
                     if( !mgroups.empty() ) {
@@ -962,7 +975,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->global_omt_location();
-        if( guy_loc.z() == center_abs_omt.z() && ( has_debug_vision || overmap_buffer.seen( guy_loc ) ) ) {
+        if( guy_loc.z() == center_abs_omt.z() && ( has_debug_vision ||
+                overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
                                        height_3d );
         }
@@ -1029,7 +1043,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         for( const city_reference &city : overmap_buffer.get_cities_near(
                  project_to<coords::sm>( center_abs_omt ), radius ) ) {
             const tripoint_abs_omt city_center = project_to<coords::omt>( city.abs_sm_pos );
-            if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
+            if( overmap_buffer.seen_more_than( city_center, om_vision_level::outlines ) &&
+                overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
             }
         }
@@ -1037,7 +1052,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         for( const camp_reference &camp : overmap_buffer.get_camps_near(
                  project_to<coords::sm>( center_abs_omt ), radius ) ) {
             const tripoint_abs_omt camp_center = project_to<coords::omt>( camp.abs_sm_pos );
-            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
+            if( overmap_buffer.seen_more_than( camp_center, om_vision_level::outlines ) &&
+                overmap_area.contains( camp_center.raw() ) ) {
                 label_bg( camp.abs_sm_pos, camp.camp->name );
             }
         }
@@ -1060,7 +1076,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
+    if( has_debug_vision ||
+        overmap_buffer.seen_more_than( center_abs_omt, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
                 notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );

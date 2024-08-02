@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_roof_a0", "robofachq_roof_a3" ],
+    "vision_levels": "roof_or_air",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -18,6 +19,7 @@
       "robofachq_meteorology_roof2",
       "robofachq_meteorology_roof3"
     ],
+    "vision_levels": "large_building",
     "name": "meteorology station",
     "sym": "m",
     "color": "yellow",
@@ -26,16 +28,16 @@
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_surface_road0", "robofachq_surface_road1", "robofachq_surface_road2", "robofachq_surface_road3" ],
+    "copy-from": "road_abstract",
     "name": "meteorology station",
     "sym": "─",
-    "color": "dark_gray",
-    "see_cost": 1,
-    "travel_cost_type": "road"
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_rock", "robofachq_roof_e" ],
     "name": "A buggy non-place",
+    "vision_levels": "underground_stone",
     "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
@@ -102,6 +104,7 @@
       "robofachq_aiutl_b2",
       "robofachq_aiutl_b3"
     ],
+    "vision_levels": "large_building",
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
@@ -110,6 +113,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_parking",
+    "vision_levels": "large_pavement",
     "name": "hub 01 parking space",
     "sym": "0",
     "color": "light_blue",
@@ -118,6 +122,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_subcc_a0", "robofachq_subcc_a1", "robofachq_subcc_a2", "robofachq_subcc_a3" ],
+    "vision_levels": "underground_stone",
     "name": "subway C&C",
     "sym": "S",
     "color": "yellow",
@@ -126,6 +131,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
+    "vision_levels": "underground_stone",
     "name": "hidden terminal",
     "sym": "s",
     "color": "light_blue",

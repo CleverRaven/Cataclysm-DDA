@@ -196,13 +196,6 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_wolf_mutant_huge",
-    "type": "MONSTER",
-    "copy-from": "mon_wolf_mutant_huge",
-    "name": { "str": "dire wolf", "str_pl": "dire wolves" },
-    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
-  },
-  {
     "id": "mon_reindeer",
     "type": "MONSTER",
     "copy-from": "mon_reindeer",

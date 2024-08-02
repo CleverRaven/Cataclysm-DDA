@@ -2,6 +2,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_mansion_entrance",
+    "vision_levels": "large_building",
     "name": "mansion",
     "sym": "M",
     "color": "light_green",

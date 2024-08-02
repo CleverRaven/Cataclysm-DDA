@@ -158,7 +158,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_2",
-    "dynamic_line": "\"I'm puttering around, I always have stuff on the go.\"  Jenny rubs the bridge of her nose briefly, blinking fatigue from her eyes.  \"Gotta keep busy, keep my mind off stuff, you know?\"",
+    "dynamic_line": "I'm puttering around, I always have stuff on the go.\"  Jenny rubs the bridge of her nose briefly, blinking fatigue from her eyes.  \"Gotta keep busy, keep my mind off stuff, you know?",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -167,7 +167,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Background1",
-    "dynamic_line": "\"Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.\"  She tips back her head and lets out a long, wistful sigh.  \"I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.\"",
+    "dynamic_line": "Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.\"  She tips back her head and lets out a long, wistful sigh.  \"I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.",
     "responses": [
       {
         "text": "That's impressive, but there must be more to you than just your job.",
@@ -337,7 +337,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach2",
-    "dynamic_line": "\"All right, fine.\"  Jenny sets aside the computer and gets up.  \"Grab some tools and do as I tell you.\"",
+    "dynamic_line": "All right, fine.\"  Jenny sets aside the computer and gets up.  \"Grab some tools and do as I tell you.",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "knowledge_flag_Jenny_teach", "value": "yes" },
@@ -352,7 +352,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
-    "dynamic_line": "\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
+    "dynamic_line": "&\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
     "speaker_effect": { "effect": { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
@@ -368,9 +368,9 @@
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
         "no": "I recently came into possession of this mold for making high-caliber air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.  If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
-        "yes": "\"About a month ago, I got a mold for making high-caliber air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable.\""
+        "yes": "About a month ago, I got a mold for making high-caliber air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable."
       },
-      "yes": "\"Well, thanks to your help, I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable.\""
+      "yes": "Well, thanks to your help, I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable."
     },
     "responses": [
       {
@@ -395,7 +395,7 @@
     "id": "TALK_REFUGEE_JENNY_Project1_helped",
     "//": "The talk_response to lead here should be in TALK_REFUGEE_JENNY_Project1, and should have these components, saved here until we can check for the pneumatics proficiency in conditions: What do you need to know?  I'm pretty handy with pneumatic devices, I can probably help. 'u_add_var: Jenny_pneumatics value: mission_complete'.",
     "dynamic_line": {
-      "gendered_line": "\"Holy shit, what are the odds?  OK, stand back and hold on.\"  Jenny begins peppering you with questions, which you answer to the best of your ability.  She seems quite satisfied.  \"Well, I can't thank you enough,\" she smiles after a few minutes.  \"You probably just saved me weeks of reinventing the wheel.  Here, it's not much but it's all I've got.\"  She hands you a bundle of the local currency.",
+      "gendered_line": "&\"Holy shit, what are the odds?  OK, stand back and hold on.\"  Jenny begins peppering you with questions, which you answer to the best of your ability.  She seems quite satisfied.  \"Well, I can't thank you enough,\" she smiles after a few minutes.  \"You probably just saved me weeks of reinventing the wheel.  Here, it's not much but it's all I've got.\"  She hands you a bundle of the local currency.",
       "relevant_genders": [ "u" ]
     },
     "responses": [
@@ -410,7 +410,7 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
       "no": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
-      "yes": "\"They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need, even though it's for our own defense.\"  She grimaces.  \"Being one of the 'surface people' is so frustrating.  I'm pretty sure they talk about these decisions downstairs, behind our backs, and we're just not part of the process and can't advocate for our own projects.\""
+      "yes": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need, even though it's for our own defense.\"  She grimaces.  \"Being one of the 'surface people' is so frustrating.  I'm pretty sure they talk about these decisions downstairs, behind our backs, and we're just not part of the process and can't advocate for our own projects."
     },
     "responses": [
       {

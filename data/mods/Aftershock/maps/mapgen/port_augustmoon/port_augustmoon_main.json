@@ -305,9 +305,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "1": "t_metal_floor", "2": "t_metal_floor", "3": "t_metal_floor" },
       "vendingmachines": {
-        "1": { "item_group": "afs_vending_false_meals", "reinforced": true },
-        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true },
-        "3": { "item_group": "afs_vending_medicine", "reinforced": true }
+        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true },
+        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true },
+        "3": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true }
       }
     }
   },
@@ -346,9 +346,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "1": "t_metal_floor", "2": "t_metal_floor", "3": "t_metal_floor" },
       "vendingmachines": {
-        "1": { "item_group": "afs_vending_false_meals", "reinforced": true },
-        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true },
-        "3": { "item_group": "afs_vending_energy_ammo", "reinforced": true }
+        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true },
+        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true },
+        "3": { "item_group": "afs_vending_energy_ammo", "reinforced": true, "powered": true }
       }
     }
   },

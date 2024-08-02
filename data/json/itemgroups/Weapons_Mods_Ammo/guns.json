@@ -462,7 +462,7 @@
       { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
       { "item": "m1918", "prob": 30 },
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 45 },
+      { "group": "modular_m4a1", "prob": 45 },
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
@@ -844,16 +844,14 @@
         "prob": 40
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
         "prob": 8
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "m4_cqbr",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
@@ -918,16 +916,14 @@
       { "group": "ar15_223short", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap", "prob": 70 },
       { "group": "ar15_223long", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap", "prob": 40 },
       {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": 30,
         "contents-item": "shoulder_strap",
         "prob": 8
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "m4_cqbr",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": 30,
         "contents-item": "shoulder_strap",
@@ -1028,8 +1024,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1046,8 +1041,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1375,8 +1369,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1393,8 +1386,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",

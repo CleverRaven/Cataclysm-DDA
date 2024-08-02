@@ -94,7 +94,6 @@
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
-static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
 static const ammo_effect_str_id ammo_effect_JET( "JET" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
@@ -132,8 +131,6 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -144,13 +141,7 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_targeted( "targeted" );
 
-static const gun_mode_id gun_mode_AUTO( "AUTO" );
-
-static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
-static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
-static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
@@ -161,7 +152,6 @@ static const itype_id itype_bot_c4_hack( "bot_c4_hack" );
 static const itype_id itype_bot_flashbang_hack( "bot_flashbang_hack" );
 static const itype_id itype_bot_gasbomb_hack( "bot_gasbomb_hack" );
 static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
-static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -210,7 +200,6 @@ static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
 static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
 static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_triffid( "mon_triffid" );
@@ -221,10 +210,7 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
@@ -243,7 +229,6 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
-static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
@@ -320,25 +305,6 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
         }
         return false;
     }
-}
-
-static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
-{
-    npc tmp;
-    tmp.name = _( "The " ) + z->name();
-    tmp.set_fake( true );
-    tmp.recoil = 0;
-    tmp.setpos( z->pos() );
-    tmp.str_cur = str;
-    tmp.dex_cur = dex;
-    tmp.int_cur = inte;
-    tmp.per_cur = per;
-    if( z->friendly != 0 ) {
-        tmp.set_attitude( NPCATT_FOLLOW );
-    } else {
-        tmp.set_attitude( NPCATT_KILL );
-    }
-    return tmp;
 }
 
 bool mattack::none( monster * )
@@ -861,36 +827,6 @@ bool mattack::acid_barf( monster *z )
     return true;
 }
 
-bool mattack::acid_accurate( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-
-    const int range = rl_dist( z->pos(), target->pos() );
-    if( range > 10 || range < 2 || !z->sees( *target ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
-
-    projectile proj;
-    proj.speed = 10;
-    proj.range = 10;
-    proj.proj_effects.insert( ammo_effect_BLINDS_EYES );
-    proj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
-    proj.impact.add_damage( damage_acid, rng( 3, 5 ) );
-    // Make it arbitrarily less accurate at close ranges
-    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
-
-    return true;
-}
-
 bool mattack::shockstorm( monster *z )
 {
     if( !z->can_act() ) {
@@ -1400,189 +1336,6 @@ template <typename Container>
 size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
-}
-
-bool mattack::science( monster *const z ) // I said SCIENCE again!
-{
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constants and Configuration
-
-    // attack types
-    enum : int {
-        att_shock,
-        att_radiation,
-        att_manhack,
-        att_acid_pool,
-        att_flavor,
-        att_enum_size
-    };
-
-    // max distance that "science" can be applied to the target.
-    constexpr int max_distance = 5;
-
-    // attack movement costs
-    constexpr int att_cost_shock   = 0;
-    constexpr int att_cost_rad     = 400;
-    constexpr int att_cost_manhack = 200;
-    constexpr int att_cost_acid    = 100;
-    constexpr int att_cost_flavor  = 80;
-
-    // radiation attack behavior
-    // how hard it is to dodge
-    constexpr int att_rad_dodge_diff    = 16;
-    // min radiation
-    constexpr int att_rad_dose_min      = 20;
-    // max radiation
-    constexpr int att_rad_dose_max      = 50;
-
-    // acid attack behavior
-    constexpr int att_acid_intensity = 3;
-
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Look for a valid target...
-    Creature *const target = z->attack_target();
-    if( !target ) {
-        return false;
-    }
-
-    // too far
-    const int dist = rl_dist( z->pos(), target->pos() );
-    if( dist > max_distance ) {
-        return false;
-    }
-
-    // can't attack what you can't see
-    if( !z->sees( *target ) ) {
-        return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // okay, we have a valid target; populate valid attack options...
-    std::array<int, att_enum_size> valid_attacks;
-    size_t valid_attack_count = 0;
-
-    // can only shock if adjacent
-    if( dist == 1 ) {
-        valid_attacks[valid_attack_count++] = att_shock;
-    }
-
-    Character *const foe = dynamic_cast<Character *>( target );
-    if( foe && foe->is_avatar() && dist <= 2 ) {
-        valid_attacks[valid_attack_count++] = att_radiation;
-    }
-
-    // need an open space for these attacks
-    const auto empty_neighbors = find_empty_neighbors( *z );
-    const size_t empty_neighbor_count = empty_neighbors.second;
-
-    if( empty_neighbor_count ) {
-        if( z->ammo[itype_bot_manhack] > 0 ) {
-            valid_attacks[valid_attack_count++] = att_manhack;
-        }
-        valid_attacks[valid_attack_count++] = att_acid_pool;
-    }
-
-    // flavor is always okay
-    valid_attacks[valid_attack_count++] = att_flavor;
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // choose and do a valid attack
-    const int attack_index = get_random_index( valid_attack_count );
-    switch( valid_attacks[attack_index] ) {
-        default :
-            DebugLog( D_WARNING, D_GAME ) << "Bad enum value in science.";
-            break;
-        case att_shock :
-            z->mod_moves( -att_cost_shock );
-
-            // Just reuse the taze - it's a bit different (shocks torso vs all),
-            // but let's go for consistency here
-            taze( z, target );
-            break;
-        case att_radiation : {
-            z->mod_moves( -att_cost_rad );
-            add_msg_if_player_sees( *z, m_bad, _( "The %1$s fires a shimmering beam towards %2$s!" ),
-                                    z->name(), target->disp_name() );
-
-            // (1) Give the target a chance at an uncanny_dodge.
-            // (2) If that fails, always fail to dodge 1 in dodge_skill times.
-            // (3) If okay, dodge if dodge_skill > att_rad_dodge_diff.
-            // (4) Otherwise, fail 1 in (att_rad_dodge_diff - dodge_skill) times.
-            if( foe->uncanny_dodge() ) {
-                break;
-            }
-
-            const int  dodge_skill  = foe->get_dodge();
-            const bool critial_fail = one_in( dodge_skill );
-            const bool is_trivial   = dodge_skill > att_rad_dodge_diff;
-
-            ///\EFFECT_DODGE increases chance to avoid science effect
-            if( !critial_fail && ( is_trivial || dodge_skill > rng( 0, att_rad_dodge_diff ) ) ) {
-                target->add_msg_player_or_npc( _( "You dodge the beam!" ),
-                                               _( "<npcname> dodges the beam!" ) );
-            } else {
-                bool rad_proof = !foe->irradiate( rng( att_rad_dose_min, att_rad_dose_max ) );
-                if( rad_proof ) {
-                    target->add_msg_if_player( m_good, _( "Your armor protects you from the radiation!" ) );
-                } else {
-                    target->add_msg_if_player( m_bad, _( "You get pins and needles all over." ) );
-                }
-            }
-        }
-        break;
-        case att_manhack : {
-            z->mod_moves( -att_cost_manhack );
-            z->ammo[itype_bot_manhack]--;
-            add_msg_if_player_sees( *z, m_warning, _( "A manhack flies out of one of the holes on the %s!" ),
-                                    z->name() );
-
-            const tripoint where = empty_neighbors.first[get_random_index( empty_neighbor_count )];
-            if( monster *const manhack = g->place_critter_at( mon_manhack, where ) ) {
-                manhack->make_ally( *z );
-            }
-        }
-        break;
-        case att_acid_pool : {
-            z->mod_moves( -att_cost_acid );
-            add_msg_if_player_sees( *z, m_warning,
-                                    _( "The %s shudders, and some sort of caustic fluid leaks from a its damaged shell!" ),
-                                    z->name() );
-
-            map &here = get_map();
-            // fill empty tiles with acid
-            for( size_t i = 0; i < empty_neighbor_count; ++i ) {
-                const tripoint &p = empty_neighbors.first[i];
-                here.add_field( p, fd_acid, att_acid_intensity );
-            }
-        }
-        break;
-        case att_flavor : {
-            // flavor messages
-            static const std::array<std::string, 4> m_flavor = {{
-                    translate_marker( "The %s shudders, letting out an eery metallic whining noise!" ),
-                    translate_marker( "The %s scratches its long legs along the floor, shooting sparks." ),
-                    translate_marker( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),
-                    translate_marker( "The %s's combat arms crackle with electricity." ),
-                    //special case; leave the electricity last
-                }
-            };
-
-            const size_t i = get_random_index( m_flavor );
-
-            // the special case; see above
-            if( i == m_flavor.size() - 1 ) {
-                z->mod_moves( -att_cost_flavor );
-            }
-            add_msg_if_player_sees( *z, m_warning, _( m_flavor[i] ), z->name() );
-        }
-        break;
-    }
-
-    return true;
 }
 
 static bodypart_id body_part_hit_by_plant()
@@ -3173,169 +2926,6 @@ void mattack::taze( monster *z, Creature *target )
     target->check_dead_state();
 }
 
-void mattack::rifle( monster *z, Creature *target )
-{
-    const itype_id ammo_type = itype_556;
-    // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 3000 ) {
-        debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
-                  z->name() );
-        z->ammo[ammo_type] = 3000;
-    }
-
-    npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
-    tmp.set_skill_level( skill_rifle, 8 );
-    tmp.set_skill_level( skill_gun, 6 );
-    // No need to aim
-    tmp.recoil = 0;
-
-    if( target && target->is_avatar() ) {
-        if( !z->has_effect( effect_targeted ) ) {
-            sounds::sound( z->pos(), 8, sounds::sound_t::alarm, _( "beep-beep." ), false, "misc", "beep" );
-            z->add_effect( effect_targeted, 8_turns );
-            z->mod_moves( -to_moves<int>( 1_seconds ) );
-            return;
-        }
-    }
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    if( z->ammo[ammo_type] <= 0 ) {
-        if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ), false, "fire_gun", "empty" );
-        } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, sounds::sound_t::combat,  _( "boop!" ), false, "fire_gun", "empty" );
-        }
-        return;
-    }
-    add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
-
-    tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-
-    item_location weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
-
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
-
-    if( target && target->is_avatar() ) {
-        z->add_effect( effect_targeted, 3_turns );
-    }
-}
-
-void mattack::frag( monster *z, Creature *target ) // This is for the bots, not a standalone turret
-{
-    const itype_id ammo_type = itype_40x46mm_m433;
-    // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 200 ) {
-        debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
-                  z->name() );
-        z->ammo[ammo_type] = 200;
-    }
-
-    Character &player_character = get_player_character();
-    if( target && target->is_avatar() ) {
-        if( !z->has_effect( effect_targeted ) ) {
-            if( player_character.has_trait( trait_PROF_CHURL ) ) {
-                //~ Potential grenading detected.
-                add_msg( m_warning, _( "Thee eye o dat divil be upon me!" ) );
-            } else {
-                //~ Potential grenading detected.
-                add_msg( m_warning, _( "Those laser dots don't seem very friendly…" ) );
-            }
-            // Effect removed in game.cpp, duration doesn't much matter
-            player_character.add_effect( effect_laserlocked, 3_turns );
-            sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech, _( "Targeting." ),
-                           false, "speech", z->type->id.str() );
-            z->add_effect( effect_targeted, 5_turns );
-            z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-            // Should give some ability to get behind cover,
-            // even though it's patently unrealistic.
-            return;
-        }
-    }
-    npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
-    tmp.set_skill_level( skill_launcher, 8 );
-    tmp.set_skill_level( skill_gun, 6 );
-    // No need to aim
-    tmp.recoil = 0;
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    if( z->ammo[ammo_type] <= 0 ) {
-        if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ), false, "fire_gun", "empty" );
-        } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, sounds::sound_t::combat, _( "boop!" ), false, "fire_gun", "empty" );
-        }
-        return;
-    }
-    add_msg_if_player_sees( *z, m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
-
-    tmp.set_wielded_item( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item_location weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
-
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
-
-    if( target && target->is_avatar() ) {
-        z->add_effect( effect_targeted, 3_turns );
-    }
-}
-
-void mattack::tankgun( monster *z, Creature *target )
-{
-    const itype_id ammo_type = itype_120mm_HEAT;
-    // Make sure our ammo isn't weird.
-    if( z->ammo[ammo_type] > 40 ) {
-        debugmsg( "Generated too much ammo (%d) for %s in mattack::tankgun", z->ammo[ammo_type],
-                  z->name() );
-        z->ammo[ammo_type] = 40;
-    }
-
-    int dist = rl_dist( z->pos(), target->pos() );
-    if( dist > 50 ) {
-        return;
-    }
-
-    if( !z->has_effect( effect_targeted ) ) {
-        //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-        target->add_msg_if_player( m_warning, _( "You're not sure why you've got a laser dot on you…" ) );
-        //~ Sound of a tank turret swiveling into place
-        sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "whirrrrrclick." ), false, "misc",
-                       "servomotor" );
-        z->add_effect( effect_targeted, 1_minutes );
-        target->add_effect( effect_laserlocked, 1_minutes );
-        z->mod_moves( -to_moves<int>( 2_seconds ) );
-        // Should give some ability to get behind cover,
-        // even though it's patently unrealistic.
-        return;
-    }
-    // kevingranade KA101: yes, but make it really inaccurate
-    // Sure thing.
-    npc tmp = make_fake_npc( z, 12, 8, 8, 8 );
-    tmp.set_skill_level( skill_launcher, 1 );
-    tmp.set_skill_level( skill_gun, 1 );
-    // No need to aim
-    tmp.recoil = 0;
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    if( z->ammo[ammo_type] <= 0 ) {
-        if( one_in( 3 ) ) {
-            sounds::sound( z->pos(), 2, sounds::sound_t::combat, _( "a chk!" ), false, "fire_gun", "empty" );
-        } else if( one_in( 4 ) ) {
-            sounds::sound( z->pos(), 6, sounds::sound_t::combat, _( "clank!" ), false, "fire_gun", "empty" );
-        }
-        return;
-    }
-    add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
-    tmp.set_wielded_item( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item_location weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
-
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
-}
-
 bool mattack::searchlight( monster *z )
 {
 
@@ -3536,96 +3126,6 @@ bool mattack::searchlight( monster *z )
     return true;
 }
 
-bool mattack::flamethrower( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Character &player_character = get_player_character();
-    // TODO: that is always false!
-    if( z->friendly != 0 ) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        Creature *target = z->auto_find_hostile_target( 5, boo_hoo );
-        // Couldn't find any targets!
-        if( target == nullptr ) {
-            // Because that stupid oaf was in the way!
-            if( boo_hoo > 0 ) {
-                add_msg_if_player_sees( *z, m_warning,
-                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                   boo_hoo ),
-                                        z->name(), boo_hoo );
-            }
-            // Did reset before refactor, changed to match other turret behaviors
-            return false;
-        }
-        flame( z, target );
-        return true;
-    }
-
-    if( !within_visual_range( z, 5 ) ) {
-        return false;
-    }
-
-    flame( z, &player_character );
-
-    return true;
-}
-
-void mattack::flame( monster *z, Creature *target )
-{
-    int dist = rl_dist( z->pos(), target->pos() );
-    Character &player_character = get_player_character();
-    map &here = get_map();
-    if( target != &player_character ) {
-        // friendly
-        // It takes a while
-        z->mod_moves( -to_moves<int>( 5_seconds ) );
-        if( !here.sees( z->pos_bub(), target->pos_bub(), dist ) ) {
-            // shouldn't happen
-            debugmsg( "mattack::flame invoked on invisible target" );
-        }
-        std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
-
-        for( tripoint &i : traj ) {
-            // break out of attack if flame hits a wall
-            // TODO: Z
-            if( here.hit_with_fire( { i.x, i.y, z->posz() } ) ) {
-                add_msg_if_player_sees( i, _( "The tongue of flame hits the %s!" ),
-                                        here.tername( i.xy() ) );
-                return;
-            }
-            here.add_field( i, fd_fire, 1 );
-        }
-        target->add_effect( effect_onfire, 8_turns, bodypart_id( "torso" ) );
-
-        return;
-    }
-
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 5_seconds ) );
-    if( !here.sees( z->pos_bub(), target->pos_bub(), dist + 1 ) ) {
-        // shouldn't happen
-        debugmsg( "mattack::flame invoked on invisible target" );
-    }
-    std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
-
-    for( tripoint &i : traj ) {
-        // break out of attack if flame hits a wall
-        if( here.hit_with_fire( { i.x, i.y, z->posz() } ) ) {
-            add_msg_if_player_sees( i,  _( "The tongue of flame hits the %s!" ),
-                                    here.tername( i.xy() ) );
-            return;
-        }
-        here.add_field( i, fd_fire, 1 );
-    }
-    if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8_turns, bodypart_id( "torso" ) );
-    }
-}
-
 bool mattack::copbot( monster *z )
 {
     Creature *target = z->attack_target();
@@ -3671,168 +3171,6 @@ bool mattack::copbot( monster *z )
         z->anger = 1;
     } else {
         z->anger = z->type->agro;
-    }
-
-    return true;
-}
-
-bool mattack::chickenbot( monster *z )
-{
-    int mode = 0;
-    int boo_hoo = 0;
-    Creature *target;
-    Character &player_character = get_player_character();
-    if( z->friendly == 0 ) {
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return false;
-        }
-    } else {
-        target = z->auto_find_hostile_target( 38, boo_hoo );
-        if( target == nullptr ) {
-            if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
-                add_msg_if_player_sees( *z, m_warning,
-                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                   boo_hoo ),
-                                        z->name(), boo_hoo );
-            }
-            return false;
-        }
-    }
-
-    int cap = target->power_rating() - 1;
-    monster *mon = dynamic_cast< monster * >( target );
-    // Their attitude to us and not ours to them, so that bobcats won't get gunned down
-    // Only monster-types for now - assuming humans are smart enough not to make it obvious
-    // Unless damaged - then everything is hostile
-    if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::HOSTILE ) ) {
-        cap += 2;
-    }
-
-    int dist = rl_dist( z->pos(), target->pos() );
-    int player_dist = rl_dist( target->pos(), player_character.pos() );
-    if( dist == 1 && one_in( 2 ) ) {
-        // Use tazer at point-blank range, and even then, not continuously.
-        mode = 1;
-    } else if( ( z->friendly == 0 || player_dist >= 6 ) &&
-               // Avoid shooting near player if we're friendly.
-               ( dist >= 12 || ( player_character.in_vehicle && dist >= 6 ) ) ) {
-        // Only use at long range, unless player is in a vehicle, then tolerate closer targeting.
-        mode = 3;
-    } else if( dist >= 4 ) {
-        // Don't use machine gun at very close range, under the assumption that targets at that range can dodge?
-        mode = 2;
-    }
-
-    // No attacks were valid!
-    if( mode == 0 ) {
-        return false;
-    }
-
-    if( mode > cap ) {
-        mode = cap;
-    }
-    switch( mode ) {
-        case 0:
-        case 1:
-            // If we downgraded to taze, but are out of range, don't act.
-            if( dist <= 1 ) {
-                taze( z, target );
-            }
-            break;
-        case 2:
-            if( dist <= 20 ) {
-                rifle( z, target );
-            }
-            break;
-        case 3:
-            if( dist <= 38 ) {
-                frag( z, target );
-            }
-            break;
-        default:
-            // Weak stuff, shouldn't bother with
-            return false;
-    }
-
-    return true;
-}
-
-bool mattack::multi_robot( monster *z )
-{
-    int mode = 0;
-    int boo_hoo = 0;
-    Creature *target;
-    Character &player_character = get_player_character();
-    if( z->friendly == 0 ) {
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return false;
-        }
-    } else {
-        target = z->auto_find_hostile_target( 48, boo_hoo );
-        if( target == nullptr ) {
-            if( boo_hoo > 0 ) { // because that stupid oaf was in the way!
-                add_msg_if_player_sees( *z, m_warning,
-                                        n_gettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                                   "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                                   boo_hoo ),
-                                        z->name(), boo_hoo );
-            }
-            return false;
-        }
-    }
-
-    int cap = target->power_rating();
-    monster *mon = dynamic_cast< monster * >( target );
-    // Their attitude to us and not ours to them, so that bobcats won't get gunned down
-    // Only monster-types for now - assuming humans are smart enough not to make it obvious
-    // Unless damaged - then everything is hostile
-    if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::HOSTILE ) ) {
-        cap += 2;
-    }
-
-    int dist = rl_dist( z->pos(), target->pos() );
-    if( dist <= 15 ) {
-        mode = 1;
-    } else if( dist <= 30 ) {
-        mode = 2;
-    } else if( ( target && target->is_avatar() && player_character.in_vehicle ) ||
-               z->friendly != 0 || cap > 4 ) {
-        // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
-        // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist < 50 ) {
-            // Enforced max-range of 50.
-            mode = 5;
-            cap = 5;
-        }
-    }
-
-    // No attacks were valid!
-    if( mode == 0 ) {
-        return false;
-    }
-
-    if( mode > cap ) {
-        mode = cap;
-    }
-    switch( mode ) {
-        case 1:
-            if( dist <= 15 ) {
-                rifle( z, target );
-            }
-            break;
-        case 2:
-            if( dist <= 30 ) {
-                frag( z, target );
-            }
-            break;
-        default:
-            // Weak stuff, shouldn't bother with
-            return false;
     }
 
     return true;
@@ -5358,81 +4696,6 @@ bool mattack::grenadier_elite( monster *const z )
     return true;
 }
 
-bool mattack::stretch_attack( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-
-    int distance = rl_dist( z->pos(), target->pos() );
-    // Hack, only allow attacking above or below if the target is adjacent.
-    if( z->pos().z != target->pos().z ) {
-        distance += 2;
-    }
-    if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) );
-    map &here = get_map();
-    for( tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
-        if( here.impassable( pnt ) ) {
-            target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
-                                           _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
-                                           z->name(), here.obstacle_name( pnt ) );
-            return true;
-        }
-    }
-
-    game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
-                                   _( "The %s thrusts its arm at <npcname>." ),
-                                   z->name() );
-
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_stab, rng( 5, 10 ) );
-
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
-                                       _( "<npcname> evades the stretched arm!" ) );
-        target->on_dodge( z, z->type->melee_skill );
-        //takes some time to retract the arm
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s's arm pierces your %2$s!" ),
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s arm pierces <npcname>'s %2$s!" ),
-                                       z->name(),
-                                       body_part_name_accusative( hit ) );
-
-        target->check_dead_state();
-    } else {
-        target->add_msg_player_or_npc( _( "The %1$s arm hits your %2$s, but glances off your armor!" ),
-                                       _( "The %1$s hits <npcname>'s %2$s, but glances off armor!" ),
-                                       z->name(),
-                                       body_part_name_accusative( hit ) );
-    }
-
-    target->on_hit( z, hit,  z->type->melee_skill );
-
-    return true;
-}
-
 bool mattack::zombie_fuse( monster *z )
 {
     monster *critter = nullptr;
@@ -5501,89 +4764,5 @@ bool mattack::speaker( monster *z )
 {
     sounds::sound( z->pos(), 60, sounds::sound_t::order,
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
-    return true;
-}
-
-bool mattack::dsa_drone_scan( monster *z )
-{
-    z->mod_moves( -to_moves<int>( 1_seconds ) );
-    constexpr int scan_range = 30;
-    // Select a target: the avatar or a nearby NPC.  Must be visible and within scan range
-    Character *target = &get_player_character();
-    Character &you = get_player_character();
-    bool avatar_in_range = z->posz() == target->posz() && z->sees( target->pos() ) &&
-                           rl_dist( z->pos(), target->pos() ) <= scan_range;
-    const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-        // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return z->posz() == guy.posz() && z->sees( guy.pos() ) &&
-               rl_dist( z->pos(), guy.pos() ) <= scan_range;
-    } );
-    if( !avatar_in_range && available.empty() ) {
-        return true;
-    }
-    if( !available.empty() ) {
-        if( !avatar_in_range || x_in_y( available.size(), available.size() + 1 ) ) {
-            target = random_entry( available );
-        }
-    }
-    const std::string timestamp_str = "dsa_drone_scan_timestamp";
-    const std::string weapons_str = "dsa_drone_scan_weapons_count";
-
-    // only check for weapons once every 10 seconds by timestap variable
-    int weapons_count = 0;
-    bool summon_reinforcements = false;
-    if( !target->get_value( weapons_str ).empty() ) {
-        weapons_count = std::stoi( target->get_value( weapons_str ) );
-    }
-
-    if( !target->get_value( timestamp_str ).empty() ) {
-        time_point last_check( std::stoi( target->get_value( timestamp_str ) ) );
-        if( ( last_check + 10_seconds ) > calendar::turn ) {
-            return true;
-        }
-        // reset the weapons count if it has been more than an hour
-        if( ( last_check + 1_hours ) < calendar::turn ) {
-            weapons_count = 0;
-        }
-    }
-    target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
-    if( weapons_count < 3 ) {
-        const item_location weapon = target->get_wielded_item();
-        if( weapon && weapon->is_gun() ) {
-            const gun_type_type &guntype = weapon->gun_type();
-            if( guntype == gun_type_type( "rifle" ) ||
-                guntype == gun_type_type( "shotgun" ) ||
-                guntype == gun_type_type( "launcher" ) ) {
-                weapons_count += 2;
-            } else {
-                weapons_count += 1;
-            }
-        } else {
-            weapons_count += target->worn.worn_guns();
-        }
-        summon_reinforcements = weapons_count >= 3;
-    }
-    target->set_value( weapons_str, string_format( "%d", weapons_count ) );
-
-    if( you.sees( z->pos() ) ) {
-        target->add_msg_player_or_npc( _( "The %s shines its light at you." ),
-                                       _( "The %s shines its light at <npcname>." ),
-                                       z->name() );
-    }
-    std::string warning_signal = _( "a dull beep" );
-    if( weapons_count == 1 ) {
-        warning_signal = _( "an ominous hum" );
-    } else if( weapons_count == 2 ) {
-        warning_signal = _( "a threatening whirr" );
-    } else if( weapons_count >= 3 ) {
-        warning_signal = _( "a high-pitched shriek" );
-    }
-    warning_signal = string_format( _( "%s from the %s." ), warning_signal, z->name() );
-    sounds::sound( z->pos(), 15 + 10 * weapons_count, sounds::sound_t::alarm, warning_signal );
-    if( summon_reinforcements ) {
-        get_timed_events().add( timed_event_type::DSA_ALRP_SUMMON,
-                                calendar::turn + rng( 5_turns, 10_turns ),
-                                0, target->get_location() );
-    }
     return true;
 }

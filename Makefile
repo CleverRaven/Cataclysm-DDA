@@ -1330,7 +1330,7 @@ ctags: $(ASTYLE_SOURCES)
 
 etags: $(ASTYLE_SOURCES)
 	etags $^
-	./tools/json_tools/cddatags.py
+	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 ifneq ($(IS_WINDOWS_HOST),1)
 # Parallel astyle for posix hosts where fork and filesystem are cheap.
