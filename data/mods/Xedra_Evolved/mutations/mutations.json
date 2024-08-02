@@ -784,7 +784,7 @@
         { "value": "DEXTERITY", "add": 3 },
         { "value": "NIGHT_VIS", "add": 50 },
         { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
-        { "value": "DODGE_CHANCE", "add": 25 },
+        { "value": "DODGE_CHANCE", "add": 15 },
         { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
       ]
     }

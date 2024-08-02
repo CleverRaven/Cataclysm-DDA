@@ -139,7 +139,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SUCCESFUL_ROLL_REMAINDER",
-    "effect": { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+    "effect": [
+      { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." },
+      { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" }
+    ]
   },
   {
     "type": "effect_on_condition",
