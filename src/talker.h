@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
+#include "bodypart.h"
 #include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
@@ -23,6 +24,7 @@ class recipe;
 struct tripoint;
 class vehicle;
 struct mutation_variant;
+struct body_part_type;
 enum class get_body_part_flags;
 
 using bodytype_id = std::string;
