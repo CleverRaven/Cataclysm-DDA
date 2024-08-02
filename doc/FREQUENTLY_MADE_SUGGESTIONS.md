@@ -203,7 +203,7 @@ The damage melee weapons cause is a complex combination of dynamic leverage as t
 
 #### Mining and smelting: Not a Minecraft
 
-People lived here in New England for about 15000 years.  People mined here for about 8000 years.  When some territory is mined for this long, almost any exposed, easy-to-reach ores and minerals tend to exhaust, so the only option for mining companies is to dig deeper, harder, and use more and more complex tools, machines, and reagents in order to transform rocks into useful materials.  Tools, machines, and reagents that character has no way to obtain and use, but also, **because character has no point to use it**.
+People lived in New England for about 15000 years.  People mined here for about 8000 years.  When some territory is mined for this long, almost any exposed, easy-to-reach ores and minerals tend to exhaust, so the only option for mining companies is to dig deeper, harder, and use more and more complex tools, machines, and reagents in order to transform rocks into useful materials.  Tools, machines, and reagents that character has no way to obtain and use, but also, **because character has no point to use it**.
 
 Why would anyone sapient bother digging rocks and trying to convert them into steel, if they can just, you know, break a vehicle or some machine apart and get steel more pure than they would ever be able to reach otherwise? Why would anyone try to smelt stone to get some lead if they can just cut open the battery? Copper? Break into the substation, there is no electricity anyway.
 
