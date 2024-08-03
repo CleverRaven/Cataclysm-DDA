@@ -207,8 +207,8 @@
       "pressin",
       "cp33",
       "ruger_mk4",
-      "rough_rider",
-      "rought_rider_9"
+      "rough_rider_pistol",
+      "rought_rider_pistol_9"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
