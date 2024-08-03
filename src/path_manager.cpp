@@ -74,6 +74,13 @@ class path
          * Player stands at the end of the `recorded_path`.
          */
         bool player_at_end() const;
+        /**
+         * Return the index of the closest tile of `recorded_path` to the avatar.
+         *
+         * More precise the closer the closest tile is to the avatar.
+         * Always correctly finds, if the closest tile is under or next to the avatar.
+         */
+        int avatar_closest_i_approximate() const;
 
         void serialize( JsonOut &jsout );
         void deserialize( const JsonObject &jsin );
@@ -256,6 +263,32 @@ bool path::player_at_end() const
     return get_avatar().pos_bub() == get_map().bub_from_abs( recorded_path.back() );
 }
 
+int path::avatar_closest_i_approximate() const
+{
+    cata_assert( !recorded_path.empty() );
+    tripoint_abs_ms avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    // Check start and end so that the path is not further away than either of those.
+    int closest_i = recorded_path.size() - 1;
+    int closest_dist = square_dist( recorded_path.back(), avatar_pos );
+    if( closest_dist == 0 ) {
+        return closest_i;
+    }
+    for( auto it = recorded_path.begin(); it < recorded_path.end(); ) {
+        // Asuming the path tiles are at most (1, 1, 1) apart,
+        // we can skip as many tiles, as the curent tile is far from the `avatar_pos`.
+        int diff = square_dist( *it, avatar_pos );
+        if( diff < closest_dist ) {
+            closest_i = it - recorded_path.begin();
+            if( diff == 0 ) {
+                return closest_i;
+            }
+            closest_dist = diff;
+        }
+        it += diff;
+    }
+    return closest_i;
+}
+
 void path::serialize( JsonOut &jsout )
 {
     jsout.start_object();
@@ -436,7 +469,7 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "SWAP_START_END", pimpl->selected_id != -1 );
 
     ImGui::BeginChild( "table" );
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable ) ) {
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 6, ImGuiTableFlags_Resizable ) ) {
         return;
     }
     // TODO invlet
@@ -444,6 +477,7 @@ void path_manager_ui::draw_controls()
     ImGui::TableSetupColumn( _( "start distance" ) );
     ImGui::TableSetupColumn( _( "end name" ) );
     ImGui::TableSetupColumn( _( "end distance" ) );
+    ImGui::TableSetupColumn( _( "closest tile" ) );
     ImGui::TableSetupColumn( _( "total length" ) );
     ImGui::TableHeadersRow();
 
@@ -469,6 +503,9 @@ void path_manager_ui::draw_controls()
 
             ImGui::TableNextColumn();
             draw_distance_from_tile( curr_path.recorded_path.back() );
+
+            ImGui::TableNextColumn();
+            draw_distance_from_tile( curr_path.recorded_path[curr_path.avatar_closest_i_approximate()] );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
