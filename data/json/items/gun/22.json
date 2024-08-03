@@ -512,7 +512,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Rough Rider 6.5\"" },
+        "name": { "str_sp": "Heritage Rough Rider 6.5\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
       }
     ]
@@ -547,7 +547,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Rough Rider 9\"" },
+        "name": { "str_sp": "Heritage Rough Rider 9\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
       }
     ]
