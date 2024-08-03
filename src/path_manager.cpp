@@ -443,7 +443,7 @@ static void draw_distance_from_tile( const tripoint_abs_ms &tile )
 void path_manager_ui::draw_controls()
 {
     // general buttons
-    enabled_active_button( "WALK_PATH", true );
+    enabled_active_button( "WALK_PATH", pimpl->player_at_what_start_or_end() != -1 );
     ImGui::SameLine();
     enabled_active_button( "START_RECORDING", !pimpl->recording_path() );
     ImGui::SameLine();
@@ -545,7 +545,7 @@ void path_manager_ui::run()
             action = ctxt.handle_input( 17 );
         }
 
-        if( action == "WALK_PATH" ) {
+        if( action == "WALK_PATH" && pimpl->player_at_what_start_or_end() != -1 ) {
             pimpl->auto_route_from_path();
             break;
         } else if( action == "START_RECORDING" && !pimpl->recording_path() ) {
