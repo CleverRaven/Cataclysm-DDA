@@ -672,6 +672,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "glass_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_glass_freezer",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "90 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "display_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_display_freezer",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "90 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    }
+  },
+  {
+    "type": "vehicle_part",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "looks_like": "f_washer",
