@@ -396,6 +396,17 @@ void path_manager_ui::enabled_active_button( const std::string action, bool enab
     ImGui::EndDisabled();
 }
 
+static void draw_distance_from_tile( const tripoint_abs_ms &tile )
+{
+    const tripoint_abs_ms player_pos = get_map().getglobal( get_avatar().pos_bub() );
+    if( player_pos == tile ) {
+        cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
+    } else {
+        const std::string dist = direction_suffix( player_pos, tile );
+        cataimgui::draw_colored_text( dist, c_white );
+    }
+}
+
 void path_manager_ui::draw_controls()
 {
     // general buttons
@@ -451,23 +462,13 @@ void path_manager_ui::draw_controls()
             cataimgui::draw_colored_text( curr_path.name_start, c_white );
 
             ImGui::TableNextColumn();
-            if( curr_path.player_at_start() ) {
-                cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
-            } else {
-                std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
-                cataimgui::draw_colored_text( dist, c_white );
-            }
+            draw_distance_from_tile( curr_path.recorded_path.front() );
 
             ImGui::TableNextColumn();
             cataimgui::draw_colored_text( curr_path.name_end, c_white );
 
             ImGui::TableNextColumn();
-            if( curr_path.player_at_end() ) {
-                cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
-            } else {
-                std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
-                cataimgui::draw_colored_text( dist, c_white );
-            }
+            draw_distance_from_tile( curr_path.recorded_path.back() );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
