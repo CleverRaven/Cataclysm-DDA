@@ -642,13 +642,33 @@
     "type": "vehicle_part",
     "id": "chest_freezer",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
-    "copy-from": "ap_chest_freezer"
+    "copy-from": "ap_chest_freezer",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "90 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    }
   },
   {
     "type": "vehicle_part",
     "id": "apartment_freezer",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
-    "copy-from": "ap_apartment_freezer"
+    "copy-from": "ap_apartment_freezer",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "90 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    }
   },
   {
     "type": "vehicle_part",
