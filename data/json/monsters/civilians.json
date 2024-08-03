@@ -120,6 +120,7 @@
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
     "morale": 0,
     "upgrades": { "into": "mon_zombie_crawler" },
+    "zombify_into": "mon_zombie_crawler",
     "delete": { "flags": [ "SEES", "HEARS" ] },
     "copy-from": "mon_civilian_stationary"
   },
