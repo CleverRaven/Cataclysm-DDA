@@ -640,6 +640,18 @@
   },
   {
     "type": "vehicle_part",
+    "id": "chest_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_chest_freezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "apartment_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_apartment_freezer"
+  },
+  {
+    "type": "vehicle_part",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "looks_like": "f_washer",
