@@ -60,6 +60,10 @@ class path
          * Avatar must be at one of the ends of the path.
          */
         void set_avatar_path() const;
+        /**
+         * Avatar stands in the middle of the path, so go towards the end or start selected by `towards_end`.
+         */
+        void set_avatar_path( bool towards_end ) const;
         void set_name_start();
         void set_name_end();
         /**
@@ -106,6 +110,13 @@ class path_manager_impl
          */
         void auto_route_from_path() const;
         /**
+         * Let the player choose on what path to walk and in what direction.
+         * Set avatars auto route to the selected path.
+         *
+         * Return true if path was selected, false otherwise.
+         */
+        bool auto_route_from_path_middle() const;
+        /**
          * Start recording a new path.
          */
         void start_recording();
@@ -134,6 +145,10 @@ class path_manager_impl
          * -1 if the avatar stands at no start or end.
          */
         int avatar_at_what_start_or_end() const;
+        /**
+         * Return indexes of paths the avatar stands on.
+         */
+        std::vector<int> avatar_at_what_paths() const;
     private:
         bool is_recording_path() const;
         /**
@@ -204,21 +219,39 @@ void path::record_step( const tripoint_abs_ms &new_pos )
 
 void path::set_avatar_path() const
 {
-    avatar &player_character = get_avatar();
-    std::vector<tripoint_bub_ms> route;
-    if( is_avatar_at_start() ) {
-        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", name_start, name_end ) ) );
-        for( auto it = std::next( recorded_path.begin() ); it != recorded_path.end(); ++it ) {
-            route.emplace_back( get_map().bub_from_abs( *it ) );
-        }
-    } else if( is_avatar_at_end() ) {
-        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", name_end, name_start ) ) );
-        for( auto it = std::next( recorded_path.rbegin() ); it != recorded_path.rend(); ++it ) {
-            route.emplace_back( get_map().bub_from_abs( *it ) );
-        }
+    if( is_avatar_at_start() || is_avatar_at_end() ) {
+        set_avatar_path( is_avatar_at_start() );
     } else {
         debugmsg( "Tried to set auto route but the player character doesn't stand at path start or end." );
         return;
+    }
+}
+
+void path::set_avatar_path( bool towards_end ) const
+{
+    avatar &player_character = get_avatar();
+    std::vector<tripoint_bub_ms> route;
+    std::string from;
+    if( is_avatar_at_start() ) {
+        from = name_start;
+    } else if( is_avatar_at_end() ) {
+        from = name_end;
+    } else {
+        from = _( "the middle of path" );
+    }
+
+    int avatar_at = avatar_closest_i_approximate();
+    if( towards_end ) {
+        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", from, name_end ) ) );
+        for( auto it = std::next( recorded_path.begin() + avatar_at ); it != recorded_path.end(); ++it ) {
+            route.emplace_back( get_map().bub_from_abs( *it ) );
+        }
+    } else {
+        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", from, name_start ) ) );
+        for( auto it = std::next( recorded_path.rbegin() + recorded_path.size() - avatar_at - 1 );
+             it != recorded_path.rend(); ++it ) {
+            route.emplace_back( get_map().bub_from_abs( *it ) );
+        }
     }
     player_character.set_destination( route );
 }
@@ -266,7 +299,7 @@ bool path::is_avatar_at_end() const
 int path::avatar_closest_i_approximate() const
 {
     cata_assert( !recorded_path.empty() );
-    tripoint_abs_ms avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
     // Check start and end so that the path is not further away than either of those.
     int closest_i = recorded_path.size() - 1;
     int closest_dist = square_dist( recorded_path.back(), avatar_pos );
@@ -393,6 +426,18 @@ int path_manager_impl::avatar_at_what_start_or_end() const
     return -1;
 }
 
+std::vector<int> path_manager_impl::avatar_at_what_paths() const
+{
+    std::vector<int> ret;
+    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    for( auto it = paths.begin(); it != paths.end(); ++it ) {
+        if( avatar_pos == it->recorded_path[it->avatar_closest_i_approximate()] ) {
+            ret.emplace_back( static_cast<int>( it - paths.begin() ) );
+        }
+    }
+    return ret;
+}
+
 bool path_manager_impl::is_recording_path() const
 {
     return recording_path_index != -1;
@@ -403,6 +448,35 @@ void path_manager_impl::auto_route_from_path() const
     int p_index = avatar_at_what_start_or_end();
     cata_assert( p_index != -1 );
     paths[p_index].set_avatar_path();
+}
+
+bool path_manager_impl::auto_route_from_path_middle() const
+{
+    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    uilist path_selection;
+    path_selection.text = _( "Select path and direction to walk in." );
+    for( int i : avatar_at_what_paths() ) {
+        const path &curr_path = paths[i];
+        const std::string from_to = string_format( "from %s (%s) to %s (%s)",
+                                    curr_path.name_start,
+                                    direction_suffix( avatar_pos, curr_path.recorded_path.front() ),
+                                    curr_path.name_end,
+                                    direction_suffix( avatar_pos, curr_path.recorded_path.back() ) );
+        const int avatar_at_i = curr_path.avatar_closest_i_approximate();
+        const int start_steps = avatar_at_i;
+        const int end_steps = curr_path.recorded_path.size() - avatar_at_i - 1;
+        const std::string start = string_format( "%s (%d steps)", curr_path.name_start, avatar_at_i );
+        const std::string end = string_format( "%s (%d steps)", curr_path.name_end, end_steps );
+        path_selection.addentry( -1, false, MENU_AUTOASSIGN, from_to );
+        path_selection.addentry( i << 1, start_steps > 0, MENU_AUTOASSIGN, start );
+        path_selection.addentry( ( i << 1 ) + 1, end_steps > 0, MENU_AUTOASSIGN, end );
+    }
+    path_selection.query();
+    if( path_selection.ret < 0 ) {
+        return false;
+    }
+    paths[path_selection.ret >> 1].set_avatar_path( path_selection.ret % 2 );
+    return true;
 }
 
 void path_manager_impl::set_recording_path( int p_index )
@@ -431,7 +505,7 @@ void path_manager_ui::enabled_active_button( const std::string action, bool enab
 
 static void draw_distance_from_tile( const tripoint_abs_ms &tile )
 {
-    const tripoint_abs_ms avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
     if( avatar_pos == tile ) {
         cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
     } else {
@@ -442,8 +516,15 @@ static void draw_distance_from_tile( const tripoint_abs_ms &tile )
 
 void path_manager_ui::draw_controls()
 {
-    // general buttons
+    // walk buttons
+    cataimgui::draw_colored_text( _( "Walk:" ) );
+    ImGui::SameLine();
     enabled_active_button( "WALK_PATH", pimpl->avatar_at_what_start_or_end() != -1 );
+    ImGui::SameLine();
+    enabled_active_button( "WALK_PATH_FROM_MIDDLE", !pimpl->avatar_at_what_paths().empty() );
+
+    // recording buttons
+    cataimgui::draw_colored_text( _( "Recording:" ) );
     ImGui::SameLine();
     enabled_active_button( "START_RECORDING", !pimpl->is_recording_path() );
     ImGui::SameLine();
@@ -452,8 +533,8 @@ void path_manager_ui::draw_controls()
     ImGui::SameLine();
     enabled_active_button( "STOP_RECORDING", pimpl->is_recording_path() );
 
-    // buttons related to selected path
-    cataimgui::draw_colored_text( _( "Selected path:" ), c_white );
+    // manage buttons
+    cataimgui::draw_colored_text( _( "Manage:" ) );
     ImGui::SameLine();
     enabled_active_button( "DELETE_PATH", pimpl->selected_id != -1 );
     ImGui::SameLine();
@@ -462,6 +543,9 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "MOVE_PATH_DOWN", pimpl->selected_id != -1 &&
                            pimpl->selected_id + 1 < static_cast<int>( pimpl->paths.size() ) );
 
+    // name buttons
+    cataimgui::draw_colored_text( _( "Rename:" ) );
+    ImGui::SameLine();
     enabled_active_button( "RENAME_START", pimpl->selected_id != -1 );
     ImGui::SameLine();
     enabled_active_button( "RENAME_END", pimpl->selected_id != -1 );
@@ -524,6 +608,7 @@ void path_manager_ui::run()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ctxt.register_action( "WALK_PATH" );
+    ctxt.register_action( "WALK_PATH_FROM_MIDDLE" );
     ctxt.register_action( "START_RECORDING" );
     ctxt.register_action( "STOP_RECORDING" );
     ctxt.register_action( "CONTINUE_RECORDING" );
@@ -548,6 +633,10 @@ void path_manager_ui::run()
         if( action == "WALK_PATH" && pimpl->avatar_at_what_start_or_end() != -1 ) {
             pimpl->auto_route_from_path();
             break;
+        } else if( action == "WALK_PATH_FROM_MIDDLE" && !pimpl->avatar_at_what_paths().empty() ) {
+            if( pimpl->auto_route_from_path_middle() ) {
+                break;
+            }
         } else if( action == "START_RECORDING" && !pimpl->is_recording_path() ) {
             pimpl->start_recording();
             break;
