@@ -62,9 +62,7 @@ void uilist_impl::on_resized()
 void uilist_impl::draw_controls()
 {
     if( !parent.text.empty() ) {
-        // ImGui::PushTextWrapPos( float( parent.w_width * fontwidth ) );
-        ImGui::TextWrapped( "%s", parent.text.c_str() );
-        // ImGui::PopTextWrapPos();
+        cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
     }
 
