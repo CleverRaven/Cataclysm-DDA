@@ -409,7 +409,7 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "STOP_RECORDING", pimpl->recording_path() );
 
     // buttons related to selected path
-    draw_colored_text( _( "Selected path:" ), c_white );
+    cataimgui::draw_colored_text( _( "Selected path:" ), c_white );
     ImGui::SameLine();
     enabled_active_button( "DELETE_PATH", pimpl->selected_id != -1 );
     ImGui::SameLine();
@@ -448,25 +448,25 @@ void path_manager_ui::draw_controls()
                 pimpl->selected_id = i;
             }
             ImGui::SameLine();
-            draw_colored_text( curr_path.name_start, c_white );
+            cataimgui::draw_colored_text( curr_path.name_start, c_white );
 
             ImGui::TableNextColumn();
             if( curr_path.player_at_start() ) {
-                draw_colored_text( _( "It's under your feet." ), c_light_green );
+                cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
             } else {
                 std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
-                draw_colored_text( dist, c_white );
+                cataimgui::draw_colored_text( dist, c_white );
             }
 
             ImGui::TableNextColumn();
-            draw_colored_text( curr_path.name_end, c_white );
+            cataimgui::draw_colored_text( curr_path.name_end, c_white );
 
             ImGui::TableNextColumn();
             if( curr_path.player_at_end() ) {
-                draw_colored_text( _( "It's under your feet." ), c_light_green );
+                cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
             } else {
                 std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
-                draw_colored_text( dist, c_white );
+                cataimgui::draw_colored_text( dist, c_white );
             }
 
             ImGui::TableNextColumn();
