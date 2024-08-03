@@ -3544,6 +3544,12 @@
   },
   {
     "type": "keybinding",
+    "id": "WALK_PATH_FROM_MIDDLE",
+    "category": "PATH_MANAGER",
+    "name": "Walk path from middle"
+  },
+  {
+    "type": "keybinding",
     "id": "START_RECORDING",
     "category": "PATH_MANAGER",
     "name": "Start recording"
