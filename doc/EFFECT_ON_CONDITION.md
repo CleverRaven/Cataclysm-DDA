@@ -68,6 +68,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
 | SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| monster_attack: "eoc"                          | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
 | countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
@@ -82,7 +83,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
 | mutation: "processed_eocs"                       | character (Character)       | NONE                        |
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
-| monster death: "death_function"                  | killer (Creature)           | victim (Creature)           |
+| monster death: "death_function"                  | killer (Creature, if exists, otherwise NONE)| victim (Creature) | Note that if monster was killed without a killer (falling anvil, explosion of a bomb etc), EoC would be built without alpha talker, so using EoC referencing `u_` would result in error. Use `has_alpha` condition before manipulating with alpha talker
 | ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating with npc
 
 Some actions sent additional context variables, that can be used in EoC, in format:

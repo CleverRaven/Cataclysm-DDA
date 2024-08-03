@@ -44,7 +44,7 @@
     "id": "nested_m4_carbine_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "modular_m4_carbine" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "group": "modular_m4a1" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "nested_m27_assault_rifle_no_ammo",

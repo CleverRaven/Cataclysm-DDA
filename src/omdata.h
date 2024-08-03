@@ -77,7 +77,7 @@ std::string name( type dir );
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
 template<typename Point, coords::scale Scale>
-auto rotate( const coords::coord_point<Point, coords::origin::relative, Scale> &p, type dir )
+auto rotate( const coords::coord_point_ob<Point, coords::origin::relative, Scale> &p, type dir )
 -> coords::coord_point<Point, coords::origin::relative, Scale>
 {
     return coords::coord_point<Point, coords::origin::relative, Scale> { rotate( p.raw(), dir ) };

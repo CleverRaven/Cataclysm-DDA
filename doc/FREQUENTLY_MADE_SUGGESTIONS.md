@@ -201,6 +201,16 @@ People frequently suggest that we add a system where melee weapons can have mods
 
 The damage melee weapons cause is a complex combination of dynamic leverage as they are swung, weight distribution, and the interaction of the striking surface(s) with the target, and that doesn’t even get into the complexities of maneuvering past a targets defenses without opening your own guard.
 
+#### Mining and smelting: Not a Minecraft
+
+People lived in New England for about 15000 years.  People mined here for about 8000 years.  When some territory is mined for this long, almost any exposed, easy-to-reach ores and minerals tend to exhaust, so the only option for mining companies is to dig deeper, harder, and use more and more complex tools, machines, and reagents in order to transform rocks into useful materials.  Tools, machines, and reagents that character has no way to obtain and use, but also, **because character has no point to use it**.
+
+Why would anyone sapient bother digging rocks and trying to convert them into steel, if they can just, you know, break a vehicle or some machine apart and get steel more pure than they would ever be able to reach otherwise? Why would anyone try to smelt stone to get some lead if they can just cut open the battery? Copper? Break into the substation, there is no electricity anyway.
+
+For more ground substances like sand or gravel, the potential way to obtain more of them should not be by grinding big rocks into smaller rocks, but by finding a quarry or Home Depot and just loading your truck with what you need.
+
+It doesn't apply to mods, they just need to be sure their attempt will bring more fun than tediousness.
+
 #### Recover liquids from the ground: Partially implemented
 
 This keeps being suggested, but it’s just not reasonable to recover spilled liquids from the ground and then get any kind of use out of them, since in general they’d be so adulterated by whatever would get mixed in with them that they wouldn’t be fit for any purpose.

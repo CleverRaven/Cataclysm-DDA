@@ -62,7 +62,7 @@
           {
             "case": 4,
             "effect": [
-              { "u_emit": "emit_fog_plume", "target_var": { "context_val": "death_loc" } },
+              { "npc_emit": "emit_fog_plume", "target_var": { "context_val": "death_loc" } },
               {
                 "if": "player_see_u",
                 "then": {

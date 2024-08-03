@@ -7,7 +7,7 @@
 #include "rng.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior
@@ -142,7 +142,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
     // Spawn items on the map at this location
     const tripoint ground = they.pos();
-    item &m4a1 = here.add_item( ground, item( itype_modular_m4_carbine ) );
+    item &m4a1 = here.add_item( ground, item( itype_debug_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 

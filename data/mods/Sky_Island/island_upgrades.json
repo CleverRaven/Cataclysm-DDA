@@ -108,6 +108,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_climatecontrol",
+    "effect": [ { "u_add_trait": "mut_skyisland_temperature_adaptation" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_memorize_island",
     "//": "Tracks various map or overmap spots for the island's construction upgrades.",
     "effect": [

@@ -103,13 +103,13 @@
   {
     "id": "cement_bag",
     "type": "item_group",
-    "container-item": "bag_durasack",
+    "container-item": "bag_durasack_cement",
     "items": [ { "item": "material_cement", "count": 2800 } ]
   },
   {
     "id": "cement_bag_part",
     "type": "item_group",
-    "container-item": "bag_durasack",
+    "container-item": "bag_durasack_cement",
     "items": [ { "item": "material_cement", "count": [ 400, 2800 ] } ]
   },
   {

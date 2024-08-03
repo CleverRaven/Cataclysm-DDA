@@ -4748,8 +4748,24 @@
     "relative": { "armor": { "bash": 30, "cut": 37 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ { "id": "bite_grab", "cooldown": 30 }, [ "FLAMETHROWER", 30 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "special_attacks": [
+      { "id": "bite_grab", "cooldown": 30 },
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "rm451_flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "hiss!",
+        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "require_targeting_player": false,
+        "target_moving_vehicles": true,
+        "description": "Giant flames erupt from the truck!"
+      }
+    ],
     "upgrades": false,
     "death_drops": [
       { "item": "wheel", "count": 4 },
@@ -4774,8 +4790,24 @@
     "relative": { "armor": { "bash": 30, "cut": 37 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ { "id": "bite_grab", "cooldown": 30 }, [ "FLAMETHROWER", 30 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "special_attacks": [
+      { "id": "bite_grab", "cooldown": 30 },
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "rm451_flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "hiss!",
+        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "require_targeting_player": false,
+        "target_moving_vehicles": true,
+        "description": "Giant flames erupt from the truck!"
+      }
+    ],
     "upgrades": false,
     "death_drops": [
       { "item": "wheel", "count": 4 },
@@ -4803,7 +4835,6 @@
     "starting_ammo": { "50bmg": 400 },
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "special_attacks": [
-      [ "MULTI_ROBOT", 1000 ],
       {
         "type": "gun",
         "cooldown": 1,
@@ -4850,7 +4881,6 @@
     "starting_ammo": { "50bmg": 400 },
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "special_attacks": [
-      [ "MULTI_ROBOT", 1000 ],
       {
         "type": "gun",
         "cooldown": 1,
@@ -4897,7 +4927,6 @@
     "starting_ammo": { "50bmg": 400 },
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "special_attacks": [
-      [ "MULTI_ROBOT", 1000 ],
       {
         "type": "gun",
         "cooldown": 1,
