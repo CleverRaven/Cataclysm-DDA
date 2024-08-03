@@ -49,11 +49,7 @@
         "intensity_upgrade_duration": "6 hours"
       },
       { "name": "deep shadows", "color": "dark_gray" },
-      {
-        "name": "roiling shadows",
-        "color": "black_green",
-        "transparent": false
-      }
+      { "name": "roiling shadows", "color": "black_green", "transparent": false }
     ],
     "description_affix": "under",
     "priority": 8,
