@@ -1401,7 +1401,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
     "bleed_rate": 125,
-    "vision_day": 1000,
+    "vision_day": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
