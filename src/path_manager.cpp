@@ -436,7 +436,7 @@ static void draw_distance_from_tile( const tripoint_abs_ms &tile )
         cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
     } else {
         const std::string dist = direction_suffix( avatar_pos, tile );
-        cataimgui::draw_colored_text( dist, c_white );
+        cataimgui::draw_colored_text( dist );
     }
 }
 
@@ -493,13 +493,13 @@ void path_manager_ui::draw_controls()
                 pimpl->selected_id = i;
             }
             ImGui::SameLine();
-            cataimgui::draw_colored_text( curr_path.name_start, c_white );
+            cataimgui::draw_colored_text( curr_path.name_start );
 
             ImGui::TableNextColumn();
             draw_distance_from_tile( curr_path.recorded_path.front() );
 
             ImGui::TableNextColumn();
-            cataimgui::draw_colored_text( curr_path.name_end, c_white );
+            cataimgui::draw_colored_text( curr_path.name_end );
 
             ImGui::TableNextColumn();
             draw_distance_from_tile( curr_path.recorded_path.back() );
