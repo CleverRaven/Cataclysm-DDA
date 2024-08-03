@@ -157,7 +157,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_felt_patchwork", 11 ] ]
   },
   {
@@ -2239,7 +2239,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork_simple", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]

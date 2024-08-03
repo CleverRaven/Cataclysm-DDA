@@ -1111,7 +1111,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "15 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_leather_small", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1131,7 +1131,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "2 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1164,7 +1164,7 @@
     "time": "6 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1181,7 +1181,7 @@
     "time": "7 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1198,7 +1198,7 @@
     "time": "7 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1215,7 +1215,7 @@
     "time": "7 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 3, "LIST" ] ], [ [ "clasps", 3, "LIST" ] ] ]
@@ -1232,7 +1232,7 @@
     "time": "3 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1249,7 +1249,7 @@
     "time": "5 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1266,7 +1266,7 @@
     "time": "8 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1283,7 +1283,7 @@
     "time": "5 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
@@ -1300,7 +1300,7 @@
     "time": "15 h",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 3, "LIST" ] ], [ [ "clasps", 3, "LIST" ] ] ]
@@ -1317,7 +1317,7 @@
     "time": "8 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 1 ] ],
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1351,7 +1351,7 @@
     "difficulty": 4,
     "time": "5 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_canvas_patchwork", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1802,7 +1802,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "13 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "90 m" },
     "using": [ [ "tailoring_nylon_patchwork", 12 ], [ "strap_small", 3 ], [ "filament", 3 ] ]
   },
   {
@@ -1816,7 +1816,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "38 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "90 m" },
     "using": [ [ "tailoring_nylon_patchwork", 30 ], [ "strap_small", 6 ], [ "filament", 6 ] ]
   },
   {
