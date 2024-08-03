@@ -408,6 +408,8 @@ void MonsterGenerator::finalize_mtypes()
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
 
+        mon.mdeath_effect.has_effect = mon.mdeath_effect.sp.is_valid();
+
         mon.weakpoints.clear();
         for( const weakpoints_id &wpset : mon.weakpoints_deferred ) {
             mon.weakpoints.add_from_set( wpset, true );
@@ -1812,7 +1814,6 @@ void monster_death_effect::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
     optional( jo, was_loaded, "effect", sp );
-    has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
     optional( jo, was_loaded, "eoc", eoc );
 }
