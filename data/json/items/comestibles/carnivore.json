@@ -836,6 +836,13 @@
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
+    "id": "young_ruminant_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "young ruminant stomach" },
+    "description": "The stomach of a young ruminant.  It is surprisingly durable."
+  },
+  {
     "id": "stomach_large",
     "copy-from": "stomach",
     "type": "COMESTIBLE",

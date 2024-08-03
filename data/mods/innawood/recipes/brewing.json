@@ -12,7 +12,7 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "using": [ [ "milk_standard_raw_fresh", 15 ] ],
-    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ],
+    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "rennet", 1 ] ] ],
     "charges": 18
   },
   {

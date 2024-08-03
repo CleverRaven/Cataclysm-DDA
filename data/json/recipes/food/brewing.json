@@ -51,7 +51,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_cheesemaking_1" } ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
     "using": [ [ "milk_standard_raw_fresh", 15 ] ],
-    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ],
+    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "rennet", 1 ] ] ],
     "charges": 18
   },
   {
