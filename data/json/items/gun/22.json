@@ -534,6 +534,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
+    "range": 2,
     "ammo": [ "22" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 340,
