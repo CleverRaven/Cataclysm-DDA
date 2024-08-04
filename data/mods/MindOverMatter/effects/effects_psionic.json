@@ -155,7 +155,7 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "Hidden effect, used as a tracker",
+    "//": "effect used a tracker",
     "name": [ "Oxygen Absorption" ],
     "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
