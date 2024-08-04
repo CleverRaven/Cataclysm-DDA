@@ -8,7 +8,7 @@
     "remove_message": "The itching finally fades away.",
     "rating": "mixed",
     "max_duration": "24 hours",
-    "vitamins": [ { "vitamin": "mutagen", "rate": [ [ -1, -1 ] ], "tick": [ "34 m" ] } ],
+    "vitamins": [ { "vitamin": "mutagen", "rate": [ [ -1, -1 ] ], "tick": [ "2 m" ] } ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -1 ],
