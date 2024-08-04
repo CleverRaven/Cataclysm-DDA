@@ -629,14 +629,20 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
     wnoutrefresh( w_traits );
 }
 
-static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
+static void draw_traits_info( const catacurses::window &w_info, const Character &you,
+                              const unsigned line,
                               const std::vector<trait_and_var> &traitslist, const unsigned info_line )
 {
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
+        std::string trait_desc = cur.desc();
+        if( !you.purifiable( cur.trait ) ) {
+            trait_desc +=
+                _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );
+        }
         const std::string desc =
-            string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ), cur.desc() );
+            string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ), trait_desc );
         draw_x_info( w_info, desc, info_line );
     }
     wnoutrefresh( w_info );
@@ -1054,7 +1060,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_skills_info( w_info, you, line, skillslist, info_line );
             break;
         case player_display_tab::traits:
-            draw_traits_info( w_info, line, traitslist, info_line );
+            draw_traits_info( w_info, you, line, traitslist, info_line );
             break;
         case player_display_tab::bionics:
             draw_bionics_info( w_info, line, bionicslist, info_line );

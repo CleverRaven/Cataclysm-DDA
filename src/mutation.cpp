@@ -1991,6 +1991,10 @@ std::unordered_set<trait_id> Character::get_same_type_traits( const trait_id &fl
 
 bool Character::purifiable( const trait_id &flag ) const
 {
+    if( my_intrinsic_mutations.count( flag ) > 0 ) {
+        return false;
+    }
+    // If we haven't set the trait unpurifiable in gametime check its definition
     return flag->purifiable;
 }
 

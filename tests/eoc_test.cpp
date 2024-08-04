@@ -16,6 +16,10 @@ static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
 static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
+static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE( "EOC_TEST_PURIFIABILITY_TRUE" );
+static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
@@ -144,6 +148,8 @@ static const ter_str_id ter_t_grass( "t_grass" );
 
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
+static const trait_id trait_purifiability_first( "purifiability_first" );
+static const trait_id trait_purifiability_second( "purifiability_second" );
 
 namespace
 {
@@ -602,6 +608,33 @@ TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
                1 ) );
     CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation" );
+}
+
+TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &me = get_avatar();
+
+    // Gain both traits
+    me.toggle_trait( trait_purifiability_first );
+    me.toggle_trait( trait_purifiability_second );
+    // Check assumptions
+    REQUIRE( me.purifiable( trait_purifiability_first ) );
+    REQUIRE( !me.purifiable( trait_purifiability_second ) );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    // Try to set both traits to non-purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE->activate( d ) );
+    // Neither are purifiable
+    CHECK( !me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
+
+    // Try to set both traits purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE->activate( d ) );
+    // The by default non-purifiable trait stays non-purifiable, the other resets
+    CHECK( me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
 }
 
 TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
