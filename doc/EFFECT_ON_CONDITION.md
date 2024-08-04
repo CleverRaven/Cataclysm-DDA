@@ -2238,7 +2238,10 @@ Reveal the zone three tiles around the character
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
-    "effect": [ { "reveal_map": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "radius": 3 } ]
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc" } },
+      { "reveal_map": { "context_val": "loc" }, "radius": 3 }
+    ]
   }
 ```
 
@@ -2270,28 +2273,26 @@ Find overmap tile using `target_params`, store coordinates in `loc`, and reveal 
 ```
 
 #### `reveal_route`
-Reveal the route between two location variables
+Reveal the route between two location variables, using closest roads
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "reveal_route" | **mandatory** | [variable object](#variable-object) | location variable, starting point in the route |
 | "target_var" | **mandatory** | [variable object](#variable-object) | location variable, ending point in the route |
 | "radius" |  | int or [variable object](#variable-object) | the size of revealed path |
-| "only_road" | optional | boolean | default false; if true, reveal only road tiles |
+| "road_only" | optional | boolean | default false; if true, reveal only road tiles |
 
 ##### Examples
 
-Reveal the path between you and 25 overmap tiles east of you
+Reveal the path between you and 50 overmap tiles west of you
 ```json
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST",
     "effect": [
-      {
-        "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
-        "target_var": { "mutator": "u_loc_relative", "target": "(600,0,0)" },
-        "radius": 3
-      }
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_a" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(-1200,0,0)" }, "target_var": { "context_val": "loc_b" } },
+      { "reveal_route": { "context_val": "loc_a" }, "target_var": { "context_val": "loc_b" }, "radius": 3 }
     ]
   },
 ```
@@ -2310,7 +2311,7 @@ Reveal the route between you and `house_02`
         "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
         "target_var": { "context_val": "loc" },
         "radius": 3,
-        "only_road": true
+        "road_only": true
       }
   ]
 }
