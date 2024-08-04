@@ -634,6 +634,7 @@
     "price": "1 USD",
     "price_postapoc": "2 USD 50 cent",
     "name": { "str": "ball bearing" },
+    "category": "spare_parts",
     "symbol": "=",
     "color": "dark_gray",
     "looks_like": "pebble",
