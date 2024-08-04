@@ -2404,6 +2404,7 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
     if( !p ) {
         debugmsg( "%s called action pack_item that requires character but no character is present",
                   it->typeId().str() );
+        return std::nullopt;
     }
     if( p->cant_do_underwater() ) {
         return std::nullopt;

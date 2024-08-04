@@ -327,7 +327,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         REQUIRE( our + adj == count );
 
         map_selector sel( p.pos_bub(), 1 );
-        map_cursor cur( p.pos_bub() );
+        map_cursor cur( p.get_location() );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );
