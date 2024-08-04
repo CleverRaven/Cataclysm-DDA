@@ -8,7 +8,7 @@
     "looks_like": "deep_rock",
     "sym": "%",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -19,7 +19,7 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "empty_rock",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -30,7 +30,7 @@
     "sym": "#",
     "color": "brown",
     "looks_like": "solid_earth",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -42,7 +42,7 @@
     "sym": ".",
     "color": "brown",
     "looks_like": "field",
-    "see_cost": 2,
+    "see_cost": "none",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
@@ -55,7 +55,7 @@
     "sym": "F",
     "color": "green",
     "looks_like": "forest",
-    "see_cost": 3,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
@@ -67,7 +67,7 @@
     "sym": "F",
     "color": "green",
     "looks_like": "forest_thick",
-    "see_cost": 4,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
@@ -75,6 +75,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_air",
     "vision_levels": "roof_or_air",
+    "see_cost": "all_clear",
     "name": "open air",
     "sym": ".",
     "color": "blue",

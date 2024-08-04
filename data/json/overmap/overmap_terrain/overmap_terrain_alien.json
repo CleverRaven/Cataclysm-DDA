@@ -6,7 +6,7 @@
     "name": "unusual stone barn",
     "sym": "^",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "KNOWN_UP" ]
   },
   {
@@ -30,7 +30,7 @@
     "name": "strange warehouse",
     "sym": "#",
     "color": "light_gray",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "KNOWN_UP" ]
   },
   {
@@ -46,7 +46,7 @@
     "name": "slime pit",
     "sym": "~",
     "color": "light_green",
-    "see_cost": 2,
+    "see_cost": "all_clear",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -63,7 +63,7 @@
     "name": "rocky butte",
     "sym": "%",
     "color": "light_gray",
-    "see_cost": 4,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -73,7 +73,7 @@
     "name": "ground-level entrance",
     "sym": "?",
     "color": "white",
-    "see_cost": 4,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -103,7 +103,7 @@
     "name": "scrap metal encampment",
     "sym": "%",
     "color": "light_gray",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {

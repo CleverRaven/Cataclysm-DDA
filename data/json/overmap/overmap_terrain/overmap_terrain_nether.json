@@ -6,7 +6,7 @@
     "name": "abyss",
     "sym": " ",
     "color": "black",
-    "see_cost": 10,
+    "see_cost": "opaque",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -16,7 +16,7 @@
     "name": "abyss",
     "sym": " ",
     "color": "black",
-    "see_cost": 10,
+    "see_cost": "opaque",
     "flags": [ "RISK_EXTREME" ]
   }
 ]

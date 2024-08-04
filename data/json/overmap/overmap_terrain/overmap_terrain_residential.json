@@ -14,7 +14,7 @@
     "copy-from": "generic_city_building",
     "name": "house",
     "color": "light_green",
-    "see_cost": 2,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 80 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
@@ -225,7 +225,7 @@
       "urban_22_2_roof"
     ],
     "copy-from": "generic_city_house",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -252,7 +252,7 @@
     ],
     "copy-from": "generic_city_house",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -298,7 +298,7 @@
       "urban_18_10"
     ],
     "copy-from": "generic_city_house_no_sidewalk",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -338,7 +338,7 @@
     ],
     "copy-from": "generic_city_house_no_sidewalk",
     "sym": "v",
-    "see_cost": 10
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -358,7 +358,7 @@
     "name": "dense urban",
     "sym": "v",
     "color": "i_white",
-    "see_cost": 40
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -601,7 +601,7 @@
     "sym": "A",
     "color": "light_green",
     "vision_levels": "large_city_building",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "extras": "build",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
@@ -614,7 +614,7 @@
     "name": "apartment tower roof",
     "sym": "A",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2,
     "extras": "build"
   },
@@ -779,7 +779,7 @@
     "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "i_brown",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {

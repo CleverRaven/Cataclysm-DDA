@@ -165,7 +165,7 @@
     "vision_levels": "large_city_building",
     "sym": "t",
     "color": "i_light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -176,7 +176,7 @@
     "vision_levels": "large_pavement",
     "sym": "O",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "low",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -196,7 +196,7 @@
     "vision_levels": "wreckage",
     "sym": "t",
     "color": "i_light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -207,7 +207,7 @@
     "name": "collapsed tower",
     "sym": "O",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -218,7 +218,7 @@
     "vision_levels": "wreckage",
     "sym": "t",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -226,6 +226,7 @@
     "type": "overmap_terrain",
     "id": "office_tower_open_air_corner",
     "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -620,7 +621,7 @@
     "name": "bank",
     "sym": "$",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_LUXURY" ]
   },
@@ -632,7 +633,7 @@
     "looks_like": "bank_roof",
     "sym": "$",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2
   },
   {
@@ -785,7 +786,7 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -804,7 +805,7 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -959,7 +960,7 @@
     "name": "home improvement superstore",
     "sym": "H",
     "color": "light_green_yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -977,7 +978,7 @@
     "name": "home improvement superstore roof",
     "sym": "H",
     "color": "light_green_yellow",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -1322,6 +1323,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
     "vision_levels": "large_city_building",
+    "see_cost": "full_high",
     "name": "office tower",
     "copy-from": "generic_city_building",
     "sym": "T",
@@ -1381,6 +1383,7 @@
     "type": "overmap_terrain",
     "id": [ "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
     "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -1421,6 +1424,7 @@
     "type": "overmap_terrain",
     "id": [ "office_skyscraper_17", "office_skyscraper_18", "office_skyscraper_19", "office_skyscraper_20" ],
     "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -1706,7 +1710,7 @@
     "name": "radio tower",
     "sym": "X",
     "color": "light_gray",
-    "see_cost": 2
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -1887,7 +1891,7 @@
     "copy-from": "generic_city_house",
     "name": "dense urban",
     "color": "i_white",
-    "see_cost": 40
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",

@@ -6,7 +6,7 @@
     "name": "FEMA camp",
     "sym": "+",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
@@ -28,7 +28,7 @@
     "name": "FEMA camp",
     "sym": "F",
     "color": "i_blue",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "extras": "build",
     "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
@@ -40,7 +40,7 @@
     "sym": "F",
     "color": "i_blue",
     "extras": "build",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
   },
   {
@@ -51,7 +51,7 @@
     "sym": "+",
     "color": "blue",
     "extras": "build",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
   },
   {
@@ -60,7 +60,7 @@
     "sym": "+",
     "color": "white",
     "vision_levels": "isolated_building",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -173,7 +173,7 @@
     "sym": "+",
     "color": "red",
     "vision_levels": "natural_outcropping",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -183,7 +183,7 @@
     "sym": "+",
     "color": "red",
     "vision_levels": "natural_outcropping",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -193,7 +193,7 @@
     "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -203,7 +203,7 @@
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SHOULD_NOT_SPAWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -213,7 +213,7 @@
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -223,7 +223,7 @@
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -233,7 +233,7 @@
     "vision_levels": "natural_outcropping",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -243,7 +243,7 @@
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -253,7 +253,7 @@
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -263,7 +263,7 @@
     "sym": "B",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN", "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
@@ -273,7 +273,7 @@
     "sym": "B",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "KNOWN_UP", "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
@@ -283,7 +283,7 @@
     "sym": "B",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
@@ -293,7 +293,7 @@
     "sym": "M",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "high",
     "extras": "build",
     "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
@@ -304,7 +304,7 @@
     "sym": "M",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "high",
     "extras": "build",
     "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
@@ -315,7 +315,7 @@
     "sym": "M",
     "color": "red",
     "vision_levels": "isolated_building",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -325,7 +325,7 @@
     "sym": "0",
     "color": "red",
     "vision_levels": "open_land",
-    "see_cost": 2,
+    "see_cost": "medium",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -385,7 +385,7 @@
     "vision_levels": "large_building",
     "sym": "H",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_EXTREME" ]
   },
   {
@@ -420,7 +420,7 @@
     "vision_levels": "large_building",
     "sym": "M",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -459,7 +459,7 @@
     "vision_levels": "open_land",
     "sym": ",",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -510,7 +510,7 @@
     "sym": "M",
     "vision_levels": "roof_or_air",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -529,7 +529,7 @@
     "vision_levels": "underground_dirt",
     "sym": "M",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -557,7 +557,7 @@
     "vision_levels": "isolated_tower",
     "sym": "W",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -566,7 +566,7 @@
     "vision_levels": "isolated_tower",
     "sym": "X",
     "color": "light_gray",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -585,7 +585,7 @@
     "sym": "_",
     "vision_levels": "large_pavement",
     "color": "dark_gray",
-    "see_cost": 1
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -593,7 +593,7 @@
     "name": "military base minefield",
     "vision_levels": "open_land",
     "color": "light_gray",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
