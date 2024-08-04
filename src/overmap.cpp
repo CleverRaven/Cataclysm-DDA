@@ -1081,6 +1081,7 @@ nc_color oter_t::get_color( om_vision_level vision, const bool from_land_use_cod
 
 std::string oter_t::get_tileset_id( om_vision_level vision ) const
 {
+    // If this changes, be sure to change the debug display on the overmap ui to not strip the prefix!
     if( type->vision_levels->viewed( vision ) != nullptr ) {
         return string_format( "vl#%s$%s", type->vision_levels.str(), io::enum_to_string( vision ) );
     }
