@@ -2976,6 +2976,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             act_item.set_relative_rot( dis_item.get_relative_rot() );
+            act_item.set_owner( *this );
 
             ret_val<item> removed = dis_item.components.remove( newit.typeId() );
             if( removed.success() ) {
