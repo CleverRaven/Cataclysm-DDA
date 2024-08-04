@@ -175,7 +175,7 @@ inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
                       ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
-                      ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+                      ( ( ( loc1.z - loc2.z ) * 4 ) * ( ( loc1.z - loc2.z ) * 4 ) ) );
 }
 float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 );
 inline float trig_dist( const point &loc1, const point &loc2 )
@@ -188,7 +188,7 @@ float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 );
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();
-    return std::max( { d.x, d.y, d.z } );
+    return std::max( { d.x, d.y, d.z * 4 } );
 }
 inline int square_dist( const point &loc1, const point &loc2 )
 {

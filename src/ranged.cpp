@@ -3140,15 +3140,6 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
                         break;
                     }
                 }
-
-                // FIXME: due to a bug in map::find_clear_path (#39693),
-                //        returned trajectory is invalid in some cases.
-                //        This bandaid stops us from exceeding range,
-                //        but does not fix the issue.
-                if( dist_fn( valid_pos ) > range ) {
-                    debugmsg( "Exceeded allowed range!" );
-                    valid_pos = src;
-                }
             }
         } else {
             tripoint_rel_ms delta = valid_pos - src;
@@ -3383,6 +3374,10 @@ void target_ui::update_status()
 
 int target_ui::dist_fn( const tripoint_bub_ms &p )
 {
+
+    add_msg( m_warning, string_format( "point 1: %s", src.to_string() ) );
+    add_msg( m_warning, string_format( "point 2: %s", p.to_string() ) );
+
     return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
 }
 
