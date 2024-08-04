@@ -470,7 +470,7 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_REDUCE_PAIN" } ]
+    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_SPEED_BOOST" } ]
   },
   {
     "type": "effect_on_condition",
