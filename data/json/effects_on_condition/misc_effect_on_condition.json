@@ -284,7 +284,7 @@
           {
             "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "x_in_y_chance": { "x": 1, "y": 2 } } ] },
             "then": [
-              { "u_message": "You can feel God's doing in this very beautiful sunrise." },
+              { "u_message": "As you gaze upon the sunrise, you feel enraptured by its ethereal beauty.", "type": "good" },
               {
                 "u_add_morale": "morale_sunrise",
                 "bonus": 15,
@@ -297,7 +297,7 @@
               {
                 "if": { "x_in_y_chance": { "x": 1, "y": 5 } },
                 "then": [
-                  { "u_message": "The sunrise is especially beautiful today." },
+                  { "u_message": "The sunrise is especially beautiful today.", "type": "good" },
                   {
                     "u_add_morale": "morale_sunrise",
                     "bonus": 15,
@@ -307,7 +307,7 @@
                   }
                 ],
                 "else": [
-                  { "u_message": "The sunrise always makes you a feel a little bit better." },
+                  { "u_message": "The sunrise always makes you a feel a little bit better.", "type": "good" },
                   {
                     "u_add_morale": "morale_sunrise",
                     "bonus": 10,
@@ -321,7 +321,7 @@
           }
         ],
         "else": [
-          { "u_message": "The sunrise is hidden behind clouds, but it is still a bright, new day." },
+          { "u_message": "The sunrise is hidden behind clouds, but it is still a bright, new day.", "type": "good" },
           {
             "u_add_morale": "morale_sunrise",
             "bonus": 5,
@@ -347,7 +347,7 @@
           {
             "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "x_in_y_chance": { "x": 1, "y": 2 } } ] },
             "then": [
-              { "u_message": "You can feel God's doing in this very beautiful sunset." },
+              { "u_message": "As you gaze upon the sunset, you feel enraptured by its ethereal beauty.", "type": "good" },
               {
                 "u_add_morale": "morale_sunset",
                 "bonus": 15,
@@ -360,7 +360,7 @@
               {
                 "if": { "x_in_y_chance": { "x": 1, "y": 5 } },
                 "then": [
-                  { "u_message": "The sunset is especially beautiful today." },
+                  { "u_message": "The sunset is especially beautiful today.", "type": "good" },
                   {
                     "u_add_morale": "morale_sunset",
                     "bonus": 15,
@@ -370,7 +370,7 @@
                   }
                 ],
                 "else": [
-                  { "u_message": "The sunset always makes you a feel a little bit better." },
+                  { "u_message": "The sunset always makes you a feel a little bit better.", "type": "good" },
                   {
                     "u_add_morale": "morale_sunset",
                     "bonus": 10,
@@ -384,7 +384,7 @@
           }
         ],
         "else": [
-          { "u_message": "The sunset is hidden behind clouds, but you can still see the pretty amber hue." },
+          { "u_message": "The sunset is hidden behind clouds, but you can still see the pretty amber hue.", "type": "good" },
           {
             "u_add_morale": "morale_sunset",
             "bonus": 5,
