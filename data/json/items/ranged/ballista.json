@@ -43,6 +43,7 @@
     "symbol": "=",
     "color": "green",
     "material": [ { "type": "wood", "portion": 85 }, { "type": "steel", "portion": 15 } ],
+    "flags": [ "NONCONDUCTIVE" ],
     "ammo_type": "bolt_ballista",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 2, "armor_penetration": 20 },
     "dispersion": 35,
