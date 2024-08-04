@@ -55,7 +55,11 @@
           "clear_mission"
         ]
       },
-      { "text": "Could you help me with some bionics?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
+      {
+        "text": "Could you help me with some bionics?",
+        "topic": "TALK_RANCH_DOCTOR_BIONICS",
+        "condition": { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" }
+      },
       { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_DOCTOR_AID" },
       { "text": "…", "topic": "TALK_DONE" }
     ]
@@ -75,16 +79,26 @@
     },
     "responses": [
       {
-        "text": "[$200, 30m] I need you to patch me up.",
+        "text": "[80 merch, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
-        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
-        "condition": { "and": [ { "npc_service": 20000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 80 }, "give_aid" ],
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 80 } },
+            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+          ]
+        }
       },
       {
-        "text": "[$500, 1h] I need you to patch my friends up.",
+        "text": "[200 merch, 1h] I need you to patch my friends up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
-        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
-        "condition": { "and": [ { "npc_service": 50000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 200 }, "give_all_aid" ],
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 200 } },
+            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+          ]
+        }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -100,27 +114,35 @@
     "id": "TALK_RANCH_DOCTOR_BIONICS",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_tacoma_ranch_provides_bionics",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_surgery",
       "value": "yes",
-      "yes": "What can I help you with?",
-      "no": "We don't have the medical equipment to do that right now."
+      "yes": "If you mean something like pacemaker, then maybe.  What's the trouble?",
+      "no": "If you mean something like pacemaker, we can't really do much without anesthesia."
     },
     "responses": [
       {
-        "text": "I was wondering if you could install a cybernetic implant…",
-        "topic": "TALK_DONE",
-        "effect": "bionic_install",
-        "condition": { "and": [ { "npc_service": 0 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" } ] }
+        "text": "No, i mean something, eeh, more sci-fi.  There are robo-guys in a stone castle, they say they have such technology.  They even installed something into me, look!",
+        "topic": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
+        "condition": { "u_has_bionics": "ANY" }
       },
       {
-        "text": "I need help removing an implant…",
-        "topic": "TALK_DONE",
-        "effect": "bionic_remove",
-        "condition": { "and": [ { "npc_service": 0 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" } ] }
+        "text": "No, i mean something, eeh, more sci-fi.  There are robo-guys in a stone castle, they say they have such technology.",
+        "topic": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
+        "condition": { "not": { "u_has_bionics": "ANY" } }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_bionics": "ANY",
+      "yes": "Curious.  Sorry, i have no idea how it works, and i'd be afraid to even touch this parts.",
+      "no": "Are you all right?  Sci-fi bionic by robots in a stone castle?  I have some antipsychotics, if it helps."
+    },
+    "responses": [ { "text": "I've got to go…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_RANCH_DOCTOR_SUPPLIES",
@@ -276,7 +298,7 @@
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Hospitals or clinics might have some.  Labs could have some as well.",
       "inquire": "Any progress on getting some anesthetic or parts?",
-      "success": "The scavengers found more medical equipment than I expected and with the help from the scrappers, I've been able to get most of it up and running.  I should be able to perform more operations now and could even help with some bionics if you have any.",
+      "success": "The scavengers found more medical equipment than I expected and with the help from the scrappers, I've been able to get most of it up and running.  I should be able to perform more operations now.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     },
@@ -284,7 +306,7 @@
       "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
       "effect": [
         { "u_consume_item": "anesthetic", "count": 3000 },
-        { "npc_add_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" }
+        { "npc_add_var": "dialogue_tacoma_ranch_provides_surgery", "value": "yes" }
       ]
     }
   }
