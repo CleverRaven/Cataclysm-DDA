@@ -259,7 +259,7 @@
     "using": [ [ "small_gas_canister_case", 1 ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "white_phosphorous", 20 ] ],
+      [ [ "white_phosphorous", 50 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
