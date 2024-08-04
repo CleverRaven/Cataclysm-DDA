@@ -207,6 +207,7 @@ static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_iron( "iron" );
 static const material_id material_wood( "wood" );
 
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
@@ -348,7 +349,8 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
                ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
                  e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
-                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) );
+                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) ||
+                 e.made_of( material_iron ) );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
     if( !loc ) {
