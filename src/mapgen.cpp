@@ -7108,7 +7108,7 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
  * degrees.
  * @param turns How many 90-degree turns to rotate the map.
  */
-void map::rotate( int turns, const bool setpos_safe )
+void map::rotate( int turns )
 {
     if( this->my_MAPSIZE != 2 ) {
         debugmsg( "map::rotate called with map too large to be rotated properly.  Only the top left overmap will be rotated." );
@@ -8036,7 +8036,7 @@ class rotation_guard
             // If the existing map is rotated, we need to rotate it back to the north
             // orientation before applying our updates.
             if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                md.m.rotate( rotation, true );
+                md.m.rotate( rotation );
             }
         }
 
@@ -8044,7 +8044,7 @@ class rotation_guard
             // If we rotated the map before applying updates, we now need to rotate
             // it back to where we found it.
             if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                md.m.rotate( 4 - rotation, true );
+                md.m.rotate( 4 - rotation );
             }
         }
     private:
