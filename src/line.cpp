@@ -691,7 +691,7 @@ std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d %s", dist, direction_name_short( direction_from( p, q ) ) );
+    return string_format( "%d %s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
