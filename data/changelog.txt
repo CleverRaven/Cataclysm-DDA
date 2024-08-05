@@ -139,6 +139,7 @@ Add persistent boomer bile effect that causes a stench and skin irritation
 Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
+Allow some small parts on helicopters
 
 
 ## Content:
@@ -301,6 +302,10 @@ Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 Adds a home canning hobby/background to character creation
 Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
+Update description for cigars.
+More spooky messages relating to a certain foe
+Add Variable Snippets for Home Pictures
+More detailed sunset/sunrise morale based on actual weather and traits
 
 
 ## Interface:
@@ -378,6 +383,9 @@ Zone Manager: "Show All / Hide Distant" highlights selection
 Add sorting by amount and value/volume in advanced inventory search
 Addiction withdrawals are a toggleable distraction
 The filter is reset when you open the construction menu
+ZenFS: Match encumberance colors
+Remove unnecessary workout y/n prompt
+Select CC-Sounds as default soundpack if it's present on first run
 
 
 ## Mods:
@@ -589,6 +597,14 @@ Document how spellcasting proficiencies work.
 [Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
 [Bombastic Perks] Sword and sorcery-esque perks
 [XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
+XE Stalking Warper
+[MoM] Change Voltaic Strikes and Electrical Discharge to concentration
+[MoM] Change Hardened Skin to concentration
+[MoM] Change Blazing Aura to concentration
+Add a bunch of new perks to Bombastic Perks
+[MoM] Update building vision levels
+[Sky Island] Add bunker climate control upgrade
+Xedra Evolved Cryptid Video snippets
 
 
 ## Balance:
@@ -673,6 +689,9 @@ more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
+Remove guaranteed residential solar, add random residential solar
+Increase weight of HWP EXOTIC configuration and give integrated bipod
+Mortar is now an autolearned recipe
 
 
 ## Bugfixes:
@@ -885,6 +904,20 @@ Civilianize Semi Auto MP40
 Stop wasting dodge attempts on things you can't even see
 [MoM] Fix possibility of studying new powers concurrently.
 Wrong header restoring saved AIM layout
+[MoM] Update Brilliant Flash to use standard blind effect
+Provide insertion failure reasons from only eligible pockets
+Prevent segfault when unloading from spillable container
+safer NPC ranged weapon use
+XE Undine and Salamanders no longer sweat
+Prevent segfault when target of firstaid_activity_actor disappears
+[Bombastic Perks] Fix Pantherish Grace menu display
+Wrong information on furniture deconstruction
+Prevent segfault if repair item disappears
+Remove F-S fighting knife's block
+Prevent negative array index for floor_cache
+Set owner of disassembly result
+Avoid crash when the character has no proficiencies and we press enter on them inside Character menu "@
+Prevent phantom cramped space on empty tiles
 
 
 ## Performance:
@@ -914,6 +947,7 @@ Decrease memory overhead by about 200MB or about 15% by slimming down mapgen dat
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
 cache available recipe list in craft menu
+Optimize typed coordinate conversion functions for widespread savings
 
 
 ## Infrastructure:
@@ -978,6 +1012,8 @@ LIXA connect_group
 Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
 Jsonized end screen
+Quick setup at start for debug worlds/characters
+Random NPC classes can define weighted chance of spawning, relative to other random NPC classes
 
 
 ## Build:
