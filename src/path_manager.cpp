@@ -179,6 +179,16 @@ class path_manager_ui : public cataimgui::window
         path_manager_impl *pimpl;
 };
 
+static std::string avatar_distance_from_tile( const tripoint_abs_ms &tile )
+{
+    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    if( avatar_pos == tile ) {
+        return colorize( _( "It's here." ), c_light_green );
+    } else {
+        return direction_suffix( avatar_pos, tile );
+    }
+}
+
 void path::record_step( const tripoint_abs_ms &new_pos )
 {
     // early return on a huge step, like an elevator teleport
@@ -459,14 +469,16 @@ bool path_manager_impl::auto_route_from_path_middle() const
         const path &curr_path = paths[i];
         const std::string from_to = string_format( "from %s (%s) to %s (%s)",
                                     curr_path.name_start,
-                                    direction_suffix( avatar_pos, curr_path.recorded_path.front() ),
+                                    avatar_distance_from_tile( curr_path.recorded_path.front() ),
                                     curr_path.name_end,
-                                    direction_suffix( avatar_pos, curr_path.recorded_path.back() ) );
+                                    avatar_distance_from_tile( curr_path.recorded_path.back() ) );
         const int avatar_at_i = curr_path.avatar_closest_i_approximate();
         const int start_steps = avatar_at_i;
         const int end_steps = curr_path.recorded_path.size() - avatar_at_i - 1;
-        const std::string start = string_format( "%s (%d steps)", curr_path.name_start, avatar_at_i );
-        const std::string end = string_format( "%s (%d steps)", curr_path.name_end, end_steps );
+        const std::string start = string_format( _( "%s%s (%d steps)" ), start_steps == 0 ? "    " : "",
+                                  curr_path.name_start, avatar_at_i );
+        const std::string end = string_format( _( "%s%s (%d steps)" ), end_steps == 0 ? "    " : "",
+                                               curr_path.name_end, end_steps );
         path_selection.addentry( -1, false, MENU_AUTOASSIGN, from_to );
         path_selection.addentry( i << 1, start_steps > 0, MENU_AUTOASSIGN, start );
         path_selection.addentry( ( i << 1 ) + 1, end_steps > 0, MENU_AUTOASSIGN, end );
@@ -501,17 +513,6 @@ void path_manager_ui::enabled_active_button( const std::string action, bool enab
     ImGui::BeginDisabled( !enabled );
     action_button( action, ctxt.get_button_text( action ) );
     ImGui::EndDisabled();
-}
-
-static void draw_distance_from_tile( const tripoint_abs_ms &tile )
-{
-    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
-    if( avatar_pos == tile ) {
-        cataimgui::draw_colored_text( _( "It's under your feet." ), c_light_green );
-    } else {
-        const std::string dist = direction_suffix( avatar_pos, tile );
-        cataimgui::draw_colored_text( dist );
-    }
 }
 
 void path_manager_ui::draw_controls()
@@ -580,16 +581,17 @@ void path_manager_ui::draw_controls()
             cataimgui::draw_colored_text( curr_path.name_start );
 
             ImGui::TableNextColumn();
-            draw_distance_from_tile( curr_path.recorded_path.front() );
+            cataimgui::draw_colored_text( avatar_distance_from_tile( curr_path.recorded_path.front() ) );
 
             ImGui::TableNextColumn();
             cataimgui::draw_colored_text( curr_path.name_end );
 
             ImGui::TableNextColumn();
-            draw_distance_from_tile( curr_path.recorded_path.back() );
+            cataimgui::draw_colored_text( avatar_distance_from_tile( curr_path.recorded_path.back() ) );
 
             ImGui::TableNextColumn();
-            draw_distance_from_tile( curr_path.recorded_path[curr_path.avatar_closest_i_approximate()] );
+            cataimgui::draw_colored_text( avatar_distance_from_tile(
+                                              curr_path.recorded_path[curr_path.avatar_closest_i_approximate()] ) );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
