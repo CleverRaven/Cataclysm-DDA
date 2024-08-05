@@ -1,0 +1,19 @@
+[
+  {
+    "type": "snippet",
+    "category": "radio_scan_no_stations",
+    "//": "This is extending the vanilla snippets belonging to mostly work of random people: chat logs, SMSes, popular photos and videos that people share, or something they can film by themselves. ",
+    "text": [
+      {
+        "id": "xe_radio_1",
+        "name": "voices on the radio:deftones",
+        "text": "A voice cuts in across the static, 'And for the next hour we'll be playing the last Deftones album Through the Green Door.  I wonder if we collectively went through a green door before the world went crazy.'  The radio blasts Deftones music until you lose the station a few songs in."
+      },
+      {
+        "id": "xe_radio_2",
+        "name": "voices on the radio:darkest of the hillside thickets",
+        "text": "You find a faint signal: 'This is [unintelligible] bringing you Darkest of the Hillside Thickets' new single Don't Talk with the Voice in the Storm!  I'm not really sure how new this single is as I never heard it before the Cataclysm and it showed up in an envelope stapled to the station door one morning after a reality storm.  I suppose there are creepier ways to bring me new music but I don't know what they are, and I'm begging you not to enact them."
+      }
+    ]
+  }
+]

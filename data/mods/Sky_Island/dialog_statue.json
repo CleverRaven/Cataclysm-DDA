@@ -722,6 +722,19 @@
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_centralskylight4" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
+      {
+        "text": "Construct: Climate Control",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_bunker_temperature_adaptation" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "islandrank", ">=", "3" ] },
+            { "math": [ "skyisland_bunker_temperature_adaptation", "==", "0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_bunker_temperature_adaptation" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]
   }

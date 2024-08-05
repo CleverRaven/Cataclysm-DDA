@@ -1060,6 +1060,9 @@ static void draw_om_sidebar(
                    oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    "oter_type: %s", oter.get_type_id().str() );
+        // tileset ids come with a prefix that must be stripped
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   "tileset id: '%s'", oter.get_tileset_id( center_vision ).substr( 3 ) );
         std::vector<oter_id> predecessors = overmap_buffer.predecessors( center );
         if( !predecessors.empty() ) {
             mvwprintz( wbar, point( 1, ++lines ), c_white, "predecessors:" );

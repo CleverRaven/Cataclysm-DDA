@@ -81,11 +81,8 @@
     "hp": 34,
     "speed": 85,
     "color": "magenta",
-    "tracking_distance": 5,
-    "aggression": 5,
-    "anger_triggers": [ "HURT", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "upgrades": { "half_life": 56, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
-    "extend": { "special_attacks": [ [ "PARROT_AT_DANGER", 2 ], [ "SHRIEK", 2 ] ], "flags": [ "KEEP_DISTANCE" ] }
+    "extend": { "special_attacks": [ [ "PARROT_AT_DANGER", 2 ], [ "SHRIEK", 2 ] ] }
   },
   {
     "id": "mon_dog_scorched",
