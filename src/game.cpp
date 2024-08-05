@@ -80,6 +80,7 @@
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
@@ -1138,6 +1139,10 @@ bool game::start_game()
     get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
 
     effect_on_conditions::load_new_character( u );
+    if( debug_menu::is_debug_character() ) {
+        debug_menu::do_debug_quick_setup();
+        add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
+    }
     return true;
 }
 
@@ -5201,14 +5206,24 @@ bool game::swap_critters( Creature &a, Creature &b )
         return true;
     }
     creature_tracker &creatures = get_creature_tracker();
-    if( creatures.creature_at( a.pos() ) != &a ) {
-        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                  b.disp_name(), creatures.creature_at( a.pos() )->disp_name() );
+    if( creatures.creature_at( a.pos_bub() ) != &a ) {
+        if( creatures.creature_at( a.pos_bub() ) == nullptr ) {
+            debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location (%d,%d,%d).",
+                      b.disp_name(), a.disp_name(), a.pos_bub().x(), a.pos_bub().y(), a.pos_bub().z() );
+        } else {
+            debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                      b.disp_name(), creatures.creature_at( a.pos_bub() )->disp_name() );
+        }
         return false;
     }
-    if( creatures.creature_at( b.pos() ) != &b ) {
-        debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                  a.disp_name(), creatures.creature_at( b.pos() )->disp_name() );
+    if( creatures.creature_at( b.pos_bub() ) != &b ) {
+        if( creatures.creature_at( b.pos_bub() ) == nullptr ) {
+            debugmsg( "Tried to swap %s and %s when the latter isn't present at its own location (%d,%d,%d).",
+                      a.disp_name(), b.disp_name(), b.pos_bub().x(), b.pos_bub().y(), b.pos_bub().z() );
+        } else {
+            debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
+                      a.disp_name(), creatures.creature_at( b.pos_bub() )->disp_name() );
+        }
         return false;
     }
     // Simplify by "sorting" the arguments
@@ -9609,7 +9624,7 @@ void game::butcher()
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
                     for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), &*it );
+                        u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -9625,13 +9640,13 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), &*corpses[indexer_index] );
+            u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             item *const target = &*disassembly_stacks[indexer_index].first;
-            u.disassemble( item_location( map_cursor( u.pos_bub() ), target ), true );
+            u.disassemble( item_location( map_cursor( u.get_location() ), target ), true );
         }
         break;
         case BUTCHER_SALVAGE: {
@@ -9640,7 +9655,7 @@ void game::butcher()
             } else {
                 // Pick index of first item in the salvage stack
                 item *const target = &*salvage_stacks[indexer_index].first;
-                item_location item_loc( map_cursor( u.pos_bub() ), target );
+                item_location item_loc( map_cursor( u.get_location() ), target );
                 salvage_iuse->try_to_cut_up( u, *salvage_tool, item_loc );
             }
         }
@@ -10273,6 +10288,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool furniture_move )
 {
+    const tripoint_abs_ms dest_loc_abs = m.getglobal( dest_loc );
+
     if( m.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
@@ -10601,7 +10618,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         start_hauling( oldpos );
     }
 
-    if( u.will_be_cramped_in_vehicle_tile( get_map().getglobal( dest_loc ) ) ) {
+    if( u.will_be_cramped_in_vehicle_tile( dest_loc_abs ) ) {
         if( u.get_size() == creature_size::huge ) {
             add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
         } else if( u.get_total_volume() > u.get_base_volume() )  {
@@ -10841,7 +10858,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             if( !corpses.empty() ) {
                 u.assign_activity( ACT_BUTCHER, 0, true );
                 for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), it );
+                    u.activity.targets.emplace_back( map_cursor( u.get_location() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||

@@ -6732,12 +6732,6 @@ void vehicle::do_towing_move()
         debugmsg( "tried to do towing move but towed vehicle has no towing part" );
         invalidate = true;
     }
-    if( towed_veh->global_pos3().z != global_pos3().z ) {
-        // how the hellicopter did this happen?
-        // yes, this can happen when towing over a bridge (see #47293)
-        invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), towed_veh->disp_name() );
-    }
     if( invalidate ) {
         invalidate_towing( true );
         return;
