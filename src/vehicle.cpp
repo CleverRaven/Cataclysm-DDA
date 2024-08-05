@@ -271,6 +271,23 @@ bool vehicle::player_in_control( const Character &p ) const
     return remote_controlled( p );
 }
 
+bool vehicle::player_is_driving_this_veh() const
+{
+    Character *driver = get_driver();
+    // Early out, nobody's driving
+    if( !driver ) {
+        return false;
+    }
+    Character &player_character = get_player_character();
+    // Another easy out, just check if the player is controlling any vehicle
+    if( !player_character.controlling_vehicle ) {
+        return false;
+    }
+
+    // Lastly check if the player is controlling *this* vehicle
+    return player_in_control( player_character );
+}
+
 bool vehicle::remote_controlled( const Character &p ) const
 {
     vehicle *veh = g->remoteveh();
@@ -3418,6 +3435,16 @@ Character *vehicle::get_passenger( int you ) const
     return nullptr;
 }
 
+bool vehicle::has_driver() const
+{
+    return get_driver();
+}
+
+Character *vehicle::get_driver() const
+{
+    return &get_player_character();
+}
+
 monster *vehicle::get_monster( int p ) const
 {
     p = part_with_feature( p, VPFLAG_BOARDABLE, false );
@@ -3570,21 +3597,21 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
 
     //muscle engines have infinite fuel
     if( ftype == fuel_type_muscle ) {
-        Character &player_character = get_player_character();
-        // TODO: Allow NPCs to power those
-        const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
-        bool player_controlling = player_in_control( player_character );
+        Character *driver = get_driver();
+        const optional_vpart_position vp = get_map().veh_at( driver->pos_bub() );
 
-        //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if( vp && &vp->vehicle() == this && player_controlling ) {
+        //if the engine in the tile is a muscle engine, and someone is ready to control this vehicle
+        // TODO: Allow NPCs to power those
+        // TODO: Revise this check to driver when get_driver() can return nullptr
+        if( vp && &vp->vehicle() == this && player_is_driving_this_veh() ) {
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE );
             if( p >= 0 ) {
                 const vehicle_part &vp = parts[p];
                 const vpart_info &vpi = vp.info();
                 if( vp.enabled && vpi.fuel_type == fuel_type_muscle ) {
                     // intact limbs allow using muscle engines from working
-                    if( ( vpi.has_flag( "MUSCLE_LEGS" ) && player_character.get_working_leg_count() >= 2 ) ||
-                        ( vpi.has_flag( "MUSCLE_ARMS" ) && player_character.has_two_arms_lifting() ) ) {
+                    if( ( vpi.has_flag( "MUSCLE_LEGS" ) && driver->get_working_leg_count() >= 2 ) ||
+                        ( vpi.has_flag( "MUSCLE_ARMS" ) && driver->has_two_arms_lifting() ) ) {
                         fl += 10;
                     }
                 }
@@ -4415,7 +4442,7 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return !rotors.empty() && player_in_control( get_player_character() ) &&
+    return !rotors.empty() && has_driver() &&
            has_sufficient_rotorlift();
 }
 
@@ -4912,15 +4939,21 @@ void vehicle::consume_fuel( int load, bool idling )
     if( idling ) {
         return;
     }
-    Character &player_character = get_player_character();
+    Character *driver = get_driver();
+
+    // Only process muscle power and training things when someone is actually driving.
+    // Note that the vehicle can be moving even if nobody is driving it.
+    if( !driver ) {
+        return;
+    }
 
     // if engine is under load, player is actively piloting a vehicle, so train appropriate vehicle proficiency
     if( load > 0 ) {
-        practice_pilot_proficiencies( player_character, in_deep_water );
+        practice_pilot_proficiencies( *driver, in_deep_water );
     }
 
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
-        player_character.has_effect( effect_winded ) ) {
+        driver->has_effect( effect_winded ) ) {
         cruise_velocity = 0;
         if( velocity == 0 ) {
             stop();
@@ -4928,7 +4961,7 @@ void vehicle::consume_fuel( int load, bool idling )
     }
     // we want this to update the activity level whenever we're using muscle power to move
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
-        player_character.set_activity_level( ACTIVE_EXERCISE );
+        driver->set_activity_level( ACTIVE_EXERCISE );
         //do this as a function of current load
         // But only if the player is actually there!
         int eff_load = load / 10;
@@ -4936,39 +4969,39 @@ void vehicle::consume_fuel( int load, bool idling )
         const int base_staminaRegen = static_cast<int>
                                       ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
         const int actual_staminaRegen = static_cast<int>( base_staminaRegen *
-                                        player_character.get_cardiofit() / player_character.get_cardio_acc_base() );
+                                        driver->get_cardiofit() / driver->get_cardio_acc_base() );
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
-        for( const bionic_id &bid : player_character.get_bionic_fueled_with_muscle() ) {
-            if( player_character.has_active_bionic( bid ) ) { // active power gen
+        for( const bionic_id &bid : driver->get_bionic_fueled_with_muscle() ) {
+            if( driver->has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
-                player_character.mod_power_level( muscle.fuel_energy() *
-                                                  bid->fuel_efficiency *
-                                                  load / 1000 );
+                driver->mod_power_level( muscle.fuel_energy() *
+                                         bid->fuel_efficiency *
+                                         load / 1000 );
                 mod += eff_load / 5;
             } else { // passive power gen
-                player_character.mod_power_level( muscle.fuel_energy() *
-                                                  bid->passive_fuel_efficiency *
-                                                  load / 1000 );
+                driver->mod_power_level( muscle.fuel_energy() *
+                                         bid->passive_fuel_efficiency *
+                                         load / 1000 );
                 mod += eff_load / 10;
             }
         }
         // decreased stamina burn scalable with load
-        if( player_character.has_active_bionic( bio_jointservo ) ) {
-            player_character.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -std::max(
-                                                  eff_load / 20, 1 ) ) ) );
+        if( driver->has_active_bionic( bio_jointservo ) ) {
+            driver->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -std::max(
+                                         eff_load / 20, 1 ) ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
 
-        player_character.mod_stamina( -( base_burn + mod ) );
+        driver->mod_stamina( -( base_burn + mod ) );
         add_msg_debug( debugmode::DF_VEHICLE, "Load: %d", load );
         add_msg_debug( debugmode::DF_VEHICLE, "Mod: %d", mod );
         add_msg_debug( debugmode::DF_VEHICLE, "Burn: %d", -( base_burn + mod ) );
 
-        // player is actively powering a muscle engine, so train cycling proficiency
-        practice_athletic_proficiency( player_character );
+        // character is actively powering a muscle engine, so train cycling proficiency
+        practice_athletic_proficiency( *driver );
     }
 }
 
@@ -5318,7 +5351,7 @@ void vehicle::power_parts()
                 for( int elem : reactors ) {
                     parts[ elem ].enabled = false;
                 }
-                if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
+                if( player_is_driving_this_veh() || player_character.sees( global_pos3() ) ) {
                     add_msg( _( "The %s's reactor dies!" ), name );
                 }
             }
@@ -5353,13 +5386,13 @@ void vehicle::power_parts()
 
         is_alarm_on = false;
         camera_on = false;
-        if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
+        if( player_is_driving_this_veh() || player_character.sees( global_pos3() ) ) {
             add_msg( _( "The %s's battery dies!" ), name );
         }
         if( engine_epower < 0_W ) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
-            if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
+            if( player_is_driving_this_veh() || player_character.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's engine dies!" ), name );
             }
         }
@@ -5796,8 +5829,9 @@ void vehicle::on_move()
     }
 
     Character &pc = get_player_character();
+    // TODO: Send ID of driver
     get_event_bus().send<event_type::vehicle_moves>(
-        is_passenger( pc ), player_in_control( pc ), remote_controlled( pc ),
+        is_passenger( pc ), player_is_driving_this_veh(), remote_controlled( pc ),
         is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
         is_falling, is_in_water( true ) && !can_float(),
         skidding, velocity, sm_pos.z
@@ -6109,7 +6143,7 @@ void vehicle::gain_moves()
 {
     fuel_used_last_turn.clear();
     check_falling_or_floating();
-    const bool pl_control = player_in_control( get_player_character() );
+    const bool pl_control = player_is_driving_this_veh();
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
