@@ -199,8 +199,8 @@
   {
     "id": "photokinetic_light_dodge",
     "type": "SPELL",
-    "name": "[Ψ]Trick of the Light",
-    "description": "Manipulate the light around your body, creating small illusions and becoming harder to hit.\n\nAn enemy successfully hitting you will <color_red>disrupt the power</color>.",
+    "name": "[Ψ]Trick of the Light (C)",
+    "description": "Manipulate the light around your body, creating small illusions and becoming harder to hit.\n\nhis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  An enemy successfully hitting you will <color_red>disrupt the power</color>.",
     "message": "You are surrounded by shifting illusions.",
     "teachable": false,
     "valid_targets": [ "self" ],
