@@ -7357,7 +7357,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
             g->setremoteveh( veh );
             p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
             if( !veh->engine_on ) {
-                veh->start_engines();
+                veh->start_engines( p );
             }
         }
     } else if( choice == 1 ) {

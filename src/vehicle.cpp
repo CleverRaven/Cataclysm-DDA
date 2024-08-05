@@ -273,9 +273,8 @@ bool vehicle::player_in_control( const Character &p ) const
 
 bool vehicle::player_is_driving_this_veh() const
 {
-    Character *driver = get_driver();
     // Early out, nobody's driving
-    if( !driver ) {
+    if( !get_driver() ) {
         return false;
     }
     Character &player_character = get_player_character();
@@ -3605,6 +3604,9 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
     //muscle engines have infinite fuel
     if( ftype == fuel_type_muscle ) {
         Character *driver = get_driver();
+        if( !driver ) {
+            return fl;
+        }
         const optional_vpart_position vp = get_map().veh_at( driver->pos_bub() );
 
         //if the engine in the tile is a muscle engine, and someone is ready to control this vehicle

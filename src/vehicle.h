@@ -1014,7 +1014,8 @@ class vehicle
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        void start_engines( Character *driver = nullptr, bool take_control = false,
+                            bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
@@ -1395,7 +1396,6 @@ class vehicle
         Character *get_passenger( int you ) const;
         bool has_driver() const;
         // get character that is currently controlling the vehicle's motion
-        // TODO: Currently always returns player!
         Character *get_driver() const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;

@@ -301,7 +301,6 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
 
     // turn on/off combustion engines when necessary
     if( !has_electric_engine ) {
-        Character &player_character = get_player_character();
         if( !discharge_forbidden_soft && is_stationary && engine_on && !autopilot_on &&
             !player_is_driving_this_veh() ) {
             stop_engines();
