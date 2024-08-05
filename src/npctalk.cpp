@@ -6304,6 +6304,26 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
     };
 }
 
+talk_effect_fun_t::func f_emit( const JsonObject &jo, std::string_view member,
+                                const std::string_view, bool is_npc )
+{
+    str_or_var emit = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var chance_mult = get_dbl_or_var( jo, "chance_mult", false, 1 );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+    return [emit, target_var, chance_mult, is_npc ]( dialogue & d ) {
+        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        if( target_var.has_value() ) {
+            target_pos = get_tripoint_from_var( target_var, d, is_npc );
+        }
+        tripoint target = get_map().getlocal( target_pos );
+        get_map().emit_field( target, emit_id( emit.evaluate( d ) ), chance_mult.evaluate( d ) );
+    };
+}
+
 talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view member,
                                     const std::string_view, bool is_npc )
 {
@@ -6519,6 +6539,7 @@ parsers = {
     { "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun::f_spawn_monster },
     { "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun::f_spawn_npc },
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },
+    { "u_emit", "npc_emit", jarg::member, &talk_effect_fun::f_emit },
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },

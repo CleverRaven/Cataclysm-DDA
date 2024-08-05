@@ -1594,7 +1594,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "charges": [ 0, 30 ] },
+      { "group": "modular_m4a1", "charges": [ 0, 30 ] },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }

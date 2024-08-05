@@ -5074,5 +5074,12 @@
     "dispersion": 14,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ACIDBOMB" ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "debug_modular_m4_carbine",
+    "type": "GUN",
+    "copy-from": "modular_m4_carbine",
+    "name": { "str": "debug m4 carbine" },
+    "default_mods": [ "retool_ar15_223rem_medium" ]
   }
 ]

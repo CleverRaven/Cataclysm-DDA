@@ -6648,6 +6648,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
+    if( !it ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
     item *used_tool = it->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
@@ -6983,7 +6988,7 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
         // Check first and only if possible attempt it with player char
         // This suppresses warnings unless it is an item the player wears
         if( actor->valid_to_cut_up( nullptr, it ) ) {
-            item_location item_loc( map_cursor( who.pos_bub() ), &it );
+            item_location item_loc( map_cursor( who.get_location() ), &it );
             actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }

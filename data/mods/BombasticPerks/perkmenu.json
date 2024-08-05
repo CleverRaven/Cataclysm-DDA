@@ -200,7 +200,7 @@
         "condition": { "not": { "u_has_trait": "perk_pantherish_grace" } },
         "text": "Gain [<trait_name:perk_pantherish_grace>]",
         "effect": [
-          { "set_string_var": "<trait_name:perk_mighty_thews>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_name:perk_pantherish_grace>", "target_var": { "context_val": "trait_name" } },
           {
             "set_string_var": "<trait_description:perk_pantherish_grace>",
             "target_var": { "context_val": "trait_description" }
@@ -1151,6 +1151,139 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_thickblood" } },
+        "text": "Gain [<trait_name:perk_thickblood>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_thickblood>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_thickblood>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_thickblood", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_dream_armor" } },
+        "text": "Gain [<trait_name:perk_dream_armor>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_dream_armor>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_dream_armor>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_dream_armor", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_redrage" } },
+        "text": "Gain [<trait_name:perk_redrage>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_redrage>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_redrage>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_redrage", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_peer_pressure" } },
+        "text": "Gain [<trait_name:perk_peer_pressure>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_peer_pressure>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_peer_pressure>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_peer_pressure", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_poison_painkill" } },
+        "text": "Gain [<trait_name:perk_poison_painkill>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_poison_painkill>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_poison_painkill>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_poison_painkill", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_unopenable_grip" } },
+        "text": "Gain [<trait_name:perk_unopenable_grip>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_unopenable_grip>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_unopenable_grip>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_unopenable_grip", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_radio_infusion" } },
+        "text": "Gain [<trait_name:perk_radio_infusion>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_radio_infusion>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_radio_infusion>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_radio_infusion", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "math": [ "u_no_playstyle", "==", "0" ] },
         "text": "Playstyle Perks",
         "topic": "TALK_PERK_MENU_PLAYSTYLE"
@@ -1377,6 +1510,63 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "GOURMAND" } } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_speedballing" } },
+        "text": "Gain [<trait_name:perk_speedballing>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_speedballing>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_speedballing>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_speedballing", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_flawless_memory" } },
+        "text": "Gain [<trait_name:perk_flawless_memory>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_flawless_memory>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_flawless_memory>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_flawless_memory", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_forge_blood" } },
+        "text": "Gain [<trait_name:perk_forge_blood>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_forge_blood>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_forge_blood>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_forge_blood", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },

@@ -1805,7 +1805,7 @@ furn_id map::furn( const tripoint &p ) const
     return furn( tripoint_bub_ms( p ) );
 }
 
-furn_id map::furn( const tripoint_bub_ms &p ) const
+furn_id map::furn( const tripoint_bub_ms p ) const
 {
     if( !inbounds( p ) ) {
         return furn_str_id::NULL_ID();
@@ -2000,25 +2000,25 @@ std::string map::furnname( const tripoint_bub_ms &p )
  * retained for high performance comparisons, save/load, and gradual transition
  * to string terrain.id
  */
-ter_id map::ter( const tripoint &p ) const
+ter_id map::ter( const tripoint p ) const
+{
+    return ter( tripoint_bub_ms( p ) );
+}
+ter_id map::ter( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
         return ter_str_id::NULL_ID().id();
     }
 
     point_sm_ms l;
-    const submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    const submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to process terrain at (%d,%d) but the submap is not loaded", l.x(), l.y() );
+        debugmsg( "Tried to process terrain at (%d,%d) of submap of (%d,%d,%d) but the submap is not loaded.  my_MAPSIZE: %d",
+                  l.x(), l.y(), p.x(), p.y(), p.z(), my_MAPSIZE );
         return ter_str_id::NULL_ID().id();
     }
 
     return current_submap->get_ter( l );
-}
-
-ter_id map::ter( const tripoint_bub_ms &p ) const
-{
-    return ter( p.raw() );
 }
 
 int map::get_map_damage( const tripoint_bub_ms &p ) const
@@ -7473,7 +7473,13 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH || get_cache( p.z ).floor_cache[p.x][p.y];
+    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+        return true;
+    } else if( !inbounds( p ) ) {
+        return false;
+    } else {
+        return get_cache( p.z ).floor_cache[p.x][p.y];
+    }
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,

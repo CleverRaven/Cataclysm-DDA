@@ -4369,26 +4369,35 @@ void npc::heal_self()
         std::string iusage = "INHALER";
 
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
-            auto inv_filtered = items_with( [&filter]( const item & itm )
+            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm )
             {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
         };
 
-        const auto inv_inhalers = filter_use( iusage );
-        if( !inv_inhalers.empty() ) {
-            treatment = inv_inhalers.front();
-        } else {
-            iusage = "OXYGEN_BOTTLE";
-            const auto inv_oxybottles = filter_use( iusage );
-            if( !inv_oxybottles.empty() ) {
-                treatment = inv_oxybottles.front();
+        const std::vector<item *> inv_inhalers = filter_use( iusage );
+
+        for( item *inhaler : inv_inhalers ) {
+            if( treatment == nullptr || treatment->ammo_remaining() > inhaler->ammo_remaining() ) {
+                treatment = inhaler;
             }
         }
+
+        if( treatment == nullptr ) {
+            iusage = "OXYGEN_BOTTLE";
+            const std::vector<item *> inv_oxybottles = filter_use( iusage );
+
+            for( item *oxy_bottle : inv_oxybottles ) {
+                if( treatment == nullptr || treatment->ammo_remaining() > oxy_bottle->ammo_remaining() ) {
+                    treatment = oxy_bottle;
+                }
+            }
+        }
+
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( this, *treatment, pos() );
-            treatment->ammo_consume( treatment->ammo_required(), pos(), this );
+            treatment->get_use( iusage )->call( this, *treatment, pos_bub() );
+            treatment->ammo_consume( treatment->ammo_required(), pos_bub(), this );
             return;
         }
     }

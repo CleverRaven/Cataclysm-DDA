@@ -59,9 +59,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Greatly increases the psion’s reaction (2x), block (1.2x) and crawl (1.5) limb scores, as well as rendering them immune to being grabbed and making it easier to recover from being downed.  It reduces fall damage by 20% plus 2% per level.<br />
 *Prerequisites*: Physical Enhancement 6<br />
 
-## Hardened Skin 
+## Hardened Skin (C)
 *Difficulty*: 4
-*Duration*: 45 to 90 seconds, plus 8 to 15 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />
@@ -112,7 +112,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 60 seconds to 5 minutes, plus 8 to 25 seconds per level<br />
 *Stamina Cost*: 5500, minus 175 per level to a minimum of 2750<br />
 *Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 100<br />
-*Effects*: Prevents the psion from having to breath and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
+*Effects*: Prevents the psion from having to breathe and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
 *Prerequisites*: Hardened Skin 9 *or* Oxygen Absorption 9, Temperature Adaptability 10 *or* Hammerhand 7<br />
 
 ## Metabolic Hyperefficiency (C) 
