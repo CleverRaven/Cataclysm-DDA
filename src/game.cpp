@@ -9624,7 +9624,7 @@ void game::butcher()
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
                     for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), &*it );
+                        u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -9640,13 +9640,13 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), &*corpses[indexer_index] );
+            u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             item *const target = &*disassembly_stacks[indexer_index].first;
-            u.disassemble( item_location( map_cursor( u.pos_bub() ), target ), true );
+            u.disassemble( item_location( map_cursor( u.get_location() ), target ), true );
         }
         break;
         case BUTCHER_SALVAGE: {
@@ -9655,7 +9655,7 @@ void game::butcher()
             } else {
                 // Pick index of first item in the salvage stack
                 item *const target = &*salvage_stacks[indexer_index].first;
-                item_location item_loc( map_cursor( u.pos_bub() ), target );
+                item_location item_loc( map_cursor( u.get_location() ), target );
                 salvage_iuse->try_to_cut_up( u, *salvage_tool, item_loc );
             }
         }
@@ -10856,7 +10856,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             if( !corpses.empty() ) {
                 u.assign_activity( ACT_BUTCHER, 0, true );
                 for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.pos_bub() ), it );
+                    u.activity.targets.emplace_back( map_cursor( u.get_location() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
