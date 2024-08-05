@@ -3442,7 +3442,14 @@ bool vehicle::has_driver() const
 
 Character *vehicle::get_driver() const
 {
-    return &get_player_character();
+    // TODO: Gotta be a better way than this...
+    for( const vpart_reference &vp : get_all_parts() ) {
+        Character *occupant = vp.get_passenger();
+        if( occupant && player_in_control( *occupant ) ) {
+            return occupant;
+        }
+    }
+    return nullptr;
 }
 
 monster *vehicle::get_monster( int p ) const
@@ -3602,8 +3609,7 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
 
         //if the engine in the tile is a muscle engine, and someone is ready to control this vehicle
         // TODO: Allow NPCs to power those
-        // TODO: Revise this check to driver when get_driver() can return nullptr
-        if( vp && &vp->vehicle() == this && player_is_driving_this_veh() ) {
+        if( vp && &vp->vehicle() == this && driver ) {
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE );
             if( p >= 0 ) {
                 const vehicle_part &vp = parts[p];
