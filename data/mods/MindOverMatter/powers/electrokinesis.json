@@ -458,12 +458,16 @@
     },
     "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 2750,
-    "energy_increment": -135,
-    "base_casting_time": 165,
-    "final_casting_time": 75,
-    "casting_time_increment": -5.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 0 : max((6000 - (u_spell_level('electrokinetic_speed_boost') * 135)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 10 : max((165 -(u_spell_level('electrokinetic_speed_boost') * 5.5)), 75)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -592,6 +596,7 @@
         "( (u_spell_level('electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
@@ -601,8 +606,7 @@
       "math": [
         "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
       ]
-    },
-    "energy_source": "STAMINA"
+    }
   },
   {
     "id": "electrokinetic_lightning_aura_spark",
