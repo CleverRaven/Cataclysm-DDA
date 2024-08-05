@@ -10288,6 +10288,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool furniture_move )
 {
+    const tripoint_abs_ms dest_loc_abs = m.getglobal( dest_loc );
+
     if( m.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
@@ -10616,7 +10618,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         start_hauling( oldpos );
     }
 
-    if( u.will_be_cramped_in_vehicle_tile( get_map().getglobal( dest_loc ) ) ) {
+    if( u.will_be_cramped_in_vehicle_tile( dest_loc_abs ) ) {
         if( u.get_size() == creature_size::huge ) {
             add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
         } else if( u.get_total_volume() > u.get_base_volume() )  {
