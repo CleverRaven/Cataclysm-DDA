@@ -617,13 +617,28 @@
     "symbol": "*",
     "color": "white",
     "name": { "str": "Picture" },
-    "snippet_category": "home_pictures",
     "description": "A medium picture of something that the owner wished to decorate their house with.",
     "weight": "600 g",
     "volume": "650 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper", "wood" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "variants": [
+      {
+        "id": "hp_original",
+        "name": { "str": "Picture" },
+        "description": "<home_pictures>",
+        "expand_snippets": true,
+        "weight": 200
+      },
+      {
+        "id": "hp_snippet_nested",
+        "name": { "str": "Picture" },
+        "description": "<hp_nested>",
+        "expand_snippets": true,
+        "weight": 40
+      }
+    ]
   }
 ]

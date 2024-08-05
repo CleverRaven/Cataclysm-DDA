@@ -2471,6 +2471,12 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     // Valid Repeat choice and target, attempt repair.
     if( repeat != repeat_type::INIT && act->targets.size() >= 2 ) {
         item_location &fix_location = act->targets[1];
+        if( !fix_location ) {
+            // The item could disappear for various reasons: moved by follower, burned up, eaten by a grue, etc.
+            you->add_msg_if_player( m_warning, _( "You can no longer find the item to repair." ) );
+            act->set_to_null();
+            return;
+        }
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
