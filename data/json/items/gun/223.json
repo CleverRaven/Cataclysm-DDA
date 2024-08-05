@@ -348,7 +348,7 @@
         "id": "m4_cqbr",
         "name": { "str": "Mk 18 CQBR carbine" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
-        "weight": 1
+        "weight": 0
       }
     ],
     "to_hit": -1,

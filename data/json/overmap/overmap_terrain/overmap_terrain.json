@@ -1150,5 +1150,33 @@
     "extras": "field",
     "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "sand_pit_NW",
+      "sand_pit_N",
+      "sand_pit_NE",
+      "sand_pit_W",
+      "sand_pit_M",
+      "sand_pit_E",
+      "sand_pit_SW",
+      "sand_pit_S",
+      "sand_pit_SE",
+      "sand_pit_NW_down",
+      "sand_pit_N_down",
+      "sand_pit_NE_down",
+      "sand_pit_W_down",
+      "sand_pit_M_down",
+      "sand_pit_E_down",
+      "sand_pit_SW_down",
+      "sand_pit_S_down",
+      "sand_pit_SE_down"
+    ],
+    "name": "sand pit",
+    "sym": "#",
+    "color": "yellow",
+    "vision_levels": "blends_till_outlines",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]

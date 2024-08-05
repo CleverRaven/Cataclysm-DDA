@@ -14,10 +14,12 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "corpse_yugg_mutflesh",
     "name": { "str": "massive fleshy tube" },
     "description": "An oversized tube of faintly green raw flesh of nondescript origin.  It is vaguely shaped like a yugg.",
+    "comestible_type": "INVALID",
+    "spoils_in": "3 days",
     "symbol": "W",
     "color": "red",
     "category": "corpses",

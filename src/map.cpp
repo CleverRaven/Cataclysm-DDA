@@ -1805,7 +1805,7 @@ furn_id map::furn( const tripoint &p ) const
     return furn( tripoint_bub_ms( p ) );
 }
 
-furn_id map::furn( const tripoint_bub_ms &p ) const
+furn_id map::furn( const tripoint_bub_ms p ) const
 {
     if( !inbounds( p ) ) {
         return furn_str_id::NULL_ID();
@@ -2000,7 +2000,7 @@ std::string map::furnname( const tripoint_bub_ms &p )
  * retained for high performance comparisons, save/load, and gradual transition
  * to string terrain.id
  */
-ter_id map::ter( const tripoint &p ) const
+ter_id map::ter( const tripoint p ) const
 {
     return ter( tripoint_bub_ms( p ) );
 }
@@ -7473,7 +7473,13 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH || get_cache( p.z ).floor_cache[p.x][p.y];
+    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+        return true;
+    } else if( !inbounds( p ) ) {
+        return false;
+    } else {
+        return get_cache( p.z ).floor_cache[p.x][p.y];
+    }
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,

@@ -965,7 +965,7 @@ class map
         }
         // TODO: fix point types (remove the first overload)
         furn_id furn( const tripoint &p ) const;
-        furn_id furn( const tripoint_bub_ms &p ) const;
+        furn_id furn( tripoint_bub_ms p ) const;
         // TODO: Get rid of untyped overload.
         furn_id furn( const point_bub_ms &p ) const {
             return furn( tripoint_bub_ms( p, abs_sub.z() ) );
@@ -1010,7 +1010,7 @@ class map
 
         // Terrain
         // TODO: fix point types (remove the first overload)
-        ter_id ter( const tripoint &p ) const;
+        ter_id ter( tripoint p ) const;
         ter_id ter( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload.
         ter_id ter( const point &p ) const {
@@ -2399,11 +2399,9 @@ class map
             offset_p.y = p.y % SEEY;
             return unsafe_get_submap_at( p );
         }
-        submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
+        submap *unsafe_get_submap_at( const tripoint_bub_ms p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            point_sm_ms_ib l;
-            std::tie( sm, l ) = project_remain<coords::sm>( p );
-            offset_p = point_sm_ms( l );
+            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2413,11 +2411,9 @@ class map
             return unsafe_get_submap_at( p );
         }
         const submap *unsafe_get_submap_at(
-            const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
+            const tripoint_bub_ms p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            point_sm_ms_ib l;
-            std::tie( sm, l ) = project_remain<coords::sm>( p );
-            offset_p = point_sm_ms( l );
+            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
             return unsafe_get_submap_at( p );
         }
         // TODO: Get rid of untyped overload
