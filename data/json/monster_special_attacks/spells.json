@@ -590,7 +590,11 @@
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
     "condition": {
-      "and": [ { "or": [ { "math": [ "_proj_damage", ">", "0" ] }, { "math": [ "_damage", ">", "0" ] } ] }, "u_is_npc", "has_beta" ]
+      "and": [
+        { "or": [ { "math": [ "_proj_damage", ">", "0" ] }, { "math": [ "_damage", ">", "0" ] } ] },
+        "npc_is_npc",
+        "has_beta"
+      ]
     },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
