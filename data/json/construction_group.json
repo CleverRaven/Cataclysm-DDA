@@ -322,6 +322,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_trap_glass",
+    "name": "Build Glass Trap"
+  },
+  {
+    "type": "construction_group",
     "id": "build_treadmill_mechanical",
     "name": "Build Gravity Treadmill"
   },
