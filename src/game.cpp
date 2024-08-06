@@ -12535,6 +12535,9 @@ void game::update_overmap_seen()
             const oter_id &ter = overmap_buffer.ter( *it );
             sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
         }
+        if( sight_points < 0 ) {
+            continue;
+        }
         const auto set_seen = []( const tripoint_abs_omt & p, om_vision_level level ) {
             tripoint_abs_omt seen( p );
             do {
