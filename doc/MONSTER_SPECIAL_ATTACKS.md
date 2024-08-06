@@ -180,7 +180,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
 |						      | targeted with a chance proportional to the value.
-| `condition`                 | Object, dialog conditions enabling the attack - see `NPC.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
+| `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `grab`                      | Boolean, default false. Denotes this attack as a grabbing one. See `grabs` for further information
@@ -197,6 +197,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `self_effects_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
 | `self_effects_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
 | `throw_strength`		      | Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
+| `eoc`                       | Array of ids, runs effect on condition, with `u` as attacker, and `npc` as victim, and `damage` as context variable with total damage dealt. See `NPCs.md`
 | `miss_msg_u`			      | String, message for missed attack against the player.
 | `miss_msg_npc`		      | String, message for missed attack against an NPC.
 | `hit_dmg_u`                 | String, message for successful attack against the player.

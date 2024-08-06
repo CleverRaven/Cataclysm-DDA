@@ -348,7 +348,7 @@
         "id": "m4_cqbr",
         "name": { "str": "Mk 18 CQBR carbine" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
-        "weight": 1
+        "weight": 0
       }
     ],
     "to_hit": -1,
@@ -741,7 +741,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Bren 5.56x45mm carbine" },
-    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {

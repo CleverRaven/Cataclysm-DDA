@@ -485,7 +485,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
 *Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
 
-## Trick of the Light
+## Trick of the Light (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 28 seconds to 2 minutes and 5 seconds, plus 13 to 27 seconds per power level, or until hit in combat<br />
@@ -557,7 +557,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
 *Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
 
-## Sensor Interference (C)
+## Sensor Interference
 *Difficulty*: 5<br />
 *Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 20 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 50 squares<br />
 *Duration*: 2 to 3 seconds plus three-quarters of a second to a second and a half per power level.<br />

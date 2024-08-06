@@ -482,5 +482,75 @@
     "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "rough_rider_pistol",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": { "str_sp": ".22 six-shooter" },
+    "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
+    "ascii_picture": "redhawk",
+    "weight": "947 g",
+    "volume": "442 ml",
+    "longest_side": "318 mm",
+    "//2": "barrel length (165mm) + cylinder length (25mm)",
+    "barrel_length": "190 mm",
+    "price": "165 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "dispersion": 380,
+    "durability": 8,
+    "reload": 250,
+    "blackpowder_tolerance": 56,
+    "clip_size": 6,
+    "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rough_rider_pistol",
+        "name": { "str_sp": "Heritage Rough Rider 6.5\"" },
+        "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
+      }
+    ]
+  },
+  {
+    "id": "rough_rider_pistol_9",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": { "str_sp": "large .22 six-shooter" },
+    "description": "A revolver chambered in .22 LR, with 6 shots and a 9 inch barrel.",
+    "ascii_picture": "redhawk",
+    "weight": "1046 g",
+    "volume": "456 ml",
+    "longest_side": "386 mm",
+    "//2": "barrel length (229mm) + cylinder length (25mm)",
+    "barrel_length": "254 mm",
+    "price": "288 USD 99 cent",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "range": 2,
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 340,
+    "durability": 8,
+    "reload": 250,
+    "blackpowder_tolerance": 56,
+    "clip_size": 6,
+    "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rough_rider_pistol",
+        "name": { "str_sp": "Heritage Rough Rider 9\"" },
+        "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
+      }
+    ]
   }
 ]

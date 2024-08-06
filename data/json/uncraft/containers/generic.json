@@ -26,5 +26,13 @@
     "result": "saline_bag_2000_empty",
     "time": "5 s",
     "components": [ [ [ "plastic_sheet_small", 8 ] ] ]
+  },
+  {
+    "result": "mre_bag_jam",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 37 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   }
 ]

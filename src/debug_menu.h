@@ -135,6 +135,8 @@ void wishproficiency( Character *you );
 
 void debug();
 
+void do_debug_quick_setup();
+
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>
 Container string_to_iterable( const std::string_view str, const std::string_view delimiter )
@@ -155,6 +157,8 @@ Container string_to_iterable( const std::string_view str, const std::string_view
 
     return res;
 }
+
+bool is_debug_character();
 
 /* Merges iterable elements into std::string with
  * @param delimiter between them

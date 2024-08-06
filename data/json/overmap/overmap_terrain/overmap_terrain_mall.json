@@ -6,7 +6,7 @@
     "color": "i_red",
     "vision_levels": "large_city_building",
     "sym": "M",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ]
   },
@@ -310,6 +310,7 @@
       "mall_a_71_basement"
     ],
     "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "solid earth",
     "color": "brown",
     "sym": "#"

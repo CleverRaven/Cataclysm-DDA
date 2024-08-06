@@ -5682,10 +5682,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                 }
             }
             comfort += boardable ? max_boardable_confort : -here.move_cost( p );
-
-            if( has_effect( effect_cramped_space ) ) {
-                comfort = static_cast<int>( comfort_level::impossible );
-            }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != furn_str_id::NULL_ID() ) {

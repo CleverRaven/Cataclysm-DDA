@@ -248,7 +248,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `vision_levels`   | Id of a `oter_vision` that describes how this overmap terrain will be displayed when there is not full vision of the tile.
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
-| `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
+| `see_cost`        | Affects player vision on overmap.  See table below for possible values.                          |
 | `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
@@ -264,6 +264,18 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `entry_eoc`       | An effect on condition ID that will run when you enter this location.                            |
 | `exit_eoc`        | An effect on condition ID that will run when you exit this location.                             |
 
+### `see_cost` values
+
+| name | role |
+| `"all_clear"` | This tile has no or minimal horizontal obstacles and can be seen down through |
+| `"none"` | This tile has no or minimal horizontal obstacles - most flat terrain |
+| `"low"` | This tile has low horizontal obstacles or few higher obstacles |
+| `"medium"` | This tile has medium horizontal obstacles |
+| `"spaced_high"` | This tile has high obstacles, but they are spaced and have several gaps - a forest |
+| `"high"` | This tile has high obstacles, but still allows some sight around it - most buildings |
+| `"full_high"` | This tile has high obstacles, and effectively cannot be seen through - multi-tile buildings |
+| `"opaque"` | This tile cannot be seen through under any circumstance |
+
 ### Example
 
 A real `overmap_terrain` wouldn't have all these defined at the same time, but in the interest of
@@ -277,7 +289,7 @@ an exhaustive example...
     "sym": ".",
     "color": "brown",
     "looks_like": "forest",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "extras": "field",
     "mondensity": 2,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },

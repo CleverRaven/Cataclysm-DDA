@@ -2826,6 +2826,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         break;
         case TILE_CATEGORY::OVERMAP_WEATHER:
         case TILE_CATEGORY::OVERMAP_TERRAIN:
+        case TILE_CATEGORY::OVERMAP_VISION_LEVEL:
         case TILE_CATEGORY::MAP_EXTRA:
             seed = simple_point_hash( pos );
             break;

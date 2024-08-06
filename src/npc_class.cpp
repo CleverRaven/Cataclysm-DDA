@@ -229,6 +229,12 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "job_description", job_description );
 
     optional( jo, was_loaded, "common", common, true );
+    if( common ) {
+        optional( jo, was_loaded, "common_spawn_weight", common_spawn_weight, 1.0 );
+    } else if( jo.has_float( "common_spawn_weight" ) ) {
+        jo.throw_error_at( "common_spawn_weight",
+                           string_format( "npc class %s defines a spawn weighting, but cannot spawn randomly", name ) );
+    }
     bonus_str = load_distribution( jo, "bonus_str" );
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
@@ -335,18 +341,20 @@ const std::vector<npc_class> &npc_class::get_all()
 
 const npc_class_id &npc_class::random_common()
 {
-    std::list<const npc_class_id *> common_classes;
+    weighted_float_list<const npc_class_id *> weighted_classes;
     for( const npc_class &pr : npc_class_factory.get_all() ) {
         if( pr.common ) {
-            common_classes.push_back( &pr.id );
+            weighted_classes.add( &pr.id, pr.common_spawn_weight );
         }
     }
 
-    if( common_classes.empty() || one_in( common_classes.size() ) ) {
+    const npc_class_id *chosen_class = *weighted_classes.pick();
+
+    if( !chosen_class ) {
         return npc_class_id::NULL_ID();
     }
 
-    return *random_entry( common_classes );
+    return *chosen_class;
 }
 
 std::string npc_class::get_name() const
