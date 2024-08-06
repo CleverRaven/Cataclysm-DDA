@@ -632,7 +632,7 @@
     "id": "MISSION_GODCO_GEMMA_SUPPLEMENTS",
     "type": "mission_definition",
     "name": { "str": "Retrieve the fertility supplements" },
-    "description": "Get Gemma's fertility supplements.  25 of them should be enough.",
+    "description": "Get Gemma's 25 fertility supplements.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fert_supplement",
     "count": 25,
