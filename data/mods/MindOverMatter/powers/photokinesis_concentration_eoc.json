@@ -4,6 +4,7 @@
     "id": "EOC_PHOTOKIN_LIGHT_LOCAL_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_photokin_light_local" } },
     "effect": [
+      { "u_message": "A soft glow springs up around you.", "type": "good" },
       { "u_add_effect": "effect_photokin_light_local", "duration": "PERMANENT" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       {
@@ -51,6 +52,66 @@
           {
             "math": [
               "( (u_spell_level('photokinetic_light_local') * 870) + 3420) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_DODGE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_photokin_dodge" } },
+    "effect": [
+      { "u_message": "You are surrounded by shifting illusions.", "type": "good" },
+      { "u_add_effect": "effect_photokin_dodge", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_LIGHT_DODGE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_light_dodge') * 13) + 28) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_light_dodge') * 27) + 125) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE",
+    "condition": { "u_has_effect": "effect_photokin_dodge" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_photokin_dodge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_DODGE_DRAIN",
+    "condition": { "u_has_effect": "effect_photokin_dodge" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_spell_exp('photokinetic_light_dodge')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_LIGHT_DODGE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_light_dodge') * 13) + 28) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_light_dodge') * 27) + 125) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

@@ -130,7 +130,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "u_has_effect": "effect_photokin_dodge" },
-    "effect": [ { "u_lose_effect": "effect_photokin_dodge" } ]
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE" } ]
   },
   {
     "type": "effect_on_condition",
