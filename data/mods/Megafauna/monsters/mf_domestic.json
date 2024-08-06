@@ -358,7 +358,7 @@
   {
     "id": "mon_giant_horse",
     "type": "MONSTER",
-    "name": { "str": "Giant horse" },
+    "name": { "str": "giant horse" },
     "description": "A massive species of Equus that looks like a draft horse, just bigger.  If you dare come close to it, you might be able to get this one to trust you enough to ride it.",
     "default_faction": "mega_herbivore",
     "bodytype": "horse",
@@ -395,7 +395,7 @@
   {
     "id": "mon_giant_foal",
     "type": "MONSTER",
-    "name": { "str": "Giant horse foal" },
+    "name": { "str": "giant horse foal" },
     "description": "A juvenile giant horse.  It gallops around its parent excitedly, throwing around its head joyously.",
     "copy-from": "mon_scotts_horse",
     "volume": "180 L",
