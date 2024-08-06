@@ -2224,6 +2224,100 @@ Teleport player to `new_map`
 }
 ```
 
+#### `reveal_map`
+Reveal the overmap area around specific location variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "reveal_map" | **mandatory** | [variable object](#variable-object) | location variable, around which the map would be revealed |
+| "radius" | **mandatory** | int or [variable object](#variable-object) | default 0; the size of revealed zone |
+
+##### Examples
+
+Reveal the zone three tiles around the character
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc" } },
+      { "reveal_map": { "context_val": "loc" }, "radius": 3 }
+    ]
+  }
+```
+
+Same, but using different syntax
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      { "reveal_map": { "context_val": "loc" }, "radius": 3 }
+    ]
+  }
+```
+
+Find overmap tile using `target_params`, store coordinates in `loc`, and reveal the area 20 tiles around `loc`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_HOUSE_REVEAL",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "loc" },
+      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+    },
+    { "reveal_map": { "context_val": "loc" }, "radius": 20 }
+  ]
+}
+```
+
+#### `reveal_route`
+Reveal the route between two location variables, using closest roads
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "reveal_route" | **mandatory** | [variable object](#variable-object) | location variable, starting point in the route |
+| "target_var" | **mandatory** | [variable object](#variable-object) | location variable, ending point in the route |
+| "radius" |  | int or [variable object](#variable-object) | the size of revealed path |
+| "road_only" | optional | boolean | default false; if true, reveal only road tiles |
+
+##### Examples
+
+Reveal the path between you and 50 overmap tiles west of you
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_a" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(-1200,0,0)" }, "target_var": { "context_val": "loc_b" } },
+      { "reveal_route": { "context_val": "loc_a" }, "target_var": { "context_val": "loc_b" }, "radius": 3 }
+    ]
+  },
+```
+
+Reveal the route between you and `house_02`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_HOUSE_route",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "loc" },
+      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+    },
+    {
+        "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
+        "target_var": { "context_val": "loc" },
+        "radius": 3,
+        "road_only": true
+      }
+  ]
+}
+```
+
 #### `weighted_list_eocs`
 Will choose one of a list of eocs to activate based on it's weight
 
