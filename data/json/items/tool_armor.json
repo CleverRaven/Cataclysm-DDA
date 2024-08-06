@@ -2042,7 +2042,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "50 ml",
-        "max_contains_weight": "50 g",
+        "max_contains_weight": "60 g",
         "max_item_length": "17 cm",
         "moves": 250,
         "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
