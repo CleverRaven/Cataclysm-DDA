@@ -8,6 +8,14 @@
     "components": [ [ [ "scrap", 8 ] ] ]
   },
   {
+    "result": "wrench_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
     "result": "tin_snips",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
