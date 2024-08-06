@@ -5613,7 +5613,8 @@ bool game::npc_menu( npc &who )
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
                     !u.is_mounted(), 's', _( "Swap positions" ) );
-    amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
+    amenu.addentry( push, ( debug_mode || ( !who.is_enemy() && !who.in_sleep_state() ) ) &&
+                    !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( examine_status, true, 'e', _( "Examine status" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
@@ -5645,6 +5646,17 @@ bool game::npc_menu( npc &who )
             add_msg( _( "You cannot swap places while grabbing something." ) );
         }
     } else if( choice == push ) {
+        if( !obeys ) {
+            if( !query_yn( _( "%s may be upset by this. Continue?" ), who.name ) ) {
+                return true;
+            }
+            npc_opinion &attitude = who.op_of_u;
+            attitude.anger += 3;
+            attitude.trust -= 3;
+            attitude.value -= 1;
+            who.form_opinion( u );
+
+        }
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
         who.move_away_from( u.pos(), true );
