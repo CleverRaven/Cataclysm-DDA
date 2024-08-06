@@ -353,7 +353,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "mace_plus_one",
-    "components": [ [ [ "mace", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "qt_mace", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -451,7 +451,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "battleaxe_plus_one",
-    "components": [ [ [ "battleaxe", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "qt_battleaxe", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -535,7 +535,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "knife_rambo_plus_one",
-    "components": [ [ [ "knife_rambo", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "qt_knife_rambo", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -549,7 +549,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "knife_trench_plus_one",
-    "components": [ [ [ "knife_trench", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "qt_knife_trench", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -577,7 +577,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "kukri_plus_one",
-    "components": [ [ [ "kukri", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "qt_kukri", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",
