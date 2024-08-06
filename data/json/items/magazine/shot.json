@@ -292,7 +292,7 @@
       {
         "id": "mka_1919_5",
         "name": { "str": "MKA 1919 5-round magazine" },
-        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is a box shaped, and can hold 5 shots."
+        "description": "Despite being intended to use with the Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufacturers, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is box shaped, and can hold 5 shots."
       }
     ],
     "weight": "313 g",
@@ -317,7 +317,7 @@
       {
         "id": "mka_1919_10",
         "name": { "str": "MKA 1919 10-round magazine" },
-        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is box shaped, and can hold 10 shots."
+        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazine was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is box shaped, and can hold 10 shots."
       }
     ],
     "weight": "476 g",
@@ -343,7 +343,7 @@
       {
         "id": "mka_1919_20",
         "name": { "str": "MKA 1919 20-round magazine" },
-        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is a drum, and can hold 20 shots."
+        "description": "Despite being intended to use with the Akdal MKA 1919, this type of magazine was adopted by multiple Turkish firearm manufacturers, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is a drum, and can hold 20 shots."
       }
     ],
     "weight": "1424 g",

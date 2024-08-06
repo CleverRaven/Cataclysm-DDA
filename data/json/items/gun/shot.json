@@ -931,7 +931,7 @@
       {
         "id": "mka1919",
         "name": { "str": "MKA 1919" },
-        "description": "First of it's type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
+        "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
       },
       {
         "id": "krx",
@@ -975,18 +975,18 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "bullpup shotgun" },
-    "description": "Curious magazine-fed shotgun, made using bullpup scheme.",
+    "description": "A curious magazine-fed shotgun, made using bullpup scheme.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "gfy_1",
         "name": { "str": "GFY-1" },
-        "description": "Work of GForce Arms, this curious bullpup shotgun is compact, familar to any rifleman, and can use standard MKA 1919 magazines."
+        "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
       },
       {
         "id": "bp12",
         "name": { "str": "BP-12" },
-        "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept variety of MKA 1919 magazines."
+        "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
       }
     ],
     "weight": "3628 g",
