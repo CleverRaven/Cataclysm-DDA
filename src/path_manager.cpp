@@ -462,7 +462,6 @@ void path_manager_impl::auto_route_from_path() const
 
 bool path_manager_impl::auto_route_from_path_middle() const
 {
-    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
     uilist path_selection;
     path_selection.text = _( "Select path and direction to walk in." );
     for( int i : avatar_at_what_paths() ) {
