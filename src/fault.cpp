@@ -1,60 +1,104 @@
 #include "fault.h"
 
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "requirements.h"
 
-static std::map<fault_id, fault> faults_all;
-static std::map<fault_fix_id, fault_fix> fault_fixes_all;
+namespace
+{
+
+generic_factory<fault> fault_factory( "fault", "id" );
+generic_factory<fault_fix> fault_fixes_factory( "fault_fix", "id" );
+
+// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
+std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storage;
+
 // Have a list of faults by type, the type right now is item prefix to avoid adding more JSON data
-static std::map<std::string, std::list<fault_id>> faults_by_type;
+std::map<std::string, std::vector<fault_id>> faults_by_type;
+
+} // namespace
+
+const fault_id &faults::random_of_type( const std::string &type )
+{
+    const auto &typed = faults_by_type.find( type );
+    if( typed == faults_by_type.end() ) {
+        debugmsg( "there are no faults with type '%s'", type );
+        return fault_id::NULL_ID();
+    }
+    return random_entry_ref( typed->second );
+}
+
+void faults::load_fault( const JsonObject &jo, const std::string &src )
+{
+    fault_factory.load( jo, src );
+}
+
+void faults::load_fix( const JsonObject &jo, const std::string &src )
+{
+    fault_fixes_factory.load( jo, src );
+}
+
+void faults::reset()
+{
+    fault_factory.reset();
+    fault_fixes_factory.reset();
+    faults_by_type.clear();
+}
+
+void faults::finalize()
+{
+    fault_factory.finalize();
+    fault_fixes_factory.finalize();
+
+    // actualize the requirements
+    for( const fault_fix &const_fix : fault_fixes_factory.get_all() ) {
+        fault_fix &fix = const_cast<fault_fix &>( const_fix );
+        fix.finalize();
+    }
+    for( const fault &f : fault_factory.get_all() ) {
+        if( !f.type().empty() ) {
+            faults_by_type[f.type()].emplace_back( f.id.str() );
+        }
+    }
+    reqs_temp_storage.clear();
+}
+
+void faults::check_consistency()
+{
+    fault_factory.check();
+    fault_fixes_factory.check();
+}
 
 /** @relates string_id */
 template<>
 bool string_id<fault>::is_valid() const
 {
-    return faults_all.count( *this );
+    return fault_factory.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
 const fault &string_id<fault>::obj() const
 {
-    const auto found = faults_all.find( *this );
-    if( found == faults_all.end() ) {
-        debugmsg( "Tried to get invalid fault: %s", c_str() );
-        static const fault null_fault{};
-        return null_fault;
-    }
-    return found->second;
+    return fault_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<fault_fix>::is_valid() const
 {
-    return fault_fixes_all.count( *this );
+    return fault_fixes_factory.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
 const fault_fix &string_id<fault_fix>::obj() const
 {
-    const auto found = fault_fixes_all.find( *this );
-    if( found == fault_fixes_all.end() ) {
-        debugmsg( "Tried to get invalid fault fix: %s", c_str() );
-        static const fault_fix null_fault_fix{};
-        return null_fault_fix;
-    }
-    return found->second;
-}
-
-const fault_id &fault::id() const
-{
-    return id_;
+    return fault_fixes_factory.obj( *this );
 }
 
 std::string fault::name() const
@@ -93,56 +137,24 @@ const std::set<fault_fix_id> &fault::get_fixes() const
     return fixes;
 }
 
-void fault::load( const JsonObject &jo )
+void fault::load( const JsonObject &jo, std::string_view )
 {
-    fault f;
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "description", description_ );
+    optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "fault_type", type_ );
+    optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
+}
 
-    mandatory( jo, false, "id", f.id_ );
-    mandatory( jo, false, "name", f.name_ );
-    mandatory( jo, false, "description", f.description_ );
-    optional( jo, false, "item_prefix", f.item_prefix_ );
-    optional( jo, false, "fault_type", f.type_ );
-    optional( jo, false, "flags", f.flags );
-    optional( jo, false, "price_modifier", f.price_modifier, 1.0 );
-
-    if( !faults_all.emplace( f.id_, f ).second ) {
-        jo.throw_error_at( "id", "parsed fault overwrites existing definition" );
+void fault::check() const
+{
+    if( name_.empty() ) {
+        debugmsg( "fault '%s' has empty name", id.str() );
     }
-    if( !f.type_.empty() ) {
-        faults_by_type[ std::string( f.type_ ) ].push_back( f.id() );
+    if( description_.empty() ) {
+        debugmsg( "fault '%s' has empty description", id.str() );
     }
-}
-
-const std::map<fault_id, fault> &fault::all()
-{
-    return faults_all;
-}
-
-void fault::reset()
-{
-    faults_all.clear();
-}
-
-void fault::check_consistency()
-{
-    for( const auto& [fault_id, fault] : faults_all ) {
-        if( fault.name_.empty() ) {
-            debugmsg( "fault '%s' has empty name", fault_id.str() );
-        }
-        if( fault.description_.empty() ) {
-            debugmsg( "fault '%s' has empty description", fault_id.str() );
-        }
-    }
-}
-
-const std::map<fault_fix_id, fault_fix> &fault_fix::all()
-{
-    return fault_fixes_all;
-}
-
-const std::list<fault_id> &fault::get_by_type( const std::string &type )
-{
-    return faults_by_type.at( type );
 }
 
 const requirement_data &fault_fix::get_requirements() const
@@ -150,25 +162,21 @@ const requirement_data &fault_fix::get_requirements() const
     return *requirements;
 }
 
-// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
-static std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storage;
-
-void fault_fix::load( const JsonObject &jo )
+void fault_fix::load( const JsonObject &jo, std::string_view )
 {
     fault_fix f;
-
-    assign( jo, "id", f.id_, true );
-    assign( jo, "name", f.name, true );
-    assign( jo, "success_msg", f.success_msg, true );
-    assign( jo, "time", f.time, false );
-    assign( jo, "set_variables", f.set_variables, true );
-    assign( jo, "skills", f.skills, true );
-    assign( jo, "faults_removed", f.faults_removed );
-    assign( jo, "faults_added", f.faults_added );
-    assign( jo, "mod_damage", f.mod_damage );
-    assign( jo, "mod_degradation", f.mod_degradation );
-    assign( jo, "time_save_profs", f.time_save_profs, false );
-    assign( jo, "time_save_flags", f.time_save_flags, false );
+    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "success_msg", success_msg );
+    optional( jo, was_loaded, "time", time );
+    optional( jo, was_loaded, "set_variables", set_variables );
+    optional( jo, was_loaded, "adjust_variables_multiply", adjust_variables_multiply );
+    optional( jo, was_loaded, "skills", skills );
+    optional( jo, was_loaded, "faults_removed", faults_removed );
+    optional( jo, was_loaded, "faults_added", faults_added );
+    optional( jo, was_loaded, "mod_damage", mod_damage );
+    optional( jo, was_loaded, "mod_degradation", mod_degradation );
+    optional( jo, was_loaded, "time_save_profs", time_save_profs );
+    optional( jo, was_loaded, "time_save_flags", time_save_flags );
 
     if( jo.has_array( "requirements" ) ) {
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
@@ -177,94 +185,81 @@ void fault_fix::load( const JsonObject &jo )
                 const JsonArray &req = static_cast<JsonArray>( jv );
                 const std::string req_id = req.get_string( 0 );
                 const int req_amount = req.get_int( 1 );
-                reqs_temp_storage.emplace( f.id_, std::make_pair( req_id, req_amount ) );
+                reqs_temp_storage.emplace( id, std::make_pair( req_id, req_amount ) );
             } else if( jv.test_object() ) {
                 // defining single requirement inline
                 const JsonObject &req = static_cast<JsonObject>( jv );
-                const requirement_id req_id( "fault_fix_" + f.id_.str() + "_inline_req" );
+                const requirement_id req_id( "fault_fix_" + id.str() + "_inline_req" );
                 requirement_data::load_requirement( req, req_id );
-                reqs_temp_storage.emplace( f.id_, std::make_pair( req_id.str(), 1 ) );
+                reqs_temp_storage.emplace( id, std::make_pair( req_id.str(), 1 ) );
             } else {
-                debugmsg( "fault_fix '%s' has has invalid requirement element", f.id_.str() );
+                debugmsg( "fault_fix '%s' has has invalid requirement element", id.str() );
             }
         }
     }
-    fault_fixes_all.emplace( f.id_, f );
-}
-
-void fault_fix::reset()
-{
-    fault_fixes_all.clear();
 }
 
 void fault_fix::finalize()
 {
-    for( auto& [fix_id, fix] : fault_fixes_all ) {
-        const auto range = reqs_temp_storage.equal_range( fix_id );
-        for( auto it = range.first; it != range.second; ++it ) {
-            const requirement_id req_id( it->second.first );
-            const int amount = it->second.second;
-            if( !req_id.is_valid() ) {
-                debugmsg( "fault_fix '%s' has invalid requirement_id '%s'", fix_id.str(), req_id.str() );
-                continue;
-            }
-            *fix.requirements = *fix.requirements + ( *req_id ) * amount;
+    const auto range = reqs_temp_storage.equal_range( id );
+    for( auto it = range.first; it != range.second; ++it ) {
+        const requirement_id req_id( it->second.first );
+        const int amount = it->second.second;
+        if( !req_id.is_valid() ) {
+            debugmsg( "fault_fix '%s' has invalid requirement_id '%s'", id.str(), req_id.str() );
+            continue;
         }
-        fix.requirements->consolidate();
-        for( const fault_id &fid : fix.faults_removed ) {
-            const_cast<fault &>( *fid ).fixes.emplace( fix_id );
-        }
+        *requirements = *requirements + ( *req_id ) * amount;
     }
-    reqs_temp_storage.clear();
+    requirements->consolidate();
+    for( const fault_id &fid : faults_removed ) {
+        const_cast<fault &>( *fid ).fixes.emplace( id );
+    }
 }
 
-void fault_fix::check_consistency()
+void fault_fix::check() const
 {
-    for( const auto &[fix_id, fix] : fault_fixes_all ) {
-        if( fix.time < 0_turns ) {
-            debugmsg( "fault_fix '%s' has negative time", fix_id.str() );
+    if( time < 0_turns ) {
+        debugmsg( "fault_fix '%s' has negative time", id.str() );
+    }
+    for( const auto &[skill_id, lvl] : skills ) {
+        if( !skill_id.is_valid() ) {
+            debugmsg( "fault_fix %s requires unknown skill '%s'", id.str(), skill_id.str() );
         }
-        for( const auto &[skill_id, lvl] : fix.skills ) {
-            if( !skill_id.is_valid() ) {
-                debugmsg( "fault_fix %s requires unknown skill '%s'",
-                          fix_id.str(), skill_id.str() );
-            }
-            if( lvl <= 0 ) {
-                debugmsg( "fault_fix '%s' requires negative level of skill '%s'",
-                          fix_id.str(), skill_id.str() );
-            }
+        if( lvl <= 0 ) {
+            debugmsg( "fault_fix '%s' requires negative level of skill '%s'", id.str(), skill_id.str() );
         }
-        for( const fault_id &fault_id : fix.faults_removed ) {
-            if( !fault_id.is_valid() ) {
-                debugmsg( "fault_fix '%s' has invalid fault_id '%s' in 'faults_removed' field",
-                          fix_id.str(), fault_id.str() );
-            }
+    }
+    for( const fault_id &fault_id : faults_removed ) {
+        if( !fault_id.is_valid() ) {
+            debugmsg( "fault_fix '%s' has invalid fault_id '%s' in 'faults_removed' field",
+                      id.str(), fault_id.str() );
         }
-        for( const fault_id &fault_id : fix.faults_added ) {
-            if( !fault_id.is_valid() ) {
-                debugmsg( "fault_fix '%s' has invalid fault_id '%s' in 'faults_added' field",
-                          fix_id.str(), fault_id.str() );
-            }
+    }
+    for( const fault_id &fault_id : faults_added ) {
+        if( !fault_id.is_valid() ) {
+            debugmsg( "fault_fix '%s' has invalid fault_id '%s' in 'faults_added' field",
+                      id.str(), fault_id.str() );
         }
-        for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
-            if( !proficiency_id.is_valid() ) {
-                debugmsg( "fault_fix %s has unknown proficiency_id '%s'",
-                          fix_id.str(), proficiency_id.str() );
-            }
-            if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if possessing proficiency '%s'",
-                          fix_id.str(), proficiency_id.str() );
-            }
+    }
+    for( const auto &[proficiency_id, mult] : time_save_profs ) {
+        if( !proficiency_id.is_valid() ) {
+            debugmsg( "fault_fix %s has unknown proficiency_id '%s'",
+                      id.str(), proficiency_id.str() );
         }
-        for( const auto &[flag_id, mult] : fix.time_save_flags ) {
-            if( !flag_id.is_valid() ) {
-                debugmsg( "fault_fix %s has unknown flag_id '%s'",
-                          fix_id.str(), flag_id.str() );
-            }
-            if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if item possesses flag '%s'",
-                          fix_id.str(), flag_id.str() );
-            }
+        if( mult < 0 ) {
+            debugmsg( "fault_fix '%s' has negative mend time if possessing proficiency '%s'",
+                      id.str(), proficiency_id.str() );
+        }
+    }
+    for( const auto &[flag_id, mult] : time_save_flags ) {
+        if( !flag_id.is_valid() ) {
+            debugmsg( "fault_fix %s has unknown flag_id '%s'",
+                      id.str(), flag_id.str() );
+        }
+        if( mult < 0 ) {
+            debugmsg( "fault_fix '%s' has negative mend time if item possesses flag '%s'",
+                      id.str(), flag_id.str() );
         }
     }
 }

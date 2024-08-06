@@ -1,18 +1,22 @@
 #include "color.h"
 
-#include <algorithm> // for std::count
+#include <algorithm>
+#include <cstddef>
+#include <filesystem>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "json.h"
 #include "output.h"
@@ -20,11 +24,15 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#if !(defined(TILES) || defined(WIN32))
 #include "cata_imgui.h"
-#endif
+
+nc_color::operator ImVec4()
+{
+    return cataimgui::imvec4_from_color( *this );
+}
 
 void nc_color::serialize( JsonOut &jsout ) const
 {

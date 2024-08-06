@@ -12,7 +12,7 @@
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "WILDERNESS" ],
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "WILDERNESS" ],
     "spawns": { "group": "GROUP_TERMITE_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],

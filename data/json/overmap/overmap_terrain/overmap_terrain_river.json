@@ -3,10 +3,11 @@
     "type": "overmap_terrain",
     "abstract": "generic_river",
     "copy-from": "generic_water",
+    "vision_levels": "water_body",
     "name": "river",
     "sym": "R",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK", "WATER" ]
   },
   {

@@ -330,9 +330,7 @@
     "end": {
       "effect": [
         "stop_following",
-        {
-          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
-        }
+        { "weighted_list_eocs": [ [ "get_katana", 5 ], [ "get_deagle_44", 10 ], [ "get_m4_carbine", 6 ] ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -795,7 +793,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "npc_add_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
         { "u_spawn_item": "badge_foodkid" }
       ]
     },

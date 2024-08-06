@@ -48,6 +48,7 @@ enum class mod : int {
     REGEN_STAMINA,
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
+    MUT_INSTABILITY_MOD,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
@@ -145,6 +146,7 @@ enum class mod : int {
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
     ITEM_ATTACK_SPEED,
+    EQUIPMENT_DAMAGE_CHANCE,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     COMBAT_CATCHUP,
@@ -169,6 +171,8 @@ enum class mod : int {
     VOMIT_MUL,
     SCENT_MASK,
     CONSUME_TIME_MOD,
+    THROW_STR,
+    THROW_DAMAGE,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
@@ -291,6 +295,7 @@ class enchant_cache : public enchantment
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs, const monster &mon );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 

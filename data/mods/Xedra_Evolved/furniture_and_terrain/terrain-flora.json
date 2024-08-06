@@ -398,5 +398,37 @@
     "coverage": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
     "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_arvore_living_tent",
+    "name": "den of brambles",
+    "description": "A structure made from quickly-grown vines and brambles, almost-entirely concealing the hollow inside.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_bramble_door_c",
+    "move_cost": 2,
+    "coverage": 80,
+    "floor_bedding_warmth": 2000,
+    "comfort": 3,
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "leaves", "count": [ 6, 18 ] } ]
+    }
   }
 ]

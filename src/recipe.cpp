@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "effect_on_condition.h"
@@ -478,7 +479,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs = id->funcs();
     if( funcs.size() != 1 ) {
         debugmsg( "update_mapgen %s used for blueprint, but has %zu versions, where it should have exactly one",
-                  funcs.size() );
+                  id.c_str(), funcs.size() );
         return result;
     }
 
@@ -662,7 +663,7 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( category == "CC_BUILDING" ) {
+    if( category.is_valid() && category->is_building ) {
         if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
             return std::string();
         }

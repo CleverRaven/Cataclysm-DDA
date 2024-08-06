@@ -100,7 +100,7 @@
     "default_faction": "vampire",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "HUMAN", "RENFIELD" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -136,7 +136,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WIELDED_WEAPON"
     ],
     "armor": { "bash": 4, "cut": 4, "stab": 4, "bullet": 4 }
@@ -149,7 +149,7 @@
     "default_faction": "vampire",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "HUMAN", "RENFIELD" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -206,7 +206,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "WIELDED_WEAPON"
     ],
@@ -217,9 +217,9 @@
     "type": "MONSTER",
     "name": { "str": "renfield with a Remington", "str_pl": "renfields with shotguns" },
     "description": "Wild hair and bloodshot eyes, this person constantly mumbles to themselves about food and life.  They carry a shotgun loosely one handed until they take aim.  Renfields care for nothing except protecting their vampire masters.",
-    "default_faction": "zombie",
+    "default_faction": "vampire",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "HUMAN", "RENFIELD" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -271,7 +271,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "WIELDED_WEAPON"
     ],
@@ -283,9 +283,9 @@
     "type": "MONSTER",
     "name": { "str": "renfield with a flamethrower", "str_pl": "renfields with flamethrowers" },
     "description": "Wild hair and bloodshot eyes, this person constantly mumbles to themselves about food and life.  A pilot light runs at the business end of their flamethrower.  Renfields care for nothing except protecting their vampire masters.",
-    "default_faction": "zombie",
+    "default_faction": "vampire",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "HUMAN", "RENFIELD" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -336,7 +336,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "WIELDED_WEAPON"
     ],
@@ -350,7 +350,7 @@
     "description": "A renfield enhanced with cybernetic modules.  These bloodhunting monstrosities will crash through brick walls in search of their masters' foes.  Someone with enough surgical skills might be able to pull some useful bionics from their corpse.  Bionic claws snikt in and out until it finds a target for its hate.",
     "default_faction": "vampire",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "CYBORG", "RENFIELD" ],
     "volume": "62500 ml",
     "weight": "101500 g",
     "hp": 160,
@@ -383,7 +383,7 @@
       "ELECTRONIC",
       "WARM",
       "HUMAN",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ],
     "armor": { "bash": 10, "cut": 16, "bullet": 25 }
@@ -396,6 +396,7 @@
     "symbol": "A",
     "color": "brown_red",
     "default_faction": "vampire",
+    "species": [ "MUTANT", "RENFIELD" ],
     "bodytype": "human",
     "volume": "350 L",
     "weight": "350 kg",
@@ -430,7 +431,7 @@
       "ELECTRONIC",
       "WARM",
       "HUMAN",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -467,17 +468,17 @@
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_vampire_bat",
     "type": "MONSTER",
-    "name": { "str": "bat" },
+    "name": { "str": "vampire bat" },
     "description": "The Northern European Vampire bat, was discovered 8 years previous to the Cataclysm in Lithuania.  Within those years it had spread across the entire northern hemisphere.  It is larger than a regular bat and furrier allowing it to remain active in the colder winters.  They do drink human and animal blood as part of their sustenance.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
+    "species": [ "MAMMAL", "RENFIELD" ],
     "volume": "1500 ml",
     "weight": "2 kg",
     "hp": 20,
@@ -500,17 +501,17 @@
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_bat_giant",
     "type": "MONSTER",
-    "name": { "str": "giant bat" },
-    "description": "One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
+    "name": { "str": "giant vampire bat" },
+    "description": "The Mega-Chiropteran Vampire (Giant Vampire Bat), began appearing 4 years ago in locations with Northern European Vampire bats.  There were videos of them bringing down large animals like goats and cattle before the Cataclysm as well as pervasive rumors of them coming after humans.",
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
+    "species": [ "MAMMAL", "RENFIELD" ],
     "diff": 4,
     "volume": "4 L",
     "weight": "6 kg",
@@ -534,6 +535,6 @@
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER" ]
   }
 ]

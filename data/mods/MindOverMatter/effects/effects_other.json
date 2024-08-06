@@ -9,6 +9,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_studying_power",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_wakeful_resting",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

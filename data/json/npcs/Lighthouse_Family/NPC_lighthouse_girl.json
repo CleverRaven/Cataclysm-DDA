@@ -31,7 +31,7 @@
           "clear_mission",
           "stop_following",
           { "npc_first_topic": "TALK_lighthouse_girl_safe" },
-          { "u_add_var": "lighthouse_girl", "type": "flag", "context": "safe", "value": "yes" }
+          { "u_add_var": "flag_safe_lighthouse_girl", "value": "yes" }
         ]
       },
       { "text": "Let's go.", "topic": "TALK_DONE" }
@@ -43,26 +43,17 @@
     "dynamic_line": {
       "u_has_mission": "MISSION_lighthouse_man_3",
       "yes": {
-        "u_has_var": "lighthouse_woman_dead",
-        "type": "flag",
-        "context": "death",
+        "u_has_var": "flag_death_lighthouse_woman_dead",
         "value": "yes",
         "yes": "Thank you for saving me.  It's a shame my mother didn't make it… you did everything you could, and I don't blame you for it…",
         "no": "Thank you!"
       },
-      "no": {
-        "u_has_var": "lighthouse_woman_dead",
-        "type": "flag",
-        "context": "death",
-        "value": "yes",
-        "yes": "Poor, poor mama…",
-        "no": "Hello."
-      }
+      "no": { "u_has_var": "flag_death_lighthouse_woman_dead", "value": "yes", "yes": "Poor, poor mama…", "no": "Hello." }
     },
     "responses": [
       {
         "text": "Hi.",
-        "condition": { "u_has_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" },
+        "condition": { "u_has_var": "flag_help_lighthouse_family_safe", "value": "yes" },
         "topic": "TALK_lighthouse_girl_1",
         "effect": { "npc_first_topic": "TALK_lighthouse_girl_1" },
         "switch": true
@@ -71,7 +62,7 @@
         "truefalsetext": {
           "true": "I'm sorry…",
           "false": "…",
-          "condition": { "u_has_var": "lighthouse_woman_dead", "type": "flag", "context": "death", "value": "yes" }
+          "condition": { "u_has_var": "flag_death_lighthouse_woman_dead", "value": "yes" }
         },
         "topic": "TALK_DONE",
         "switch": true
@@ -101,7 +92,6 @@
     "name": { "str": "Protect fisherman's daughter" },
     "description": "She looks like a nice girl.  Maybe you should not let her die?",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 0,
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -116,6 +106,6 @@
       "success_lie": "-",
       "failure": "-"
     },
-    "fail": { "effect": [ { "u_add_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" } ] }
+    "fail": { "effect": [ { "u_add_var": "flag_death_lighthouse_girl_dead", "value": "yes" } ] }
   }
 ]

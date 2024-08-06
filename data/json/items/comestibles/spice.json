@@ -131,7 +131,8 @@
     "material": [ "veggy" ],
     "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "soysauce",
@@ -140,8 +141,8 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "1 USD 90 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -168,8 +169,9 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",

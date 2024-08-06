@@ -62,12 +62,12 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -133,6 +133,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
 static const furn_str_id furn_f_flower_marloss( "f_flower_marloss" );
@@ -194,6 +196,7 @@ static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
+static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
@@ -205,6 +208,9 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
+
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -232,6 +238,7 @@ static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
 static const requirement_id requirement_data_cvd_diamond( "cvd_diamond" );
 
+static const skill_id skill_chemistry( "chemistry" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
@@ -292,6 +299,9 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_telepad( "tr_telepad" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -397,14 +407,15 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     bool table_exists = false;
     std::list<item_location> on_table;
     item_location nanofab_template;
-    tripoint spawn_point;
+    tripoint_bub_ms spawn_point;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
-    for( const tripoint &valid_location : here.points_in_radius( examp, 1 ) ) {
+    for( const tripoint_bub_ms &valid_location : here.points_in_radius( tripoint_bub_ms( examp ),
+            1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
-            on_table = here.items_with( valid_location, [&]( const item & it ) {
+            on_table = here.items_with( valid_location.raw(), [&]( const item & it ) {
                 return it.has_flag( flag_NANOFAB_REPAIR );
             } );
             break;
@@ -537,10 +548,10 @@ void iexamine::gaspump( Character &you, const tripoint &examp )
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
-                    here.add_item_or_charges( you.pos(), *item_it );
+                    here.add_item_or_charges( you.pos_bub(), *item_it );
                     items.erase( item_it );
                 } else {
-                    here.add_item_or_charges( you.pos(), spill );
+                    here.add_item_or_charges( you.pos_bub(), spill );
                 }
 
             } else {
@@ -1229,7 +1240,8 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
             _rotate_point_sm( { examp.xy(), z }, _get_rot_delta( this_omt, that_omt ), sm_orig );
 
         if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
-            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
+            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name(
+                                             om_vision_level::full );
             std::string const name = string_format(
                                          "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
             choice.addentry( z + uilist_positive, z != examp.z, MENU_AUTOASSIGN, name );
@@ -1327,7 +1339,8 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         }
     }
 
-    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+    const auto move_item = [&]( map_stack & items, const tripoint_bub_ms & src,
+    const tripoint_bub_ms & dest ) {
         for( auto it = items.begin(); it != items.end(); ) {
             here.add_item_or_charges( dest, *it );
             it = here.i_rem( src, it );
@@ -1336,9 +1349,9 @@ void iexamine::elevator( Character &you, const tripoint &examp )
 
     // move along every item in the elevator
     for( decltype( this_elevator )::size_type i = 0; i < this_elevator.size(); i++ ) {
-        tripoint const &src = this_elevator[i];
+        tripoint_bub_ms const &src = tripoint_bub_ms( this_elevator[i] );
         map_stack items = here.i_at( src );
-        move_item( items, src, that_elevator[i] );
+        move_item( items, src, tripoint_bub_ms( that_elevator[i] ) );
     }
 
     // move along all creatures on the elevator
@@ -1390,7 +1403,7 @@ bool iexamine::can_hack( Character &you )
     return true;
 }
 
-bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
 {
     if( !can_hack( you ) ) {
         return false;
@@ -1425,7 +1438,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         query_yn( _( "Press mask on the reader?" ) ) ) {
         you.mod_moves( -100 );
         map &here = get_map();
-        for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
+        for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( examp ), 3 ) ) {
             if( here.ter( tmp ) == ter_t_door_metal_locked ) {
                 here.ter_set( tmp, ter_t_door_metal_c );
                 open = true;
@@ -1439,9 +1452,9 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
-                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
+                for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( examp ), 3 ) ) {
                     if( here.ter( tmp ) == ter_t_door_metal_o || here.ter( tmp ) == ter_t_door_metal_c ) {
-                        if( you.pos() == tmp ) {
+                        if( you.pos_bub() == tmp ) {
                             you.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
                             here.ter_set( tmp, ter_t_door_metal_locked );
@@ -1460,7 +1473,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( can_hack( you ) && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            try_start_hacking( you, examp );
+            try_start_hacking( you, tripoint_bub_ms( examp ) );
         }
     }
 }
@@ -1571,7 +1584,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
     Character &player_character = get_player_character();
     sfx::play_variant_sound( "plmove", "clear_obstacle",
-                             sfx::get_heard_volume( player_character.pos() ) );
+                             sfx::get_heard_volume( player_character.pos_bub() ) );
     add_msg_debug( debugmode::DF_IEXAMINE,
                    "Move cost to vault: %d, limb score modifier %.1f", move_cost,
                    you.get_modifier( character_modifier_obstacle_climb_mod ) );
@@ -1580,7 +1593,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                    "Final move cost %d", move_cost );
     you.mod_moves( -move_cost );
     if( you.in_vehicle ) {
-        here.unboard_vehicle( you.pos() );
+        here.unboard_vehicle( you.pos_bub() );
     }
     you.setpos( examp );
     if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
@@ -1622,10 +1635,10 @@ void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 {
     map &here = get_map();
 
-    tripoint drop_pos = pos;
+    tripoint_bub_ms drop_pos = tripoint_bub_ms( pos );
 
     if( you.pos().z != pos.z ) {
-        drop_pos = you.pos();
+        drop_pos = you.pos_bub();
         if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
             return;
         }
@@ -1702,7 +1715,8 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
         return;
     }
 
-    tent_deconstruct_activity_actor actor( to_moves<int>( 20_minutes ), radius, examp, dropped );
+    tent_deconstruct_activity_actor actor( to_moves<int>( 20_minutes ), radius,
+                                           tripoint_bub_ms( examp ), dropped );
     you.assign_activity( actor );
 }
 
@@ -1748,7 +1762,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     map &here = get_map();
     item plank( "2x4", calendar::turn );
     add_msg( _( "You remove the plank." ) );
-    here.add_item_or_charges( you.pos(), plank );
+    here.add_item_or_charges( you.pos_bub(), plank );
     const ter_id &ter_pit = here.ter( examp );
     if( ter_pit == ter_t_pit_covered ) {
         here.ter_set( examp, ter_t_pit );
@@ -1812,7 +1826,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
 void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        try_start_hacking( you, examp );
+        try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 }
 
@@ -1973,7 +1987,34 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
-        temp_camp->validate_bb_pos( here.getabs( examp ) );
+        if( !temp_camp->allowed_access_by( you ) ) {
+            if( !you.is_avatar() ) {
+                return; // One day, NPCs may be able to use bulletin boards
+            }
+            // Checks the reality bubble for NPCs
+            std::vector<shared_ptr_fast<npc>> nearby_npcs = overmap_buffer.get_npcs_near_player( HALF_MAPSIZE );
+            bool unoccupied_camp = true;
+            for( npc_ptr &some_guy : nearby_npcs ) {
+                if( !some_guy ) {
+                    continue;
+                } else if( some_guy->get_faction()->id == temp_camp->get_owner() ) {
+                    unoccupied_camp = false;
+                }
+            }
+            if( unoccupied_camp &&
+                query_yn( _( "There's nobody here to protect %s.  Do you want to claim ownership?" ),
+                          temp_camp->camp_name() ) ) {
+                bool plunder = query_yn(
+                                   _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
+                                   temp_camp->get_owner()->name );
+                temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
+                return;
+            }
+            you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
+            return;
+        }
+
+        temp_camp->validate_bb_pos( here.getglobal( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
         temp_camp->scan_pseudo_items();
@@ -2058,7 +2099,7 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
 void iexamine::door_peephole( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    if( here.is_outside( you.pos() ) ) {
+    if( here.is_outside( you.pos_bub() ) ) {
         // if door is a locked type attempt to open
         if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( you, examp );
@@ -2212,7 +2253,7 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
-        get_map().add_item_or_charges( you.pos(), harvest );
+        get_map().add_item_or_charges( you.pos_bub(), harvest );
         you.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
     }
 }
@@ -2450,7 +2491,7 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
         return;
     }
     here.furn_set( examp, furn_str_id::NULL_ID() );
-    here.spawn_item( you.pos(), itype_marloss_seed, 1, 3, calendar::turn );
+    here.spawn_item( you.pos_bub(), itype_marloss_seed, 1, 3, calendar::turn );
     iexamine_helper::handle_harvest( you, "withered", false );
 }
 
@@ -2626,6 +2667,24 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+// Cleaning up plants that have decayed and overgrown
+void iexamine::clear_overgrown( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, examp ) ) {
+        debugmsg( "clear_overgrown called on tile which is not an overgrown crop!" );
+        return;
+    }
+
+    player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
+    you.assign_activity( act );
+    here.i_clear( examp );
+    here.furn_set( examp, here.furn( examp )->plant->base );
+    you.add_msg_if_player( m_neutral,
+                           _( "You pull up what's left of the planted crop and trample the rest." ) );
+}
+
 // Only harvest, used for autoforaging
 void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
 {
@@ -2712,9 +2771,9 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
                 }
-                here.add_item_or_charges( you.pos(), i );
+                here.add_item_or_charges( you.pos_bub(), i );
             }
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
     }
@@ -2943,8 +3002,8 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
     } else {
         add_msg( _( "You fire the charcoal kiln." ) );
@@ -3641,7 +3700,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
     for( item &it : items_here ) {
         if( !it.made_of_from_type( phase_id::LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             here.i_rem( examp, &it );
         }
     }
@@ -3712,6 +3771,287 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
     }
 }
 
+// Borrowed and modified fermenting vat functions
+static void compost_set_empty( const tripoint &pos )
+{
+    map &here = get_map();
+    furn_id furn = here.furn( pos );
+    if( furn == furn_f_compost_empty || furn == furn_f_compost_full ) {
+        here.furn_set( pos, furn_f_compost_empty );
+    }
+}
+
+static void compost_set_full( const tripoint &pos )
+{
+    map &here = get_map();
+    furn_id furn = here.furn( pos );
+    if( furn == furn_f_compost_empty || furn == furn_f_compost_full ) {
+        here.furn_set( pos, furn_f_compost_full );
+    }
+}
+
+void iexamine::compost_empty( Character &you, const tripoint &examp )
+{
+    itype_id compost_type;
+    std::string compost_nname;
+    bool to_deposit = false;
+    static const auto tank_volume = units::from_liter( 1000 );
+    bool tank_full = false;
+    bool ferment = false;
+    bool compost_present = false;
+    int charges_on_ground = 0;
+    map &here = get_map();
+    map_stack items = here.i_at( examp );
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( !item_it->is_compostable() || compost_present ) {
+            // This isn't a biomass or there was already another kind of biomass inside,
+            // so this has to be moved.
+            items.insert( *item_it );
+            // This will add items to a space near the tank, because it's flagged as NOITEM.
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+            compost_present = true;
+        }
+    }
+    if( !compost_present ) {
+        add_msg( _( "This tank is empty." ) );
+        // TODO: Allow using biomass from crafting inventory
+        const auto b_inv = you.cache_get_items_with( "is_compostable", &item::is_compostable );
+        if( b_inv.empty() ) {
+            add_msg( m_info, _( "You have no biomass to ferment." ) );
+            return;
+        }
+        // Make lists of unique typeids and names for the menu
+        // Code shamelessly stolen from the crop planting function!
+        std::vector<itype_id> b_types;
+        std::vector<std::string> b_names;
+        for( const item *b : b_inv ) {
+            if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
+                b_types.push_back( b->typeId() );
+                b_names.push_back( item::nname( b->typeId() ) );
+            }
+        }
+        // Choose biomass from list
+        int b_index = 0;
+        if( b_types.size() > 1 ) {
+            b_index = uilist( _( "Use which biomass?" ), b_names );
+        } else { //Only one biomass type was in inventory, so it's automatically used
+            if( !query_yn( _( "Set %s in the tank?" ), b_names[0] ) ) {
+                b_index = -1;
+            }
+        }
+        if( b_index < 0 ) {
+            return;
+        }
+        to_deposit = true;
+        compost_type = b_types[b_index];
+        compost_nname = item::nname( compost_type );
+    } else {
+        item &compost = here.i_at( examp ).only_item();
+        compost_type = compost.typeId();
+        compost_nname = item::nname( compost_type );
+        charges_on_ground = compost.charges;
+        add_msg( _( "This tank contains %s (%d), %0.f%% full." ),
+                 compost.tname(), compost.charges, compost.volume() * 100.0 / tank_volume );
+        enum options { ADD_COMPOST, REMOVE_COMPOST, START_FERMENT };
+        uilist selectmenu;
+        selectmenu.text = _( "Select an action" );
+        selectmenu.addentry( ADD_COMPOST, ( you.charges_of( compost_type ) > 0 ), MENU_AUTOASSIGN,
+                             _( "Add more %s to the tank" ), compost_nname );
+        selectmenu.addentry( REMOVE_COMPOST, compost.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
+                             _( "Remove %s from the tank" ), compost.tname() );
+        selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start anaerobic digestion" ) );
+        selectmenu.query();
+        switch( selectmenu.ret ) {
+            case ADD_COMPOST: {
+                to_deposit = true;
+                break;
+            }
+            case REMOVE_COMPOST: {
+                liquid_handler::handle_liquid_from_ground( here.i_at( examp ).begin(), examp );
+                return;
+            }
+            case START_FERMENT: {
+                ferment = true;
+                break;
+            }
+            default:
+                add_msg( _( "Never mind." ) );
+                return;
+        }
+    }
+    if( to_deposit ) {
+        item compost( compost_type, calendar::turn_zero );
+        int charges_held = you.charges_of( compost_type );
+        compost.charges = charges_on_ground;
+        for( int i = 0; i < charges_held && !tank_full; i++ ) {
+            you.use_charges( compost_type, 1 );
+            compost.charges++;
+            if( compost.volume() >= tank_volume ) {
+                tank_full = true;
+            }
+        }
+        add_msg( _( "Set %s in the tank." ), compost_nname );
+        add_msg( _( "The tank now contains %s (%d), %0.f%% full." ),
+                 compost.tname(), compost.charges, compost.volume() * 100.0 / tank_volume );
+        here.i_clear( examp );
+        //This is needed to bypass NOITEM
+        here.add_item( examp, compost );
+        you.mod_moves( -to_moves<int>( 20_seconds ) );
+        if( !tank_full ) {
+            ferment = query_yn( _( "Start anaerobic digestion?" ) );
+        }
+    }
+    if( tank_full || ferment ) {
+        here.i_at( examp ).only_item().set_age( 0_turns );
+        compost_set_full( examp );
+        if( tank_full ) {
+            add_msg( _( "The tank is full, so you close the lid and start anaerobic digestion." ) );
+        } else {
+            add_msg( _( "You close the lid and start anaerobic digestion." ) );
+        }
+        // Set timer for biogas production
+        map &here = get_map();
+        map_stack items_here = here.i_at( examp );
+        item &ferm = *items_here.end();
+        ferm.set_birthday( calendar::turn );
+    }
+}
+
+void iexamine::compost_full( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    map_stack items_here = here.i_at( examp );
+    if( items_here.empty() ) {
+        debugmsg( "biomass_full was empty!" );
+        compost_set_empty( examp );
+        return;
+    }
+
+    for( item &it : items_here ) {
+        if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+            add_msg( _( "You remove %s from the tank." ), it.tname() );
+            here.add_item_or_charges( you.pos_bub(), it );
+            here.i_rem( examp, &it );
+        }
+    }
+
+    if( items_here.empty() ) {
+        compost_set_empty( examp );
+        return;
+    }
+
+    item &compost_i = *items_here.begin();
+    item &ferm = *items_here.end();
+    const time_duration last_open_time = ferm.age();
+    int fermented_days =  to_days<int>( last_open_time );
+    // Biogas generating process starts after one month.
+    int gas_gatherable =  fermented_days < 30 ? fermented_days : fermented_days - 30 ;
+    int max_gas_gatherable = gas_gatherable < 5 ? gas_gatherable : 5 ;
+    // Does the tank contain unfermented biomass, or already fermented liquid?
+    if( compost_i.is_compostable() ) {
+        add_msg( _( "There's a tank of %s set to ferment there." ), compost_i.tname() );
+
+        // TODO: change compost_time to return time_duration
+        const time_duration compost_time = compost_i.composting_time();
+        const time_duration progress = compost_i.age();
+        if( progress < compost_time ) {
+            int hours = to_hours<int>( compost_time - progress );
+            int days = to_days<int>( compost_time - progress );
+            if( hours < 1 ) {
+                add_msg( _( "It will finish fermenting in less than an hour." ) );
+            } else if( days < 1 ) {
+                add_msg( n_gettext( "It will finish fermenting in about %d hour.",
+                                    "It will finish fermenting in about %d hours.",
+                                    hours ), hours );
+            } else {
+                add_msg( n_gettext( "It will finish fermenting in about %d day.",
+                                    "It will finish fermenting in about %d days.",
+                                    days ), days );
+            }
+            if( to_days<int>( progress ) >= 30 && gas_gatherable >= 1 ) {
+                if( query_yn( _( "Gather biogas?  Can't stop once releasing started." ) ) ) {
+                    const std::map<itype_id, int> results = compost_i.composting_results();
+                    const int count = compost_i.count();
+                    const time_point gas_birthday = compost_i.birthday();
+                    if( !max_gas_gatherable ) {
+                        add_msg( _( "No biogas gathered." ) );
+                    } else {
+                        for( const std::pair<const itype_id, int> &result : results ) {
+                            item biogas( result.first, gas_birthday );
+                            // 40 L biogas for 1 KG of biomass over the whole anaerobic digestion process.
+                            // 1 unit of biomass(0.5 KG) for 80 units(0.25 L for each unit) of biogas.
+                            int gas_amount = count * max_gas_gatherable * 80 / 30;
+                            if( result.first->phase == phase_id::GAS ) {
+                                if( !you.can_pickVolume_partial( biogas ) ) {
+                                    add_msg( _( "You released some biogas from the tank." ) );
+                                } else {
+                                    biogas.charges = result.second;
+                                    you.i_add_or_drop( biogas, gas_amount );
+                                    add_msg( _( "Gathered %s units of biogas." ), gas_amount );
+                                }
+                            }
+                        }
+                    }
+                    add_msg( n_gettext( "Biogas generating process started for about %d day.",
+                                        "Biogas generating process started for about %d days.",
+                                        max_gas_gatherable ), max_gas_gatherable );
+                    ferm.set_birthday( calendar::turn );
+                }
+            }
+            return;
+        }
+
+        if( query_yn( _( "Finish fermenting?" ) ) ) {
+            const std::map<itype_id, int> results = compost_i.composting_results();
+            const int count = compost_i.count();
+            const time_point birthday = compost_i.birthday();
+
+            here.i_clear( examp );
+            for( const std::pair<const itype_id, int> &result : results ) {
+                int amount = result.second * count;
+                // TODO: Different age based on settings
+                item compost( result.first, birthday );
+                if( result.first->phase == phase_id::LIQUID ) {
+                    compost.charges = amount;
+                    here.add_item( examp, compost );
+                    add_msg( _( "The %s is now ready for use." ), result.first->nname( amount ) );
+                } else if( result.first->phase == phase_id::GAS ) {
+                    int gas_amount = count * max_gas_gatherable * 80 / 30;
+                    if( !gas_amount || !you.can_pickVolume_partial( compost ) ) {
+                        add_msg( _( "You released some biogas from the tank." ) );
+                    } else {
+                        compost.charges = result.second;
+                        you.i_add_or_drop( compost, gas_amount );
+                        add_msg( _( "Gathered %s units of biogas." ), gas_amount );
+                    }
+                } else {
+                    you.i_add_or_drop( compost, amount );
+                    add_msg( _( "You removed the %s from the tank." ), result.first->nname( amount ) );
+                }
+            }
+
+            you.mod_moves( -to_moves<int>( 5_seconds ) );
+            you.practice( skill_chemistry, std::min( to_minutes<int>( compost_time ) / 10, 100 ) );
+        }
+
+        if( here.i_at( examp ).empty() ) {
+            compost_set_empty( examp );
+        }
+
+        return;
+    } else {
+        add_msg( _( "There's a tank of %s there." ), compost_i.tname() );
+    }
+
+    const std::string compost_name = compost_i.tname();
+    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
+        compost_set_empty( examp );
+        add_msg( _( "You squeeze the last drops of %s from the tank." ), compost_name );
+    }
+}
+
 static units::volume get_keg_capacity( const tripoint &pos )
 {
     const furn_t &furn = get_map().furn( pos ).obj();
@@ -3759,10 +4099,12 @@ void iexamine::keg( Character &you, const tripoint &examp )
     const std::string keg_name = here.name( examp );
     const units::volume keg_cap = get_keg_capacity( examp );
 
-    const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
-        return !it.is_container_empty() && it.can_unload_liquid();
+    const bool has_container_with_liquid = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
+        return !it.is_container_empty() && it.can_unload();
     } );
-    const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
+    const bool liquid_present = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
         return it.made_of_from_type( phase_id::LIQUID );
     } );
 
@@ -3967,11 +4309,11 @@ static void pick_plant( Character &you, const tripoint &examp,
     int plantCount = rng( plantBase, round( plantBase + survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
-    here.spawn_item( you.pos(), itemType, plantCount, 0, calendar::turn );
+    here.spawn_item( you.pos_bub(), itemType, plantCount, 0, calendar::turn );
 
     if( seeds ) {
         // FIXME: shouldn't derive seed type by string manipulation
-        here.spawn_item( you.pos(), itype_id( "seed_" + itemType.str() ), 1,
+        here.spawn_item( you.pos_bub(), itype_id( "seed_" + itemType.str() ), 1,
                          rng( plantCount / 4, plantCount / 2 ), calendar::turn );
     }
 
@@ -3991,7 +4333,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
-        here.spawn_item( you.pos(), itype_hickory_root, rng( 1,
+        here.spawn_item( you.pos_bub(), itype_hickory_root, rng( 1,
                          round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
@@ -4125,10 +4467,10 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             }
 
             add_msg( _( "You remove the %s." ), spile->tname() );
-            here.add_item_or_charges( you.pos(), *spile );
+            here.add_item_or_charges( you.pos_bub(), *spile );
 
             if( container ) {
-                here.add_item_or_charges( you.pos(), *container );
+                here.add_item_or_charges( you.pos_bub(), *container );
             }
             here.i_clear( examp );
 
@@ -4160,7 +4502,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            here.add_item_or_charges( you.pos(), *container );
+            here.add_item_or_charges( you.pos_bub(), *container );
             you.mod_moves( -you.item_handling_cost( *container ) );
             here.i_rem( examp, container );
             return;
@@ -4177,7 +4519,7 @@ void iexamine::shrub_marloss( Character &you, const tripoint &examp )
         pick_plant( you, examp, itype_mycus_fruit, ter_t_shrub_fungal );
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         map &here = get_map();
-        here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_mycus_fruit, 1, 0, calendar::turn );
         here.ter_set( examp, ter_t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
     } else {
@@ -4198,7 +4540,7 @@ void iexamine::tree_marloss( Character &you, const tripoint &examp )
             here.ter_set( examp, ter_t_marloss_tree );
         }
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
-        here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_mycus_fruit, 1, 0, calendar::turn );
         here.ter_set( examp, ter_t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
     } else {
@@ -4324,11 +4666,20 @@ void trap::examine( const tripoint &examp ) const
     }
 }
 
+void trap::examine( const tripoint_bub_ms &examp ) const
+{
+    trap::examine( examp.raw() );
+}
+
 void iexamine::part_con( Character &you, tripoint const &examp )
 {
+    iexamine::part_con( you, tripoint_bub_ms( examp ) );
+}
+
+void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
+{
     map &here = get_map();
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
         if( you.fine_detail_vision_mod() > 4 &&
             !you.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
@@ -4339,10 +4690,9 @@ void iexamine::part_con( Character &you, tripoint const &examp )
                        built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos(), it );
+                    here.add_item_or_charges( you.pos_bub(), it );
                 }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
+                here.partial_con_remove( examp );
             }
         } else {
             you.assign_activity( ACT_BUILD );
@@ -4467,15 +4817,15 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
                 for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
                     if( itm->typeId() == ammo_itypeID ) {
                         if( you.can_stash( *itm ) ) {
-                            std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
-                            you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
+                            std::vector<item_location> target_items{ item_location( map_cursor( tripoint_bub_ms( examp ) ), &*itm ) };
+                            you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos_bub(), false ) );
                             return;
                         } else {
                             // get handling cost before the item reference is invalidated
                             const int handling_cost = -you.item_handling_cost( *itm );
 
                             add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
-                            here.add_item_or_charges( you.pos(), *itm );
+                            here.add_item_or_charges( you.pos_bub(), *itm );
                             itm = items.erase( itm );
                             you.mod_moves( handling_cost );
                             return;
@@ -4497,7 +4847,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
     // but for now this should at least work as intended
-    item_location pseudo_loc( map_cursor( examp ), &pseudo );
+    item_location pseudo_loc( map_cursor( tripoint_bub_ms( examp ) ), &pseudo );
 
     // used to only allow one type of ammo, changed with move to inventory_selector
     // todo: use furniture name instead of pseudo item name
@@ -4568,8 +4918,8 @@ void iexamine::curtains( Character &you, const tripoint &examp )
     const bool closed_window_with_curtains = here.has_flag(
                 ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
                 examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
-                                          closed_window_with_curtains ) ) {
+    if( here.is_outside( you.pos_bub() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
+            closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
     }
@@ -4595,10 +4945,10 @@ void iexamine::curtains( Character &you, const tripoint &examp )
             here.ter_set( examp, here.ter( examp )->curtain_transform );
         }
 
-        here.spawn_item( you.pos(), itype_nail, 1, 4, calendar::turn );
-        here.spawn_item( you.pos(), itype_sheet, 2, 0, calendar::turn );
-        here.spawn_item( you.pos(), itype_stick, 1, 0, calendar::turn );
-        here.spawn_item( you.pos(), itype_string_36, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_nail, 1, 4, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_sheet, 2, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_stick, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_string_36, 1, 0, calendar::turn );
         you.mod_moves( -to_moves<int>( 10_seconds ) );
         you.add_msg_if_player( _( "You tear the curtains and curtain rod off the windowframe." ) );
     } else {
@@ -4660,11 +5010,11 @@ void iexamine::sign( Character &you, const tripoint &examp )
     }
 }
 
-static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_type )
+static int getNearPumpCount( const tripoint_bub_ms &p, fuel_station_fuel_type &fuel_type )
 {
     int result = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
             result++;
@@ -4677,15 +5027,16 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     return result;
 }
 
-std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint_bub_ms> iexamine::getNearFilledGasTank( const tripoint_bub_ms &center,
+        int &fuel_units,
         fuel_station_fuel_type &fuel_type )
 {
-    std::optional<tripoint> tank_loc;
+    std::optional<tripoint_bub_ms> tank_loc;
     int distance = INT_MAX;
     fuel_units = 0;
 
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
 
         furn_id check_for_fuel_tank = here.furn( tmp );
 
@@ -4785,11 +5136,11 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+std::optional<tripoint_bub_ms> iexamine::getGasPumpByNumber( const tripoint_bub_ms &p, int number )
 {
     int k = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( ( t == ter_t_gas_pump || t == ter_t_gas_pump_a
               || t == ter_t_diesel_pump || t == ter_t_diesel_pump_a ) && number == k++ ) {
@@ -4799,7 +5150,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
     return std::nullopt;
 }
 
-bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
+bool iexamine::toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units )
 {
     map &here = get_map();
     map_stack items = here.i_at( src );
@@ -4826,7 +5177,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
     return false;
 }
 
-static int fromPumpFuel( const tripoint &dst, const tripoint &src )
+static int fromPumpFuel( const tripoint_bub_ms &dst, const tripoint_bub_ms &src )
 {
     map &here = get_map();
     map_stack items = here.i_at( src );
@@ -4853,11 +5204,12 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     return -1;
 }
 
-static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel_type &fuel_type )
+static void turnOnSelectedPump( const tripoint_bub_ms &p, int number,
+                                fuel_station_fuel_type &fuel_type )
 {
     int k = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
@@ -4894,7 +5246,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
     fuel_station_fuel_type fuelType = FUEL_TYPE_NONE;
     std::string fuelTypeStr;
-    int pumpCount = getNearPumpCount( examp, fuelType );
+    int pumpCount = getNearPumpCount( tripoint_bub_ms( examp ), fuelType );
     fuelTypeStr = fuelType == FUEL_TYPE_GASOLINE ? _( "gasoline" ) : fuelType == FUEL_TYPE_DIESEL ?
                   _( "diesel" ) : "";
     if( pumpCount == 0 ) {
@@ -4903,12 +5255,13 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     int tankUnits;
-    const std::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
+    const std::optional<tripoint_bub_ms> pTank_ = getNearFilledGasTank( tripoint_bub_ms( examp ),
+            tankUnits, fuelType );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelTypeStr ) ) );
         return;
     }
-    const tripoint pTank = *pTank_;
+    const tripoint_bub_ms pTank = *pTank_;
 
     if( tankUnits == 0 ) {
         popup( str_to_illiterate_str(
@@ -4963,7 +5316,8 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
-            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
+            pumps.emplace_back( getGasPumpByNumber( tripoint_bub_ms( examp ),
+                                                    i ).value_or( tripoint_bub_ms( examp ) ).raw() );
         }
         pointmenu_cb callback( pumps );
         amenu.callback = &callback;
@@ -4977,7 +5331,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
         uistate.ags_pay_gas_selected_pump = choice;
 
-        turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump, fuelType );
+        turnOnSelectedPump( tripoint_bub_ms( examp ), uistate.ags_pay_gas_selected_pump, fuelType );
 
         return;
 
@@ -5009,7 +5363,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( tripoint_bub_ms( examp ),
                 uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
@@ -5028,7 +5382,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        try_start_hacking( you, examp );
+        try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 
     if( refund == choice ) {
@@ -5038,7 +5392,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             return;
         }
 
-        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( tripoint_bub_ms( examp ),
                 uistate.ags_pay_gas_selected_pump );
         int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
         if( amount_fuel < 0 ) {
@@ -5124,8 +5478,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
-        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+    if( you.has_flag( json_flag_GLIDE ) || you.has_flag( json_flag_WING_GLIDE ) ||
+        you.has_bodypart_with_flag( json_flag_WING_ARM ) ) {
+        cmenu.addentry( ledge_glide, you.can_fly(), 'g',
+                        ( you.can_fly() ? _( "Glide away." ) : _( "You can't glide in your current state" ) ) );
     }
     cmenu.query();
 
@@ -5213,43 +5569,30 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }*/
         case ledge_glide: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.mod_moves( -to_moves<int>( 1_seconds ) );
-                return;
+            int glide_distance = 5;
+            const weather_manager &weather = get_weather();
+            add_msg( m_info, _( "You soar away from the ledge." ) );
+            int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+            // Handle cases where the difference wraps around due to compass directions
+            angledifference = std::min( angledifference, 360 - angledifference );
+            if( angledifference <= 45 && weather.windspeed >= 12 ) {
+                add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                glide_distance += 1;
             }
-            // The carried weight check here is redundant, but we do it anyway for better player feedback
-            if( 100 * you.weight_carried() / you.weight_capacity() > 50 &&
-                you.has_trait_flag( json_flag_WING_GLIDE ) ) {
-                add_msg( m_warning, _( "You are carrying too much to glide." ) );
-            } else if( !you.can_fly() ) {
-                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
-            } else {
-                int glide_distance = 5;
-                const weather_manager &weather = get_weather();
-                add_msg( m_info, _( "You soar away from the ledge." ) );
-                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
-                // Handle cases where the difference wraps around due to compass directions
-                angledifference = std::min( angledifference, 360 - angledifference );
-                if( angledifference <= 45 && weather.windspeed >= 12 ) {
-                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
-                    glide_distance += 1;
-                }
-                // Check if the directions are greater than 135 degrees apart
-                else if( angledifference >= 135 && weather.windspeed >= 12 ) {
-                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
-                    glide_distance -= 1;
-                }
-                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
-                    glide_distance = std::round( 0.7 * glide_distance );
-                }
-                you.as_avatar()->grab( object_type::NONE );
-                glide_activity_actor glide( &you, jump_direction, glide_distance );
-                you.remove_effect( effect_bouldering );
-                you.assign_activity( glide );
-                you.add_effect( effect_gliding, 1_turns, true );
-                you.setpos( examp );
+            // Check if the directions are greater than 135 degrees apart
+            else if( angledifference >= 135 && weather.windspeed >= 12 ) {
+                add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                glide_distance -= 1;
             }
+            if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                glide_distance = std::round( 0.7 * glide_distance );
+            }
+            you.as_avatar()->grab( object_type::NONE );
+            glide_activity_actor glide( &you, jump_direction, glide_distance );
+            you.remove_effect( effect_bouldering );
+            you.assign_activity( glide );
+            you.add_effect( effect_gliding, 1_turns, true );
+            you.setpos( examp );
             break;
         }
         case ledge_fall_down: {
@@ -5845,7 +6188,7 @@ static void mill_activate( Character &you, const tripoint &examp )
             add_msg( _( "You remove the %s from the mill." ), source.tname() );
 
             for( int i = 0; i < mill_type_count.second; i++ ) {
-                here.add_item_or_charges( you.pos(), source );
+                here.add_item_or_charges( you.pos_bub(), source );
                 you.mod_moves( -you.item_handling_cost( source ) );
                 for( item &iter : items ) {
                     if( iter.typeId() == source.typeId() ) {
@@ -5882,7 +6225,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                 add_msg( _( "You remove the %s from the mill." ), source.tname() );
 
                 for( int i = 0; i < mill_type_count.second; i++ ) {
-                    here.add_item_or_charges( you.pos(), source );
+                    here.add_item_or_charges( you.pos_bub(), source );
                     you.mod_moves( -you.item_handling_cost( source ) );
                     for( item &iter : items ) {
                         if( iter.typeId() == source.typeId() ) {
@@ -5900,7 +6243,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                              source.tname( 1, false ), lot_size );
                     add_msg( _( "You remove the %s from the mill." ), source.tname() );
                     for( int i = 0; i < mill_type_count.second; i++ ) {
-                        here.add_item_or_charges( you.pos(), source );
+                        here.add_item_or_charges( you.pos_bub(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
                         for( item &iter : items ) {
                             if( iter.typeId() == source.typeId() ) {
@@ -5915,7 +6258,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                              source.tname( 1, false ), lot_size );
                     add_msg( _( "You remove the excess %s from the mill." ), source.tname() );
                     for( int i = 0; i < mill_type_count.second - process_count; i++ ) {
-                        here.add_item_or_charges( you.pos(), source );
+                        here.add_item_or_charges( you.pos_bub(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
                         for( item &iter : items ) {
                             if( iter.typeId() == source.typeId() ) {
@@ -5937,7 +6280,7 @@ static void mill_activate( Character &you, const tripoint &examp )
         } else {
             add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             you.mod_moves( -you.item_handling_cost( it ) );
             here.i_rem( examp, &it );
             return;
@@ -6011,7 +6354,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             you.mod_moves( -you.item_handling_cost( it ) );
             here.i_rem( examp, &it );
             return;
@@ -6075,8 +6418,8 @@ static void smoker_activate( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good,
                                _( "You happily light a small fire under the rack and it starts to smoke." ) );
     } else {
@@ -6589,7 +6932,7 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
                     const int handling_cost = -you.item_handling_cost( *it );
 
                     add_msg( _( "You remove %s from the mill." ), it->tname() );
-                    here.add_item_or_charges( you.pos(), *it );
+                    here.add_item_or_charges( you.pos_bub(), *it );
                     it = items_here.erase( it );
                     you.mod_moves( handling_cost );
                 } else {
@@ -6820,7 +7163,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                     const int handling_cost = -you.item_handling_cost( *it );
 
                     add_msg( _( "You remove %s from the rack." ), it->tname() );
-                    here.add_item_or_charges( you.pos(), *it );
+                    here.add_item_or_charges( you.pos_bub(), *it );
                     it = items_here.erase( it );
                     you.mod_moves( handling_cost );
                 } else {
@@ -6902,7 +7245,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( map_cursor( examp ), &it );
+                crafts.emplace_back( map_cursor( tripoint_bub_ms( examp ) ), &it );
             }
         }
     }
@@ -6992,8 +7335,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                     break;
                 }
                 const recipe &rec = selected_craft->get_making();
-                const inventory &inv = you.crafting_inventory();
-                if( !you.has_recipe( &rec, inv, you.get_crafting_group() ) ) {
+                if( !you.has_recipe( &rec ) ) {
                     you.add_msg_player_or_npc(
                         _( "You don't know the recipe for the %s and can't continue crafting." ),
                         _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -7078,11 +7420,14 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "aggie_plant", &iexamine::aggie_plant },
             { "fvat_empty", &iexamine::fvat_empty },
             { "fvat_full", &iexamine::fvat_full },
+            { "compost_empty", &iexamine::compost_empty },
+            { "compost_full", &iexamine::compost_full },
             { "keg", &iexamine::keg },
             { "harvest_furn_nectar", &iexamine::harvest_furn_nectar },
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
+            { "clear_overgrown", &iexamine::clear_overgrown },
             { "harvest_plant_ex", &iexamine::harvest_plant_ex },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },

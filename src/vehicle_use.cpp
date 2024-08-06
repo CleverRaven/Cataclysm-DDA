@@ -58,6 +58,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -110,7 +111,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 void handbrake()
 {
     Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( !vp ) {
         return;
     }
@@ -206,7 +207,7 @@ void vehicle::control_doors()
     veh_menu menu( this, _( "Select door to toggle" ) );
 
     do {
-        menu.reset();
+        menu.reset( /* keep_last_selected = */ true );
 
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
@@ -965,7 +966,7 @@ void vehicle::crash_terrain_around()
         const tripoint start_pos = vp.pos();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !here.inbounds_z( crush_target.z ); i++ ) {
+             crush_target.z == -OVERMAP_LAYERS; i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
@@ -979,7 +980,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( here.inbounds_z( crush_target.z ) ) {
+        if( crush_target.z != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1029,7 +1030,7 @@ void vehicle::operate_reaper()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
-        const tripoint reaper_pos = vp.pos();
+        const tripoint_bub_ms reaper_pos = vp.pos_bub();
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
@@ -1325,7 +1326,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
     const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
-    here.set_seen_cache_dirty( part_location );
+    here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -1778,7 +1779,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                const itype_id &tool_type,
                                 bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
@@ -1803,8 +1805,13 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const ityp
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
+        act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
+    }
+
+    //Hack for heat_activity_actor.
+    if( act.id() == ACT_HEATING ) {
+        act.coords.push_back( vp_pos.raw() );
     }
 
     const int used_charges = ammo_in_tool - tool.ammo_remaining();
@@ -1844,15 +1851,16 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                                          : has_part_here( "CTRL_ELECTRONIC" );
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
-    const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
-                               &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
+    const bool player_inside = get_map().veh_at( get_player_character().pos_bub() ) ?
+                               &get_map().veh_at( get_player_character().pos_bub() )->vehicle() == this :
                                false;
-    bool power_grid = false;
-    bool cable_linked = false;
+    bool power_linked = false;
+    bool item_linked = false;
+    bool tow_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_grid = power_grid ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
-        cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
-                       vp_part->info().has_flag( "TOW_CABLE" );
+        power_linked = power_linked || vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        item_linked = item_linked || vp_part->has_flag( vp_flag::linked_flag );
+        tow_linked = tow_linked || vp_part->info().has_flag( "TOW_CABLE" );
     }
 
     if( !is_appliance() ) {
@@ -2074,10 +2082,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( power_grid ) {
-        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
-        .enable( !cable_linked )
-        .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
+    if( power_linked ) {
+        menu.add( _( "Disconnect power connections" ) )
+        .enable( !item_linked && !tow_linked )
+        .desc( string_format( !item_linked && !tow_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2085,8 +2093,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             get_player_character().pause();
         } );
     }
-    if( cable_linked ) {
-        menu.add( _( "Disconnect cables" ) )
+    if( item_linked || tow_linked ) {
+        std::string menu_text = item_linked && tow_linked ? _( "Disconnect items and tow cables" ) :
+                                item_linked ? _( "Disconnect items" ) : _( "Disconnect tow cables" );
+        menu.add( menu_text )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2107,9 +2117,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 builtin_tool_types.insert( tool_type );
             }
 
+            std::vector<item> &stored_tools = vp_toolstation->part().tools;
             std::vector<item> tools_to_remove;
             // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
-            for( const auto &[tool_item, _] : vp.get_tools() ) {
+            for( const item &tool_item : stored_tools ) {
                 const itype_id &tool_type = tool_item.typeId();
                 if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
                     continue;
@@ -2127,7 +2138,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     you.add_or_drop_with_msg( tool_to_remove );
                 }
 
-                std::vector<item> &stored_tools = vp_toolstation->part().tools;
                 stored_tools.erase( std::remove_if( stored_tools.begin(),
                                                     stored_tools.end(),
                 [&tools_to_remove]( const item & item_to_remove ) {
@@ -2157,7 +2167,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
         .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
-        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
+        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, tripoint_bub_ms( vppos ), tool_type ); } );
     }
 
     const std::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
@@ -2194,7 +2204,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
-            get_map().has_items( vp.pos() ) ||
+            get_map().has_items( vp.pos_bub() ) ||
             ( vp_cargo && !vp_cargo->items().empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )
@@ -2430,6 +2440,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
 void vehicle::interact_with( const tripoint &p, bool with_pickup )
 {
+    vehicle::interact_with( tripoint_bub_ms( p ), with_pickup );
+}
+
+void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
+{
     const optional_vpart_position ovp = get_map().veh_at( p );
     if( !ovp ) {
         debugmsg( "interact_with called at %s and no vehicle is found", p.to_string() );
@@ -2439,6 +2454,6 @@ void vehicle::interact_with( const tripoint &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p, with_pickup );
+        build_interact_menu( menu, p.raw(), with_pickup );
     } while( menu.query() );
 }

@@ -139,7 +139,7 @@
     "blueprint_requires": [ { "id": "fbmk_canteen_smoking" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_butchery" }, { "id": "kitchen_recipes_3" }, { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_butchery" } ],
-    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
+    "components": [ [ [ "knife_huge", 1 ], [ "knife_small", 1 ], [ "knife_large", 2 ] ] ]
   },
   {
     "type": "recipe",

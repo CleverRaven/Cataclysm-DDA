@@ -70,5 +70,21 @@
     "required_event": "game_start",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAMESTART_POWER_LEARNING_VARIABLES",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [
+      { "math": [ "global_insight_power_learning_time_low", "=", "43200" ] },
+      { "math": [ "global_insight_power_learning_time_high", "=", "604800" ] },
+      { "math": [ "global_tier_one_power_learning_time_low", "=", "43200" ] },
+      { "math": [ "global_tier_one_power_learning_time_high", "=", "86400" ] },
+      { "math": [ "global_tier_two_power_learning_time_low", "=", "129600" ] },
+      { "math": [ "global_tier_two_power_learning_time_high", "=", "259200" ] },
+      { "math": [ "global_tier_three_power_learning_time_low", "=", "345600" ] },
+      { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] }
+    ]
   }
 ]

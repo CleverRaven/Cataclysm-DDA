@@ -1,11 +1,17 @@
 #include "auto_note.h"
 
+#include <cstddef>
+#include <iosfwd>
+#include <iterator>
 #include <string>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
 #include "json.h"
@@ -14,7 +20,9 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"

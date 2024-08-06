@@ -7,7 +7,7 @@
     "color": "white",
     "name": { "str": "Ichaival" },
     "description": "Ichaival, the bow of Odin.  Rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it, as well as an ornate Raven.",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "orichalcum_metal", "gold", "wood" ],
     "flags": [
       "FIRE_TWOHAND",
@@ -51,13 +51,13 @@
     "clip_size": 1,
     "reload": 40,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 14 }
   },
   {
     "type": "AMMO",
     "id": "arrow_odin",
-    "price": 3500,
+    "price": "35 USD",
     "name": "orichalcum arrow",
     "symbol": "=",
     "color": "white",
@@ -74,13 +74,13 @@
     "count": 15,
     "stack_size": 15,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_65" ],
+    "recovery_chance": 98,
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "arrow_druid_crafted",
     "type": "AMMO",
-    "price": 25000,
+    "price": "250 USD",
     "name": { "str": "tangler arrow" },
     "symbol": "=",
     "color": "green",
@@ -88,7 +88,7 @@
     "description": "An arrow with a fragment of a druid rune in the arrowhead.  It unleashes a storm of entangling vegetation when it strikes.",
     "material": [ { "type": "wood", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "volume": "90 ml",
-    "price_postapoc": 100,
+    "price_postapoc": "1 USD",
     "weight": "32 g",
     "longest_side": "76 cm",
     "melee_damage": { "bash": 3, "cut": 1 },
@@ -98,7 +98,8 @@
     "loudness": 0,
     "show_stats": true,
     "critical_multiplier": 10,
-    "effects": [ "TANGLE", "RECOVER_7" ]
+    "recovery_chance": 86,
+    "effects": [ "TANGLE" ]
   },
   {
     "id": "arrow_stormshaper_crafted",
@@ -106,8 +107,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "thunderclap arrow" },
     "color": "magenta",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a stormshaper rune in the arrowhead.  It trails lightning and explodes with a crash of thunder.",
-    "effects": [ "LIGHTNING", "FLASHBANG", "RECOVER_7" ]
+    "effects": [ "LIGHTNING", "FLASHBANG" ]
   },
   {
     "id": "arrow_earthshaper_crafted",
@@ -124,8 +126,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "fireball arrow" },
     "color": "red",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a kelvinist rune in the arrowhead.  It explodes into a firestorm.",
-    "effects": [ "NAPALM", "RECOVER_7" ]
+    "effects": [ "NAPALM" ]
   },
   {
     "id": "arrow_biomancer_crafted",
@@ -134,8 +137,9 @@
     "name": { "str": "visceral arrow" },
     "color": "green",
     "material": [ "bone" ],
+    "recovery_chance": 86,
     "description": "A disturbing bone arrow with a fragment of a biomancer rune in the arrowhead.  It showers its target in acid.",
-    "effects": [ "ACIDBOMB", "RECOVER_7" ]
+    "effects": [ "ACIDBOMB" ]
   },
   {
     "id": "arrow_technomancer_crafted",
@@ -143,8 +147,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "sparking arrow" },
     "color": "white",
+    "recovery_chance": 86,
     "description": "A metallic arrow with a fragment of a technomancer rune in the arrowhead.  It destroys electronic targets.",
-    "effects": [ "EMP", "DRAW_LASER_BEAM", "RECOVER_7" ]
+    "effects": [ "EMP", "DRAW_LASER_BEAM" ]
   },
   {
     "id": "arrow_magus_crafted",
@@ -153,8 +158,9 @@
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
     "color": "black",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
-    "effects": [ "BOUNCE", "RECOVER_7" ]
+    "effects": [ "BOUNCE" ]
   },
   {
     "id": "arrow_animist_crafted",
@@ -163,8 +169,9 @@
     "//": "I'd like this to drain life but see above.",
     "name": { "str": "enervating arrow" },
     "color": "cyan",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of an animist rune in the arrowhead.  It unleashes a cloud of enervating gas.",
-    "effects": [ "PARALYZEPOISON", "TOXICGAS", "RECOVER_7" ]
+    "effects": [ "PARALYZEPOISON", "TOXICGAS" ]
   },
   {
     "id": "quiver_of_holding_plus_one",
@@ -172,8 +179,8 @@
     "name": { "str": "quiver of holding +1", "str_pl": "quivers of holding +1" },
     "description": "A quiver enchanted to hold 40 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver",
-    "price": 50000,
-    "price_postapoc": 2000,
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
     "looks_like": "quiver",
     "pocket_data": [
       {

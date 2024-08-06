@@ -2,24 +2,8 @@
   {
     "type": "recipe_category",
     "id": "CC_PRACTICE",
-    "recipe_subcategories": [
-      "CSC_ALL",
-      "CSC_PRACTICE_SCIENCE",
-      "CSC_PRACTICE_ELECTRONICS",
-      "CSC_PRACTICE_FABRICATION",
-      "CSC_PRACTICE_FOOD",
-      "CSC_PRACTICE_SURVIVAL",
-      "CSC_PRACTICE_TAILORING",
-      "CSC_PRACTICE_ATHLETICS",
-      "CSC_PRACTICE_COMPUTERS",
-      "CSC_PRACTICE_DEVICES",
-      "CSC_PRACTICE_HEALTH",
-      "CSC_PRACTICE_MECHANICS",
-      "CSC_PRACTICE_SOCIAL",
-      "CSC_PRACTICE_MELEE",
-      "CSC_PRACTICE_RANGED",
-      "CSC_PRACTICE_METAPHYSICS"
-    ]
+    "copy-from": "CC_PRACTICE",
+    "extend": { "recipe_subcategories": [ "CSC_PRACTICE_METAPHYSICS" ] }
   },
   {
     "id": "prac_psionics_begin",
@@ -41,7 +25,7 @@
       [ "book_newage_witchcraftbeg", 0 ]
     ],
     "tools": [ [  ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
     "id": "prac_psionics_inter",
@@ -56,7 +40,7 @@
     "practice_data": { "min_difficulty": 3, "max_difficulty": 5, "skill_limit": 6 },
     "book_learn": [ [ "manual_meditation_int", 3 ], [ "occult_glimpses", 3 ], [ "book_newage_witchcraftadv", 3 ] ],
     "tools": [ [  ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
     "id": "prac_psionics_advan",
@@ -71,7 +55,7 @@
     "practice_data": { "min_difficulty": 6, "max_difficulty": 9, "skill_limit": 10 },
     "book_learn": [ [ "manual_psionics_advan", 6 ] ],
     "tools": [ [  ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
     "id": "prac_psionics_prof_basic",
@@ -118,7 +102,7 @@
     "time": "1 h",
     "components": [  ],
     "book_learn": [ [ "manual_meditation", 2 ], [ "book_newage_inpsychic", 2 ], [ "occult_glimpses", 2 ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
   {
     "id": "prac_concentration_intermediate",
@@ -134,6 +118,6 @@
     "time": "1 h",
     "components": [  ],
     "book_learn": [ [ "manual_meditation_int", 5 ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   }
 ]

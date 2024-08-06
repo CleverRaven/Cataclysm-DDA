@@ -22,6 +22,7 @@
             "CREATE_LIGHT_SYLPH",
             "SYLPH_MASSIVE_LIGHTNING_BLAST",
             "WIND_BLOWS_WILLOW_BENDS",
+            "SYLPH_WIND_TRANSLOCATION",
             "SYLPH_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
@@ -74,6 +75,7 @@
         { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_wind_translocation_spell')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] },
         { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
@@ -94,6 +96,7 @@
         [ "EOC_LEVELER_SYLPH_CALL_LIGHTNING", 5 ],
         [ "EOC_LEVELER_SYLPH_CRASH_OF_LIGHTNING", 5 ],
         [ "EOC_LEVELER_SYLPH_MASSIVE_LIGHTNING_BLAST", 2 ],
+        [ "EOC_LEVELER_SYLPH_WIND_TRANSLOCATE", 2 ],
         [ "EOC_LEVELER_SLYPH_WIND_BLOWS_WILLOW_BENDS", 6 ],
         [ "EOC_LEVELER_SYLPH_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_SYLPH_MAKE_GOSSAMER", 4 ]
@@ -331,6 +334,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('sylph_massive_lightning_bolt_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_WIND_TRANSLOCATE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_wind_translocation_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_wind_translocation_spell')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_wind_translocation_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

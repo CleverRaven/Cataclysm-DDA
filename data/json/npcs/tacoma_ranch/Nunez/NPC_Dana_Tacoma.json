@@ -87,7 +87,7 @@
       {
         "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Dana_Bakery1",
-        "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
       },
       { "text": "Nice to see you Dana, I'm just checking in.", "topic": "TALK_DONE" }
     ]
@@ -101,7 +101,7 @@
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -125,7 +125,7 @@
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -148,7 +148,7 @@
       {
         "text": "Won't you run out of propane?",
         "topic": "TALK_TACOMA_Dana_TrailerPropane",
-        "condition": { "not": { "u_has_var": "propane_scavenging", "context": "knowledge", "value": "knows" } }
+        "condition": { "not": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" } }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -157,13 +157,13 @@
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer3",
     "dynamic_line": "*sighs and nods.  \"Making do with what I've got, but yeah.  I can only crank out a couple loaves a day, and can't do anything fun.  Pablo has been talking about setting me up a separate kitchen to really get going, but we've got so much critical work to do, and fresh bread is a luxury, even if it's great for morale.\"",
-    "speaker_effect": { "effect": { "u_add_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+    "speaker_effect": { "effect": { "u_add_var": "knowledge_tacoma_bakery", "value": "knows" } },
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -172,7 +172,7 @@
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_TrailerPropane",
     "dynamic_line": "You bet we will.  We've been collecting tanks and have enough for a while, but I'm burning through it faster than the scavengers can bring in more.  Pablo is working out some plans with the others to get me a real wood fired kitchen soon, and that'll also boost my capacity.  Maybe he could give you some scavenging work if you ask.",
-    "speaker_effect": { "effect": { "u_add_var": "propane_scavenging", "context": "knowledge", "value": "knows" } },
+    "speaker_effect": { "effect": { "u_add_var": "knowledge_propane_scavenging", "value": "knows" } },
     "responses": [
       { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }

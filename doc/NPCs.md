@@ -34,7 +34,8 @@ Format:
   "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
-  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
+  "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
   "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
@@ -63,15 +64,16 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
-    { "item": "scrap", "price": 10000 },
+    "price": 10000 },
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
+  "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],         // Optional. Note that prereqs do not need to be defined. NPCs of this class will learn this proficiency *and all pre-requesite proficiencies*.
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
@@ -106,7 +108,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     {
       "item": "hammer",
       "rate": 10,
-      "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      "condition": { "npc_has_var": "bool_dinner_hammer_eater", "value": "yes" }
     },
     { "category": "ammo", "rate": 10 },
     { "group": "EXODII_basic_trade", "rate": 100 }
@@ -124,7 +126,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "entries": [
     {
       "item": "hammer",
-      "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+      "condition": { "npc_has_var": "bool_test_hammer_hater", "value": "yes" },
       "message": "<npcname> hates this item"
     },
     { "category": "ammo" },
@@ -355,6 +357,8 @@ Field | Used for...
 `<current_activity>` | displays npc's current activity
 `<punc>` | displays a random punctuation from: `.`, `…`, `!`
 `<mypronoun>` | displays npc's pronoun
+`<total_kills>` | total kills of the Player
+`<time_survived>` | time since start of the game
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
@@ -960,6 +964,8 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
@@ -1035,11 +1041,11 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+      "npc_has_var": "general_examples_has_met_PC", "value": "yes"
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+    "npc_add_var": "general_examples_has_met_PC", "value": "yes"
   }
 },
 {
@@ -1128,16 +1134,16 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
+  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
   "effect": [
-    { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+    { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
   ]
 },
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "even_more_zombies", "value": "yes", "type": "trigger", "context": "learning_experience" },
+  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
@@ -1208,7 +1214,7 @@ Mutator Name | Required Keys | Description
 `"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
 `"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
 `"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
-`"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
+`"u_/npc_loc_relative"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the alpha/beta talker respectively. So `"target":"(0,1,0)"` would return the point south of the talker.
 `"topic_item"` | | Returns current topic_item as a string. See [Repeat Responses](#repeat-responses)
 
 ### Math
@@ -1330,6 +1336,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso')", ">", "0"] }`|
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc)", "<=", "50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
+| effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso')", ">", "1"] }`<br/>`{ "math": [ "_thing", "=", "u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
 | faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)    |   ✅   |   ❌  | N/A<br/>(global)  | Return the like/respect/trust value a faction has for the avatar.<br/>Argument is faction ID.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`|
@@ -1351,7 +1358,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
-| pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+| pain()     |  ✅  |   ✅   | u, n  | Return or set pain.  Optional kwargs:<br/>`type`: `s/v` - return the value of specific format.  Can be `perceived` (return pain value minus painkillers) or `raw`.  If not used, `raw` is used by default. <br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' )", ">=", "40" ] }` |
 | proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS')", ">=", "3"] }`|
 | school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')", "+=", "3"] }`|
@@ -1360,6 +1367,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID')", ">=", "5"] }`|
 | spell_exp_for_level(`d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level. <br/> Example:<br/>`"math": [ "spell_exp_for_level(u_spell_level('SPELL_ID')) * 5"] }`|
 | spell_count()    |  ✅   |   ❌  | u, n  | Return number of spells the character knows.<br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school.<br/><br/> Example:<br/>`"condition": { "math": [ "u_spell_count('school': 'MAGUS')", ">=", "10"] }`|
+| spell_level_sum()    |  ✅   |   ❌  | u, n  | Return sum of all spell levels character has; having one spell of class A with level 5, and another with lvl 10 would return 15. <br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school. Omitting return sum of all spells character has, no matter of the class.<br/>`level`: `d/v` - count only spells that are higher or equal this field. Default 0.<br/><br/> Example:<br/>`{ "math": [ "test_var1", "=", "u_spell_level_sum()" ] }`<br/>`{ "math": [ "test_var2", "=", "u_spell_level_sum('school': 'MAGUS')" ] }`<br/>`{ "math": [ "test_var3", "=", "u_spell_level_sum('school': 'MAGUS', 'level': '10')" ] }`|
 | spell_level(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written.<br/>Argument is spell ID. If `"null"` is given, return the highest level of spells the character knows (read only).<br/> Example:<br/>`"condition": { "math": [ "u_spell_level('SPELL_ID')", "==", "-1"] }`|
 | spell_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is spell ID. If `"null"` is given, adjust all spell level.<br/><br/>Example:<br/>`{ "math": [ "u_spell_level_adjustment('SPELL_ID')", "+=", "3"] }`|
 | spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-0.95" ] }`|
@@ -1376,6 +1384,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
+| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
+| get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1412,17 +1422,15 @@ These can be read or written to with `val()`.
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
-| `power` | ✅ | Bionic power in millijoule. |
-| `power_percentage` | ✅ | Percentage of max bionic power |
-| `power_max` | ❌ | Max bionic power in millijoule. |
+| `power` | ✅ | Bionic or item power in millijoule. |
+| `power_percentage` | ✅ | Percentage of max bionic or item power |
+| `power_max` | ❌ | Max bionic or item power in millijoule. |
 | `rad` | ✅ | Current radiation level. |
 | `size` | ❌ | Size category from 1 (tiny) to 5 (huge). |
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
 | `stim` | ✅ | Current stim level. |
-| `stored_kcal` | ✅ | Stored kcal in the character's body. 55'000 is considered healthy. |
-| `stored_kcal_percentage` | ✅ | a value of 100 represents 55'000 kcal, which is considered healthy. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`pereception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
 | `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |

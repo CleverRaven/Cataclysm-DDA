@@ -154,6 +154,13 @@ class item_location
          */
         void overflow();
 
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item_location &ammo, bool now ) const;
+
     private:
         class impl;
 

@@ -742,6 +742,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_CRAFTER",
+    "category": "CRAFTING",
+    "name": "Choose crafter",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -1386,6 +1393,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_UNLOAD_RAS_WEAPON",
+    "category": "TARGET",
+    "name": "Whether to unload your bow etc after canceling a shot",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_SNAP_TO_TARGET",
     "category": "TARGET",
     "name": "Toggle snap-to-target",
@@ -1753,10 +1767,10 @@
   },
   {
     "type": "keybinding",
-    "id": "MERGE",
+    "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
-    "name": "Merge power grids",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Separate from power grid",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
@@ -2572,6 +2586,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Select default ammo for wielded weapon which do not use a magazine",
+    "category": "DEFAULTMODE",
+    "id": "select_default_ammo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Drop item",
     "category": "DEFAULTMODE",
     "id": "drop",
@@ -3141,8 +3162,9 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "name": "Supernatural Abilities",
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -4424,7 +4446,7 @@
     "type": "keybinding",
     "id": "CHANGE_ARMOR_SPRITE",
     "category": "PLAYER_INFO",
-    "name": "Change sprite of armor.",
+    "name": "Change armor sprite",
     "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
   },
   {

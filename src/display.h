@@ -2,9 +2,25 @@
 #ifndef CATA_SRC_DISPLAY_H
 #define CATA_SRC_DISPLAY_H
 
-#include <functional>
+#include <cstddef>
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 
+#include "bodypart.h"
+#include "color.h"
+#include "coords_fwd.h"
+#include "point.h"
 #include "widget.h"
+
+class Character;
+class Creature;
+class avatar;
+class mood_face;
+class time_point;
+class translation;
+class vehicle;
 
 // These are the supported data variables for coloring bodygraphs.
 enum class bodygraph_var : int {
@@ -15,9 +31,6 @@ enum class bodygraph_var : int {
     wet,         // wetness
     last // END OF ENUMS
 };
-
-class avatar;
-class Character;
 
 struct disp_overmap_cache {
     private:

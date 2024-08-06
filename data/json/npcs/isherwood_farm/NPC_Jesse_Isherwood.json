@@ -8,6 +8,13 @@
     "class": "NC_ISHERWOOD_JESSE",
     "attitude": 0,
     "mission": 7,
+    "age": 43,
+    "height": 168,
+    "str": 7,
+    "dex": 9,
+    "int": 8,
+    "per": 9,
+    "personality": { "aggression": 2, "bravery": 4, "collector": 1, "altruism": 3 },
     "chat": "TALK_ISHERWOOD_JESSE",
     "mission_offered": "MISSION_ISHERWOOD_JESSE_1",
     "faction": "isherwood_family"
@@ -18,13 +25,16 @@
     "name": { "str": "Jesse Isherwood" },
     "job_description": "I'm a horse trainer, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "WEAKSTOMACH" },
+      { "trait": "ANTIJUNK" },
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "SKIN_PINK" },
+      { "trait": "eye_color", "variant": "blue" },
+      { "trait": "hair_ponytail", "variant": "brown" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_female_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
@@ -66,17 +76,12 @@
         "text": "Hi, it looks like you are doing well here.",
         "topic": "TALK_ISHERWOOD_JESSE_TALK1",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } },
-        "effect": { "u_add_var": "u_met_Jesse_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_met_Jesse_Isherwood", "value": "yes" }
       },
       {
         "text": "Hi, Jack and Claire suggested I come down here and meet you.",
         "topic": "TALK_MET_JACK_CLAIRE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
@@ -236,7 +241,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_buy_monster": "mon_horse", "count": 1, "name": "Steve" },
-        { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_jesse_missions", "value": "yes" }
       ]
     }
   }

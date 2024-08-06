@@ -9,6 +9,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "PERMEABLE", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 250,
@@ -29,6 +31,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 70,
@@ -48,6 +52,7 @@
     "color": "dark_gray",
     "move_cost": 1,
     "roof": "t_resin_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NOCOLLIDE" ],
     "bash": {
       "str_min": 250,
@@ -55,6 +60,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
+      "ter_set_bashed_from_above": "t_platform_resin",
       "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },
@@ -106,7 +112,10 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_resin_roof",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_resin_hole_o",
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "bash": {
@@ -127,7 +136,9 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "close": "t_resin_hole_c",
     "bash": {
@@ -148,7 +159,9 @@
     "color": "light_gray",
     "move_cost": 4,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 100,
       "str_max": 500,

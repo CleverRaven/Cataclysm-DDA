@@ -130,16 +130,202 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -6 ] ]
   },
   {
+    "type": "MONSTER",
+    "id": "mon_zombie_nemesis",
+    "copy-from": "mon_zombie_nemesis",
+    "name": { "str": "mindhunter" },
+    "description": "A hulking zombie swollen to the size of six men.  Its inky black eyes are locked on you, gleaming with malign intent.  No matter how far you run, it always seems to find you.",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ], [ "effect_feral_regeneration", 10 ] ],
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "nemesis_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 10,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "math": [ "Nemesis_iteration", ">=", "2" ] },
+              { "not": { "u_has_effect": "effect_monster_hardened_skin" } }
+            ]
+          },
+          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "nemesis_shock_touch",
+          "type": "spell",
+          "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
+          "cooldown": 10,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "4" ] } ] },
+          "monster_message": "%1$s's touches %3$s with a jolt!"
+        },
+        {
+          "id": "nemesis_telegrab",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_pull_monster", "min_level": 6 },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "math": [ "Nemesis_iteration", ">=", "6" ] }
+            ]
+          },
+          "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+        },
+        {
+          "id": "nemesis_telepathic_confusion",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
+          "cooldown": 25,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "8" ] } ] },
+          "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
+        },
+        {
+          "id": "nemesis_momentum_alteration",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_momentum_monster" },
+          "cooldown": 10,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "math": [ "Nemesis_iteration", ">=", "10" ] },
+              { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+            ]
+          },
+          "monster_message": "The air around %1$s wavers."
+        },
+        {
+          "id": "nemesis_regeneration",
+          "type": "spell",
+          "spell_data": { "id": "vitakinetic_regeneration_monster" },
+          "cooldown": 80,
+          "allow_no_target": true,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "math": [ "Nemesis_iteration", ">=", "12" ] },
+              { "math": [ "u_hp('ALL')", "<", "480" ] }
+            ]
+          },
+          "monster_message": "%1$s's wounds begin healing at a rapid pace!"
+        },
+        {
+          "type": "leap",
+          "cooldown": 15,
+          "move_cost": 50,
+          "allow_no_target": true,
+          "max_range": 8,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "14" ] } ] },
+          "message": "%1$s moves so quickly your eyes can barely follow it!"
+        },
+        {
+          "id": "nemesis_break_concentration",
+          "type": "spell",
+          "spell_data": { "id": "null_break_concentration_spell" },
+          "cooldown": 30,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "16" ] } ] },
+          "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
+        },
+        {
+          "id": "nemesis_slow_teleport",
+          "type": "spell",
+          "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
+          "cooldown": 40,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "18" ] } ] },
+          "monster_message": "%1$s glances at %3$s and the world lurches."
+        },
+        {
+          "id": "nemesis_telepathic_blast",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
+          "cooldown": 25,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "20" ] } ] },
+          "monster_message": "%1$s stares at %3$s!"
+        },
+        {
+          "id": "nemesis_inertial_barrier",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_barrier_monster" },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "math": [ "Nemesis_iteration", ">=", "22" ] },
+              { "not": { "u_has_effect": "effect_monster_inertial_barrier" } }
+            ]
+          },
+          "monster_message": "The air around %1$s distorts."
+        },
+        {
+          "id": "nemesis_primal_fear",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
+          "cooldown": 35,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "24" ] } ] },
+          "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "telekinetic_smash_throw",
+          "move_cost": 80,
+          "cooldown": 15,
+          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
+          "hitsize_min": 12,
+          "range": 8,
+          "throw_strength": 50,
+          "dodgeable": false,
+          "uncanny_dodgeable": true,
+          "blockable": false,
+          "condition": {
+            "and": [
+              { "math": [ "Nemesis_iteration", ">=", "26" ] },
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } }
+            ]
+          },
+          "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
+          "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
+          "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+          "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_vitakinetic_weakness_2",
+          "cooldown": 30,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "dodgeable": true,
+          "blockable": true,
+          "effects": [ { "id": "effect_vitakinetic_healing_down", "duration": [ 920000, 2120000 ] } ],
+          "condition": { "and": [ { "math": [ "Nemesis_iteration", ">=", "28" ] }, { "not": { "u_has_effect": "effect_psi_null" } } ] },
+          "hit_dmg_u": "%1$s touches you and you feel weaker!",
+          "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+        },
+        {
+          "id": "psi_electrokin3_revive",
+          "type": "spell",
+          "spell_data": { "id": "electrokinetic_revive_monster", "min_level": 5 },
+          "cooldown": 35,
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "30" ] } ] },
+          "monster_message": "Lightning crackles around %1$s!"
+        }
+      ]
+    }
+  },
+  {
     "id": "mon_frog_mother",
     "copy-from": "mon_frog_mother",
     "type": "MONSTER",
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -20 ] ]
-  },
-  {
-    "id": "mon_zombie_nemesis",
-    "copy-from": "mon_zombie_nemesis",
-    "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ] ]
   },
   {
     "id": "mon_shoggoth",

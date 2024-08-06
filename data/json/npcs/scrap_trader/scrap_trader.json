@@ -60,14 +60,15 @@
       {
         "group": "SCRAPPER_Shop_Specialty_Metals",
         "rigid": true,
-        "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_trade_specific_metal_tradeable", "value": "yes" }
       },
       {
         "group": "no_sell",
         "rigid": true,
         "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
-      }
+      },
+      { "group": "fridges_and_freezers_tradeable" }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
@@ -79,8 +80,8 @@
       { "item": "sheet_metal", "price": 500, "fixed_adj": 0 },
       { "item": "lc_steel_lump", "price": 1200, "fixed_adj": 0 },
       { "item": "mc_steel_lump", "price": 1600, "fixed_adj": 0 },
-      { "item": "hc_steel_lump", "price": 2000, "fixed_adj": 0 },
       { "item": "scrap_aluminum", "price": 30, "fixed_adj": 0 },
+      { "item": "hc_steel_lump", "price": 2000, "fixed_adj": 0 },
       { "item": "scrap_bronze", "price": 500, "fixed_adj": 0 },
       { "item": "bismuth", "price": 2000, "fixed_adj": 0 },
       { "item": "zinc_metal", "price": 2000, "fixed_adj": 0 },
@@ -90,7 +91,8 @@
       { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
-      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
+      { "group": "fridges_and_freezers_tradeable", "markup": 50 }
     ]
   },
   {
@@ -196,10 +198,7 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
-            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-          ]
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
         }
       },
       { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
@@ -214,31 +213,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "Pleasure to see you again, <name_g>.",
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -250,6 +247,17 @@
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
       { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've come across it in your travels?",
+        "topic": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "Nah, see ya.", "topic": "TALK_DONE" }
     ]
   },
@@ -292,6 +300,34 @@
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
     "dynamic_line": "Sure, I'm fine with it.  There's a spare bed in the shed next door for anyone who needs it.  Just don't hog it.  Someone else might come along.",
     "responses": [ { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The scrap trader nods along, listening",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then shrugs.  \"No, sorry, not ringing any bells.\"",
+          "no": ", then raises one eyebrow.  \"Not making any promises, but I did catch just a glimpse of a weird building one time that might be what you're looking for.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
   },
   {
     "id": "TALK_SCRAP_TRADER_BULK_SELL",

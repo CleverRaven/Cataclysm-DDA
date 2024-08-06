@@ -1,0 +1,34 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "party_rocker_pipe",
+    "cooldown": 1,
+    "move_cost": 67,
+    "accuracy": 3,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "cut", "amount": 4 } ],
+    "condition": { "test_eoc": "is_disarmed" },
+    "hit_dmg_u": "%1$s hits your %2$s with a pipe!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "party_rocker_bottle",
+    "cooldown": 1,
+    "move_cost": 67,
+    "accuracy": 3,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 1 }, { "damage_type": "cut", "amount": 6 } ],
+    "condition": { "test_eoc": "is_disarmed" },
+    "hit_dmg_u": "%1$s hits your %2$s with a bottle!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a bottle!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  }
+]

@@ -11,7 +11,7 @@
     "time": "30 m",
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "lead", 2400 ] ], [ [ "chem_sulphuric_acid", 13 ] ] ]
@@ -28,7 +28,7 @@
     "time": "30 m",
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "lead", 360 ] ], [ [ "chem_sulphuric_acid", 3 ] ] ]

@@ -20,7 +20,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -42,6 +41,10 @@ static const itype_id itype_software_useless( "software_useless" );
 
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
+
+static const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
+static const npc_class_id NC_HACKER( "NC_HACKER" );
+static const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
 
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
@@ -112,10 +115,13 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
                 }
             }
             if( wall == 5 ) {
-                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::NORTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::SOUTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::WEST ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::EAST ) ) {
+                if( compmap.is_last_ter_wall( true, point_omt_ms( p.xy() ), { SEEX * 2, SEEY * 2 },
+                                              direction::NORTH ) &&
+                    compmap.is_last_ter_wall( true, point_omt_ms( p.xy() ), { SEEX * 2, SEEY * 2 }, direction::SOUTH )
+                    &&
+                    compmap.is_last_ter_wall( true, point_omt_ms( p.xy() ), { SEEX * 2, SEEY * 2 }, direction::WEST ) &&
+                    compmap.is_last_ter_wall( true, point_omt_ms( p.xy() ), { SEEX * 2, SEEY * 2 },
+                                              direction::EAST ) ) {
                     potential.emplace_back( p );
                 }
             }

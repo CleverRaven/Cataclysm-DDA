@@ -312,5 +312,136 @@
       { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "female_underwear" ] }
     ]
+  },
+  {
+    "id": "policecar_atomic",
+    "type": "vehicle",
+    "name": "Enforcer Patrol Car",
+    "blueprint": [
+      [ "-o++o-" ],
+      [ "+=##'|" ],
+      [ "+=##'|" ],
+      [ "-o++o-" ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal", "halfboard#horizontal_front" ] },
+      { "x": 2, "y": 0, "parts": [ "engine_electric_large", "storage_battery", "plating_steel" ] },
+      { "x": 2, "y": 1, "parts": [ "hdframe#horizontal", "minireactor", "halfboard#horizontal_front" ] },
+      { "x": 2, "y": 1, "parts": [ "plating_steel" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", "seat_back#left", "seatbelt", "roof", "light_red" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "seat_back#right", "seatbelt", "roof", "light_blue" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "door#se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#cross", "trunk", "muffler", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#cross", "robot_cargo", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": -1, "parts": [ "frame#sw", "halfboard#sw" ] },
+      { "x": -3, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
+    ],
+    "items": [
+      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "tools_entry" ] },
+      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "full_1st_aid" ] },
+      { "x": -2, "y": 0, "chance": 3, "item_groups": [ "afs_anti_robot_grenades" ] },
+      { "x": -2, "y": 0, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] },
+      { "x": -2, "y": 0, "chance": 1, "item_groups": [ "afs_police_bot_storage" ] }
+    ]
+  },
+  {
+    "id": "bubble_car",
+    "type": "vehicle",
+    "name": "Bubble Car",
+    "blueprint": [
+      [ " --- " ],
+      [ "+o#o-" ],
+      [ "|=##|" ],
+      [ "+o#o-" ],
+      [ " --- " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe#horizontal", "seat", "seatbelt", "roof" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "drive_by_wire_controls", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
+      },
+      { "x": 0, "y": 0, "parts": [ "horn_car" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe#cross", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 0, "y": -2, "parts": [ "xlframe#nw", "windshield#nw" ] },
+      { "x": 0, "y": -1, "parts": [ "windshield" ] },
+      { "x": 0, "y": 1, "parts": [ "xlframe#cross", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 0, "y": 1, "parts": [ "windshield" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe#ne", "windshield#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe#nw", "windshield#nw" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe#horizontal_front", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe#ne", "windshield#ne" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe#vertical_2", "engine_electric", "seat_back#left" ] },
+      { "x": -1, "y": -2, "parts": [ "xlframe#vertical_left", "door#nw" ] },
+      { "x": -1, "y": -1, "parts": [ "seatbelt", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe#vertical_2", "seat_back", "engine_electric" ] },
+      { "x": -1, "y": 0, "parts": [ "minireactor", "seatbelt", "roof", "headlight" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe#vertical_2", "engine_electric", "seat_back#right" ] },
+      { "x": -1, "y": 1, "parts": [ "seatbelt", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe#vertical_right", "door#ne" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe#cross", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -2, "y": -2, "parts": [ "xlframe#sw", "windshield#vertical_left" ] },
+      { "x": -2, "y": -1, "parts": [ "windshield" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe#horizontal", "medium_storage_battery", "trunk" ] },
+      { "x": -2, "y": 0, "parts": [ "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe#cross", "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -2, "y": 1, "parts": [ "windshield" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe#se", "windshield#vertical_right" ] },
+      { "x": -3, "y": -1, "parts": [ "xlframe#sw", "windshield#sw_edge" ] },
+      { "x": -3, "y": 0, "parts": [ "xlframe#horizontal_rear", "windshield" ] },
+      { "x": -3, "y": 1, "parts": [ "xlframe#se", "windshield#se_edge" ] }
+    ],
+    "items": [
+      { "x": -2, "y": 0, "chance": 90, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 0, "chance": 10, "item_groups": [ "spare_tire_kit_small_jack" ] }
+    ]
+  },
+  {
+    "id": "light_cycle",
+    "type": "vehicle",
+    "name": "Light Cycle",
+    "blueprint": [ "o#>o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#motor", "motorcycle_kickstand" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_handle" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light", "wheel_motorbike#rear" ] },
+      { "x": 2, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
+      { "x": 0, "y": 0, "parts": [ "horn_car", "engine_electric" ] },
+      { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_car", "light_blue" ] },
+      { "x": -1, "y": 0, "parts": [ "muffler" ] }
+    ]
   }
 ]

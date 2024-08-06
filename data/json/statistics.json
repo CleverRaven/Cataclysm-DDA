@@ -728,7 +728,7 @@
     "id": "avatar_wears_power_armor_heavy",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
-    "value_constraints": { "itype": { "equals": [ "itype_id", "power_armor_heavy" ] } },
+    "value_constraints": { "itype": { "equals": [ "itype_id", "combat_exoskeleton_heavy" ] } },
     "drop_fields": [ "itype" ]
   },
   {

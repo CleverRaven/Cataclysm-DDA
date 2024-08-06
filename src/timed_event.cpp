@@ -29,7 +29,6 @@
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -40,6 +39,8 @@
 static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
+
+static const morale_type morale_scream( "morale_scream" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -130,7 +131,7 @@ void timed_event::actualize()
                                "scream_tortured" );
                 if( !player_character.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
+                    player_character.add_morale( morale_scream, -15, 0, 30_minutes, 30_seconds );
                 }
             }
 
@@ -280,7 +281,7 @@ void timed_event::actualize()
         case timed_event_type::DSA_ALRP_SUMMON: {
             const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
+                const tripoint spot = here.bub_from_abs( project_to<coords::ms>( map_point ) ).raw();
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );

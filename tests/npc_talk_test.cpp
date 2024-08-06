@@ -23,7 +23,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
@@ -47,12 +46,13 @@ static const item_category_id item_category_manual( "manual" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
-static const itype_id itype_knife_butcher( "knife_butcher" );
+static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
+
+static const morale_type morale_haircut( "morale_haircut" );
 
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 
-static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -378,7 +378,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = NC_NONE;
+    talker_npc.myclass = npc_class_id::NULL_ID();
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.myclass = NC_TEST_CLASS;
@@ -405,25 +405,6 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
-}
-
-TEST_CASE( "npc_talk_rules", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
-
-    d.add_topic( "TALK_TEST_NPC_RULES" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = combat_engagement::ALL;
-    talker_npc.rules.aim = aim_rule::SPRAY;
-    talker_npc.rules.set_flag( ally_rule::avoid_doors );
-    gen_response_lines( d, 4 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
-    CHECK( d.responses[2].text == "This is a npc aim rule test response." );
-    CHECK( d.responses[3].text == "This is a npc rule test response." );
-    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
@@ -784,7 +765,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
-    item_location loc = player_character.i_add( item( itype_knife_butcher ) );
+    item_location loc = player_character.i_add( item( itype_knife_huge ) );
     CHECK( player_character.wield( *loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -819,25 +800,6 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     effects.apply( d );
     CHECK( has_item( player_character, "beer", 0 ) );
     CHECK_FALSE( has_item( player_character, "beer", 1 ) );
-}
-
-TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules…" );
-    CHECK( d.responses[1].text == "Change your aiming rules…" );
-    CHECK( d.responses[2].text == "Move freely as you need to." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_2_text>" );
-    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[5].text == "Don't worry about noise." );
-    CHECK( d.responses[6].text == "You can use grenades." );
-    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[9].text == "Never mind." );
 }
 
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )
@@ -1010,7 +972,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == NC_NONE );
+    CHECK( talker_npc.myclass == npc_class_id::NULL_ID() );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
@@ -1121,7 +1083,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 8;
+    int expected_answers = 7;
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
@@ -1166,7 +1128,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
-    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.add_morale( morale_haircut, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );
@@ -1195,7 +1157,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 51;
+    expected_answers = 50;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
@@ -1236,19 +1198,18 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
     CHECK( d.responses[ 37 ].text == "Stored kcal is 118'169." );
-    CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
-    CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
-    CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
-    CHECK( d.responses[ 41 ].text == "Highest spell level in school test_trait is 1." );
-    CHECK( d.responses[ 42 ].text == "Spell level of Pew, Pew is 4." );
-    CHECK( d.responses[ 43 ].text == "Spell level of highest spell is 12." );
-    CHECK( d.responses[ 44 ].text == "Exp of Pew, Pew is 11006." );
-    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 50% out of 100%." );
-    CHECK( d.responses[ 46 ].text == "Test Proficiency learning done is 12 hours total." );
-    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 50% learnt." );
-    CHECK( d.responses[ 48 ].text == "Test Proficiency learning is 500 permille learnt." );
-    CHECK( d.responses[ 49 ].text == "Test Proficiency total learning time is 24 hours." );
-    CHECK( d.responses[ 50 ].text == "Test Proficiency time lest to learn is 12h." );
+    CHECK( d.responses[ 38 ].text == "Has 3 glass bottles." );
+    CHECK( d.responses[ 39 ].text == "Has more or equal to 35 experience." );
+    CHECK( d.responses[ 40 ].text == "Highest spell level in school test_trait is 1." );
+    CHECK( d.responses[ 41 ].text == "Spell level of Pew, Pew is 4." );
+    CHECK( d.responses[ 42 ].text == "Spell level of highest spell is 12." );
+    CHECK( d.responses[ 43 ].text == "Exp of Pew, Pew is 11006." );
+    CHECK( d.responses[ 44 ].text == "Test Proficiency learning is 50% out of 100%." );
+    CHECK( d.responses[ 45 ].text == "Test Proficiency learning done is 12 hours total." );
+    CHECK( d.responses[ 46 ].text == "Test Proficiency learning is 50% learnt." );
+    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 500 permille learnt." );
+    CHECK( d.responses[ 48 ].text == "Test Proficiency total learning time is 24 hours." );
+    CHECK( d.responses[ 49 ].text == "Test Proficiency time lest to learn is 12h." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
     expected_answers++;
@@ -1266,7 +1227,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 32 );
+    gen_response_lines( d, 31 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1406,12 +1367,6 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 23 );
 
-    // "Sets stored_kcal_percentage to 50."
-    effects = d.responses[ 23 ].success;
-    effects.apply( d );
-    // this should be player_character.get_healthy_kcal() instead of 550000 but for whatever reason it is hardcoded to that value??
-    CHECK( player_character.get_stored_kcal() == 550000 / 2 );
-
     // Spell tests setup
     if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
         player_character.magic->forget_spell( spell_test_spell_pew );
@@ -1419,29 +1374,29 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to 4."
-    effects = d.responses[25].success;
+    effects = d.responses[24].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's exp to 11006."
-    effects = d.responses[27].success;
+    effects = d.responses[26].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's exp to -1."
-    effects = d.responses[26].success;
+    effects = d.responses[25].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
@@ -1457,7 +1412,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     }
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1466,7 +1421,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
-    effects = d.responses[30].success;
+    effects = d.responses[29].success;
     effects.apply( d );
     add_msg( m_bad, "%s: %g", proficiency_prof_test.str(),
              player_character.get_proficiency_practice( proficiency_prof_test ) );
@@ -1477,7 +1432,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
-    effects = d.responses[28].success;
+    effects = d.responses[27].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1486,7 +1441,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1506,7 +1461,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     REQUIRE( prof_xp() == 0 );
 
     // "Learns Test Proficiency for 1h"
-    effects = d.responses[31].success;
+    effects = d.responses[30].success;
     effects.apply( d );
 
     int amt_100 = prof_xp();
@@ -1526,7 +1481,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     player_character.set_focus( 5 );
 
     // "Learns Test Proficiency for 1h"
-    effects = d.responses[31].success;
+    effects = d.responses[30].success;
     effects.apply( d );
 
     int amt_5 = prof_xp();

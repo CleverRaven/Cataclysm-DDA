@@ -8,6 +8,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "flag.h"
 #include "game.h"
 #include "itype.h"
@@ -842,7 +843,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
-        hacksaw_activity_actor act{tripoint_zero, torch};
+        hacksaw_activity_actor act{tripoint_bub_ms( tripoint_zero ), torch};
         act.testing = true;
         dummy.assign_activity( act );
     };
@@ -1710,7 +1711,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( milk_activity_actor( 1, {get_avatar().pos()}, {std::string()} ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
-    [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
+    [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms_north ) ); },
     [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos_bub() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
     [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
@@ -1729,7 +1730,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( shave_activity_actor() ); },
     //player_activity( shearing_activity_actor( north ) ),
     [] { return player_activity( stash_activity_actor() ); },
-    [] { return player_activity( tent_deconstruct_activity_actor( 1, 1, get_avatar().pos(), itype_tent_kit ) ); },
+    [] { return player_activity( tent_deconstruct_activity_actor( 1, 1, get_avatar().pos_bub(), itype_tent_kit ) ); },
     //player_activity( tent_placement_activity_actor() ),
     [] { return player_activity( try_sleep_activity_actor( time_duration::from_hours( 1 ) ) ); },
     [] { return player_activity( unload_activity_actor( 1, item_location() ) ); },

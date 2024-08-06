@@ -72,7 +72,7 @@
       {
         "text": "Nice to meet you too.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_met_ADzvonko", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_met_ADzvonko", "value": "yes" },
         "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" }
       }
     ]

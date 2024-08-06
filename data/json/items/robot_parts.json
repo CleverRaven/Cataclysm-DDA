@@ -9,8 +9,8 @@
     "material": [ "plastic", "steel" ],
     "weight": "250 g",
     "volume": "500 ml",
-    "price": 32000,
-    "price_postapoc": 100,
+    "price": "320 USD",
+    "price_postapoc": "1 USD",
     "category": "spare_parts"
   },
   {
@@ -93,8 +93,8 @@
     "color": "light_gray",
     "weight": "1200 g",
     "volume": "1500 ml",
-    "price": 50000,
-    "price_postapoc": 100,
+    "price": "500 USD",
+    "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -107,8 +107,8 @@
     "color": "light_gray",
     "weight": "10000 g",
     "volume": "10 L",
-    "price": 100000,
-    "price_postapoc": 100,
+    "price": "1 kUSD",
+    "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -121,8 +121,8 @@
     "color": "light_gray",
     "weight": "130 g",
     "volume": "500 ml",
-    "price": 40000,
-    "price_postapoc": 100,
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -135,8 +135,8 @@
     "color": "light_gray",
     "weight": "10000 g",
     "volume": "10 L",
-    "price": 100000,
-    "price_postapoc": 250,
+    "price": "1 kUSD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -149,8 +149,8 @@
     "color": "light_gray",
     "weight": "5000 g",
     "volume": "5 L",
-    "price": 100000,
-    "price_postapoc": 250,
+    "price": "1 kUSD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -163,8 +163,8 @@
     "color": "light_gray",
     "weight": "60000 g",
     "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 250,
+    "price": "6 kUSD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -177,8 +177,8 @@
     "color": "light_gray",
     "weight": "10000 g",
     "volume": "10 L",
-    "price": 100000,
-    "price_postapoc": 100,
+    "price": "1 kUSD",
+    "price_postapoc": "1 USD",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -191,8 +191,8 @@
     "color": "light_gray",
     "weight": "20000 g",
     "volume": "40000 ml",
-    "price": 100000,
-    "price_postapoc": 100,
+    "price": "1 kUSD",
+    "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -205,7 +205,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "20 L",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -218,8 +218,8 @@
     "color": "light_gray",
     "weight": "20000 g",
     "volume": "40000 ml",
-    "price": 100000,
-    "price_postapoc": 100,
+    "price": "1 kUSD",
+    "price_postapoc": "1 USD",
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   }

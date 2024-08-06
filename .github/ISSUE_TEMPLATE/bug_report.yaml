@@ -22,12 +22,15 @@ body:
     attributes:
       label: Attach save file
       description: |
-        `ESC`Main Menu -> `b`Debug Menu -> `i`Info -> `!`Generate minimized save archive
+        `ESC`Main Menu -> `d`Debug Menu -> `i`Info -> `!`Generate minimized save archive
       placeholder: |
         Write N/A if not applicable.
 
-        - this bug report is unlikely to get resolved without a save file, unless it's trivially 
+        - This bug report is unlikely to get resolved without a save file, unless it's trivially
           reproducible or the reproduction steps are complete.
+        - Ideally, prepare the save so the reproduction steps can be followed immediately after
+          loading, so the person trying to reproduce this does not need to do unrelated manual
+          steps such as walking somewhere first.
     validations:
       required: true
 
@@ -35,7 +38,10 @@ body:
     id: steps-to-reproduce
     attributes:
       label: Steps to reproduce
-      description: Steps to reproduce the behavior.
+      description: |
+        Steps to reproduce the behavior.
+        **Check your mods!** Make sure to test which mod (if any) is actually causing the issue.
+        The less unrelated mods involved in this, the easier to reproduce and confirm it.
       placeholder: |
         1. Make a player with a gun, magazine, and some ammo.
         2. Try to aim at a wall.
@@ -69,7 +75,7 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        `ESC`Main Menu -> `b`Debug Menu -> `i`Info -> `r`Generate game report
+        `ESC`Main Menu -> `d`Debug Menu -> `i`Info -> `r`Generate game report
       placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
         - Game Version: [e.g. d6ec466 (64-bit) ]

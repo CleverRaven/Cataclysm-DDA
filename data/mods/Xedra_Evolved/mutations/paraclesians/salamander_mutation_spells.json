@@ -17,17 +17,8 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        {
-          "or": [
-            { "u_is_in_field": "fd_hot_air1" },
-            { "u_is_in_field": "fd_hot_air2" },
-            { "u_is_in_field": "fd_hot_air3" },
-            { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
-            { "u_is_in_field": "fd_salamander_heat" },
-            { "u_is_in_field": "fd_migo_atmosphere" }
-          ]
-        }
+        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
     "values": [ { "value": "REGEN_HP", "multiply": 0.4 }, { "value": "MENDING_MODIFIER", "multiply": 3 } ]
@@ -38,17 +29,8 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        {
-          "or": [
-            { "u_is_in_field": "fd_hot_air1" },
-            { "u_is_in_field": "fd_hot_air2" },
-            { "u_is_in_field": "fd_hot_air3" },
-            { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
-            { "u_is_in_field": "fd_salamander_heat" },
-            { "u_is_in_field": "fd_migo_atmosphere" }
-          ]
-        }
+        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
     "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
@@ -107,7 +89,8 @@
     "max_field_intensity": 2,
     "field_chance": 1,
     "sound_type": "combat",
-    "sound_description": "a crackle!"
+    "sound_description": "a crackle!",
+    "learn_spells": { "salamander_fire_dot_spell": 12 }
   },
   {
     "id": "salamander_flame_punch_spell",
@@ -184,7 +167,8 @@
     "energy_increment": -6,
     "base_casting_time": 1000,
     "final_casting_time": 750,
-    "casting_time_increment": -10
+    "casting_time_increment": -10,
+    "learn_spells": { "salamander_fire_dot_spell": 6 }
   },
   {
     "id": "salamander_smoke_teleport_spell",
@@ -259,7 +243,38 @@
     "base_energy_cost": 800,
     "final_energy_cost": 550,
     "energy_increment": -6,
-    "base_casting_time": 3000
+    "base_casting_time": 3000,
+    "learn_spells": { "salamander_fire_dot_spell": 7 }
+  },
+  {
+    "id": "salamander_fire_dot_spell",
+    "type": "SPELL",
+    "name": "The Fire in the Marrow",
+    "description": "Kindle a flame within the target, slowly burning them from the inside.  This spell does damage only slowly, but there is little defense against being burned from the inside out.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "difficulty": 5,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_salamander_fire_dot",
+    "damage_type": "heat",
+    "shape": "blast",
+    "min_dot": 1,
+    "max_dot": 1,
+    "min_duration": { "math": [ "(1500 + (u_spell_level('salamander_fire_dot_spell') * 50) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "max_duration": { "math": [ "(3500 + (u_spell_level('salamander_fire_dot_spell') * 350) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "min_range": { "math": [ "(3 + (u_spell_level('salamander_fire_dot_spell') * 1.1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "max_range": { "math": [ "(3 + (u_spell_level('salamander_fire_dot_spell') * 1.1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 100,
+    "energy_increment": -10,
+    "base_casting_time": 100,
+    "final_casting_time": 40,
+    "casting_time_increment": -6
   },
   {
     "id": "salamander_increase_speed_spell",
@@ -348,7 +363,7 @@
     "id": "salamander_summon_firebird_spell",
     "type": "SPELL",
     "name": "Flame of the Firebird",
-    "description": "Summon a delicate bird made of pure flame.  The bird will last only a few moments, but if it sees an enemy it will eager dive upon them and erupt into a fireball.",
+    "description": "Summon a delicate bird made of pure flame.  The bird will last only a few moments, but if it sees an enemy it will eagerly dive upon them and erupt into a fireball.",
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "ground", "hostile" ],
     "skill": "deduction",
@@ -435,6 +450,59 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -6
+  },
+  {
+    "id": "salamander_explosion_trap_spell",
+    "type": "SPELL",
+    "name": "Sigil of Detonation",
+    "description": "Place a magical rune on a the ground that will explode when stepped on.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 5,
+    "effect": "add_trap",
+    "effect_str": "tr_salamander_bomb",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "(3 + (u_spell_level('salamander_explosion_trap_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "(3 + (u_spell_level('salamander_explosion_trap_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "final_energy_cost": 75,
+    "energy_increment": -6,
+    "base_casting_time": 125,
+    "final_casting_time": 75,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "salamander_explosion_trap_spell_activated",
+    "type": "SPELL",
+    "name": "Salamander Trap Explosion",
+    "description": "This is the AoE used by Sigil of Detonation.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "skill": "deduction",
+    "flags": [ "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_AOE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": 20,
+    "max_damage": 70,
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "aoe_increment": 1,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 2,
+    "sound_type": "combat",
+    "sound_description": "a crackle!"
   },
   {
     "id": "salamander_cultivate_goblin_fruit",

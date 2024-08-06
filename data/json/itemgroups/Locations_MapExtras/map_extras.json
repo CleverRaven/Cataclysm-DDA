@@ -113,36 +113,14 @@
       { "group": "drugdealer", "prob": 75 },
       {
         "distribution": [
-          {
-            "item": "weed",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 20,
-            "count-max": 30,
-            "prob": 10
-          },
-          {
-            "item": "coke",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 10,
-            "count-max": 20,
-            "prob": 40
-          },
-          {
-            "item": "meth",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 8,
-            "count-max": 14,
-            "prob": 30
-          },
+          { "item": "weed", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 20, 30 ], "prob": 10 },
+          { "item": "coke", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 10, 20 ], "prob": 40 },
+          { "item": "meth", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 8, 14 ], "prob": 30 },
           {
             "item": "heroin",
             "entry-wrapper": "bag_zipper",
             "container-item": "null",
-            "count-min": 6,
-            "count-max": 12,
+            "count": [ 6, 12 ],
             "prob": 20
           }
         ],

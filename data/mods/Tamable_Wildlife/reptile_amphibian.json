@@ -230,6 +230,116 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
+    "id": "mon_mink_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_mink_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_tail_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_tail_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pickerel_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_pickerel_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_palette_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_palette_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_green_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_green_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_wood_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_wood_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spade_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_spade_frog",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_leo_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_worm",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_green_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_green_worm",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_wood_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_wood_worm",
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s hops around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_rattlesnake_s",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_s",

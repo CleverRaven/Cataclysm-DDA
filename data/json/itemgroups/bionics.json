@@ -10,6 +10,8 @@
       [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_lampoil", 10 ],
       [ "bio_tools", 10 ],
+      [ "bio_multimeter", 10 ],
+      [ "bio_electrokit", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_tattoo_led", 10 ],
@@ -105,6 +107,8 @@
     "items": [
       [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
+      [ "bio_multimeter", 10 ],
+      [ "bio_electrokit", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_lampoil", 10 ],

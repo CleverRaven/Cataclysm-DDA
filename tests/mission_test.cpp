@@ -5,13 +5,14 @@
 #include "player_helpers.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 
 static const itype_id itype_test_rock( "test_rock" );
 
 static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION1( "TEST_MISSION_GOAL_CONDITION1" );
 static const mission_type_id mission_TEST_MISSION_GOAL_CONDITION2( "TEST_MISSION_GOAL_CONDITION2" );
+
+static const morale_type morale_feeling_good( "morale_feeling_good" );
 
 static const npc_template_id npc_template_test_talker( "test_talker" );
 
@@ -38,11 +39,11 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_not_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                 }
             }
             WHEN( "condition_met" ) {
@@ -52,12 +53,12 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == false );
                     CHECK( u.get_completed_missions().front()->mission_id() == mission_TEST_MISSION_GOAL_CONDITION1 );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 10 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 10 );
                 }
             }
         }
@@ -72,11 +73,11 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_not_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                 }
             }
             WHEN( "condition_met" ) {
@@ -86,11 +87,11 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_not_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                 }
             }
         }
@@ -110,13 +111,13 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_not_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( !u.get_active_mission()->is_complete( guy_id ) );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                 }
             }
             WHEN( "condition_met" ) {
@@ -126,16 +127,16 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_active_mission()->is_complete( guy_id ) );
                     u.get_active_mission()->wrap_up();
                     CHECK( u.get_completed_missions().empty() == false );
                     CHECK( u.get_completed_missions().front()->mission_id() == mission_TEST_MISSION_GOAL_CONDITION1 );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 10 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 10 );
                 }
             }
         }
@@ -150,13 +151,13 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_not_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( !u.get_active_mission()->is_complete( guy_id ) );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                 }
             }
             WHEN( "condition_met" ) {
@@ -166,16 +167,16 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
                     return it.typeId() == itype_test_rock;
                 } ) );
                 THEN( "mission_complete" ) {
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_completed_missions().empty() == true );
                     u.get_active_mission()->process();
                     CHECK( u.get_completed_missions().empty() == true );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 0 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 0 );
                     CHECK( u.get_active_mission()->is_complete( guy_id ) );
                     u.get_active_mission()->wrap_up();
                     CHECK( u.get_completed_missions().empty() == false );
                     CHECK( u.get_completed_missions().front()->mission_id() == mission_TEST_MISSION_GOAL_CONDITION2 );
-                    CHECK( u.has_morale( MORALE_FEELING_GOOD ) == 10 );
+                    CHECK( u.has_morale( morale_feeling_good ) == 10 );
                 }
             }
         }

@@ -66,12 +66,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" } }
           ]
         },
-        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ],
+        "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ],
         "topic": "MISSION_ROBOFAC_INTERCOM_2_OFFER"
       },
       {
@@ -79,10 +77,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
-            },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" } },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER"
@@ -92,12 +88,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
-            }
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER"
@@ -107,10 +99,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
-            },
-            { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" } },
+            { "npc_has_var": "dialogue_intercom_told_about_portal_storms", "value": "yes" }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
@@ -120,12 +110,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
-            },
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "no" } },
             { "math": [ "u_portal_storm_recordings_sold", ">", "2" ] }
           ]
         },
@@ -139,12 +125,7 @@
             {
               "or": [
                 { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
-                {
-                  "u_has_var": "completed_robofac_intercom_portal_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "yes"
-                }
+                { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" }
               ]
             }
           ]
@@ -155,25 +136,15 @@
         "text": "Do you have any more work for me right now?",
         "condition": {
           "and": [
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
-            {
-              "u_has_var": "completed_robofac_intercom_portal_sm_1",
-              "type": "dialogue",
-              "context": "intercom",
-              "value": "yes"
-            },
-            { "u_has_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
             {
               "or": [
-                { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-                {
-                  "u_has_var": "completed_robofac_intercom_robot_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "no"
-                }
+                { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
+                { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" }
               ]
             }
           ]
@@ -372,7 +343,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
-      "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+      "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ]
     },
     "end": {
       "update_mapgen": [
@@ -383,7 +354,7 @@
       ],
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
-        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
@@ -480,7 +451,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
-        { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
@@ -724,13 +695,11 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
-    "fail": {
-      "effect": [ { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" } ]
-    },
+    "fail": { "effect": [ { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -805,7 +774,7 @@
       {
         "text": "The handling procedures you gave me seemed to predate the Cataclysm.  How long had that robot been here?",
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder",
-        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+        "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ]
       },
       { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -837,7 +806,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
@@ -930,14 +899,14 @@
         "om_special": "physics_lab_LIXA",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 180,
+        "search_range": 800,
         "z": 0
       }
     },
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
-        { "u_add_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
@@ -1042,7 +1011,7 @@
     "dynamic_line": "&The intercom waits patiently.",
     "responses": [
       {
-        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!\"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
+        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!  \"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1"
       }
     ]
@@ -1095,5 +1064,59 @@
     "type": "talk_topic",
     "dynamic_line": "Uh… Yeah, sorry.  I'll, um… I'll make a note to try and see if we can't get any better information for your future contracts.",
     "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_HUB01_PAY_BACK_RIOT_GEAR",
+    "type": "mission_definition",
+    "name": { "str": "Pay Back The Riot Gear to Hub 01" },
+    "goal": "MGOAL_NULL",
+    "difficulty": 1,
+    "value": 0,
+    "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "deadline_low": 20,
+    "deadline_high": 20,
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": { "gendered_line": "Good thing you came back with the money.  Your mission work out?", "relevant_genders": [ "u" ] },
+    "responses": [
+      {
+        "text": "I appreciate the credit.  I've got your payment now.",
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS",
+    "type": "talk_topic",
+    "dynamic_line": "[thanks bro this will be very interesting wheres the tower?]",
+    "responses": [
+      {
+        "text": "[tell them where scout tower is]",
+        "effect": [ { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
   }
 ]

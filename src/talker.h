@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
 #include "messages.h"
@@ -215,6 +215,9 @@ class talker
         virtual int get_spell_count( const trait_id & ) const {
             return 0;
         }
+        virtual int get_spell_sum( const trait_id &, int ) const {
+            return 0;
+        }
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
@@ -228,6 +231,9 @@ class talker
         virtual void learn_recipe( const recipe_id & ) {}
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
+        virtual int get_daily_calories( int, std::string const & ) const {
+            return 0;
+        }
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
@@ -561,6 +567,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual int perceived_pain_cur() const {
             return 0;
         }
         virtual void attack_target( Creature &, bool, const matec_id &,

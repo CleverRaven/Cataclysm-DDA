@@ -142,7 +142,7 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You've gained the ability to breathe underwater.",
+    "description": "The Undine has gained the ability to breathe underwater.",
     "category": [ "UNDINE" ],
     "flags": [ "GILLS" ]
   },
@@ -195,24 +195,28 @@
   {
     "type": "mutation",
     "id": "WAVE_RIDER",
-    "name": { "str": "Wave Rider" },
+    "name": { "str": "The Sea Bears Me Up" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The waves themselves answer your call and create a special vehicle for you to travel across the surface of water.",
+    "description": "The waves themselves answer your call and support you, allowing you to walk on the surface of the water.  Activate to walk on water.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "wave_rider", 1 ] ]
+    "prereqs": [ "WATER_SEALED" ],
+    "prereqs2": [ "UNDINE_DEX_UP_1" ],
+    "active": true,
+    "activated_is_setup": true,
+    "active_flags": [ "WATERWALKING" ]
   },
   {
     "type": "mutation",
     "id": "WATER_SEALED",
-    "name": { "str": "Water Sealed" },
+    "name": { "str": "Let the Waves Wash Over Me" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to create a special pocket that protects things inside of it from water damage.",
+    "description": "As the Undine is one with the waters, so too is anything they carry.  Their gear is immune to being dissolved or broken by water.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "water_pocket", 1 ] ]
+    "flags": [ "ITEM_WATERPROOFING" ]
   },
   {
     "type": "mutation",
@@ -512,26 +516,7 @@
     "category": [ "UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ]
       }
     ]
@@ -550,26 +535,7 @@
     "category": [ "UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "multiply": 0.5 } ]
       }
     ]
@@ -587,26 +553,7 @@
     "threshreq": [ "THRESH_UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MAX_MANA", "multiply": 0.5 },

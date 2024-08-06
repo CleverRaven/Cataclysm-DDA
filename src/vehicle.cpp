@@ -126,6 +126,8 @@ static const proficiency_id proficiency_prof_driver( "prof_driver" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const vpart_id vpart_power_cord( "power_cord" );
+
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
@@ -133,8 +135,10 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
-static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
+
+//~ Name for an array of electronic power grid appliances, like batteries and solar panels
+static const translation power_grid_name = to_translation( "power grid" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
@@ -145,7 +149,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
     const vehicle_part &vp = veh.part( part );
-    const tripoint part_pos = veh.global_part_pos3( vp );
+    const tripoint_bub_ms part_pos = veh.bub_part_pos( vp );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
@@ -161,7 +165,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos() + player_character.grab_point == part_pos ) {
+        player_character.pos_bub() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( vp.mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
@@ -254,7 +258,7 @@ bool vehicle::player_in_control( const Character &p ) const
         return true;
     }
 
-    const optional_vpart_position vp = get_map().veh_at( p.pos() );
+    const optional_vpart_position vp = get_map().veh_at( p.pos_bub() );
     if( vp && &vp->vehicle() == this &&
         p.controlling_vehicle &&
         ( ( part_with_feature( vp->mount(), "CONTROL_ANIMAL", true ) >= 0 &&
@@ -628,7 +632,7 @@ void vehicle::autopilot_patrol()
             autodrive_local_target = tripoint_zero;
             return;
         }
-        if( !here.inbounds( here.getlocal( autodrive_local_target ) ) ) {
+        if( !here.inbounds( here.bub_from_abs( autodrive_local_target ) ) ) {
             autodrive_local_target = tripoint_zero;
             is_patrolling = false;
             return;
@@ -799,8 +803,8 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
         if( stop ) {
             break;
         }
-        const optional_vpart_position ovp = here.veh_at( tripoint( elem, sm_pos.z ) );
-        if( here.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
+        const optional_vpart_position ovp = here.veh_at( tripoint_bub_ms( elem.x, elem.y, sm_pos.z ) );
+        if( here.impassable_ter_furn( tripoint_bub_ms( elem.x, elem.y, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
             stop = true;
             break;
@@ -1805,7 +1809,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
-        here.set_seen_cache_dirty( tripoint_zero );
+        here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -1817,9 +1821,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
 bool vehicle::merge_vehicle_parts( vehicle *veh )
 {
+    map &here = get_map();
     for( const vehicle_part &part : veh->parts ) {
         if( part.is_fake || part.removed ) {
             continue;
+        }
+        if( part.info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+            // Disconnect cables that are attached between the merging vehicles.
+            // Delete power cords, drop extension cords on the ground.
+            item drop = veh->part_to_item( part );
+            if( drop.link().t_veh.get() == this ) {
+                if( !veh->magic && part.info().id != vpart_power_cord ) {
+                    const tripoint_bub_ms drop_pos = veh->bub_part_pos( part );
+                    drop.reset_link( false, nullptr, -1, true, drop_pos.raw() );
+                    here.add_item_or_charges( drop_pos, drop );
+                }
+                veh->remove_remote_part( part );
+                continue;
+            }
         }
         point part_loc = veh->mount_to_tripoint( part.mount ).xy();
 
@@ -1831,16 +1850,24 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
         refresh();
     }
 
-    map &here = get_map();
     here.destroy_vehicle( veh );
 
     return true;
 }
 
-void vehicle::merge_appliance_into_grid( vehicle &veh_target )
+bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
 {
     if( &veh_target == this ) {
-        return;
+        return false;
+    }
+    // Release grab if player is dragging either appliance
+    if( get_avatar().get_grab_type() == object_type::VEHICLE ) {
+        const tripoint_bub_ms grab_point = get_avatar().pos_bub() + get_avatar().grab_point;
+        const optional_vpart_position grabbed_veh = get_map().veh_at( grab_point );
+        if( grabbed_veh && ( &grabbed_veh->vehicle() == this || &grabbed_veh->vehicle() == &veh_target ) ) {
+            add_msg( _( "You release the %s." ), grabbed_veh->vehicle().name );
+            get_avatar().grab( object_type::NONE );
+        }
     }
     //Reset both grid turn_dir to prevent rotation on merge
     turn_dir = 0_degrees;
@@ -1869,18 +1896,57 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
         if( !merge_vehicle_parts( &veh_target ) ) {
             debugmsg( "failed to merge vehicle parts" );
         } else {
-            //The grid needs to stay undraggable
-            add_tag( flag_CANT_DRAG );
-
             //Keep wall wiring sections from losing their flag
             //A grid with only wires needs this flag to count as a powergrid
             //But it's not a problem if a grid without any has this flag, thus we can add it without issue
             add_tag( flag_WIRING );
-            name = _( "power grid" );
+            name = power_grid_name.translated();
+            return true;
         }
     } else {
         add_msg( m_bad, _( "Can't merge into %s, the resulting grid would be too big." ), veh_target.name );
     }
+    return false;
+}
+
+void vehicle::separate_from_grid( const point mount )
+{
+    // Disconnect items and power cords
+    unlink_cables( mount, get_player_character(), true, true, true );
+    part_removal_cleanup();
+    if( part_count() <= 1 ) {
+        // No need to split the power grid up.
+        return;
+    }
+
+    // Split the target part away from the power grid.
+    const int idx = part_displayed_at( mount, true );
+    if( idx == -1 ) {
+        debugmsg( "no part at mount point %s", mount.to_string() );
+        return;
+    }
+    map &here = get_map();
+    const std::string part_name = part( idx ).name();
+    std::vector<std::vector<int>> split_indices( { { idx } } );
+    const std::vector<vehicle *> null_vehicles( 2, nullptr );
+    const std::vector<std::vector<point>> null_mounts( 2, std::vector<point>() );
+    if( !split_vehicles( here, split_indices, null_vehicles, null_mounts ) ) {
+        debugmsg( "unable to split %s from power grid", part( idx ).name( false ) );
+        return;
+    }
+
+    // Split again if removing the target part separated the power grid into multiple sections.
+    find_and_split_vehicles( here, {} );
+
+    // Ensure the position, pivot, and precalc points are up-to-date.
+    shift_if_needed( get_map() );
+    pos -= pivot_anchor[0];
+    precalc_mounts( 0, turn_dir, point() );
+
+    add_msg( _( "You separate the %s from the power grid" ), part_name );
+
+    part_removal_cleanup();
+    here.rebuild_vehicle_level_caches();
 }
 
 bool vehicle::is_powergrid() const
@@ -2055,7 +2121,7 @@ bool vehicle::do_remove_part_actual()
                 get_items( vp ).clear();
             }
             if( vp.is_real_or_active_fake() ) {
-                const tripoint pt = global_part_pos3( vp );
+                const tripoint_bub_ms pt = bub_part_pos( vp );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
             it = parts.erase( it );
@@ -2079,6 +2145,10 @@ void vehicle::part_removal_cleanup()
         }
     }
     shift_if_needed( here );
+    // If we've split away all of a power grid's parts, rename it from "power grid" to its part name.
+    if( is_powergrid() && name == power_grid_name.translated() && part_count() == 1 ) {
+        name = parts[0].info().name();
+    }
     refresh( false ); // Rebuild cached indices
     coeff_air_dirty = coeff_air_changed;
     coeff_air_changed = false;
@@ -2309,6 +2379,7 @@ bool vehicle::split_vehicles( map &here,
                               std::vector<vehicle *> *added_vehicles )
 {
     bool did_split = false;
+    bool from_powergrid = is_powergrid();
     size_t i = 0;
     for( i = 0; i < new_vehs.size(); i ++ ) {
         std::vector<int> split_parts = new_vehs[ i ];
@@ -2335,8 +2406,8 @@ bool vehicle::split_vehicles( map &here,
         if( new_vehicle == nullptr ) {
             // make sure the split_part0 is a legal 0,0 part
             if( split_parts.size() > 1 ) {
-                for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
-                    const vpart_info &vpi_split = parts[split_parts[sp]].info();
+                for( int sp : split_parts ) {
+                    const vpart_info &vpi_split = parts[sp].info();
                     if( vpi_split.location == part_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
                         split_part0 = sp;
                         break;
@@ -2353,7 +2424,9 @@ bool vehicle::split_vehicles( map &here,
             if( added_vehicles != nullptr ) {
                 added_vehicles->emplace_back( new_vehicle );
             }
-            new_vehicle->name = name;
+            // If we've split a power grid down to one part, rename it from "power grid" to its part name.
+            new_vehicle->name = from_powergrid && split_parts.size() == 1 ?
+                                parts[ split_part0 ].info().name() : name;
             new_vehicle->owner = owner;
             new_vehicle->old_owner = old_owner;
             new_vehicle->move = move;
@@ -2453,7 +2526,7 @@ bool vehicle::split_vehicles( map &here,
 
         here.dirty_vehicle_list.insert( new_vehicle );
         here.set_transparency_cache_dirty( sm_pos.z );
-        here.set_seen_cache_dirty( tripoint_zero );
+        here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }
@@ -2530,7 +2603,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
 
 std::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    std::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    std::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true, true );
     if( !part ) {
         return std::nullopt; // No obstacle here
     }
@@ -2590,9 +2663,9 @@ std::optional<vpart_reference> vpart_position::cargo() const
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
-        const bool unbroken ) const
+        bool unbroken, bool include_fake ) const
 {
-    const int i = vehicle().part_with_feature( mount(), f, unbroken );
+    const int i = vehicle().part_with_feature( mount(), f, unbroken, include_fake );
     if( i < 0 ) {
         return std::nullopt;
     }
@@ -2600,9 +2673,9 @@ std::optional<vpart_reference> vpart_position::part_with_feature( const std::str
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bitflags f,
-        const bool unbroken ) const
+        bool unbroken, bool include_fake ) const
 {
-    const int i = vehicle().part_with_feature( part_index(), f, unbroken );
+    const int i = vehicle().part_with_feature( part_index(), f, unbroken, include_fake );
     if( i < 0 ) {
         return std::nullopt;
     }
@@ -2683,13 +2756,18 @@ std::string optional_vpart_position::extended_description() const
     return desc;
 }
 
-int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) const
+int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken,
+                                bool include_fake ) const
 {
+    if( part < 0 ) {
+        return -1;
+    }
+
     const vehicle_part &vp = this->part( part );
     if( vp.info().has_flag( flag ) && !( unbroken && vp.is_broken() ) ) {
         return part;
     }
-    for( const int p : parts_at_relative( vp.mount, /* use_cache = */ true ) ) {
+    for( const int p : parts_at_relative( vp.mount, /* use_cache = */ true, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( flag ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
@@ -2698,9 +2776,10 @@ int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) c
     return -1;
 }
 
-int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const
+int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken,
+                                bool include_fake ) const
 {
-    for( const int p : parts_at_relative( pt, /* use_cache = */ true ) ) {
+    for( const int p : parts_at_relative( pt, /* use_cache = */ true, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( f ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
@@ -2709,9 +2788,10 @@ int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken
     return -1;
 }
 
-int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
+int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken,
+                                bool include_fake ) const
 {
-    for( const int p : parts_at_relative( pt, /* use_cache = */ false ) ) {
+    for( const int p : parts_at_relative( pt, /* use_cache = */ false, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( flag ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
@@ -2797,6 +2877,13 @@ std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const st
         }
     }
     return res;
+}
+
+std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint_bub_ms &pos,
+        const std::string &flag,
+        const part_status_flag condition )
+{
+    return vehicle::get_parts_at( pos.raw(), flag, condition );
 }
 
 std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
@@ -2912,6 +2999,8 @@ int vehicle::next_part_to_lock( int p, bool outside ) const
 
 int vehicle::next_part_to_unlock( int p, bool outside ) const
 {
+    cata_assert( p >= 0 );
+    cata_assert( p < part_count() );
     if( !part_has_lock( p ) ) {
         return -1;
     }
@@ -3401,6 +3490,22 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
+units::mass vehicle::weight_on_wheels() const
+{
+    const units::mass vehicle_mass = total_mass();
+    units::mass animal_mass = 0_gram;
+    for( const int e : engines ) {
+        const vehicle_part &vp = parts[e];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_monster( e );
+            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+                animal_mass += mon->get_weight();
+            }
+        }
+    }
+    return vehicle_mass - animal_mass;
+}
+
 const point &vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
@@ -3467,7 +3572,7 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
     if( ftype == fuel_type_muscle ) {
         Character &player_character = get_player_character();
         // TODO: Allow NPCs to power those
-        const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+        const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
         bool player_controlling = player_in_control( player_character );
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
@@ -3661,7 +3766,7 @@ bool vehicle::can_use_rails() const
     bool is_wheel_on_rail = false;
     for( int part_index : rail_wheelcache ) {
         // at least one wheel should be on track
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, bub_part_pos( part_index ) ) ) {
             is_wheel_on_rail = true;
             break;
         }
@@ -3909,7 +4014,7 @@ bool vehicle::do_environmental_effects() const
         /* Only lower blood level if:
          * - The part is outside.
          * - The weather is any effect that would cause the player to be wet. */
-        if( vp.part().blood > 0 && here.is_outside( vp.pos() ) ) {
+        if( vp.part().blood > 0 && here.is_outside( vp.pos_bub() ) ) {
             needed = true;
             if( get_weather().weather_id->rains &&
                 get_weather().weather_id->precip != precip_class::very_light ) {
@@ -4493,7 +4598,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     if( fraction_without_traction == 0 ) {
         return 1.0f;
     }
-    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
+    const float mass_penalty = fraction_without_traction * to_kilogram( weight_on_wheels() );
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg_debug( debugmode::DF_VEHICLE, "%s has traction %.2f", name, traction );
 
@@ -5288,6 +5393,38 @@ vehicle *vehicle::find_vehicle( const tripoint_abs_ms &where )
     return nullptr;
 }
 
+vehicle *vehicle::find_vehicle_using_parts( const tripoint_abs_ms &where )
+{
+    map &here = get_map();
+    // Is it in the reality bubble?
+    if( const optional_vpart_position vp = here.veh_at( where ) ) {
+        return &vp->vehicle();
+    }
+    // Nope. Load up its submap...
+    point_sm_ms_ib veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
+    const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
+    if( sm == nullptr ) {
+        return nullptr;
+    }
+
+    for( const auto &elem : sm->vehicles ) {
+        vehicle *found_veh = elem.get();
+        // TODO: fix point types
+        for( const vpart_reference &vp : found_veh->get_all_parts() ) {
+            point_sm_ms_ib vp_in_sm;
+            tripoint_bub_sm vp_sm;
+            std::tie( vp_sm, vp_in_sm ) = project_remain<coords::sm>( vp.pos_bub() );
+            if( vp_in_sm == veh_in_sm ) {
+                return found_veh;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 template<typename Vehicle> // Templated to support const and non-const vehicle*
 std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
 {
@@ -5312,7 +5449,7 @@ std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
                 continue;
             }
 
-            Vehicle *const v_next = find_vehicle( tripoint_abs_ms( vp.target.second ) );
+            Vehicle *const v_next = find_vehicle_using_parts( tripoint_abs_ms( vp.target.second ) );
             if( v_next == nullptr ) { // vehicle's rolled away or off-map
                 continue;
             }
@@ -5681,7 +5818,7 @@ void vehicle::slow_leak()
         itype_id fuel = p.ammo_current();
         int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
         point q = coord_translate( p.mount );
-        const tripoint dest = global_pos3() + tripoint( q, 0 );
+        const tripoint_bub_ms dest = pos_bub() + tripoint( q, 0 );
 
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
@@ -5751,7 +5888,7 @@ void vehicle::make_active( item_location &loc )
     }
     // System insures that there is only one part in this vector.
     vehicle_part *cargo_part = cargo_parts.front();
-    active_items.add( target, cargo_part->mount );
+    active_items.add( target, point_rel_ms( cargo_part->mount ) );
 }
 
 int vehicle::add_charges( vehicle_part &vp, const item &itm )
@@ -5810,7 +5947,7 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &vp, cons
     }
 
     const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
-    active_items.add( *new_pos, vp.mount );
+    active_items.add( *new_pos, point_rel_ms( vp.mount ) );
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
@@ -6087,7 +6224,7 @@ void vehicle::refresh_active_item_cache()
         auto it = vs.begin();
         auto end = vs.end();
         for( ; it != end; ++it ) {
-            active_items.add( *it, vp.mount() );
+            active_items.add( *it, point_rel_ms( vp.mount() ) );
         }
     }
 }
@@ -6305,7 +6442,7 @@ void vehicle::refresh( const bool remove_fakes )
     }
 
     const auto need_fake_part = [&]( const point & real_mount, const std::string & flag ) {
-        int real = part_with_feature( real_mount, flag, true );
+        int real = part_with_feature( real_mount, flag, false );
         if( real >= 0 && real < part_count() ) {
             return real;
         }
@@ -6370,7 +6507,7 @@ void vehicle::refresh( const bool remove_fakes )
         }
         // add fake curtains so vision is correctly blocked
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
-            add_fake_part( rp.first, "OPAQUE" );
+            add_fake_part( rp.first, "CURTAIN" );
         }
     } else {
         // Always repopulate fake parts in relative_parts cache since we cleared it.
@@ -6595,12 +6732,6 @@ void vehicle::do_towing_move()
         debugmsg( "tried to do towing move but towed vehicle has no towing part" );
         invalidate = true;
     }
-    if( towed_veh->global_pos3().z != global_pos3().z ) {
-        // how the hellicopter did this happen?
-        // yes, this can happen when towing over a bridge (see #47293)
-        invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), towed_veh->disp_name() );
-    }
     if( invalidate ) {
         invalidate_towing( true );
         return;
@@ -6628,30 +6759,32 @@ void vehicle::do_towing_move()
     } else {
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
-    if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
-        accel_y = 10;
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else {
-        towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
-                                                here.getlocal( tower_tow_point ) );
-        tripoint nearby_destination;
-        if( lineto.size() >= 2 ) {
-            nearby_destination = lineto[1];
-        } else {
-            nearby_destination = tower_tow_point;
-        }
-        const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
-                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
-        here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-        towed_veh->move = tileray( destination_delta.xy() );
-    }
 
+    switch( towed_veh->tow_data.tow_direction ) {
+        case TOW_FRONT:
+        case TOW_BACK:
+            towed_veh->selfdrive( point( turn_x, accel_y ) );
+            break;
+
+        default:
+            towed_veh->skidding = true;
+            std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
+                                                    here.bub_from_abs( tower_tow_point ).raw() );
+            tripoint nearby_destination;
+            if( lineto.size() >= 2 ) {
+                nearby_destination = lineto[1];
+            } else {
+                nearby_destination = tower_tow_point;
+            }
+            const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
+                                              nearby_destination.xy() +
+                                              tripoint( 0, 0, towed_veh->global_pos3().z ) );
+            const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
+                                             clamp( destination_delta.y, -1, 1 ),
+                                             clamp( destination_delta.z, -1, 1 ) );
+            here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
+            towed_veh->move = tileray( destination_delta.xy() );
+    }
 }
 
 bool vehicle::is_external_part( const tripoint &part_pt ) const
@@ -6765,7 +6898,7 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
             vehicle_part &vp = parts[tow_cable_idx];
             item drop = part_to_item( vp );
             drop.set_damage( 0 );
-            tripoint drop_pos = global_part_pos3( vp );
+            tripoint_bub_ms drop_pos = bub_part_pos( vp );
             remove_part( vp );
             if( other_tow_cable_idx > -1 ) {
                 drop.reset_link( false );
@@ -6932,7 +7065,7 @@ void vehicle::shed_loose_parts( const trinary shed_cables, const tripoint_bub_ms
         }
         const item drop = part_to_item( vp_loose );
         if( !magic ) {
-            here.add_item_or_charges( global_part_pos3( vp_loose ), drop );
+            here.add_item_or_charges( bub_part_pos( vp_loose ), drop );
         }
 
         if( remove_remote ) {
@@ -7056,7 +7189,7 @@ void vehicle::unboard_all() const
     map &here = get_map();
     std::vector<int> bp = boarded_parts();
     for( const int &i : bp ) {
-        here.unboard_vehicle( global_part_pos3( i ) );
+        here.unboard_vehicle( bub_part_pos( i ) );
     }
 }
 
@@ -7172,7 +7305,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
 void vehicle::shift_parts( map &here, const point &delta )
 {
     // Don't invalidate the active item cache's location!
-    active_items.subtract_locations( delta );
+    active_items.subtract_locations( point_rel_ms( delta ) );
     for( vehicle_part &elem : parts ) {
         elem.mount -= delta;
     }
@@ -7237,12 +7370,12 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
     if( rng( 0, vpi.durability / 10 ) >= dmg ) {
         return dmg;
     }
-    const tripoint pos = global_part_pos3( vp );
+    const tripoint_bub_ms pos = bub_part_pos( vp );
     const auto scatter_parts = [&]( const vehicle_part & pt ) {
         for( const item &piece : pt.pieces_for_broken_part() ) {
             // inside the loop, so each piece goes to a different place
             // TODO: this may spawn items behind a wall
-            const tripoint where = random_entry( here.points_in_radius( pos, SCATTER_DISTANCE ) );
+            const tripoint_bub_ms where = random_entry( here.points_in_radius( pos, SCATTER_DISTANCE ) );
             // TODO: balance audit, ensure that less pieces are generated than one would need
             // to build the component (smash a vehicle box that took 10 lumps of steel,
             // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
@@ -7267,20 +7400,24 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                 continue; // Ignore the frame being destroyed
             } else if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                 // Tow cables - remove it in one piece, remove remote part, and remove towing data
-                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
+                add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                        vp_here.name() );
                 invalidate_towing( true );
             } else if( vpi_here.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 // Electrical cables - remove it in one piece and remove remote part
-                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
+                add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                        vp_here.name() );
                 here.add_item_or_charges( pos, part_to_item( vp_here ) );
                 remove_remote_part( vp_here );
             } else if( vp_here.is_broken() ) {
                 // Tearing off a broken part - break it up
-                add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name, vp_here.name() );
+                add_msg_if_player_sees( pos.raw(), m_bad, _( "The %s's %s breaks into pieces!" ), name,
+                                        vp_here.name() );
                 scatter_parts( vp_here );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
-                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is torn off!" ), name, vp_here.name() );
+                add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is torn off!" ), name,
+                                        vp_here.name() );
                 if( !magic ) {
                     here.add_item_or_charges( pos, part_to_item( vp_here ) );
                 }
@@ -7288,23 +7425,25 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
             remove_part( vp_here, *handler_ptr );
         }
         // After clearing the frame, remove it.
-        add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
+        add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
         scatter_parts( vp );
         remove_part( vp, *handler_ptr );
         find_and_split_vehicles( here, { index_of_part( &vp, /* include_removed = */ true ) } );
     } else {
         if( vpi.has_flag( "TOW_CABLE" ) ) {
             // Tow cables - remove it in one piece, remove remote part, and remove towing data
-            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
+            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    vp.name() );
             invalidate_towing( true );
         } else if( vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
             // Electrical cables - remove it in one piece and remove remote part
-            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
+            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    vp.name() );
             here.add_item_or_charges( pos, part_to_item( vp ) );
             remove_remote_part( vp );
         } else {
             //Just break it off
-            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
+            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
             scatter_parts( vp );
         }
         const point position = vp.mount;
@@ -7380,7 +7519,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         return dmg; // part is already dead
     }
     const vpart_info &vpi = vp.info();
-    const tripoint vppos = global_part_pos3( vp );
+    const tripoint_bub_ms vppos = bub_part_pos( vp );
     // If auto-driving and damage happens, bail out
     if( is_autodriving ) {
         stop_autodriving();
@@ -7423,6 +7562,10 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         invalidate_mass();
         coeff_air_changed = true;
 
+        // update the fake part
+        if( vp.has_fake ) {
+            parts[vp.fake_part_at].base = vp.base;
+        }
         // refresh cache in case the broken part has changed the status
         // do not remove fakes parts in case external vehicle part references get invalidated
         refresh( false );
@@ -7440,7 +7583,8 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
             invalidate_towing( true );
         } else {
             item part_as_item = part_to_item( vp );
-            add_msg_if_player_sees( vppos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
+            add_msg_if_player_sees( vppos.raw(), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    vp.name() );
             if( vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 remove_remote_part( vp );
                 part_as_item.set_damage( 0 );
@@ -7730,6 +7874,10 @@ point vpart_position::mount() const
     return vehicle().part( part_index() ).mount;
 }
 
+tripoint_bub_ms vpart_position::pos_bub() const
+{
+    return tripoint_bub_ms( pos() );
+}
 tripoint vpart_position::pos() const
 {
     return vehicle().global_part_pos3( part_index() );
@@ -7763,8 +7911,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
     }
 
     // TODO: fix point types
-    return ( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
-             sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
@@ -7785,8 +7933,8 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
     }
 
     // TODO: fix point types
-    return !( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -8100,7 +8248,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
     for( vehicle_part &prt : parts ) {
         index += 1;
         if( prt.is_real_or_active_fake() ) {
-            here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
+            here.clear_vehicle_point_from_cache( this, tripoint_bub_ms( src + prt.precalc[0] ) );
         }
         // no parts means this is a normal horizontal or vertical move
         if( parts_to_move.empty() ) {

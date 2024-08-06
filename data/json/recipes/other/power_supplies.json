@@ -246,7 +246,6 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -276,7 +275,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
+    "book_learn": [ [ "manual_electronics", 4 ], [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ] ],
     "//": "100cm weld",
     "using": [ [ "welding_standard", 100 ], [ "soldering_standard", 35 ] ],
     "proficiencies": [

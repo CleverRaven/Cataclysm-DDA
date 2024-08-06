@@ -70,7 +70,8 @@
     "name": "pool",
     "sym": "O",
     "color": "blue",
-    "see_cost": 2,
+    "vision_levels": "single_water",
+    "see_cost": "none",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
@@ -92,7 +93,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ],
+    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1", "state_park_1_0_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
@@ -154,7 +155,8 @@
     "name": "hunting blind",
     "sym": "H",
     "color": "i_green",
-    "see_cost": 5,
+    "vision_levels": "blends_till_details",
+    "see_cost": "medium",
     "mondensity": 2
   },
   {
@@ -181,7 +183,8 @@
     "name": "community garden",
     "sym": "g",
     "color": "yellow",
-    "see_cost": 5,
+    "vision_levels": "blends_till_details",
+    "see_cost": "low",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_FARMING" ],
     "extras": "park"
@@ -202,27 +205,39 @@
     "name": "botanical garden",
     "sym": "g",
     "color": "i_green",
-    "see_cost": 5,
+    "vision_levels": "city_building",
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ],
+    "vision_levels": "roof_or_air",
     "name": "botanical garden",
     "sym": "g",
     "color": "i_green",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "TreeFarm_1a",
+    "vision_levels": "forested",
     "name": "tree farm",
     "sym": "T",
     "color": "i_green",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1a_roof",
+    "vision_levels": "forested",
+    "name": "tree farm",
+    "sym": "T",
+    "color": "i_green",
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -230,7 +245,8 @@
     "name": "shooting range",
     "sym": "S",
     "color": "red",
-    "see_cost": 5,
+    "vision_levels": "open_land",
+    "see_cost": "low",
     "mondensity": 2,
     "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
@@ -238,9 +254,10 @@
     "type": "overmap_terrain",
     "id": "shootingrange_1a_roof",
     "name": "shooting range roof",
+    "vision_levels": "roof_or_air",
     "sym": "S",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2
   },
   {
@@ -255,6 +272,7 @@
       "miniaturerailway_1_0_1",
       "miniaturerailway_1_1_1"
     ],
+    "vision_levels": "isolated_building",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "miniature railway",
     "sym": "R",
@@ -277,6 +295,7 @@
       "luna_park_2_1_1"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "isolated_building",
     "name": "miniature railway park",
     "sym": "P",
     "color": "light_green"
@@ -296,6 +315,7 @@
       "golfcourse_32"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "open_land",
     "name": "golf course",
     "sym": "G",
     "color": "green"
@@ -305,12 +325,14 @@
     "id": "golfcourse_30",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course parking lot",
+    "vision_levels": "large_pavement",
     "sym": "G",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "golfcourse_31",
+    "vision_levels": "isolated_building",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course service building",
     "sym": "G",
@@ -407,6 +429,7 @@
     "id": [
       "s_baseballfield_a1",
       "s_baseballfield_a2",
+      "s_baseballfield_a2_2",
       "s_baseballfield_b1",
       "s_baseballfield_b2",
       "stadium_1_2",
@@ -415,6 +438,7 @@
       "stadium_2_3"
     ],
     "copy-from": "generic_city_building",
+    "vision_levels": "blends_till_details",
     "name": "baseball field",
     "sym": "#",
     "color": "white"
@@ -457,10 +481,11 @@
       "stadium_football_6_4"
     ],
     "copy-from": "generic_city_building",
+    "vision_levels": "blends_till_details",
     "name": "football field",
     "sym": "O",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -599,6 +624,7 @@
       "stadium_football_6_5_5"
     ],
     "copy-from": "generic_city_building",
+    "vision_levels": "large_city_building",
     "name": "stadium",
     "sym": "0",
     "color": "white"
@@ -615,6 +641,7 @@
       "stadium_2_1"
     ],
     "copy-from": "generic_city_building",
+    "vision_levels": "large_city_building",
     "name": "stadium entrance",
     "sym": "0",
     "color": "white"
@@ -634,16 +661,18 @@
       "stadium_football_6_3_1"
     ],
     "name": "open air",
+    "vision_levels": "roof_or_air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_stadium_park",
+    "vision_levels": "large_pavement",
     "name": "stadium parking",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -799,14 +828,17 @@
       "movietheater_roof_0_0",
       "movietheater_roof_1_0",
       "movietheater_roof_2_0",
+      "movietheater_2_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
       "movietheater_roof_2_1",
+      "movietheater_2_2_1",
       "movietheater_roof_0_2",
       "movietheater_roof_1_2",
       "movietheater_roof_2_2"
     ],
     "copy-from": "generic_city_building",
+    "vision_levels": "large_building",
     "name": "movie theater roof",
     "sym": "M",
     "color": "i_yellow"
@@ -833,6 +865,7 @@
       "car_theater_2_0_2"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "large_pavement",
     "name": "drive-in theater",
     "sym": "M",
     "color": "i_yellow"
@@ -841,6 +874,7 @@
     "type": "overmap_terrain",
     "id": [ "car_theater_3_1", "car_theater_3_2", "car_theater_3_1_1", "car_theater_3_2_1", "car_theater_4_1", "car_theater_4_2" ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "isolated_building",
     "name": "drive-in theater entrance",
     "sym": "+",
     "color": "yellow"
@@ -848,11 +882,8 @@
   {
     "type": "overmap_terrain",
     "id": "car_theater_3_0",
-    "copy-from": "generic_transportation",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray",
-    "see_cost": 2
+    "copy-from": "road_abstract",
+    "sym": "│"
   },
   {
     "type": "overmap_terrain",
@@ -1038,20 +1069,22 @@
     "type": "overmap_terrain",
     "id": "lake_dock_small",
     "copy-from": "generic_recreation_water",
+    "vision_levels": "blends_till_details",
     "name": "dock",
     "sym": "d",
     "color": "white",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "LAKE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lake_shore_dock_small",
     "copy-from": "generic_recreation_water",
+    "vision_levels": "blends_till_details",
     "name": "dock",
     "sym": "d",
     "color": "white",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "LAKE_SHORE" ]
   },
   {

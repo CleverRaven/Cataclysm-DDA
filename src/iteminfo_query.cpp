@@ -65,6 +65,8 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_MILLEABLE,
     iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,
     iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS,
+    iteminfo_parts::DESCRIPTION_COMPOSTABLE_DURATION,
+    iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS,
     iteminfo_parts::DESCRIPTION_FAULTS,
     iteminfo_parts::DESCRIPTION_HOLSTERS,
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,

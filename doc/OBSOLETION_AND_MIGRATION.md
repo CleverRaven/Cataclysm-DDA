@@ -160,6 +160,40 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 
+# Field migration
+
+Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
+
+```json
+{
+    "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
+    "from_field": "t_old_field",        // Mandatory. String. Id of the field to replace.
+    "to_field": "f_new_field",      // Mandatory. String. Id of the new field to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_migrated_id",
+    "to_field": "fd_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_obsoleted_id",
+    "to_field": "fd_null"
+  }
+```
+
 # Overmap terrain migration
 
 Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`

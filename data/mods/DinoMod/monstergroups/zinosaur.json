@@ -21,6 +21,7 @@
       { "monster": "mon_zallimimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_ztruthiomimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zornithomimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zalcarius", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zothronychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zanzu", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zeinonychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 1, 2 ] },
@@ -102,6 +103,7 @@
       { "monster": "mon_zallimimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_ztruthiomimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zornithomimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zalcarius_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zothronychus_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zanzu_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zeinonychus_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
@@ -324,6 +326,15 @@
       { "monster": "mon_sornithomimus", "weight": 400 },
       { "monster": "mon_zornithomimus_shady", "weight": 300 },
       { "monster": "mon_zornithomimus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zalcarius_UPGRADE",
+    "monsters": [
+      { "monster": "mon_salcarius", "weight": 400 },
+      { "monster": "mon_zalcarius_shady", "weight": 300 },
+      { "monster": "mon_zalcarius_brute", "weight": 300 }
     ]
   },
   {

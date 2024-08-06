@@ -80,5 +80,12 @@
     "copy-from": "fake_item",
     "name": { "str": "basecamp parkour gym" },
     "description": "A fake parkour gym used for parkour training in basecamps."
+  },
+  {
+    "id": "fake_digester_tank",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "small anaerobic digester tank" },
+    "description": "A fake tank for mixing biomass and water."
   }
 ]

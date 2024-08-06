@@ -7,7 +7,7 @@
     "description": "This purports to be the 'Reale and True Acounting of the Works and Devices of Sarah Osbourne, a Most Puissant Wiche', but you're pretty sure it's all a front and it was actually written within the last couple decades.  There are some pretty detailed descriptions of rituals in here, mixed among diary entries and accounts of fanciful meetings in the woods.",
     "weight": "1200 g",
     "volume": "2500 ml",
-    "price": 3000,
+    "price": "30 USD",
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
@@ -22,12 +22,12 @@
     "description": "A hardcover translation of the infamous 15th century book used as a reference work for witchcraft trials for centuries.  This translation seems to have some handwritten notes in some of the margins.",
     "weight": "721 g",
     "volume": "791 ml",
-    "price": 1500,
+    "price": "15 USD",
     "material": [ "paper", "cardboard" ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
   },
   {
     "id": "spellbook_hedge_doctor_book",
@@ -37,7 +37,7 @@
     "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
     "weight": "537 g",
     "volume": "930 ml",
-    "price": 1295,
+    "price": "12 USD 95 cent",
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
@@ -55,12 +55,12 @@
     "description": "This is an anthropological collection of American folk beliefs in the Upper Peninsula of Michigan, consisting of stories, legends, descriptions of rituals, tall tales, and anything else the author heard during his period of study.  The \"Bloodstoppers\" of the title are individuals believed to be able to stop the flow of blood from a wound, with an incantation or ritual or sheer force of will, and the bearwalkers were allegedly sorcerers who could assume the shape of a bear and cause misfortune.",
     "weight": "211 g",
     "volume": "500 ml",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
     "id": "spellbook_hedge_ward_dreams",
@@ -73,11 +73,62 @@
     "description": "This is a very thin booklet, more of a pamphlet, about various ways to protect from nightmares.  There are quite a few techniques in here, though you're a bit skeptical about whether the author took the end of the world into their calculations.",
     "weight": "83 g",
     "volume": "132 ml",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
+  },
+  {
+    "id": "spellbook_hedge_snare_changelings",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
+    "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": "10 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
+  },
+  {
+    "id": "spellbook_hedge_clairvoyance_cone",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
+    "description": "A short parchment that will supposedly teach you how to see through walls.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] }
+  },
+  {
+    "id": "spellbook_hedge_bathhouse_midnight",
+    "//": "divination spells are appropriate here too",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
+      "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
+    },
+    "description": "This encyclopediac tome by W. F. Ryan concerns a wide variety of folk magic practices in pre-modern Russia, including their social context, the way that the Church had to work against folk practices like leaving items on the altar for six weeks so they would gain protective powers, the dangers of being alone in the bathhouse, ways to find and keep a husband or wife, when to throw an axe handle over your shoulder when walking into the forest, and how the government mostly suppressed magic because magical power (real or imagined) would have been a threat to secular power.  The description of some of these rituals are extremely detailed.",
+    "weight": "771 g",
+    "volume": "1357 ml",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
+    }
   }
 ]

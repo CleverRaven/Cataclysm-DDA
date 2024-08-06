@@ -97,7 +97,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
@@ -184,7 +184,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER" ],
     "armor": { "cut": 3, "bullet": 2 }
   },
   {
@@ -274,7 +274,7 @@
       { "id": "scratch", "max_mul": 1.5 }
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
   },
@@ -660,7 +660,14 @@
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 6,
-    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "path_settings": {
+      "max_dist": 40,
+      "allow_open_doors": true,
+      "avoid_traps": true,
+      "avoid_sharp": true,
+      "allow_climb_stairs": true,
+      "avoid_dangerous_fields": true
+    },
     "special_attacks": [
       [ "UPGRADE", 0 ],
       [ "RESURRECT", 0 ],
@@ -711,7 +718,7 @@
       "FILTHY",
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER"
     ],
     "//3": "Because it's Defense Mode, you can hurt it with bullets.  Otherwise, It'd be too hard to fight.",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 25, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }

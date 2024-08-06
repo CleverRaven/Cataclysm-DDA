@@ -195,7 +195,7 @@
           { "item": "sneakers" },
           { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "deck_of_cards" },
+          { "item": "deck_of_cards", "variant": "generic_deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]

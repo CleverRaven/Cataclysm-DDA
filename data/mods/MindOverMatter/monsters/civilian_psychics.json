@@ -27,7 +27,7 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 40,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
@@ -67,7 +67,7 @@
     "special_attacks": [ [ "PARROT_AT_DANGER", 2 ] ],
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
-    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION", "GUILT_HUMAN" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN" ]
   },
   {
     "id": "mon_civilian_electrokinetic",
@@ -96,7 +96,7 @@
         "id": "psi_civilian_electrokinetic_zap",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 0 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s unleashes a burst of sparks!"
       }
@@ -131,7 +131,7 @@
         "id": "psi_civilian_photokinetic_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 0 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       }
@@ -164,7 +164,7 @@
         "id": "psi_civilian_pyrokinetic_flameblast",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 0 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s summons a blast of flame!"
       }
@@ -195,7 +195,7 @@
       {
         "id": "smash",
         "move_cost": 100,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 10, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 4,
@@ -246,7 +246,7 @@
         "id": "psi_civilian_teleport_blink",
         "type": "spell",
         "spell_data": { "id": "teleport_blink_monster", "min_level": 0 },
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s suddenly vanishes!"
       }

@@ -1081,6 +1081,12 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_star_vampire_coiling",
+    "copy-from": "mon_star_vampire_coiling",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_unseen_hunter",
     "copy-from": "mon_unseen_hunter",
     "extend": { "armor": { "nether": 10 } }
@@ -1228,12 +1234,6 @@
     "id": "mon_nether_fish",
     "copy-from": "mon_nether_fish",
     "extend": { "armor": { "nether": 14 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_nuckalavee",
-    "copy-from": "mon_nuckalavee",
-    "extend": { "flags": [ "POISONPROOF" ] }
   },
   {
     "type": "MONSTER",

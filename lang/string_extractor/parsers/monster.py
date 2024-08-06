@@ -42,6 +42,14 @@ def parse_monster_concrete(json, origin, name):
                            comment="Sentence fragment describing a "
                            "weakpoint for monster \"{}\"".format(name))
 
+    if "petfood" in json:
+        if "feed" in json["petfood"]:
+            write_text(json["petfood"]["feed"], origin,
+                       comment="Feed message of monster \"{}\"".format(name))
+        if "pet" in json["petfood"]:
+            write_text(json["petfood"]["pet"], origin,
+                       comment="Pet message of monster \"{}\"".format(name))
+
 
 def parse_monster(json, origin):
     name = ""

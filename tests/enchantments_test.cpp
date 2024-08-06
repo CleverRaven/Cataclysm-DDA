@@ -12,6 +12,7 @@
 #include "npc.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -368,7 +369,7 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     INFO( "Character has 50 pain, not affected by enchantments" );
     guy.set_pain( 50 );
     advance_turn( guy );
-    INFO( "Stats are: 6 str, 5 dex, 3 int, 3 per, 85 speed" );
+    INFO( "Stats are: 6 str, 5 dex, 4 int, 4 per, 85 speed" );
     REQUIRE( guy.get_str() == 6 );
     REQUIRE( guy.get_dex() == 5 );
     REQUIRE( guy.get_int() == 4 );
@@ -380,10 +381,10 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     guy.i_add( item( "test_PAIN_PENALTY_MOD_ench_item_1" ) );
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
-    INFO( "Stats are: 4 str, 7 dex, 7 int, 0 per, 89 speed" );
+    INFO( "Stats are: 4 str, 7 dex, 7 int, 1 per, 89 speed" );
     REQUIRE( guy.get_str() == 4 );
     REQUIRE( guy.get_dex() == 7 );
     REQUIRE( guy.get_int() == 7 );
-    REQUIRE( guy.get_per() == 0 );
+    REQUIRE( guy.get_per() == 1 );
     REQUIRE( guy.get_speed() == 89 );
 }

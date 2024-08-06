@@ -14,9 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP",
     "dynamic_line": {
-      "u_has_var": "u_met_glooscap",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_glooscap",
       "value": "yes",
       "yes": [
         "Good to see you again, how can I help you?",
@@ -39,34 +37,29 @@
     "responses": [
       {
         "text": "Glooscap?  That's a funny name.  Is it foreign?",
-        "condition": { "not": { "u_has_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" } },
         "topic": "TALK_GLOOSCAP_WHERE"
       },
       {
         "text": "[INT 11]  Like the Wabanaki myth?",
         "topic": "TALK_GLOOSCAP_MYTH",
         "condition": {
-          "and": [
-            { "u_has_intelligence": 11 },
-            { "not": { "u_has_var": "u_accused_malsumis", "type": "general", "context": "meeting", "value": "yes" } }
-          ]
+          "and": [ { "u_has_intelligence": 11 }, { "not": { "u_has_var": "general_meeting_u_accused_malsumis", "value": "yes" } } ]
         }
       },
       {
         "text": "So.  You're dressed like a hunter.  Are you a hunter?",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" },
-            {
-              "not": { "u_has_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" }
-            }
+            { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" },
+            { "not": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" } }
           ]
         },
         "topic": "TALK_GLOOSCAP_HUNTER"
       },
       {
         "text": "Have you had any luck out there?",
-        "condition": { "u_has_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
         "effect": "start_trade",
         "topic": "TALK_GLOOSCAP"
       },
@@ -83,7 +76,7 @@
       "gendered_line": "I'm used to it.  No, Glooscap has been a name here for a very long time.  Is your name foreign?",
       "relevant_genders": [ "npc" ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_meeting_u_met_glooscap", "value": "yes" } },
     "responses": [
       { "text": "No, my name has been a name here for a very long time too.", "topic": "TALK_GLOOSCAP" },
       { "text": "No, I just made it up.", "topic": "TALK_GLOOSCAP" },
@@ -95,7 +88,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_MYTH",
     "dynamic_line": "You know the real people's stories?  Yes, a lot like that.",
-    "speaker_effect": { "effect": { "u_add_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_meeting_u_met_glooscap", "value": "yes" } },
     "responses": [
       { "text": "Cool, cool.  So you like myths and stuff?", "topic": "TALK_GLOOSCAP_MYTH_FAIL" },
       {
@@ -180,17 +173,17 @@
       {
         "text": "[INT 14] I'll look out then, thanks.  Of course if you were Malsumis you probably wouldn't admit it because no one likes Malsumis.  Who would your twin say you are?",
         "topic": "TALK_GLOOSCAP_MYTH_RIDDLE",
-        "effect": { "u_add_var": "u_asked_malsumis", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_asked_malsumis", "value": "yes" }
       },
       {
         "text": "You know you're not really Glooscap right?  You're joking right?",
         "topic": "TALK_GLOOSCAP_JOKING",
-        "effect": { "u_add_var": "u_asked_malsumis", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_asked_malsumis", "value": "yes" }
       },
       {
         "text": "Of course, that all makes as much sense as anything I guess.  So you have crazy supernatural powers then?  Can you stop whatever is happening and make it like before?",
         "topic": "TALK_GLOOSCAP_POWERS",
-        "effect": { "u_add_var": "u_asked_malsumis", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_asked_malsumis", "value": "yes" }
       }
     ]
   },
@@ -202,7 +195,7 @@
       {
         "text": "[INT 14] I think you're Malsumis.  Where is Glooscap?",
         "topic": "TALK_GLOOSCAP_MYTH_ACCUSE",
-        "effect": { "u_add_var": "u_accused_malsumis", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_accused_malsumis", "value": "yes" }
       },
       { "text": "[INT 14] Yes, that all makes sense to me.  Forget I asked.", "topic": "TALK_GLOOSCAP" },
       {
@@ -236,7 +229,7 @@
     "responses": [
       {
         "text": "I feel the same way best friend.",
-        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
         "topic": "TALK_GLOOSCAP"
       },
       { "text": "No idea what you mean.", "topic": "TALK_GLOOSCAP" }
@@ -249,17 +242,17 @@
     "responses": [
       {
         "text": "No problem, a lot of people are going through some hard times right now.  Honestly, you're doing better than most.  You should follow me, I have a pretty good handle on reality.",
-        "effect": { "u_add_var": "u_reality_checked_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_reality_checked_glooscap", "value": "yes" },
         "topic": "TALK_SUGGEST_FOLLOW_GLOOSCAP"
       },
       {
         "text": "I'm not made out of trees, I'm made out of awesome.  Follow me and you will grow fat and rich.",
-        "effect": { "u_add_var": "u_boasted_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_boasted_glooscap", "value": "yes" },
         "topic": "TALK_SUGGEST_FOLLOW_GLOOSCAP"
       },
       {
         "text": "You shouldn't follow me, but I guess I can't stop you.",
-        "effect": { "u_add_var": "u_low_esteemed_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_low_esteemed_glooscap", "value": "yes" },
         "topic": "TALK_SUGGEST_FOLLOW_GLOOSCAP"
       }
     ]
@@ -278,11 +271,11 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_SOCIAL",
     "dynamic_line": "Yes, thank you for sharing with me.  So what are you doing here?  What are you trying to accomplish?",
-    "speaker_effect": { "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_meeting_u_befriended_glooscap", "value": "yes" } },
     "responses": [
       {
         "text": "I'm just trying to survive.",
-        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
         "topic": "TALK_GLOOSCAP"
       },
       {
@@ -322,7 +315,7 @@
     "responses": [
       {
         "text": "Yes, that worked great.",
-        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
         "topic": "TALK_GLOOSCAP"
       },
       { "text": "We are not good and I'm done talking to you.", "topic": "TALK_DONE" }
@@ -392,7 +385,7 @@
     "responses": [
       {
         "text": "Yes, that worked great.",
-        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
         "topic": "TALK_GLOOSCAP"
       },
       { "text": "We are not good and I'm done talking to you.", "topic": "TALK_DONE" }

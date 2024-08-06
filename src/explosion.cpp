@@ -5,8 +5,8 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <iosfwd>
-#include <limits>
+#include <cstdint>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -21,7 +21,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -31,18 +30,21 @@
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -54,13 +56,15 @@
 #include "rng.h"
 #include "shadowcasting.h"
 #include "sounds.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
@@ -98,6 +102,9 @@ static const ter_str_id ter_t_floor( "t_floor" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+
+static const trap_str_id tr_goo( "tr_goo" );
+static const trap_str_id tr_portal( "tr_portal" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -394,7 +401,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     projectile proj;
     proj.speed = fragment_velocity;
     proj.range = range;
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.proj_effects.insert( ammo_effect_NULL_SOURCE );
 
     struct local_caches {
         cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;
@@ -423,7 +430,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
+                 ( visited_cache, obstacle_cache, point_bub_ms( src.xy() ), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
     Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos() );
@@ -780,7 +787,7 @@ void emp_blast( const tripoint &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( random_entry( fault::get_by_type( "shorted" ) ) );
+                it->faults.insert( faults::random_of_type( "shorted" ) );
             }
         }
     }
@@ -793,7 +800,7 @@ void emp_blast( const tripoint &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( random_entry( fault::get_by_type( "shorted" ) ) );
+            it.set_fault( faults::random_of_type( "shorted" ) );
         }
     }
     // TODO: Drain NPC energy reserves

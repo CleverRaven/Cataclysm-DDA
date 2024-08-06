@@ -1,15 +1,17 @@
-#include <functional>
+#include "character_oracle.h"
+
 #include <memory>
 #include <vector>
 
 #include "behavior.h"
+#include "bodypart.h"
 #include "character.h"
-#include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
 #include "make_static.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "weather.h"
 

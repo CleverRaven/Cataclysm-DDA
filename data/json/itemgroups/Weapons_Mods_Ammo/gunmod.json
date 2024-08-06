@@ -157,13 +157,6 @@
   },
   {
     "type": "item_group",
-    "id": "vz58v_mods",
-    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
-    "subtype": "collection",
-    "entries": [ { "item": "folding_stock" } ]
-  },
-  {
-    "type": "item_group",
     "id": "ak74_folding_mods",
     "//": "Default mods for the Kalashnikov AKS-74 variant of the 5.45x39mm fighting rifle",
     "subtype": "collection",

@@ -16,7 +16,7 @@
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 2 ],
-        [ "condom", 2 ],
+        [ "any_condom", 2, "LIST" ],
         [ "gloves_medical", 2 ],
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],
@@ -44,7 +44,7 @@
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 2 ],
-        [ "condom", 2 ],
+        [ "any_condom", 2, "LIST" ],
         [ "gloves_medical", 2 ],
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],

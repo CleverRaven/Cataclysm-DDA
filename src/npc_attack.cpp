@@ -635,7 +635,7 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, thrown_item, false ) ) ) {
+          !source.wont_hit_friend( location, thrown_item, true ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {
@@ -725,6 +725,13 @@ npc_attack_rating npc_attack_throw::evaluate(
     npc_attack_rating effectiveness( std::nullopt, source.pos() );
     if( !can_use( source ) ) {
         // please don't throw your pants...
+        return effectiveness;
+    }
+    const inventory &available_weapons = source.crafting_inventory( tripoint_zero, -1 );
+    if( &thrown_item == source.evaluate_best_weapon() &&
+        available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
+        available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
+        // Don't throw if it's the best individual killy-thing we've got
         return effectiveness;
     }
     const int penalty = base_penalty( source );

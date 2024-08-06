@@ -44,7 +44,7 @@
     "description": "A photo of a jovial, old wizard, he seems to be dancing with a coat rack in this basement.  There is a stack of suitcases in the background.",
     "weight": "1 g",
     "volume": "10 ml",
-    "price": 800,
+    "price": "8 USD",
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
@@ -68,8 +68,8 @@
     "weight": "484 g",
     "volume": "654 ml",
     "longest_side": "23 cm",
-    "price": 4399,
-    "price_postapoc": 1500,
+    "price": "43 USD 99 cent",
+    "price_postapoc": "15 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
     "melee_damage": { "bash": 2 }

@@ -66,6 +66,12 @@
     ]
   },
   {
+    "id": "afs_wraitheon_smart_rifle_cache",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "afs_wa2519" }, { "item": "afs_25mm_smart", "count": [ 15, 25 ] } ]
+  },
+  {
     "id": "afs_augustmoon_guntrader_military_ammo",
     "type": "item_group",
     "subtype": "distribution",
@@ -75,6 +81,8 @@
       [ "afs_25mm_apfsds", 10 ],
       [ "afs_25mm_frag", 10 ],
       [ "shot_flechette", 20 ],
+      [ "3x35dart", 10 ],
+      [ "3x35toxic", 2 ],
       [ "shot_he", 20 ],
       [ "afs_4g_plasma", 20 ],
       [ "afs_20g_plasma", 10 ],
@@ -92,11 +100,24 @@
       [ "afs_gibrifle", 40 ],
       [ "afs_heavy_tactical_laser", 5 ],
       [ "afs_pam-41", 10 ],
+      [ "wasp_gun", 10 ],
       [ "afs_magnadrive_230k", 5 ],
       [ "afs_marsec_t72", 2 ],
       [ "afs_sr77", 10 ],
       [ "afs_gibs_shotgun", 20 ],
       [ "afs_raketa_shotgun", 20 ]
     ]
+  },
+  {
+    "id": "afs_police_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_armory", "prob": 3 }, { "item": "tazer", "prob": 5 } ]
+  },
+  {
+    "id": "afs_police_anti_robot_armory",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "afs_swat_emp", "prob": 3 }, { "group": "afs_civilian_laser_mag", "prob": 1 } ]
   }
 ]

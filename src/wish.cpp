@@ -466,7 +466,7 @@ void debug_menu::wishbionics( Character *you )
     }
 }
 
-void debug_menu::wisheffect( Character &p )
+void debug_menu::wisheffect( Creature &p )
 {
     static bodypart_str_id effectbp = bodypart_str_id::NULL_ID();
     std::vector<effect> effects;
@@ -1134,6 +1134,11 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
             }
         }
     } while( wmenu.ret >= 0 );
+}
+
+void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
+{
+    debug_menu::wishitem( you, pos.raw() );
 }
 
 void debug_menu::wishskill( Character *you, bool change_theory )
