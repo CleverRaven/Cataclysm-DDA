@@ -899,7 +899,7 @@
     "method": "json",
     "update_mapgen_id": "mx_dreamwound_shadow",
     "object": {
-      "place_nested": [ { "chunks": [ "dreamwound_shadow" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ],
+      "place_nested": [ { "chunks": [ "dreamwound_shadow" ], "x": [ 2, 17 ], "y": [ 2, 17 ] } ],
       "monsters": { " ": { "monster": "GROUP_DREAM_WOUND_SHADOW", "chance": 1, "density": 0.0001 } }
     }
   },
