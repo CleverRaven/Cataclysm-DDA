@@ -722,7 +722,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
-            if( !current_pocket_iter->is_type( pocket.saved_type() ) ) {
+            if( !current_pocket_iter->is_type( convert ? pocket.get_pocket_data()->type :
+                                               pocket.saved_type() ) ) {
                 mismatched_pockets.push_back( pocket );
                 continue;
             }
@@ -750,8 +751,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item_pocket &pocket : mismatched_pockets ) {
+        const pocket_type mismatched_type = convert ? pocket.get_pocket_data()->type : pocket.saved_type();
         for( const item *it : pocket.all_items_top() ) {
-            const ret_val<item *> inserted = insert_item( *it, pocket.saved_type(), ignore_contents );
+            const ret_val<item *> inserted = insert_item( *it, mismatched_type, ignore_contents );
             if( !inserted.success() ) {
                 uninserted_items.push_back( *it );
                 debugmsg( "error: item %s cannot fit into any pocket while loading: %s",
@@ -1107,6 +1109,7 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
+    bool has_ret = false;
 
     if( copies_remaining <= 0 ) {
         return ret_val<void>::make_success();
@@ -1137,7 +1140,15 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         if( copies_remaining <= 0 ) {
             return ret_val<void>::make_success();
         }
+        int n = copies_remaining;
+        bool could_contain = pocket.can_contain( it, n, /*ignore_contents=*/true ).success();
+        if( has_ret && !could_contain ) {
+            // This pocket could never contain the item, even if the pocket was emptied.
+            // So we would prefer to get the failure msg from another pocket which could potentially hold the item.
+            continue;
+        }
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
+        has_ret = true;
     }
     return ret;
 }
@@ -2494,11 +2505,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                             temperature_flag flag, float spoil_multiplier_parent )
+                             temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                            watertight_container );
         }
     }
 }

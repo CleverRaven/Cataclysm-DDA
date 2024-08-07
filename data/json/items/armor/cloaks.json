@@ -1614,7 +1614,6 @@
     "volume": "6 L",
     "price": "500 USD",
     "price_postapoc": "3 USD",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "]",
     "looks_like": "cloak",

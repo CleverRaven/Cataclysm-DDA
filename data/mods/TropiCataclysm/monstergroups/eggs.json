@@ -233,11 +233,6 @@
     "monsters": [ { "monster": "mon_fry_angelfish" } ]
   },
   {
-    "name": "GROUP_EGG_GOLDFISH",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_goldfish" } ]
-  },
-  {
     "name": "GROUP_EGG_KOI",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_koi" } ]

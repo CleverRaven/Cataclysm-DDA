@@ -17,7 +17,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -63,7 +63,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "iron", 10 ] ]
+    "vitamins": [ [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -109,7 +109,8 @@
     "material": [ "junk" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -146,7 +147,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 16 ] ],
+    "vitamins": [ [ "iron", 16 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -167,7 +168,8 @@
     "material": [ "wheat", "junk" ],
     "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -186,7 +188,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ], [ "junk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -206,7 +208,8 @@
     "material": [ "junk" ],
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +228,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -247,7 +250,8 @@
     "material": [ "junk" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +271,7 @@
     "material": [ "junk" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -288,7 +292,8 @@
     "material": [ "junk" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -308,7 +313,8 @@
     "material": [ "junk", "flesh" ],
     "volume": "33 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -328,7 +334,8 @@
     "material": [ "junk", "veggy" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -364,7 +371,8 @@
     "calories": 135,
     "stim": 1,
     "fun": 7,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -384,7 +392,8 @@
     "material": [ "junk" ],
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -398,7 +407,8 @@
     "armor_data": {
       "sided": true,
       "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
-    }
+    },
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -419,7 +429,8 @@
     "material": [ "junk" ],
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -439,7 +450,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "93 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -468,7 +479,7 @@
     "volume": "58 ml",
     "//": "dimensions are picked from oreo",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -497,7 +508,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": 5,
-    "vitamins": [ [ "calcium", 2 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "junk_allergen", 1 ] ],
     "freezing_point": -57
   },
   {
@@ -517,7 +528,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "iron", 34 ] ],
+    "vitamins": [ [ "iron", 34 ], [ "junk_allergen", 1 ] ],
     "charges": 16
   },
   {
@@ -535,7 +546,7 @@
     "price_postapoc": "16 cent",
     "material": [ "wheat", "junk" ],
     "volume": "166 ml",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -560,6 +571,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "debug_calories",
+    "name": { "str": "unholy debug angel cake" },
+    "spoils_in": "4 days",
+    "copy-from": "jihelucake",
+    "calories": 10000,
+    "description": "This unholy confection of delight does not lie, it packs a heavenly amount of calories in each sinful bite.  For debug use only.",
+    "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "choco_coffee_beans",
     "name": { "str_sp": "chocolate-covered coffee beans" },
     "weight": "30 g",
@@ -580,7 +601,8 @@
     "material": [ "veggy", "junk" ],
     "volume": "8 ml",
     "fun": 2,
-    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -601,7 +623,7 @@
     "material": [ "junk" ],
     "volume": "250 ml",
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ], [ "junk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -631,7 +653,8 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -652,7 +675,8 @@
     "material": [ "junk" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -673,7 +697,8 @@
     "material": [ "junk" ],
     "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -692,7 +717,7 @@
     "price_postapoc": "1 USD",
     "material": [ "junk" ],
     "volume": "30 ml",
-    "vitamins": [ [ "calcium", 9 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -711,7 +736,7 @@
     "price_postapoc": "5 USD",
     "material": [ "junk", "fruit" ],
     "volume": "175 ml",
-    "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -732,7 +757,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   },
   {
@@ -753,7 +778,7 @@
     "material": [ "junk" ],
     "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ], [ "junk_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -776,7 +801,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -803,7 +828,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -834,7 +859,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -854,7 +879,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -875,7 +900,7 @@
     "volume": "166 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -883,7 +908,7 @@
     "name": { "str": "pork stick" },
     "weight": "56 g",
     "color": "brown",
-    "spoils_in": "24 days",
+    "spoils_in": "42 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -895,7 +920,7 @@
     "material": [ "flesh", "junk" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -918,7 +943,8 @@
     "primary_material": "processed_food",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -939,7 +965,8 @@
     "material": [ "flesh", "junk" ],
     "primary_material": "processed_food",
     "volume": "500 ml",
-    "fun": -3
+    "fun": -3,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -960,7 +987,8 @@
     "primary_material": "processed_food",
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -980,7 +1008,7 @@
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "iron", 4 ] ]
+    "vitamins": [ [ "iron", 4 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1001,28 +1029,14 @@
     "volume": "200 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "chilidogs_wheat_free",
-    "name": { "str": "wheat-free chili dog" },
-    "weight": "318 g",
-    "color": "red",
-    "spoils_in": "1 day",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "calories": 353,
-    "description": "A hot dog on a wheat-free bun, with chili con carne on top.  Yum!",
-    "price": "450 cent",
-    "price_postapoc": "75 cent",
-    "material": [ "flesh", "junk", "veggy" ],
-    "volume": "200 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 15,
-    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [
+      [ "vitC", 46 ],
+      [ "calcium", 14 ],
+      [ "iron", 21 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1042,7 +1056,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1080,7 +1094,7 @@
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
     "fun": 6,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1100,7 +1114,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1121,7 +1135,7 @@
     "volume": "31 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 15 ] ]
+    "vitamins": [ [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1143,7 +1157,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1164,7 +1178,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1185,7 +1199,7 @@
     "volume": "75 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -6,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "hotdogs_campfire",
@@ -1215,28 +1229,14 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "hotdogs_cooked_wheat_free",
-    "name": { "str": "cooked wheat-free hot dog" },
-    "weight": "383 g",
-    "color": "red",
-    "spoils_in": "1 day",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -1,
-    "calories": 407,
-    "description": "Surprisingly, not made from dog.  Now that it's been cooked and served on a wheat-free bun, this hot dog tastes much better, but will spoil faster.",
-    "price": "8 USD",
-    "price_postapoc": "3 USD 50 cent",
-    "material": [ "flesh", "junk", "veggy" ],
-    "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
-    "fun": 12,
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
+    "vitamins": [
+      [ "vitC", 85 ],
+      [ "calcium", 22 ],
+      [ "iron", 15 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1247,20 +1247,6 @@
     "looks_like": "hotdogs_cooked",
     "calories": 721,
     "description": "What's better than a hot dog?  A hot dog smothered in ground meat and chopped onions, of course!",
-    "price_postapoc": "5 USD",
-    "volume": "375 ml",
-    "fun": 18,
-    "//": "The fun value is high to justify crafting this versus a normal hot dog."
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "hotdogs_newyork_wheat_free",
-    "name": { "str": "wheat-free new york wiener" },
-    "copy-from": "hotdogs_cooked_wheat_free",
-    "weight": "568 g",
-    "looks_like": "hotdogs_cooked_wheat_free",
-    "calories": 721,
-    "description": "What's better than a gluten-free hot dog?  A gluten-free hot dog smothered in ground meat and chopped onions, of course!",
     "price_postapoc": "5 USD",
     "volume": "375 ml",
     "fun": 18,
@@ -1286,7 +1272,7 @@
     "primary_material": "processed_food",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 6
   },
   {
@@ -1310,7 +1296,7 @@
     "material": [ "junk", "nut" ],
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1330,7 +1316,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ], [ "meat_allergen", 1 ], [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -1351,7 +1337,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "500ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ], [ "meat_allergen", 1 ], [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -1369,7 +1355,8 @@
     "material": [ "junk" ],
     "volume": "500 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -3
+    "fun": -3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1389,7 +1376,8 @@
     "material": [ "flesh", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_COLD" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1408,7 +1396,8 @@
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
     "phase": "solid",
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1444,7 +1433,8 @@
     "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar, flavored with fruit juice.  A kid favorite pre-Cataclysm.  They'll never know the difference.",
     "fun": 20,
     "material": [ "veggy", "junk" ],
-    "copy-from": "gelatin_dessert_base"
+    "copy-from": "gelatin_dessert_base",
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1454,7 +1444,8 @@
     "description": "A vegan friendly jiggly, sugary treat made from agar and sugar, flavored with fruit juice and set with fruit.  A kid favorite pre-Cataclysm and a healthy treat.",
     "fun": 15,
     "material": [ "veggy", "junk" ],
-    "copy-from": "gelatin_dessert_base"
+    "copy-from": "gelatin_dessert_base",
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1476,7 +1467,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -1499,7 +1490,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 6 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -1521,7 +1512,7 @@
     "spoils_in": "7 days",
     "calories": 150,
     "fun": 3,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1542,6 +1533,6 @@
     "spoils_in": "7 days",
     "calories": 180,
     "fun": 3,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   }
 ]

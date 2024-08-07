@@ -289,7 +289,7 @@
     "id": "undine_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
-    "description": "You may spin a bit of fae magic into the waters, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
+    "description": "You may spin a bit of fae magic into the waters, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast when standing or water or a near a large body of water.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "spell_class": "UNDINE",

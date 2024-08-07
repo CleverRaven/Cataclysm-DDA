@@ -28,8 +28,6 @@
       "90two40",
       "90two40mag",
       "acr_300blk",
-      "af2011a1_38super",
-      "af2011a1mag",
       "alien_pod_resin",
       "arm",
       "arx160",
@@ -204,7 +202,6 @@
       "cx4",
       "emp_gun",
       "fetus",
-      "fs2000",
       "gatling_mech_laser",
       "gatling_mech_laser_single",
       "heavy_atomic_battery_cell",
@@ -368,6 +365,8 @@
       "taurus_spectrum",
       "taurus_spectrum_mag",
       "tavor_12",
+      "dp_12",
+      "srm_1216",
       "TDI",
       "tdi_mag",
       "TDI_10",
@@ -391,7 +390,16 @@
       "wine_mycus",
       "STI_DS_10",
       "xd_10",
-      "xd_10_mag"
+      "xd_10_mag",
+      "taurus_judge",
+      "cp33",
+      "cp33_mag",
+      "cp33_mag_50",
+      "ruger_mk4",
+      "ruger_mk4_mag",
+      "ruger_charger",
+      "sl8",
+      "sl8mag"
     ]
   }
 ]

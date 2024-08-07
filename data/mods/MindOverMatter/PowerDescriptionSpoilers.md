@@ -59,9 +59,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Greatly increases the psion’s reaction (2x), block (1.2x) and crawl (1.5) limb scores, as well as rendering them immune to being grabbed and making it easier to recover from being downed.  It reduces fall damage by 20% plus 2% per level.<br />
 *Prerequisites*: Physical Enhancement 6<br />
 
-## Hardened Skin 
+## Hardened Skin (C)
 *Difficulty*: 4
-*Duration*: 45 to 90 seconds, plus 8 to 15 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />
@@ -112,7 +112,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 60 seconds to 5 minutes, plus 8 to 25 seconds per level<br />
 *Stamina Cost*: 5500, minus 175 per level to a minimum of 2750<br />
 *Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 100<br />
-*Effects*: Prevents the psion from having to breath and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
+*Effects*: Prevents the psion from having to breathe and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
 *Prerequisites*: Hardened Skin 9 *or* Oxygen Absorption 9, Temperature Adaptability 10 *or* Hammerhand 7<br />
 
 ## Metabolic Hyperefficiency (C) 
@@ -317,7 +317,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Zap a single target with a jolt of electricity, doing 2 to 7 plus 1 to 1.5 per power level electrical damage, as well as dazing them for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 
-## Electrical Discharge
+## Electrical Discharge (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 5 minutes to 13 minutes and 20 seconds, plus 1 minute and 20 seconds to 3 minutes and 45 seconds per power level<br />
@@ -326,7 +326,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Build up a charge in the psion's body, zapping anyone who attacks them 50% of the time for 1 to 5 damage, plus 1/4 (i.e., one point per four levels) to 1/2 damage per power level.  The power also renders the psion's gear and bionic power immune to EMP attacks.<br />
 *Prerequisites*: Static Touch 4<br />
 
-## Voltaic Strikes
+## Voltaic Strikes (C)
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 4 minutes to 10 minutes, plus 55 seconds to 1 minute 30 seconds per power level.<br />
@@ -485,7 +485,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
 *Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
 
-## Trick of the Light
+## Trick of the Light (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 28 seconds to 2 minutes and 5 seconds, plus 13 to 27 seconds per power level, or until hit in combat<br />
@@ -556,6 +556,15 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 75<br />
 *Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
 *Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
+
+## Sensor Interference
+*Difficulty*: 5<br />
+*Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 20 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 50 squares<br />
+*Duration*: 2 to 3 seconds plus three-quarters of a second to a second and a half per power level.<br />
+*Stamina Cost*: 6000, minus 150 per level to a minimum of 2200<br />
+*Channeling Time*: 200 moves, minus 9.5 moves per level to a minimum of 80<br />
+*Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
+*Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
 
 ## Veil of Light
 *Difficulty*: 6<br />
@@ -909,11 +918,11 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
-*Target*: Self (or dialogue)<br />
-*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level when used on self, indefinite when used on others<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
-*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Effects*: When used on oneself, edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). When used on others, increases a target NPC's trust by 0.25 per power level and reduces both fear and anger by 0.5 per power level (usable a maximum of once per 12 hours) or reduces a target monster's aggression by power level times 5 (usable once per 5 minutes). It may also be used in dialogue to calm down angry NPCs.<br />
 *Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
 
 ## Synaptic Blast
@@ -1066,7 +1075,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Farstep 
 *Difficulty*: 6<br />
-*Target*: Anywhere within 2 square plus 1.5 squares per power level<br />
+*Target*: Anywhere within 1 square plus 2 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />

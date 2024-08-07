@@ -439,6 +439,7 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
@@ -516,6 +517,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_radio')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_stun_robots" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1133,6 +1140,7 @@
     ],
     "condition": {
       "and": [
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         {
           "u_has_any_trait": [
             "BIOKINETIC",
@@ -1179,5 +1187,69 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a laptop, you can't access the data on the USB", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
+        { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        },
+        { "math": [ "_success", "!=", "false" ] }
+      ]
+    },
+    "effect": [ { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+    "effect": [
+      { "u_learn_recipe": "psi_research_extended_channeling" },
+      {
+        "u_message": "The state of mind necessary to channel while maintaining other powers has you thinking.  It requires fine control to maintain your concentration on multiple things at once, but what if you applied that level of control to a single power at a time?  If you slowly and carefully drew on just as much energy as you needed, maybe there would be fewer side effects?  With some experimentation, perhaps you can discover a way.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } },
+        { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        },
+        { "math": [ "_success", "!=", "false" ] }
+      ]
+    },
+    "effect": [
+      { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+    "effect": [
+      { "u_learn_recipe": "psi_research_torrential_channeling" },
+      {
+        "u_message": "Safety is all well and good, but sometimes you need power.  The ebb and flow of Nether energy…if you deliberately drew on it more deeply, could you charge your powers up more quickly?  Maybe you can figure out a way with some more experimentation.",
+        "popup": true
+      }
+    ]
   }
 ]

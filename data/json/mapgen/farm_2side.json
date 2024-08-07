@@ -497,12 +497,5 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "2farm_roof_15" ],
-    "weight": 250,
-    "object": { "fill_ter": "t_open_air" }
   }
 ]

@@ -404,9 +404,6 @@ bool npc::could_move_onto( const tripoint &p ) const
     if( !here.passable( p ) ) {
         return false;
     }
-    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
-        return false;
-    }
 
     if( !sees_dangerous_field( p ) ) {
         return true;
@@ -801,7 +798,7 @@ void npc::assess_danger()
         if( &guy == this ) {
             continue;
         }
-        if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
+        if( !clairvoyant && !here.has_potential_los( pos_bub(), guy.pos_bub() ) ) {
             continue;
         }
 
@@ -819,7 +816,7 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
+        if( !clairvoyant && !here.has_potential_los( pos_bub(), critter.pos_bub() ) ) {
             continue;
         }
         Creature::Attitude att = critter.attitude_to( *this );
@@ -1224,9 +1221,9 @@ void npc::regen_ai_cache()
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
-        if( sees( here.getlocal( i->abs_pos ) ) ) {
+        if( sees( here.bub_from_abs( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = creatures.creature_at<npc>( here.getlocal( i->abs_pos ) );
+            npc *const sound_source = creatures.creature_at<npc>( here.bub_from_abs( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -1602,7 +1599,7 @@ void npc::execute_action( npc_action action )
 
         case npc_investigate_sound: {
             tripoint cur_pos = pos();
-            update_path( here.getlocal( ai_cache.s_abs_pos ) );
+            update_path( here.bub_from_abs( ai_cache.s_abs_pos ) );
             move_to_next();
             if( pos() == cur_pos ) {
                 ai_cache.stuck += 1;
@@ -1768,7 +1765,7 @@ void npc::execute_action( npc_action action )
             break;
         }
         case npc_follow_player:
-            update_path( player_character.pos() );
+            update_path( player_character.pos_bub() );
             if( path.empty() ||
                 ( static_cast<int>( path.size() ) <= follow_distance() &&
                   player_character.posz() == posz() ) ) {
@@ -1782,7 +1779,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_follow_embarked: {
-            const optional_vpart_position vp = here.veh_at( player_character.pos() );
+            const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
             if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
@@ -2715,24 +2712,17 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
-    // TODO: Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ?
-                    confident_throw_range( it, nullptr ) :
-                    confident_shoot_range( it, recoil_total() );
-    // if there is no confidence at using weapon, it's not used at range
-    // zero confidence leads to divide by zero otherwise
-    if( confident < 1 ) {
-        return true;
-    }
-
-    if( rl_dist( pos(), tar ) == 1 ) {
+    if( throwing && rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    units::angle target_angle = coord_to_angle( pos(), tar );
+    map &here = get_map();
+    std::vector<tripoint> trajectory = here.find_clear_path( pos(), tar );
 
-    // TODO: Base on dispersion
-    units::angle safe_angle = 30_degrees;
+    units::angle target_angle = coord_to_angle( pos(), tar );
+    double dispersion = throwing ? throwing_dispersion( it, nullptr ) : total_gun_dispersion( it,
+                        recoil_total(), it.ammo_data()->ammo->shot_spread ).max();
+    units::angle safe_angle = units::from_arcmin( dispersion );
 
     for( const auto &fr : ai_cache.friends ) {
         const shared_ptr_fast<Creature> ally_p = fr.lock();
@@ -2741,18 +2731,22 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         }
         const Creature &ally = *ally_p;
 
-        // TODO: Extract common functions with turret target selection
-        units::angle safe_angle_ally = safe_angle;
-        int ally_dist = rl_dist( pos(), ally.pos() );
-        if( ally_dist < 3 ) {
-            safe_angle_ally += ( 3 - ally_dist ) * 30_degrees;
+        // TODO: When lines are straight again, optimize for small distances
+        for( tripoint &p : trajectory ) {
+            if( ally.pos() == p ) {
+                return false;
+            }
         }
 
+        // TODO: Extract common functions with turret target selection
+        units::angle safe_angle_ally = safe_angle;
         units::angle ally_angle = coord_to_angle( pos(), ally.pos() );
         units::angle angle_diff = units::fabs( ally_angle - target_angle );
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
+            add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s was in %s line of fire", ally.get_name(),
+                           get_name() );
             return false;
         }
     }
@@ -2875,40 +2869,27 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 && here.has_floor_or_water( p ) && !g->is_dangerous_tile( p ) &&
-            ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos() ) ) && !is_hallucination() ) ||
+            ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
+                                      !is_hallucination() ) ||
               ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
 
 void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
-    tripoint p = pt;
+    tripoint_bub_ms p = tripoint_bub_ms( pt );
     map &here = get_map();
-    if( sees_dangerous_field( p )
-        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
+    if( sees_dangerous_field( p.raw() )
+        || ( nomove != nullptr && nomove->find( p.raw() ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = here.get_dir_circle( pos(), p );
-        for( const tripoint &ot : other_points ) {
+        std::vector<tripoint_bub_ms> other_points = here.get_dir_circle( pos_bub(), p );
+        for( const tripoint_bub_ms &ot : other_points ) {
             if( could_move_onto( ot )
-                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                && ( nomove == nullptr || nomove->find( ot.raw() ) == nomove->end() ) ) {
 
                 p = ot;
                 break;
-            }
-        }
-    }
-
-    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
-        auto other_points = here.get_dir_circle( pos(), p );
-        for( const tripoint &ot : other_points ) {
-            if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
-                p = ot;
-                break;
-            } else {
-                path.clear();
-                move_pause();
-                return;
             }
         }
     }
@@ -2916,20 +2897,20 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     recoil = MAX_RECOIL;
 
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        p.x = rng( posx() - 1, posx() + 1 );
-        p.y = rng( posy() - 1, posy() + 1 );
-        p.z = posz();
+        p.x() = rng( posx() - 1, posx() + 1 );
+        p.y() = rng( posy() - 1, posy() + 1 );
+        p.z() = posz();
     }
 
     // nomove is used to resolve recursive invocation, so reset destination no
     // matter it was changed by stunned effect or not.
-    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
-        p = pos();
+    if( nomove != nullptr && nomove->find( p.raw() ) != nomove->end() ) {
+        p = pos_bub();
     }
 
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
-    if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
+    if( rl_dist( pos_bub(), p ) > 1 && p.z() == posz() ) {
         // On the same level? Not so much. Something weird happened
         path.clear();
         move_pause();
@@ -3004,7 +2985,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
 
-        if( critter->pos() == p ) {
+        if( critter->pos_bub() == p ) {
             move_pause();
             return;
         }
@@ -3012,7 +2993,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
+    if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
         const optional_vpart_position ovp = here.veh_at( p );
         if( vp->vehicle().is_moving() &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
@@ -3023,7 +3004,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     Character &player_character = get_player_character();
-    if( p.z != posz() ) {
+    if( p.z() != posz() ) {
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
@@ -3036,12 +3017,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     } else if( has_effect( effect_stumbled_into_invisible ) &&
                here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
                attitude_to( player_character ) == Attitude::HOSTILE ) {
-        attack_air( p );
+        attack_air( p.raw() );
         move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
-        bool diag = trigdist && posx() != p.x && posy() != p.y;
+        bool diag = trigdist && posx() != p.x() && posy() != p.y();
         if( is_mounted() ) {
-            const double base_moves = run_cost( here.combined_movecost( pos(), p ),
+            const double base_moves = run_cost( here.combined_movecost( pos_bub(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
@@ -3049,12 +3030,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
-            mod_moves( -run_cost( here.combined_movecost( pos(), p ), diag ) );
+            mod_moves( -run_cost( here.combined_movecost( pos_bub(), p ), diag ) );
         }
         moved = true;
-    } else if( here.open_door( *this, p, !here.is_outside( pos() ), true ) ) {
+    } else if( here.open_door( *this, p, !here.is_outside( pos_bub() ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
-            here.open_door( *this, p, !here.is_outside( pos() ) );
+            here.open_door( *this, p, !here.is_outside( pos_bub() ) );
             mod_moves( -get_speed() );
         } else { // hallucinations teleport through doors
             mod_moves( -get_speed() );
@@ -3095,16 +3076,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     if( moved ) {
         make_footstep_noise();
-        const tripoint old_pos = pos();
+        const tripoint_bub_ms old_pos = pos_bub();
         setpos( p );
-        if( old_pos.x - p.x < 0 ) {
+        if( old_pos.x() - p.x() < 0 ) {
             facing = FacingDirection::RIGHT;
         } else {
             facing = FacingDirection::LEFT;
         }
         if( is_mounted() ) {
-            if( mounted_creature->pos() != pos() ) {
-                mounted_creature->setpos( pos() );
+            if( mounted_creature->pos_bub() != pos_bub() ) {
+                mounted_creature->setpos( pos_bub() );
                 mounted_creature->facing = facing;
                 mounted_creature->process_triggers();
                 here.creature_in_field( *mounted_creature );
@@ -3118,7 +3099,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             remove_effect( effect_bouldering );
         }
 
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_SIGHT, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_SIGHT, pos_bub() ) ) {
             add_effect( effect_no_sight, 1_turns, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
@@ -3143,10 +3124,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
 
-        bool cramped = false;
-        if( !can_move_to_vehicle_tile( here.getglobal( p ), cramped ) ) {
-            debugmsg( "NPC %s somehow moved to a too-cramped vehicle tile", disp_name() );
-        } else if( cramped ) { //set by above call to Creature::can_move_to_vehicle_tile
+        if( will_be_cramped_in_vehicle_tile( here.getglobal( p ) ) ) {
             if( !has_effect( effect_cramped_space ) ) {
                 add_msg_if_player_sees( *this, m_warning,
                                         string_format( _( "%s has to really cram their huge body to fit." ), disp_name() ) );
@@ -3364,7 +3342,8 @@ void npc::worker_downtime()
         }
         basecamp *temp_camp = *bcp;
         std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
+        for( const tripoint &elem : here.points_in_radius( here.bub_from_abs(
+                    temp_camp->get_bb_pos() ).raw(),
                 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
@@ -3599,7 +3578,7 @@ void npc::find_item()
             can_see = true;
             for( item &it : m_stack ) {
                 if( consider_item( it, p ) ) {
-                    wanted_item = item_location{ map_cursor{p}, &it };
+                    wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
         }
@@ -4390,26 +4369,35 @@ void npc::heal_self()
         std::string iusage = "INHALER";
 
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
-            auto inv_filtered = items_with( [&filter]( const item & itm )
+            std::vector<item *> inv_filtered = items_with( [&filter]( const item & itm )
             {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
             return inv_filtered;
         };
 
-        const auto inv_inhalers = filter_use( iusage );
-        if( !inv_inhalers.empty() ) {
-            treatment = inv_inhalers.front();
-        } else {
-            iusage = "OXYGEN_BOTTLE";
-            const auto inv_oxybottles = filter_use( iusage );
-            if( !inv_oxybottles.empty() ) {
-                treatment = inv_oxybottles.front();
+        const std::vector<item *> inv_inhalers = filter_use( iusage );
+
+        for( item *inhaler : inv_inhalers ) {
+            if( treatment == nullptr || treatment->ammo_remaining() > inhaler->ammo_remaining() ) {
+                treatment = inhaler;
             }
         }
+
+        if( treatment == nullptr ) {
+            iusage = "OXYGEN_BOTTLE";
+            const std::vector<item *> inv_oxybottles = filter_use( iusage );
+
+            for( item *oxy_bottle : inv_oxybottles ) {
+                if( treatment == nullptr || treatment->ammo_remaining() > oxy_bottle->ammo_remaining() ) {
+                    treatment = oxy_bottle;
+                }
+            }
+        }
+
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( this, *treatment, pos() );
-            treatment->ammo_consume( treatment->ammo_required(), pos(), this );
+            treatment->get_use( iusage )->call( this, *treatment, pos_bub() );
+            treatment->ammo_consume( treatment->ammo_required(), pos_bub(), this );
             return;
         }
     }
@@ -4554,13 +4542,10 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
 
 bool npc::consume_food_from_camp()
 {
-    if( !is_player_ally() ) {
-        return false;
-    }
     Character &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
-        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
+        if( rl_dist( camp_pos.xy(), global_omt_location().xy() ) < 3 ) {
             potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
             if( potential_bc ) {
                 break;
@@ -4571,46 +4556,28 @@ bool npc::consume_food_from_camp()
         return false;
     }
     basecamp *bcp = *potential_bc;
-    if( get_thirst() > 40 && bcp->has_water() ) {
+
+    // Handle water
+    if( get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
         complain_about( "camp_water_thanks", 1_hours,
                         chat_snippets().snip_camp_water_thanks.translated(), false );
         // TODO: Stop skipping the stomach for this, actually put the water in there.
         set_thirst( 0 );
         return true;
     }
-    faction *yours = player_character.get_faction();
 
+    // Handle food
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
     int kcal_threshold = get_healthy_kcal() * 19 / 20;
-    if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
+    if( get_hunger() > 0 && current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, yours->food_supply.kcal() );
+        int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply.kcal() );
 
         if( kcals_to_eat > 0 ) {
-            // We need food and there's some available, so let's eat it
-            complain_about( "camp_food_thanks", 1_hours,
-                            chat_snippets().snip_camp_food_thanks.translated(), false );
-
-            // Make a fake food object here to feed the NPC with, since camp calories are abstracted away
-
-            // Fill up the stomach to "full" (half of capacity) but no further, to avoid NPCs vomiting
-            // or becoming engorged
-            units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
-
-            // Returns the actual amount of calories and vitamins taken from the camp's larder.
-            nutrients nutr = bcp->camp_food_supply( -kcals_to_eat );
-
-            stomach.ingest( food_summary{
-                0_ml,
-                filling_vol,
-                nutr
-            } );
-            // Ensure our hunger is satisfied so we don't try to eat again immediately.
-            // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
-            set_hunger( -1 );
+            bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ) );
 
             return true;
         } else {
@@ -4635,7 +4602,7 @@ bool npc::consume_food()
     const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
-        if( !is_player_ally() ) {
+        if( !needs_food() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
@@ -5002,7 +4969,7 @@ void npc::go_to_omt_destination()
     }
     // TODO: fix point types
     tripoint sm_tri =
-        here.getlocal( project_to<coords::ms>( omt_path.back() ).raw() );
+        here.bub_from_abs( project_to<coords::ms>( omt_path.back() ) ).raw();
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );

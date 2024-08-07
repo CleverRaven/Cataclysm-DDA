@@ -1136,55 +1136,55 @@
       },
       {
         "id": "blond",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: blond, long punk" },
         "description": "You are rockin' with these long blond locks.",
         "weight": 1
       },
       {
         "id": "blue",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: blue, long punk" },
         "description": "You are rockin' with these long blue locks.",
         "weight": 1
       },
       {
         "id": "brown",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: brown, long punk" },
         "description": "You are rockin' with these long brown locks.",
         "weight": 1
       },
       {
         "id": "gray",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: gray, long punk" },
         "description": "You are rockin' with these long gray locks.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: green, long punk" },
         "description": "You are rockin' with these long green locks.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: pink, long punk" },
         "description": "You are rockin' with these long pink locks.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: purple, long punk" },
         "description": "You are rockin' with these long purple locks.",
         "weight": 1
       },
       {
         "id": "red",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: red, long punk" },
         "description": "You are rockin' with these long red locks.",
         "weight": 1
       },
       {
         "id": "white",
-        "name": { "str": "Hair: black, long punk" },
+        "name": { "str": "Hair: white, long punk" },
         "description": "You are rockin' with these long white locks.",
         "weight": 1
       }
@@ -1247,7 +1247,7 @@
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: black, curls" },
+        "name": { "str": "Hair: purple, curls" },
         "description": "Your face is framed by cute purple curls.",
         "weight": 1
       },

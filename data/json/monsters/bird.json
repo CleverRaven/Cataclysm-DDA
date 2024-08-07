@@ -33,7 +33,7 @@
       "SEES",
       "HEARS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "WARM",
       "FLIES",
@@ -85,7 +85,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "SWARMS",
@@ -239,7 +239,7 @@
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_goose_canadian",
@@ -292,7 +292,7 @@
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_pheasant",
@@ -344,7 +344,7 @@
       "SEES",
       "HEARS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "WARM",
       "SWARMS",
@@ -500,7 +500,7 @@
     "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "upgrades": { "half_life": 21, "into_group": "GROUP_CROW_MUTANT" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "EATS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "FLIES", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_crow_mutant",
@@ -539,7 +539,7 @@
       [ "EAT_FOOD", 120 ]
     ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "STUMBLES", "WARM", "EATS" ]
   },
   {
     "id": "mon_pigeon",
@@ -592,7 +592,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_goose_golden",
@@ -651,7 +651,7 @@
     "reproduction": { "baby_egg": "egg_hummingbird", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_woodpecker",
@@ -682,7 +682,7 @@
     "reproduction": { "baby_egg": "egg_woodpecker", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_hummingbird_chick",
@@ -728,7 +728,7 @@
     "reproduction": { "baby_egg": "egg_coot", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_cormorant",

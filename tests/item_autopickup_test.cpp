@@ -200,7 +200,7 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -278,7 +278,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -319,7 +319,7 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -440,7 +440,7 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -517,7 +517,7 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -578,7 +578,7 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wield body bag and store item reference
     they.set_wielded_item( item( itype_bag_body_bag ) );

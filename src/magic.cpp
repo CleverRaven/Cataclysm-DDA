@@ -53,6 +53,8 @@
 #include "ui.h"
 #include "units.h"
 
+static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
+
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
@@ -1097,6 +1099,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
+    if( has_flag( spell_flag::NON_MAGICAL ) ) {
+        return true;
+    };
+
     if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
         return false;
     }
@@ -1307,6 +1313,9 @@ float spell::spell_fail( const Character &guy ) const
         }
         float concentration_loss = ( 1.0f - ( guy.get_focus() / 100.0f ) ) *
                                    temp_concentration_difficulty_multiplyer;
+        if( concentration_loss >= 1.0f ) {
+            return 1.0f;
+        }
         fail_chance /= 1.0f - concentration_loss;
         psi_fail_chance /= 1.0f - concentration_loss;
     }
@@ -1808,7 +1817,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
     projectile bolt;
     bolt.speed = 10000;
     bolt.impact = get_damage_instance( caster );
-    bolt.proj_effects.emplace( "MAGIC" );
+    bolt.proj_effects.emplace( ammo_effect_MAGIC );
 
     dealt_projectile_attack atk;
     atk.end_point = target;
@@ -2505,11 +2514,19 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else if( temp_level_adjust > 0 ) {
         temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
     }
+    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
-    info_txt.emplace_back(
-        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
-                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
-                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Power Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    } else {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    }
     info_txt.emplace_back(
         colorize( columnize( sp.colorized_fail_percent( pc ),
                              string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty( pc ) ) ), c_light_gray ) );
@@ -2522,7 +2539,6 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back( );
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
-    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
     if( is_psi ) {
         std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
@@ -2841,7 +2857,7 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells );
 
-    spell_menu.query();
+    spell_menu.query( true, -1, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 

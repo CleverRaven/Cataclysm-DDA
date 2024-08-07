@@ -9,7 +9,7 @@
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Eating that goblin fruit has made you grow to enormous size!",
-    "flags": [ "HUGE" ],
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "social_modifiers": { "intimidate": 15 },
     "enchantments": [
@@ -28,6 +28,22 @@
     "id": "ench_giant_growth_size_bonuses",
     "condition": "ALWAYS",
     "values": [ { "value": "MAX_HP", "multiply": 0.4 }, { "value": "STRENGTH", "add": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "ethereal_wings",
+    "name": { "str": "Ethereal Wings" },
+    "active": true,
+    "points": 1,
+    "visibility": 10,
+    "description": "A wide set of ethereal wings sprouts from your back.  Despite them phasing through every form of matter you've encountered, they still somehow lift you off the ground.  Their mere appearance makes you feel lighter",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_ETHEREAL_WINGS_INITIATE" ],
+    "//": "No body part is intentional.  The wings should not be attackable by enemies or get in the way of clothes or armor.  These are also intended as less of a wide stat boost than the other dream toggleable mutations and instead specifically allow flight and carry weight.",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ] } ],
+    "flags": [ "GLIDE", "FEATHER_FALL" ]
   },
   {
     "type": "mutation",
@@ -99,12 +115,65 @@
     "id": "HEDGE_FOREST_BUSH_SHAPE",
     "name": { "str": "To Vanish Amidst the Leaves" },
     "points": 99,
-    "description": "You still sleep, yet your dreams still can impact the world.  Activate to wake up.",
+    "description": "You are a bush and no one can see you.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
     "override_look": { "id": "t_shrub", "tile_category": "terrain" },
     "flags": [ "INVISIBLE", "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TURN_INTO_BEAR_TRAITS",
+    "name": { "str": "Bear Form" },
+    "points": 99,
+    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "STRENGTH", "add": 10 },
+          { "value": "NIGHT_VIS", "add": 5 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.4 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
+      },
+      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [
+      "MUTE",
+      "MYOPIC_IN_LIGHT",
+      "NO_SPELLCASTING",
+      "PRED3",
+      "QUADRUPED_CROUCH",
+      "QUADRUPED_RUN",
+      "TOUGH_FEET",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_HUGE"
+    ],
+    "override_look": { "id": "mon_bear", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
   }
 ]

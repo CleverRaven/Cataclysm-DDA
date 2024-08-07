@@ -103,6 +103,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "smallscrapyard_2_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ------               ",
+        "   -....-               ",
+        "   -....-               ",
+        "   -....-               ",
+        "   -....-               ",
+        "   -....-               ",
+        "   -....-               ",
+        "   ------               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "smallscrapyard",
     "weight": 100,
     "object": {
@@ -194,7 +229,8 @@
         { "chance": 15, "item": "vehicle_scrapped", "x": 9, "y": 15 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 3, "y": 14 },
         { "chance": 10, "item": "tools_mechanic", "x": 5, "y": 5 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "smallscrapyard_2_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

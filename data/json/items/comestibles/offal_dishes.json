@@ -17,7 +17,7 @@
     "fun": 15,
     "quench": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "meat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "liver_onion",
@@ -36,7 +36,7 @@
     "calories": 398,
     "quench": -3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "fried_livers",
@@ -57,7 +57,14 @@
     "fun": 6,
     "quench": -4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ] ]
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 2 ],
+      [ "iron", 9 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "id": "humble_pie",
@@ -77,7 +84,7 @@
     "volume": "250 ml",
     "weight": "249 g",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ] ]
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "stewed_tripe",
@@ -97,7 +104,8 @@
     "volume": "250 ml",
     "weight": "70 g",
     "flags": [ "EATEN_HOT" ],
-    "calories": 130
+    "calories": 130,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "fried_tripe",
@@ -117,7 +125,8 @@
     "volume": "250 ml",
     "weight": "70 g",
     "flags": [ "EATEN_HOT" ],
-    "calories": 310
+    "calories": 310,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "leverpostej",
@@ -136,7 +145,15 @@
     "volume": "125 ml",
     "weight": "112 g",
     "calories": 344,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 5 ] ]
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 1 ],
+      [ "iron", 5 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "id": "fried_brain",
@@ -157,7 +174,7 @@
     "weight": "250 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 285,
-    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "deviled_kidney",
@@ -178,7 +195,14 @@
     "weight": "180 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 301,
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+    "vitamins": [
+      [ "vitC", 1 ],
+      [ "iron", 6 ],
+      [ "calcium", 1 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "id": "grilled_sweetbread",
@@ -215,7 +239,8 @@
     "volume": "41 ml",
     "weight": "180 g",
     "calories": 100,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "tÖttchen",
@@ -235,7 +260,8 @@
     "volume": "41 ml",
     "weight": "180 g",
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "scrambledeggsandbrain",
@@ -255,7 +281,8 @@
     "volume": "41 ml",
     "weight": "180 g",
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sausage_casings",
@@ -265,7 +292,8 @@
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": [ "flesh" ],
-    "volume": "8 ml"
+    "volume": "8 ml",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "sausage_casings_artificial",

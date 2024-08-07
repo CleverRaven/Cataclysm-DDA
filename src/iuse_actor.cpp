@@ -62,11 +62,11 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "music.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -137,6 +137,10 @@ static const itype_id itype_syringe( "syringe" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 
+static const morale_type morale_music( "morale_music" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -165,7 +169,7 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
     return std::make_unique<iuse_transform>( *this );
 }
 
-void iuse_transform::load( const JsonObject &obj )
+void iuse_transform::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "target", target, true );
 
@@ -262,8 +266,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
             p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+            p->rem_morale( morale_pyromania_nofire );
         }
     }
 
@@ -481,7 +485,7 @@ std::unique_ptr<iuse_actor> unpack_actor::clone() const
     return std::make_unique<unpack_actor>( *this );
 }
 
-void unpack_actor::load( const JsonObject &obj )
+void unpack_actor::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "group", unpack_group );
     obj.read( "items_fit", items_fit );
@@ -515,7 +519,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, const tripoint & )
             content.set_flag( flag_FILTHY );
         }
 
-        here.add_item_or_charges( p->pos(), content );
+        here.add_item_or_charges( p->pos_bub(), content );
     }
 
     p->i_rem( &it );
@@ -534,7 +538,7 @@ std::unique_ptr<iuse_actor> message_iuse::clone() const
     return std::make_unique<message_iuse>( *this );
 }
 
-void message_iuse::load( const JsonObject &obj )
+void message_iuse::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "name", name );
     obj.read( "message", message );
@@ -567,7 +571,7 @@ std::unique_ptr<iuse_actor> sound_iuse::clone() const
     return std::make_unique<sound_iuse>( *this );
 }
 
-void sound_iuse::load( const JsonObject &obj )
+void sound_iuse::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "name", name );
     obj.read( "sound_message", sound_message );
@@ -622,7 +626,7 @@ static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int r
     return result;
 }
 
-void explosion_iuse::load( const JsonObject &obj )
+void explosion_iuse::load( const JsonObject &obj, const std::string & )
 {
     if( obj.has_object( "explosion" ) ) {
         JsonObject expl = obj.get_object( "explosion" );
@@ -714,7 +718,7 @@ static effect_data load_effect_data( const JsonObject &e )
                         bodypart_id( e.get_string( "bp", "bp_null" ) ), e.get_bool( "permanent", false ) );
 }
 
-void consume_drug_iuse::load( const JsonObject &obj )
+void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "activation_message", activation_message );
     obj.read( "charges_needed", charges_needed );
@@ -852,9 +856,9 @@ std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
     return std::make_unique<delayed_transform_iuse>( *this );
 }
 
-void delayed_transform_iuse::load( const JsonObject &obj )
+void delayed_transform_iuse::load( const JsonObject &obj, const std::string &src )
 {
-    iuse_transform::load( obj );
+    iuse_transform::load( obj, src );
     obj.get_member( "not_ready_msg" ).read( not_ready_msg );
     transform_age = obj.get_int( "transform_age" );
 }
@@ -880,7 +884,7 @@ std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
     return std::make_unique<place_monster_iuse>( *this );
 }
 
-void place_monster_iuse::load( const JsonObject &obj )
+void place_monster_iuse::load( const JsonObject &obj, const std::string & )
 {
     mtypeid = mtype_id( obj.get_string( "monster_id" ) );
     obj.read( "friendly_msg", friendly_msg );
@@ -986,7 +990,7 @@ std::unique_ptr<iuse_actor> place_npc_iuse::clone() const
     return std::make_unique<place_npc_iuse>( *this );
 }
 
-void place_npc_iuse::load( const JsonObject &obj )
+void place_npc_iuse::load( const JsonObject &obj, const std::string & )
 {
     npc_class_id = string_id<npc_template>( obj.get_string( "npc_class_id" ) );
     obj.read( "summon_msg", summon_msg );
@@ -1066,7 +1070,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-void deploy_furn_actor::load( const JsonObject &obj )
+void deploy_furn_actor::load( const JsonObject &obj, const std::string & )
 {
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
@@ -1167,7 +1171,7 @@ void deploy_appliance_actor::info( const item &, std::vector<iteminfo> &dump ) c
                                       vpart_appliance_from_item( appliance_base )->name() ) );
 }
 
-void deploy_appliance_actor::load( const JsonObject &obj )
+void deploy_appliance_actor::load( const JsonObject &obj, const std::string & )
 {
     mandatory( obj, false, "base", appliance_base );
 }
@@ -1181,7 +1185,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1191,7 +1195,7 @@ std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
     return std::make_unique<reveal_map_actor>( *this );
 }
 
-void reveal_map_actor::load( const JsonObject &obj )
+void reveal_map_actor::load( const JsonObject &obj, const std::string & )
 {
     radius = obj.get_int( "radius" );
     obj.get_member( "message" ).read( message );
@@ -1218,7 +1222,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
-        if( !overmap_buffer.seen( place ) ) {
+        if( overmap_buffer.seen( place ) == om_vision_level::unseen ) {
             // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
             get_avatar().map_revealed_omts.emplace( place );
         }
@@ -1254,7 +1258,7 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     return 0;
 }
 
-void firestarter_actor::load( const JsonObject &obj )
+void firestarter_actor::load( const JsonObject &obj, const std::string & )
 {
     moves_cost_fast = obj.get_int( "moves", moves_cost_fast );
     moves_cost_slow = obj.get_int( "moves_slow", moves_cost_fast * 10 );
@@ -1308,7 +1312,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
     for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
         // Don't ask if we're setting a fire on top of a fireplace
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos ) ) {
             break;
         }
         // Skip the position we're trying to light on fire
@@ -1316,7 +1320,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             continue;
         }
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
                 return false;
             } else {
@@ -1348,8 +1352,8 @@ void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bu
                                       _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_morale( morale_pyromania_startfire, 5, 10, 6_hours, 4_hours );
+                p->rem_morale( morale_pyromania_nofire );
             }
         }
     }
@@ -1454,7 +1458,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
     return 0;
 }
 
-void salvage_actor::load( const JsonObject &obj )
+void salvage_actor::load( const JsonObject &obj, const std::string & )
 {
     assign( obj, "cost", cost );
     assign( obj, "moves_per_part", moves_per_part );
@@ -1743,7 +1747,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
              cut.get_item()->tname() );
 
     const item_location::type cut_type = cut.where();
-    const tripoint pos = cut.position();
+    const tripoint_bub_ms pos = cut.pos_bub();
     const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.
@@ -1782,7 +1786,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     }
 }
 
-void inscribe_actor::load( const JsonObject &obj )
+void inscribe_actor::load( const JsonObject &obj, const std::string & )
 {
     assign( obj, "cost", cost );
     assign( obj, "on_items", on_items );
@@ -1932,7 +1936,7 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, const tripoint &
     return std::nullopt;
 }
 
-void fireweapon_off_actor::load( const JsonObject &obj )
+void fireweapon_off_actor::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "target_id", target_id, true );
     obj.read( "success_message", success_message );
@@ -1988,7 +1992,7 @@ ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it,
     return ret_val<void>::make_success();
 }
 
-void fireweapon_on_actor::load( const JsonObject &obj )
+void fireweapon_on_actor::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "noise_message", noise_message );
     obj.get_member( "charges_extinguish_message" ).read( charges_extinguish_message );
@@ -2036,7 +2040,7 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it,
     return 1;
 }
 
-void manualnoise_actor::load( const JsonObject &obj )
+void manualnoise_actor::load( const JsonObject &obj, const std::string & )
 {
     obj.get_member( "use_message" ).read( use_message );
     obj.read( "noise_message", noise_message );
@@ -2073,7 +2077,7 @@ ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it,
     return ret_val<void>::make_success();
 }
 
-void play_instrument_iuse::load( const JsonObject & )
+void play_instrument_iuse::load( const JsonObject &, const std::string & )
 {
 }
 
@@ -2110,7 +2114,7 @@ std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
     return std::make_unique<musical_instrument_actor>( *this );
 }
 
-void musical_instrument_actor::load( const JsonObject &obj )
+void musical_instrument_actor::load( const JsonObject &obj, const std::string & )
 {
     speed_penalty = obj.get_int( "speed_penalty", 10 );
     volume = obj.get_int( "volume" );
@@ -2233,7 +2237,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         }
         p->add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes, true );
+        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
 
     return 0;
@@ -2258,7 +2262,7 @@ std::unique_ptr<iuse_actor> learn_spell_actor::clone() const
     return std::make_unique<learn_spell_actor>( *this );
 }
 
-void learn_spell_actor::load( const JsonObject &obj )
+void learn_spell_actor::load( const JsonObject &obj, const std::string & )
 {
     spells = obj.get_string_array( "spells" );
 }
@@ -2401,7 +2405,7 @@ std::unique_ptr<iuse_actor> cast_spell_actor::clone() const
     return std::make_unique<cast_spell_actor>( *this );
 }
 
-void cast_spell_actor::load( const JsonObject &obj )
+void cast_spell_actor::load( const JsonObject &obj, const std::string & )
 {
     no_fail = obj.get_bool( "no_fail" );
     item_spell = spell_id( obj.get_string( "spell_id" ) );
@@ -2475,7 +2479,7 @@ std::unique_ptr<iuse_actor> holster_actor::clone() const
     return std::make_unique<holster_actor>( *this );
 }
 
-void holster_actor::load( const JsonObject &obj )
+void holster_actor::load( const JsonObject &obj, const std::string & )
 {
     obj.read( "holster_prompt", holster_prompt );
     obj.read( "holster_msg", holster_msg );
@@ -2527,7 +2531,8 @@ static item_location form_loc( Character &you, const tripoint &p, item &it )
     if( you.has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
-    map_cursor mc( p );
+    const tripoint_bub_ms bub = tripoint_bub_ms( p );
+    map_cursor mc( bub );
     if( mc.has_item( it ) ) {
         return form_loc_recursive( mc, it );
     }
@@ -2629,7 +2634,7 @@ std::unique_ptr<iuse_actor> ammobelt_actor::clone() const
     return std::make_unique<ammobelt_actor>( *this );
 }
 
-void ammobelt_actor::load( const JsonObject &obj )
+void ammobelt_actor::load( const JsonObject &obj, const std::string & )
 {
     belt = itype_id( obj.get_string( "belt" ) );
 }
@@ -2661,7 +2666,7 @@ std::optional<int> ammobelt_actor::use( Character *p, item &, const tripoint & )
     return 0;
 }
 
-void repair_item_actor::load( const JsonObject &obj )
+void repair_item_actor::load( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
     for( const std::string line : obj.get_array( "materials" ) ) {
@@ -2738,7 +2743,7 @@ static item_location get_item_location( Character &p, item &it, const tripoint &
     }
 
     // Item on the map
-    return item_location( map_cursor( pos ), &it );
+    return item_location( map_cursor( tripoint_bub_ms( pos ) ), &it );
 }
 
 std::optional<int> repair_item_actor::use( Character *p, item &it,
@@ -3255,7 +3260,7 @@ std::string repair_item_actor::get_description() const
     return string_format( _( "Repair %s" ), mats );
 }
 
-void heal_actor::load( const JsonObject &obj )
+void heal_actor::load( const JsonObject &obj, const std::string & )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
@@ -3766,7 +3771,7 @@ void place_trap_actor::data::load( const JsonObject &obj )
     assign( obj, "moves", moves );
 }
 
-void place_trap_actor::load( const JsonObject &obj )
+void place_trap_actor::load( const JsonObject &obj, const std::string & )
 {
     assign( obj, "allow_underwater", allow_underwater );
     assign( obj, "allow_under_player", allow_under_player );
@@ -3925,6 +3930,10 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
     p->mod_moves( -move_cost_final );
 
     place_and_add_as_known( *p, pos, data.trap );
+    const trap &placed_trap = here.tr_at( pos );
+    if( !placed_trap.is_null() ) {
+        const_cast<trap &>( placed_trap ).set_trap_data( it.typeId() );
+    }
     for( const tripoint &t : here.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
         if( t != pos ) {
             place_and_add_as_known( *p, t, outer_layer_trap );
@@ -3933,7 +3942,7 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
     return 1;
 }
 
-void emit_actor::load( const JsonObject &obj )
+void emit_actor::load( const JsonObject &obj, const std::string & )
 {
     assign( obj, "emits", emits );
     assign( obj, "scale_qty", scale_qty );
@@ -3973,7 +3982,7 @@ void emit_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-void saw_barrel_actor::load( const JsonObject &jo )
+void saw_barrel_actor::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "cost", cost );
 }
@@ -4034,7 +4043,7 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
-void saw_stock_actor::load( const JsonObject &jo )
+void saw_stock_actor::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "cost", cost );
 }
@@ -4109,7 +4118,7 @@ std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
     return std::make_unique<saw_stock_actor>( *this );
 }
 
-void molle_attach_actor::load( const JsonObject &jo )
+void molle_attach_actor::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "size", size );
     assign( jo, "moves", moves );
@@ -4176,7 +4185,7 @@ std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
     return std::make_unique<molle_detach_actor>( *this );
 }
 
-void molle_detach_actor::load( const JsonObject &jo )
+void molle_detach_actor::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "moves", moves );
 }
@@ -4419,7 +4428,7 @@ void modify_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-void link_up_actor::load( const JsonObject &jo )
+void link_up_actor::load( const JsonObject &jo, const std::string & )
 {
     jo.read( "cable_length", cable_length );
     jo.read( "charge_rate", charge_rate );
@@ -4615,7 +4624,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             } else if( it.link().source == link_state::solarpack ) {
                 state_desc_lhs = _( "\nConnecting solar backpack to " );
             }
-            if( it.link().t_veh ) {
+            if( it.link().t_veh && it.link().source != link_state::needs_reeling ) {
                 state_desc_rhs = it.link().t_veh->name;
             } else if( it.link().target == link_state::bio_cable ) {
                 state_desc_rhs = _( "Cable Charger System" );
@@ -5144,7 +5153,7 @@ std::unique_ptr<iuse_actor> deploy_tent_actor::clone() const
     return std::make_unique<deploy_tent_actor>( *this );
 }
 
-void deploy_tent_actor::load( const JsonObject &obj )
+void deploy_tent_actor::load( const JsonObject &obj, const std::string & )
 {
     assign( obj, "radius", radius );
     assign( obj, "wall", wall );
@@ -5249,7 +5258,7 @@ std::optional<int> weigh_self_actor::use( Character *p, item &, const tripoint &
     return 0;
 }
 
-void weigh_self_actor::load( const JsonObject &jo )
+void weigh_self_actor::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "max_weight", max_weight );
 }
@@ -5259,7 +5268,7 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
     return std::make_unique<weigh_self_actor>( *this );
 }
 
-void sew_advanced_actor::load( const JsonObject &obj )
+void sew_advanced_actor::load( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
     for( const std::string line : obj.get_array( "materials" ) ) {
@@ -5501,7 +5510,7 @@ std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
     return std::make_unique<sew_advanced_actor>( *this );
 }
 
-void change_scent_iuse::load( const JsonObject &obj )
+void change_scent_iuse::load( const JsonObject &obj, const std::string & )
 {
     scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
     if( !scenttypeid.is_valid() ) {
@@ -5547,12 +5556,12 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
     return std::make_unique<effect_on_conditons_actor>( *this );
 }
 
-void effect_on_conditons_actor::load( const JsonObject &obj )
+void effect_on_conditons_actor::load( const JsonObject &obj, const std::string &src )
 {
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 }
 
@@ -5570,23 +5579,22 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 }
 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
-        const tripoint & ) const
+        const tripoint &point ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action effect_on_conditons that requires character but no character is present",
-                  it.typeId().str() );
-        return std::nullopt;
-    }
-
     Character *char_ptr = nullptr;
-    if( avatar *u = p->as_avatar() ) {
-        char_ptr = u;
-    } else if( npc *n = p->as_npc() ) {
-        char_ptr = n;
+    item_location loc;
+    if( p ) {
+        if( avatar *u = p->as_avatar() ) {
+            char_ptr = u;
+        } else if( npc *n = p->as_npc() ) {
+            char_ptr = n;
+        }
+        loc = item_location( *p->as_character(), &it );
+    } else {
+        loc = item_location( map_cursor( tripoint_bub_ms( point ) ), &it );
     }
 
-    item_location loc( *p->as_character(), &it );
-    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
     write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
@@ -5596,7 +5604,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
-    if( !p->has_item( it ) ) {
+    if( p && !p->has_item( it ) ) {
         return 0;
     }
     return 1;

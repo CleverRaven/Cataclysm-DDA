@@ -14,7 +14,7 @@
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 #include "wcwidth.h"
 #include <curses.h>
 #include <imtui/imtui-impl-ncurses.h>
@@ -438,7 +438,7 @@ void cataimgui::window::draw_colored_text( std::string const &text,
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
     }
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
     chars_per_line /= char_width;
 #endif
@@ -551,7 +551,7 @@ bool cataimgui::window::is_bounds_changed()
 
 size_t cataimgui::window::get_text_width( const std::string &text )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( text.c_str() ).x;
 #else
     return utf8_width( text );
@@ -560,7 +560,7 @@ size_t cataimgui::window::get_text_width( const std::string &text )
 
 size_t cataimgui::window::get_text_height( const char *text )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * strlen( text );
 #else
     return utf8_width( text );
@@ -569,7 +569,7 @@ size_t cataimgui::window::get_text_height( const char *text )
 
 size_t cataimgui::window::str_width_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).x * len;
 #else
     return len;

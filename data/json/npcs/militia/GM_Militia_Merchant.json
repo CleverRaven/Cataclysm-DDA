@@ -130,33 +130,7 @@
       [ "crowbar", 25 ],
       [ "machete", 25 ],
       [ "ax", 25 ],
-      [ "spear_knife", 30 ],
-      [ "22_lr", 25 ],
-      [ "22_fmj", 1 ],
-      [ "223", 15 ],
-      [ "308", 10 ],
-      [ "3006", 10 ],
-      [ "45_acp", 10 ],
-      [ "45_jhp", 1 ],
-      [ "rifle_9mm", 20 ],
-      [ "rifle_22", 20 ],
-      [ "crossbow", 15 ],
-      [ "sig_mosquito", 15 ],
-      [ "sw_22", 15 ],
-      [ "glock_19", 15 ],
-      [ "usp_9mm", 10 ],
-      [ "m9", 35 ],
-      [ "remington_700", 5 ],
-      [ "ruger_1022", 10 ],
-      [ "marlin_9a", 10 ],
-      [ "remington_870", 10 ],
-      [ "mossberg_500", 5 ],
-      [ "shotgun_d", 5 ],
-      [ "molotov", 10 ],
-      [ "recurbow", 15 ],
-      [ "arrow_metal", 25 ],
-      [ "bolt_steel", 10 ],
-      [ "ashot", 5 ]
+      [ "spear_knife", 30 ]
     ]
   },
   {
@@ -204,13 +178,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_BACKGROUND",
-    "dynamic_line": "Well, that's a long story.  We are whats left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
+    "dynamic_line": "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_HELP",
-    "dynamic_line": "I can't say I can think of anything at the moment.  Our remoteness is our defense.  We want to keep a low profile and try to keep out of any trouble in this isolated location.  We are willing to buy weapons and ammo though.  Keeping the nearby area clear and hunting is always eating away at our supplies.",
+    "dynamic_line": "I can't say I can think of anything at the moment.  Our remoteness is our defense.  We want to keep a low profile and try to keep out of any trouble in this isolated location.  We are willing to trade for weapons and ammo though.  Keeping the nearby area clear and hunting is always eating away at our supplies.",
     "responses": [ { "text": "Keeping a low profile is good.", "topic": "TALK_NONE" } ]
   },
   {

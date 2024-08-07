@@ -299,7 +299,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string &src )
+void mutation_branch::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -882,7 +882,7 @@ void dream::load( const JsonObject &jsobj )
     dreams.push_back( newdream );
 }
 
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     auto trait_sort_key = []( const trait_and_var & t ) {
         return std::make_pair( -t.trait->get_display_color().to_int(), t.name() );
@@ -891,9 +891,23 @@ bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexce
     return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    auto trait_sort_key = []( const trait_id & t ) {
+        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    };
+
+    return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
+}
+
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept
 {
     return localized_compare( a.name(), b.name() );
+}
+
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+{
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )

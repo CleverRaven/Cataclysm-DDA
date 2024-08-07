@@ -196,7 +196,8 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "rot_spawn": "GROUP_EGG_TRIFFID"
+    "rot_spawn": "GROUP_EGG_TRIFFID",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -218,7 +219,8 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "rot_spawn": "GROUP_EGG_FUNGUS"
+    "rot_spawn": "GROUP_EGG_FUNGUS",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -334,13 +336,6 @@
     "name": { "str_sp": "angelfish roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_ANGELFISH"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_goldfish",
-    "name": { "str_sp": "goldfish roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_GOLDFISH"
   },
   {
     "type": "COMESTIBLE",

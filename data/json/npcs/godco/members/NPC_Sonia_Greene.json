@@ -59,7 +59,7 @@
         "npc_has_var": "mission_completed_sonia_guitar_fixed",
         "value": "yes",
         "yes": "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?",
-        "no": "Nothin' much, just sitting around and biding my time,, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."
+        "no": "Nothin' much, just sitting around and biding my time, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."
       }
     ],
     "responses": [

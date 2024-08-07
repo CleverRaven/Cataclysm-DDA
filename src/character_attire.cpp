@@ -992,7 +992,8 @@ bool outfit::is_worn_module( const item &thing ) const
 {
     return thing.has_flag( flag_CANT_WEAR ) &&
     std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
-        return elem.contained_where( thing ) != nullptr;
+        return elem.has_flag( flag_MODULE_HOLDER ) &&
+               elem.contained_where( thing ) != nullptr;
     } );
 }
 

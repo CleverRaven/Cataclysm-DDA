@@ -10,7 +10,6 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "material": [ "superalloy", "qt_steel" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
@@ -59,8 +58,6 @@
     "color": "light_blue",
     "looks_like": "arming_sword",
     "turns_per_charge": 4,
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
-    "to_hit": 2,
     "flags": [ "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "revert_to": "afs_energy_saber_off",
@@ -70,7 +67,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade stops humming, and its edge dissipates into a smooth curve as it cools."
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8, "cut": 18, "afs_heat_melee": 35 }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -89,7 +86,6 @@
     "weight": "500 g",
     "volume": "2700 ml",
     "longest_side": "90 cm",
-    "to_hit": -2,
     "reload_noise_volume": 0,
     "loudness": 0,
     "ranged_damage": { "damage_type": "heat", "amount": 50, "armor_penetration": 15 },
@@ -125,7 +121,6 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_gray",
-    "to_hit": -2,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM" ],
     "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ],
@@ -176,7 +171,6 @@
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
     "price": "0 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "looks_like": "bio_int_enhancer",
@@ -240,6 +234,7 @@
     "volume": "250 ml",
     "price": "40 USD",
     "material": [ "ceramic", "plastic" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "good" },
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
@@ -261,6 +256,7 @@
     "color": "white",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "afs_toxin_pierce", "amount": 14 } ],
     "melee_damage": { "afs_toxin_pierce": 21 }
@@ -283,6 +279,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": "75 USD",
     "price_postapoc": "12 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 5, "stab": 28 },
     "weapon_category": [ "POLEARMS", "SPEARS" ]
   },
@@ -358,7 +355,6 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "to_hit": 2,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "melee_damage": { "bash": 10, "cut": 50 },
@@ -396,7 +392,7 @@
     "dispersion": 850,
     "durability": 6,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
     "melee_damage": { "bash": 12 }
   },

@@ -497,7 +497,7 @@
     "type": "profession",
     "id": "paraclesian_ierde",
     "name": { "male": "Ierde", "female": "Ierda" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the earth, your powers are strengthened by contact with the soil and the rock and weakened by separation from the living earth.",
     "points": 5,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
@@ -511,7 +511,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -523,7 +523,7 @@
     "type": "profession",
     "id": "paraclesian_arvore",
     "name": { "male": "Arvi", "female": "Arvori" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the forest, your powers are strengthened by the wild places and weakened within the constructs of humanity.",
     "points": 5,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
@@ -537,7 +537,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -549,7 +549,7 @@
     "type": "profession",
     "id": "paraclesian_undine",
     "name": { "male": "Onduine", "female": "Ondua" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the lakes and rivers, your powers are strengthened when you are surrounded by water and weakened when you spend too long away from the water.",
     "points": 5,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
@@ -563,7 +563,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -575,7 +575,7 @@
     "type": "profession",
     "id": "paraclesian_salamander",
     "name": { "male": "Kéményseprő", "female": "Bejárónő" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the flames, your powers are strengthened when among heat and fire and weakened by the cold.",
     "points": 5,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
@@ -589,7 +589,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -601,7 +601,7 @@
     "type": "profession",
     "id": "paraclesian_homullus",
     "name": { "male": "Dúln", "female": "Dúkka" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of humanity, your powers are strengthened when among humankind or in the remnants of civilization and weakened when in the wilderness.",
     "points": 5,
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
@@ -615,7 +615,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -627,7 +627,7 @@
     "type": "profession",
     "id": "paraclesian_sylph",
     "name": { "male": "Silvestris", "female": "Silvestra" },
-    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the winds, your powers are strengthened when under the open sky and weakened when indoors or underground.",
     "points": 5,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
@@ -641,7 +641,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -679,6 +679,40 @@
           { "item": "cotton_patchwork", "count": 4 },
           { "item": "ash", "count": 48 },
           { "item": "soybean_seed", "count": 4 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bear_skinchanger",
+    "name": { "male": "Skinchanger (Bear)", "female": "Skinchanger (Bear)" },
+    "description": "Perhaps you were the member of a cult, or a strange family legacy, or maybe you just stumbled on a book that probably shouldn't have been left where you could find it.  Regardless, you have the ability to turn into an animal when you kill it and make a talisman out of its bones and skin.  Every change requires a death, but with so much death already since the Cataclysm, what's a little bit more?",
+    "points": 5,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "deduction" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_leatherworking_basic", "prof_furriery" ],
+    "spells": [ { "id": "hedge_turn_into_bear", "level": 1 } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "item_hedge_turn_into_bear", "container-item": "duffelbag" },
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },

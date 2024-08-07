@@ -236,6 +236,10 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "spoilage" );
         case SORTBY_PRICE:
             return _( "barter value" );
+        case SORTBY_PRICEPERVOLUME:
+            return _( "barter value / volume" );
+        case SORTBY_STACKS:
+            return _( "amount" );
     }
     return "!BUG!";
 }
@@ -651,6 +655,21 @@ struct advanced_inv_sorter {
             case SORTBY_PRICE:
                 if( d1.items.front()->price( true ) != d2.items.front()->price( true ) ) {
                     return d1.items.front()->price( true ) > d2.items.front()->price( true );
+                }
+                break;
+            case SORTBY_PRICEPERVOLUME: {
+                const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                if( price_density1 != price_density2 ) {
+                    return price_density1 > price_density2;
+                }
+                break;
+            }
+            case SORTBY_STACKS:
+                if( d1.stacks != d2.stacks ) {
+                    return d1.stacks > d2.stacks;
                 }
                 break;
         }
@@ -1163,7 +1182,7 @@ bool advanced_inventory::move_all_items()
             player_character.assign_activity( act );
         }
     } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        const tripoint placement = darea.off;
+        const tripoint_rel_ms placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
 
@@ -1188,7 +1207,7 @@ bool advanced_inventory::move_all_items()
         // Vehicle and map destinations are handled the same.
 
         // Stash the destination
-        const tripoint relative_destination = darea.off;
+        const tripoint_rel_ms relative_destination = darea.off;
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1212,17 +1231,19 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
     sm.text = _( "Sort by…" );
-    sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
-    sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
-    sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );
-    sm.addentry( SORTBY_VOLUME,   true, 'v', get_sortname( SORTBY_VOLUME ) );
-    sm.addentry( SORTBY_DENSITY,  true, 'd', get_sortname( SORTBY_DENSITY ) );
-    sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
-    sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
-    sm.addentry( SORTBY_DAMAGE,   true, 'o', get_sortname( SORTBY_DAMAGE ) );
-    sm.addentry( SORTBY_AMMO,     true, 'a', get_sortname( SORTBY_AMMO ) );
-    sm.addentry( SORTBY_SPOILAGE, true, 's', get_sortname( SORTBY_SPOILAGE ) );
-    sm.addentry( SORTBY_PRICE,    true, 'b', get_sortname( SORTBY_PRICE ) );
+    sm.addentry( SORTBY_NONE,           true, 'u', _( "Unsorted (recently added first)" ) );
+    sm.addentry( SORTBY_NAME,           true, 'n', get_sortname( SORTBY_NAME ) );
+    sm.addentry( SORTBY_WEIGHT,         true, 'w', get_sortname( SORTBY_WEIGHT ) );
+    sm.addentry( SORTBY_VOLUME,         true, 'v', get_sortname( SORTBY_VOLUME ) );
+    sm.addentry( SORTBY_DENSITY,        true, 'd', get_sortname( SORTBY_DENSITY ) );
+    sm.addentry( SORTBY_CHARGES,        true, 'x', get_sortname( SORTBY_CHARGES ) );
+    sm.addentry( SORTBY_CATEGORY,       true, 'c', get_sortname( SORTBY_CATEGORY ) );
+    sm.addentry( SORTBY_DAMAGE,         true, 'o', get_sortname( SORTBY_DAMAGE ) );
+    sm.addentry( SORTBY_AMMO,           true, 'a', get_sortname( SORTBY_AMMO ) );
+    sm.addentry( SORTBY_SPOILAGE,       true, 's', get_sortname( SORTBY_SPOILAGE ) );
+    sm.addentry( SORTBY_PRICE,          true, 'b', get_sortname( SORTBY_PRICE ) );
+    sm.addentry( SORTBY_PRICEPERVOLUME, true, 'r', get_sortname( SORTBY_PRICEPERVOLUME ) );
+    sm.addentry( SORTBY_STACKS,         true, 't', get_sortname( SORTBY_STACKS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,
@@ -1479,7 +1500,7 @@ void advanced_inventory::start_activity(
             player_character.assign_activity( act );
         } else {
             // Stash the destination
-            const tripoint relative_destination = squares[destarea].off;
+            const tripoint_rel_ms relative_destination = squares[destarea].off;
 
             const move_items_activity_actor act( target_items, quantities, to_vehicle, relative_destination );
             player_character.assign_activity( act );
@@ -1667,7 +1688,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
                 } else {
-                    const tripoint placement = squares[destarea].off;
+                    const tripoint_rel_ms placement = squares[destarea].off;
                     // incase there is vehicle cargo space at dest but the player wants to drop to ground
                     const bool force_ground = !to_vehicle;
                     std::vector<drop_or_stash_item_info> to_drop;
@@ -2286,7 +2307,7 @@ void advanced_inventory::draw_minimap()
             continue;
         }
         advanced_inv_area sq = squares[panes[s].get_area()];
-        tripoint pt = pc + sq.off;
+        tripoint pt = pc + sq.off.raw();
         // invert the color if pointing to the player's position
         nc_color cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
                       invert_color( c_light_cyan ) : c_light_cyan.blink();

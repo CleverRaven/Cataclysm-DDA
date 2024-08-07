@@ -76,5 +76,11 @@
     "id": "fbms_wood_palette",
     "terrain": { ".": "t_floor", "d": "t_door_c", "o": "t_window_no_curtains", "r": "t_wood_treated_roof", "w": "t_wall_wood" },
     "furniture": { ".": "f_clear", "d": "f_clear", "o": "f_clear", "w": "f_clear" }
+  },
+  {
+    "type": "palette",
+    "id": "fbms_brick_palette",
+    "terrain": { ".": "t_floor", "d": "t_rdoor_c", "o": "t_window_no_curtains", "r": "t_wood_treated_roof", "w": "t_brick_wall" },
+    "furniture": { ".": "f_clear", "d": "f_clear", "o": "f_clear", "w": "f_clear" }
   }
 ]

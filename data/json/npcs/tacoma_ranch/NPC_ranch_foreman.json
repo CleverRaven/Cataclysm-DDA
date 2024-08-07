@@ -21,7 +21,7 @@
     },
     "responses": [
       {
-        "text": "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you.",
+        "text": "The merchant at the Refugee Center sent me to get a prospectus from you.",
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
         "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
       },
@@ -607,7 +607,7 @@
     "followup": "MISSION_RANCH_FOREMAN_10_1",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities, I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse, I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we can get started.",
+      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities, I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse, I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 150 units of bleach so we can get started.",
       "accepted": "I'm sure you can find bleach in most homes…",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "If you can't find a large supply I'd recommend checking hospitals or research labs.",
@@ -657,7 +657,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 3, "y": 0 } ] }
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 2, "y": 0 } ] }
       ]
     }
   },

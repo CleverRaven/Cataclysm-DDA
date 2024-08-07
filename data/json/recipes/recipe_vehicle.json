@@ -638,7 +638,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -654,7 +654,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "22cm weld",
-    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 12 ] ] ]
@@ -715,9 +715,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "using": [ [ "plastic_molding", 21 ] ],
+    "components": [ [ [ "plastic_chunk", 18 ] ] ]
   },
   {
     "type": "recipe",

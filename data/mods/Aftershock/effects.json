@@ -249,6 +249,10 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_hack_done"
+  },
+  {
+    "type": "effect_type",
     "id": "afs_combat_stims",
     "name": [ "Combat Stimulants" ],
     "desc": [ "You are under the effects of powerful military combat stimulants" ],

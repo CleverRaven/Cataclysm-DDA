@@ -122,7 +122,7 @@
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in, but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
+      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in, but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting me 100 aspirin pills to start with.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Aspirin is pretty common in homes and convenience stores.",
@@ -342,7 +342,8 @@
             { "square": "terrain", "id": "t_dirtfloor", "x": 3, "y": 17, "x2": 8, "y2": 22 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 17, "x2": 19, "y2": 22 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
-          ]
+          ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12a_roof" ], "x": 2, "y": 5, "z": 1 } ]
         },
         {
           "om_terrain": "ranch_camp_59",
@@ -352,6 +353,7 @@
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 0, "x2": 17, "y2": 2 }
           ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12b_roof" ], "x": 3, "y": 0, "z": 1 } ],
           "place_item": [ { "item": "mask_filter", "x": 15, "y": 4, "amount": [ 2, 6 ], "faction": "tacoma_commune" } ]
         }
       ]

@@ -83,7 +83,7 @@
     "name": "elf workshop",
     "sym": "W",
     "color": "red",
-    "see_cost": 6,
+    "see_cost": "high",
     "flags": [ "RISK_HIGH" ]
   }
 ]

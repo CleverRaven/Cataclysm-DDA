@@ -8,7 +8,7 @@
 #include <functional>
 #include <iosfwd>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "mdarray.h"

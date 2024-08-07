@@ -11,8 +11,9 @@
 
 #include "assign.h"
 #include "common_types.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
+#include "game_constants.h"
 #include "translations.h"
 #include "type_id.h"
 

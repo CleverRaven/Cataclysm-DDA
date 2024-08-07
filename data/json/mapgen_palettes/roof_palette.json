@@ -55,6 +55,10 @@
     },
     "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
     "nested": {
+      "1": {
+        "chunks": [ [ "residential_1x2_solar", 6 ], [ "residential_2x2_solar", 2 ], [ "residential_1x3_solar", 3 ], [ "null", 88 ] ]
+      },
+      "2": { "chunks": [ "industrial_1x1_solar" ] },
       "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
       "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
     },

@@ -612,7 +612,7 @@ void veh_interact::cache_tool_availability()
         mech_jack = player_character.mounted_creature->mech_str_addition() + 10;
     }
     int max_quality = std::max( { player_character.max_quality( qual_JACK ), mech_jack,
-                                  map_selector( player_character.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
+                                  map_selector( player_character.pos_bub(), PICKUP_RANGE ).max_quality( qual_JACK ),
                                   vehicle_selector( player_character.pos(), 2, true, *veh ).max_quality( qual_JACK )
                                 } );
     max_jack = lifting_quality_to_mass( max_quality );
@@ -3075,7 +3075,7 @@ void veh_interact::complete_vehicle( Character &you )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.getlocal( pt ) );
+            ovp = here.veh_at( here.bub_from_abs( pt ) );
             if( ovp ) {
                 break;
             }
@@ -3356,7 +3356,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Save these values now so they aren't lost when parts or vehicles are destroyed.
             const point part_mount = vp->mount;
-            const tripoint part_pos = veh.global_part_pos3( *vp );
+            const tripoint_bub_ms part_pos = veh.bub_part_pos( *vp );
 
             veh.unlink_cables( part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */

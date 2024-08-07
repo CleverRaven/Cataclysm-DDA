@@ -1,6 +1,28 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND",
+    "condition": {
+      "or": [
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        {
+          "and": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+            { "not": { "u_is_on_terrain": "t_fungus" } },
+            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+            { "not": { "u_is_on_terrain": "t_swater_surf" } },
+            { "not": { "u_is_on_terrain": "t_woodchips" } }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON",
     "condition": {
       "or": [
@@ -113,6 +135,150 @@
     },
     "effect": [ { "u_cast_spell": { "id": "ierde_iron_armor_spell_real", "hit_self": true } } ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to infuse yourself with iron.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
+      ]
+    },
+    "effect": {
+      "switch": { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_01", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_01" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_01" }
+          ]
+        },
+        {
+          "case": 3,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_02", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_02" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_02" }
+          ]
+        },
+        {
+          "case": 6,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_03", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_03" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_03" }
+          ]
+        },
+        {
+          "case": 9,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_04", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_04" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_04" }
+          ]
+        },
+        {
+          "case": 12,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_05", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_05" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_05" }
+          ]
+        },
+        {
+          "case": 15,
+          "effect": [
+            { "u_spawn_item": "item_ierde_reveal_earth_map_06", "suppress_message": true },
+            { "run_eocs": "EOC_IERDE_REVEAL_MAP_ITEM_06" },
+            { "u_remove_item_with": "item_ierde_reveal_earth_map_06" }
+          ]
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_01" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_01_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_02" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_02_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_03" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_03_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_04",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_04" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_04_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_05",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_05" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_05_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_REVEAL_MAP_ITEM_06",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_ierde_reveal_earth_map_06" } ],
+        "true_eocs": [ { "id": "EOC_IERDE_REVEAL_MAP_ITEM_06_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

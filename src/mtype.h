@@ -159,8 +159,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_NO_NECRO,
        mon_flag_PACIFIST,
        mon_flag_PARALYZEVENOM,
-       mon_flag_PATH_AVOID_DANGER_1,
-       mon_flag_PATH_AVOID_DANGER_2,
+       mon_flag_PATH_AVOID_DANGER,
        mon_flag_PATH_AVOID_FALL,
        mon_flag_PATH_AVOID_FIRE,
        mon_flag_PAY_BOT,
@@ -302,6 +301,7 @@ struct mtype {
         mfaction_str_id default_faction;
         harvest_id harvest;
         harvest_id dissect;
+        harvest_id decay;
         speed_description_id speed_desc;
         // Monster upgrade variables
         mtype_id upgrade_into;

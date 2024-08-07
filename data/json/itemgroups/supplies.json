@@ -103,13 +103,13 @@
   {
     "id": "cement_bag",
     "type": "item_group",
-    "container-item": "bag_durasack",
+    "container-item": "bag_durasack_cement",
     "items": [ { "item": "material_cement", "count": 2800 } ]
   },
   {
     "id": "cement_bag_part",
     "type": "item_group",
-    "container-item": "bag_durasack",
+    "container-item": "bag_durasack_cement",
     "items": [ { "item": "material_cement", "count": [ 400, 2800 ] } ]
   },
   {
@@ -361,6 +361,7 @@
       },
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
+      { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
       [ "rubber_cement", 25 ],
@@ -458,6 +459,7 @@
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
       { "item": "red_phosphorous", "prob": 5, "charges": [ 100, -1 ] },
+      { "item": "white_phosphorous", "prob": 5, "charges": [ 100, -1 ] },
       { "item": "bismuth", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_benzene", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_toluene", "prob": 10, "charges": [ 1, -1 ] },

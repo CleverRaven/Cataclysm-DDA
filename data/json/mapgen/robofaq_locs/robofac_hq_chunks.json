@@ -2,6 +2,33 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp_roof",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrr         ",
+        " rrrrr         ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -63,7 +90,8 @@
         }
       ],
       "//": "migration from older saved games - remove older shop stocks",
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

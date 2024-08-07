@@ -202,7 +202,7 @@
       {
         "id": "toy_plush_plesio",
         "name": { "str": "plesiosaurus plushie" },
-        "description": "A blueish, soft and friendly plesiosaurus plushie with big floppy flippers, a long neck and a and cute, gentle expression.",
+        "description": "A blueish, soft and friendly plesiosaurus plushie with big floppy flippers, a long neck and a cute, gentle expression.",
         "weight": 1
       },
       {
@@ -680,13 +680,13 @@
       {
         "id": "toy_plush_sheep",
         "name": { "str": "sheep plushie" },
-        "description": "This loving and fluffy sheep plushie features soft, woolly fur in white, with cute floppy ears and expressive eyes",
+        "description": "This loving and fluffy sheep plushie features soft, woolly fur in white, with cute floppy ears and expressive eyes.",
         "weight": 1
       },
       {
         "id": "toy_plush_bsheep",
         "name": { "str": "black sheep plushie" },
-        "description": "This loving and fluffy sheep plushie features soft, woolly fur in black, with cute floppy ears and somewhat careless, bored eyes",
+        "description": "This loving and fluffy sheep plushie features soft, woolly fur in black, with cute floppy ears and somewhat careless, bored eyes.",
         "weight": 1
       },
       {

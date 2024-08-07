@@ -105,7 +105,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_DONE",
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_SawMarshal" },
         "opinion": { "trust": -20, "value": -20 },
@@ -140,7 +140,10 @@
         "*looks up warily as you approach",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+          "yes": {
+            "gendered_line": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+            "relevant_genders": [ "u" ]
+          },
           "no": ".  \"Yeah?\""
         }
       ]
@@ -345,13 +348,13 @@
     "value": 20000,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
         "search_range": 20,
-        "min_distance": 8
+        "min_distance": 2
       },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },

@@ -145,7 +145,7 @@
       "BASHES",
       "GROUP_BASH",
       "HIT_AND_RUN",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "EATS"
     ],
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 2 }

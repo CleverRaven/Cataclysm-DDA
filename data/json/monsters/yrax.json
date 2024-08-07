@@ -52,7 +52,60 @@
       "NOHEAD",
       "NO_BREATHE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
+      "PRIORITIZE_TARGETS",
+      "HIT_AND_RUN",
+      "ELECTRONIC"
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
+    "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
+  },
+  {
+    "id": "mon_yrax_triakis",
+    "type": "MONSTER",
+    "name": { "str_sp": "Yrax triakis" },
+    "description": "Short-snakelike limbs seamlessly extend from an aggressively faceted body.  Its movements keep it low to the ground, coiled like a trap waiting to spring.",
+    "default_faction": "yrax",
+    "volume": "50 L",
+    "weight": "30 kg",
+    "species": [ "ROBOT" ],
+    "bodytype": "trifacet",
+    "material": [ "steel" ],
+    "speed": 100,
+    "symbol": "V",
+    "morale": 70,
+    "hp": 50,
+    "color": "yellow",
+    "melee_skill": 10,
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "tracking_distance": 10,
+    "vision_day": 50,
+    "vision_night": 20,
+    "aggro_character": false,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "leap",
+        "min_consider_range": 2,
+        "min_range": 2,
+        "move_cost": 50,
+        "max_range": 8,
+        "allow_no_target": false,
+        "cooldown": 3
+      },
+      [ "BIO_OP_IMPALE", 10 ]
+    ],
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER",
+      "HARDTOSHOOT",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
@@ -129,11 +182,12 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "FLIES",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC"
-    ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
     "id": "mon_golden_monolith",
@@ -208,11 +262,12 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
     ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
     "armor": { "bash": 1000, "cut": 1000, "acid": 100, "heat": 100, "bullet": 1000 }
   },
   {
@@ -242,7 +297,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "PACIFIST",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC",
       "CLIMBS",
@@ -250,6 +305,7 @@
       "ALWAYS_SEES_YOU",
       "FIREPROOF"
     ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
     "special_attacks": [
       {
         "type": "spell",

@@ -108,7 +108,6 @@
     "volume": "1750 ml",
     "longest_side": "90 cm",
     "price": "80 USD",
-    "to_hit": 2,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -173,7 +172,6 @@
       "NEVER_JAMS",
       "NONCONDUCTIVE",
       "WATERPROOF_GUN",
-      "NO_SALVAGE",
       "NO_UNLOAD",
       "RELOAD_AND_SHOOT",
       "MAGIC_FOCUS",
@@ -276,7 +274,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 12 },
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }

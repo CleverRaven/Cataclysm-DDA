@@ -3,13 +3,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "pouch_wild_druid",
-    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+    "entries": [ { "item": "fur", "count": 3 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_mooserider",
     "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_elven_ceremonial_guard",
+    "entries": [ { "item": "arrow_cf", "count": 40 } ]
   },
   {
     "type": "profession",
@@ -1255,6 +1261,83 @@
       },
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "elven_ceremonial_guard",
+    "name": "Hy-Brasilean ambassadorial honor guard",
+    "description": "You were a ceremonial guard for the Hy-Brasilean ambassador to the United States, equipped to bring to mind the elven forest warriors of old.  You were trained in archery, since you had to use your bow to impress foreign dignitaries, but you never expected you'd actually have to take it into a real battle.  Then the Cataclysm hit.  The ambassador and most of your fellow guards are dead, and you'll probably never see home again, but hopefully your skills will keep you alive.",
+    "points": 12,
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "archery" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 6, "name": "survival" },
+      { "level": 5, "name": "speech" }
+    ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_spotting" ],
+    "traits": [
+      "THRESH_SPECIES_ELF",
+      "ANIMALEMPATH2",
+      "ELVEN_BUILD",
+      "ELFA_NV",
+      "ELVEN_BEAUTY",
+      "ELVEN_SLEEP",
+      "ELFA_EARS",
+      "ELVEN_HEARING",
+      "LIGHTSTEP",
+      "WILDWALKER",
+      "ANTIJUNK",
+      "WEAKSTOMACH",
+      "DISIMMUNE",
+      "PICKYEATER"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "officer_uniform" },
+          { "item": "gloves_black" },
+          { "item": "socks" },
+          { "item": "wristwatch" },
+          { "item": "cloak_of_elvenkind" },
+          { "item": "boots_of_elvenkind" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "bow_sling", "contents-item": [ "bow_of_elvenkind" ] },
+          { "item": "quiver_of_holding_plus_one", "contents-group": [ "quiver_elven_ceremonial_guard" ] },
+          { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
+          { "item": "sheath", "contents-item": [ "knife_hunting_plus_one" ] },
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shifter_druid",
+    "name": "Shifter Druid",
+    "description": "The ancient druidic art of taking animal forms had mostly fallen out of favor by the modern era, since most people didn't need to be a bear in their daily lives and even if they did transform into a raven, they still had to physically fly to their destination and couldn't check the internet for directions.  You, however, studied the ancient arts and gained the ability to transform yourself.  It's come in very handy since the world ended.",
+    "points": 6,
+    "spells": [ { "id": "druid_natures_commune", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "spellcraft" } ],
+    "traits": [ "DRUID", "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "cloak" },
+          { "item": "leather_pouch" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
     }
   }
 ]

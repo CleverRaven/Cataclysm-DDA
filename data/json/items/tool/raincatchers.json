@@ -31,7 +31,7 @@
     "volume": "500 ml",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -44,7 +44,7 @@
       "done_message": "You place the funnel, waiting to collect rain."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "leather_funnel",

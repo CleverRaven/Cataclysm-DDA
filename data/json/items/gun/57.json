@@ -21,7 +21,6 @@
     "barrel_length": "122 mm",
     "price": "1 kUSD 249 USD",
     "price_postapoc": "27 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -53,7 +52,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "5.7mm automatic PDW" },
+    "name": { "str": "P90 automatic PDW" },
     "description": "A late 90s manufactured personal defense weapon (PDW), this automatic firearm fires the high-velocity, proprietary 5.7x28mm cartridge.  Making use of top-mounted 50-round custom magazines which lock into the receiver of the weapon behind the grip, this little submachine gun packs quite the nasty payload.  Its small, high-speed caliber makes it excellent at both defeating armored opponents and firing short bursts manageably.",
     "variant_type": "gun",
     "variants": [
@@ -69,7 +68,6 @@
     "barrel_length": "264 mm",
     "price": "3 kUSD 500 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -99,8 +97,8 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "high-capacity 5.7mm handgun" },
-    "description": "A large and retro-looking semi-automatic pistol firing the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard 5.7x28mm 50-round magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
+    "name": { "str": "high-capacity P90 handgun" },
+    "description": "A large and retro-looking semi-automatic pistol firing the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard P90 50-round magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
     "variant_type": "gun",
     "variants": [
       {
@@ -115,7 +113,6 @@
     "barrel_length": "244 mm",
     "price": "995 USD",
     "price_postapoc": "27 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -125,6 +122,7 @@
     "dispersion": 380,
     "durability": 8,
     "min_cycle_recoil": 81,
+    "reload": 500,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
@@ -163,7 +161,6 @@
     "barrel_length": "125 mm",
     "price": "799 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -200,7 +197,7 @@
     "id": "fn_ps90",
     "copy-from": "fn_p90",
     "type": "GUN",
-    "name": { "str": "semi-automatic 5.7mm carbine" },
+    "name": { "str": "semi-automatic P90 carbine" },
     "description": "The civilian version of the older 5.7mm PDW, this carbine features a 16 inch long barrel, feeds from the same 50-round magazines as its predecessor, and is only capable of semi-automatic fire in order to keep it in line with American firearm restrictions.",
     "variant_type": "gun",
     "variants": [

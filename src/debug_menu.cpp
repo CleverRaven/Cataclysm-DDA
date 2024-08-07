@@ -85,7 +85,6 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -144,6 +143,10 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const matype_id style_none( "style_none" );
 
+static const mongroup_id GROUP_DEBUG_EXACTLY_ONE( "GROUP_DEBUG_EXACTLY_ONE" );
+
+static const morale_type morale_perm_debug( "morale_perm_debug" );
+
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -198,6 +201,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
+        case debug_menu::debug_menu_index::SPAWN_HORDE: return "SPAWN_HORDE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
@@ -430,6 +434,11 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+// Used for quick setup
+static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+           trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+
 static std::string first_word( const std::string &str )
 {
     const size_t space_pos = str.find( ' ' );
@@ -439,13 +448,39 @@ static std::string first_word( const std::string &str )
     return str.substr( 0, space_pos );
 }
 
-static bool is_debug_character()
+bool is_debug_character()
 {
     static const std::unordered_set<std::string> debug_names = {
         "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
     };
     return debug_names.count( first_word( get_player_character().name ) ) ||
            debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
+
+static void prompt_or_do_map_reveal( int reveal_level = 0 )
+{
+    if( reveal_level == 0 ) {
+        uilist vis_sel;
+        vis_sel.text = _( "Reveal at which vision level?" );
+        for( int i = static_cast<int>( om_vision_level::unseen );
+             i < static_cast<int>( om_vision_level::last ); ++i ) {
+            vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+        }
+        vis_sel.query();
+        reveal_level = vis_sel.ret;
+        if( reveal_level == UILIST_CANCEL ) {
+            return;
+        }
+    }
+    overmap &cur_om = g->get_cur_om();
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( reveal_level ), true );
+            }
+        }
+    }
+    add_msg( m_good, _( "Current overmap revealed." ) );
 }
 
 static int player_uilist()
@@ -473,6 +508,29 @@ static int player_uilist()
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
+}
+
+static void normalize_body( Character &u )
+{
+    u.clear_effects();
+    u.clear_morale();
+    u.clear_vitamins();
+    u.set_all_parts_hp_to_max();
+    u.set_sleepiness( 0 );
+    u.set_focus( 100 );
+    u.set_hunger( 0 );
+    u.set_pain( 0 );
+    u.set_rad( 0 );
+    u.set_sleep_deprivation( 0 );
+    u.set_stamina( u.get_stamina_max() );
+    u.set_stored_kcal( u.get_healthy_kcal() );
+    u.set_thirst( 0 );
+}
+
+static tripoint_abs_ms player_picks_tile()
+{
+    std::optional<tripoint> newpos = g->look_around();
+    return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
 }
 
 static void monster_ammo_edit( monster &mon )
@@ -679,14 +737,14 @@ static void monster_edit_menu()
             break;
         }
         case D_TELE: {
-            if( const std::optional<tripoint> newpos = g->look_around() ) {
-                critter->setpos( *newpos );
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+                critter->setpos( get_map().bub_from_abs( newpos ) );
             }
             break;
         }
         case D_WANDER_DES: {
-            if( const std::optional<tripoint> newpos = g->look_around() ) {
-                critter->wander_to( get_map().getglobal( *newpos ), 1000 );
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+                critter->wander_to( newpos, 1000 );
             }
             break;
         }
@@ -808,6 +866,7 @@ static int spawning_uilist()
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_HORDE, true, 'H', _( "Spawn a dummy horde twenty submaps(10 OMTs) to the north" ) ) },
     };
 
     return uilist( _( "Spawning…" ), uilist_initializer );
@@ -1557,7 +1616,8 @@ static void spawn_artifact()
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
-                here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
+                here.spawn_artifact( tripoint_bub_ms( *center ), relic_list[relic_menu.ret],
+                                     artifact_max_attributes,
                                      artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
         }
@@ -2140,7 +2200,7 @@ static void character_edit_menu()
         if( np->has_destination() ) {
             data << string_format(
                      _( "Destination: %s %s" ), np->goal.to_string(),
-                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+                     overmap_buffer.ter( np->goal )->get_name( om_vision_level::full ) ) << std::endl;
         }
         data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
              << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
@@ -2169,7 +2229,7 @@ static void character_edit_menu()
 
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
-        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
     };
@@ -2190,6 +2250,7 @@ static void character_edit_menu()
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause pain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
+    nmenu.addentry( D_NORMALIZE_BODY, true, 'N', "%s", _( "Normalize body stats" ) );
     if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
         nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
@@ -2282,9 +2343,9 @@ static void character_edit_menu()
         case D_MORALE: {
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), you.get_morale_level() ) ) {
-                you.rem_morale( MORALE_PERM_DEBUG );
+                you.rem_morale( morale_perm_debug );
                 int morale_level_delta = value - you.get_morale_level();
-                you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
+                you.add_morale( morale_perm_debug, morale_level_delta );
                 you.apply_persistent_morale();
             }
         }
@@ -2314,6 +2375,9 @@ static void character_edit_menu()
         break;
         case D_NEEDS:
             character_edit_needs_menu( you );
+            break;
+        case D_NORMALIZE_BODY:
+            normalize_body( you );
             break;
         case D_MUTATE: {
             uilist smenu;
@@ -2906,7 +2970,7 @@ static void debug_menu_game_state()
     popup_top(
         s.c_str(),
         player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
-        overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
+        overmap_buffer.ter( player_character.global_omt_location() )->get_name( om_vision_level::full ),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
@@ -2940,7 +3004,7 @@ static void debug_menu_spawn_vehicle()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    if( here.veh_at( player_character.pos() ) ) {
+    if( here.veh_at( player_character.pos_bub() ) ) {
         dbg( D_ERROR ) << "game:load: There's already vehicle here";
         debugmsg( "There's already vehicle here" );
     } else {
@@ -3074,24 +3138,6 @@ static cata_path prepare_export_dir_and_find_unused_name( const std::string &cha
         try_next++;
     }
     return ret;
-}
-
-static void normalize_body()
-{
-    Character &u = get_avatar();
-    u.clear_effects();
-    u.clear_morale();
-    u.clear_vitamins();
-    u.set_all_parts_hp_to_max();
-    u.set_sleepiness( 0 );
-    u.set_focus( 100 );
-    u.set_hunger( 0 );
-    u.set_pain( 0 );
-    u.set_rad( 0 );
-    u.set_sleep_deprivation( 0 );
-    u.set_stamina( u.get_stamina_max() );
-    u.set_stored_kcal( u.get_healthy_kcal() );
-    u.set_thirst( 0 );
 }
 
 static void bleed_self()
@@ -3346,7 +3392,7 @@ static void map_extra()
     if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
         const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
         if( where_omt != overmap::invalid_tripoint ) {
-            tinymap mx_map;
+            smallmap mx_map;
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
             g->load_npcs();
@@ -3464,7 +3510,7 @@ static void unlock_all()
 static void vehicle_battery_charge()
 {
 
-    optional_vpart_position v_part_pos = get_map().veh_at( get_avatar().pos() );
+    optional_vpart_position v_part_pos = get_map().veh_at( player_picks_tile() );
     if( !v_part_pos ) {
         add_msg( m_bad, _( "There's no vehicle there." ) );
         return;
@@ -3488,7 +3534,7 @@ static void vehicle_battery_charge()
 
 static void vehicle_export()
 {
-    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos() ) ) {
+    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
         const std::string text = string_input_popup()
@@ -3591,6 +3637,28 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
+void do_debug_quick_setup()
+{
+    if( !debug_mode ) {
+        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
+        // Save a few keypresses.
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+    }
+    Character &u = get_avatar();
+    normalize_body( u );
+    // Specifically only adds mutations instead of toggling them.
+    u.set_mutations( setup_traits );
+    u.remove_weapon();
+    u.clear_worn();
+    item backpack( "debug_backpack" );
+    u.wear_item( backpack );
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+        u.set_skill_level( pair.first, 10 );
+    }
+    prompt_or_do_map_reveal( static_cast<int>( om_vision_level::full ) );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -3632,11 +3700,6 @@ void debug()
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
-    // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
-                                       trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-                                       trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
-
     avatar &player_character = get_avatar();
     map &here = get_map();
     switch( *action ) {
@@ -3653,15 +3716,7 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
-            overmap &cur_om = g->get_cur_om();
-            for( int i = 0; i < OMAPX; i++ ) {
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, true );
-                    }
-                }
-            }
-            add_msg( m_good, _( "Current overmap revealed." ) );
+            prompt_or_do_map_reveal();
         }
         break;
 
@@ -3676,6 +3731,15 @@ void debug()
                     g->perhaps_add_random_npc( true );
                 }
             }
+        }
+        break;
+
+        case debug_menu_index::SPAWN_HORDE: {
+            const tripoint_abs_ms &player_abs_ms = get_player_character().get_location();
+            tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms );
+            horde_dest = horde_dest + point{0, -20}; // 20 submaps to the north
+            overmap &om = overmap_buffer.get( project_to<coords::om>( player_abs_ms ).xy() );
+            om.debug_force_add_group( mongroup( GROUP_DEBUG_EXACTLY_ONE, horde_dest, 1 ) );
         }
         break;
 
@@ -4026,7 +4090,7 @@ void debug()
 
         case debug_menu_index::VEHICLE_DELETE: {
 
-            if( const optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+            if( const optional_vpart_position ovp = here.veh_at( player_picks_tile() ) ) {
                 here.destroy_vehicle( &ovp->vehicle() );
                 break;
             }
@@ -4065,17 +4129,7 @@ void debug()
         }
 
         case debug_menu_index::QUICK_SETUP: {
-            Character &u = get_avatar();
-            normalize_body();
-            // Specifically only adds mutations instead of toggling them.
-            u.set_mutations( setup_traits );
-            u.remove_weapon();
-            u.clear_worn();
-            item backpack( "debug_backpack" );
-            u.wear_item( backpack );
-            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
-                u.set_skill_level( pair.first, 10 );
-            }
+            do_debug_quick_setup();
             break;
         }
 
@@ -4088,7 +4142,7 @@ void debug()
         }
 
         case debug_menu_index::NORMALIZE_BODY_STAT: {
-            normalize_body();
+            normalize_body( get_avatar() );
             break;
         }
 

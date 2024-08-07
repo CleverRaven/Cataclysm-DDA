@@ -85,7 +85,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "hood_wsurvivor",
@@ -107,7 +107,7 @@
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_hood_wsurvivor",
@@ -161,7 +161,7 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_hood_lsurvivor",
@@ -241,7 +241,7 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
+    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -320,7 +320,7 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
+    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -398,7 +398,7 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
+    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

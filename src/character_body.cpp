@@ -30,7 +30,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -101,6 +100,10 @@ static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
+static const morale_type morale_comfy( "morale_comfy" );
+static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
@@ -449,12 +452,12 @@ void Character::update_bodytemp()
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos() );
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    bool sheltered = g->is_sheltered( pos() );
+    bool sheltered = g->is_sheltered( pos_bub() );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
@@ -469,7 +472,7 @@ void Character::update_bodytemp()
     const int climate_control_heat = climate_control.first;
     const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id furn_at_pos = here.furn( pos() );
+    const furn_id furn_at_pos = here.furn( pos_bub() );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
@@ -572,8 +575,8 @@ void Character::update_bodytemp()
         // Change the ambient temperature into a delta based on our comfortable temperature.
         units::temperature_delta adjusted_temp = player_local_temp - ambient_norm;
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ||
-            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ||
+            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos_bub() ) && is_lower( bp ) ) ) {
             adjusted_temp = water_temperature - ambient_norm; // Swap out air temp for water temp.
             windchill = 0_C_delta;
         }
@@ -624,14 +627,14 @@ void Character::update_bodytemp()
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
+                add_morale( morale_pyromania_nearfire, 10, 10, 1_hours,
                             30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                rem_morale( morale_pyromania_nofire );
             }
         } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
-            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
+            add_morale( morale_pyromania_nearfire, 5, 5, 30_minutes,
                         15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
-            rem_morale( MORALE_PYROMANIA_NOFIRE );
+            rem_morale( morale_pyromania_nofire );
         }
 
         mod_part_temp_conv( bp, sunlight_warmth );
@@ -706,7 +709,7 @@ void Character::update_bodytemp()
                 calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
+                add_morale( morale_comfy, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 
@@ -1048,7 +1051,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         set_thirst( 0 );
     }
 
-    const bool calorie_deficit = get_bmi_fat() < character_weight_category::normal;
+    const bool calorie_deficit = has_calorie_deficit();
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
 
@@ -1065,9 +1068,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // > 3/4 cap    full        full        full
         // > 1/2 cap    satisfied   v. hungry   famished/(near)starving
         // <= 1/2 cap   hungry      v. hungry   famished/(near)starving
-        if( contains >= cap ) {
+        if( stomach.would_be_engorged_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_engorged;
-        } else if( contains > cap * 3 / 4 ) {
+        } else if( stomach.would_be_full_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_full;
         } else if( just_ate && contains > cap / 2 ) {
             hunger_effect = effect_hunger_satisfied;
@@ -1090,9 +1093,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // >= 3/8 cap   satisfied   satisfied   blank
         // > 0          blank       blank       blank
         // 0            blank       blank       (v.) hungry
-        if( contains >= cap * 5 / 6 ) {
+        if( stomach.would_be_engorged_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_engorged;
-        } else if( contains > cap * 11 / 20 ) {
+        } else if( stomach.would_be_full_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_full;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_effect = effect_hunger_satisfied;

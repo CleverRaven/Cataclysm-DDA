@@ -586,7 +586,7 @@
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
     "using": [ [ "earthenware_firing", 60 ] ],
-    "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "clay_lump", 1 ] ], [ [ "any_water", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -604,7 +604,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 5 ] ],
       [ [ "rock", 1 ], [ "pebble", 10 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "any_water", 1, "LIST" ] ]
     ]
   },
   {
@@ -622,7 +622,7 @@
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_soil", 2 ] ],
       [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 4 ], [ "feces_manure", 2 ] ]
     ]
@@ -653,7 +653,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "batch_time_factors": [ 50, 5 ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 1 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "material_soil", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -681,11 +681,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water", 100 ], [ "water_clean", 100 ] ],
-      [ [ "material_quicklime", 50 ] ],
-      [ [ "material_sand", 150 ], [ "ash", 300 ] ]
-    ]
+    "components": [ [ [ "any_water", 100, "LIST" ] ], [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 150 ], [ "ash", 300 ] ] ]
   },
   {
     "type": "recipe",
