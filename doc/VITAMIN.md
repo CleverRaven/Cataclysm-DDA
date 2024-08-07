@@ -89,3 +89,36 @@ This only happens with natural decay, as determined by `rate`; other sources of 
 
 - ```NO_DISPLAY``` - This vitamin will not be shown when examining a food.
 - ```OBSOLETE``` - This vitamin will not be displayed when tracking vitamins in the consume menu.
+
+
+#### opiate MME conversion chart
+Opioid Oral Morphine Milligram Equivalent (MME) Conversion Factorsi,ii
+Type of Opioid (strength units) MME Conversion Factor
+Buprenorphine film/tabletiii (mg) -----------------?
+Buprenorphine patchiii (mcg/hr) -------------------?
+Buprenorphine film iii (mcg)-----------------------?
+Butorphanol (mg) ----------------------------------7
+Codeine (mg) --------------------------------------0.15
+Dihydrocodeine (mg) -------------------------------0.25
+Fentanyl buccal or SL tablets, or lozenge/trocheiv
+(mcg) ---------------------------------------------0.13
+Fentanyl film or oral sprayv (mcg) ----------------0.18
+Fentanyl nasal sprayvi (mcg) ----------------------0.16
+Fentanyl patchvii (mcg) ---------------------------7.2
+Hydrocodone (mg) ----------------------------------1
+Hydromorphone (mg) --------------------------------4
+Levorphanol tartrate (mg) -------------------------11
+Meperidine hydrochloride (mg) ---------------------0.1
+Methadoneviii (mg) --------------------------------3
+>0, <= 20 -----------------------------------------4
+>20, <=40 -----------------------------------------8
+>40, <=60 -----------------------------------------10
+>60 -----------------------------------------------12
+Morphine (mg) -------------------------------------1
+Opium (mg) ----------------------------------------1
+Mutated Poppy (mg) in game only -------------------1
+Oxycodone (mg) ------------------------------------1.5
+Oxymorphone (mg) ----------------------------------3
+Pentazocine (mg) ----------------------------------0.37
+Tapentadolix (mg) ---------------------------------0.4
+Tramadol (mg) -------------------------------------0.1
