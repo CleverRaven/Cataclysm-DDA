@@ -901,46 +901,55 @@
       {
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
+        "weight": 327,
         "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilise MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
         "name": { "str": "VR 80" },
+        "weight": 575,
         "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
       },
       {
         "id": "boss25",
         "name": { "str": "BOSS 25" },
+        "weight": 299,
         "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilise MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",
         "name": { "str": "AR-12S" },
+        "weight": 101,
         "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12a",
         "name": { "str": "AR-12A" },
+        "weight": 98,
         "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "gf25",
         "name": { "str": "GF25" },
+        "weight": 158,
         "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "mka1919",
         "name": { "str": "MKA 1919" },
+        "weight": 85,
         "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
       },
       {
         "id": "krx",
         "name": { "str": "KRX" },
+        "weight": 231,
         "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr60",
         "name": { "str": "VR60" },
+        "weight": 109,
         "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
       }
     ],
@@ -981,11 +990,13 @@
       {
         "id": "gfy_1",
         "name": { "str": "GFY-1" },
+        "weight": 101,
         "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
       },
       {
         "id": "bp12",
         "name": { "str": "BP-12" },
+        "weight": 82,
         "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
       }
     ],
