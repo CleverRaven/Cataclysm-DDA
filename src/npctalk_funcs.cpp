@@ -1290,7 +1290,8 @@ void talk_function::npc_thankful( npc &p )
     if( p.chatbin.first_topic != p.chatbin.talk_friend ) {
         p.chatbin.first_topic = p.chatbin.talk_stranger_friendly;
     }
-    p.personality.aggression -= 1;
+    int8_t &aggro = p.personality.aggression;
+    aggro = std::clamp<int8_t>( aggro - 1, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
 }
 
