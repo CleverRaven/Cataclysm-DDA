@@ -68,6 +68,14 @@
     "type": "city_building",
     "locations": [ "land" ],
     "overmaps": [
+      { "point": [ 2, 1, -4 ], "overmap": "phavian_hospital_main_floor_z4_nw_lower_south" },
+      { "point": [ 2, 0, -4 ], "overmap": "phavian_hospital_main_floor_z4_sw_lower_south" },
+      { "point": [ 1, 1, -4 ], "overmap": "phavian_hospital_main_floor_z4_ncw_lower_south" },
+      { "point": [ 1, 0, -4 ], "overmap": "phavian_hospital_main_floor_z4_scw_lower_south" },
+      { "point": [ 0, 1, -4 ], "overmap": "phavian_hospital_main_floor_z4_nce_lower_south" },
+      { "point": [ 0, 0, -4 ], "overmap": "phavian_hospital_main_floor_z4_sce_lower_south" },
+      { "point": [ -1, 1, -3 ], "overmap": "phavian_hospital_main_floor_z4_ne_lower_south" },
+      { "point": [ -1, 0, -4 ], "overmap": "phavian_hospital_main_floor_z4_se_lower_south" },
       { "point": [ 2, 1, -3 ], "overmap": "phavian_hospital_main_floor_z3_nw_upper_south" },
       { "point": [ 2, 0, -3 ], "overmap": "phavian_hospital_main_floor_z3_sw_upper_south" },
       { "point": [ 1, 1, -3 ], "overmap": "phavian_hospital_main_floor_z3_ncw_upper_south" },
@@ -113,6 +121,7 @@
       { "point": [ 0, 0, 6 ], "overmap": "urban_35_32_south" },
       { "point": [ 1, 0, 7 ], "overmap": "urban_35_33_south" }
     ],
-    "city_sizes": [ 14, -1 ]
+    "city_sizes": [ 14, -1 ],
+    "flags": [ "CITY_UNIQUE" ]
   }
 ]
