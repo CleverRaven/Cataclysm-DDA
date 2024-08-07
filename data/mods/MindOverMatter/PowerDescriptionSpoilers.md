@@ -566,13 +566,13 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
 *Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
 
-## Veil of Light
+## Veil of Light (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 16 seconds to 42 seconds, plus 6 seconds to 23 seconds per power level<br />
 *Stamina Cost*: 3500, minus 125 per level to a minimum of 1200<br />
 *Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 35<br />
-*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.<br />
+*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.  It will always break when engaging in melee combat.<br />
 *Prerequisites*: Lucent Barrier 6 *or* Lucid Shadows 6, Mirror-Mask 6 *or* Chameleoflage 10<br />
 
 ## Star Flash
