@@ -302,7 +302,7 @@
     "looks_like": "microlab_generic",
     "sym": "L",
     "see_cost": "full_high",
-    "vision_levels": "underground_dirt",
+    "vision_levels": "underground_stone",
     "color": "light_red"
   },
   {
