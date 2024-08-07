@@ -6,7 +6,7 @@
     "name": "drylands",
     "sym": ".",
     "color": "yellow",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
@@ -17,7 +17,7 @@
     "name": "shrubland",
     "sym": "*",
     "color": "green",
-    "see_cost": 1,
+    "see_cost": "low",
     "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
@@ -29,7 +29,7 @@
     "name": "woodland",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
+    "see_cost": "spaced_high",
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
@@ -42,7 +42,7 @@
     "name": "desert pavement",
     "sym": ",",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
@@ -54,7 +54,7 @@
     "name": "sandstone",
     "sym": "%",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -63,7 +63,7 @@
     "name": "mesa",
     "sym": "%",
     "color": "i_brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -81,7 +81,7 @@
     "name": "mesa",
     "sym": "%",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
@@ -99,7 +99,7 @@
     "name": "drylands",
     "sym": ".",
     "color": "brown",
-    "see_cost": 1
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -140,7 +140,7 @@
     "name": "canyon",
     "sym": "V",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "all_clear",
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
@@ -150,7 +150,7 @@
     "name": "lake bed",
     "sym": "#",
     "color": "dark_gray",
-    "see_cost": 1,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "LAKE" ]
   },
   {
@@ -188,7 +188,7 @@
     "name": "riverbed",
     "sym": "R",
     "color": "dark_gray",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "RIVER", "NO_ROTATE" ]
   },
   {

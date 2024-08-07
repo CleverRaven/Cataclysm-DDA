@@ -199,9 +199,9 @@
   {
     "id": "photokinetic_light_dodge",
     "type": "SPELL",
-    "name": "[Ψ]Trick of the Light",
-    "description": "Manipulate the light around your body, creating small illusions and becoming harder to hit.\n\nAn enemy successfully hitting you will <color_red>disrupt the power</color>.",
-    "message": "You are surrounded by shifting illusions.",
+    "name": "[Ψ]Trick of the Light (C)",
+    "description": "Manipulate the light around your body, creating shifting illusions, blurring your outline and position, and becoming harder to hit.  An enemy successfully hitting you will pinpoint your location and <color_red>disrupt the power</color>.\n\nhis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
@@ -209,8 +209,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_photokin_dodge",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_DODGE_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -223,12 +223,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2250,
-    "final_energy_cost": 500,
-    "energy_increment": -135,
-    "base_casting_time": 200,
-    "final_casting_time": 65,
-    "casting_time_increment": -9.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_dodge') > -1 ? 0 : max((2250 - (u_spell_level('photokinetic_light_dodge') * 135)), 500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_dodge') > -1 ? 10 : max((200 -(u_spell_level('photokinetic_light_dodge') * 9.5)), 65)"
+      ]
+    }
   },
   {
     "id": "photokinetic_light_beam",
