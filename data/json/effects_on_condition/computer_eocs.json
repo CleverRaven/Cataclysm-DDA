@@ -35,16 +35,14 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_MAP_CACHE",
     "condition": {
-      "not": {
-        "or": [
-          { "npc_has_var": "map_cache", "value": "has" },
-          { "npc_has_var": "map_cache", "value": "lack" },
-          { "npc_has_var": "map_cache", "value": "read" }
-        ]
-      }
+      "or": [
+        { "npc_has_var": "map_cache", "value": "has" },
+        { "npc_has_var": "map_cache", "value": "lack" },
+        { "npc_has_var": "map_cache", "value": "read" }
+      ]
     },
-    "effect": [ { "npc_add_var": "map_cache", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_CHECK_MAP_CACHE" } ],
-    "false_effect": [
+    "false_effect": [ { "npc_add_var": "map_cache", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_CHECK_MAP_CACHE" } ],
+    "effect": [
       {
         "if": { "npc_has_var": "map_cache", "value": "has" },
         "then": [
