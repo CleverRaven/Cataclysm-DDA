@@ -161,7 +161,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_NAME",
-    "dynamic_line": "&A long pause.  You can't see her eyes but it seems like she is studying your face.  \"Sime Luliya ibalalehu.\"  [She points to her own chest.]  \"Luliya.\"  [She points to your chest.]  \"<u_name>.  Siletewawekini desi bilonyali, <u_name>.\"  [She strums a pleasant melody on her krar.]",
+    "dynamic_line": "&A long pause.  You can't see her eyes but it seems like she is studying your face.  \"Sime Luliya ibalalehu.\"  She points to her own chest.  \"Luliya.\"  She points to your chest.  \"<u_name>.  Siletewawekini desi bilonyali, <u_name>.\"  She strums a pleasant melody on her krar.",
     "speaker_effect": { "effect": { "u_add_var": "general_name_u_luliya_name", "value": "yes" } },
     "responses": [ { "text": "We're getting somewhere.  Pleased to meet you Luliya.", "topic": "TALK_DONE" } ]
   },
