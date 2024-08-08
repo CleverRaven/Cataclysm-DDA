@@ -2273,30 +2273,35 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
     sfx::do_vehicle_engine_sfx();
 
     if( attempted == 0 ) {
-        add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );
+        you->add_msg_if_player( m_info, _( "The %s doesn't have an engine!" ), veh->name );
     } else if( non_muscle_attempted > 0 ) {
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
             //All of the non-muscle engines started
-            add_msg( n_gettext( "The %s's engine starts up.",
-                                "The %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg_if_player_sees( you->pos_bub(), n_gettext( "The %s's engine starts up.",
+                                    "The %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_muscle_started > 0 ) {
             //Only some of the non-muscle engines started
-            add_msg( n_gettext( "One of the %s's engines start up.",
-                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
+            add_msg_if_player_sees( you->pos_bub(), n_gettext( "One of the %s's engines start up.",
+                                    "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
-            add_msg( _( "The %s is ready for movement." ), veh->name );
+            you->add_msg_if_player( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
-            add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
-                                       "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
+            if( you->is_avatar() ) {
+                add_msg( m_bad, n_gettext( "The %s's engine fails to start.",
+                                           "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
+            } else {
+                add_msg_if_player_sees( you->pos_bub(), n_gettext( "The %s's engine fails to start.",
+                                        "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
+            }
         }
     }
 
     if( take_control && !veh->engine_on && !veh->velocity ) {
         you->controlling_vehicle = false;
-        add_msg( _( "You let go of the controls." ) );
+        you->add_msg_if_player( _( "You let go of the controls." ) );
     }
 }
 
