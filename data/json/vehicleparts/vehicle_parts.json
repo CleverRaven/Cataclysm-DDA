@@ -2409,7 +2409,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER", "SIMPLE_PART" ],
     "breaks_into": "ig_vp_device",
     "variants": [ { "symbols": "&", "symbols_broken": "&" } ]
   },
@@ -2865,7 +2865,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "damage_reduction": { "bash": 5 },
     "variants": [ { "symbols": ":", "symbols_broken": ";" } ]
@@ -3283,7 +3283,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CARGO_LOCKING", "INTERNAL" ],
+    "flags": [ "CARGO_LOCKING", "INTERNAL", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "clockworks", "prob": 15 }, { "item": "scrap", "prob": 75 } ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "+", "symbols_broken": "+" } ]
@@ -3341,7 +3341,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ], "time": "12 m", "using": [ [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "clockworks", "prob": 30 }, { "item": "scrap", "prob": 75 } ],
     "damage_reduction": { "all": 60 }
   },

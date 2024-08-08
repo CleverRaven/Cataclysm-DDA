@@ -633,10 +633,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 19 }
   },

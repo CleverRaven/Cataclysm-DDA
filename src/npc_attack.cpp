@@ -635,7 +635,7 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, thrown_item, false ) ) ) {
+          !source.wont_hit_friend( location, thrown_item, true ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {

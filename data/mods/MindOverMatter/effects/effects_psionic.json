@@ -155,9 +155,9 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "//": "effect used as tracker",
+    "name": [ "Oxygen Absorption" ],
+    "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1125,12 +1125,9 @@
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
     "apply_message": "",
     "remove_message": "The illusions around you suddenly vanish!",
-    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 38,
-    "dur_add_perc": 10,
-    "int_dur_factor": "24 s",
     "blocks_effects": [ "grabbed" ],
     "base_mods": { "dodge_mod": [ 6 ] },
     "enchantments": [
@@ -1208,14 +1205,11 @@
     "id": "effect_photokin_invisibility",
     "name": [ "Invisibility" ],
     "desc": [ "Nothing can see you." ],
-    "apply_message": "You refract light in a way that makes you appear invisible.",
-    "remove_message": "You let light flow naturally again.",
-    "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
-    "flags": [ "INVISIBLE" ],
-    "max_duration": "3 h",
+    "apply_message": "",
+    "remove_message": "The obscuring veil of light fades, revealing your presence.",
+    "max_duration": "7 days",
     "max_intensity": 177,
-    "dur_add_perc": 10,
-    "int_dur_factor": " 62 s"
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1348,7 +1342,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "blocks_effects": [ "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 100000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
