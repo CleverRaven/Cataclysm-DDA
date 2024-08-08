@@ -13500,7 +13500,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         }
         query += "\n";
         query += hint_climb_back;
-    }    
+    }
 
     std::string query_prompt = _( "Climb down?" );
     if( !aid.down.confirm_text.empty() ) {
