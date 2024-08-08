@@ -474,7 +474,7 @@ int npc_attack_gun::base_time_penalty( const npc &source ) const
 {
     const item &weapon = *gunmode;
     int time_penalty = 0;
-    if( source.is_wielding( weapon ) ) {
+    if( !source.is_wielding( weapon ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     // we want the need to reload a gun cumulative with needing to wield the gun
