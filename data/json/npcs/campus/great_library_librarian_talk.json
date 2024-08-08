@@ -134,22 +134,12 @@
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Robofac",
-        "condition": {
-          "and": [
-            { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" } }
-          ]
-        }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } }
       },
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld2",
-        "condition": {
-          "or": [
-            { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" },
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" }
-          ]
-        }
+        "condition": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" }
       },
       { "text": "That's fine for now.", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" }
     ]

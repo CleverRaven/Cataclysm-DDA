@@ -6754,7 +6754,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 22 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
+    "components": [ [ [ "aluminum_foil", 250 ] ], [ [ "plastic_sheet_small", 7 ] ] ]
   },
   {
     "result": "mre_bag",
@@ -6762,7 +6762,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 66 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
+    "components": [ [ [ "aluminum_foil", 665 ] ], [ [ "plastic_sheet_small", 18 ] ] ]
   },
   {
     "result": "mre_package",
@@ -6770,7 +6770,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 118 ] ], [ [ "plastic_sheet_small", 16 ] ] ]
+    "components": [ [ [ "aluminum_foil", 1150 ] ], [ [ "plastic_sheet_small", 32 ] ] ]
   },
   {
     "result": "missing_poster_adult",

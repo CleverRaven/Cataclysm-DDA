@@ -281,21 +281,6 @@
   },
   {
     "type": "recipe",
-    "result": "triple_launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "pipe_launcher40mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "m320",
     "obsolete": true
   },

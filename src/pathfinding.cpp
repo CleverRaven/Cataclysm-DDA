@@ -166,22 +166,37 @@ static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
 
 std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t ) const
 {
-    std::vector<tripoint> ret;
+    const std::vector<tripoint_bub_ms> temp = map::straight_route( tripoint_bub_ms( f ),
+            tripoint_bub_ms( t ) );
+    std::vector<tripoint> result;
+    result.reserve( temp.size() );
+
+    for( const tripoint_bub_ms pt : temp ) {
+        result.push_back( pt.raw() );
+    }
+
+    return result;
+}
+
+std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &f,
+        const tripoint_bub_ms &t ) const
+{
+    std::vector<tripoint_bub_ms> ret;
     if( f == t || !inbounds( f ) ) {
         return ret;
     }
     if( !inbounds( t ) ) {
-        tripoint clipped = t;
+        tripoint_bub_ms clipped = t;
         clip_to_bounds( clipped );
         return straight_route( f, clipped );
     }
-    if( f.z == t.z ) {
+    if( f.z() == t.z() ) {
         ret = line_to( f, t );
-        const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
+        const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z() );
         // Check all points for any special case (including just hard terrain)
-        if( std::any_of( ret.begin(), ret.end(), [&pf_cache]( const tripoint & p ) {
+        if( std::any_of( ret.begin(), ret.end(), [&pf_cache]( const tripoint_bub_ms & p ) {
         constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
-        return pf_cache.special[p.x][p.y] & non_normal;
+        return pf_cache.special[p.x()][p.y()] & non_normal;
         } ) ) {
             ret.clear();
         }
@@ -191,7 +206,8 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
 
 static constexpr int PF_IMPASSABLE = -1;
 static constexpr int PF_IMPASSABLE_FROM_HERE = -2;
-int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                       const pathfinding_settings &settings,
                        pf_special p_special ) const
 {
     constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
@@ -311,7 +327,7 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
     return PF_IMPASSABLE;
 }
 
-int map::cost_to_avoid( const tripoint & /*cur*/, const tripoint &p,
+int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings, pf_special p_special ) const
 {
     if( settings.avoid_traps && ( p_special & PF_TRAP ) ) {
@@ -334,10 +350,11 @@ int map::cost_to_avoid( const tripoint & /*cur*/, const tripoint &p,
     return 0;
 }
 
-int map::extra_cost( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                     const pathfinding_settings &settings,
                      pf_special p_special ) const
 {
-    int pass_cost = cost_to_pass( cur, p, settings, p_special );
+    int pass_cost = cost_to_pass( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
     if( pass_cost < 0 ) {
         return pass_cost;
     }
@@ -448,7 +465,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
             const pf_special p_special = pf_cache.special[p.x][p.y];
-            const int cost = extra_cost( cur, p, settings, p_special );
+            const int cost = extra_cost( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
             if( cost < 0 ) {
                 if( cost == PF_IMPASSABLE ) {
                     layer.closed[index] = true;

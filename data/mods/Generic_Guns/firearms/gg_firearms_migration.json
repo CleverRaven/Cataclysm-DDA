@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "brogyaga", "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "sapra", "robofac_gun_40mm", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -206,7 +206,9 @@
       "walther_ppk",
       "pressin",
       "cp33",
-      "ruger_mk4"
+      "ruger_mk4",
+      "rough_rider_pistol",
+      "rough_rider_pistol_9"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -298,7 +300,7 @@
   },
   {
     "id": [
-      "hk_g36",
+      "sl8",
       "garand",
       "m1903",
       "hk_g3",

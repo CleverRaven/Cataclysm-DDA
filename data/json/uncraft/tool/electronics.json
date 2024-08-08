@@ -1,0 +1,18 @@
+[
+  {
+    "result": "portable_game",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  }
+]

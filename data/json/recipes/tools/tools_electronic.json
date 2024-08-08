@@ -218,8 +218,6 @@
     "skills_required": [ "computer", 5 ],
     "difficulty": 8,
     "time": "1 h",
-    "reversible": { "time": "20 m" },
-    "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -874,6 +872,28 @@
       [ [ "scrap", 5 ] ],
       [ [ "draw_plate", 1 ] ],
       [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "noise_emitter_super",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "radio_book", 2 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "noise_emitter", 1 ], [ "horn_big", 1 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "amplifier_head", 1 ] ]
     ]
   }
 ]

@@ -86,9 +86,9 @@
   {
     "id": "electrokinetic_zap_enemies",
     "type": "SPELL",
-    "name": "[Ψ]Electrical Discharge",
-    "description": "Build up a charge in your body, zapping anyone who attempts to attack you.  It will also protect you from EMP attacks.",
-    "message": "Your skin tingles.",
+    "name": "[Ψ]Electrical Discharge (C)",
+    "description": "Build up a charge in your body, zapping anyone who attempts to attack you.  It will also protect you from EMP attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
@@ -96,8 +96,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_zap_enemies",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_ZAP_ENEMIES_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -110,18 +110,22 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1100,
-    "energy_increment": -120,
-    "base_casting_time": 125,
-    "final_casting_time": 45,
-    "casting_time_increment": -5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_zap_enemies') > -1 ? 0 : max((3500 - (u_spell_level('electrokinetic_zap_enemies') * 120)), 1100)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_zap_enemies') > -1 ? 10 : max((125 -(u_spell_level('electrokinetic_zap_enemies') * 5)), 45)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_melee_attacks",
     "type": "SPELL",
-    "name": "[Ψ]Voltaic Strikes",
-    "description": "Unleash electrical blasts on those you strike in melee.  It also provides protection against electrical damage.",
+    "name": "[Ψ]Voltaic Strikes (C)",
+    "description": "Unleash electrical blasts on those you strike in melee.  It also provides protection against electrical damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "Lightning crackles between your fingers!",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -130,8 +134,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_melee_attacks",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MELEE_ATTACKS_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -144,12 +148,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3750,
-    "final_energy_cost": 1450,
-    "energy_increment": -115,
-    "base_casting_time": 85,
-    "final_casting_time": 35,
-    "casting_time_increment": -6
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_melee_attacks') > -1 ? 0 : max((3750 - (u_spell_level('electrokinetic_melee_attacks') * 115)), 1450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_melee_attacks') > -1 ? 10 : max((85 -(u_spell_level('electrokinetic_melee_attacks') * 6)), 35)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_hacking_interface",

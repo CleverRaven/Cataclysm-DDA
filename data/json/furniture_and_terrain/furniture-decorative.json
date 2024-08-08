@@ -130,6 +130,7 @@
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "deployed_item": "mannequin",
+    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
     "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 6,

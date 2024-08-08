@@ -1109,6 +1109,7 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
+    bool has_ret = false;
 
     if( copies_remaining <= 0 ) {
         return ret_val<void>::make_success();
@@ -1139,7 +1140,15 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
         if( copies_remaining <= 0 ) {
             return ret_val<void>::make_success();
         }
+        int n = copies_remaining;
+        bool could_contain = pocket.can_contain( it, n, /*ignore_contents=*/true ).success();
+        if( has_ret && !could_contain ) {
+            // This pocket could never contain the item, even if the pocket was emptied.
+            // So we would prefer to get the failure msg from another pocket which could potentially hold the item.
+            continue;
+        }
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
+        has_ret = true;
     }
     return ret;
 }

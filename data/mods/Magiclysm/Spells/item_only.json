@@ -677,6 +677,7 @@
     "max_damage": -1,
     "effect": "attack",
     "shape": "blast",
+    "message": "You start regenerating!",
     "flags": [ "SILENT" ]
   },
   {

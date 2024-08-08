@@ -273,7 +273,7 @@
     "type": "effect_on_condition",
     "id": "EOC_try_kill",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
       { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
     ]
   },
@@ -313,7 +313,7 @@
       { "set_string_var": "fd_blood", "target_var": { "global_val": "field_id_1" } },
       { "set_string_var": "fd_blood_insect", "target_var": { "global_val": "field_id_2" } },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
         "target_var": { "global_val": "loc" }
       },
       { "math": [ "key_field_strength", "=", "u_field_strength(field_id_1)" ] },
@@ -803,9 +803,23 @@
     "type": "effect_on_condition",
     "id": "EOC_map_test",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
       { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
       { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_loc_relative_test",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" },
+        "target_var": { "global_val": "map_test_loc_a" }
+      },
+      {
+        "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" },
+        "target_var": { "global_val": "map_test_loc_b" }
+      }
     ]
   },
   {

@@ -890,6 +890,7 @@ construction_id construction_menu( const bool blueprint )
             construction_group_str_id last_construction = construction_group_str_id::NULL_ID();
             if( isnew ) {
                 filter = uistate.construction_filter;
+                filter.clear();
                 tabindex = uistate.construction_tab.is_valid()
                            ? uistate.construction_tab.id().to_i() : 0;
                 if( uistate.last_construction.is_valid() ) {
@@ -897,6 +898,8 @@ construction_id construction_menu( const bool blueprint )
                 }
             } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
                 last_construction = constructs[select];
+            } else {
+                filter.clear();
             }
             category_id = construct_cat[tabindex].id;
             if( category_id == construction_category_ALL ) {
@@ -1374,35 +1377,6 @@ void complete_construction( Character *you )
                     }
                 }
             }
-
-            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
-                const tripoint_bub_ms below = terp + tripoint_below;
-                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
-                    const map_bash_info bash_info = here.ter( below ).obj().bash;
-                    // ter_set_bashed_from_above should default to ter_set
-                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
-                        if( below.z() >= -1 ) {
-                            // Stupid to set soil at above the ground level, but if they haven't defined
-                            // anything for the terrain that's what you'll get.
-                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
-                            ter_id converted_terrain = ter_t_dirt;
-                            regional_settings settings = g->get_cur_om().get_settings();
-                            std::map<std::string, int> soil_map =
-                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
-                            if( !soil_map.empty() ) {
-                                converted_terrain = ter_id(
-                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
-                            }
-                            here.ter_set( below, converted_terrain );
-                        } else {
-                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
-                            here.ter_set( below, ter_t_rock_floor );
-                        }
-                    } else {
-                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
-                    }
-                }
-            }
         }
     }
 
@@ -1519,7 +1493,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+    if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
                 here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
@@ -1851,7 +1825,7 @@ static void unroll_digging( const int numer_of_2x4s )
     // refund components!
     item rope( "rope_30" );
     map &here = get_map();
-    tripoint avatar_pos = get_player_character().pos();
+    tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
@@ -1906,13 +1880,11 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
             { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
         };
 
-        // TODO: fix point types
-        g->place_critter_at( random_entry( monids ), p.raw() );
+        g->place_critter_at( random_entry( monids ), p );
         here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
-        // TODO: fix point types
-        here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
+        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
         here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
@@ -1957,8 +1929,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
         return;
     }
 
-    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above.raw() ) ||
-        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above.raw() ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above ) ) {
         here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
@@ -1987,7 +1959,7 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
 {
     map &here = get_map();
-    tripoint avatar_pos = who.pos();
+    tripoint_bub_ms avatar_pos = who.pos_bub();
     // copied from iexamine::curtains
     here.spawn_item( avatar_pos, itype_nail, 1, 4 );
     here.spawn_item( avatar_pos, itype_sheet, 2 );

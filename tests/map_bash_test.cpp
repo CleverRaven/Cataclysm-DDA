@@ -52,7 +52,7 @@ static void test_bash_set( const bash_test_set &set )
             int tries = 0;
             while( here.furn( test_pt ) == furn && tries < max_tries ) {
                 ++tries;
-                here.bash( test_pt.raw(), guy.smash_ability() );
+                here.bash( test_pt, guy.smash_ability() );
             }
             auto it = test.furn_tries.find( furn );
             if( it == test.furn_tries.end() ) {
@@ -69,7 +69,7 @@ static void test_bash_set( const bash_test_set &set )
             int tries = 0;
             while( here.ter( test_pt ) == ter && tries < max_tries ) {
                 ++tries;
-                here.bash( test_pt.raw(), guy.smash_ability() );
+                here.bash( test_pt, guy.smash_ability() );
             }
             auto it = test.ter_tries.find( ter );
             if( it == test.ter_tries.end() ) {
@@ -110,13 +110,13 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.furn( test_pt ) == furn_test_f_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy it
         CHECK( here.furn( test_pt ) == furn_test_f_bash_persist );
         // There is any map damage
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
-        here.bash( test_pt.raw(), 999 );
+        here.bash( test_pt, 999 );
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
@@ -128,13 +128,13 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.ter( test_pt ) == ter_test_t_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.ter( test_pt ) == ter_test_t_bash_persist );
         // There is any map damage
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
-        here.bash( test_pt.raw(), 999 );
+        here.bash( test_pt, 999 );
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
@@ -146,7 +146,7 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.ter( test_pt ) == ter_test_t_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.ter( test_pt ) == ter_test_t_bash_persist );
         // There is any map damage
@@ -162,7 +162,7 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.furn( test_pt ) == furn_test_f_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.furn( test_pt ) == furn_test_f_bash_persist );
         // There is any map damage

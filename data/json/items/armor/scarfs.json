@@ -8,7 +8,6 @@
     "volume": "2 L",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "scarf",

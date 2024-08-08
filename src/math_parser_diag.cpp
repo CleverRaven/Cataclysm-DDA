@@ -840,8 +840,8 @@ std::function<double( dialogue & )> energy_eval( char /* scope */,
 {
 
     return [val = params[0]]( dialogue const & d ) {
-        return units::to_millijoule(
-                   _read_from_string<units::energy>( val.str( d ), units::energy_units ) );
+        return static_cast<double>( units::to_millijoule(
+                                        _read_from_string<units::energy>( val.str( d ), units::energy_units ) ) );
     };
 }
 
@@ -1202,11 +1202,17 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
         } else if( val_str == "sunrise" ) {
             ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
         } else if( val_str == "noon" ) {
-            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) ) ;
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
             ret = val.dbl( d ) - to_turn<double>( calendar::turn );
+        }
+        if( val_str == "night_time" || val_str == "daylight_time" || val_str == "sunset" ||
+            val_str == "sunrise" ) {
+            if( ret < 0 ) {
+                ret += to_turns<double>( 1_days );
+            }
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };

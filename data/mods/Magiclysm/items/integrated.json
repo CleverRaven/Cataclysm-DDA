@@ -18,5 +18,30 @@
     "description": "A set of lizardfolk teeth, made for biting chunks of out their prey.",
     "techniques": [ "FANGS_BITE_LIZARDFOLK", "LIZARDFOLK_BITE_CRIT" ],
     "melee_damage": { "stab": 20 }
+  },
+  {
+    "id": "integrated_antlers",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "deer antlers" },
+    "description": "You have a majestic crown of antlers.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": "V",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "AURA", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 20,
+        "encumbrance": 2
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]
