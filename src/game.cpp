@@ -11845,9 +11845,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
             climbing = true;
             climbing_aid = climbing_aid_furn_CLIMBABLE;
 
-            if ( climb_flying) {
+            if( climb_flying ) {
                 u.set_activity_level( MODERATE_EXERCISE );
-                move_cost = 100; 
+                move_cost = 100;
             } else {
                 u.set_activity_level( EXTRA_EXERCISE );
                 move_cost = cost == 0 ? 1000 : cost + 500;
@@ -13124,7 +13124,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
 
     // If you're levitating or flying, there's nothing to slip on
-    if ( climb_flying ) {
+    if( climb_flying ) {
         slip = 0;
     }
 
