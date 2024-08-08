@@ -13434,21 +13434,23 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
     bool levitating = u.has_flag( json_flag_LEVITATION );
     bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
-   if ( !levitating ) { if( seems_perfectly_safe ) {
-        query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
-    } else if( slip_chance < 3 ) {
-        query = _( "It <color_green>seems safe</color> to climb down like this." );
-    } else if( slip_chance < 8 ) {
-        query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
-    } else if( slip_chance < 20 ) {
-        query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
-    } else if( slip_chance < 50 ) {
-        query = _( "It <color_red>seems very risky</color> to climb down like this." );
-    } else if( slip_chance < 80 ) {
-        query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
-    } else {
-        query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
-    }}
+    if ( !levitating ) { 
+        if( seems_perfectly_safe ) {
+            query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
+        } else if( slip_chance < 3 ) {
+            query = _( "It <color_green>seems safe</color> to climb down like this." );
+        } else if( slip_chance < 8 ) {
+            query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
+        } else if( slip_chance < 20 ) {
+            query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
+        } else if( slip_chance < 50 ) {
+            query = _( "It <color_red>seems very risky</color> to climb down like this." );
+        } else if( slip_chance < 80 ) {
+            query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
+        } else {
+            query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+        }
+    }
 
     if( !seems_perfectly_safe && !levitating ) {
         std::string hint_fall_damage;
@@ -13488,16 +13490,16 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     bool easy_climb_back_up = false;
     std::string hint_climb_back;
     if ( !levitating ) {
-     if( estimated_climb_cost <= 0  ) {
-        hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
-    } else if( estimated_climb_cost < 200 ) {
-        hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
-        easy_climb_back_up = true;
-    } else {
-        hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
-    }
-    query += "\n";
-    query += hint_climb_back;
+        if( estimated_climb_cost <= 0  ) {
+            hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
+        } else if( estimated_climb_cost < 200 ) {
+            hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
+            easy_climb_back_up = true;
+        } else {
+            hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
+        }
+        query += "\n";
+        query += hint_climb_back;
     }    
 
     std::string query_prompt = _( "Climb down?" );
