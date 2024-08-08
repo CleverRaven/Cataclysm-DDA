@@ -1,5 +1,5 @@
 [
-	{
+  {
     "id": "SHADOW_CHAR_IMMUNE",
     "type": "json_flag",
     "//": "Immune to shadow damage"
