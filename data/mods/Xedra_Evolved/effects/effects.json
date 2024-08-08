@@ -659,7 +659,7 @@
     "//": "Hidden effect, used to make sure bat form can fly.",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
