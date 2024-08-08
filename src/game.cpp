@@ -13434,7 +13434,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
     bool levitating = u.has_flag( json_flag_LEVITATION );
     bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
-    if ( !levitating ) { 
+    if( !levitating ) {
         if( seems_perfectly_safe ) {
             query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
         } else if( slip_chance < 3 ) {
