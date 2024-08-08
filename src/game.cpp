@@ -13434,7 +13434,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
     bool levitating = u.has_flag( json_flag_LEVITATION );
     bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
-    if ( !levitating ) { 
+    if( !levitating ) {
         if( seems_perfectly_safe ) {
             query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
         } else if( slip_chance < 3 ) {
@@ -13489,8 +13489,8 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Note, this easy_climb_back_up can be set by factors other than the climbing aid.
     bool easy_climb_back_up = false;
     std::string hint_climb_back;
-    if ( !levitating ) {
-        if( estimated_climb_cost <= 0  ) {
+    if( !levitating ) {
+        if( estimated_climb_cost <= 0 ) {
             hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
         } else if( estimated_climb_cost < 200 ) {
             hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
@@ -13500,7 +13500,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         }
         query += "\n";
         query += hint_climb_back;
-    }    
+    }
 
     std::string query_prompt = _( "Climb down?" );
     if( !aid.down.confirm_text.empty() ) {
