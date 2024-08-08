@@ -136,5 +136,15 @@
       { "item": "glock_drum_50rd", "prob": 30 },
       { "item": "glock_drum_100rd", "prob": 20 }
     ]
+  },
+  {
+    "id": "vp9_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "vp9mag_9x19mm_10rd", "prob": 70 },
+      { "item": "vp9mag_9x19mm_15rd", "prob": 100 },
+      { "item": "vp9mag_9x19mm_17rd", "prob": 70 },
+      { "item": "vp9mag_9x19mm_20rd", "prob": 50 }
+    ]
   }
 ]

@@ -104,7 +104,8 @@
       { "item": "kpf9", "prob": 24, "charges": [ 0, -1 ] },
       { "item": "hptc9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "cz75", "prob": 7, "charges": [ 0, -1 ] },
-      { "item": "walther_ccp", "prob": 5, "charges": [ 0, -1 ] }
+      { "item": "walther_ccp", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "vp9", "prob": 8, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -198,7 +199,8 @@
       { "item": "walther_ppq_9mm", "prob": 4 },
       { "item": "cz75", "prob": 6 },
       { "item": "walther_ccp", "prob": 6 },
-      { "item": "hptc9", "prob": 2 }
+      { "item": "hptc9", "prob": 2 },
+      { "item": "vp9", "prob": 8 }
     ]
   },
   {

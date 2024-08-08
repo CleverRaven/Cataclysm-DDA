@@ -1313,5 +1313,54 @@
       }
     ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "vp9",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "name": { "str_sp": "9mm semi automatic pistol" },
+    "description": "A semi automatic pistol, chambered in 9mm .",
+    "color": "dark_gray",
+    "looks_like": "glock_17",
+    "price": "750 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "steel", "plastic" ],
+    "weight": "753 g",
+    "volume": "429 ml",
+    "longest_side": "186 mm",
+    "barrel_length": "104 mm",
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "min_cycle_recoil": 450,
+    "dispersion": 480,
+    "durability": 8,
+    "ammo": [ "9mm" ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "vp9mag_9x19mm_10rd", "vp9mag_9x19mm_15rd", "vp9mag_9x19mm_17rd", "vp9mag_9x19mm_20rd" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "vp9",
+        "name": { "str": "VP9" },
+        "description": "An award-winning handgun released by H&K in 2014, VP stands for 'Volkspistole', or 'The people's pistol' while 9 refers to the cartridge it shoots.  Its main feature is its striker system, giving the pistol a single stage-like trigger feel with a clean break."
+      }
+    ]
   }
 ]
