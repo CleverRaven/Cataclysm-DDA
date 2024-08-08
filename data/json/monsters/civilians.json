@@ -73,6 +73,7 @@
       "subtype": "collection",
       "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
     },
+    "upgrades": { "into": "mon_feral_cop" },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
     "starting_ammo": { "40fmj": 10 },
@@ -137,12 +138,9 @@
     "name": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_crawler", "weight": 66, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
-      { "group": "GROUP_FERAL", "weight": 180, "cost_multiplier": 0 }
+      { "monster": "mon_feral_human_pipe", "weight": 240, "cost_multiplier": 0 },
+      { "monster": "mon_feral_sapien_spear", "weight": 20, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 4, "cost_multiplier": 0 }
     ]
   },
   {
