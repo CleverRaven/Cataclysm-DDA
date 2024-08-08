@@ -3488,6 +3488,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "damage_modifier", slot.damage, strict,
             damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
+    assign( jo, "loudness_multiplier", slot.loudness_multiplier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "field_of_view", slot.field_of_view );
