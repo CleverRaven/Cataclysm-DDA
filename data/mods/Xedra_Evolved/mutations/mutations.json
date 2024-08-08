@@ -732,6 +732,117 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_MASTER_MORTAL_MIND",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Master the Mortal Mind" },
+    "description": "Your ability to influence others has amplified.  You can now spend blood while talking with someone else to make them like you more, with the costliest application of this power being able to turn them into your obsessed servants.  Not all can be influenced by this power, for anger, panic and strong ties to a group that isn't yours will disrupt the process.  Other vampires and the rare saint-blooded are also immune to it."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DISTILLATE_INNER_BLOOD",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Distillate the Inner Blood" },
+    "description": "Unlike lesser vampires who bloat as they gorge on blood, you concentrate the blood you consume, making it fit nicely in your veins.  This removes the penalties for containing too much blood, but doesn't expand your maximal capacity.",
+    "enchantments": [ "ench_vampire_no_gorge_issues" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SHADOW_FORM",
+    "points": 0,
+    "name": { "str": "Shape of the Shadowed Path" },
+    "description": "You can shroud your body and what you are carrying with shadows, amplifying your combat ability but preventing communication and using other powers until you return to your normal form.  It also costs blood for every second you spend in that state.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SHADOW_FORM_TRAITS",
+    "name": { "str": "Shadow Form" },
+    "points": 0,
+    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "NIGHT_VIS", "add": 50 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
+          { "value": "DODGE_CHANCE", "add": 15 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ]
+      }
+    ],
+    "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ],
+    "override_look": { "id": "mon_darkman", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_LAST_BREATH_MIST",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Last Breath's Mist" },
+    "description": "Your mastery over your mist form has increased to the point that you can now instinctively activate it should you be about to die.  It requires you to have a lot of stolen blood in your body and can't trigger more than once a week but might save your life."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_IRON_MIND",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Immortal Iron Mind" },
+    "description": "Your vampiric potency has reinforced your mind beyond what a mortal could ever hope.  You are immune to anything that culd negatively impact your mind.",
+    "//": "There is no difference between this and the Ierde version, so I use that one instead of making a new one to avoid duplicates.  The player isn't supposed to see this anyway.",
+    "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLIND_THE_SUN",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blind the Sun" },
+    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.",
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_VAMPIRE_BLIND_THE_SUN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RENFIELD",
+    "name": { "str": "Renfield" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "This person is now a renfield, a human obsessed with serving their vampire masters.  This obsession impedes their cognition as they struggle to think about anything but serving said vampire masters.",
+    "mixed_effect": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace" },
     "points": 0,
