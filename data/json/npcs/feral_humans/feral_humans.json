@@ -1,0 +1,60 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_HUMAN",
+    "dynamic_line": [
+      "&They leer at you intensely while gripping their weapon.",
+      "&They stomp and growl.",
+      "&They swing their weapon menacingly and make strange gestures.",
+      "&They point their finger at you and swing their weapon around."
+    ],
+    "responses": [
+      { "text": "[Try to pacify them.]",
+        "condition": { 
+            "and": [ { "not": {"npc_has_effect": "asked_to_follow"} },{ "not": {"npc_has_effect": "pet"} } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": -20 },
+        "success": { "topic": "TALK_FERAL_HUMAN_EVAC", "effect": [ { "npc_add_effect": "pet", "duration": "PERMANENT" }, {"math": [ "n_val('friendly')", "=", "-1" ] } ] },
+        "failure": { "topic": "TALK_FERAL_HUMAN_EVAC2", "effect": [{ "npc_add_effect": "asked_to_follow", "duration": 4000 }] }
+      },
+      { "text": "[Rouse them up.]", "topic": "TALK_FERAL_HUMAN_EVAC3",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('anger')", "=", "1000" ] }
+      },
+      { "text": "[Calm them down.]", "topic": "TALK_FERAL_HUMAN_EVAC4",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('anger')", "=", "-1000" ] }
+      },
+      { "text": "[This is hopeless.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "[Lead the way.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_HUMAN_EVAC",
+    "dynamic_line": "&Whatever you did seems to have worked! At least for now<punc>",
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_HUMAN_EVAC2",
+    "dynamic_line": "&It's no good. They ignore you completely.",
+    "responses": [ { "text": "[This is hopeless.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_HUMAN_EVAC3",
+    "dynamic_line": "&They raise their weapon and grin!",
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_HUMAN_EVAC4",
+    "dynamic_line": "&They lower their weapon and scowl...",
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  }
+]
