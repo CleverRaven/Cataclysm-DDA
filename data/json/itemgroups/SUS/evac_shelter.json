@@ -78,7 +78,7 @@
             "prob": 30
           },
           { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
-          { "item": "protein_bar_evac", "count": [ 20, 24 ], "container-item": "bag_plastic", "prob": 60 },
+          { "item": "protein_bar_evac", "count": [ 20, 24 ], "container-item": "box_small", "on_overflow": "spill", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70, "charges": 100 },
@@ -139,7 +139,7 @@
             ],
             "prob": 50
           },
-          { "item": "protein_bar_evac", "count": [ 1, 23 ], "container-item": "bag_plastic", "prob": 60 },
+          { "item": "protein_bar_evac", "count": [ 1, 23 ], "container-item": "box_small", "on_overflow": "spill", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 50, "charges": 100 },
