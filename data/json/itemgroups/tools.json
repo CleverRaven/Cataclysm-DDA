@@ -1040,5 +1040,22 @@
     "subtype": "collection",
     "id": "dynamite_shipment",
     "items": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "superglue",
+    "items": [
+      { "item": "superglue", "charges-min": 0, "charges-max": 600, "container-group": "superglue_bottles" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "superglue_bottles",
+    "items": [
+      { "item": "bottle_plastic_micro", "variant": "bottle_plastic_micro", "prob": 90 },
+      { "item": "bottle_plastic_tiny", "variant": "bottle_plastic_tiny_superglue", "prob": 10 }
+    ]
   }
 ]
