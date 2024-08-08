@@ -4,8 +4,21 @@
     "id": "TALK_CIVILIAN_PANIC",
     "dynamic_line": "&You see this crazed fellows eyes darting around anxiously, always anticipating impending doom.  Every now and then you can even hear them whimper in fear.  Although they do not seem aggressive, they definitely are out of their mind.",
     "responses": [
+      { "text": "Follow me if you want to live!",
+        "condition": { 
+            "and": [ { "not": {"npc_has_effect": "asked_to_follow"} },{ "not": {"npc_has_effect": "pet"} } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_CIVILIAN_PANIC_EVAC2", "effect": [ { "npc_add_effect": "pet", "duration": "PERMANENT" }, {"math": [ "n_val('friendly')", "=", "-1" ] } ] },
+        "failure": { "topic": "TALK_CIVILIAN_PANIC_EVAC", "effect": [{ "npc_add_effect": "asked_to_follow", "duration": 4000 }] }
+      },
       { "text": "You need to get to safety!", "topic": "TALK_CIVILIAN_PANIC_EVAC" },
-      { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" }
+      { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "[Lead the way.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] }
+      }
     ]
   },
   {
@@ -16,6 +29,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PANIC_EVAC2",
+    "dynamic_line": "&Still trembling, they nod and move towards you.",
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_CIVILIAN_FIGHTER",
     "dynamic_line": [
       "I'm gonna kill all these <swear> things!",
@@ -23,8 +42,35 @@
       "I'M INVINCIBLE!"
     ],
     "responses": [
-      { "text": "Are you crazy?  Get out of here!", "topic": "TALK_CIVILIAN_FIGHTER_EVAC" },
-      { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE" }
+      { "text": "Come join me! Together we are stronger!",
+        "condition": { 
+            "and": [ { "not": {"npc_has_effect": "asked_to_follow"} },{ "not": {"npc_has_effect": "pet"} } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_CIVILIAN_FIGHTER_EVAC3", "effect": [ { "npc_add_effect": "pet", "duration": "PERMANENT" }, {"math": [ "n_val('friendly')", "=", "-1" ] } ] },
+        "failure": { "topic": "TALK_CIVILIAN_FIGHTER_EVAC2", "effect": [{ "npc_add_effect": "asked_to_follow", "duration": 4000 }] }
+      },
+      { "text": "Are you crazy?  Get out of here!", "topic": "TALK_CIVILIAN_FIGHTER_EVAC",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "Fight!", "topic": "TALK_FERAL_HUMAN_EVAC3",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": [ {"math": [ "n_val('anger')", "=", "1000" ] }, {"math": [ "n_val('morale')", "=", "1000" ] } ]
+      },
+      { "text": "Calm down <dumb> <name_b>!", "topic": "TALK_FERAL_HUMAN_EVAC4",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('anger')", "=", "-1000" ] }
+      },
+      { "text": "Run!", "topic": "TALK_FERAL_HUMAN_EVAC4",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('morale')", "=", "-1000" ] }
+      },
+      { "text": "[Lead the way.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] }
+      }
     ]
   },
   {
@@ -35,12 +81,69 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_CIVILIAN_FIGHTER_EVAC2",
+    "dynamic_line": [ "I don't need your <swear> help! Get out of here <name_b>!" ],
+    "responses": [ { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_FIGHTER_EVAC3",
+    "dynamic_line": [ "Alright! Lets go!" ],
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_CIVILIAN_OFFICER",
     "dynamic_line": [
       "Stand aside citizen, I'll handle this!",
       "Don't worry, I'm with the police<punc>",
       "&The officer scans the area, looking for trouble.  They have a dangerous glint in their eyes."
     ],
+    "responses": [
+      { "text": "I need your help over here! <keep_up>",
+        "condition": { 
+            "and": [ { "not": {"npc_has_effect": "asked_to_follow"} },{ "not": {"npc_has_effect": "pet"} } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_CIVILIAN_OFFICER_EVAC", "effect": [ { "npc_add_effect": "pet", "duration": "PERMANENT" }, {"math": [ "n_val('friendly')", "=", "-1" ] } ] },
+        "failure": { "topic": "TALK_CIVILIAN_OFFICER_EVAC2", "effect": [{ "npc_add_effect": "asked_to_follow", "duration": 4000 }] }
+      },
+      { "text": "[Back away.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "Fight!", "topic": "TALK_CIVILIAN_OFFICER_EVAC3",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": [ {"math": [ "n_val('anger')", "=", "1000" ] }, {"math": [ "n_val('morale')", "=", "1000" ] } ]
+      },
+      { "text": "Put your <swear> weapon down!", "topic": "TALK_CIVILIAN_OFFICER_EVAC3",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('anger')", "=", "-1000" ] }
+      },
+      { "text": "Run!", "topic": "TALK_CIVILIAN_OFFICER_EVAC3",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] },
+        "effect": {"math": [ "n_val('morale')", "=", "-1000" ] }
+      },
+      { "text": "[Lead the way.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_OFFICER_EVAC",
+    "dynamic_line": [ "<okay><punc> lead the way <name_g>!" ],
+    "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_OFFICER_EVAC2",
+    "dynamic_line": [ "Stay close for now<punc> I have to secure the perimeter." ],
+    "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_OFFICER_EVAC3",
+    "dynamic_line": [ "<okay><punc>" ],
     "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
   },
   {
@@ -57,11 +160,36 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PARENT_EVAC2",
+    "dynamic_line": "&They seem to ignore you and continue crying out.",
+    "responses": [ { "text": "[Let them keep on searching.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PARENT_EVAC3",
+    "dynamic_line": [ "I'm coming!", "We have to hurry!", "Show me!" ],
+    "responses": [ { "text": "[Lead the way.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_CIVILIAN_PARENT",
     "dynamic_line": [ "Have you seen my child?", "I am not leaving without my little one!", "Where is my kid?" ],
     "responses": [
-      { "text": "Your child is likely dead by now and you should get to safety!", "topic": "TALK_CIVILIAN_PARENT_EVAC" },
-      { "text": "[Let them keep on searching.]", "topic": "TALK_DONE" }
+      { "text": "Hey <name_g>! I think your kid is this way! Follow me!",
+        "condition": { 
+            "and": [ { "not": {"npc_has_effect": "asked_to_follow"} },{ "not": {"npc_has_effect": "pet"} } ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_CIVILIAN_PARENT_EVAC3", "effect": [ { "npc_add_effect": "pet", "duration": "PERMANENT" }, {"math": [ "n_val('friendly')", "=", "-1" ] } ] },
+        "failure": { "topic": "TALK_CIVILIAN_PARENT_EVAC2", "effect": [{ "npc_add_effect": "asked_to_follow", "duration": 4000 }] }
+      },
+      { "text": "Your child is probably a <zombie> by now! Give it up!", "topic": "TALK_CIVILIAN_PARENT_EVAC" },
+      { "text": "[Let them keep on searching.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "!=", "-1" ] }
+      },
+      { "text": "[Lead the way.]", "topic": "TALK_DONE",
+        "condition": {"math": [ "n_val('friendly')", "==", "-1" ] }
+      }
     ]
   }
 ]
