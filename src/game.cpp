@@ -13124,7 +13124,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
 
     // If you're levitating or flying, there's nothing to slip on
-    if ( climb_flying ) {
+    if( climb_flying ) {
         slip = 0;
     }
 
