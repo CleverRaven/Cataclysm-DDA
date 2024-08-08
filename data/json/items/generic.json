@@ -312,21 +312,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "superglue",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "superglue" },
-    "description": "A tube of strong glue.  Used in many crafting recipes.",
-    "price": "18 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "plastic" ],
-    "weight": "8 g",
-    "volume": "10 ml",
-    "flags": [ "UNRECOVERABLE" ]
-  },
-  {
-    "type": "GENERIC",
     "id": "rubber_cement",
     "category": "spare_parts",
     "symbol": ",",
