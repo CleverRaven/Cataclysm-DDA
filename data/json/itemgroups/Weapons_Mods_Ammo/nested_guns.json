@@ -2119,6 +2119,14 @@
     "entries": [ { "item": "shotgun_d", "charges": [ 0, 2 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_shotgun_triple",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "shotgun_triple", "charges": [ 0, 3 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
     "id": "nested_shotgun_s",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2144,6 +2152,60 @@
       { "item": "srm_1216", "charges": [ 0, 16 ] },
       { "item": "srm_1216_mag_16" },
       { "item": "srm_1216_mag_16", "prob": 50 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_ar12_shotgun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ar12_shotgun", "charges": [ 0, -1 ] },
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "mka_1919_5" }, { "item": "mka_1919_5", "prob": 70 }, { "item": "mka_1919_5", "prob": 30 } ],
+            "prob": 3
+          },
+          {
+            "collection": [ { "item": "mka_1919_10" }, { "item": "mka_1919_10", "prob": 70 }, { "item": "mka_1919_10", "prob": 30 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "item": "mka_1919_20" }, { "item": "mka_1919_20", "prob": 70 }, { "item": "mka_1919_20", "prob": 30 } ],
+            "prob": 1
+          }
+        ]
+      },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_gfy_1",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "gfy_1", "charges": [ 0, -1 ] },
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "mka_1919_5" }, { "item": "mka_1919_5", "prob": 70 }, { "item": "mka_1919_5", "prob": 30 } ],
+            "prob": 3
+          },
+          {
+            "collection": [ { "item": "mka_1919_10" }, { "item": "mka_1919_10", "prob": 70 }, { "item": "mka_1919_10", "prob": 30 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "item": "mka_1919_20" }, { "item": "mka_1919_20", "prob": 70 }, { "item": "mka_1919_20", "prob": 30 } ],
+            "prob": 1
+          }
+        ]
+      },
       { "group": "on_hand_shot" }
     ]
   },
@@ -2282,14 +2344,6 @@
       { "item": "saiga10mag", "prob": 50 },
       { "group": "on_hand_shot" }
     ]
-  },
-  {
-    "id": "nested_streetsweeper",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "streetsweeper", "charges": [ 0, 12 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_saiga_410",
