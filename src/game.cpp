@@ -11847,7 +11847,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             if( climb_flying ) {
                 u.set_activity_level( MODERATE_EXERCISE );
-                move_cost = 100; 
+                move_cost = 100;
             } else {
                 u.set_activity_level( EXTRA_EXERCISE );
                 move_cost = cost == 0 ? 1000 : cost + 500;
