@@ -11845,7 +11845,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             climbing = true;
             climbing_aid = climbing_aid_furn_CLIMBABLE;
 
-            if ( climb_flying) {
+            if( climb_flying ) {
                 u.set_activity_level( MODERATE_EXERCISE );
                 move_cost = 100; 
             } else {
