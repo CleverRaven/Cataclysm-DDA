@@ -13489,8 +13489,8 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Note, this easy_climb_back_up can be set by factors other than the climbing aid.
     bool easy_climb_back_up = false;
     std::string hint_climb_back;
-    if ( !levitating ) {
-        if( estimated_climb_cost <= 0  ) {
+    if( !levitating ) {
+        if( estimated_climb_cost <= 0 ) {
             hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
         } else if( estimated_climb_cost < 200 ) {
             hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
