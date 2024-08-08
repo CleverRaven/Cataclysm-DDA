@@ -12,6 +12,28 @@
   },
   {
     "type": "npc",
+    "id": "BEM_prototype_cyborg_with_yonked_bionics",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "cyborg rescue",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BGSS_CYBORG_1_STORY1",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_prototype_cyborg_with_bionics",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "kicking cyborg",
+    "class": "NC_CYBORG_RESCUE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BGSS_CYBORG_1_STORY1",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
     "id": "BEM_silent_veteran",
     "name_unique": "the drinking veteran",
     "class": "NC_ANCILLA_GRUNT",
