@@ -3661,7 +3661,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "mbag" },
@@ -5460,7 +5460,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "linuxtshirt" },
+          { "item": "tshirt", "variant": "tux" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },
@@ -5854,7 +5854,7 @@
       "both": {
         "entries": [
           { "item": "jacket_jean" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -5884,7 +5884,7 @@
         "magazine": 100,
         "entries": [
           { "item": "mbag" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "shorts_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -6951,7 +6951,7 @@
       },
       "male": {
         "entries": [
-          { "item": "flag_shirt" },
+          { "item": "tshirt", "variant": "flag_shirt" },
           { "item": "sneakers" },
           { "item": "flag_swimsuit", "variant": "flag_swimsuit" },
           { "item": "pants", "variant": "pants_flag" }
@@ -7369,7 +7369,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "hoodie" },
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "crowbar" },
           { "item": "camera_bag" },
           { "item": "slingpack" },

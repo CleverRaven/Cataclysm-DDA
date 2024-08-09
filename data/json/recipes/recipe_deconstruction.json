@@ -4351,46 +4351,6 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "tshirt_tour",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "tailor",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "tshirt_text",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "skill_used": "tailor",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "flag_shirt",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "skill_used": "tailor",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "linuxtshirt",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "skill_used": "tailor",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
     "result": "longshirt",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
