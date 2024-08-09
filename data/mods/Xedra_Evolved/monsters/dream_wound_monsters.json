@@ -158,7 +158,11 @@
       },
       [ "scratch", 15 ]
     ],
-    "death_function": { "effect": { "id": "death_shadowman", "hit_self": true }, "message": "Threads stitch the %s back into whatever realm it comes from!", "corpse_type": "NO_CORPSE" },
+    "death_function": {
+      "effect": { "id": "death_shadowman", "hit_self": true },
+      "message": "Threads stitch the %s back into whatever realm it comes from!",
+      "corpse_type": "NO_CORPSE"
+    },
     "regenerates_in_dark": true,
     "flags": [
       "SEES",
