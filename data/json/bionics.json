@@ -1392,8 +1392,11 @@
     "name": { "str": "Infolink" },
     "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ],
-    "passive_pseudo_items": [ "fake_radio" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "TWO_WAY_RADIO" ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 h"
   },
   {
     "id": "bio_radscrubber",
