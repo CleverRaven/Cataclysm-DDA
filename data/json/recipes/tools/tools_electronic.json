@@ -190,7 +190,6 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 4,
     "using": [ [ "soldering_standard", 14 ] ],
     "proficiencies": [

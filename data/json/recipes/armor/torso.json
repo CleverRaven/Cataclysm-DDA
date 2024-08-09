@@ -2026,7 +2026,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -2074,7 +2074,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "7 h 45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -2130,7 +2130,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2217,7 +2217,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -2279,7 +2279,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h 30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
@@ -2287,6 +2287,7 @@
     "copy-from": "maid_dress",
     "result": "maid_dress_xl",
     "type": "recipe",
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_cotton", 12 ] ]
   },
   {
@@ -2304,7 +2305,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h",
-    "reversible": true,
+    "reversible": { "time": "7 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 6 ] ]
   },
@@ -2312,6 +2313,7 @@
     "copy-from": "maid_dress_short",
     "type": "recipe",
     "result": "maid_dress_short_xl",
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
   {
