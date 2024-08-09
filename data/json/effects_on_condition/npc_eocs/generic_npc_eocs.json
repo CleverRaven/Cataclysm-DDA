@@ -423,14 +423,15 @@
     "recurrence": "1 hours",
     "condition": "u_is_npc",
     "effect": [
-      { "u_set_talker": { "u_val": "u_character_id" } },
-      { "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT", "beta_talker": { "u_val": "u_character_id" } }
+      { "u_set_talker": { "global_val": "u_character_id" } },
+      { "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT", "beta_talker": { "global_val": "u_character_id" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT",
     "effect": [
+      { "u_set_talker": { "global_val": "u_character_id" } },
       {
         "if": {
           "and": [
@@ -452,21 +453,26 @@
         },
         "then": [
           {
-            "switch": { "math": [ "floor((time_since(n_timer_forgiveness) / 86400))" ] },
-            "cases": [
-              {
-                "case": { "math": [ "ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))" ] },
-                "effect": [
-                  { "math": [ "n_val( 'npc_anger' )", "-=", "1" ] },
-                  { "npc_lose_var": "npc_has_forgiveness_timer" },
-                  { "math": [ "n_timer_forgiveness", "=", "time('now')" ] }
-                ]
-              }
-            ]
-          },
-          {
-            "if": { "math": [ "n_val( 'npc_anger' )", "<", "0" ] },
-            "then": [ { "math": [ "n_val( 'npc_anger' )", "=", "0" ] } ]
+            "queue_eoc_with": {
+              "id": "EOC_NPC_PLAYER_FORGIVENESS_QUEUE_SECONDARY_EFFECT",
+              "global": false,
+              "condition": "u_is_npc",
+              "effect": [
+                {
+                  "if": { "math": [ "n_val( 'npc_anger' )", "==", "30" ] },
+                  "then": [ { "math": [ "n_val( 'npc_anger' )", "=", "19" ] }, "follow_only", "stop_following" ]
+                },
+                { "math": [ "n_val( 'npc_anger' )", "-=", "1" ] },
+                { "npc_lose_var": "npc_has_forgiveness_timer" },
+                { "math": [ "n_timer_forgiveness", "=", "time('now')" ] },
+                {
+                  "if": { "math": [ "n_val( 'npc_anger' )", "<", "0" ] },
+                  "then": [ { "math": [ "n_val( 'npc_anger' )", "=", "0" ] } ]
+                }
+              ]
+            },
+            "time_in_future": { "math": [ "ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1)) d" ] },
+            "variables": { "beta_talker": { "global_val": "u_character_id" } }
           }
         ]
       }
