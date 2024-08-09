@@ -740,6 +740,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
+    part_project_points( dp );
     for( int p = 0; p < part_count(); p++ ) {
         const vehicle_part &vp = parts.at( p );
         if( vp.removed || !vp.is_real_or_active_fake() ) {
@@ -753,7 +754,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
+        const tripoint dsp = vp.next_pos.raw();
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
