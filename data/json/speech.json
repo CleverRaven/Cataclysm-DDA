@@ -3047,7 +3047,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "wheezing",
+    "sound": "wheezing.",
     "volume": 10
   },
   {
@@ -3116,7 +3116,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "moaning",
+    "sound": "moaning.",
     "volume": 20
   },
   {
@@ -3185,7 +3185,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "growling",
+    "sound": "growling.",
     "volume": 15
   },
   {
@@ -3254,7 +3254,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "groaning",
+    "sound": "groaning.",
     "volume": 20
   },
   {
@@ -3323,7 +3323,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "gasping",
+    "sound": "gasping.",
     "volume": 5
   },
   {
@@ -3392,7 +3392,7 @@
       "mon_zombie_winged",
       "mon_zombie_brute_winged"
     ],
-    "sound": "grunting",
+    "sound": "grunting.",
     "volume": 10
   },
   {
@@ -3474,13 +3474,13 @@
       "mon_boomer_glutton",
       "mon_boomer_claymore"
     ],
-    "sound": "gargling",
+    "sound": "gargling.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_skeleton", "mon_skeleton_brute", "mon_skeleton_electric", "mon_skeleton_slasher", "mon_skeleton_reaper" ],
-    "sound": "hissing",
+    "sound": "hissing.",
     "volume": 10
   }
 ]
