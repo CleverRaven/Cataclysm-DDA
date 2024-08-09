@@ -10,6 +10,11 @@
     "replace": "combat_exoskeleton_armor_head_light"
   },
   {
+    "id": "streetsweeper",
+    "type": "MIGRATION",
+    "replace": "dp_12"
+  },
+  {
     "id": "power_armor_frame",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"
