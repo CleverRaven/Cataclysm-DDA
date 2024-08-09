@@ -26,7 +26,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "glue_all", 4 ] ],
+    "using": [ [ "glue_any", 4 ] ],
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
@@ -57,7 +57,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "using": [ [ "glue_all", 4 ] ],
+    "using": [ [ "glue_any", 4 ] ],
     "components": [ [ [ "nm_teeth", 4 ] ] ]
   },
   {

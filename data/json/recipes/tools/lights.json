@@ -363,10 +363,9 @@
     "time": "45 m",
     "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "glue_strong", 10 ] ],
     "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ] ]
   },
   {
@@ -380,10 +379,9 @@
     "time": "45 m",
     "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "glue_strong", 15 ] ],
     "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ] ]
   },
   {
