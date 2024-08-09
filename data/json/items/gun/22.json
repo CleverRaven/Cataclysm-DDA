@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "marlin_9a",
-        "name": { "str": "Marlin 39A rifle" },
+        "name": { "str": "Marlin 39A" },
         "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
       }
     ],
@@ -103,7 +103,7 @@
     "variants": [
       {
         "id": "ruger_1022",
-        "name": { "str": "Ruger 10/22 rifle" },
+        "name": { "str": "Ruger 10/22" },
         "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
       }
     ],
@@ -156,7 +156,7 @@
     "variants": [
       {
         "id": "ruger_1022_auto",
-        "name": { "str": "full-auto Ruger 10/22 rifle" },
+        "name": { "str": "full-auto Ruger 10/22" },
         "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
       }
     ],
@@ -174,7 +174,7 @@
     "variants": [
       {
         "id": "ruger_lcr_22",
-        "name": { "str": "Ruger LCR .22 revolver" },
+        "name": { "str": "Ruger LCR .22" },
         "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame."
       }
     ],
@@ -198,7 +198,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "firefly training pistol" },
+    "name": { "str": "Firefly training pistol" },
     "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
@@ -253,7 +253,7 @@
     "variants": [
       {
         "id": "walther_p22",
-        "name": { "str": "Walther P22 pistol" },
+        "name": { "str": "Walther P22" },
         "description": "The Walther P22 is a blowback operated semi-automatic pistol intended for training with a platform very similar to more defensive handguns.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components (other than the barrel) being made of die-cast zinc alloy."
       }
     ],
@@ -286,7 +286,7 @@
       {
         "id": "cp33",
         "name": { "str": "CP33" },
-        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
+        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi-automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
       }
     ],
     "weight": "669 g",
@@ -487,7 +487,7 @@
     "id": "rough_rider_pistol",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": ".22 six-shooter" },
+    "name": { "str": ".22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "947 g",
@@ -512,7 +512,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Heritage Rough Rider 6.5\"" },
+        "name": { "str": "Heritage Rough Rider 6.5\"", "str_pl": "Heritage Rough Riders 6.5\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
       }
     ]
@@ -521,7 +521,7 @@
     "id": "rough_rider_pistol_9",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": "large .22 six-shooter" },
+    "name": { "str": "large .22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 9 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "1046 g",
@@ -548,7 +548,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Heritage Rough Rider 9\"" },
+        "name": { "str": "Heritage Rough Rider 9\"", "str_pl": "Heritage Rough Riders 9\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
       }
     ]

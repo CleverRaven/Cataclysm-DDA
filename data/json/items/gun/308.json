@@ -10,8 +10,8 @@
     "variants": [
       {
         "id": "fal_dsa",
-        "name": { "str": "DSA SA-58 rifle" },
-        "description": "Originally designed during the Cold War, the FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone of the SA-58 pattern built by DSA."
+        "name": { "str": "DSA SA-58" },
+        "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone built by a domestic manufacturer."
       }
     ],
     "weight": "4250 g",
@@ -46,12 +46,12 @@
     "variants": [
       {
         "id": "g3_ptr",
-        "name": { "str": "PTR 91 rifle" },
-        "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
+        "name": { "str": "PTR 91" },
+        "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  Known as the PTR 91, it is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       },
       {
         "id": "g3_cetme",
-        "name": { "str": "Century C308 rifle" },
+        "name": { "str": "Century C308" },
         "description": "A semi-automatic, domestically produced clone of the CETME Model C, the progenitor of the famous H&K G3 battle rifle.  The CETME is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       }
     ],
@@ -145,7 +145,7 @@
     "variants": [
       {
         "id": "m1a",
-        "name": { "str": "M1A rifle" },
+        "name": { "str": "M1A" },
         "description": "This civilian variant of the M14 is essentially the M1 Garand from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries."
       }
     ],
@@ -262,7 +262,7 @@
     "id": "m60_semi",
     "type": "GUN",
     "copy-from": "m60",
-    "name": { "str": "M60 semi auto machine gun" },
+    "name": { "str": "M60 semi-auto machine gun" },
     "description": "A semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
@@ -298,7 +298,7 @@
     "copy-from": "scar_l",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "FN SCAR-H rifle" },
+    "name": { "str": "FN SCAR-H assault rifle" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ascii_picture": "scar-H",
     "weight": "3630 g",
@@ -366,7 +366,7 @@
     "variants": [
       {
         "id": "hk417_13",
-        "name": { "str": "HK417 A2 rifle" },
+        "name": { "str": "HK417 A2" },
         "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36."
       }
     ],
@@ -400,7 +400,7 @@
     "variants": [
       {
         "id": "m110a1",
-        "name": { "str": "M110A1 rifle" },
+        "name": { "str": "M110A1" },
         "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition."
       }
     ],
@@ -433,7 +433,7 @@
     "variants": [
       {
         "id": "papm77",
-        "name": { "str": "PAP M77 rifle" },
+        "name": { "str": "PAP M77" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
@@ -506,7 +506,7 @@
     "variants": [
       {
         "id": "rfb_308",
-        "name": { "str": "Kel-Tec RFB rifle" },
+        "name": { "str": "Kel-Tec RFB" },
         "description": "This is a semi-automatic bullpup rifle with a lightweight, polymer frame, using magazines from the FN FAL and the .308 Winchester cartridge.  The rifle, forward-ejection, bullpup (abbreviated as RFB) features forward case ejection, ambidextrous controls, and structural use of the barrel, uncommon in modern designs."
       }
     ],
@@ -547,7 +547,7 @@
     "variants": [
       {
         "id": "steyr_scout",
-        "name": { "str": "Steyr Scout rifle" },
+        "name": { "str": "Steyr Scout" },
         "description": "The Steyr Scout is Steyr's interpretation of Jeff Cooper's concept of a 'scout rifle', a versatile, all-purpose hunting rifle.  To this end, it is exceedingly lightweight, and contains a built-in polymer bipod, and fits a spare magazine inside the stock for fast reloading.  While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world."
       }
     ],
