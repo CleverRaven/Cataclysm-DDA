@@ -109,6 +109,16 @@
     "damage_reduction": { "all": 50 }
   },
   {
+    "id": "diesel_engine_inline1",
+    "copy-from": "diesel_engine",
+    "durability": 300,
+    "type": "vehicle_part",
+    "item": "i1_diesel",
+    "epower": "-200 W",
+    "power": "93250 W",
+    "description": "A single-cylinder diesel engine."
+  },
+  {
     "id": "diesel_engine_v6",
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
@@ -211,6 +221,13 @@
       }
     },
     "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_1cyl_med",
+    "copy-from": "engine_1cyl_large",
+    "type": "vehicle_part",
+    "item": "1cyl_combustion_med",
+    "description": "A 150 cc engine, suitable for a dirt bike, scooter or generator."
   },
   {
     "id": "engine_1cyl_diesel_large",
