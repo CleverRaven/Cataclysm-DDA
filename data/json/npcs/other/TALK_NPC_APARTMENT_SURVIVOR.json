@@ -52,7 +52,7 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [ { "math": [ "n_npc_trust()", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
         }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_APARTMENT_SURVIVOR_INTRO", "effect": "start_trade" },

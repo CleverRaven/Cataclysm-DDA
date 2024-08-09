@@ -1412,6 +1412,87 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> npc_anger_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_anger();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_fear_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_fear();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_value_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_value();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_trust_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_trust();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> npc_anger_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_anger( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_fear_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_fear( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_value_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_value( val );
+    };
+}
+
+
+std::function<void( dialogue &, double )> npc_trust_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_trust( val );
+    };
+}
+
 std::function<double( dialogue & )> calories_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
@@ -1633,6 +1714,10 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
+    { "npc_anger", { "un", 0, npc_anger_eval } },
+    { "npc_fear", { "un", 0, npc_fear_eval } },
+    { "npc_value", { "un", 0, npc_value_eval } },
+    { "npc_trust", { "un", 0, npc_trust_eval } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
@@ -1660,6 +1745,10 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", 1, u_val_ass } },
+    { "npc_anger", { "un", 0, npc_anger_ass } },
+    { "npc_fear", { "un", 0, npc_fear_ass } },
+    { "npc_value", { "un", 0, npc_value_ass } },
+    { "npc_trust", { "un", 0, npc_trust_ass } },
     { "calories", { "un", 0, calories_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },

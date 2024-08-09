@@ -9,8 +9,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE_MISSION",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt1" } },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt2" } },
@@ -43,8 +43,8 @@
                 { "u_has_mission": "mission_best_friend_gamehunt3" }
               ]
             },
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "not": { "u_has_var": "best_friend", "value": "yes" } }
           ]
@@ -62,8 +62,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "u_has_var": "best_friend", "value": "yes" },
             { "not": { "npc_has_trait": "VAMPIRE_SACRIFICE" } }
@@ -82,8 +82,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", "<=", "9" ] },
-            { "math": [ "n_val('npc_value')", "<=", "9" ] },
+            { "math": [ "n_npc_trust()", "<=", "9" ] },
+            { "math": [ "n_npc_value()", "<=", "9" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
           ]
         }
