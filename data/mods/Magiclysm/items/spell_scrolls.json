@@ -1471,7 +1471,7 @@
     "id": "spell_scroll_magus_slowfall",
     "//": "Magus spell",
     "name": { "str": "Scroll of Slowfall", "str_pl": "Scrolls of Slowfall" },
-    "description": "Who's afraid of heights?  Not you, after you learn this spell.",
+    "description": "Who's afraid of heights?  Not you, after you read this scroll.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_slowfall" ] }
   },
   {

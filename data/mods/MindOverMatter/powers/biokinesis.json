@@ -388,7 +388,7 @@
     "id": "biokin_reflex_enhance",
     "type": "SPELL",
     "name": "[Ψ]Heightened Reflexes (C)",
-    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
