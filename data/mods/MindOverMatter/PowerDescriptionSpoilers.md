@@ -853,7 +853,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: 1 to 5 seconds, plus 0.75 to 2 seconds per power level<br />
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
-*Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
+*Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
 
 # Megakinesis

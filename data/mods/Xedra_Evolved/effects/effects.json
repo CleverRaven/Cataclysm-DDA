@@ -659,7 +659,7 @@
     "//": "Hidden effect, used to make sure bat form can fly.",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
@@ -1497,6 +1497,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_levitation",
+    "//": "Hidden, paired with the previous effect sometimes but not always.",
+    "name": [  ],
+    "desc": [  ],
+    "flags": [ "CLIMB_FLYING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_hindering_wind",
     "name": [ "Hindering Winds" ],
     "desc": [ "The winds are swirling around you and slowing you down!" ],
@@ -1530,7 +1538,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",

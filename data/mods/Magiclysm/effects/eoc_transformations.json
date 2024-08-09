@@ -207,7 +207,6 @@
                         ]
                       },
                       { "u_add_trait": "DRUID_SHIFTER_RAVEN_FORM_TRAITS" },
-                      { "math": [ "u_spell_level('druid_raven_form_fly_upward')", "=", "0" ] },
                       {
                         "u_message": "Your body shifts and changes as you concentrate and you take wing as a raven.",
                         "type": "good"

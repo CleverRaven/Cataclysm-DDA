@@ -2418,6 +2418,11 @@
     "info": "You feel like you would keep all your items if you somehow became incorporeal."
   },
   {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"

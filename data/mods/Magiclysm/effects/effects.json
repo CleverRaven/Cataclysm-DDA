@@ -1331,7 +1331,7 @@
     "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
