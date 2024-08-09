@@ -327,6 +327,13 @@ return true if alpha talker is female
 - `npc` is any NPC, except Avatar
 - `character` is both NPC or Avatar
 
+```
+Creature ---> Character ---> avatar
+          \              \
+           \              \--> npc
+            \---> monster
+```
+
 #### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |

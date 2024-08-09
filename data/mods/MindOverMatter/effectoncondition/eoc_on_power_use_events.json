@@ -26,19 +26,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS",
+    "effect": [ { "run_eocs": [ "EOC_PHOTOKIN_REMOVE_INVISIBILITY" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS" ] },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS" ] },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
   },
   {
     "type": "effect_on_condition",
