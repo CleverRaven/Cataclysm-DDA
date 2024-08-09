@@ -862,7 +862,11 @@
       {
         "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
         "condition": {
-          "and": [ { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } }, { "math": [ "exodii_knows_hub01", "!=", "1" ] } ]
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
+            { "not": { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } },
+            { "math": [ "exodii_knows_hub01", "!=", "1" ] }
+          ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
@@ -871,6 +875,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
+            { "not": { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } },
             { "math": [ "warehouse_was_found", "!=", "1" ] },
             { "math": [ "exodii_knows_hub01", "==", "1" ] }
           ]

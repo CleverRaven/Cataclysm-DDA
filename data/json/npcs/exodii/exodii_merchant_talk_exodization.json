@@ -5,7 +5,7 @@
     "dynamic_line": "Sure an' I can make you a cyborg, here an' now, since you're a developer an' all.",
     "responses": [
       {
-        "text": "Let's do it.",
+        "text": "[Install CBM Interface] Let's do it.",
         "effect": [
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
@@ -186,7 +186,7 @@
     },
     "responses": [
       {
-        "text": "All right.  Let's do this.",
+        "text": "[Install CBM Interface] All right.  Let's do this.",
         "effect": [
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
