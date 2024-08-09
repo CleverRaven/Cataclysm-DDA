@@ -1722,9 +1722,15 @@ void options_manager::add_options_general()
              true, COPT_NO_SOUND_HIDE
            );
 
+
+        std::vector<id_and_option> const soundpacks = build_soundpacks_list();
         add( "SOUNDPACKS", page_id, to_translation( "Choose soundpack" ),
              to_translation( "Choose the soundpack you want to use.  Requires restart." ),
-             build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
+             soundpacks, std::any_of( soundpacks.begin(), soundpacks.end(),
+        []( const id_and_option & option ) {
+            return option.first == "CC-Sounds";
+        } )  ? "CC-Sounds" : "basic",
+        COPT_NO_SOUND_HIDE
            ); // populate the options dynamically
 
         get_option( "SOUNDPACKS" ).setPrerequisite( "SOUND_ENABLED" );

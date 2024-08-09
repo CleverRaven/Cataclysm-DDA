@@ -48,6 +48,7 @@ enum class mod : int {
     REGEN_STAMINA,
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
+    MUT_INSTABILITY_MOD,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,

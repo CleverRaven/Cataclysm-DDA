@@ -40,7 +40,7 @@
     "name": "oil platform",
     "sym": "O",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_OIL_PLATFORM", "population": [ 15, 20 ], "chance": 100 },
     "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   },
@@ -59,7 +59,7 @@
     "name": "oil platform",
     "sym": "O",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_OIL_PLATFORM", "population": [ 25, 35 ], "chance": 100 },
     "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   },
@@ -165,7 +165,7 @@
     "name": "oil platform",
     "sym": "O",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   }
 ]

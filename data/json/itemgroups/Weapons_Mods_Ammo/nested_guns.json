@@ -745,6 +745,22 @@
     "entries": [ { "item": "ruger_lcr_22", "charges": [ 0, 8 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rough_rider_pistol",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rough_rider_pistol", "charges": [ 0, 6 ] }, { "group": "on_hand_22" } ]
+  },
+  {
+    "id": "nested_rough_rider_pistol_9",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rough_rider_pistol_9", "charges": [ 0, 6 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_sig_40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

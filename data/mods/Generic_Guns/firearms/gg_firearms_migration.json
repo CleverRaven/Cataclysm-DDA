@@ -206,7 +206,9 @@
       "walther_ppk",
       "pressin",
       "cp33",
-      "ruger_mk4"
+      "ruger_mk4",
+      "rough_rider_pistol",
+      "rough_rider_pistol_9"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

@@ -379,7 +379,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "cigar" },
-    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.\nA gentleman's vice, cigars set the civil man apart from the savage.",
+    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.",
     "weight": "9 g",
     "volume": "50 ml",
     "price": "2 USD",

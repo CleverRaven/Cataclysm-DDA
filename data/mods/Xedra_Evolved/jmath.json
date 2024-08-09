@@ -115,7 +115,7 @@
     "id": "vampire_total_tier_four_traits",
     "//": "This is where all new added tier four traits should be placed",
     "num_args": 0,
-    "return": "u_has_trait('TRUE_VAMPIRE_POWER') + u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS')"
+    "return": "u_has_trait('TRUE_VAMPIRE_POWER') + u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS') + u_has_trait('VAMPIRE_BAT_FORM') + u_has_trait('VAMPIRE_WOLF_FORM') + u_has_trait('VAMPIRE_MIST_FORM')"
   },
   {
     "type": "jmath_function",
@@ -123,5 +123,12 @@
     "//": "This is the statement that should be used in power scaling calculations, to make sure that True Vampire's Potence is properly accounted for without blocking the gaining of additional powers",
     "num_args": 0,
     "return": "vampire_total_tier_four_traits() + (u_has_trait('TRUE_VAMPIRE_POWER') * 5)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "vampire_total_tier_five_traits",
+    "//": "This is where all newly-added tier five traits should be placed",
+    "num_args": 0,
+    "return": "u_has_trait('VAMPIRE_MASTER_MORTAL_MIND') + u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') + u_has_trait('VAMPIRE_SHADOW_FORM') + u_has_trait('VAMPIRE_LAST_BREATH_MIST') + u_has_trait('VAMPIRE_IRON_MIND') + u_has_trait('VAMPIRE_BLIND_THE_SUN')"
   }
 ]

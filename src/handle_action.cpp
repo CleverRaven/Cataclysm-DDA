@@ -2714,9 +2714,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WORKOUT:
-            if( query_yn( _( "Start workout?" ) ) ) {
-                player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
-            }
+            player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
             break;
 
         case ACTION_SUICIDE:

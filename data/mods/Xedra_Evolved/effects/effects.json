@@ -1941,5 +1941,21 @@
     "show_intensity": false,
     "show_in_info": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": -130 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_no_gorge_issues",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "blood_quenched" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "last_breath_mist_cooldown",
+    "name": [ "Recovering from the last breath's mist" ],
+    "desc": [
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+    ]
   }
 ]
