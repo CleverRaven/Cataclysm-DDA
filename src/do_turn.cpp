@@ -207,7 +207,7 @@ bool cleanup_at_end()
     sfx::fade_audio_group( sfx::group::weather, 300 );
     sfx::fade_audio_group( sfx::group::time_of_day, 300 );
     sfx::fade_audio_group( sfx::group::context_themes, 300 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 300 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 300 );
 
     zone_manager::get_manager().clear();
 
@@ -750,7 +750,7 @@ bool do_turn()
     sfx::do_danger_music();
     sfx::do_vehicle_engine_sfx();
     sfx::do_vehicle_exterior_engine_sfx();
-    sfx::do_sleepiness();
+    sfx::do_low_stamina_sfx();
 
     // reset player noise
     u.volume = 0;

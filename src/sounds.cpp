@@ -1633,7 +1633,7 @@ void sfx::do_danger_music()
     prev_hostiles = hostiles;
 }
 
-void sfx::do_sleepiness()
+void sfx::do_low_stamina_sfx()
 {
     if( test_mode ) {
         return;
@@ -1648,48 +1648,48 @@ void sfx::do_sleepiness()
     16: Stamina 50%
     17: Stamina 25%*/
     if( player_character.get_stamina() >= player_character.get_stamina_max() * .75 ) {
-        fade_audio_group( group::sleepiness, 2000 );
+        fade_audio_group( group::low_stamina, 2000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_low", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_med", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_high", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_low", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_med", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && !player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_high", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
     }
@@ -2037,7 +2037,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::stop_sound_effect_timed( channel, int ) { }
 void sfx::do_player_death_hurt( const Character &, bool ) { }
-void sfx::do_sleepiness() { }
+void sfx::do_low_stamina_sfx() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
                               const std::optional<bool> &, const std::optional<bool> &, int ) { }
