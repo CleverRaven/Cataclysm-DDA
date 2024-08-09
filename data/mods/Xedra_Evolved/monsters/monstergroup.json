@@ -36,6 +36,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_DREAM_WOUND_SHADOW",
+    "default": "mon_dream_shadow",
+    "monsters": [
+      { "monster": "mon_dream_shadow", "weight": 500, "cost_multiplier": 0 },
+      { "monster": "mon_dream_shadowbeast", "weight": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
