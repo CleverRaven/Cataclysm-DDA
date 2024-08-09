@@ -73,11 +73,6 @@
   },
   {
     "type": "oter_id_migration",
-    "//": "migrated in 0.I",
-    "oter_ids": { "basement_bionic": "basement_chem" }
-  },
-  {
-    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so to be removed after 0.I stable",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
