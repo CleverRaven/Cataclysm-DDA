@@ -28,7 +28,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5 }

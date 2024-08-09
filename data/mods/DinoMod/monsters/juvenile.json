@@ -422,7 +422,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,

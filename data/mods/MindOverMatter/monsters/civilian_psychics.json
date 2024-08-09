@@ -58,7 +58,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "diff": 0,
     "dodge": 4,
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
