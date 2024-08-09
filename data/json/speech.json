@@ -3479,7 +3479,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_skeleton", "mon_skeleton_brute", "mon_skeleton_electric", "mon_skeleton_slasher", "mon_skeleton_reaper" ],
+    "speaker": [ "mon_skeleton", "mon_skeleton_brute", "mon_skeleton_electric", "mon_skeleton_slasher" ],
     "sound": "hissing.",
     "volume": 10
   }
