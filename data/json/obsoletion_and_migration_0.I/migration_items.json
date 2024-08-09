@@ -98,17 +98,20 @@
   {
     "id": "flag_shirt",
     "type": "MIGRATION",
-    "replace": "tshirt"
+    "replace": "tshirt",
+    "variant": "flag_shirt"
   },
   {
     "id": "linuxtshirt",
     "type": "MIGRATION",
-    "replace": "tshirt"
+    "replace": "tshirt",
+    "variant": "tux"
   },
   {
     "id": "tshirt_tour",
     "type": "MIGRATION",
-    "replace": "tshirt"
+    "replace": "tshirt",
+    "variant": "death"
   },
   {
     "id": "fridge",
