@@ -6,7 +6,7 @@
     "components": [ [ [ "duct_tape", 25 ], [ "superglue", 10 ], [ "bone_glue", 1 ] ] ]
   },
   {
-    "id": "glue_all",
+    "id": "glue_any",
     "type": "requirement",
     "//": "Any type of all-surface glue.  Each unit is 1cm^2 of coverage",
     "components": [ [ [ "superglue", 4 ], [ "bone_glue", 1 ] ] ]

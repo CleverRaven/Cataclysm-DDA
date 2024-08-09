@@ -1214,7 +1214,7 @@
     "difficulty": 5,
     "time": "8 h",
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 7 ], [ "glue_any", 1 ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 7 ], [ "glue_any", 1 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
