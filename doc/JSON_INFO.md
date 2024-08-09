@@ -4205,6 +4205,7 @@ Gun mods can be defined like this:
 "damage_modifier": { "damage_type": "bullet", "amount": -1 }, // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
+"loudness_multiplier": 0.5     // Optional field increasing or decreasing base guns loudness as multiplier. 0.5 would halve the gun loudness, 2 would double it
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
 "integral_longest_side": "5 cm", // Length that would be added to a gun when this mod is installed

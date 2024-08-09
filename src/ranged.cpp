@@ -2251,11 +2251,12 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    for( const item *mod : gunmods() ) {
-        noise += mod->type->gunmod->loudness;
-    }
     if( ammo_data() ) {
         noise += ammo_data()->ammo->loudness;
+    }
+    for( const item *mod : gunmods() ) {
+        noise += mod->type->gunmod->loudness;
+        noise *= mod->type->gunmod->loudness_multiplier;
     }
 
     noise = std::max( noise, 0 );
