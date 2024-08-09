@@ -72,61 +72,6 @@ const std::vector<add_type> &add_type::get_all()
     return add_type_factory.get_all();
 }
 
-static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
-{
-    static time_point last_alc_dream = calendar::turn_zero;
-    static time_point last_dia_dream = calendar::turn_zero;
-    const bool recent_dream = ( is_alcohol && ( calendar::turn - last_alc_dream < 2_hours ) ) ||
-                              ( !is_alcohol && ( calendar::turn - last_dia_dream < 2_hours ) );
-    const morale_type morale_type = is_alcohol ? morale_craving_alcohol :
-                                    morale_craving_diazepam;
-    bool ret = false;
-    u.mod_per_bonus( -1 );
-    u.mod_int_bonus( -1 );
-    if( x_in_y( in, to_turns<int>( 2_hours ) ) ) {
-        u.mod_daily_health( -1, -in * 10 );
-        ret = true;
-    }
-    if( one_in( 20 ) && rng( 0, 20 ) < in && ( !u.in_sleep_state() || !recent_dream ) ) {
-        const std::string msg_1 =
-            is_alcohol ?
-            ( u.in_sleep_state() ? "addict_alcohol_mild_asleep" : "addict_alcohol_mild_awake" ) :
-            ( u.in_sleep_state() ? "addict_diazepam_mild_asleep" : "addict_diazepam_mild_awake" );
-        u.add_msg_if_player( m_warning,
-                             SNIPPET.random_from_category( msg_1 ).value_or( translation() ).translated() );
-        u.add_morale( morale_type, -35, -10 * in );
-        ret = true;
-        if( u.in_sleep_state() ) {
-            if( is_alcohol ) {
-                last_alc_dream = calendar::turn;
-            } else {
-                last_dia_dream = calendar::turn;
-            }
-        }
-    } else if( rng( 8, 300 ) < in && ( !u.in_sleep_state() || !recent_dream ) ) {
-        const std::string msg_2 =
-            is_alcohol ?
-            ( u.in_sleep_state() ? "addict_alcohol_strong_asleep" : "addict_alcohol_strong_awake" ) :
-            ( u.in_sleep_state() ? "addict_diazepam_strong_asleep" : "addict_diazepam_strong_awake" );
-        u.add_msg_if_player( m_bad,
-                             SNIPPET.random_from_category( msg_2 ).value_or( translation() ).translated() );
-        u.add_morale( morale_type, -35, -10 * in );
-        u.add_effect( effect_shakes, 5_minutes );
-        ret = true;
-        if( u.in_sleep_state() ) {
-            if( is_alcohol ) {
-                last_alc_dream = calendar::turn;
-            } else {
-                last_dia_dream = calendar::turn;
-            }
-        }
-    } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
-        u.add_effect( effect_hallu, 6_hours );
-        ret = true;
-    }
-    return ret;
-}
-
 static bool crack_coke_add( Character &u, int in, int stim, bool is_crack )
 {
     static time_point last_coke_dream = calendar::turn_zero;
