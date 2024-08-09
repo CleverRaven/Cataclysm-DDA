@@ -433,9 +433,9 @@
     "id": "electrokinetic_speed_boost",
     "type": "SPELL",
     "name": "[Ψ]Neuro-acceleration",
-    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nNeuro-acceleration is <color_red>incompatible</color> with Analgesic Block.",
+    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Neuro-acceleration is <color_red>incompatible</color> with Analgesic Block.  When used on <color_green>allies</color>, the power has <color_yellow>one-half the normal duration</color>.",
     "//": "This does not increase intelligence for balance reasons.",
-    "message": "You enhance your target's neurons.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally" ],
     "spell_class": "ELECTROKINETIC",
@@ -443,27 +443,31 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokinetic_speed_boost",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_SPEED_BOOST_TARGET_CHECKER",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 1800) + 8100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 2700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 5700) + 28600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 2750,
-    "energy_increment": -135,
-    "base_casting_time": 165,
-    "final_casting_time": 75,
-    "casting_time_increment": -5.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 0 : max((6000 - (u_spell_level('electrokinetic_speed_boost') * 135)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 10 : max((165 -(u_spell_level('electrokinetic_speed_boost') * 5.5)), 75)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -570,7 +574,7 @@
     "id": "electrokinetic_lightning_aura",
     "type": "SPELL",
     "name": "[Ψ]Galvanic Aura (C)",
-    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from electricity while active.",
+    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from electricity while active.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>",
     "message": "The air around you hums with power.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -592,6 +596,7 @@
         "( (u_spell_level('electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
@@ -601,8 +606,7 @@
       "math": [
         "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
       ]
-    },
-    "energy_source": "STAMINA"
+    }
   },
   {
     "id": "electrokinetic_lightning_aura_spark",

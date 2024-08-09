@@ -1050,15 +1050,9 @@
     "desc": [ "You are enhancing your nervous system." ],
     "apply_message": "",
     "remove_message": "Your reactions return to baseline.",
-    "decay_messages": [
-      [ "Your enhanced reactions are nearly gone.", "bad" ],
-      [ "Your reaction times are gradually becoming slower.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 61,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "removes_effects": [ "effect_electrokinetic_pain_immune" ],
     "enchantments": [
       {
