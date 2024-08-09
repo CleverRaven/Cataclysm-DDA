@@ -735,7 +735,35 @@
         "effect": [ { "assign_mission": "SKYISLAND_bunker_temperature_adaptation" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
+      {
+        "text": "One of my bunker constructions had an error.  Could you help me fix it?",
+        "condition": {
+          "or": [
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "skyisland_build_northroom", ">=", "2" ] },
+            { "math": [ "skyisland_build_westroom", ">=", "2" ] },
+            { "math": [ "skyisland_build_eastroom", ">=", "2" ] }
+          ]
+        },
+        "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
+      },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_FIX_CONSTRUCTIONS",
+    "dynamic_line": "Please remove all obstructing appliances or vehicles from the section of the island in question.  Where do you need help with?",
+    "responses": [
+      {
+        "text": "I need help with the Hollow Carver of the main room.",
+        "condition": { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_bigroom2" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      }
     ]
   }
 ]
