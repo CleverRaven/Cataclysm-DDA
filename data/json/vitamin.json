@@ -610,5 +610,17 @@
     "min": 0,
     "max": 1,
     "rate": "1 h"
+  },
+  {
+    "id": "dermatik_larva_size",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dermatik Larva Size" },
+    "excess": "dermatik_visible",
+    "min": 0,
+    "max": 1440,
+    "rate": "48 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 60, 399 ], [ 400, 1079 ], [ 1080, 1440 ] ]
   }
 ]

@@ -91,5 +91,82 @@
         "target_part": "eyes"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_dermatik_visible_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
+    "effect": [ { "set_string_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_BIRTH_INIT",
+    "recurrence": [ "3 minutes", "10 minutes" ],
+    "condition": { "and": [ { "math": [ "u_vitamin('dermatik_larva_size')", ">=", "1440" ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ] },
+    "effect": { "u_lose_effect": "dermatik" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_BIRTH",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('dermatik_larva_size')", ">=", "1440" ] },
+        "then": [
+          { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
+          { "math": [ "NUM_LARVA", "=", "u_val('size')" ] },
+          {
+            "u_message": "<global_val:NUM_LARVA> dermatik larvae bursts out of the bulge of flesh on your <global_val:IMPREGNATED_BODYPART>!",
+            "type": "bad"
+          },
+          {
+            "u_spawn_monster": "mon_dermatik_larva",
+            "real_count": { "global_val": "NUM_LARVA" },
+            "min_radius": 1,
+            "max_radius": 4
+          },
+          { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
+          { "turn_cost": "6 seconds" },
+          { "math": [ "HOW_MUCH_WILL_THIS_SUCK", "=", "rng(21, 30)" ] },
+          { "math": [ "u_vitamin('blood')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
+          { "math": [ "u_vitamin('redcells')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
+          {
+            "u_add_effect": "bleed",
+            "target_part": { "global_val": "IMPREGNATED_BODYPART" },
+            "duration": { "math": [ "HOW_MUCH_WILL_THIS_SUCK * 60" ] }
+          },
+          { "math": [ "u_pain()", "+=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] },
+          { "math": [ "u_hp(IMPREGNATED_BODYPART)", "-=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] }
+        ],
+        "else": { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size') / 3" ] }
+      },
+      { "u_lose_effect": "dermatik_visible" },
+      { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_FORMICATION",
+    "condition": {
+      "and": [
+        { "u_has_effect": "dermatik" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "x_in_y_chance": { "x": 1, "y": { "math": [ "max(360, 2000 - u_vitamin('dermatik_larva_size'))" ] } } }
+      ]
+    },
+    "effect": [
+      { "u_message": "The growth in your <global_val:IMPREGNATED_BODYPART> itches!", "type": "bad" },
+      {
+        "u_add_effect": "formication",
+        "duration": 360,
+        "target_part": { "global_val": "IMPREGNATED_BODYPART" },
+        "intensity": { "math": [ "u_effect_intensity('dermatik_visible', 'bodypart': IMPREGNATED_BODYPART)" ] }
+      }
+    ]
   }
 ]

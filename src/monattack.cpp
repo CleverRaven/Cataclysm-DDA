@@ -119,7 +119,6 @@ static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_deaf( "deaf" );
-static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
@@ -188,7 +187,6 @@ static const mtype_id mon_breather( "mon_breather" );
 static const mtype_id mon_breather_hub( "mon_breather_hub" );
 static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
 static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
@@ -211,7 +209,6 @@ static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_unarmed( "unarmed" );
 
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_SLIME( "SLIME" );
@@ -225,15 +222,12 @@ static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
-static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -2040,95 +2034,6 @@ bool mattack::fungus_fortify( monster *z )
     target->on_hit( z, hit,  z->type->melee_skill );
     player_character.check_dead_state();
     return true;
-}
-
-bool mattack::dermatik( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr ||
-        !z->is_adjacent( target, true ) ||
-        !z->sees( *target ) ) {
-        return false;
-    }
-
-    Character *foe = dynamic_cast< Character * >( target );
-    if( foe == nullptr ) {
-        return true; // No implanting monsters for now
-    }
-
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( target->dodge_check( z ) ) {
-        if( target->is_avatar() ) {
-            add_msg( _( "The %s tries to land on you, but you dodge." ), z->name() );
-        }
-        z->stumble();
-        target->on_dodge( z, z->type->melee_skill );
-        return true;
-    }
-
-    // Can we swat the bug away?
-    int dodge_roll = z->dodge_roll();
-    ///\EFFECT_MELEE increases chance to deflect dermatik attack
-
-    ///\EFFECT_UNARMED increases chance to deflect dermatik attack
-    int swat_skill = ( foe->get_skill_level( skill_melee ) + foe->get_skill_level(
-                           skill_unarmed ) * 2 ) / 3;
-    int player_swat = dice( swat_skill, 10 );
-    if( foe->has_trait( trait_TAIL_CATTLE ) ) {
-        target->add_msg_if_player( _( "You swat at the %s with your tail!" ), z->name() );
-        ///\EFFECT_DEX increases chance of deflecting dermatik attack with TAIL_CATTLE
-
-        ///\EFFECT_UNARMED increases chance of deflecting dermatik attack with TAIL_CATTLE
-        player_swat += ( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) / 2 );
-    }
-    Character &player_character = get_player_character();
-    if( player_swat > dodge_roll ) {
-        target->add_msg_if_player( _( "The %s lands on you, but you swat it off." ), z->name() );
-        if( z->get_hp() >= z->get_hp_max() / 2 ) {
-            z->apply_damage( &player_character, bodypart_id( "torso" ), 1 );
-            z->check_dead_state();
-        }
-        if( player_swat > dodge_roll * 1.5 ) {
-            z->stumble();
-        }
-        return true;
-    }
-
-    // Can the bug penetrate our armor? Or is the limb a bionic one?
-    const bodypart_id targeted = target->get_random_body_part();
-    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) &&
-        4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
-        //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
-        target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
-                                   z->name(), body_part_name_accusative( targeted ) );
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 ); // Attempted laying takes a while
-        return true;
-    }
-
-    // Success!
-    z->mod_moves( -to_moves<int>( 5_seconds ) ); // Successful laying takes a long time
-    //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
-    target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
-                               z->name(),
-                               body_part_name_accusative( targeted ) );
-    if( !foe->has_trait( trait_PARAIMMUNE ) && !foe->has_trait( trait_ACIDBLOOD ) ) {
-        foe->add_effect( effect_dermatik, 1_turns, targeted, true );
-        get_event_bus().send<event_type::dermatik_eggs_injected>( foe->getID() );
-    }
-
-    return true;
-}
-
-bool mattack::dermatik_growth( monster *z )
-{
-    add_msg_if_player_sees( *z, m_warning, _( "The %s dermatik larva grows into an adult!" ),
-                            z->name() );
-    z->poly( mon_dermatik );
-    return false;
 }
 
 bool mattack::fungal_trail( monster *z )
