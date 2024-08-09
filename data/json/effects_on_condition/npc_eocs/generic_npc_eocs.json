@@ -471,7 +471,9 @@
                 }
               ]
             },
-            "time_in_future": { "math": [ "ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1)) d" ] },
+            "time_in_future": {
+              "math": [ "ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1)) days" ]
+            },
             "variables": { "beta_talker": { "global_val": "u_character_id" } }
           }
         ]
