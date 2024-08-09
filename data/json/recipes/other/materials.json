@@ -58,10 +58,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "10m",
+    "time": "1m",
     "autolearn": true,
+    "charges": 8,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "components": [ [ [ "pebble", 10 ] ] ]
+    "components": [ [ [ "pebble", 1 ] ] ]
   },
   {
     "type": "recipe",
