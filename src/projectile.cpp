@@ -155,9 +155,10 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             continue;
         }
         if( effects.count( ae.id ) > 0 ) {
-            for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms( p ), ae.aoe_radius,
+                    ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
-                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
+                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt.raw(), ae.aoe_check_sees_radius );
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );

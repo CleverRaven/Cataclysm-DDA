@@ -296,7 +296,7 @@ static void add_item( Character &you, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            get_map().add_item( you.pos(), it );
+            get_map().add_item( you.pos_bub(), it );
             break;
         case INVENTORY:
             you.i_add( it );

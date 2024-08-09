@@ -507,13 +507,13 @@ void sounds::process_sounds()
         }
         // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
-                const int dist = sound_distance( source, tp );
+            for( const tripoint_bub_ms &tp : get_map().trap_locations( trapType->id ) ) {
+                const int dist = sound_distance( source, tp.raw() );
                 const trap &tr = get_map().tr_at( tp );
                 // Exclude traps that certainly won't hear the sound
                 if( vol * 2 > dist ) {
                     if( tr.triggered_by_sound( vol, dist ) ) {
-                        tr.trigger( tp );
+                        tr.trigger( tp.raw() );
                     }
                 }
             }

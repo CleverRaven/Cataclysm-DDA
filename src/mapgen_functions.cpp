@@ -1156,7 +1156,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
+                        point_bub_ms_zero, point_bub_ms( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -2245,13 +2245,13 @@ void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_omt_ms actual_location( point_omt_ms( p ), m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
 
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_bub_ms actual_location( point_bub_ms( p ), m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 

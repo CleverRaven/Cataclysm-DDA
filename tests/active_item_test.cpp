@@ -30,7 +30,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     bool wield_success = player_character.wield( active_item );
     REQUIRE( wield_success );
 
-    here.add_item( player_character.pos(), active_item );
+    here.add_item( player_character.pos_bub(), active_item );
     // TODO: spawn a vehicle and stash a chainsaw in there too.
 
     // Call item processing entry points.
@@ -40,5 +40,5 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     // Each chainsaw was processed and turned off from lack of fuel
     CHECK( inventory_item->typeId().str() == "chainsaw_off" );
     CHECK( player_character.get_wielded_item()->typeId().str() == "chainsaw_off" );
-    CHECK( here.i_at( player_character.pos() ).only_item().typeId().str() == "chainsaw_off" );
+    CHECK( here.i_at( player_character.pos_bub() ).only_item().typeId().str() == "chainsaw_off" );
 }
