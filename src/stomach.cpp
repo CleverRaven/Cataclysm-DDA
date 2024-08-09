@@ -44,6 +44,11 @@ void nutrients::max_in_place( const nutrients &r )
     }
 }
 
+void nutrients::clear_vitamins()
+{
+    vitamins_.clear();
+}
+
 std::map<vitamin_id, int> nutrients::vitamins() const
 {
     if( !finalized ) {

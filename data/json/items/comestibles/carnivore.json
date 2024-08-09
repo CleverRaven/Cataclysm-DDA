@@ -25,7 +25,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "froglegs_smoked",
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 1.5 ] ],
+    "vitamins": [ [ "calcium", 18 ], [ "iron", 1.5 ], [ "meat_allergen", 1 ] ],
     "calories": 73
   },
   {
@@ -65,7 +65,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "calories": 260
   },
   {
@@ -77,7 +77,7 @@
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "fish_scrap_cooked",
@@ -115,7 +115,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "lobster_smoked",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "calories": 250
   },
   {
@@ -143,7 +143,7 @@
     "price_postapoc": "50 cent",
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 2 ], [ "meat_allergen", 1 ] ],
     "calories": 260
   },
   {
@@ -171,7 +171,7 @@
     "price_postapoc": "50 cent",
     "spoils_in": "12 hours",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ],
     "calories": 15
   },
   {
@@ -278,7 +278,7 @@
     "calories": 402,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -312,7 +312,7 @@
     "spoils_in": "1 day",
     "calories": 1300,
     "fun": -10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -328,7 +328,7 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "3 USD",
     "spoils_in": "14 days",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -345,7 +345,7 @@
     "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
     "spoils_in": "42 days",
     "fun": 5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -361,7 +361,7 @@
     "price_postapoc": "2 USD 50 cent",
     "spoils_in": "14 days",
     "fun": -15,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "meat_allergen", 1 ] ],
     "flags": [  ],
     "use_action": {
       "target": "raw_cured_fatty_meat",
@@ -382,7 +382,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_meat_scrap",
@@ -413,7 +413,7 @@
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -442,7 +442,7 @@
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price_postapoc": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "mutant_toxin", 2 ] ],
+    "vitamins": [ [ "mutant_toxin", 2 ], [ "meat_allergen", 1 ] ],
     "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
@@ -569,7 +569,7 @@
     "price_postapoc": "1 USD",
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -586,7 +586,7 @@
     "fun": 2,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -604,7 +604,7 @@
     "//": "Luxury good.",
     "fun": 2,
     "parasites": 0,
-    "vitamins": [  ],
+    "vitamins": [ [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -621,7 +621,7 @@
     "price_postapoc": "3 USD 20 cent",
     "fun": 3,
     "parasites": 0,
-    "vitamins": [  ],
+    "vitamins": [ [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -777,7 +777,7 @@
     "looks_like": "offal",
     "cooks_like": "mutant_bug_organs_cooked",
     "proportional": { "price": 0.1, "calories": 0.65 },
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
@@ -866,7 +866,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "meat_allergen", 1 ] ],
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -885,7 +885,7 @@
     "fun": 4,
     "volume": "50 ml",
     "proportional": { "price": 2.0, "weight": 0.345 },
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ], [ "meat_allergen", 1 ] ],
     "calories": 130,
     "delete": { "flags": [ "RAW" ] }
   },
@@ -977,7 +977,7 @@
     "quench": 2,
     "fun": -10,
     "calories": 40,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -1020,7 +1020,7 @@
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 10 ] ]
+    "vitamins": [ [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_lung_cooked",
@@ -1039,7 +1039,7 @@
     "description": "You're pretty sure this is lung tissue.",
     "looks_like": "lung",
     "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
@@ -1052,7 +1052,7 @@
     "price_postapoc": "25 cent",
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_liver",
@@ -1094,7 +1094,7 @@
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 40 ] ]
+    "vitamins": [ [ "mutant_toxin", 40 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_liver_cooked",
@@ -1117,7 +1117,7 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": -3,
-    "vitamins": [ [ "iron", 17 ] ],
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ] ],
     "flags": [ "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -1144,7 +1144,7 @@
     "name": { "str": "portion of raw mutant bone marrow", "str_pl": "portions of raw mutant bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated animal.",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "iron", 7 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "iron", 7 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "flags": [ "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -1168,7 +1168,7 @@
     "quench": 10,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_brain",
@@ -1212,7 +1212,7 @@
     "proportional": { "price_postapoc": 0.5 },
     "fun": -20,
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 50 ] ]
+    "vitamins": [ [ "mutant_toxin", 50 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_brain_cooked",
@@ -1233,7 +1233,7 @@
     "color": "brown",
     "price_postapoc": "25 cent",
     "calories": 54,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_kidney",
@@ -1276,7 +1276,7 @@
     "snippet_category": "mutant_kidney_desc",
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_kidney_cooked",
@@ -1298,7 +1298,7 @@
     "price_postapoc": "25 cent",
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "human_sweetbread",
@@ -1406,7 +1406,7 @@
     "description": "A chunk of raw fat butchered from a heavily-mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of unidentified oils dripping from it.",
     "looks_like": "fat",
     "proportional": { "price": 0.2 },
-    "vitamins": [ [ "mutant_toxin", 360 ] ]
+    "vitamins": [ [ "mutant_toxin", 360 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_tallow",
@@ -1416,7 +1416,7 @@
     "description": "A smooth white block of cleaned and rendered fat, sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "looks_like": "tallow",
     "proportional": { "price": 0.2 },
-    "vitamins": [ [ "mutant_toxin", 180 ] ]
+    "vitamins": [ [ "mutant_toxin", 180 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_lard",
@@ -1814,7 +1814,7 @@
     "description": "The fleshy fronds harvested from an alien plant.  Eating these membranous leaves and gut-like stems is likely a terrible idea, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
     "fun": 15,
     "stim": 3,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 8 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "leech_flower",
@@ -1850,7 +1850,7 @@
     "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "price_postapoc": "10 cent",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "mutant_toxin", 12 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "mutant_toxin", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "demihuman_stomach",
@@ -2047,7 +2047,7 @@
     "//": "Scaled from 100g skin on, boneless, wild duck meat from USDA database",
     "fun": -18,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ] ],
+    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
@@ -2060,7 +2060,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.2, "volume": 0.2, "price_postapoc": 0.2, "calories": 0.2 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ] ]
+    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "poultry_cooked",
@@ -2076,7 +2076,7 @@
     "parasites": 0,
     "calories": 220,
     "fun": 1,
-    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ] ],
+    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -2093,7 +2093,7 @@
     "fun": 3,
     "parasites": 0,
     "calories": 220,
-    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ] ],
+    "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -2106,7 +2106,7 @@
     "fun": 1,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 55,
-    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ] ]
+    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "poultry_scrap_pepper",
@@ -2118,7 +2118,7 @@
     "fun": 3,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 55,
-    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ] ]
+    "vitamins": [ [ "calcium", "1 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "poultry_smoked",
@@ -2141,6 +2141,6 @@
     "description": "A chunk of raw meat with a weirdly off-green coloration.  You could eat it as-is, but are you sure you want to?",
     "flags": [ "RAW", "TRADER_AVOID" ],
     "smoking_result": " ",
-    "vitamins": [ [ "mutagenic_slurry", 12 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 12 ], [ "meat_allergen", 1 ] ]
   }
 ]
