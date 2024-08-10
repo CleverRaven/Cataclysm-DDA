@@ -182,7 +182,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "accelerant_liquid", 500 ] ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "jar_glass_sealed", 1 ], [ "bottle_glass_seasoning", 1 ], [ "bottle_glass_seasoning_small", 2 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
   },
   {
     "result": "dynamite_bomb",
