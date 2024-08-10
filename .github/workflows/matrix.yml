@@ -115,6 +115,7 @@ jobs:
 
           - compiler: g++-9
             os: ubuntu-latest
+            release: 1
             cmake: 0
             tiles: 0
             sound: 0
