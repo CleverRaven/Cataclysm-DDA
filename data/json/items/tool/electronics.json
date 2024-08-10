@@ -705,7 +705,7 @@
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
-    "power_draw": "1000 mW",
+    "power_draw": "1500 mW",
     "revert_to": "smart_phone",
     "use_action": [
       "PORTABLE_GAME",
@@ -728,7 +728,7 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "extend": { "flags": [ "LIGHT_100", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "UPS_off",
