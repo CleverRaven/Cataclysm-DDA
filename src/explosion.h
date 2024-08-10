@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "map.h"
 #include "type_id.h"
 
 class Creature;
@@ -79,7 +80,8 @@ void explosion(
 );
 
 void explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
-void _make_explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
+void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
+                      const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
 void flashbang( const tripoint &p, bool player_immune = false );
