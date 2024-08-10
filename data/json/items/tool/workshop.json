@@ -35,7 +35,6 @@
     "longest_side": "122 cm",
     "price": "400 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "ceramic", "wood" ],
     "symbol": "#",
     "color": "brown_yellow",
@@ -49,11 +48,11 @@
     "symbol": "&",
     "color": "light_gray",
     "description": "A bulky device that turns water and calcium carbide into unpressurized acetylene.",
-    "weight": "8000 g",
+    "weight": "8 kg",
     "volume": "3 L",
     "price": "32 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "melee_damage": { "bash": 12 }
   },
@@ -66,7 +65,7 @@
     "volume": "1750 ml",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -99,7 +98,8 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "type": "GENERIC",
@@ -114,7 +114,8 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "brick_kiln",
@@ -125,7 +126,7 @@
     "volume": "30 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -145,30 +146,30 @@
     "longest_side": "265 mm",
     "price": "30 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "makeshift_vacuum_mold",
     "type": "TOOL",
     "name": { "str": "makeshift vacuum mold" },
     "description": "A homemade vacuum-forming machine with an air pump.  It's used for creating plastic molds.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "35 cm",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "wood" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "vac_mold",
@@ -180,14 +181,14 @@
     "longest_side": "35 cm",
     "price": "25 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "chipper",
@@ -199,12 +200,12 @@
     "longest_side": "5 cm",
     "price": "70 USD",
     "price_postapoc": "15 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "cut": 2 }
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "clamp",
@@ -219,7 +220,8 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "VISE", 1 ] ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "claw_bar",
@@ -303,6 +305,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -324,6 +327,7 @@
     "charges_per_use": 5,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -354,6 +358,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -367,24 +372,24 @@
     "longest_side": "61 cm",
     "price": "70 USD",
     "price_postapoc": "15 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": { "str": "electric jackhammer" },
     "description": "A construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with a UPS.  Use it to blast a hole in adjacent solid terrain.",
-    "weight": "40000 g",
+    "weight": "40 kg",
     "volume": "12 L",
     "longest_side": "81 cm",
     "price": "400 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -8,
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -405,13 +410,13 @@
     "longest_side": "30 cm",
     "price": "25 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "id": "tin_snips",
@@ -431,7 +436,8 @@
     "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
     "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "id": "hammer",
@@ -444,7 +450,7 @@
     "volume": "320 ml",
     "price": "7 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -482,6 +488,7 @@
     "price_postapoc": "50 cent",
     "material": [ "bronze" ],
     "qualities": [ [ "PRYING_NAIL", 1 ], [ "HAMMER", 1 ], [ "PRY", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -497,7 +504,8 @@
     "price_postapoc": "50 cent",
     "material": [ "bronze" ],
     "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ] ],
-    "melee_damage": { "bash": 2 }
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "hand_drill",
@@ -509,7 +517,7 @@
     "longest_side": "25 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -526,12 +534,10 @@
     "longest_side": "24 cm",
     "price": "2 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "jack",
@@ -541,12 +547,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "weight": "5000 g",
+    "weight": "5 kg",
     "volume": "1500 ml",
     "longest_side": "25 cm",
     "price": "180 USD",
     "price_postapoc": "5 USD",
     "qualities": [ [ "JACK", 16 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -563,6 +570,7 @@
     "price": "8 USD",
     "price_postapoc": "1 USD",
     "qualities": [ [ "JACK", 3 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -573,12 +581,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "weight": "3000 g",
+    "weight": "3 kg",
     "volume": "750 ml",
     "longest_side": "14 cm",
     "price": "50 USD",
     "price_postapoc": "7 USD 50 cent",
     "qualities": [ [ "JACK", 4 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -591,7 +600,7 @@
     "longest_side": "92 cm",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -8,
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
