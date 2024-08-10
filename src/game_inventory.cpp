@@ -2221,8 +2221,7 @@ drop_locations game_menus::inv::pickup( avatar &you,
     if( pick_s.empty() ) {
         if( target ) {
             add_msg( _( "There is nothing to pick up." ) );
-        }
-        else {
+        } else {
             add_msg( _( "There is nothing to pick up nearby." ) );
         }
         return drop_locations();
