@@ -7823,6 +7823,17 @@ void vehicle::part_project_points( const tripoint &dp )
     }
 }
 
+std::set<tripoint_bub_ms> vehicle::get_projected_part_points() const
+{
+    std::set<tripoint_bub_ms> projected_points;
+
+    for( int p = 0; p < part_count(); p++ ) {
+        const vehicle_part &vp = parts.at( p );
+        projected_points.insert( vp.next_pos );
+    }
+    return projected_points;
+}
+
 std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,
                                       int &quantity, const std::function<bool( const item & )> &filter, bool in_tools )
 {

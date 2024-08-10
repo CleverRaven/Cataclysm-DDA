@@ -891,6 +891,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
+            const std::set<tripoint_bub_ms> projected_points = get_projected_part_points();
             const units::angle angle =
                 move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
                 ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
@@ -898,7 +899,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( get_creature_tracker().creature_at( end_pos, true ) ||
-                   cur_points.find( end_pos ) != cur_points.end() ) {
+                   cur_points.find( end_pos ) != cur_points.end() ||
+                   projected_points.find( tripoint_bub_ms( end_pos ) ) != projected_points.end() ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
             }
