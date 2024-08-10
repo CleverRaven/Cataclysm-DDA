@@ -1001,7 +1001,6 @@
     "volume": "3 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cotton_patchwork",
@@ -1120,9 +1119,9 @@
     "weight": "1245 g",
     "volume": "159 ml",
     "longest_side": "80 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1136,7 +1135,7 @@
     "price_postapoc": "10 cent",
     "material": [ "wood", "steel" ],
     "weight": "40 kg",
-    "volume": "30000 ml"
+    "volume": "30 L"
   },
   {
     "type": "GENERIC",
@@ -1150,8 +1149,7 @@
     "price_postapoc": "5 cent",
     "material": [ { "type": "cement", "portion": 3 }, { "type": "sand", "portion": 2 }, { "type": "stone", "portion": 1 } ],
     "weight": "450 g",
-    "volume": "300 ml",
-    "melee_damage": { "bash": 4 }
+    "volume": "300 ml"
   },
   {
     "type": "GENERIC",
@@ -1174,7 +1172,8 @@
     "volume": "1042 ml",
     "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 8 }
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -1187,8 +1186,7 @@
     "material": [ "plastic" ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "39 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1201,8 +1199,10 @@
     "price": "10 USD",
     "price_postapoc": "1 USD",
     "material": [ "iron" ],
-    "weight": "3000 g",
-    "volume": "750 ml"
+    "weight": "3 kg",
+    "volume": "750 ml",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -1218,8 +1218,8 @@
     "weight": "28680 g",
     "volume": "6250 ml",
     "longest_side": "1 meter",
-    "to_hit": -4,
-    "melee_damage": { "bash": 6 }
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1234,9 +1234,7 @@
     "weight": "1133 g",
     "volume": "2500 ml",
     "longest_side": "1 meter",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 4 }
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1250,9 +1248,7 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "2266 g",
     "volume": "10 L",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 4 }
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1309,7 +1305,7 @@
     "//": "weight and volume assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "weight": "54431 g",
     "volume": "240 L",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater" },
     "melee_damage": { "bash": 5 }
   },
@@ -1324,9 +1320,9 @@
     "price_postapoc": "20 cent",
     "material": [ "steel" ],
     "//": "weight and volume assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
-    "weight": "80000 g",
+    "weight": "80 kg",
     "volume": "406 L",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater_family" },
     "melee_damage": { "bash": 5 }
   },
@@ -1340,9 +1336,9 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "15000 g",
+    "weight": "15 kg",
     "volume": "20 L",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 5 }
   },
@@ -1368,7 +1364,7 @@
         "max_contains_weight": "15 kg"
       }
     ],
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1393,7 +1389,7 @@
         "max_contains_weight": "15 kg"
       }
     ],
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1449,7 +1445,9 @@
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
     "weight": "725 g",
-    "volume": "750 ml"
+    "volume": "750 ml",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "broken_kord",
@@ -1488,7 +1486,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1505,7 +1503,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -1522,7 +1520,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -1537,9 +1535,9 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
+    "weight": "100 kg",
     "volume": "65000 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -1554,9 +1552,9 @@
     "price": "300 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
+    "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1571,9 +1569,9 @@
     "price": "300 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
+    "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1588,9 +1586,9 @@
     "price": "300 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
+    "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1611,9 +1609,9 @@
     "price": "300 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
+    "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1630,7 +1628,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "170200 g",
     "volume": "62500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 10 }
   },
@@ -1643,7 +1641,7 @@
     "volume": "125 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
@@ -1659,7 +1657,7 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
@@ -1675,7 +1673,7 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
@@ -1693,9 +1691,9 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "85000 ml",
-    "to_hit": -3,
+    "weight": "100 kg",
+    "volume": "85 L",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -1729,12 +1727,10 @@
     "weight": "200 g",
     "volume": "640 ml",
     "material": [ "plastic" ],
-    "to_hit": -1,
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "paper": 90 } } ],
-    "melee_damage": { "bash": 1 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "paper": 90 } } ]
   },
   {
     "type": "GENERIC",
@@ -1747,9 +1743,9 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "100000 g",
-    "volume": "85000 ml",
-    "to_hit": -3,
+    "weight": "100 kg",
+    "volume": "85 L",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -1766,7 +1762,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "1500 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1781,9 +1777,9 @@
     "price": "90 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1800,7 +1796,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "2600 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1815,9 +1811,9 @@
     "price": "90 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1834,7 +1830,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "1750 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1851,7 +1847,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "3100 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
@@ -1862,14 +1858,15 @@
     "color": "yellow",
     "name": { "str": "broken loudspeaker" },
     "category": "other",
-    "description": "A broken loudspeaker.  It's so unusually quiet now….  Could be gutted for parts.",
+    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "weight": "52 kg",
     "volume": "50500 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -1883,8 +1880,7 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "weight": "56 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1899,8 +1895,7 @@
     "material": [ "plastic" ],
     "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "18 ml",
-    "to_hit": -1
+    "volume": "18 ml"
   },
   {
     "type": "GENERIC",
@@ -1914,9 +1909,7 @@
     "price_postapoc": "25 cent",
     "material": [ "aluminum", "plastic" ],
     "weight": "113 g",
-    "volume": "1 L",
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -1930,8 +1923,7 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "weight": "114 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1946,7 +1938,8 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "480 g",
     "volume": "250 ml",
-    "to_hit": -1
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1960,8 +1953,7 @@
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
     "weight": "114 g",
-    "volume": "250 ml",
-    "to_hit": -1
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1974,9 +1966,10 @@
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "weight": "13000 g",
-    "volume": "15000 ml",
-    "to_hit": -4
+    "weight": "13 kg",
+    "volume": "15 L",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -1991,7 +1984,8 @@
     "material": [ "plastic" ],
     "weight": "500 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2006,7 +2000,6 @@
     "material": [ "glass" ],
     "weight": "1 g",
     "volume": "2 ml",
-    "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
   },
@@ -2036,8 +2029,7 @@
     "price_postapoc": "10 cent",
     "material": [ "glass" ],
     "weight": "30 g",
-    "volume": "2 ml",
-    "to_hit": -3
+    "volume": "2 ml"
   },
   {
     "type": "GENERIC",
@@ -2052,8 +2044,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "317 g",
     "volume": "2500 ml",
-    "to_hit": -1,
-    "flags": [ "TRADER_AVOID" ]
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2070,8 +2063,9 @@
     "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
-    "to_hit": -1,
-    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2184,7 +2178,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "2100 g",
     "volume": "2 L",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -2203,7 +2197,9 @@
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
-    "volume": "1 L"
+    "volume": "1 L",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -2218,7 +2214,8 @@
     "material": [ "ceramic" ],
     "weight": "362 g",
     "volume": "500 ml",
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -2232,7 +2229,8 @@
     "material": [ "glass" ],
     "weight": "8 kg",
     "volume": "8500 ml",
-    "to_hit": -6
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pipe_cleaner",
@@ -2259,8 +2257,8 @@
     "material": [ "plastic", "steel" ],
     "weight": "725 g",
     "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -2350,7 +2348,7 @@
     "material": [ "glass" ],
     "weight": "300 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ],
     "melee_damage": { "bash": 2 }
   },
@@ -2368,7 +2366,7 @@
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "115 kg",
     "volume": "20 L",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 20 }
   },
   {
@@ -2509,7 +2507,6 @@
     "category": "chems",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": "30 g",
-    "to_hit": -3,
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2611,8 +2608,7 @@
     "price_postapoc": "10 cent",
     "material": [ "freshclay" ],
     "weight": "530 g",
-    "volume": "250 ml",
-    "to_hit": -4
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2628,7 +2624,9 @@
     "weight": "969 g",
     "volume": "500 ml",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 8 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 },
+    "//": "I consider this value to be too high, but lowering it further would put it below rocks, and rocks are a staple of balance due to ferals."
   },
   {
     "type": "GENERIC",
@@ -2643,8 +2641,7 @@
     "price_postapoc": "25 cent",
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2659,8 +2656,7 @@
     "price_postapoc": "15 cent",
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2675,7 +2671,7 @@
     "material": [ "soil" ],
     "weight": "1750 g",
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "target": "adobe_brick",
       "msg": "You test the brick, and it seems solid enough to use.",
@@ -2685,7 +2681,7 @@
       "not_ready_msg": "The brick is still too damp to bear weight.",
       "//": "Should be about a week. Irl it's ten days, so make big batches."
     },
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -2703,7 +2699,8 @@
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 10 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -2718,8 +2715,7 @@
     "price_postapoc": "10 cent",
     "material": [ "soil" ],
     "weight": "2340 g",
-    "volume": "1 L",
-    "melee_damage": { "bash": 4 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2732,9 +2728,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2747,9 +2741,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2762,9 +2754,7 @@
     "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "weight": "323 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2777,9 +2767,7 @@
     "price_postapoc": "5 cent",
     "material": [ "wood" ],
     "weight": "85 g",
-    "volume": "109 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "109 ml"
   },
   {
     "type": "GENERIC",
@@ -2793,8 +2781,7 @@
     "price_postapoc": "50 cent",
     "material": [ "diamond" ],
     "weight": "200 mg",
-    "volume": "6 ml",
-    "to_hit": -5
+    "volume": "6 ml"
   },
   {
     "type": "GENERIC",
@@ -2808,8 +2795,7 @@
     "price_postapoc": "30 cent",
     "material": [ "gemstone" ],
     "weight": "200 mg",
-    "volume": "6 ml",
-    "to_hit": -5
+    "volume": "6 ml"
   },
   {
     "type": "GENERIC",
@@ -3122,7 +3108,6 @@
     "price": "5 cent",
     "price_postapoc": "1 USD",
     "use_action": [ "PACK_CBM" ],
-    "to_hit": -1,
     "material": [ "plastic", "paper" ],
     "symbol": "]",
     "count": 25,
@@ -3466,12 +3451,12 @@
     "volume": "3 L",
     "price": "1 USD",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "jar_3l_glass_sealed",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "evaporator_coil",
@@ -3479,13 +3464,15 @@
     "category": "spare_parts",
     "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
-    "weight": "20000 g",
+    "weight": "20 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black"
+    "color": "black",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "condensor_coil",
@@ -3493,13 +3480,15 @@
     "category": "spare_parts",
     "name": { "str": "condensor coil" },
     "description": "A compressor and fan that work together to cool down refrigerant.",
-    "weight": "20000 g",
+    "weight": "20 kg",
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "#",
-    "color": "black"
+    "color": "black",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "refrigerant_tank",
@@ -3510,11 +3499,11 @@
     "volume": "1 L",
     "price": "30 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -3600,7 +3589,7 @@
     "price": "35 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "steel" ],
-    "weight": "5000 g",
+    "weight": "5 kg",
     "volume": "5 L",
     "melee_damage": { "bash": 8 }
   },
@@ -3630,7 +3619,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "72650 g",
     "volume": "30 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -3692,7 +3681,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
     "volume": "65 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -3709,7 +3698,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
     "volume": "65 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -3780,9 +3769,7 @@
     "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": 1,
-    "melee_damage": { "bash": 4 }
+    "volume": "250 ml"
   },
   {
     "id": "wallet",
@@ -3909,7 +3896,6 @@
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS", "POWERARMOR_COMPATIBLE" ],
     "weight": "708 g",
     "volume": "500 ml",
-    "to_hit": -1,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -3921,8 +3907,7 @@
         "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "lanyard",
@@ -3939,7 +3924,6 @@
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",
-    "to_hit": -1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -3952,8 +3936,7 @@
         "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
-    "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "type": "GENERIC",
@@ -3968,7 +3951,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "1600 g",
     "volume": "600 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -3985,7 +3968,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4002,7 +3985,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4019,7 +4002,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4036,7 +4019,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4053,7 +4036,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4070,7 +4053,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "5 kg",
     "volume": "650 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
   },
@@ -4142,9 +4125,7 @@
     "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
     "weight": "16 kg",
     "volume": "50 L",
-    "longest_side": "60 cm",
-    "to_hit": -3,
-    "melee_damage": { "bash": 2 }
+    "longest_side": "60 cm"
   },
   {
     "id": "cash_register",
@@ -4171,6 +4152,7 @@
         "flag_restriction": [ "BANK_NOTE_SHAPED", "BANK_NOTE_STRAP_SHAPED", "COIN_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 5 }
   }
 ]
