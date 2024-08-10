@@ -1799,12 +1799,12 @@
       },
       {
         "id": "cthulhuprez1",
-        "name": { "str": "Cthulhu for President t-shirt" },
+        "name": { "str": "Cthulhu for President t-shirt", "str_pl": "Cthulhu for President t-shirts" },
         "description": "A t-shirt with the text 'Cthulhu for President: Why vote for the lesser evil'."
       },
       {
         "id": "cthulhuprez2",
-        "name": { "str": "Cthulhu for President t-shirt" },
+        "name": { "str": "Cthulhu for President t-shirt", "str_pl": "Cthulhu for President t-shirts" },
         "description": "A t-shirt with the text 'Cthulhu for President: This time the stars are right'."
       },
       {
