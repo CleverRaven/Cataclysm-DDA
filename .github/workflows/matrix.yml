@@ -124,7 +124,6 @@ jobs:
             libbacktrace: 1
             native: linux64
             pch: 1
-            cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
@@ -230,6 +229,7 @@ jobs:
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
         RELEASE: 1
+        DEBUG_SYMBOLS: ${{ ! matrix.lto }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         CCACHE_FILECLONE: true
