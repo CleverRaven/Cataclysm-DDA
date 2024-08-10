@@ -436,6 +436,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
 
     you.recoil = MAX_RECOIL;
+    you.invalidate_weight_carried_cache();
+
     return items_dropped;
 }
 
