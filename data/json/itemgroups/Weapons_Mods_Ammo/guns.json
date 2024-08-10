@@ -499,6 +499,7 @@
       { "group": "nested_mossberg_930", "prob": 15 },
       { "group": "nested_shotgun_410", "prob": 30 },
       { "group": "nested_shotgun_d", "prob": 30 },
+      { "group": "nested_shotgun_triple", "prob": 2 },
       { "group": "nested_shotgun_s", "prob": 30 }
     ]
   },
@@ -565,6 +566,8 @@
       { "group": "nested_ksg", "prob": 50 },
       { "group": "nested_dp_12", "prob": 3 },
       { "group": "nested_srm_1216", "prob": 2 },
+      { "group": "nested_ar12_shotgun", "prob": 5 },
+      { "group": "nested_gfy_1", "prob": 2 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
       { "group": "nested_slp", "prob": 10 },
@@ -580,8 +583,11 @@
     "entries": [
       { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
       { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
+      { "item": "ar12_shotgun", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "gfy_1", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "shotgun_triple", "prob": 1, "charges": [ 0, 3 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
       { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
@@ -596,6 +602,8 @@
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
       { "item": "srm_1216", "prob": 3 },
+      { "item": "ar12_shotgun", "prob": 5 },
+      { "item": "gfy_1", "prob": 2 },
       { "item": "dp_12", "prob": 4 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
@@ -640,11 +648,7 @@
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [
-      { "group": "nested_saiga_12", "prob": 50 },
-      { "group": "nested_streetsweeper", "prob": 4 },
-      { "group": "nested_saiga_410", "prob": 40 }
-    ]
+    "items": [ { "group": "nested_saiga_12", "prob": 50 }, { "group": "nested_saiga_410", "prob": 40 } ]
   },
   {
     "type": "item_group",
@@ -653,7 +657,6 @@
     "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
     "items": [
       { "item": "saiga_12", "prob": 25 },
-      { "item": "streetsweeper", "prob": 4 },
       { "item": "winchester_1887", "prob": 10 },
       { "item": "winchester_1897", "prob": 20 },
       { "item": "saiga_410", "prob": 10 }

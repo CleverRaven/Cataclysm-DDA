@@ -1760,7 +1760,7 @@
     "difficulty": 5,
     "time": "9 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "50 m" },
     "using": [ [ "tailoring_felt_patchwork", 36 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1788,7 +1788,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "35 m" },
     "autolearn": true,
     "using": [ [ "tailoring_felt_patchwork", 18 ] ]
   },

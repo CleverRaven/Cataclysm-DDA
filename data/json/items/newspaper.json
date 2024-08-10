@@ -597,7 +597,7 @@
   {
     "type": "GENERIC",
     "id": "wallet_photo",
-    "category": "books",
+    "category": "other",
     "symbol": ",",
     "color": "white",
     "name": { "str": "photograph" },
@@ -613,7 +613,7 @@
   {
     "type": "GENERIC",
     "id": "home_picture",
-    "category": "books",
+    "category": "other",
     "symbol": "*",
     "color": "white",
     "name": { "str": "Picture" },
