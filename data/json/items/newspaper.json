@@ -197,6 +197,29 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_subject_general_photo",
+    "copy-from": "file",
+    "name": { "str": "photograph" },
+    "description": "A large, high-resolution photograph of somebody about to not have a particularly swanky time in XEDRA fun land.",
+    "snippet_category": "general_subject_photos"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_subject_mutation_photo",
+    "copy-from": "file",
+    "name": { "str": "photograph" },
+    "description": "A large, high-resolution photograph of somebody not having a particularly swanky time in XEDRA fun land.",
+    "variants": [
+      {
+        "id": "subject_mutation_photo_hf15",
+        "name": { "str": "photograph" },
+        "description": "<hf15_mutation_photos>",
+        "expand_snippets": true
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_serum_testing",
     "name": { "str_sp": "production tests" },
     "description": "Accompanying document, that describes tests performed on different subjects.",
