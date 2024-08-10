@@ -3605,7 +3605,8 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
     if( ftype == fuel_type_muscle ) {
         Character *driver = get_driver();
         if( !driver ) {
-            return fl;
+            // FIXME: Should return fl, not arbitrarily assume player
+            driver = &get_player_character();
         }
         const optional_vpart_position vp = get_map().veh_at( driver->pos_bub() );
 
@@ -4952,7 +4953,9 @@ void vehicle::consume_fuel( int load, bool idling )
     // Only process muscle power and training things when someone is actually driving.
     // Note that the vehicle can be moving even if nobody is driving it.
     if( !driver ) {
-        return;
+        // FIXME: Should return early, not arbitrarily assume player
+        // Make our pointer valid so we don't dereference nullptr and crash in the upcoming code
+        driver = &get_player_character();
     }
 
     // if engine is under load, player is actively piloting a vehicle, so train appropriate vehicle proficiency
