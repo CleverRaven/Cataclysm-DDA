@@ -270,13 +270,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "civilian_cop_glock22",
+    "id": "civilian_glock22",
     "copy-from": "glock_22",
     "looks_like": "glock_22",
     "flags": [ "PSEUDO" ],
     "type": "GUN",
-    "name": { "str_sp": "Cops' Glock 22" },
-    "description": "A gun carried by overconfident officer monsters, more inaccurate for balancing reasons.",
+    "name": { "str_sp": "Fighters' Glock 22" },
+    "description": "A gun carried by civilian monsters, more inaccurate for balancing reasons.",
+    "dispersion": 960,
+    "durability": 5
+  },
+  {
+    "id": "civilian_remington870",
+    "copy-from": "remington_870",
+    "looks_like": "remington_870",
+    "flags": [ "PSEUDO" ],
+    "type": "GUN",
+    "name": { "str_sp": "Cops' Remington 870" },
+    "description": "A shotgun carried by civilian monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
     "durability": 5
   },
