@@ -281,13 +281,13 @@
     "durability": 5
   },
   {
-    "id": "civilian_remington870",
-    "copy-from": "remington_870",
-    "looks_like": "remington_870",
+    "id": "civilian_Augrifle",
+    "copy-from": "steyr_aug",
+    "looks_like": "steyr_aug",
     "flags": [ "PSEUDO" ],
     "type": "GUN",
-    "name": { "str_sp": "Cops' Remington 870" },
-    "description": "A shotgun carried by civilian monsters, more inaccurate for balancing reasons.",
+    "name": { "str_sp": "Cops' Aug rifle" },
+    "description": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
     "durability": 5
   },
