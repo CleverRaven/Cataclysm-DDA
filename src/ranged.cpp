@@ -3347,13 +3347,26 @@ void target_ui::update_status()
     }
 }
 
+int get_zlevel_modifiers( const tripoint_bub_ms &src, const tripoint_bub_ms &dst )
+{
+    map const &here = get_map();
+    // standing on downstair attacking down
+    if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, src )  && src.xy() == dst.xy() &&
+        src.z() - dst.z() == 1 ) {
+        return -2;
+    };
+    // standing on upstair attacking up
+    if( here.has_flag( ter_furn_flag::TFLAG_GOES_UP, src )  && src.xy() == dst.xy() &&
+        src.z() - dst.z() == -1 ) {
+        return -2;
+    };
+    return 0;
+}
+
 int target_ui::dist_fn( const tripoint_bub_ms &p )
 {
-
-    add_msg( m_warning, string_format( "point 1: %s", src.to_string() ) );
-    add_msg( m_warning, string_format( "point 2: %s", p.to_string() ) );
-
-    return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
+    int z_adj = get_zlevel_modifiers( src, p );
+    return std::round( rl_dist_exact( src, p ) + z_adj );
 }
 
 void target_ui::set_last_target()
