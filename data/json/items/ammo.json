@@ -405,7 +405,7 @@
     "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "A tube of strong glue.  Used in many crafting recipes.",
+    "description": "Cyanoacrylate, commonly known as superglue.  A strong, quick setting liquid adhesive that is used often, from crafts to quick fixes.",
     "price": "18 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
