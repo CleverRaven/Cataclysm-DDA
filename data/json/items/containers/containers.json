@@ -684,7 +684,7 @@
         "name": { "str": "large superglue bottle" },
         "description": "A tiny plastic container with the label \"Super Glue - All Purpose!\", with directions and cautions below.",
         "weight": 0,
-		"append": false
+        "append": false
       }
     ]
   },
@@ -725,7 +725,7 @@
         "name": { "str": "superglue tube" },
         "description": "A tiny plastic tube with the label \"Super Glue - All Purpose!\", with directions and cautions below.",
         "weight": 1,
-		"append": false
+        "append": false
       }
     ]
   },
