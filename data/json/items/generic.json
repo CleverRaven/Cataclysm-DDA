@@ -321,11 +321,11 @@
     "description": "A tube of strong glue.  Used in many crafting recipes.",
     "price": "18 USD",
     "price_postapoc": "1 USD",
-    "material": [ "plastic" ],
+    "material": [ "water" ],
     "weight": "1 g",
     "volume": "1 ml",
     "ammo_type": "superglue",
-    "//": "1 charge of superglue should cover an area of 0.5mm^2",
+    "//": "1 charge of superglue should cover an area of 5mm^2",
     "count": 40,
     "flags": [ "UNRECOVERABLE" ]
   },
