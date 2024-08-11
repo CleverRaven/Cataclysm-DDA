@@ -222,6 +222,7 @@
     "skill_used": "tailor",
     "time": "1 h 30 m",
     "autolearn": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
@@ -235,7 +236,8 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 1 ] ],
+    "reversible": { "time": "5 m" },
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "scrap", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
@@ -249,9 +251,9 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "8 h",
-    "reversible": { "time": "20 m" },
+    "reversible": { "time": "5 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 8 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "scrap", 2 ] ],
@@ -268,9 +270,9 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "reversible": { "time": "20 m" },
+    "reversible": { "time": "5 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 6 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "scrap", 2 ] ],
