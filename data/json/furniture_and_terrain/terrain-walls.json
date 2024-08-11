@@ -3239,7 +3239,7 @@
     "roof": "t_rock_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 50,
       "str_max": 200,
