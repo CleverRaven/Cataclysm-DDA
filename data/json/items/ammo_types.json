@@ -479,7 +479,7 @@
     "name": "duct tape",
     "default": "duct_tape"
   },
-    {
+  {
     "type": "ammunition_type",
     "id": "superglue",
     "name": "super glue",
