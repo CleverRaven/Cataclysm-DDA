@@ -321,7 +321,7 @@
     "description": "A tube of strong glue.  Used in many crafting recipes.",
     "price": "18 USD",
     "price_postapoc": "1 USD",
-    "material": [ "water" ],
+    "material": [ "plastic" ],
     "weight": "1 g",
     "volume": "1 ml",
     "ammo_type": "superglue",
