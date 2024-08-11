@@ -198,6 +198,8 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 10 ],
       [ "fastener_small", 1 ],
@@ -855,6 +857,8 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": "3 h",
     "autolearn": true,
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 1 ],
       [ "fastener_small", 1 ],
@@ -1266,7 +1270,8 @@
     "time": "8 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
-    "reversible": { "time": "10 m" },
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]

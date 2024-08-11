@@ -551,7 +551,6 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 3 ],
     "time": "300 m",
-    "reversible": true,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "proficiencies": [
@@ -572,7 +571,6 @@
     "difficulty": 2,
     "skills_required": [ "mechanics", 1 ],
     "time": "100 m",
-    "reversible": true,
     "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
@@ -587,7 +585,6 @@
     "difficulty": 3,
     "skills_required": [ "mechanics", 2 ],
     "time": "200 m",
-    "reversible": true,
     "//": "50cm weld",
     "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "welding_standard", 50 ] ],
@@ -833,8 +830,9 @@
     "difficulty": 4,
     "time": "30 m",
     "reversible": true,
+    "//1": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "autolearn": true,
-    "//": "50cm weld",
+    "//2": "50cm weld",
     "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 14 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

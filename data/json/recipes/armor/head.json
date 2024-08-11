@@ -10,7 +10,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
@@ -21,7 +21,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -33,7 +33,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -47,7 +47,7 @@
     "difficulty": 2,
     "time": "90 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "using": [ [ "tailoring_felt_small", 6 ] ]
   },
   {

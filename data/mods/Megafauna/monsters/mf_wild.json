@@ -599,7 +599,7 @@
     "id": "mon_american_zebra",
     "type": "MONSTER",
     "name": { "str": "American zebra" },
-    "description": "A hooved grazing mammal with a brown-and-white striped coat.  .",
+    "description": "A hooved grazing mammal with a brown-and-white striped coat.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
