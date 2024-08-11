@@ -1721,7 +1721,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 buffer += tool_continue_reqs.list_missing();
                 popup( buffer, PF_NONE );
             } else {
-                add_msg_if_npc( _( "<npcname> don't have the necessary tools to continue crafting!" ) );
+                add_msg_if_npc( _( "<npcname> doesn't have the necessary tools to continue crafting!" ) );
             }
             return false;
         }

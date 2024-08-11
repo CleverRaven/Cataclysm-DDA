@@ -31,7 +31,7 @@
                     ],
                     "false_effect": [
                       {
-                        "u_message": "you cannot get a proper grip on this item, so your attempts to hold it with all your might are fruitless.",
+                        "u_message": "You cannot get a proper grip on this item, so your attempts to hold it with all your might are fruitless.",
                         "type": "bad"
                       }
                     ]

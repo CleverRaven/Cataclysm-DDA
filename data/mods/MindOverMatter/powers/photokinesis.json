@@ -558,7 +558,7 @@
     "id": "photokinetic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Veil of Light (C)",
-    "description": "Refract light around yourself to become invisible.  Moving too quickly or has a chance to disrupt the effect, and attacking in melee will invariably do so.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Refract light around yourself to become invisible.  Moving too quickly has a chance to disrupt the effect, and attacking in melee will invariably do so.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
