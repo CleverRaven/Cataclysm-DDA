@@ -270,12 +270,12 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "civilian_glock22",
-    "copy-from": "glock_22",
-    "looks_like": "glock_22",
+    "id": "civilian_glock19",
+    "copy-from": "glock_19",
+    "looks_like": "glock_19",
     "flags": [ "PSEUDO" ],
     "type": "GUN",
-    "name": { "str_sp": "Fighters' Glock 22" },
+    "name": { "str_sp": "Fighters' Glock 19" },
     "description": "A gun carried by civilian monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
     "durability": 5
