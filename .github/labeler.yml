@@ -81,6 +81,8 @@
   - "**/food**"
   - "**/**comestible**"
   - "**/comestible**"
+  - "**/**comestible**/**"
+  - "**/comestible**/**"
 
 "NPC / Factions":
   - "**/**npc**"

@@ -840,8 +840,8 @@ std::function<double( dialogue & )> energy_eval( char /* scope */,
 {
 
     return [val = params[0]]( dialogue const & d ) {
-        return units::to_millijoule(
-                   _read_from_string<units::energy>( val.str( d ), units::energy_units ) );
+        return static_cast<double>( units::to_millijoule(
+                                        _read_from_string<units::energy>( val.str( d ), units::energy_units ) ) );
     };
 }
 

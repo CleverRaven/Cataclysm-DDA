@@ -273,7 +273,7 @@
           {
             "id": "quadraphract_leg_hurt",
             "condition": { "math": [ "u_quad_uid", "==", "_quad_uid" ] },
-            "effect": [ { "u_cast_spell": { "id": "quadraphract_hurt_self" } } ]
+            "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
         "monster_range": 60
@@ -290,7 +290,7 @@
           {
             "id": "quadraphract_leg_dies",
             "condition": { "math": [ "u_quad_id", "==", "_quad_uid" ] },
-            "effect": [ { "u_cast_spell": { "id": "quadraphract_hurt_self" } } ]
+            "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
         "monster_range": 20,

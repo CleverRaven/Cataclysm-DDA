@@ -191,5 +191,11 @@
     "id": "spell_components_hedge_walk_on_water",
     "type": "requirement",
     "components": [ [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_bless_steel_weapon",
+    "type": "requirement",
+    "tools": [ [ [ "candle_lit", -1 ] ] ],
+    "components": [ [ [ "salt", 15 ] ], [ [ "wild_herbs", 30 ] ] ]
   }
 ]

@@ -1141,7 +1141,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE",
     "//": "creating EXODII barrel",
     "type": "talk_topic",
-    "dynamic_line": "The project was a success!  The ammo is fairly rudimentary, but ultimately proved simple to manufacture, and has lent itself well to large magazines.  We will transfer a copy of the conversion kit in a moment; it is capable of accepting the standard magazines that Exodii weapons usually use, and we have also begun production of specialized magazines ourselves.  Thank you for allowing us this opportunity.",
+    "dynamic_line": "The project was a success!  The ammo is fairly rudimentary, but ultimately proved simple to manufacture, and has lent itself well to large magazines.  We will transfer a copy of the conversion kit in a moment; it is capable of accepting specialized magazines that we have just begun to produce ourselves.  Thank you for allowing us this opportunity.",
     "speaker_effect": { "effect": [ { "math": [ "hub01_hwp_exotic_researched", "=", "1" ] } ] },
     "responses": [
       {

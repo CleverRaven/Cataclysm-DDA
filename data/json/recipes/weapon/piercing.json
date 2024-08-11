@@ -931,7 +931,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [

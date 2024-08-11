@@ -186,7 +186,7 @@
     "type": "effect_on_condition",
     "id": "EOC_map_item_test2",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
       { "map_spawn_item": "bottle_plastic", "loc": { "context_val": "loc" } }
     ]
   },
@@ -195,12 +195,12 @@
     "id": "EOC_map_condition_test",
     "effect": [
       {
-        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
         "then": { "u_message": "Inside city" },
         "else": { "u_message": "Outside city" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,-1,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -214,7 +214,7 @@
         "else": { "u_message": "North furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(1,0,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -228,7 +228,7 @@
         "else": { "u_message": "East furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -242,7 +242,7 @@
         "else": { "u_message": "South furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(-1,0,0)" },
         "target_var": { "context_val": "loc" }
       },
       {

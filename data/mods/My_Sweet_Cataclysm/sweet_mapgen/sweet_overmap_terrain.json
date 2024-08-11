@@ -5,7 +5,7 @@
     "name": "chocolate bog",
     "sym": "F",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "mondensity": 2
   }
 ]

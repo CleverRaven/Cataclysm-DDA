@@ -615,6 +615,15 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
+dispersion_sources Character::total_gun_dispersion( const item &gun, double recoil,
+        int spread ) const
+{
+    dispersion_sources dispersion = get_weapon_dispersion( gun );
+    dispersion.add_range( recoil );
+    dispersion.add_spread( spread );
+    return dispersion;
+}
+
 int Character::gun_engagement_moves( const item &gun, int target, int start,
                                      const Target_attributes &attributes ) const
 {
@@ -984,9 +993,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
         }
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-        dispersion.add_spread( proj.shot_spread );
+
+        dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
         bool first = true;
         bool headshot = false;
@@ -1374,6 +1382,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
+    impact.add_damage( damage_bash,
+                       enchantment_cache->get_value_add( enchant_vals::mod::THROW_DAMAGE ) );
+    impact.mult_damage( 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::THROW_DAMAGE ) );
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
