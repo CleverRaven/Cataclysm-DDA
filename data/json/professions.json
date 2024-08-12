@@ -1982,7 +1982,12 @@
     "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "entries": [ { "item": "pocketwatch" }, { "item": "knife_small", "variant": "knife_steak" }, { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+        "entries": [
+          { "item": "pocketwatch" },
+          { "item": "knife_small", "variant": "knife_steak" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": {
         "entries": [
@@ -2144,7 +2149,12 @@
           "stethoscope",
           "scalpel"
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "starter_rich_wallet_full" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2216,7 +2226,12 @@
             "entry-wrapper": "bottle_plastic_pill_prescription"
           }
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3856,7 +3871,13 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "entries": [ { "item": "socks" }, { "item": "knit_scarf" }, { "item": "dance_shoes" }, { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+        "entries": [
+          { "item": "socks" },
+          { "item": "knit_scarf" },
+          { "item": "dance_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "tux" }, { "item": "tourmaline_silver_cufflinks" } ] },
       "female": {
