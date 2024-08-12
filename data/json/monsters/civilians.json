@@ -73,7 +73,7 @@
       "subtype": "collection",
       "items": [
         { "group": "mon_zombie_cop_death_drops", "prob": 100 },
-        { "item": "remington_870", "prob": 100, "charges": [ 0, 6 ] }
+        { "item": "steyr_aug", "prob": 100, "charges": [ 0, 6 ] }
       ]
     },
     "zombify_into": "mon_zombie_cop",
@@ -136,7 +136,7 @@
       "subtype": "collection",
       "items": [
         { "group": "default_zombie_death_drops", "prob": 100 },
-        { "group": "feral_handgun", "prob": 100, "charges": [ 0, 6 ] }
+        { "group": "feral_handgun", "prob": 100, "charges": [ 0, 10 ] }
       ]
     },
     "starting_ammo": { "9mm": 10 },
