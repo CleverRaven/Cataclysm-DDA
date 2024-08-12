@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "messages.h"
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
@@ -2218,7 +2219,11 @@ drop_locations game_menus::inv::pickup( avatar &you,
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        if( target ) {
+            add_msg( _( "There is nothing to pick up." ) );
+        } else {
+            add_msg( _( "There is nothing to pick up nearby." ) );
+        }
         return drop_locations();
     }
 

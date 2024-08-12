@@ -3819,7 +3819,7 @@ void iexamine::compost_empty( Character &you, const tripoint &examp )
         // TODO: Allow using biomass from crafting inventory
         const auto b_inv = you.cache_get_items_with( "is_compostable", &item::is_compostable );
         if( b_inv.empty() ) {
-            add_msg( m_info, _( "You have no biomass to ferment." ) );
+            add_msg( m_info, _( "You have nothing that could be used as biomass to ferment." ) );
             return;
         }
         // Make lists of unique typeids and names for the menu
@@ -3835,7 +3835,7 @@ void iexamine::compost_empty( Character &you, const tripoint &examp )
         // Choose biomass from list
         int b_index = 0;
         if( b_types.size() > 1 ) {
-            b_index = uilist( _( "Use which biomass?" ), b_names );
+            b_index = uilist( _( "What do you want to use as biomass?" ), b_names );
         } else { //Only one biomass type was in inventory, so it's automatically used
             if( !query_yn( _( "Set %s in the tank?" ), b_names[0] ) ) {
                 b_index = -1;

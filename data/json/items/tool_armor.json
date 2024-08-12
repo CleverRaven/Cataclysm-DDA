@@ -615,7 +615,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 80 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -3244,7 +3244,7 @@
       "need_charges_msg": "The earplugs' batteries are dead."
     },
     "material_thickness": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
   },
   {
     "id": "powered_earplugs_on",

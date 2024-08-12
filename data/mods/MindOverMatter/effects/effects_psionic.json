@@ -196,7 +196,7 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_reflex",
-    "name": [ "Enhanced Reflexes" ],
+    "name": [ "Heightened Reflexes" ],
     "desc": [ "You are enhancing your speed and senses." ],
     "apply_message": "",
     "remove_message": "The world speeds up again.",
@@ -219,7 +219,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "max((( 5 + ( u_spell_level('biokin_physical_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
+                "min((( 5 + ( u_spell_level('biokin_reflex_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
               ]
             }
           }
