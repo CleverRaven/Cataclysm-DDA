@@ -43,6 +43,10 @@ Ncurses and tiles versions are available in the [official repos](https://tracker
 
 `sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
+#### Flathub
+
+[![Download from Flathub](https://flathub.org/assets/badges/flathub-badge-en.png)](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
+
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
