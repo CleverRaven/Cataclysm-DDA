@@ -263,7 +263,7 @@
     "type": "GUNMOD",
     "name": { "str": "tail hook stock" },
     "//": "When we get 'rate of angular change' a version for rifles and crossbow can be added.  Currently it would be too strong",
-    "description": "A foldable add-on stock for handguns and machine guns with a pivoting hook that latches onto the forearm, allowing for greater stability.",
+    "description": "A foldable add-on stock for handguns and submachine guns with a pivoting hook that latches onto the forearm, allowing for greater stability.",
     "weight": "150 g",
     "volume": "200 ml",
     "integral_volume": "0 L",
