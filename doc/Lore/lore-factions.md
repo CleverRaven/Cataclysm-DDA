@@ -257,47 +257,47 @@ Most interaction with Hub01 will occur through the Ancillary Bar and mercenaries
 
 *"A benign religious faction attempting to keep Christianity and the Teachings of Jesus alive for the following generations."*
 
-#### Description - Background
-Before the Cataclysm, the New England Church Community (NECC) was an ordinary congregation of American Evangelists with slight doomsday-cultish/end-of-the-world undertones.  Formed by the one they refer to as "The Founder", he believed that God was speaking to him through his dreams, and that he was being warned of an approaching apocalypse. He spread the word to his followers, who subsequently began preparing for the apocalypse.  They amassed many years' worth of canned foods and supplies to weather through what they named "the Second Flood".
+#### Background
+Before the Cataclysm, the New England Community Church (NECC) was an ordinary congregation of American Evangelists with slight doomsday-cultish/end-of-the-world undertones.  Formed by the one they refer to as “The Founder”, he believed that God was speaking to him through his dreams, and that he was being warned of an approaching apocalypse. He spread the word to his followers, who subsequently began preparing for the apocalypse.  They amassed many years’ worth of canned foods and supplies to weather through what they named “the Second Flood”.
 
-The Founder died a few years before his prophecy came true. His eldest daughter, Helena, has since taken over running the sect, who sternly follows his father's principles.
+The Founder died a few years before his prophecy came true. His eldest daughter, Helena, has since taken over running the sect, who sternly follows her father’s principles.
 
-#### Description - Beliefs
+#### Beliefs
 The NECC believes that God has punished all of humanity for their wickedness and let loose a temporary Hell on earth.
+The followers of The Founder refer to the Cataclysm as “the Second Flood”.  They see themselves as too worthy to have been left behind in the Rapture, so they’ve decided to name it after the Great Flood from the Book of Genesis.  In their eyes, the Second Flood, and the Great Flood both serve the same purpose – to cleanse earth of violence and the corrupt – the difference being that God let loose the "Beasts of the Devil" instead of making it rain for 40 days and 40 nights so as not to break the promise He made to Noah[^1] (the rich have yachts anyway). The NECC believes itself to be God’s chosen, to whom He confided His intentions, and see their campground and stockpile as their metaphorical ark. They believe that the Cataclysm is only a temporary state.
 
-The followers of The Founder refer to the Cataclysm as "the Second Flood".  They see themselves as too worthy to have been left behind in the Rapture, so they've decided to name it after the Great Flood from the Book of Genesis.  In their eyes, the Second Flood, and the Great Flood both serve the same purpose – to cleanse earth of violence and the corrupt – the difference being that God let loose the Beasts of the Devil instead of making it rain for 40 days and 40 nights so as not to break the promise He made to Noah[^1] (the rich have yachts anyway). The NECC believes itself to be God's chosen, to whom He confided His intentions, and see their campground and stockpile as their metaphorical ark. They believe that the Cataclysm is only a temporary state.
+They are strongly against anyone who is mutated to a significant and perceptable degree. However, a mutant with no phenotypic expressions or physical changes out of the ordinary (such as Alpha/Medical lines) can come by just fine. Cybernetics and augmentation is something entirely unknown to the NECC, though they will not react harshly to it, and cyborgs can still safely interact with them.
 
 [^1]: God made a covenant with Noah and promised never again to destroy all the Earth's creatures with a flood.
 
 #### Structure
-They are theoretically one based on equality, but in reality the Founder's eldest daughter Helena is the leader and has the most sway.
+They are a theocracy in some sense, where Helena holds both the primary positions of religious leadership and compound oversight. The governing side of this is a little lax, where the congregation looks up to her in a more familial sense than as a stern authority figure. Lots of things are decided by group referrendum/opinion, as this keeps everyone mostly happy.
 
 #### Goals
-They believe that the Cataclysm is only a temporary state.
+The New England Community Church seeks to simply survive and thrive within the Cataclysm, and wait out the storm for Jesus Christ's ultimate return. To this end, they desire to procure necessary supplies, reinforce the religious beliefs of the congregation to cement His flock in the apocalypse, and allow a limited amount of outsiders in to spread the Gospel and keep the compound afloat/stable; gathering needed experts/knowledge to secure themselves.
 
 #### Size
-22 people made up of a few religious leaders, their followers, and a few outsiders that stay around.
+22 people made up of a few religious leaders, their followers, and a few outsiders that stay around. Sone travelers may come and go. 
 
 #### Attitudes
-The NECC didn't expect outsiders to survive the Cataclysm, nevertheless they're generally friendly, but distant towards other survivors.  They are willing to offer shelter to anyone that needs it and are eager to trade medicinal herbs, raw materials, or small crafts for the right price. That's where their Good Samaritanism ends, however.
+The NECC didn’t expect outsiders to survive the Cataclysm, nevertheless they’re cordially distant.  They are willing to offer temporary shelter to those who need it and are eager to trade medicinal herbs, raw materials, or small crafts for the right price. That’s where their Good Samaritanism ends, however.
 
-The NECC discriminates against anyone that's not part of their sect.  They are unwilling to let anyone in their "ark" – share their stockpile with outsiders or letting them join their congregation.  They put the blame on the victims for not joining their sect when they had the time – after all, the NECC did put out flyers urging people to join them while they still could.  Now the ark's gate has shut, and the rest must fend off for themselves.
+The NECC discriminates against anyone that’s not part of their sect or heavily Protestant Christian.  They are generally unwilling to let anyone in their “ark” – share their stockpile with outsiders or letting them join their congregation.  They put the blame on the victims for not joining their sect when they had the time – after all, the NECC did put out flyers urging people to join them while they still could.  Now the ark’s gate has shut, and the rest must fend off for themselves. However, someone who had demonstrated a willingness to seek God, sufficient knowledge of the Bible, or who agrees with their principles (God left me here to do His work) may be able to join the Church.
 
-They are strongly against anyone with bionics, or anyone who willingly mutated.
-
-Knows of the Free Merchants and the Tacoma Commune and is friendly enough to trade, but like with all outsiders, keeps them at arms length.
-Standoffish with the Isherwood Family.
-Dislike the Old Guard (for being percieved as getting us into this mess) and any group that promotes bionics, mutations, or interactions with the nether creatures.
+They will eventually know of the Free Merchants and the Tacoma Commune, and are friendly enough to trade. Like with all outsiders, they keep them at arms length.
+Standoffish with the Isherwood Family, as they are both isolationists to varying degrees.
+Dislike the Old Guard (for being percieved as getting us into this mess) and any group that promotes mutations, or interactions with the nether creatures.
 Hostile towards Hell's Raiders and Marloss Evangelists 
 
 #### Bases
-New England Church Retreat camp located in a forest.
+The NECC currently resides within an old church retreat campground, away from most cities in the middle of a forest. The site is generally old, and Helena managed to buy it for a steal. However, it is in need of repair.
 
 #### Trade/Economics
-Miscellaneous, tools, supplies, and pelts. They use their own form of currency based on religious icons to manage internal trade, which are virtually worthless to outsiders. As the Cataclysm wears on, they may gain enough economic power to be worth something.
+
+The New England Community Church uses an internal currency called icons, which they previously manufactured before the Cataclysm as pocket fliers to spread their message with. These have semi-limited value within the compound, since everyone not only knows each other, and almost no value with forgein survivor groups. Helena issued these as currency primarily to stabilize trading with outsiders, kind of like company notes. As the Cataclysm wears on, they may gain enough economic power to be worth something. The NECC will buy assorted miscellaneous items, tools, and supplies. They tend to sell pelts and whatever they've scraped up that they don't need, which usually includes spare herbal medicine, some pharmaceuticals, and raw materials. For a small donation, they will also be willing to educate you about God and his message.
 
 #### Missions
-Helping with various tasks around the camp, and later personal matters of the members. A trusted individual may be able to assist in outside politicking or spreading the word of God.
+Most missions involve helping with various tasks around the camp, and later personal matters of the members. A trusted individual may be able to assist in outside politicking or spreading the word of God, along with being a sort of postal worker to get things from the hostile world that nobody else wants to risk their neck for. Helena might also have some of her dirty work to be done.
 
 
 ## Extradimensional and Alien Factions
