@@ -2743,7 +2743,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
-    for( auto &ch : inv_chars.get_allowed_chars() ) {
+    for( int &ch : inv_chars.get_allowed_chars() ) {
         if( set_invlet( sp, ch, used_invlets ) ) {
             used_invlets.emplace( ch );
             return ch;
