@@ -139,6 +139,9 @@ Add persistent boomer bile effect that causes a stench and skin irritation
 Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
+make magiclysm/xedra evolved weapons useable by practice recipes
+Drystone walls support roofs
+Google Maps
 
 
 ## Content:
@@ -301,6 +304,12 @@ Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 Adds a home canning hobby/background to character creation
 Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
+More detailed sunset/sunrise morale based on actual weather and traits
+Sand and gravel pit location
+Adds new 22 revolver
+Neutral NPCs may now be shoved.
+something about 12 new shotguns
+Add game screenshots to data/screenshots
 
 
 ## Interface:
@@ -589,6 +598,11 @@ Document how spellcasting proficiencies work.
 [Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
 [Bombastic Perks] Sword and sorcery-esque perks
 [XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
+[MoM] Move Trick of the Light to concentration
+[MoM] Make Oxygen Absorption effect visible
+[MoM] Update morphic reinforcement serum with MUT_INSTABILITY_MOD, switch it and noetic resilience treatment over to `consume_drug` use action
+[XE] Add Tier 5 vampire powers
+[MoM] Make Veil of Light concentration
 
 
 ## Balance:
@@ -673,6 +687,8 @@ more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
+let hospitalized humans revive as zed crawlers
+Cramped space doesn't prevent sleep
 
 
 ## Bugfixes:
@@ -885,6 +901,11 @@ Civilianize Semi Auto MP40
 Stop wasting dodge attempts on things you can't even see
 [MoM] Fix possibility of studying new powers concurrently.
 Wrong header restoring saved AIM layout
+Prevent phantom cramped space on empty tiles
+increase Flame Immunity heat resist so you're actually immune to fire for real this time
+fixes #75094, insuring that outsert lenses will not play Humpty Dumpty with gas masks.
+Removes superglue recipe
+[MoM] Update Nether Attunement more frequently
 
 
 ## Performance:
@@ -978,6 +999,7 @@ LIXA connect_group
 Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
 Jsonized end screen
+Specify see_cost for overmap terrain with an enum instead of an integer
 
 
 ## Build:
