@@ -45,7 +45,9 @@ Ncurses and tiles versions are available in the [official repos](https://tracker
 
 #### Flathub
 
-[![Download from Flathub](https://flathub.org/assets/badges/flathub-badge-en.png)](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
+<a href="https://flathub.org/apps/org.cataclysmdda.CataclysmDDA">
+    <img src="https://flathub.org/assets/badges/flathub-badge-en.png" alt="Download from Flathub" width="200"/>
+</a>
 
 ## Compile
 
