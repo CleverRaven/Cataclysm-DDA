@@ -37,7 +37,7 @@
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "head" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "specifically_covers": [ "head_crown" ],
         "coverage": 20,
         "encumbrance": 2
       }
