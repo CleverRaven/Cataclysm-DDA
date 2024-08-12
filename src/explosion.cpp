@@ -523,6 +523,17 @@ void explosion( const Creature *source, const tripoint &p, float power, float fa
     explosion( source, p, data );
 }
 
+// Blocks activation of maps loaded by process_explosions. Activation would trigger a recursive
+// activation of whatever caused the explosion triggering the map loading, leading to a recursive
+// death spiral. Activation could also trigger further explosions leading to a cascade effect which
+// is also undesirable. Such explosions should not be triggered recursively, but by a direct action.
+static bool process_explosions_in_progress = false;
+
+bool explosion_processing_active()
+{
+    return process_explosions_in_progress;
+}
+
 void explosion( const Creature *source, const tripoint &p, const explosion_data &ex )
 {
     _explosions.emplace_back( source, get_map().getglobal( p ), ex );
@@ -936,15 +947,8 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
-// Used to ensure process_explosions isn't called in a recursive death spiral.
-static bool process_explosions_in_progress = false;
-
 void process_explosions()
 {
-    if( process_explosions_in_progress ) {
-        return;  // Break recursion from load below.
-    }
-
     for( const queued_explosion &ex : _explosions ) {
         const int safe_range = ex.data.safe_range();
         map  *bubble_map = &get_map();
