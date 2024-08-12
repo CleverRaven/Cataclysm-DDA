@@ -670,7 +670,7 @@
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } },
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
