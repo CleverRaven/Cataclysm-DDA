@@ -740,6 +740,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
+    part_project_points( dp );
     for( int p = 0; p < part_count(); p++ ) {
         const vehicle_part &vp = parts.at( p );
         if( vp.removed || !vp.is_real_or_active_fake() ) {
@@ -753,7 +754,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
+        const tripoint dsp = vp.next_pos.raw();
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
@@ -890,13 +891,16 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
+            const std::set<tripoint_bub_ms> projected_points = get_projected_part_points();
             const units::angle angle =
-                move.dir() + 45_degrees * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+                move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
+                ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( get_creature_tracker().creature_at( end_pos, true ) ||
-                   cur_points.find( end_pos ) != cur_points.end() ) {
+                   cur_points.find( end_pos ) != cur_points.end() ||
+                   projected_points.find( tripoint_bub_ms( end_pos ) ) != projected_points.end() ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
             }
