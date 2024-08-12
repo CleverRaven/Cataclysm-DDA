@@ -52,7 +52,7 @@
     "id": "mon_civilian_police",
     "type": "MONSTER",
     "name": { "str": "overconfident officer" },
-    "description": "Gun in hand, this police officer is determined to make a last stand against the horde.",
+    "description": "Assault rifle in hand, this police officer is determined to make a last stand against the horde.",
     "copy-from": "mon_civilian_panic",
     "diff": 5,
     "aggro_character": false,
@@ -64,32 +64,36 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "chat_topics": [ "TALK_CIVILIAN_OFFICER" ],
     "//": "Copied from zombie cop",
-    "melee_skill": 6,
+    "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "//2": "Uses a baton for melee attacks",
-    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "//2": "Unwieldy rifle butt for melee",
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "death_drops": {
       "subtype": "collection",
-      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
+      "items": [
+        { "group": "mon_zombie_cop_death_drops", "prob": 100 },
+        { "item": "remington_870", "prob": 100, "charges": [ 0, 6 ] }
+      ]
     },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
-    "starting_ammo": { "40fmj": 10 },
+    "starting_ammo": { "223": 15 },
+    "//3": "Range starts from 0 to get some shots out",
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 10,
-        "move_cost": 150,
-        "gun_type": "civilian_cop_glock22",
-        "ammo_type": "40fmj",
-        "fake_skills": [ [ "gun", 2 ], [ "pistol", 3 ] ],
+        "move_cost": 100,
+        "gun_type": "civilian_Augrifle",
+        "ammo_type": "223",
+        "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
         "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
-        "description": "The officer fires their Glock 22!"
+        "description": "The officer fires their AUG assault rifle!"
       }
     ],
     "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6, "electric": 2 }
@@ -98,7 +102,7 @@
     "id": "mon_civilian_zombiefighter",
     "type": "MONSTER",
     "name": { "str": "futile fighter" },
-    "description": "Obviously, this aggravated yet rallied human has lost their wits and tries to fight the undead with just a stick in their hands.",
+    "description": "Obviously, this aggravated yet rallied person has lost their wits and tries to fight the undead with just a knife in their hands.",
     "copy-from": "mon_civilian_panic",
     "chat_topics": [ "TALK_CIVILIAN_FIGHTER" ],
     "diff": 3,
@@ -106,21 +110,64 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 2,
+    "special_attacks": [ { "id": "civilian_weapon_knife_fighter" } ],
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "default_zombie_death_drops", "prob": 100 }, { "group": "survivor_knife", "prob": 100 } ]
+    }
+  },
+  {
+    "id": "mon_civilian_zombiegunner",
+    "type": "MONSTER",
+    "name": { "str": "firearmed fighter" },
+    "description": "Handgun in hand, this person is determined to make a last stand against the horde.",
+    "copy-from": "mon_civilian_panic",
+    "chat_topics": [ "TALK_CIVILIAN_GUNNER" ],
+    "diff": 3,
+    "aggro_character": false,
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "default_zombie_death_drops", "prob": 100 },
+        { "group": "feral_handgun", "prob": 100, "charges": [ 0, 6 ] }
+      ]
+    },
+    "starting_ammo": { "9mm": 10 },
+    "//3": "Range starts from 0 to get some shots out",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "civilian_glock19",
+        "ammo_type": "9mm",
+        "fake_skills": [ [ "gun", 2 ], [ "pistol", 3 ] ],
+        "fake_dex": 8,
+        "fake_per": 10,
+        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "require_targeting_player": false,
+        "description": "The gunman fires their sidearm!"
+      }
+    ]
   },
   {
     "id": "mon_civilian_icu",
     "type": "MONSTER",
-    "name": { "str": "hospitalized human" },
-    "description": "This being is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
+    "name": { "str": "hospitalized patient" },
+    "description": "This person is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
     "chat_topics": [ "TALK_CIVILIAN_ICU" ],
     "speed": 0,
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
     "morale": 0,
     "upgrades": { "into": "mon_zombie_crawler" },
-    "zombify_into": "mon_zombie_crawler",
     "delete": { "flags": [ "SEES", "HEARS" ] },
     "copy-from": "mon_civilian_stationary"
   },
@@ -152,6 +199,7 @@
     "monsters": [
       { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_zombiegunner", "weight": 12, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
       {
         "monster": "mon_civilian_parent",
