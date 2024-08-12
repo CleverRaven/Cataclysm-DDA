@@ -499,7 +499,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('biokin_hammerhand') * 10)), 75)"
+        "u_effect_intensity('effect_photokinetic_radio') > -1 ? 10 : max((250 -(u_spell_level('photokinetic_radio') * 10)), 75)"
       ]
     }
   },
@@ -557,9 +557,9 @@
   {
     "id": "photokinetic_invisibility",
     "type": "SPELL",
-    "name": "[Ψ]Veil of Light",
-    "description": "Refract light around yourself to become invisible.",
-    "message": "Suddenly, the world around you seems like it's on the other side of the surface of water.",
+    "name": "[Ψ]Veil of Light (C)",
+    "description": "Refract light around yourself to become invisible.  Moving too quickly or has a chance to disrupt the effect, and attacking in melee will invariably do so.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
@@ -567,8 +567,8 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_photokin_invisibility",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_INVISIBILITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -581,12 +581,16 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1200,
-    "energy_increment": -125,
-    "base_casting_time": 150,
-    "final_casting_time": 35,
-    "casting_time_increment": -6.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_invisibility') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_invisibility') * 125)), 1200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_invisibility') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_invisibility') * 6.5)), 35)"
+      ]
+    }
   },
   {
     "id": "photokinetic_light_flash",

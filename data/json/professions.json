@@ -5689,6 +5689,7 @@
     "id": "naked",
     "name": "Naked and Afraid",
     "description": "The apocalypse has caught you completely naked!  Maybe you were robbed, maybe you were at a nudist beach, or maybe you just enjoy the feeling of liberation brought by the wind touching your skin.  Whatever the reason, you lack clothes in a time when everyone wants a piece of you.",
+    "flags": [ "NO_BONUS_ITEMS" ],
     "points": -1
   },
   {
