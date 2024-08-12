@@ -889,7 +889,7 @@
     "ammo": 100,
     "entries": [
       { "item": "draco_9mm", "charges": [ 0, 17 ] },
-      { "item": "glock17_17" },
+      { "item": "glockbigmag" },
       { "item": "glock17_17", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
