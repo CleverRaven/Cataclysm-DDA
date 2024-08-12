@@ -5647,7 +5647,7 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == push ) {
         if( !obeys ) {
-            if( !query_yn( _( "%s may be upset by this. Continue?" ), who.name ) ) {
+            if( !query_yn( _( "%s may be upset by this.  Continue?" ), who.name ) ) {
                 return true;
             }
             npc_opinion &attitude = who.op_of_u;
