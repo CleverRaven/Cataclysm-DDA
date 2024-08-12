@@ -418,17 +418,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NPC_PLAYER_FORGIVENESS_TRIGGER",
-    "global": false,
-    "recurrence": "1 hours",
-    "condition": "u_is_npc",
-    "effect": [
-      { "u_set_talker": { "global_val": "u_character_id" } },
-      { "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT", "beta_talker": { "global_val": "u_character_id" } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_NPC_PLAYER_FORGIVENESS",
     "global": false,
     "recurrence": "1 hours",
