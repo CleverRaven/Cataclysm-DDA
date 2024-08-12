@@ -185,7 +185,7 @@
       {
         "id": "draco",
         "name": { "str": "Draco" },
-        "description": "The Draco series of guns are guns imported by Century Arms. They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel"
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel"
       }
     ],
     "weight": "2495 g",
@@ -230,7 +230,7 @@
       {
         "id": "draco_mini",
         "name": { "str": "Mini Draco" },
-        "description": "The Draco series of guns are guns imported by Century Arms. They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified."
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified."
       }
     ],
     "weight": "2563 g",
@@ -275,7 +275,7 @@
       {
         "id": "draco_mini",
         "name": { "str": "Micro Draco" },
-        "description": "The Draco series of guns are guns imported by Century Arms. They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has distinctive, oddly curvy handguard."
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has distinctive, oddly curvy handguard."
       }
     ],
     "weight": "2200 g",
