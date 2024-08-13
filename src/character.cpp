@@ -364,6 +364,13 @@ static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_acidchitin( "acidchitin" );
+static const material_id material_bone( "bone" );
+static const material_id material_chitin( "chitin" );
+static const material_id material_fur( "fur" );
+static const material_id material_gutskin( "gutskin" );
+static const material_id material_leather( "leather" );
+static const material_id material_wool( "wool" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
@@ -484,6 +491,7 @@ static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -7960,6 +7968,16 @@ ret_val<void> Character::can_wield( const item &it ) const
     if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
+    }
+    if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
+                                      it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
+                                      it.made_of( material_fur ) ||
+                                      it.made_of( material_wool ) ||
+                                      it.made_of( material_chitin ) ||
+                                      it.made_of( material_bone ) ||
+                                      it.made_of( material_gutskin ) ||
+                                      it.made_of( material_acidchitin ) ) ) {
+        return ret_val<void>::make_failure( _( "Can't wield that, it's made from an animal!" ) );
     }
 
     return ret_val<void>::make_success();
