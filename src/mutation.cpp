@@ -54,6 +54,7 @@ static const itype_id itype_fake_burrowing( "fake_burrowing" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_ROBUST_GENETIC( "ROBUST_GENETIC" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SHAPESHIFT_SIZE_HUGE( "SHAPESHIFT_SIZE_HUGE" );
@@ -84,7 +85,6 @@ static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
@@ -180,7 +180,7 @@ bool Character::has_base_trait( const trait_id &b ) const
 int Character::get_instability_per_category( const mutation_category_id &categ ) const
 {
     int mut_count = 0;
-    bool robust = has_trait( trait_ROBUST );
+    bool robust = has_flag( json_flag_ROBUST_GENETIC );
     // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
@@ -205,6 +205,8 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
             }
         }
     }
+    mut_count = enchantment_cache->modify_value( enchant_vals::mod::MUT_INSTABILITY_MOD, mut_count );
+    mut_count = std::max( mut_count, 0 );
     return mut_count;
 }
 

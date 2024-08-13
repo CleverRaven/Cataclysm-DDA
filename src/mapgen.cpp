@@ -7161,7 +7161,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // Then we place it back from scratch
             // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
             shared_ptr_fast<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
-            np.spawn_at_precise( tripoint_abs_ms( getabs( tripoint( new_pos, abs_sub.z() ) ) ) );
+            np.spawn_at_precise( tripoint_abs_ms( getabs( tripoint( new_pos, sq.z ) ) ) );
             overmap_buffer.insert_npc( npc_ptr );
         }
     }

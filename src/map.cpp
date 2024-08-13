@@ -7473,7 +7473,13 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH || get_cache( p.z ).floor_cache[p.x][p.y];
+    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+        return true;
+    } else if( !inbounds( p ) ) {
+        return false;
+    } else {
+        return get_cache( p.z ).floor_cache[p.x][p.y];
+    }
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,

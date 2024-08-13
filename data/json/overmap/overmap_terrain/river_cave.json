@@ -6,7 +6,7 @@
     "vision_levels": "natural_outcropping",
     "sym": "O",
     "color": "light_cyan",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR", "RIVER", "LAKE_SHORE" ]
   },
   {
@@ -16,7 +16,7 @@
     "vision_levels": "underground_dirt",
     "sym": "O",
     "color": "cyan_green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_KRAKEN", "population": [ 6, 10 ], "chance": 100 }
   },
   {
@@ -39,7 +39,7 @@
     "name": "river cave tunnel",
     "vision_levels": "underground_dirt",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_KRAKEN", "population": [ 4, 6 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   }

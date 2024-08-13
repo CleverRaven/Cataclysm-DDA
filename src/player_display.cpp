@@ -1409,7 +1409,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             }
             case player_display_tab::proficiencies:
                 const std::vector<display_proficiency> profs = you.display_proficiencies();
-                show_proficiencies_window( you, profs[line].id );
+                if( !profs.empty() ) {
+                    show_proficiencies_window( you, profs[line].id );
+                }
                 break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {

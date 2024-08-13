@@ -3,6 +3,7 @@
     "type": "overmap_terrain",
     "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
     "vision_levels": "isolated_tower",
+    "see_cost": "high",
     "name": "mi-go encampment",
     "sym": "<",
     "color": "dark_gray",
@@ -28,6 +29,7 @@
     "type": "overmap_terrain",
     "id": "mi-go_camp2-2",
     "name": "mi-go landing platform",
+    "see_cost": "none",
     "sym": "_",
     "color": "light_gray",
     "copy-from": "mi-go_camp1"
@@ -36,6 +38,7 @@
     "type": "overmap_terrain",
     "id": "mi-go_camp2-3",
     "name": "mi-go landing roof",
+    "see_cost": "none",
     "sym": "_",
     "color": "light_gray",
     "copy-from": "mi-go_camp1"
@@ -61,6 +64,7 @@
     "name": "mi-go structure",
     "sym": "=",
     "vision_levels": "blends_till_details",
+    "see_cost": "high",
     "color": "dark_gray",
     "mondensity": 2,
     "flags": [ "RISK_EXTREME" ]
@@ -70,6 +74,7 @@
     "id": "mi-go_portal_roof",
     "name": "mi-go structure roof",
     "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "sym": "=",
     "color": "dark_gray",
     "mondensity": 2,

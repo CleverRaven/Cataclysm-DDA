@@ -68,6 +68,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
 | SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| monster_attack: "eoc"                          | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
 | countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
@@ -325,6 +326,13 @@ return true if alpha talker is female
 - `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
 - `npc` is any NPC, except Avatar
 - `character` is both NPC or Avatar
+
+```
+Creature ---> Character ---> avatar
+          \              \
+           \              \--> npc
+            \---> monster
+```
 
 #### Valid talkers:
 
@@ -2221,6 +2229,140 @@ Teleport player to `new_map`
     { "u_teleport": { "global_val": "new_map" }, "force": true }
   ]
 }
+```
+
+#### `reveal_map`
+Reveal the overmap area around specific location variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "reveal_map" | **mandatory** | [variable object](#variable-object) | location variable, around which the map would be revealed |
+| "radius" | **mandatory** | int or [variable object](#variable-object) | default 0; the size of revealed zone |
+
+##### Examples
+
+Reveal the zone three tiles around the character
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc" } },
+      { "reveal_map": { "context_val": "loc" }, "radius": 3 }
+    ]
+  }
+```
+
+Same, but using different syntax
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      { "reveal_map": { "context_val": "loc" }, "radius": 3 }
+    ]
+  }
+```
+
+Find overmap tile using `target_params`, store coordinates in `loc`, and reveal the area 20 tiles around `loc`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_HOUSE_REVEAL",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "loc" },
+      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+    },
+    { "reveal_map": { "context_val": "loc" }, "radius": 20 }
+  ]
+}
+```
+
+#### `reveal_route`
+Reveal the route between two location variables, using closest roads
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "reveal_route" | **mandatory** | [variable object](#variable-object) | location variable, starting point in the route |
+| "target_var" | **mandatory** | [variable object](#variable-object) | location variable, ending point in the route |
+| "radius" |  | int or [variable object](#variable-object) | the size of revealed path |
+| "road_only" | optional | boolean | default false; if true, reveal only road tiles |
+
+##### Examples
+
+Reveal the path between you and 50 overmap tiles west of you
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_a" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(-1200,0,0)" }, "target_var": { "context_val": "loc_b" } },
+      { "reveal_route": { "context_val": "loc_a" }, "target_var": { "context_val": "loc_b" }, "radius": 3 }
+    ]
+  },
+```
+
+Reveal the route between you and `house_02`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_HOUSE_route",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "loc" },
+      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+    },
+    {
+        "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
+        "target_var": { "context_val": "loc" },
+        "radius": 3,
+        "road_only": true
+      }
+  ]
+}
+```
+
+#### `closest_city`
+Store coordinates of the closest city nearby in a variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "closest_city" | **mandatory** | [variable object](#variable-object) | location variable, center of the found city |
+| "known" | optional | boolean | default true; if true, picks the closest city you know (has yellow text of the city name on your map), otherwise picks the closest city even if you didn't visit it yet |
+
+Additionaly sends context variables `city_name` (string) and `city_size` (int)
+
+##### Examples
+
+Stores coordinates of closest known city, and print variables
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY",
+    "effect": [
+      { "closest_city": { "context_val": "city" } },
+      { "u_message": "Known city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
+```
+
+Same, but return any city nearby
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY_UNKNOWN",
+    "effect": [
+      { "closest_city": { "context_val": "city" }, "known": false },
+      { "u_message": "Unknown city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
 ```
 
 #### `weighted_list_eocs`

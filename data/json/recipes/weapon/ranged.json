@@ -922,7 +922,7 @@
     "skills_required": [ [ "traps", 1 ], [ "gun", 1 ] ],
     "difficulty": 3,
     "time": "2 h 30 m",
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],

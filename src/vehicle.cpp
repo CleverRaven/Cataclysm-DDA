@@ -6732,12 +6732,6 @@ void vehicle::do_towing_move()
         debugmsg( "tried to do towing move but towed vehicle has no towing part" );
         invalidate = true;
     }
-    if( towed_veh->global_pos3().z != global_pos3().z ) {
-        // how the hellicopter did this happen?
-        // yes, this can happen when towing over a bridge (see #47293)
-        invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), towed_veh->disp_name() );
-    }
     if( invalidate ) {
         invalidate_towing( true );
         return;
@@ -7808,6 +7802,36 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh, const b
     }
 
     return occupied_points;
+}
+
+void vehicle::part_project_points( const tripoint &dp )
+{
+    std::set<tripoint> projected_points;
+    for( int p = 0; p < part_count(); p++ ) {
+        vehicle_part &vp = parts.at( p );
+        if( vp.removed || !vp.is_real_or_active_fake() ) {
+            continue;
+        }
+
+        const vpart_info &info = vp.info();
+        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+            continue;
+        }
+        // Coordinates of where part will go due to movement (dx/dy/dz)
+        //  and turning (precalc[1])
+        vp.next_pos = tripoint_bub_ms( global_pos3() + dp + vp.precalc[1] );
+    }
+}
+
+std::set<tripoint_bub_ms> vehicle::get_projected_part_points() const
+{
+    std::set<tripoint_bub_ms> projected_points;
+
+    for( int p = 0; p < part_count(); p++ ) {
+        const vehicle_part &vp = parts.at( p );
+        projected_points.insert( vp.next_pos );
+    }
+    return projected_points;
 }
 
 std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,

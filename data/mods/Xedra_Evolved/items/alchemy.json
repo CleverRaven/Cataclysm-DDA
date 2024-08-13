@@ -280,7 +280,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "life extension potion" },
-    "description": "The primary means by which alchemists gain wealthy patrons these potions will add decades of healthy life to their users span.  But the ingredients are rare and even this won't prolong life forever.  You'll have to resort to other means of achieving immortality, if that's even a goal you are seeking.",
+    "description": "A source of considerable wealth for the few alchemists talented enough to distill them, these potions are capable of adding decades to the lifespan of those who can afford the price of the rare and expensive ingredients they require.  They are however not able to prolong a life indefinitely beyond its natural years, and you will need to find other means to achieve immortality, if that is your goal.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
