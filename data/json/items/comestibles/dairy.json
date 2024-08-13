@@ -289,8 +289,8 @@
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.  By adding savory vegetables to it you've made what might be a full meal.",
     "price": "4 USD 85 cent",
     "price_postapoc": "1 USD 75 cent",
-    "calories": 475,
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 8 ] ],
+    "calories": 332,
+    "vitamins": [ [ "calcium", 32 ], [ "vitC", 13 ] ],
     "fun": 2
   },
   {
