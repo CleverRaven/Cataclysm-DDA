@@ -91,6 +91,29 @@
     "contents": [ { "id": "steel_lump", "count": 6 } ]
   },
   {
+    "id": "tshirt_text",
+    "type": "MIGRATION",
+    "replace": "tshirt"
+  },
+  {
+    "id": "flag_shirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "flag_shirt"
+  },
+  {
+    "id": "linuxtshirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "tux"
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "death"
+  },
+  {
     "id": "fridge",
     "type": "MIGRATION",
     "replace": "apartment_fridge"
