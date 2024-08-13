@@ -702,7 +702,6 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small squeeze tube" },
-    "looks_like": "superglue",
     "description": "A small squeeze tube, holds 3 mL of liquid.  It cannot be refilled after its empty.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",

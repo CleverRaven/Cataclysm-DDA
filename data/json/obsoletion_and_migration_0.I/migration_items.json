@@ -1791,5 +1791,11 @@
     "id": "g36mag_100rd",
     "type": "MIGRATION",
     "replace": "stanag100drum"
+  },
+  {
+    "id": "superglue",
+    "type": "MIGRATION",
+    "replace": "bottle_plastic_tiny_glue",
+    "contents": [ { "id": "super_glue", "count": 40 } ]
   }
 ]

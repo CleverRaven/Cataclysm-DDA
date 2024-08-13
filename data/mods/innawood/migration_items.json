@@ -1,0 +1,7 @@
+[
+  {
+    "id": "super_glue",
+    "type": "MIGRATION",
+    "replace": "bone_glue"
+  }
+]

@@ -312,7 +312,7 @@
   },
   {
     "type": "AMMO",
-    "id": "superglue",
+    "id": "super_glue",
     "category": "spare_parts",
     "symbol": ",",
     "phase": "liquid",
@@ -336,7 +336,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str_sp": "rubber cement" },
-    "looks_like": "superglue",
+    "looks_like": "super_glue",
     "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": "18 USD",
     "price_postapoc": "80 cent",
