@@ -2325,6 +2325,46 @@ Reveal the route between you and `house_02`
 }
 ```
 
+#### `closest_city`
+Store coordinates of the closest city nearby in a variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "closest_city" | **mandatory** | [variable object](#variable-object) | location variable, center of the found city |
+| "known" | optional | boolean | default true; if true, picks the closest city you know (has yellow text of the city name on your map), otherwise picks the closest city even if you didn't visit it yet |
+
+Additionaly sends context variables `city_name` (string) and `city_size` (int)
+
+##### Examples
+
+Stores coordinates of closest known city, and print variables
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY",
+    "effect": [
+      { "closest_city": { "context_val": "city" } },
+      { "u_message": "Known city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
+```
+
+Same, but return any city nearby
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY_UNKNOWN",
+    "effect": [
+      { "closest_city": { "context_val": "city" }, "known": false },
+      { "u_message": "Unknown city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
+```
+
 #### `weighted_list_eocs`
 Will choose one of a list of eocs to activate based on it's weight
 
