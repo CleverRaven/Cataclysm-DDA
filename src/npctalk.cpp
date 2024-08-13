@@ -3092,6 +3092,17 @@ talk_effect_fun_t::func f_mutate_towards( const JsonObject &jo, std::string_view
     };
 }
 
+talk_effect_fun_t::func f_set_trait_purifiability( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var trait = get_str_or_var( jo.get_member( member ), member, true, "" );
+    const bool purifiable = jo.get_bool( "purifiable", true );
+
+    return [is_npc, trait, purifiable]( dialogue const & d ) {
+        d.actor( is_npc )->set_trait_purifiability( trait_id( trait.evaluate( d ) ), purifiable );
+    };
+}
+
 talk_effect_fun_t::func f_add_bionic( const JsonObject &jo, std::string_view member,
                                       const std::string_view, bool is_npc )
 {
@@ -6356,6 +6367,40 @@ talk_effect_fun_t::func f_reveal_route( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view member,
+                                        const std::string_view )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+    var_type type = var.type;
+    std::string var_name = var.name;
+    bool known = jo.get_bool( "known", true );
+
+    return [var, type, var_name, known]( dialogue & d ) {
+        tripoint_abs_ms loc_ms = get_tripoint_from_var( var, d, false );
+        tripoint_abs_sm loc_sm = project_to<coords::sm>( loc_ms );
+
+        if( known ) {
+            city_reference city = overmap_buffer.closest_known_city( loc_sm );
+            if( city ) {
+                tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
+                write_var_value( type, var_name, &d, city_center_omt.to_string() );
+                write_var_value( var_type::context, "npctalk_var_city_name", &d, city.city->name );
+                write_var_value( var_type::context, "npctalk_var_city_size", &d, city.city->size );
+            } else {
+                return;
+            }
+        } else {
+            city_reference city = overmap_buffer.closest_city( loc_sm );
+            if( city ) {
+                tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
+                write_var_value( type, var_name, &d, city_center_omt.to_string() );
+                write_var_value( var_type::context, "npctalk_var_city_name", &d, city.city->name );
+                write_var_value( var_type::context, "npctalk_var_city_size", &d, city.city->size );
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view member,
                                     const std::string_view, bool is_npc )
 {
@@ -6545,6 +6590,7 @@ parsers = {
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun::f_mutate },
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun::f_mutate_category },
     { "u_mutate_towards", "npc_mutate_towards", jarg::member, &talk_effect_fun::f_mutate_towards},
+    { "u_set_trait_purifiability", "npc_set_trait_purifiability", jarg::member, &talk_effect_fun::f_set_trait_purifiability},
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun::f_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun::f_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun::f_location_variable },
@@ -6585,6 +6631,7 @@ parsers = {
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },
     { "reveal_route", jarg::object, &talk_effect_fun::f_reveal_route },
+    { "closest_city", jarg::object, &talk_effect_fun::f_closest_city },
     { "u_spend_cash", jarg::member | jarg::array, &talk_effect_fun::f_u_spend_cash },
     { "npc_change_faction", jarg::member, &talk_effect_fun::f_npc_change_faction },
     { "npc_change_class", jarg::member, &talk_effect_fun::f_npc_change_class },

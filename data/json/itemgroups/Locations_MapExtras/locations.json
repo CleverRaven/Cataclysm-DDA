@@ -2867,7 +2867,6 @@
       {
         "distribution": [
           { "item": "jersey", "prob": 5 },
-          { "item": "linuxtshirt", "prob": 5 },
           { "item": "longshirt", "prob": 20 },
           { "item": "striped_shirt", "prob": 10 },
           { "item": "denim_shirt", "prob": 5 },
