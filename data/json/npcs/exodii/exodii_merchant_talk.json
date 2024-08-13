@@ -516,7 +516,7 @@
     "dynamic_line": { "//~": "Let me see.  Will do what I can for a coin.", "str": "Lemme poke.  Will tass what ye can for a shiny." },
     "responses": [
       {
-        "text": "[Prototype Cyborg] Can you help this guy look like they have lost their mind?",
+        "text": "[Prototype Cyborg] Can you help this guy it seems like they have lost their mind?",
         "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue"
       },
