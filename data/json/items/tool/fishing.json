@@ -43,12 +43,9 @@
     "volume": "1 ml",
     "price": "25 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "flags": [ "FRAGILE_MELEE" ],
     "symbol": ",",
-    "color": "cyan",
-    "melee_damage": { "cut": 2, "pierce": 1 }
+    "color": "cyan"
   },
   {
     "id": "fishing_hook_bone",
@@ -59,12 +56,9 @@
     "volume": "1 ml",
     "price": "25 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -1,
     "material": [ "bone" ],
-    "flags": [ "FRAGILE_MELEE" ],
     "symbol": ",",
-    "color": "white",
-    "melee_damage": { "cut": 2, "pierce": 1 }
+    "color": "white"
   },
   {
     "id": "fishing_rod_basic",
@@ -149,9 +143,7 @@
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
-    "//": "Unidentified entry above named ,extend, leaving here to avoid errors until further clarification on its function",
-    "flags": [ "FRAGILE_MELEE", "SHEATH_SPEAR", "REACH_ATTACK" ],
+    "extend": { "flags": [ "FRAGILE_MELEE", "SHEATH_SPEAR", "REACH_ATTACK" ] },
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Disassemble",
@@ -221,9 +213,9 @@
     "weight": "400 g",
     "volume": "400 ml",
     "longest_side": "158 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "black",
@@ -239,9 +231,9 @@
     "weight": "500 g",
     "volume": "380 ml",
     "longest_side": "150 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "35 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wood" ],
     "flags": [ "FIREWOOD" ],
     "symbol": "/",
