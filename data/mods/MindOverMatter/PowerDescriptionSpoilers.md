@@ -398,10 +398,10 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
-## Neuro-acceleration
+## Neuro-acceleration (C)
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
-*Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
+*Duration*: 1 minute 21 seconds to 4 minutes 46 seconds, plus 18 to 57 seconds per level if used on self, or <br />
 *Stamina Cost*: 6000, minus 135 per level to a minimum of 2750<br />
 *Channeling Time*: 165 moves, minus 5.5 moves per level to a minimum of 75<br />
 *Effects*: Increases the target's reflexes and response time, adding 5 learning focus plus 1 per power level to a maximum of 35 learning focus, as well as 10 speed plus 1.5 per power level to a maximum of 60 speed.<br />
