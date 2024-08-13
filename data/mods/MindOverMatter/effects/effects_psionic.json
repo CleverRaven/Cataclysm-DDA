@@ -868,7 +868,7 @@
       "ETHEREAL",
       "INVISIBLE",
       "FEATHER_FALL",
-      "CLIMB_NO_LADDER",
+      "CLIMB_FLYING",
       "LEVITATION",
       "ITEM_WATERPROOFING",
       "WALK_UNDERWATER",
@@ -1538,7 +1538,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",
