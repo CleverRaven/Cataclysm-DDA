@@ -487,6 +487,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "bone_glue",
+    "name": "bone glue",
+    "default": "bone_glue"
+  },
+  {
+    "type": "ammunition_type",
     "id": "battery",
     "name": "kJ",
     "default": "battery"

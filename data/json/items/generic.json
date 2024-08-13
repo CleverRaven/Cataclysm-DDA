@@ -346,7 +346,7 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "bone_glue",
     "symbol": ",",
     "category": "spare_parts",
@@ -358,6 +358,7 @@
     "material": [ "bone" ],
     "weight": "45 g",
     "volume": "150 ml",
+    "ammo_type": "bone_glue",
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
