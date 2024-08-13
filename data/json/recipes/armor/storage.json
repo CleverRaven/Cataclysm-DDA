@@ -302,7 +302,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "2 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "7 m" },
     "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
@@ -333,7 +333,7 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "nail", 4 ], [ "bronze_nail", 4 ] ] ]
