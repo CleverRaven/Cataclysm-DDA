@@ -273,6 +273,12 @@ bool vehicle::player_in_control( const Character &p ) const
 
 bool vehicle::player_is_driving_this_veh() const
 {
+    // Unfortunate code duplication for tests
+    // Debug switch to prevent vehicles from skidding
+    // without having to place the player in them.
+    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
+        return true;
+    }
     // Early out, nobody's driving
     if( !get_driver() ) {
         return false;
