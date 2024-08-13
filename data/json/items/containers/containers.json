@@ -676,25 +676,34 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_tiny_glue",
+	"type": "GENERIC",
+    "copy-from": "bottle_plastic_tiny",
+    "name": { "str": "tiny plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "longest_side": "120 mm",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
     "variant_type": "generic",
     "variants": [
       {
         "id": "bottle_plastic_tiny_superglue",
         "name": { "str": "large superglue bottle" },
-        "description": "A tiny plastic container with the label \"Super Glue - All Purpose!\", with directions and cautions below.",
-        "weight": 0,
-        "append": false
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
       }
     ]
   },
   {
-    "id": "bottle_plastic_micro",
+    "id": "small_squeeze_tube",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "miniscule plastic bottle" },
+    "name": { "str": "small squeeze tube" },
     "looks_like": "superglue",
-    "description": "A watertight plastic bottle, holds 3 mL of liquid.",
+    "description": "A small squeeze tube, holds 3 mL of liquid.  It cannot be refilled after its empty.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",
@@ -706,8 +715,7 @@
         "rigid": true,
         "max_contains_volume": "4 ml",
         "max_item_volume": "4 ml",
-        "max_contains_weight": "1 kg",
-        "item_restriction": [ "superglue" ],
+        "max_contains_weight": "50 g",
         "moves": 400
       }
     ],
@@ -717,15 +725,15 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "NO_RELOAD", "COLLAPSE_CONTENTS" ],
+    "flags": [ "NO_RELOAD", "NO_UNLOAD", "COLLAPSE_CONTENTS" ],
     "variant_type": "generic",
     "variants": [
       {
-        "id": "bottle_plastic_micro",
+        "id": "small_squeeze_tube_superglue",
         "name": { "str": "superglue tube" },
-        "description": "A tiny plastic tube with the label \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
         "weight": 1,
-        "append": false
+        "append": true
       }
     ]
   },
