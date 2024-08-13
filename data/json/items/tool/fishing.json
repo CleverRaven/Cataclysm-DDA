@@ -59,7 +59,7 @@
     "volume": "1 ml",
     "price": "25 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -1
+    "to_hit": -1,
     "material": [ "bone" ],
     "flags": [ "FRAGILE_MELEE" ],
     "symbol": ",",
@@ -179,7 +179,7 @@
       { "type": "cotton", "portion": 4 },
       { "type": "fiberglass", "portion": 4 }
     ],
-    "flags": [ BELT_CLIP ],
+    "flags": [ "BELT_CLIP" ],
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "PR24-retracted",
