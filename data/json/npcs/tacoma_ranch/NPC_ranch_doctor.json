@@ -75,16 +75,26 @@
     },
     "responses": [
       {
-        "text": "[$200, 30m] I need you to patch me up.",
+        "text": "[80 merch, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
-        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
-        "condition": { "and": [ { "npc_service": 20000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 80 }, "give_aid" ],
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 80 } },
+            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+          ]
+        }
       },
       {
-        "text": "[$500, 1h] I need you to patch my friends up.",
+        "text": "[200 merch, 1h] I need you to patch my friends up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
-        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
-        "condition": { "and": [ { "npc_service": 50000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 200 }, "give_all_aid" ],
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 200 } },
+            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+          ]
+        }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
