@@ -214,7 +214,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "super_glue", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -17,7 +17,7 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ], [ "skewer_bone", 500 ] ] ]
   },
   {
-    "result": "superglue",
+    "result": "super_glue",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",

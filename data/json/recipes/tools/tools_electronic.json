@@ -768,7 +768,7 @@
     "components": [
       [ [ "plastic_chunk", 10 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "superglue", 5 ], [ "duct_tape", 10 ] ],
+      [ [ "super_glue", 5 ], [ "duct_tape", 10 ] ],
       [ [ "string_36", 4 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "e_scrap", 1 ] ]
