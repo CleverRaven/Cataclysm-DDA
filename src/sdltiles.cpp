@@ -683,22 +683,33 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
     oter_type_id ot_type_id = ot.get_type_id();
     const oter_type_t &ot_type = *ot_type_id;
 
+    // get terrain neighborhood
+    const std::array<oter_type_id, 4> neighborhood = {
+        oter_at( omp + point_south )->get_type_id(),
+        oter_at( omp + point_east )->get_type_id(),
+        oter_at( omp + point_west )->get_type_id(),
+        oter_at( omp + point_north )->get_type_id()
+    };
+
     if( ot_type.has_connections() ) {
         // This would be for connected terrain
-
-        // get terrain neighborhood
-        const std::array<oter_type_id, 4> neighborhood = {
-            oter_at( omp + point_south )->get_type_id(),
-            oter_at( omp + point_east )->get_type_id(),
-            oter_at( omp + point_west )->get_type_id(),
-            oter_at( omp + point_north )->get_type_id()
-        };
-
         char val = 0;
 
         // populate connection information
         for( int i = 0; i < 4; ++i ) {
             if( ot_type.connects_to( neighborhood[i] ) ) {
+                val += 1 << i;
+            }
+        }
+
+        get_rotation_and_subtile( val, -1, rota, subtile );
+    } else if( ot_type.has_flag( oter_flags::water ) ) {
+        // water looks nicer if it connects together
+        char val = 0;
+
+        // populate connection information
+        for( int i = 0; i < 4; ++i ) {
+            if( neighborhood[i]->has_flag( oter_flags::water ) ) {
                 val += 1 << i;
             }
         }
