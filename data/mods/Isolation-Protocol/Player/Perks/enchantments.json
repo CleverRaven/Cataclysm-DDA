@@ -27,6 +27,6 @@
     "name": { "str": "Hypocrite's Oath" },
     "description": "OH you aren't getting away with that.",
     "condition": { "u_has_effect": "iso_eff_hypo_o" },
-    "values": [ { "value": "RANGED_DAMAGE", "multiply": 50 }, { "value": "RANGED_DAMAGE", "multiply": 50 } ]
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.5 }, { "value": "RANGED_DAMAGE", "multiply": 0.5 } ]
   }
 ]

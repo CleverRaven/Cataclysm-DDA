@@ -525,6 +525,41 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
+    "id": "shotgun_triple",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": { "str": "triple-barrelled shotgun" },
+    "description": "A pretty modern-looking shotgun that has three barrels.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "triple_honcho",
+        "name": { "str": "Triple Honcho" },
+        "description": "Made by Charles Daly, this modern three-barrel shotgun had a unique balance between how much it cost and how little firepower it could release with its 18.5-inch barrels.  Luckily, you do not need to pay the full price for it anymore."
+      }
+    ],
+    "clip_size": 3,
+    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "weight": "2721 g",
+    "volume": "2926 ml",
+    "longest_side": "686 mm",
+    "barrel_length": "469 mm",
+    "price": "2000 USD",
+    "price_postapoc": "2 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 3 } } ]
+  },
+  {
     "id": "shotgun_s",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
@@ -558,51 +593,6 @@
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "streetsweeper",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "automatic shotgun" },
-    "description": "This shotgun, deemed a destructive device, resembles a comically oversized revolver.  It can hold 12 rounds of 12 gauge shot, and fire all of them in under 3 seconds",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "streetsweeper",
-        "name": { "str": "Cobray Streetsweeper" },
-        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch."
-      }
-    ],
-    "weight": "4200 g",
-    "volume": "3193 ml",
-    "longest_side": "592 mm",
-    "barrel_length": "470 mm",
-    "looks_like": "revolver_shotgun",
-    "price": "1 kUSD 200 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "dispersion": 855,
-    "durability": 6,
-    "clip_size": 12,
-    "reload": 220,
-    "barrel_volume": "505 ml",
-    "default_mods": [ "grip" ],
-    "built_in_mods": [ "wire_stock" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
-    "melee_damage": { "bash": 8 }
   },
   {
     "id": "tavor_12",
@@ -898,6 +888,142 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "//": "no provision for separate triggers",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
+  },
+  {
+    "id": "ar12_shotgun",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "rifle shotgun" },
+    "description": "Despite looking like a military-issued rifle, this is, in fact, a shotgun.  It can accept a variety of magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tar_12p",
+        "name": { "str": "Tokarev TAR 12P" },
+        "weight": 327,
+        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilise MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr80",
+        "name": { "str": "VR 80" },
+        "weight": 575,
+        "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
+      },
+      {
+        "id": "boss25",
+        "name": { "str": "BOSS 25" },
+        "weight": 299,
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilise MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "ar12s",
+        "name": { "str": "AR-12S" },
+        "weight": 101,
+        "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "ar12a",
+        "name": { "str": "AR-12A" },
+        "weight": 98,
+        "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "gf25",
+        "name": { "str": "GF25" },
+        "weight": 158,
+        "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "mka1919",
+        "name": { "str": "MKA 1919" },
+        "weight": 85,
+        "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
+      },
+      {
+        "id": "krx",
+        "name": { "str": "KRX" },
+        "weight": 231,
+        "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
+      },
+      {
+        "id": "vr60",
+        "name": { "str": "VR60" },
+        "weight": 109,
+        "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
+      }
+    ],
+    "weight": "3335 g",
+    "volume": "3443 ml",
+    "longest_side": "990 mm",
+    "barrel_length": "469 mm",
+    "price": "320 USD",
+    "price_postapoc": "12 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "gfy_1",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "bullpup shotgun" },
+    "description": "A curious magazine-fed shotgun, made using bullpup scheme.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "gfy_1",
+        "name": { "str": "GFY-1" },
+        "weight": 101,
+        "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
+      },
+      {
+        "id": "bp12",
+        "name": { "str": "BP-12" },
+        "weight": 82,
+        "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "3443 ml",
+    "longest_side": "723 mm",
+    "barrel_length": "469 mm",
+    "price": "325 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "srm_1216",

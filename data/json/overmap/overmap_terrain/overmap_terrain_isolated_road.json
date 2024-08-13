@@ -3,6 +3,7 @@
     "type": "overmap_terrain",
     "id": [ "isolated_road_field_0", "isolated_road_field_1", "isolated_road_field_1_roof" ],
     "vision_levels": "open_land",
+    "see_cost": "none",
     "name": "yard",
     "sym": ".",
     "color": "green",
@@ -16,7 +17,7 @@
     "sym": "v",
     "color": "red",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +27,7 @@
     "sym": "^",
     "color": "cyan",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -35,6 +36,6 @@
     "name": "gun show",
     "sym": "G",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "high"
   }
 ]

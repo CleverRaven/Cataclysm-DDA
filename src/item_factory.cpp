@@ -3390,6 +3390,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
+        slot.default_nutrition.clear_vitamins();
         slot.default_nutrition.finalized = false;
         for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
@@ -3488,6 +3489,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "damage_modifier", slot.damage, strict,
             damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
+    assign( jo, "loudness_multiplier", slot.loudness_multiplier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "field_of_view", slot.field_of_view );

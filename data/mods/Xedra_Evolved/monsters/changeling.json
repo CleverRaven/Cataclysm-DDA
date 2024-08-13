@@ -480,7 +480,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "fae_furred",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_xe_unicorn_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },

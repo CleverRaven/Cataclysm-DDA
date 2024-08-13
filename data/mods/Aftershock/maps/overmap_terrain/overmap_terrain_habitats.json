@@ -5,7 +5,7 @@
     "name": "habitat entrance",
     "sym": "H",
     "color": "light_blue",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -18,7 +18,7 @@
     "name": "habitat superstructure",
     "sym": "+",
     "color": "light_gray",
-    "see_cost": 2
+    "see_cost": "medium"
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +26,7 @@
     "name": "habitat maintenance level",
     "sym": "+",
     "color": "yellow",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -34,7 +34,7 @@
     "name": "urban farm",
     "sym": "f",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -42,7 +42,7 @@
     "name": "urban farm roof",
     "sym": "f",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -50,6 +50,6 @@
     "name": "farm control room",
     "sym": "o",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "high"
   }
 ]

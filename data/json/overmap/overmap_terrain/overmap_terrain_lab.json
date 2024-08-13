@@ -7,7 +7,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -17,7 +17,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_EXTREME" ]
   },
@@ -29,7 +29,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -39,7 +39,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -50,7 +50,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -61,7 +61,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -71,7 +71,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -83,7 +83,7 @@
     "sym": "L",
     "color": "cyan",
     "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -94,7 +94,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -104,7 +104,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -116,7 +116,7 @@
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -127,7 +127,7 @@
     "sym": "L",
     "color": "cyan",
     "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -137,7 +137,7 @@
     "name": "science lab tower",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
@@ -148,7 +148,7 @@
     "name": "science lab tower",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
@@ -159,7 +159,7 @@
     "name": "science lab tower",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -176,7 +176,7 @@
     "name": "science lab tower roof",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -186,7 +186,7 @@
     "name": "science train depot",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
@@ -208,7 +208,7 @@
     "land_use_code": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 3,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
@@ -218,7 +218,7 @@
     "name": "access shaft",
     "sym": "0",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -228,7 +228,7 @@
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
@@ -254,7 +254,7 @@
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
@@ -265,7 +265,7 @@
     "name": "central lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
@@ -276,7 +276,7 @@
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
@@ -287,7 +287,7 @@
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
@@ -299,7 +299,7 @@
     "sym": "L",
     "color": "white",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 1, 5 ], "chance": 50 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -324,7 +324,7 @@
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
     "extras": "research_facility_lot",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -352,7 +352,7 @@
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 20 ], "chance": 30 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -378,7 +378,7 @@
     "color": "light_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
     "extras": "research_facility_interior",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -390,7 +390,7 @@
     "color": "white",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
     "extras": "research_facility_interior",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "RISK_EXTREME" ]
   },
@@ -446,7 +446,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -533,7 +533,7 @@
     "vision_levels": "roof_or_air",
     "sym": "l",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -551,7 +551,7 @@
     "name": "Lab Research Zone",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
@@ -561,7 +561,7 @@
     "vision_levels": "underground_stone",
     "sym": "X",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -579,7 +579,7 @@
     "sym": "S",
     "//": "6 underground levels for a modular security tower.",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 30 },
     "flags": [ "RISK_EXTREME" ]
   },
@@ -605,7 +605,7 @@
     "vision_levels": "underground_stone",
     "sym": "C",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 3, 15 ], "chance": 70 },
     "flags": [ "RISK_EXTREME" ]
   },
@@ -631,7 +631,7 @@
     "vision_levels": "underground_stone",
     "sym": "R",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -656,7 +656,7 @@
     "sym": "F",
     "//": "Front/Fake company entrance for a lab.  Includes main and auxiliary entrances including the start of the security tower.",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 15 ], "chance": 30 },
     "flags": [ "RISK_EXTREME" ]
   },
@@ -667,7 +667,7 @@
     "vision_levels": "roof_or_air",
     "sym": "F",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -677,7 +677,7 @@
     "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB_HOSPITAL", "population": [ 7, 15 ], "chance": 100 },
     "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
@@ -688,7 +688,7 @@
     "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
@@ -698,7 +698,7 @@
     "vision_levels": "underground_stone",
     "sym": "M",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB_MAINTENANCE", "population": [ 5, 10 ], "chance": 100 },
     "flags": [ "RISK_EXTREME" ]
   }

@@ -3625,6 +3625,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
+    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
             info.emplace_back( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
@@ -11843,8 +11848,9 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    // Fire will depend on amount of fuel if stackable
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        int stack_burnt = std::max( 1, count() / type->stack_size );
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;

@@ -1,4 +1,4 @@
-# JSON INFO
+# Item disassembly
 
 Use the `Home` key to return to the top.
 
@@ -66,13 +66,13 @@ Things to note:
 - Simple disassemblies, such as smashing a skull or simply cutting apart metal with a hacksaw, should likely not use any skills
 - It is not possible to obtain items with ``UNRECOVERABLE`` flag through disassembly, either through uncraft recipes or reversible crafting recipes, however, defining them in the ``components`` field does not cause errors. They will simply be ignored
 - ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible
-- for the purposes of keeping things easy to find, future uncraft recipes should be included inside the ``uncraft`` folder inside of ``data/json``
+- for the purposes of keeping things easy to find, future uncraft recipes should be included inside the ``uncraft`` folder inside of ``data\json``
 - uncraft recipes do not support component lists, the syntax shown below does **NOT** work - only the first item read by the game has any effect
 ```json
 "components": [ [ [ "burnt_out_bionic", 1 ], [ "scrap", 1 ] ] ],
 ```
 
-- due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players
+- due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players **if not used alongside reversible crafting recipes - more info on that in [Reversible crafting recipes](#reversible-crafting-recipes)**
 - it is technically possible to define proficencies for uncraft recipes, but they currently have no effect
 - similarly, it is possible to define a ``skills_required`` field for uncraft recipes, but it has no effect either
 
@@ -80,14 +80,18 @@ Things to note:
 A reversible recipe and an uncraft recipe are almost indistinguishable in game, with the only potential way to tell them apart being items crafted by the player through a reversible crafting recipe may yield different items upon disassembly than items of the same ID found spawned in the world. Having said that, they are quite different from the JSON side.
 
 The first thing that comes to mind is - reversible crafting recipes are created through a singular field. Adding ``"reversible": "true`` to the recipe definition automatically creates a disassembly for the item the recipe is for. It is worth noting that unlike uncraft recipes, reversible crafting recipes support ingredient lists, **but only in regards to items crafted by the player**. If the item in question was crafted by the player, disassembling it will yield items used to craft it. If the item was spawned in the world, however, the disassembly will instead yield the first component combination the game reads off the recipe definition.
-Reversible crafting recipes also have their time, skills used, difficulty, and tools taken from the same crafting recipe they're created as a part of. **Out of all those, time is the only one that can be overwritten.** ``"reversible": { "time": "3 m" },`` will make the disassembly take 3 minutes, regardless of how long the craft takes.
+Reversible crafting recipes also have their time, skills used, difficulty, and tools taken from the same crafting recipe they're created as a part of. **Out of all those, time is the only one that can be overwritten directly in the crafting recipe.** ``"reversible": { "time": "3 m" },`` will make the disassembly take 3 minutes, regardless of how long the craft takes.
 
 Things to note:
 - **Reversible crafting recipes cannot have byproducts!** Trying to make a recipe with byproducts reversible will not work.
 - On the other hand, it is possible to make recipes using ``result_mult`` reversible, but this will inadvertantly cause infinite resource generation, as full recipe ingredients will be obtained from disassembling a single result item
 - All items used to craft the item will be obtained through the disassembly, with the exception of items with the ``UNRECOVERABLE`` flag
-- While unlike with uncraft recipes it is impossible to transmute materials through those, it is very easy to make nonsensical disassemblies through this method when it comes to required tools
+- While unlike with uncraft recipes it is impossible to transmute materials through those, it is very easy to make nonsensical disassemblies through this method when it comes to required tools. Consider using the two methods alongside one another.
 - Making a recipe that crafts a specific item variant reversible will result in all variants of this item using the same disassembly
+
+**Using uncrafts and reversible crafting together:**
+- Either of those methods will work alone, but they also interact if both are defined
+- If a crafting recipe has ``reversible: true``, *and* the item has a manually defined uncraft recipe, what will happen is the uncraft recipe will be able to return components used to craft the specific item. In a case like this, the uncraft will supply all information exception for the components used to craft that item - this means that this combination can remember components (overcoming uncraft's weakness) **AND** avoid nonsensical tool requirements or difficulty levels (overcoming reversible crafting's weakness)
 
 ## Salvaging / Cutting Up
 This process is largely hardcoded, with the JSON side only consisting of defining whether a specific material is salvageable, and possible per-item salvaging disabling through flags. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.

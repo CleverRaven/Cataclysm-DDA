@@ -44,7 +44,7 @@
     "entries": [
       { "item": "briefs" },
       { "item": "socks" },
-      { "item": "flag_shirt" },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "jeans" },
       { "item": "leather_belt" },
       { "item": "bandana" },

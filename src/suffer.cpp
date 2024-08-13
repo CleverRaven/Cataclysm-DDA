@@ -1937,8 +1937,9 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
 
     if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
-    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
-        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 &&
+               one_in( 300 ) ) {
+        add_msg_if_player( m_good, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect
