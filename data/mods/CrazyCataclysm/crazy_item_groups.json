@@ -88,7 +88,7 @@
       { "distribution": [ { "group": "harddrugs", "prob": 33 } ] },
       {
         "distribution": [
-          { "item": "flag_shirt", "prob": 6 },
+          { "item": "tshirt", "variant": "flag_shirt", "prob": 6 },
           { "item": "bikini_top", "prob": 19 },
           { "item": "bra", "prob": 8 },
           { "item": "binder_top", "prob": 5 },

@@ -698,6 +698,7 @@
           { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -724,6 +725,7 @@
           { "item": "water_clean" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       },
@@ -751,6 +753,7 @@
           { "item": "wearable_camera" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
           { "group": "charged_matches" }
         ]
@@ -789,6 +792,7 @@
           { "item": "water_clean" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "tshirt", "variant": "generic_tshirt" }
@@ -867,6 +871,7 @@
           { "item": "sf_watch" },
           { "item": "hairpin" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -921,6 +926,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath" },
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
@@ -990,7 +996,8 @@
           { "item": "glasses_safety" },
           { "item": "wristwatch" },
           { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -1019,6 +1026,7 @@
           { "item": "mag_cars" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "wrench", "container-item": "tool_belt" }
         ]
       },
@@ -1055,6 +1063,7 @@
           { "item": "wristwatch" },
           { "item": "picklocks" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "lighter", "charges": 100 }
         ]
       },
@@ -1083,6 +1092,7 @@
           { "item": "honey_bottled" },
           { "item": "honey_bottled" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "honey_scraper", "container-item": "sheath" }
         ]
       },
@@ -1115,6 +1125,7 @@
           { "item": "sports_drink" },
           { "item": "gum" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -1143,7 +1154,8 @@
           { "item": "sports_drink" },
           { "item": "runner_bag" },
           { "item": "jersey", "snippets": [ "basin" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -1178,6 +1190,7 @@
           { "item": "sports_drink" },
           { "item": "jersey", "snippets": [ "endsville" ] },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -1243,7 +1256,8 @@
           { "item": "wristwatch" },
           { "item": "fanny" },
           { "item": "fancy_sunglasses" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -1286,6 +1300,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
+          { "group": "starter_rich_wallet_full" },
           { "item": "militarymap" }
         ]
       },
@@ -1334,6 +1349,7 @@
           { "item": "diving_watch" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "military_ballistic_vest_pristine" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "apants_MARPAT" },
@@ -1396,6 +1412,7 @@
           { "item": "boots" },
           { "item": "diving_watch" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "wrench_large" },
@@ -1448,6 +1465,7 @@
           { "item": "diving_watch" },
           { "group": "full_rebreather_mask" },
           { "group": "charged_heavy_flashlight" },
+          { "group": "starter_wallet_full" },
           { "item": "barometer" },
           { "item": "hygrometer" },
           { "item": "diveknife", "container-item": "sheath" }
@@ -1485,6 +1503,7 @@
           { "item": "sneakers" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -1534,6 +1553,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -1587,6 +1607,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "us_ballistic_vest_pristine" },
+          { "group": "starter_wallet_full" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "lug_wrench" },
@@ -1638,6 +1659,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1691,6 +1713,7 @@
           { "item": "diving_watch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1751,6 +1774,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -1810,6 +1834,7 @@
           { "item": "boots_combat" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_powered_earmuffs" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -1867,6 +1892,7 @@
           { "item": "boots_combat" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_powered_earmuffs" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
@@ -1933,6 +1959,7 @@
           { "item": "diving_watch" },
           { "item": "single_sling" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
@@ -1955,7 +1982,12 @@
     "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "entries": [ { "item": "pocketwatch" }, { "item": "knife_small", "variant": "knife_steak" }, { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "pocketwatch" },
+          { "item": "knife_small", "variant": "knife_steak" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": {
         "entries": [
@@ -2021,6 +2053,8 @@
           { "item": "vest" },
           { "item": "wristwatch" },
           { "item": "bracelet_friendship" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "group": "modular_m4a1", "ammo-item": "556", "charges": 30, "contents-item": "shoulder_strap" },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
@@ -2069,6 +2103,7 @@
           { "item": "stethoscope" },
           { "item": "pants", "variant": "pants_blue" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" }
         ]
       },
@@ -2114,7 +2149,12 @@
           "stethoscope",
           "scalpel"
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2186,7 +2226,12 @@
             "entry-wrapper": "bottle_plastic_pill_prescription"
           }
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2226,6 +2271,7 @@
           { "item": "gold_watch" },
           { "item": "gold_ring" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
@@ -2260,6 +2306,7 @@
           { "item": "wristwatch" },
           { "item": "leather_belt" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "soft_3a_vest", "variant": "security_armor_vest" },
@@ -2298,6 +2345,7 @@
           { "item": "sneakers" },
           { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "g_shovel" },
           { "item": "scabbard", "contents-item": "machete" }
         ]
@@ -2331,6 +2379,7 @@
           { "item": "pudding" },
           { "item": "pants", "variant": "pants_white" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -2384,6 +2433,7 @@
           { "item": "diving_watch" },
           { "item": "canteen" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
           { "group": "knife_rambo_full", "container-item": "scabbard" },
@@ -2409,6 +2459,7 @@
           { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_matches" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_grey" }
         ]
       },
@@ -2435,6 +2486,7 @@
           { "item": "wristwatch" },
           { "item": "fancy_sunglasses" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
@@ -2475,6 +2527,7 @@
           { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
@@ -2520,6 +2573,7 @@
           { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "holster_supp_usp9", "container-item": "XL_holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "sheriffshirt", "variant": "sheriff" }
@@ -2550,6 +2604,7 @@
           { "item": "petpack" },
           { "item": "pet_carrier" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mbag", "contents-group": "dog_lover_bag" }
         ]
       },
@@ -2595,6 +2650,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "catfood_dry", "count": 10, "container-item": "null", "entry-wrapper": "bag_plastic" }
         ]
@@ -2632,6 +2688,7 @@
           { "item": "wristwatch" },
           { "item": "baton" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2669,6 +2726,7 @@
           { "item": "dress_shoes" },
           { "group": "charged_cigs" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
           { "item": "pants", "variant": "pants_stone" },
@@ -2726,6 +2784,7 @@
           { "item": "single_sling" },
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "group": "army_mags_mp5" },
           { "group": "army_mags_usp9" },
@@ -2782,6 +2841,7 @@
           { "item": "knee_pads" },
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
@@ -2835,6 +2895,7 @@
           { "item": "wristwatch" },
           { "item": "tacvest" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2881,6 +2942,7 @@
           { "item": "wristwatch" },
           { "item": "gasbomb" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "full_gasmask" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
@@ -2925,6 +2987,7 @@
           { "item": "baton" },
           { "item": "leather_police_jacket", "variant": "leather_police_jacket" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
@@ -2953,7 +3016,8 @@
           { "item": "dress_shoes" },
           { "item": "gold_watch" },
           { "item": "money_strap_fifty" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
@@ -2981,6 +3045,7 @@
           { "item": "diving_watch" },
           { "item": "caff_gum" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "rashguard", "variant": "black_rashguard_shirt" },
           { "item": "takedown_recurbow", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver_takedown_bow", "contents-group": "quiver_modern_archer" }
@@ -3017,6 +3082,7 @@
           { "item": "hat_hunting" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" },
@@ -3052,6 +3118,7 @@
           { "item": "hat_hunting" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_steel",
@@ -3089,6 +3156,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "item": "remington_870",
@@ -3127,6 +3195,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "item": "remington700_270",
@@ -3166,6 +3235,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "group": "ar15_50",
@@ -3208,6 +3278,7 @@
           { "item": "jacket_flannel" },
           { "item": "slingpack" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "shot_00", "charges": 25 },
           { "item": "beer", "count": 6 },
           { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap_simple" }
@@ -3240,6 +3311,7 @@
           { "item": "multitool" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
           { "item": "nail", "charges": 180 },
           { "item": "tool_belt", "contents-item": "hammer" },
@@ -3270,6 +3342,7 @@
           { "item": "gloves_work" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_stone" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
@@ -3296,7 +3369,8 @@
           { "item": "longshirt" },
           { "item": "wristwatch" },
           { "item": "water_clean" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3348,6 +3422,7 @@
           { "item": "adrenaline_injector" },
           { "group": "full_1st_aid" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
@@ -3382,6 +3457,7 @@
           { "item": "hammer" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_electrical_measuring" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -3410,6 +3486,7 @@
           { "item": "water_clean" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3449,6 +3526,7 @@
           { "item": "baton" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -3495,6 +3573,7 @@
           { "item": "wristwatch" },
           { "item": "water_clean" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_KABAR", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
@@ -3544,6 +3623,7 @@
           { "item": "water_clean" },
           { "item": "whistle_multitool" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_two_way_radio" },
           { "group": "full_1st_aid" },
@@ -3614,6 +3694,7 @@
           { "item": "socks" },
           { "item": "knife_small", "variant": "knife_steak" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -3642,6 +3723,7 @@
           { "item": "mbag" },
           { "item": "solder_wire" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_soldering_iron" },
           { "group": "charged_electrical_measuring" }
@@ -3661,7 +3743,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "mbag" },
@@ -3677,6 +3759,7 @@
           },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" }
         ]
       },
@@ -3702,6 +3785,7 @@
           { "item": "wristwatch" },
           { "item": "fun_survival" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3728,6 +3812,7 @@
           { "item": "story_book" },
           { "item": "howto_computer" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "jeans" }
         ]
@@ -3768,6 +3853,7 @@
           { "item": "wristwatch" },
           { "item": "multitool" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "sheath", "contents-item": "knife_trench" },
           { "item": "leg_bag", "variant": "black_leg_bag" }
         ]
@@ -3785,7 +3871,13 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "entries": [ { "item": "socks" }, { "item": "knit_scarf" }, { "item": "dance_shoes" }, { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "socks" },
+          { "item": "knit_scarf" },
+          { "item": "dance_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "tux" }, { "item": "tourmaline_silver_cufflinks" } ] },
       "female": {
@@ -3814,6 +3906,7 @@
           { "item": "sneakers" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3855,7 +3948,8 @@
           { "item": "knit_scarf" },
           { "item": "coat_lab" },
           { "item": "glasses_safety" },
-          { "item": "wristwatch" }
+          { "item": "wristwatch" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3899,6 +3993,7 @@
           { "group": "rolling_cigs" },
           { "item": "backpack" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "knife_hunting", "container-item": "sheath" }
         ]
@@ -3926,7 +4021,8 @@
           { "item": "fire_gauntlets" },
           { "item": "wristwatch" },
           { "item": "hammer" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3951,7 +4047,8 @@
           { "item": "wristwatch" },
           { "item": "apron_leather" },
           { "item": "chisel" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3974,6 +4071,7 @@
           { "item": "clownshoes" },
           { "item": "airhorn" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "balloon", "count": 20 }
         ]
       },
@@ -4022,6 +4120,7 @@
           { "item": "bellyband" },
           { "item": "dentures" },
           { "group": "charged_ref_lighter" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -4052,6 +4151,7 @@
           { "item": "mag_animecon" },
           { "item": "cheeseburger" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           {
             "item": "light_plus_battery_cell",
             "ammo-item": "battery",
@@ -4078,7 +4178,7 @@
     "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "both": { "entries": [ { "item": "ring_wedding" }, { "group": "charged_smart_phone" } ] },
+      "both": { "entries": [ { "item": "ring_wedding" }, { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ] },
       "male": {
         "entries": [
           { "item": "tux" },
@@ -4125,6 +4225,7 @@
           { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_mp3" },
           { "group": "charged_ref_lighter" },
           { "item": "onyx_silver_earring", "variant": "dark_earring" },
@@ -4169,6 +4270,7 @@
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
@@ -4194,6 +4296,7 @@
           { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_mp3" },
           { "group": "charged_ref_lighter" }
         ]
@@ -4225,7 +4328,8 @@
           { "item": "letter", "container-item": "envelope" },
           { "item": "letter", "container-item": "envelope" },
           { "item": "postcard", "container-item": "envelope" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -4397,6 +4501,7 @@
           { "item": "boltcutters" },
           { "item": "stethoscope" },
           { "item": "picklocks" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black_camo" }
         ]
       },
@@ -4424,7 +4529,8 @@
           { "item": "briefcase" },
           { "item": "money_strap_fifty" },
           { "item": "file", "count": [ 1, 4 ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -4445,6 +4551,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_bible1" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "general_necklace" }
         ]
       },
@@ -4468,6 +4575,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_bible4" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "catholic_necklace" }
         ]
       },
@@ -4510,6 +4618,7 @@
           { "item": "geta" },
           { "item": "holybook_kojiki" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "shinto_necklace" },
           { "item": "pants", "variant": "pants_white" }
         ]
@@ -4534,6 +4643,7 @@
           { "item": "flip_flops" },
           { "item": "holybook_sutras" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "buddhist_necklace" }
         ]
       },
@@ -4558,6 +4668,7 @@
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "holy_symbol", "variant": "muslim_necklace" },
           { "item": "pants", "variant": "pants_white" }
@@ -4586,6 +4697,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_talmud" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "jewish_necklace1" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -4615,6 +4727,7 @@
           { "item": "holy_symbol" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4642,6 +4755,7 @@
           { "item": "flyer" },
           { "item": "holy_symbol" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
           { "item": "holy_symbol", "variant": "general_necklace" },
           { "item": "pants", "variant": "pants_black" }
@@ -4774,6 +4888,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4809,6 +4924,7 @@
           { "item": "wristwatch" },
           { "item": "spiral_stone" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "speedloaders_s&w619_special" },
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
           { "item": "pants", "variant": "generic_pants" }
@@ -4842,6 +4958,7 @@
           { "item": "newest_newspaper", "count": [ 5, 10 ] },
           { "item": "folded_bicycle" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -4881,6 +4998,7 @@
           { "item": "seed_sugar_beet" },
           { "item": "seed_tomato" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4913,6 +5031,7 @@
           { "item": "lowtops" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -4966,7 +5085,8 @@
           { "item": "wristwatch" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
-          { "item": "katana", "container-item": "scabbard" }
+          { "item": "katana", "container-item": "scabbard" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5046,6 +5166,7 @@
           { "item": "wristwatch" },
           { "item": "leather_belt" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_tazer" },
           { "item": "pants", "variant": "pants_urban" },
@@ -5140,6 +5261,7 @@
           { "item": "backpack" },
           { "item": "jacket_flannel" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
           { "item": "fish_bait", "charges": 15 },
           { "item": "lighter", "charges": 100 },
@@ -5196,6 +5318,7 @@
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       }
@@ -5237,6 +5360,7 @@
           { "item": "needle_wood", "ammo-item": "thread", "charges": 200 },
           { "item": "oil_lamp", "charges": 750 },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       }
@@ -5266,6 +5390,7 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5301,6 +5426,7 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5343,6 +5469,7 @@
           { "item": "marble" },
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
@@ -5384,6 +5511,7 @@
           { "item": "wristwatch" },
           { "item": "whistle" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" },
           { "group": "charged_flashlight" },
           { "item": "tshirt", "variant": "generic_tshirt" }
@@ -5413,6 +5541,7 @@
           { "item": "slingpack" },
           { "item": "juice" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -5441,6 +5570,7 @@
           { "item": "basic_chemistry" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -5460,7 +5590,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "linuxtshirt" },
+          { "item": "tshirt", "variant": "tux" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },
@@ -5469,7 +5599,8 @@
           { "item": "backpack" },
           { "item": "mag_electronics" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5497,6 +5628,7 @@
           { "item": "poetry_book" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "permanent_marker", "charges": 500 },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -5522,6 +5654,7 @@
           { "item": "wristwatch" },
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -5555,6 +5688,7 @@
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -5585,6 +5719,7 @@
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
@@ -5619,7 +5754,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },
           { "item": "dynamite", "count": 4 },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5645,6 +5781,7 @@
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5674,6 +5811,7 @@
           { "item": "touristmap" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" },
@@ -5712,7 +5850,8 @@
           { "item": "bucket" },
           { "item": "shovel" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5770,7 +5909,8 @@
           { "item": "fencing_epee" },
           { "item": "duffelbag" },
           { "item": "fencing_mask", "custom-flags": [ "no_auto_equip" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "female": { "entries": [ { "item": "plastron_plastic" } ] }
@@ -5797,7 +5937,8 @@
           { "item": "file" },
           { "item": "cigar" },
           { "group": "charged_ref_lighter" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "opal_platinum_cufflinks" } ] },
@@ -5831,7 +5972,8 @@
           { "item": "cattlefodder" },
           { "group": "charged_cigs" },
           { "item": "rope_30" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5855,7 +5997,7 @@
       "both": {
         "entries": [
           { "item": "jacket_jean" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -5864,6 +6006,7 @@
           { "item": "gloves_work" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "group": "charged_soldering_iron" }
         ]
@@ -5885,7 +6028,7 @@
         "magazine": 100,
         "entries": [
           { "item": "mbag" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "shorts_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5898,7 +6041,8 @@
           { "item": "plectrum" },
           { "item": "joint" },
           { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5920,7 +6064,8 @@
           { "item": "longshirt" },
           { "item": "wristwatch" },
           { "item": "mbag" },
-          { "group": "full_survival_kit" }
+          { "group": "full_survival_kit" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5956,6 +6101,7 @@
           { "item": "badge_deputy" },
           { "item": "novel_western" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "whiskey", "container-item": "bottle_glass" },
           {
@@ -5989,7 +6135,8 @@
           { "group": "charged_cigs" },
           { "item": "mag_porn" },
           { "group": "charged_ref_lighter" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": {
@@ -6061,6 +6208,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m110" },
@@ -6117,6 +6265,7 @@
           { "item": "pockknife" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           {
@@ -6176,6 +6325,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -6245,6 +6395,7 @@
           { "item": "molle_pack" },
           { "item": "hammer_sledge" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 6, "contents-item": [ "shoulder_strap" ] },
@@ -6301,6 +6452,7 @@
           { "item": "molle_pack" },
           { "item": "cloak" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_m2010" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6368,6 +6520,7 @@
           { "item": "multitool" },
           { "item": "single_sling" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_mp7" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6416,6 +6569,7 @@
           { "item": "pockknife" },
           { "item": "diving_watch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holster", "contents-group": "holster_supp_57" },
           { "item": "suppressor" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -6460,6 +6614,7 @@
           { "item": "legpouch_large" },
           { "group": "charged_matches" },
           { "group": "charged_flashlight" },
+          { "group": "starter_wallet_full" },
           { "item": "handflare", "count": 2, "charges": 200 },
           { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6497,6 +6652,7 @@
           { "item": "adrenaline_injector" },
           { "item": "adhesive_bandages", "count": 8 },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -6536,6 +6692,7 @@
           { "item": "morphine" },
           { "item": "adrenaline_injector" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
@@ -6601,6 +6758,7 @@
           { "item": "pepto" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6644,7 +6802,8 @@
           { "item": "granola" },
           { "item": "granola" },
           { "item": "granola" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -6671,7 +6830,8 @@
           { "item": "motorbike_boots" },
           { "item": "gloves_leather" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       }
     }
@@ -6703,6 +6863,7 @@
           { "item": "glasses_safety" },
           { "item": "scalpel" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_filter", "ammo-item": "gasfilter_sm", "charges": 100 }
         ]
       },
@@ -6735,6 +6896,7 @@
           { "item": "gloves_medical" },
           { "item": "switchblade" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "crack", "count": 25, "container-item": "null", "entry-wrapper": "bag_zipper" }
         ]
       },
@@ -6771,6 +6933,7 @@
           { "item": "cigar_cutter" },
           { "item": "gold_bracelet" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
           { "group": "modular_deagle_44", "ammo-item": "44fmj", "container-item": "XL_holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
@@ -6804,6 +6967,7 @@
           { "item": "glasses_safety" },
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "pants", "variant": "pants_stone" },
           {
@@ -6838,6 +7002,7 @@
           { "item": "mbag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "binoculars" }
         ]
       },
@@ -6902,6 +7067,7 @@
           { "item": "gloves_wraps" },
           { "item": "bellywrap" },
           { "item": "katana", "container-item": "scabbard" },
+          { "group": "starter_wallet_full" },
           { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
         ]
       },
@@ -6947,12 +7113,13 @@
           { "item": "socks" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "flag_mask_dust" }
         ]
       },
       "male": {
         "entries": [
-          { "item": "flag_shirt" },
+          { "item": "tshirt", "variant": "flag_shirt" },
           { "item": "sneakers" },
           { "item": "flag_swimsuit", "variant": "flag_swimsuit" },
           { "item": "pants", "variant": "pants_flag" }
@@ -6986,6 +7153,7 @@
           { "item": "american_flag" },
           { "item": "slippers" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "flag_mask_dust" },
           { "item": "chestrig", "variant": "flag_chestrig", "contents-group": "mags_ruger_arr" },
           { "item": "cowboy_hat", "variant": "flag_cowboy_hat" },
@@ -7032,6 +7200,7 @@
           { "item": "sunglasses" },
           { "item": "rope_30" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7 },
           { "item": "western_holster", "contents-group": "bandolier_cowboy" }
@@ -7060,6 +7229,7 @@
             "variant": "black_smart_phone_case",
             "contents-group": "charged_smart_phone"
           },
+          { "group": "starter_rich_wallet_full" },
           { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
           { "item": "flip_flops", "custom-flags": [ "no_auto_equip" ] }
         ]
@@ -7171,7 +7341,8 @@
             "item": "waterproof_smart_phone_case",
             "variant": "black_smart_phone_case",
             "contents-group": "charged_smart_phone"
-          }
+          },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "swim_briefs" } ] },
@@ -7219,6 +7390,7 @@
           { "item": "suppressor" },
           { "item": "tele_sight_pistol" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
           { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
         ]
@@ -7280,6 +7452,7 @@
           { "item": "polaroid_photo" },
           { "item": "switchblade" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "knife_combat", "container-item": "gartersheath1" },
           { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }
         ]
@@ -7344,6 +7517,7 @@
           { "item": "beret" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap_simple" ] }
@@ -7370,13 +7544,14 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "hoodie" },
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "crowbar" },
           { "item": "camera_bag" },
           { "item": "slingpack" },
           { "item": "leather_belt" },
           { "item": "urbexmap" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
           {
@@ -7414,6 +7589,7 @@
           { "item": "tie_clipon" },
           { "item": "dress_shoes" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_penblack" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "coffee", "container-item": "coffeepot" }
@@ -7451,6 +7627,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "sheath", "contents-item": "knife_hunting" },
           { "item": "tank_top", "variant": "tank_top_camo" }
         ]
@@ -7479,7 +7656,8 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "hammer" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7532,7 +7710,8 @@
           { "item": "EOD_hotstick", "custom-flags": [ "auto_wield" ] },
           { "item": "water_clean", "container-item": "camelbak" },
           { "item": "multitool", "container-item": "sheath" },
-          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 }
+          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
