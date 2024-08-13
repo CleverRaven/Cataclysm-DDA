@@ -1052,8 +1052,8 @@
     "subtype": "distribution",
     "id": "superglue_bottles",
     "items": [
-      { "item": "bottle_plastic_micro", "variant": "bottle_plastic_micro", "prob": 90 },
-      { "item": "bottle_plastic_tiny", "variant": "bottle_plastic_tiny_superglue", "prob": 10 }
+      { "item": "small_squeeze_tube", "variant": "small_squeeze_tube_superglue", "prob": 90 },
+      { "item": "bottle_plastic_tiny_glue", "variant": "bottle_plastic_tiny_superglue", "prob": 10 }
     ]
   }
 ]
