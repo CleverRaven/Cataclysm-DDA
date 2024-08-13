@@ -227,6 +227,7 @@
       [ "microcentrifuge", 3 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
+      { "item": "petri_dish", "prob": 5 },
       [ "flask_glass", 2 ],
       [ "rack_test_tube", 7 ],
       [ "rack_test_tube_micro", 7 ],

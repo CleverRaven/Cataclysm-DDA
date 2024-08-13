@@ -3,6 +3,7 @@
     "type": "test_data",
     "//": "Allow fairly low values, guns are not for bashing",
     "expected_dps": {
+      "modular_m4_carbine": 6.77,
       "raging_judge": 5.53,
       "sw_500": 5.53,
       "model_10_revolver": 5.57,

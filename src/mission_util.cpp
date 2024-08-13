@@ -78,7 +78,7 @@ static void reveal_target( mission *miss, const std::string &omter_id )
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
         add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
-                 oter->get_name() );
+                 oter->get_name( om_vision_level::full ) );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
             reveal_route( miss, destination );

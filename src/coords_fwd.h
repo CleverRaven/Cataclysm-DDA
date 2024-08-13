@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_COORDS_FWD_H
 #define CATA_SRC_COORDS_FWD_H
 
+#include <type_traits>
+
 struct point;
 struct tripoint;
 
@@ -32,8 +34,15 @@ constexpr scale omt = scale::overmap_terrain;
 constexpr scale seg = scale::segment;
 constexpr scale om = scale::overmap;
 
+template<typename Point, origin Origin, scale Scale>
+class coord_point_ob;
+
+template<typename Point, origin Origin, scale Scale>
+class coord_point_ib;
+
 template<typename Point, origin Origin, scale Scale, bool InBounds = false>
-class coord_point;
+using coord_point =
+    std::conditional_t<InBounds, coord_point_ib<Point, Origin, Scale>, coord_point_ob<Point, Origin, Scale>>;
 
 } // namespace coords
 

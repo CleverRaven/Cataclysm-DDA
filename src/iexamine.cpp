@@ -67,6 +67,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -202,6 +203,7 @@ static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_iron( "iron" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
@@ -347,7 +349,8 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
                ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
                  e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
-                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) );
+                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) ||
+                 e.made_of( material_iron ) );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
     if( !loc ) {
@@ -1239,7 +1242,8 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
             _rotate_point_sm( { examp.xy(), z }, _get_rot_delta( this_omt, that_omt ), sm_orig );
 
         if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
-            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
+            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name(
+                                             om_vision_level::full );
             std::string const name = string_format(
                                          "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
             choice.addentry( z + uilist_positive, z != examp.z, MENU_AUTOASSIGN, name );
@@ -3817,7 +3821,7 @@ void iexamine::compost_empty( Character &you, const tripoint &examp )
         // TODO: Allow using biomass from crafting inventory
         const auto b_inv = you.cache_get_items_with( "is_compostable", &item::is_compostable );
         if( b_inv.empty() ) {
-            add_msg( m_info, _( "You have no biomass to ferment." ) );
+            add_msg( m_info, _( "You have nothing that could be used as biomass to ferment." ) );
             return;
         }
         // Make lists of unique typeids and names for the menu
@@ -3833,7 +3837,7 @@ void iexamine::compost_empty( Character &you, const tripoint &examp )
         // Choose biomass from list
         int b_index = 0;
         if( b_types.size() > 1 ) {
-            b_index = uilist( _( "Use which biomass?" ), b_names );
+            b_index = uilist( _( "What do you want to use as biomass?" ), b_names );
         } else { //Only one biomass type was in inventory, so it's automatically used
             if( !query_yn( _( "Set %s in the tank?" ), b_names[0] ) ) {
                 b_index = -1;

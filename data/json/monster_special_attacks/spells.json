@@ -587,37 +587,9 @@
     "max_field_intensity": 2
   },
   {
-    "type": "SPELL",
-    "id": "spell_gene_sting",
-    "name": { "str": "Gene Sting" },
-    "description": "Yugg attack which causes random mutation.",
-    "effect": "attack",
-    "shape": "blast",
-    "valid_targets": [ "hostile" ],
-    "min_range": 24,
-    "max_range": 24,
-    "sound_description": "ssszziiipp",
-    "damage_type": "biological",
-    "min_damage": 0,
-    "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
-  },
-  {
-    "id": "spell_gene_sting_selector",
-    "type": "SPELL",
-    "name": "Gene Sting Selector",
-    "description": "The spell fires the EOC for the yugg gene sting.  It's a bug if you have it.",
-    "message": "",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_random_mutate",
-    "shape": "blast",
-    "max_level": 1
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": { "and": [ { "math": [ "_damage_taken", ">", "0" ] }, "u_is_npc" ] },
+    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "npc_is_character", "has_beta" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
       { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }

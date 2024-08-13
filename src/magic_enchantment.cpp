@@ -75,6 +75,7 @@ namespace io
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
+            case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
@@ -194,6 +195,7 @@ namespace io
             case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
             case enchant_vals::mod::THROW_STR: return "THROW_STR";
+            case enchant_vals::mod::THROW_DAMAGE: return "THROW_DAMAGE";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";

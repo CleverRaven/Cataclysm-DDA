@@ -15,7 +15,7 @@
     "type": "effect_on_condition",
     "id": "get_m4_carbine",
     "global": true,
-    "effect": { "u_spawn_item": "modular_m4_carbine" }
+    "effect": { "u_spawn_item": "modular_m4a1", "use_item_group": true }
   },
   {
     "id": "EOC_vitrified_doll_talk",
