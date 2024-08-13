@@ -141,7 +141,6 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": [
       {
@@ -191,7 +190,6 @@
     "longest_side": "14 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
@@ -242,7 +240,6 @@
     "longest_side": "10 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
@@ -294,7 +291,6 @@
     "longest_side": "10 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
@@ -346,7 +342,6 @@
     "longest_side": "13 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "WRIST_MOUNT_ATTACHMENT" ],
     "use_action": [
@@ -626,7 +621,6 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP" ],
     "use_action": {
@@ -867,7 +861,6 @@
     "color": "white",
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
       "msg": "You switch on the reading light.",
@@ -916,7 +909,6 @@
     "symbol": "&",
     "color": "blue",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
       "msg": "You turn the smart lamp on.",

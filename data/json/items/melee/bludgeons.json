@@ -503,7 +503,6 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": "20 cent",
     "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
@@ -554,7 +553,6 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": "1 USD 50 cent",
     "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
-    "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",

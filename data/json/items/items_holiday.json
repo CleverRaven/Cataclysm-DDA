@@ -39,7 +39,6 @@
     "color": "yellow",
     "initial_charges": 22,
     "max_charges": 22,
-    "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": {
       "ammo_scale": 0,

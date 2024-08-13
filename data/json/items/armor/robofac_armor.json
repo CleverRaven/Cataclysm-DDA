@@ -290,7 +290,6 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT" ],
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": [
       {

@@ -64,7 +64,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
       "msg": "You light up the screen.",
@@ -151,7 +150,6 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
       "ELECTRICSTORAGE",
@@ -253,7 +251,6 @@
     "color": "green",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 1,
     "use_action": [ "GEIGER" ],
     "pocket_data": [
       {
@@ -379,7 +376,6 @@
     "price": "750 USD",
     "price_postapoc": "2 USD 50 cent",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
       "EBOOKREAD",
@@ -466,7 +462,6 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "use_action": [ "MP3", { "type": "link_up", "cable_length": 4, "charge_rate": "5 W" } ],
-    "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -503,7 +498,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "target": "noise_emitter_on",
       "msg": "You turn the noise emitter on.",
@@ -555,7 +549,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "type": "transform",
       "msg": "You turn the EMF detector on.",
@@ -640,7 +633,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": [
       "CAMERA",
       "MP3",
@@ -775,7 +767,6 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ],
-    "charges_per_use": 1,
     "use_action": {
       "ammo_scale": 0,
       "target": "UPS_OFF",
@@ -807,7 +798,6 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ],
-    "charges_per_use": 1,
     "use_action": {
       "ammo_scale": 0,
       "target": "UPS_ON",
@@ -929,7 +919,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "use_action": {
       "target": "noise_emitter_super_on",
       "msg": "You turn the super noise emitter on.",
