@@ -109,7 +109,7 @@
     "volume": "1250 ml",
     "longest_side": "180 cm",
     "category": "weapons",
-    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "neutral" },
     "use_action": {
         "target": "spear_shaft",
         "msg": "You wipe down the spear shaft.",
