@@ -300,6 +300,7 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -11776,9 +11777,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
     tripoint_bub_ms stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
+    bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) &&
         !u.is_underwater() ) {
         // Climbing
+
         for( const tripoint_bub_ms &p : here.points_in_radius( u.pos_bub(), 2 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
                 adjacent_climb = true;
@@ -11797,7 +11800,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
-                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
+                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
         if( !can_climb_here && !adjacent_climb ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
@@ -11829,6 +11832,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             pts.push_back( stairs.raw() );
         }
 
+        if( climb_flying ) {
+            pts.push_back( stairs.raw() );
+        }
+
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
@@ -11837,8 +11844,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: Make it an extended action
             climbing = true;
             climbing_aid = climbing_aid_furn_CLIMBABLE;
-            u.set_activity_level( EXTRA_EXERCISE );
-            move_cost = cost == 0 ? 1000 : cost + 500;
+
+            if( climb_flying ) {
+                u.set_activity_level( MODERATE_EXERCISE );
+                move_cost = 100;
+            } else {
+                u.set_activity_level( EXTRA_EXERCISE );
+                move_cost = cost == 0 ? 1000 : cost + 500;
+            }
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
@@ -13108,6 +13121,13 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
+    bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
+
+    // If you're levitating or flying, there's nothing to slip on
+    if( climb_flying ) {
+        slip = 0;
+    }
+
     if( parkour && badknees ) {
         if( show_chance_messages ) {
             add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
@@ -13133,7 +13153,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
             get_body_part_flags::primary_type ) ) {
-        if( u.get_part_wetness( bp ) > 0 ) {
+        if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
             wet_feet = true;
@@ -13143,7 +13163,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
             get_body_part_flags::primary_type ) ) {
-        if( u.get_part_wetness( bp ) > 0 ) {
+        if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
             wet_hands = true;
@@ -13412,24 +13432,27 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     }
 
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
+    bool levitating = u.has_flag( json_flag_LEVITATION );
     bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
-    if( seems_perfectly_safe ) {
-        query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
-    } else if( slip_chance < 3 ) {
-        query = _( "It <color_green>seems safe</color> to climb down like this." );
-    } else if( slip_chance < 8 ) {
-        query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
-    } else if( slip_chance < 20 ) {
-        query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
-    } else if( slip_chance < 50 ) {
-        query = _( "It <color_red>seems very risky</color> to climb down like this." );
-    } else if( slip_chance < 80 ) {
-        query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
-    } else {
-        query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+    if( !levitating ) {
+        if( seems_perfectly_safe ) {
+            query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
+        } else if( slip_chance < 3 ) {
+            query = _( "It <color_green>seems safe</color> to climb down like this." );
+        } else if( slip_chance < 8 ) {
+            query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
+        } else if( slip_chance < 20 ) {
+            query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
+        } else if( slip_chance < 50 ) {
+            query = _( "It <color_red>seems very risky</color> to climb down like this." );
+        } else if( slip_chance < 80 ) {
+            query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
+        } else {
+            query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+        }
     }
 
-    if( !seems_perfectly_safe ) {
+    if( !seems_perfectly_safe && !levitating ) {
         std::string hint_fall_damage;
         if( damage_estimate >= 100 ) {
             hint_fall_damage = _( "Falling <color_pink>would kill you</color>." );
@@ -13448,7 +13471,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         query += hint_fall_damage;
     }
 
-    if( fall.height > aid.down.max_height ) {
+    if( fall.height > aid.down.max_height && !levitating ) {
         // Warn the player that they will fall even after a successful climb
         int remaining_height = fall.height - aid.down.max_height;
         query += "\n";
@@ -13466,16 +13489,18 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Note, this easy_climb_back_up can be set by factors other than the climbing aid.
     bool easy_climb_back_up = false;
     std::string hint_climb_back;
-    if( estimated_climb_cost <= 0 ) {
-        hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
-    } else if( estimated_climb_cost < 200 ) {
-        hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
-        easy_climb_back_up = true;
-    } else {
-        hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
+    if( !levitating ) {
+        if( estimated_climb_cost <= 0 ) {
+            hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
+        } else if( estimated_climb_cost < 200 ) {
+            hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
+            easy_climb_back_up = true;
+        } else {
+            hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
+        }
+        query += "\n";
+        query += hint_climb_back;
     }
-    query += "\n";
-    query += hint_climb_back;
 
     std::string query_prompt = _( "Climb down?" );
     if( !aid.down.confirm_text.empty() ) {

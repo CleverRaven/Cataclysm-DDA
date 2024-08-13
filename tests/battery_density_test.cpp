@@ -96,7 +96,7 @@ static bool is_battery( const itype &type )
     // ignore items from elsewhere, including the test mod.
     if( type.has_flag( json_flag_DEBUG_ONLY ) ||
         type.src.size() > 1 ||
-        type.src.back().second.str() != std::string( "dda" ) ) {
+        ( type.src.size() == 1 && type.src.back().second.str() != std::string( "dda" ) ) ) {
         return false;
     }
     if( !!type.magazine && type.magazine->type.count( ammo_battery ) > 0 ) {
