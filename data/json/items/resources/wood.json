@@ -111,13 +111,13 @@
     "category": "weapons",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "neutral" },
     "use_action": {
-        "target": "spear_shaft",
-        "msg": "You wipe down the spear shaft.",
-        "moves": 1000,
-        "type": "delayed_transform",
-        "transform_age": 15000,
-        "not_ready_msg": "The spear shaft is still soaking.",
-        "//": "4 hours"
+      "target": "spear_shaft",
+      "msg": "You wipe down the spear shaft.",
+      "moves": 1000,
+      "type": "delayed_transform",
+      "transform_age": 15000,
+      "not_ready_msg": "The spear shaft is still soaking.",
+      "//": "4 hours"
     },
     "price_postapoc": "5 USD",
     "melee_damage": { "bash": 8 }
