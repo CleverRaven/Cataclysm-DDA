@@ -307,20 +307,6 @@
     "id": "effect_telepath_network_monster_effect",
     "name": [ "Telepathic Network Monster" ],
     "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
-    "enchantments": [
-      {
-        "values": [
-          { "value": "BONUS_DODGE", "add": 1.5 },
-          { "value": "BONUS_BLOCK", "add": 1.5 },
-          { "value": "PERCEPTION", "add": 1.2 },
-          { "value": "RANGE", "add": 3.25 },
-          { "value": "EVASION", "multiply": 1.5 },
-          { "value": "RANGED_DAMAGE", "multiply": 1.5 },
-          { "value": "MELEE_DAMAGE", "multiply": 1.5 },
-          { "value": "COMBAT_CATCHUP", "multiply": 1.5 }
-        ]
-      }
-    ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]
