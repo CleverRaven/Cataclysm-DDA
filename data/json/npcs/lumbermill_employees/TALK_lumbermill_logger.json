@@ -41,7 +41,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
             { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" }
           ]
         }
