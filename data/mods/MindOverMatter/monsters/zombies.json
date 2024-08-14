@@ -162,7 +162,7 @@
     "copy-from": "mon_zombie_base",
     "type": "MONSTER",
     "name": { "str": "nether-void" },
-    "description": "Thoughts of old creepy Internet memes arise unbidden as you see this zombie.  It's almost ten feet fall but incredibly thin, with spindly legs and with arms that hang down almost all the way to the ground.  Occasionally, it drops on all fours to clamber with uncanny speed over some bit of rubble.  When you look directly at it, gray static flickers on the edge of your vision and you hear a very low droning hum.",
+    "description": "Thoughts of old creepy Internet memes arise unbidden as you see this zombie.  It's almost ten feet tall but incredibly thin, with spindly legs and with arms that hang down almost all the way to the ground.  Occasionally, it drops on all fours to clamber with uncanny speed over some bit of rubble.  When you look directly at it, gray static flickers on the edge of your vision and you hear a very low droning hum.",
     "species": [ "ZOMBIE", "HUMAN", "PSI_NULL" ],
     "proportional": { "hp": 1.3, "spoed": 2 },
     "symbol": "Z",
