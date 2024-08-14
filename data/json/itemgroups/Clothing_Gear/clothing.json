@@ -533,8 +533,6 @@
               { "item": "polo_shirt", "prob": 50 },
               { "item": "denim_shirt", "prob": 20 },
               { "item": "tshirt", "prob": 80 },
-              { "item": "linuxtshirt", "prob": 10 },
-              { "item": "tshirt_tour", "prob": 10 },
               { "item": "rashguard", "prob": 10 }
             ]
           },
@@ -1662,7 +1660,6 @@
       [ "survnote", 1 ],
       [ "b_shorts", 15 ],
       [ "halter_top", 30 ],
-      [ "linuxtshirt", 10 ],
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
       [ "sleeveless_tunic", 5 ],
@@ -1830,7 +1827,7 @@
     "type": "item_group",
     "id": "shirts",
     "items": [
-      [ "tshirt", 80 ],
+      [ "tshirt", 90 ],
       [ "tshirt_cropped", 8 ],
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
@@ -1853,11 +1850,10 @@
       [ "collarpin", 5 ],
       [ "postman_shirt", 5 ],
       [ "halter_top", 50 ],
-      [ "linuxtshirt", 10 ],
       [ "rashguard", 10 ],
       [ "sleeveless_tunic", 5 ],
       [ "poncho", 20 ],
-      { "item": "flag_shirt", "prob": 50, "event": "independence_day" },
+      { "item": "tshirt", "variant": "flag_shirt", "prob": 50, "event": "independence_day" },
       { "group": "costume_shirts", "prob": 70, "event": "halloween" }
     ]
   },
@@ -2451,7 +2447,6 @@
       { "item": "maid_dress_short", "prob": 1 },
       { "item": "maid_hat", "prob": 1 },
       { "item": "halter_top", "prob": 50 },
-      { "item": "linuxtshirt", "prob": 20 },
       { "item": "kilt", "prob": 2 },
       { "item": "nanoskirt", "prob": 10 },
       { "item": "sleeveless_tunic", "prob": 5 },
@@ -2606,11 +2601,9 @@
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 6 },
       [ "tank_top", 6 ],
       [ "halter_top", 6 ],
-      [ "tshirt", 6 ],
-      [ "tshirt_text", 6 ],
-      [ "flag_shirt", 5 ],
+      [ "tshirt", 15 ],
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 60, "event": "independence_day" },
-      { "item": "flag_shirt", "prob": 20, "event": "independence_day" },
+      { "item": "tshirt", "variant": "flag_shirt", "prob": 20, "event": "independence_day" },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 50, "event": "independence_day" }
     ]
   },
@@ -2629,11 +2622,9 @@
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 6 },
       [ "tank_top", 6 ],
       [ "halter_top", 6 ],
-      [ "tshirt", 6 ],
-      [ "tshirt_text", 6 ],
-      [ "flag_shirt", 5 ],
+      [ "tshirt", 15 ],
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 60, "event": "independence_day" },
-      { "item": "flag_shirt", "prob": 20, "event": "independence_day" }
+      { "item": "tshirt", "variant": "flag_shirt", "prob": 20, "event": "independence_day" }
     ]
   },
   {
@@ -3640,7 +3631,6 @@
       [ "maid_dress", 1 ],
       [ "maid_dress_short", 1 ],
       [ "halter_top", 50 ],
-      [ "linuxtshirt", 20 ],
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
       [ "robe", 50 ],
@@ -3889,9 +3879,7 @@
       { "item": "armguard_soft", "prob": 10 },
       { "item": "dress_shirt", "prob": 50 },
       { "item": "denim_shirt", "prob": 15 },
-      { "item": "flag_shirt", "prob": 15 },
       { "item": "jersey", "prob": 30 },
-      { "item": "linuxtshirt", "prob": 10 },
       { "item": "polo_shirt", "prob": 30 },
       { "item": "thermal_shirt", "prob": 20 },
       { "item": "sleeveless_tunic", "prob": 10 },
@@ -3900,15 +3888,14 @@
       { "item": "turtleneck_shirt", "prob": 15 },
       { "item": "sweatshirt", "prob": 50 },
       { "item": "tank_top", "prob": 30 },
-      { "item": "tshirt", "prob": 80 },
-      { "item": "tshirt_text", "prob": 50 },
+      { "item": "tshirt", "prob": 85 },
       { "item": "rashguard", "prob": 20 },
       { "item": "tunic", "prob": 10 },
       { "item": "waistcoat", "prob": 10 },
       { "item": "wool_hoodie", "prob": 10 },
       { "item": "hoodie", "prob": 40 },
       { "item": "hoodie_cropped", "prob": 4 },
-      { "item": "flag_shirt", "prob": 50, "event": "independence_day" },
+      { "item": "tshirt", "variant": "flag_shirt", "prob": 50, "event": "independence_day" },
       { "group": "costume_shirts", "prob": 50, "event": "halloween" }
     ]
   },

@@ -312,7 +312,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         }
     } else if( source.mem_combat.formation_distance != -1 &&
                source.mem_combat.formation_distance <= target_distance &&
-               rng( -10, 10 ) > source.personality.aggression ) {
+               rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX ) > source.personality.aggression ) {
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
                        "<color_light_gray>%s decided to fall back to formation with allies.</color>", source.name );
         source.look_for_player( get_player_character() );
@@ -635,7 +635,7 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, thrown_item, false ) ) ) {
+          !source.wont_hit_friend( location, thrown_item, true ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {

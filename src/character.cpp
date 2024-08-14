@@ -2514,6 +2514,8 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
             new_max *= 0.8;
         }
 
+        new_max = std::max( 1, new_max );
+
         float max_hp_ratio = static_cast<float>( new_max ) /
                              static_cast<float>( part.second.get_hp_max() );
 
@@ -5682,10 +5684,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                 }
             }
             comfort += boardable ? max_boardable_confort : -here.move_cost( p );
-
-            if( has_effect( effect_cramped_space ) ) {
-                comfort = static_cast<int>( comfort_level::impossible );
-            }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != furn_str_id::NULL_ID() ) {
@@ -6710,9 +6708,8 @@ void Character::mend_item( item_location &&obj, bool interactive )
     int sel = 0;
     if( interactive ) {
         uilist menu;
-        menu.text = _( "Mend which fault?" );
+        menu.title = _( "Mend which fault?" );
         menu.desc_enabled = true;
-        menu.desc_lines_hint = 0; // Let uilist handle description height
 
         constexpr int fold_width = 80;
 

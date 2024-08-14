@@ -106,9 +106,7 @@ std::optional<vpart_reference> veh_shape::select_part_at_cursor(
 
     uilist menu;
     menu.desc_enabled = !extra_description.empty();
-    menu.desc_lines_hint = 1;
     menu.hilight_disabled = true;
-    menu.w_x_setup = TERMX / 8;
 
     for( const vpart_reference &pt : parts ) {
         ret_val<void> predicate_result = predicate( pt );

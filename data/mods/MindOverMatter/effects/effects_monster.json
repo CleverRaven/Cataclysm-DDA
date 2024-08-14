@@ -301,5 +301,12 @@
     "id": "effect_feral_regeneration",
     "name": [ "Feral Regeneration" ],
     "desc": [ "Your wounds are rapidly closing." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_network_monster_effect",
+    "name": [ "Telepathic Network Monster" ],
+    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]

@@ -1721,7 +1721,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 buffer += tool_continue_reqs.list_missing();
                 popup( buffer, PF_NONE );
             } else {
-                add_msg_if_npc( _( "<npcname> don't have the necessary tools to continue crafting!" ) );
+                add_msg_if_npc( _( "<npcname> doesn't have the necessary tools to continue crafting!" ) );
             }
             return false;
         }
@@ -2414,6 +2414,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                         craft.set_tools_to_continue( false );
                         return false;
                     }
+                    break;
                 case usage_from::none:
                 case usage_from::cancel:
                 case usage_from::num_usages_from:
@@ -2744,7 +2745,7 @@ void Character::disassemble_all( bool one_pass )
     bool found_any = false;
     std::vector<item_location> to_disassemble;
     for( item &it : get_map().i_at( pos_bub() ) ) {
-        to_disassemble.emplace_back( map_cursor( pos_bub() ), &it );
+        to_disassemble.emplace_back( map_cursor( get_location() ), &it );
     }
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
@@ -2976,6 +2977,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             act_item.set_relative_rot( dis_item.get_relative_rot() );
+            act_item.set_owner( *this );
 
             ret_val<item> removed = dis_item.components.remove( newit.typeId() );
             if( removed.success() ) {

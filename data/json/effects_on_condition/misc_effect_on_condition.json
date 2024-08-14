@@ -278,13 +278,58 @@
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": [
-      { "u_message": "The sunrise always makes you a feel a little bit better." },
       {
-        "u_add_morale": "morale_sunrise",
-        "bonus": 10,
-        "max_bonus": 10,
-        "duration": "120 minutes",
-        "decay_start": "60 minutes"
+        "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
+        "then": [
+          {
+            "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "x_in_y_chance": { "x": 1, "y": 2 } } ] },
+            "then": [
+              { "u_message": "As you gaze upon the sunrise, you feel enraptured by its ethereal beauty.", "type": "good" },
+              {
+                "u_add_morale": "morale_sunrise",
+                "bonus": 15,
+                "max_bonus": 15,
+                "duration": "120 minutes",
+                "decay_start": "60 minutes"
+              }
+            ],
+            "else": [
+              {
+                "if": { "x_in_y_chance": { "x": 1, "y": 5 } },
+                "then": [
+                  { "u_message": "The sunrise is especially beautiful today.", "type": "good" },
+                  {
+                    "u_add_morale": "morale_sunrise",
+                    "bonus": 15,
+                    "max_bonus": 15,
+                    "duration": "120 minutes",
+                    "decay_start": "60 minutes"
+                  }
+                ],
+                "else": [
+                  { "u_message": "The sunrise always makes you a feel a little bit better.", "type": "good" },
+                  {
+                    "u_add_morale": "morale_sunrise",
+                    "bonus": 10,
+                    "max_bonus": 10,
+                    "duration": "120 minutes",
+                    "decay_start": "60 minutes"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          { "u_message": "The sunrise is hidden behind clouds, but it is still a bright, new day.", "type": "good" },
+          {
+            "u_add_morale": "morale_sunrise",
+            "bonus": 5,
+            "max_bonus": 5,
+            "duration": "60 minutes",
+            "decay_start": "30 minutes"
+          }
+        ]
       }
     ]
   },
@@ -296,13 +341,58 @@
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": [
-      { "u_message": "The sunset always makes you a feel a little bit better." },
       {
-        "u_add_morale": "morale_sunset",
-        "bonus": 10,
-        "max_bonus": 10,
-        "duration": "120 minutes",
-        "decay_start": "60 minutes"
+        "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
+        "then": [
+          {
+            "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "x_in_y_chance": { "x": 1, "y": 2 } } ] },
+            "then": [
+              { "u_message": "As you gaze upon the sunset, you feel enraptured by its ethereal beauty.", "type": "good" },
+              {
+                "u_add_morale": "morale_sunset",
+                "bonus": 15,
+                "max_bonus": 15,
+                "duration": "120 minutes",
+                "decay_start": "60 minutes"
+              }
+            ],
+            "else": [
+              {
+                "if": { "x_in_y_chance": { "x": 1, "y": 5 } },
+                "then": [
+                  { "u_message": "The sunset is especially beautiful today.", "type": "good" },
+                  {
+                    "u_add_morale": "morale_sunset",
+                    "bonus": 15,
+                    "max_bonus": 15,
+                    "duration": "120 minutes",
+                    "decay_start": "60 minutes"
+                  }
+                ],
+                "else": [
+                  { "u_message": "The sunset always makes you a feel a little bit better.", "type": "good" },
+                  {
+                    "u_add_morale": "morale_sunset",
+                    "bonus": 10,
+                    "max_bonus": 10,
+                    "duration": "120 minutes",
+                    "decay_start": "60 minutes"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          { "u_message": "The sunset is hidden behind clouds, but you can still see the pretty amber hue.", "type": "good" },
+          {
+            "u_add_morale": "morale_sunset",
+            "bonus": 5,
+            "max_bonus": 5,
+            "duration": "60 minutes",
+            "decay_start": "30 minutes"
+          }
+        ]
       }
     ]
   }

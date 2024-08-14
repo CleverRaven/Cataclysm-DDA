@@ -6,11 +6,13 @@
   },
   {
     "id": "always_full",
+    "//": "full information about this tile is given as long as it is visible",
     "type": "oter_vision",
     "levels": [  ]
   },
   {
     "id": "isolated_building",
+    "//": "a building that is not in an area with other buildings around - isolated",
     "type": "oter_vision",
     "levels": [
       { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" },
@@ -20,6 +22,7 @@
   },
   {
     "id": "city_building",
+    "//": "a small building in a city setting - it blends in from afar",
     "type": "oter_vision",
     "levels": [
       { "name": "city", "sym": "#", "color": "light_gray" },
@@ -29,21 +32,25 @@
   },
   {
     "id": "isolated_tower",
+    "//": "a tall spire or tower outside of a city area - without other buildings around",
     "type": "oter_vision",
     "levels": [ { "name": "tower", "sym": "0", "color": "light_gray" }, { "name": "tower", "sym": "0", "color": "light_gray" } ]
   },
   {
     "id": "island",
+    "//": "any island",
     "type": "oter_vision",
     "levels": [ { "blends_adjacent": true }, { "name": "island", "sym": "o", "color": "brown" } ]
   },
   {
     "id": "wreckage",
+    "//": "wreckage or other destruction scattered on the ground",
     "type": "oter_vision",
     "levels": [ { "name": "wreckage", "sym": "^", "color": "dark_gray" }, { "name": "wreckage", "sym": "^", "color": "dark_gray" } ]
   },
   {
     "id": "forested",
+    "//": "a forest or something that looks like a forest from afar",
     "type": "oter_vision",
     "levels": [
       { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
@@ -53,6 +60,7 @@
   },
   {
     "id": "first_glance_forest",
+    "//": "something that looks like a forest from afar, but at closer inspection is clearly-human managed",
     "type": "oter_vision",
     "levels": [
       { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
@@ -61,6 +69,7 @@
   },
   {
     "id": "forested_swampy",
+    "//": "swamps or anything swampy that has tree cover",
     "type": "oter_vision",
     "levels": [
       { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
@@ -70,6 +79,7 @@
   },
   {
     "id": "open_land",
+    "//": "open cleared land with grasses or other groundcover",
     "type": "oter_vision",
     "levels": [
       { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
@@ -78,6 +88,7 @@
   },
   {
     "id": "farm_field",
+    "//": "cleared land for agricultural use",
     "type": "oter_vision",
     "levels": [
       { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
@@ -86,11 +97,13 @@
   },
   {
     "id": "large_pavement",
+    "//": "parking lots primarily, but any other expanse of pavement",
     "type": "oter_vision",
     "levels": [ { "blends_adjacent": true }, { "name": "pavement", "sym": "O", "color": "dark_gray", "looks_like": "s_lot" } ]
   },
   {
     "id": "single_water",
+    "//": "water that is not part of a larger water body",
     "type": "oter_vision",
     "levels": [
       { "name": "water", "sym": "O", "color": "blue", "looks_like": "pond_field" },
@@ -99,6 +112,7 @@
   },
   {
     "id": "water_body",
+    "//": "water that is part of a larger water body",
     "type": "oter_vision",
     "levels": [
       { "name": "water body", "sym": "#", "color": "blue", "looks_like": "river_center" },
@@ -107,6 +121,7 @@
   },
   {
     "id": "roof_or_air",
+    "//": "rooves or tiles that are clear",
     "type": "oter_vision",
     "levels": [
       { "name": "open air", "color": "blue", "sym": ".", "looks_like": "open_air" },
@@ -115,16 +130,19 @@
   },
   {
     "id": "underground_dirt",
+    "//": "Anything underground in the dirt layer",
     "type": "oter_vision",
     "levels": [ { "name": "underground", "color": "brown", "sym": "#" }, { "name": "basement", "color": "black", "sym": "O" } ]
   },
   {
     "id": "underground_stone",
+    "//": "anything underground in a stone layer",
     "type": "oter_vision",
     "levels": [ { "name": "underground", "color": "brown", "sym": "#" }, { "name": "basement", "color": "black", "sym": "O" } ]
   },
   {
     "id": "large_building",
+    "//": "a large building (at least 2x2 overmap tiles) that is not in a city",
     "type": "oter_vision",
     "levels": [
       { "name": "large building", "color": "i_white", "sym": "+" },
@@ -134,6 +152,7 @@
   },
   {
     "id": "large_city_building",
+    "//": "a large building (at least 2x2 overmap tiles) that is in a city",
     "type": "oter_vision",
     "levels": [
       { "name": "city", "color": "light_gray", "sym": "#" },
@@ -143,7 +162,10 @@
   },
   {
     "id": "large_structure",
-    "//": "more recognizable structure, easier to figure out what is",
+    "//": [
+      "A structure that would not be described as a building, easier to figure out what is than a building",
+      "used for the oil rig"
+    ],
     "type": "oter_vision",
     "levels": [
       { "name": "structure", "color": "light_gray", "sym": "#" },
@@ -152,11 +174,13 @@
   },
   {
     "id": "large_ship",
+    "//": [ "Any ship that is not represented as a vehicle", "used for the aircraft carrier" ],
     "type": "oter_vision",
     "levels": [ { "name": "ship", "color": "dark_gray", "sym": "#" }, { "name": "ship", "color": "dark_gray", "sym": "#" } ]
   },
   {
     "id": "large_outcropping",
+    "//": [ "large raised landscape features, that may look natural", "used for the exodii castle" ],
     "type": "oter_vision",
     "levels": [
       { "name": "outcropping", "color": "light_gray", "sym": "X" },
@@ -165,6 +189,7 @@
   },
   {
     "id": "natural_outcropping",
+    "//": "A raised landscape feature that is or looks natural",
     "type": "oter_vision",
     "levels": [
       { "blends_adjacent": true },
@@ -174,6 +199,7 @@
   },
   {
     "id": "natural_depression",
+    "//": "A lowered landscape feature that is not clearly artificial",
     "type": "oter_vision",
     "levels": [
       { "blends_adjacent": true },
@@ -183,7 +209,7 @@
   },
   {
     "id": "unusual_structure",
-    "//": "can't even mistake it for something familiar",
+    "//": [ "can't even mistake it for something familiar", "triffid tree, bee hive" ],
     "type": "oter_vision",
     "levels": [
       { "name": "unusual structure", "sym": "8", "color": "i_brown" },
@@ -192,11 +218,13 @@
   },
   {
     "id": "blends_till_outlines",
+    "//": "A fairly obvious feature, but when seen at a distance or quickly it does not immediately pop out of the surrounding landscape",
     "type": "oter_vision",
     "levels": [ { "blends_adjacent": true } ]
   },
   {
     "id": "blends_till_details",
+    "//": "A feature that blends into surrounding features until it can be seen with detail",
     "type": "oter_vision",
     "levels": [ { "blends_adjacent": true }, { "blends_adjacent": true } ]
   }

@@ -328,22 +328,6 @@
     "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   },
   {
-    "id": "vampire_bat_form_fly_upward",
-    "type": "SPELL",
-    "name": "(Bat Form) Ascend",
-    "description": "Flap your wings and fly upward.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VAMPIRE_BAT_FORM_ASCEND",
-    "shape": "blast",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "spell_class": "VAMPIRE",
-    "skill": "deduction",
-    "base_casting_time": 75
-  },
-  {
     "id": "vampire_mist_form_pass_through_doors_and_windows",
     "type": "SPELL",
     "name": "(Mist Form) Pass Through Barrier",

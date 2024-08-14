@@ -262,7 +262,7 @@
     "dodge": 2,
     "vision_day": 3,
     "vision_night": 35,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "gummy_bear",
     "dissect": "dissect_lizard_sample_large",
     "path_settings": { "max_dist": 8 },

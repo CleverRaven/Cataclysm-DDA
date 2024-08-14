@@ -2404,6 +2404,7 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
     if( !p ) {
         debugmsg( "%s called action pack_item that requires character but no character is present",
                   it->typeId().str() );
+        return std::nullopt;
     }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
@@ -7283,7 +7284,6 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {

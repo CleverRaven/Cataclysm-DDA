@@ -1377,6 +1377,10 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | time_until(`v`)<br/>time_until('daylight_time')<br/>time_until('night_time')<br/>time_until('sunset')<br/>time_until('sunrise')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period until time point stored in variable.<br/><br/>Special values:<br/>`daylight_time` - when sun rises above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point<br/>`night_time` - when sun sets below civil dawn<br/>`sunrise` - sun above horizon<br/>`sunset` - sun below horizon<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "TIME_TILL_SUNRISE", "=", "time_until('sunrise', 'unit':'minutes')" ] },`<br/>`{ "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_SUNRISE>", "type": "good" },`|
 | time_until_eoc(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns time until next scheduled run of an EOC. Argument is EOC id.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit<br/><br/>Returns -1 is the EOC is not scheduled. |
 | val(`s`)    |  ✅   |   varies  | u, n  | Return or set a Character or item value. Argument is a [Character/item aspect](#list-of-character-and-item-aspects).<br/><br/>These are all in one function for legacy reasons and are generally poorly tested. If you need one of them, consider porting it to a native math function.<br/><br/>Example:<br/>`{ "math": [ "u_val('strength')", "=", "2" ] }`|
+| npc_anger()    |  ✅   |  ✅   | u, n  | Return NPC anger toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_anger()", ">", "2" ] }`|
+| npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear()", "<", "2" ] }`|
+| npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust()", "=", "2" ] }`|
+| npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value()", "+=", "2" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | vision_range()    |  ✅   |   ❌  | u, n  | Return the character's visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "u_vision_range", "<", "30"] }`|
@@ -1415,10 +1419,6 @@ These can be read or written to with `val()`.
 | `mana_max` | ❌ | Max mana. |
 | `mana_percentage` | ❌ | Current mana as percent. |
 | `morale` | ✅* | The current morale. Assigment only works for monsters. |
-| `npc_anger` | ✅ | Current anger level towards the avatar |
-| `npc_fear` | ✅ | Current fear towards the avatar |
-| `npc_trust` | ✅ | Current trust the npc places in the avatar |
-| `npc_value` | ✅ | Current value npc places on the avatar |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
