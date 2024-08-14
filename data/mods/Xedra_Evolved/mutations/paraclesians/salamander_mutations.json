@@ -210,11 +210,9 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water into very strong alcohol.",
+    "description": "Upon gaining this ability the Salamander learns how to convert water into very strong alcohol.",
     "prereqs": [ "SALAMANDER_EYES" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_BOOZE" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
@@ -223,11 +221,9 @@
     "points": 6,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water directly into fuel.  This is an intensely draining activity.",
+    "description": "Upon gaining this ability the Salamander learn how to convert water directly into fuel.  This is an intensely draining activity.",
     "prereqs": [ "SALAMANDER_WATER_TO_BOOZE" ],
-    "category": [ "SALAMANDER" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_FUEL" ]
+    "category": [ "SALAMANDER" ]
   },
   {
     "type": "mutation",
