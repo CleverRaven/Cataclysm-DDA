@@ -676,7 +676,7 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
         const JsonValue &jv_title = jo.get_member( "title" );
         p.title = get_str_translation_or_var( jv_title, "" );
     }
-    if( jo.has_string( "description" ) ) {
+    if( jo.has_member( "description" ) ) {
         const JsonValue &jv_description = jo.get_member( "description" );
         p.description = get_str_translation_or_var( jv_description, "" );
     }
