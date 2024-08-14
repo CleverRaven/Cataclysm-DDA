@@ -570,7 +570,7 @@
     "id": "mon_feral_human_archaeologist",
     "type": "MONSTER",
     "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
+    "description": "Judging by looks, this poor individual was probably an archaeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
     "copy-from": "mon_feral_human_pipe",
     "special_attacks": [
       {
