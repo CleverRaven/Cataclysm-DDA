@@ -6,6 +6,7 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_READ_LOCAL_FILES_pseudo", "EOC_CHECK_MAP_CACHE_pseudo" ],
+        "allow_cancel": true,
         "names": [ "Dig into local files and logs", "Check map application" ],
         "title": "Pick the action",
         "descriptions": [
@@ -46,6 +47,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_MAP_CACHE",
+    "//": "todo: make it not reveal fungal towers and such? would require edits in reveal_map code, to accept blacklist of locations?",
     "condition": {
       "or": [
         { "npc_has_var": "map_cache", "value": "has" },
@@ -62,6 +64,7 @@
       {
         "if": { "npc_has_var": "map_cache", "value": "has" },
         "then": [
+          { "location_variable_adjust": { "npc_val": "spawn_location_omt" }, "z_adjust": 0, "z_override": true },
           { "reveal_map": { "npc_val": "spawn_location_omt" }, "radius": { "math": [ "rng(11, 36)" ] } },
           { "npc_add_var": "map_cache", "value": "read" },
           { "u_message": "You found some cached map in the map application, and noted it.", "type": "good" }

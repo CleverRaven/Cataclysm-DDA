@@ -225,6 +225,9 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool is_trait_purifiable( const trait_id & ) const {
+            return false;
+        }
         virtual bool has_recipe( const recipe_id & ) const {
             return false;
         }
@@ -240,6 +243,7 @@ class talker
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
+        virtual void set_trait_purifiability( const trait_id &, const bool & ) {}
         virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;

@@ -1032,7 +1032,6 @@
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories()", "/=", "4" ] },
-              { "math": [ "u_spell_level('vampire_bat_form_fly_upward')", "=", "0" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1071,17 +1070,6 @@
     "id": "EOC_VAMPIRE_BAT_FORM_deactivate_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
     "effect": { "u_deactivate_trait": "VAMPIRE_BAT_FORM" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_BAT_FORM_ASCEND",
-    "condition": "u_is_outside",
-    "effect": [
-      { "u_location_variable": { "context_val": "vampire_bat_fly_up_location" }, "z_adjust": 1, "outdoor_only": true },
-      { "u_message": "Your wings carry you upward.", "type": "good" },
-      { "u_teleport": { "context_val": "vampire_bat_fly_up_location" } }
-    ],
-    "false_effect": [ { "u_message": "You cannot fly up with a ceiling above you!", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

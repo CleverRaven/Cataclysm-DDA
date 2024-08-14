@@ -239,7 +239,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
     "variants": [

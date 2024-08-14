@@ -50,12 +50,12 @@
     },
     "responses": [
       {
-        "text": "[$2000, 1d] 10 logs",
+        "text": "[800 merch, 1d] 10 logs",
         "topic": "TALK_DONE",
         "effect": [
+          { "u_consume_item": "FMCNote", "count": 800 },
           {
-            "u_spend_cash": 200000,
-            "true_eocs": {
+            "run_eocs": {
               "id": "EOC_10_logs",
               "effect": [
                 { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
@@ -65,15 +65,15 @@
             }
           }
         ],
-        "condition": { "npc_service": 200000 }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 800 } }
       },
       {
-        "text": "[$12000, 7d] 100 logs",
+        "text": "[4800 merch, 7d] 100 logs",
         "topic": "TALK_DONE",
         "effect": [
+          { "u_consume_item": "FMCNote", "count": 4800 },
           {
-            "u_spend_cash": 1200000,
-            "true_eocs": {
+            "run_eocs": {
               "id": "EOC_100_logs",
               "effect": [
                 { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
@@ -83,7 +83,7 @@
             }
           }
         ],
-        "condition": { "npc_service": 1200000 }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 4800 } }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
       { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }

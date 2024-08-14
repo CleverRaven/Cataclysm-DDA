@@ -3776,7 +3776,7 @@
       { "point": [ 1, 0, 1 ], "overmap": "gunshow_1_roof_north" }
     ],
     "locations": [ "field" ],
-    "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
+    "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road" } ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
