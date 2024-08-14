@@ -845,7 +845,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
             const tripoint_abs_omt p = center + point( i, j );
-            if( seen( p ) != om_vision_level::unseen ) {
+            if( seen( p ) == om_vision_level::full ) {
                 continue;
             }
             if( trigdist && i * i + j * j > radius_squared ) {

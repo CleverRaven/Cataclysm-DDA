@@ -217,6 +217,12 @@
 #include "sdl_utils.h"
 #endif // TILES
 
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -2049,7 +2055,7 @@ static hint_rating rate_action_insert( const avatar &you, const item_location &l
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               const inventory_item_menu_position position )
+                               UNUSED const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
@@ -2082,7 +2088,9 @@ int game::inventory_item_menu( item_location locThisItem,
                                                    hint_rating::cant : hint_rating::good;
                 action_menu.reset();
                 action_menu.allow_anykey = true;
+                float popup_width = 0.0;
                 const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
+                    popup_width = std::max( popup_width, ImGui::CalcTextSize( text.c_str() ).x );
                     // The char is used as retval from the uilist *and* as hotkey.
                     action_menu.addentry( key, true, key, text );
                     auto &entry = action_menu.entries.back();
@@ -2139,21 +2147,25 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 oThisItem.info( true, vThisItem );
 
-                action_menu.w_y_setup = 0;
-                action_menu.w_x_setup = [&]( const int popup_width ) -> int {
-                    switch( position )
-                    {
-                        default:
-                        case RIGHT_TERMINAL_EDGE:
-                            return 0;
-                        case LEFT_OF_INFO:
-                            return iStartX() - popup_width;
-                        case RIGHT_OF_INFO:
-                            return iStartX() + iWidth();
-                        case LEFT_TERMINAL_EDGE:
-                            return TERMX - popup_width;
-                    }
-                };
+                popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
+                               ImGui::GetStyle().WindowBorderSize );
+                float x = 0.0;
+                switch( position ) {
+                    default:
+                    case RIGHT_TERMINAL_EDGE:
+                        x = 0.0;
+                        break;
+                    case LEFT_OF_INFO:
+                        x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
+                        break;
+                    case RIGHT_OF_INFO:
+                        x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
+                        break;
+                    case LEFT_TERMINAL_EDGE:
+                        x = ImGui::GetMainViewport()->Size.x - popup_width;
+                        break;
+                }
+                action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
                 // Default menu border color is different, this matches the border of the item info window.
@@ -2196,7 +2208,6 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
-                action_menu.vshift = 0;
             } else {
                 cMenu = 0;
             }
@@ -2878,13 +2889,13 @@ void end_screen_ui_impl::draw_controls()
     if( art.is_valid() ) {
         int row = 1;
         for( const std::string &line : art->picture ) {
-            draw_colored_text( line );
+            cataimgui::draw_colored_text( line );
 
             for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
                 if( row ==  info.first.second ) {
                     parse_tags( info.second, u, u );
                     ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
-                    draw_colored_text( info.second );
+                    cataimgui::draw_colored_text( info.second );
                 }
             }
             row++;
@@ -2893,7 +2904,7 @@ void end_screen_ui_impl::draw_controls()
 
     if( !input_label.empty() ) {
         ImGui::NewLine();
-        draw_colored_text( input_label );
+        cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
         ImGui::SetKeyboardFocusHere( -1 );
@@ -5609,7 +5620,6 @@ bool game::npc_menu( npc &who )
     const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
-
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
@@ -9196,7 +9206,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_skin = false;
     bool has_organs = false;
     std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
-    int dissect_wp_hint_lines = 0; // track hint lines so menu width doesn't change
 
     if( index != -1 ) {
         const mtype *dead_mon = corpses[index]->get_mtype();
@@ -9219,7 +9228,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
             }
             if( !dead_mon->families.families.empty() ) {
                 dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
-                dissect_wp_hint_lines += 2;
                 for( const weakpoint_family &wf : dead_mon->families.families ) {
                     std::string prof_status;
                     if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
@@ -9228,7 +9236,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                         prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
                     }
                     dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
-                    dissect_wp_hint_lines++;
                 }
             }
         }
@@ -9276,10 +9283,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     uilist smenu;
     smenu.desc_enabled = true;
-    smenu.desc_lines_hint += dissect_wp_hint_lines;
     smenu.text = _( "Choose type of butchery:" );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ),
-                        is_enabled( butcher_type::QUICK ),
+
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),
@@ -12784,7 +12790,6 @@ void game::display_visibility()
 
             pointmenu_cb callback( locations );
             creature_menu.callback = &callback;
-            creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                 Creature *creature = get_creature_tracker().creature_at<Creature>( locations[creature_menu.ret] );
@@ -12841,7 +12846,6 @@ void game::display_lighting()
             lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
         }
 
-        lighting_menu.w_y_setup = 0;
         lighting_menu.query();
         if( ( lighting_menu.ret >= 0 ) &&
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
