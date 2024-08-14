@@ -12,10 +12,10 @@
     "id": "ISO_DANGER_LEVEL_SPAWNER",
     "recurrence": "5 minutes",
     "global": true,
-    "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] },
+    "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "25" ] },
     "effect": [
       {
-        "u_spawn_monster": "mon_hound_tindalos",
+        "u_spawn_monster": "mon_tindalos",
         "real_count": 2,
         "min_radius": 20,
         "max_radius": 40,
@@ -27,7 +27,7 @@
       "run_eocs": [
         {
           "id": "ISO_CURRENT_LEVEL_DANGER_medium",
-          "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] },
+          "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] },
           "effect": [
             {
               "u_spawn_monster": "mon_darkman",
@@ -42,7 +42,7 @@
             "run_eocs": [
               {
                 "id": "ISO_CURRENT_LEVEL_DANGER_low",
-                "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "10" ] },
+                "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] },
                 "effect": [
                   {
                     "u_spawn_monster": "mon_shadow",

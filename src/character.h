@@ -790,6 +790,8 @@ class Character : public Creature, public visitable
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion, bool zoom = false ) const;
 
+        dispersion_sources total_gun_dispersion( const item &gun, double recoil, int spread ) const;
+
         int get_character_parallax( bool zoom = false ) const;
 
         /* Accessors for aspects of aim speed. */
@@ -826,7 +828,7 @@ class Character : public Creature, public visitable
         void set_dodges_left( int dodges );
         void mod_dodges_left( int mod );
         void consume_dodge_attempts();
-        ret_val<void> can_try_doge( bool ignore_dodges_left = false ) const;
+        ret_val<void> can_try_dodge( bool ignore_dodges_left = false ) const;
 
         float get_stamina_dodge_modifier() const;
 
@@ -862,6 +864,8 @@ class Character : public Creature, public visitable
         bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range( float light_level ) const;
+        /** Returns the distance the player can see on the overmap, modified by zoom & height */
+        int overmap_modified_sight_range( float light_level ) const;
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
@@ -3946,6 +3950,8 @@ class Character : public Creature, public visitable
          * Contains mutation ids of the base traits.
          */
         std::unordered_set<trait_id> my_traits;
+        // Mutations that have been turned unpurifiable via EoC
+        std::unordered_set<trait_id> my_intrinsic_mutations;
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */

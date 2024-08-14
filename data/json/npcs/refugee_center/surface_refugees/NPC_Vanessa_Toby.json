@@ -149,7 +149,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1_firstmeet",
-    "dynamic_line": "Well that's good.\"  She purses her lips and gives you another judgmental stare.  \"If you're going to pull your own weight I guess that's an improvement.\""
+    "dynamic_line": "Well that's good.\"  She purses her lips and gives you another judgmental stare.  \"If you're going to pull your own weight I guess that's an improvement."
   },
   {
     "type": "talk_topic",
@@ -187,8 +187,8 @@
         {
           "u_has_var": "mission_flag_Vanessa_Mission1",
           "value": "yes",
-          "no": ".  Why don't you fuckin' figure it out?\"",
-          "yes": ".  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut.\""
+          "no": ".  Why don't you fuckin' figure it out?",
+          "yes": ".  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut."
         }
       ]
     }

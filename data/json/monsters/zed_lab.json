@@ -66,7 +66,7 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "vision_day": 20,
     "vision_night": 3,
     "luminance": 8,
@@ -117,7 +117,7 @@
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
     ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman", "prof_wp_skeleton" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,

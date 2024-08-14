@@ -224,7 +224,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "mon_wolf_mutant_huge",
+    "looks_like": "mon_wolf",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 20,
     "morale": 70,
@@ -239,7 +239,7 @@
     "stomach_size": 800,
     "harvest": "mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {

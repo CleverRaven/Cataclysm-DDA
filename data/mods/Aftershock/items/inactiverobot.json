@@ -114,7 +114,6 @@
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
     "volume": "187500 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 10, "cut": 6 }
   },
@@ -130,7 +129,6 @@
     "material": [ "steel", "plastic" ],
     "volume": "12500 ml",
     "weight": "10500 g",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 10, "cut": 6 }
   },

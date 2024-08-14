@@ -3308,7 +3308,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
-                                    jsobj.get_float( "probability" ) );
+                                    static_cast<float>( jsobj.get_float( "probability" ) ) );
     }
 
     if( jo.has_member( "primary_material" ) ) {
@@ -3391,6 +3391,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
+        slot.default_nutrition.clear_vitamins();
         slot.default_nutrition.finalized = false;
         for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
@@ -3489,6 +3490,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "damage_modifier", slot.damage, strict,
             damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
+    assign( jo, "loudness_multiplier", slot.loudness_multiplier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "field_of_view", slot.field_of_view );
@@ -4193,12 +4195,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
     }
+    def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
+        def.using_legacy_to_hit = true;
     } else if( jo.has_object( "to_hit" ) ) {
         io::acc_data temp;
-        bool was_loaded = false;
-        mandatory( jo, was_loaded, "to_hit", temp );
+        mandatory( jo, false, "to_hit", temp );
         def.m_to_hit = temp.sum_values();
     }
     optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );

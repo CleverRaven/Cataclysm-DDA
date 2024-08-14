@@ -81,6 +81,8 @@
   - "**/food**"
   - "**/**comestible**"
   - "**/comestible**"
+  - "**/**comestible**/**"
+  - "**/comestible**/**"
 
 "NPC / Factions":
   - "**/**npc**"
@@ -272,6 +274,9 @@
 
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
+
+"Isolation Protocols ☣":
+  - data/mods/Isolation-Protocol/**/*
 
 "Mods":
   - any: [ 'data/mods/**' ]

@@ -203,9 +203,9 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
+                it.display_name(), m.name( c.pos_bub() )
             );
-            m.add_item_or_charges( c.pos(), it );
+            m.add_item_or_charges( c.pos_bub(), it );
             return true;
         }
     }
@@ -222,7 +222,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint where = veh.global_part_pos3( vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( vp );
     map &here = get_map();
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
@@ -235,7 +235,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         }
 
         if( it.made_of( phase_id::LIQUID ) ) {
-            here.add_item_or_charges( c.pos(), it );
+            here.add_item_or_charges( c.pos_bub(), it );
             it.charges = 0;
         }
 
@@ -436,6 +436,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
 
     you.recoil = MAX_RECOIL;
+    you.invalidate_weight_carried_cache();
+
     return items_dropped;
 }
 
@@ -3531,8 +3533,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 }
             }
         } else {
-            for( item &it : here.i_at( here.getlocal( loc ) ) ) {
-                item_location i_loc( map_cursor( here.bub_from_abs( loc ) ), &it );
+            for( item &it : here.i_at( here.bub_from_abs( loc ) ) ) {
+                item_location i_loc( map_cursor( loc ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

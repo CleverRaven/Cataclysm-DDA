@@ -1494,6 +1494,8 @@ Didascalia
 Diego
 Diemaco
 dieselpunk
+direhound
+direhounds
 diggable
 Dighton
 DigiMart
@@ -4640,6 +4642,7 @@ peto
 petos
 petpack
 petpacks
+Petri
 petrichor
 peytral
 PF
@@ -6560,6 +6563,7 @@ Vachellia
 Vader
 Vafthrúdnismál
 Vagrakkhedika
+Väinämöinen
 Vaishnava
 Vâjasaneyi
 vajra

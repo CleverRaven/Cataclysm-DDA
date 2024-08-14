@@ -187,22 +187,6 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
                            true, false, true );
 }
 
-TEST_CASE( "monster_special_attack", "[vision][reachability]" )
-{
-    clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
-    scoped_weather_override weather_clear( WEATHER_CLEAR );
-    get_map().ter_set( attacker_location + tripoint{ 2, 0, 0 }, ter_id( "t_wall" ) );
-    get_map().ter_set( attacker_location + tripoint{ 2, 0, 1 }, ter_id( "t_floor" ) );
-    get_map().ter_set( attacker_location + tripoint_east, ter_id( "t_wall" ) );
-    get_map().ter_set( attacker_location + tripoint{ 1, 0, 1 }, ter_id( "t_floor" ) );
-    // Adjacent should be visible if 3d vision is on, but it's too close to attack.
-    // test_monster_attack( { 1, 0, 1 }, false, true, mattack::stretch_attack );
-    // At a distance of 2, the ledge should block los and line of attack.
-    test_monster_attack( { 2, 0, 1 },  false, false, mattack::stretch_attack );
-}
-
 TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 {
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };

@@ -349,6 +349,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CHANGING```This flag is silently given to player to detect it can mutate.
 - ```CLAIRVOYANCE_PLUS``` Gives a clairvoyance effect, used for debug purposes.
 - ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```CLIMB_FLYING``` You can ascend without needing any support or ladder at all. You will fall after doing so unless paired with `LEVITATION`
 - ```CLIMB_NO_LADDER``` Capable of climbing up single-level walls without support.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
@@ -381,7 +382,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
 - ```INVISIBLE``` You can't be seen.
+- ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
+- ```LEVITATION``` You can walk on air. Does not allow you to ascend unless paired with `CLIMB_FLYING`
 - ```MEND_ALL``` You need no splint to heal broken bones.
 - ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
@@ -412,7 +415,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SHAPESHIFT_SIZE_HUGE``` Changes your size to `creature_size::huge`.  Checked last of the shapeshift size category flags and before any normal size flag.  This and other shapeshift size flags must be paired with the ```TEMPORARY_SHAPESHIFT``` flag.
 - ```SHAPESHIFT_SIZE_LARGE``` Changes your size to `creature_size::large`.  Checked third of the shapeshift size category flags and before any normal size flag.
 - ```SHAPESHIFT_SIZE_SMALL``` Changes your size to `creature_size::small`.  Checked second of the shapeshift size category flags and before any normal size flag.
-- ```SHAPESHIFT_SIZE_TINY``` Changes your size to `creature_size::tiny`.  Checked second of the shapeshift size category flags and before any normal size flag.
+- ```SHAPESHIFT_SIZE_TINY``` Changes your size to `creature_size::tiny`.  Checked first of the shapeshift size category flags and before any normal size flag.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
 - ```SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
 - ```SPIRITUAL``` Changes character's moral behaviour in some situations.
@@ -430,6 +433,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall.  Chance to slip and fall each step.
+- ```WATERWALKING``` You can walk across the surface of the water as though it were solid ground.  Should usually be combined with `ITEM_WATERPROOFING` to protect items as well.
 - ```WATCH``` You always know what time it is.
 - ```WEBBED_FEET``` You have webbings on your feet, supporting your swimming speed if not wearing footwear.
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.

@@ -451,6 +451,9 @@ struct vehicle_part {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
+        /** temporarily held projected position */
+        tripoint_bub_ms next_pos = tripoint_bub_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
+
         /** current part health with range [0,durability] */
         int hp() const;
 
@@ -1961,6 +1964,12 @@ class vehicle
 
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
+
+        // calculate the new projected points for all vehicle parts to move to
+        void part_project_points( const tripoint &dp );
+
+        // get all vehicle parts' projected points
+        std::set<tripoint_bub_ms> get_projected_part_points() const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part

@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "brogyaga", "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "sapra", "robofac_gun_40mm", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -206,7 +206,9 @@
       "walther_ppk",
       "pressin",
       "cp33",
-      "ruger_mk4"
+      "ruger_mk4",
+      "rough_rider_pistol",
+      "rough_rider_pistol_9"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -298,7 +300,7 @@
   },
   {
     "id": [
-      "hk_g36",
+      "sl8",
       "garand",
       "m1903",
       "hk_g3",
@@ -404,7 +406,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -424,6 +426,9 @@
       "tavor_12",
       "dp_12",
       "srm_1216",
+      "shotgun_triple",
+      "ar12_shotgun",
+      "gfy_1",
       "aa_12",
       "benelli_tsa",
       "bigun",
@@ -442,8 +447,7 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express",
-      "streetsweeper"
+      "remington_870_express"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"

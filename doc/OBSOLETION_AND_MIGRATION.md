@@ -44,6 +44,10 @@ Additionally, `COMESTIBLE` items have temperature and rot processing, and are th
 * In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
 * In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
 
+# Vehicle migration
+
+Vehicles do not need any migration, simple deletion is enough
+
 # Vehicle part migration
 Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.

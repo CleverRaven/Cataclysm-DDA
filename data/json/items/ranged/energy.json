@@ -18,7 +18,6 @@
     "weight": "10500 g",
     "volume": "4L",
     "price_postapoc": "100 USD",
-    "to_hit": -2,
     "range": 25,
     "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 60 },
     "dispersion": 90,

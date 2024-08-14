@@ -1149,7 +1149,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
+    uilist mmenu;
+    mmenu.title = string_format( _( "Load character from \"%s\"" ), worldname );
     mmenu.border_color = c_white;
     int opt_val = 0;
     for( const save_t &s : savegames ) {

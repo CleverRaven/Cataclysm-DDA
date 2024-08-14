@@ -2058,7 +2058,7 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
@@ -2076,6 +2076,45 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bile_stink",
+    "name": [ "Bile Stink" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in a foul smelling fluid!",
+    "decay_messages": [ [ "The rancid smell of corpse bile finally goes away.", "good" ] ],
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 2000 ] },
+    "enchantments": [ { "values": [ { "value": "SCENT_MASK", "add": 500 } ] } ],
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95, "resist_modifier": 1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "max_duration": "60 m",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bile_irritant",
+    "name": [ "Bile Irritant" ],
+    "desc": [ "Acidic boomer bile is irritating your skin." ],
+    "decay_messages": [ [ "Your skin irritation stops.", "good" ] ],
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "wet" ],
+    "immune_flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ],
+    "base_mods": {
+      "pain_amount": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max_val": [ 4, 2 ],
+      "pain_chance": [ 150, 300 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 120, 360 ],
+      "int_mod": [ -1, 0 ]
+    },
+    "effect_dur_scaling": [ { "effect_id": "bite", "modifier": 1.5, "same_bp": false } ],
+    "max_duration": "15 m"
   },
   {
     "type": "effect_type",
@@ -2103,6 +2142,7 @@
     "name": [ "Conjunctivitis" ],
     "desc": [ "Your eyes are inflamed." ],
     "apply_message": "The chemical irritant damaged your eyes!",
+    "decay_messages": [ [ "The irritation in your eyes stops.", "good" ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],

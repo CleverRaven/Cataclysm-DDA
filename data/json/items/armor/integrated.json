@@ -1541,7 +1541,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "plastic", "lvl4ballisticglass" ],
     "symbol": "[",
     "color": "dark_gray",

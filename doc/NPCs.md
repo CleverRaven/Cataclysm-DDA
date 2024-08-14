@@ -35,6 +35,7 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
+  "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
   "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
@@ -1213,7 +1214,7 @@ Mutator Name | Required Keys | Description
 `"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
 `"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
 `"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
-`"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
+`"u_/npc_loc_relative"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the alpha/beta talker respectively. So `"target":"(0,1,0)"` would return the point south of the talker.
 `"topic_item"` | | Returns current topic_item as a string. See [Repeat Responses](#repeat-responses)
 
 ### Math
@@ -1376,6 +1377,10 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | time_until(`v`)<br/>time_until('daylight_time')<br/>time_until('night_time')<br/>time_until('sunset')<br/>time_until('sunrise')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period until time point stored in variable.<br/><br/>Special values:<br/>`daylight_time` - when sun rises above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point<br/>`night_time` - when sun sets below civil dawn<br/>`sunrise` - sun above horizon<br/>`sunset` - sun below horizon<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "TIME_TILL_SUNRISE", "=", "time_until('sunrise', 'unit':'minutes')" ] },`<br/>`{ "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_SUNRISE>", "type": "good" },`|
 | time_until_eoc(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns time until next scheduled run of an EOC. Argument is EOC id.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit<br/><br/>Returns -1 is the EOC is not scheduled. |
 | val(`s`)    |  ✅   |   varies  | u, n  | Return or set a Character or item value. Argument is a [Character/item aspect](#list-of-character-and-item-aspects).<br/><br/>These are all in one function for legacy reasons and are generally poorly tested. If you need one of them, consider porting it to a native math function.<br/><br/>Example:<br/>`{ "math": [ "u_val('strength')", "=", "2" ] }`|
+| npc_anger()    |  ✅   |  ✅   | u, n  | Return NPC anger toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_anger()", ">", "2" ] }`|
+| npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear()", "<", "2" ] }`|
+| npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust()", "=", "2" ] }`|
+| npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value()", "+=", "2" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | vision_range()    |  ✅   |   ❌  | u, n  | Return the character's visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "u_vision_range", "<", "30"] }`|
@@ -1414,10 +1419,6 @@ These can be read or written to with `val()`.
 | `mana_max` | ❌ | Max mana. |
 | `mana_percentage` | ❌ | Current mana as percent. |
 | `morale` | ✅* | The current morale. Assigment only works for monsters. |
-| `npc_anger` | ✅ | Current anger level towards the avatar |
-| `npc_fear` | ✅ | Current fear towards the avatar |
-| `npc_trust` | ✅ | Current trust the npc places in the avatar |
-| `npc_value` | ✅ | Current value npc places on the avatar |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |

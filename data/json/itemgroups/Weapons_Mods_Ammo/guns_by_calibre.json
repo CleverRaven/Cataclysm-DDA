@@ -23,6 +23,8 @@
     "items": [
       { "group": "nested_walther_p22", "prob": 40 },
       { "group": "nested_ruger_lcr_22", "prob": 40 },
+      { "group": "nested_rough_rider_pistol", "prob": 25 },
+      { "group": "nested_rough_rider_pistol_9", "prob": 4 },
       { "group": "nested_sig_mosquito", "prob": 18 },
       { "group": "nested_cp33", "prob": 9 },
       { "group": "nested_ruger_mk4", "prob": 74 },
@@ -206,6 +208,8 @@
       { "item": "sig_mosquito", "prob": 18 },
       { "item": "walther_p22", "prob": 42 },
       { "item": "ruger_lcr_22", "prob": 84 },
+      { "item": "rough_rider_pistol", "prob": 28 },
+      { "item": "rough_rider_pistol_9", "prob": 4 },
       { "item": "cp33", "prob": 14 },
       { "item": "ruger_mk4", "prob": 72 },
       { "item": "ruger_charger", "prob": 10 }
@@ -635,13 +639,13 @@
     "type": "item_group",
     "id": "guns_rifle_rare_223",
     "items": [
-      { "group": "nested_hk_g36", "prob": 30 },
       { "group": "nested_m249_semi", "prob": 5 },
       { "group": "nested_m4_carbine", "prob": 45 },
       { "group": "nested_m16_auto_rifle", "prob": 25 },
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_zpap85", "prob": 1 },
       { "group": "nested_mdrx", "prob": 30 },
+      { "group": "nested_sl8", "prob": 35 },
       { "group": "nested_sig_assault_rifle", "prob": 25 }
     ]
   },
@@ -725,7 +729,8 @@
       { "group": "mdrx", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 19 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_sig_assault_rifle", "prob": 3 }
+      { "group": "nested_sig_assault_rifle", "prob": 3 },
+      { "group": "nested_sl8", "prob": 4 }
     ]
   },
   {

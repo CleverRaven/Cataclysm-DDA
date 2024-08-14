@@ -440,6 +440,11 @@
     "text": "Spent time alone"
   },
   {
+    "id": "morale_bile",
+    "type": "morale_type",
+    "text": "Covered in bile"
+  },
+  {
     "id": "morale_sunrise",
     "type": "morale_type",
     "text": "Saw the sun rise"
