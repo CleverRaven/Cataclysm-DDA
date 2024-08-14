@@ -1321,13 +1321,13 @@
     "looks_like": "draco",
     "type": "GUN",
     "name": { "str": "Glock AK pistol" },
-    "description": "A 9mm AK pistol that accepts glock magazines.  Has an 11.14\" barrel.",
+    "description": "A 9mm AK pistol that accepts Glock magazines.  Has an 11.14\" barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "draco_9mm",
         "name": { "str": "NAK 9" },
-        "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting glock magazines, with an 11.14\" barrel."
+        "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
       }
     ],
     "weight": "2894 g",
