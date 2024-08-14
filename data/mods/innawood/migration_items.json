@@ -1,6 +1,11 @@
 [
   {
-    "id": "superglue",
+    "id": "bottle_plastic_tiny_glue",
+    "type": "MIGRATION",
+    "replace": "net_backpack"
+  },
+    {
+    "id": "super_glue",
     "type": "MIGRATION",
     "replace": "bone_glue"
   }
