@@ -2354,7 +2354,6 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
                                 string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
             cities_menu.entries.emplace_back( entry );
         }
-        cities_menu.w_height_setup = TERMY - 4;
     }
 }
 

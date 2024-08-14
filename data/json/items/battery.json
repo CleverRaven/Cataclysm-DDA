@@ -332,7 +332,7 @@
     "category": "tool_magazine",
     "name": { "str": "military plutonium fuel cell" },
     "description": "A battery that uses a huge plutonium-244 rod to stabilize an exotic nanocompound.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",
-    "weight": "64000 g",
+    "weight": "34000 g",
     "volume": "30 L",
     "price": "1 kUSD",
     "price_postapoc": "50 USD",
