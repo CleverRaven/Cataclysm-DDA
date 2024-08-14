@@ -584,7 +584,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a high-powered laser blast, doing 20 to 54 photokinetic damage plus 2.5 to 6 photokinetic damage per level to everything within the targeted line.<br />
 *Prerequisites*: Photon Beam 8, Lucent Barrier 6 *or* Refracted Arms 6<br />
 
-## Blinding Radiance
+## Blinding Radiance (C)
 *Difficulty*: 7<br />
 *Target*: Self<br />
 *Duration*: 59 seconds to 2 minutes and 58 seconds, plus 11 seconds to 47 seconds per power level<br />

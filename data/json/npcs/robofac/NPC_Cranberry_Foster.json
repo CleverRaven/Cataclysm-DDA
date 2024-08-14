@@ -308,7 +308,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "dialogue_robofac_merc_1_asked_gender", "value": "yes" } },
-            { "math": [ "n_val('npc_trust')", ">=", "3" ] }
+            { "math": [ "n_npc_trust()", ">=", "3" ] }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
@@ -694,8 +694,8 @@
         "effect": [
           { "u_consume_item": "gold_small", "count": 200 },
           { "u_spawn_item": "RobofacCoin", "count": 8 },
-          { "math": [ "n_val('npc_trust')", "++" ] },
-          { "math": [ "n_val('npc_value')", "++" ] }
+          { "math": [ "n_npc_trust()", "++" ] },
+          { "math": [ "n_npc_value()", "++" ] }
         ],
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_TRADE"
       },
@@ -768,8 +768,8 @@
         { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor", "++" ] },
         { "npc_lose_var": "general_robofac_merc_1_temporal_follower" },
         { "u_add_var": "general_robofac_merc_1_helped_with_missions", "value": "yes" },
-        { "math": [ "n_val('npc_trust')", "+=", "2" ] },
-        { "math": [ "n_val('npc_value')", "+=", "2" ] }
+        { "math": [ "n_npc_trust()", "+=", "2" ] },
+        { "math": [ "n_npc_value()", "+=", "2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
