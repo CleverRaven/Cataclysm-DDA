@@ -1795,7 +1795,7 @@
   {
     "id": "superglue",
     "type": "MIGRATION",
-    "replace": "bottle_plastic_tiny_glue",
+    "replace": "small_squeeze_tube",
     "contents": [ { "id": "super_glue", "count": 40 } ]
   }
 ]
