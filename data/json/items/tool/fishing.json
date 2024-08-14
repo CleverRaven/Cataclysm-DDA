@@ -72,11 +72,10 @@
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
     "melee_damage": { "bash": 12 }
   },
   {
