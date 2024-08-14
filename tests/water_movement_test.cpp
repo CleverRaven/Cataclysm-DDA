@@ -144,6 +144,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     // Put us back at 0. We shouldn't have to do this but other tests are
     // making assumptions about what z-level they're on.
+    dummy.setpos( test_origin );
     g->vertical_shift( 0 );
 }
 
