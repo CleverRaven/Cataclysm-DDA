@@ -3448,7 +3448,7 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
 
     std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
 
-    for( const JsonObject &jsobj : jo.get_array( member ) ) {
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
         const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
         const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
         item_and_amount.emplace_back( item, amount );
@@ -3463,7 +3463,7 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         double count_present;
         double charges_present;
 
-        for( auto &pair : item_and_amount ) {
+        for( const auto &pair : item_and_amount ) {
             item_to_remove = itype_id( pair.first.evaluate( d ) );
             count_desired = pair.second.evaluate( d );
             count_present = d.actor( is_npc )->get_amount( item_to_remove );
