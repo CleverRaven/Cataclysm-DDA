@@ -118,7 +118,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-2" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint( 0, 0, -2 ) );
+        dummy.setpos( test_origin );
         g->vertical_shift( -2 );
 
         WHEN( "avatar dives down" ) {
@@ -144,7 +144,6 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     // Put us back at 0. We shouldn't have to do this but other tests are
     // making assumptions about what z-level they're on.
-    dummy.setpos( test_origin );
     g->vertical_shift( 0 );
 }
 
