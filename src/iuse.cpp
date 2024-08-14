@@ -3404,16 +3404,24 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint &pos
 
 std::optional<int> iuse::c4( Character *p, item *it, const tripoint & )
 {
-    int time;
-    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
-    if( !got_value || time <= 0 ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return std::nullopt;
+    int time = 0;
+    bool got_value = false;
+    if( p->is_avatar() ) {
+        got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        if( !got_value || time <= 0 ) {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return std::nullopt;
+        }
     }
     p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
                                      "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
-    it->countdown_point = calendar::turn + time_duration::from_seconds( time );
+    if( got_value ) {
+        it->countdown_point = calendar::turn + time_duration::from_seconds( time );
+    } else {
+        // Uses value from the converted type (e.g. currently hardcoded c4armed)
+        it->countdown_point = calendar::turn + it->type->countdown_interval;
+    }
     it->active = true;
     return 1;
 }
