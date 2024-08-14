@@ -1082,12 +1082,6 @@ void editmap::edit_feature()
     using T_id = decltype( T_t().id.id() );
 
     uilist emenu;
-    emenu.w_width_setup = width;
-    emenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    emenu.w_y_setup = 0;
-    emenu.w_x_setup = offsetX;
     emenu.desc_enabled = true;
     emenu.input_category = "EDITMAP_FEATURE";
     emenu.additional_actions = {
@@ -1221,12 +1215,6 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_fld()
 {
     uilist fmenu;
-    fmenu.w_width_setup = width;
-    fmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    fmenu.w_y_setup = 0;
-    fmenu.w_x_setup = offsetX;
     setup_fmenu( fmenu );
     fmenu.input_category = "EDIT_FIELDS";
     fmenu.additional_actions = {
@@ -1285,15 +1273,9 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
-                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
+                shared_ptr_fast<uilist_impl> fmenu_ui = fmenu.create_or_get_ui();
 
                 uilist femenu;
-                femenu.w_width_setup = width;
-                femenu.w_height_setup = infoHeight;
-                femenu.w_y_setup = [this]( int ) -> int {
-                    return TERMY - infoHeight;
-                };
-                femenu.w_x_setup = offsetX;
 
                 femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
@@ -1397,12 +1379,6 @@ enum editmap_imenu_ent {
 void editmap::edit_itm()
 {
     uilist ilmenu;
-    ilmenu.w_x_setup = offsetX;
-    ilmenu.w_y_setup = 0;
-    ilmenu.w_width_setup = width;
-    ilmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight - 1;
-    };
     map_stack items = get_map().i_at( target );
     int i = 0;
     for( item &an_item : items ) {
@@ -1424,7 +1400,7 @@ void editmap::edit_itm()
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
 
-    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
+    shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
     do {
         info_txt_curr.clear();
@@ -1435,14 +1411,6 @@ void editmap::edit_itm()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
-            imenu.w_x_setup = offsetX;
-            imenu.w_y_setup = [this]( int ) -> int {
-                return TERMY - infoHeight - 1;
-            };
-            imenu.w_height_setup = [this]() -> int {
-                return infoHeight + 1;
-            };
-            imenu.w_width_setup = width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1466,7 +1434,7 @@ void editmap::edit_itm()
             };
             imenu.allow_additional = true;
 
-            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> imenu_ui = imenu.create_or_get_ui();
 
             do {
                 imenu.query();
@@ -1743,10 +1711,8 @@ int editmap::select_shape( shapetype shape, int mode )
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( action == "RESIZE" ) {
             if( !moveall ) {
-                const int offset = 16;
                 uilist smenu;
                 smenu.text = _( "Selection type" );
-                smenu.w_x_setup = ( offsetX + offset ) / 2;
                 smenu.addentry( editmap_rect, true, 'r', pgettext( "shape", "Rectangle" ) );
                 smenu.addentry( editmap_rect_filled, true, 'f', pgettext( "shape", "Filled Rectangle" ) );
                 smenu.addentry( editmap_line, true, 'l', pgettext( "shape", "Line" ) );
@@ -1850,15 +1816,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
 
     uilist gpmenu;
-    gpmenu.w_width_setup = width;
-    gpmenu.w_height_setup = infoHeight - 4;
-    gpmenu.w_y_setup = [this]( int ) -> int {
-        return TERMY - infoHeight;
-    };
-    gpmenu.w_x_setup = offsetX;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
@@ -1980,10 +1940,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
@@ -1995,7 +1955,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }
@@ -2130,12 +2090,6 @@ void editmap::mapgen_retarget()
 void editmap::edit_mapgen()
 {
     uilist gmenu;
-    gmenu.w_width_setup = width;
-    gmenu.w_height_setup = [this]() -> int {
-        return TERMY - infoHeight;
-    };
-    gmenu.w_y_setup = 0;
-    gmenu.w_x_setup = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
@@ -2195,7 +2149,7 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
-            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> gmenu_ui = gmenu.create_or_get_ui();
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
