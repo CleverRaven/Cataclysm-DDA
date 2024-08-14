@@ -585,8 +585,10 @@ void npc_attack_activate_item::use( npc &source, const tripoint &/*location*/ ) 
     if( !source.wield( activatable_item ) ) {
         debugmsg( "%s can't wield %s it tried to activate", source.disp_name(),
                   activatable_item.display_name() );
+        return;
     }
-    source.activate_item( activatable_item );
+    // npc::wield may invalidate activatable_item's reference
+    source.activate_item( *source.get_wielded_item() );
 }
 
 bool npc_attack_activate_item::can_use( const npc &source ) const
