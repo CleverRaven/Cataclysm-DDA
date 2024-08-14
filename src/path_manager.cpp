@@ -320,6 +320,7 @@ int path::avatar_closest_i_approximate() const
         // Asuming the path tiles are at most (1, 1, 1) apart,
         // we can skip as many tiles, as the curent tile is far from the `avatar_pos`.
         int diff = square_dist( *it, avatar_pos );
+        // TODO north is closer than northeast && north is closer than z-1
         if( diff < closest_dist ) {
             closest_i = it - recorded_path.begin();
             if( diff == 0 ) {
@@ -330,6 +331,11 @@ int path::avatar_closest_i_approximate() const
         it += diff;
     }
     return closest_i;
+    // TODO remove start and end distance?
+    /*
+    | name        | distance              | length |
+    | start | end | start | end | closest |        |
+    */
 }
 
 void path::serialize( JsonOut &jsout )
