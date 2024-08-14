@@ -179,7 +179,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AK pistol" },
-    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.  This one has a 12.5\" barrel.",
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
     "variant_type": "gun",
     "variants": [
       {
@@ -224,7 +224,7 @@
     "looks_like": "draco",
     "type": "GUN",
     "name": { "str": "Small AK pistol" },
-    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.  This one has a 7.75\" barrel",
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
     "variant_type": "gun",
     "variants": [
       {
@@ -269,7 +269,7 @@
     "looks_like": "draco",
     "type": "GUN",
     "name": { "str": "Tiny AK pistol" },
-    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.  This one has a 6.25\" barrel",
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has a distinctive, oddly curvy handguard.",
     "variant_type": "gun",
     "variants": [
       {
