@@ -889,8 +889,8 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_vie
         for( auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
             count_desired = pair.second.evaluate( d );
-            count_present = d.actor( is_npc )->get_amount( item_to_find ); 
-            charges_present = d.actor( is_npc )->charges_of( item_to_find ); 
+            count_present = d.actor( is_npc )->get_amount( item_to_find );
+            charges_present = d.actor( is_npc )->charges_of( item_to_find );
             total_present = std::max( count_present, charges_present );
             percent += total_present / count_desired;
 
