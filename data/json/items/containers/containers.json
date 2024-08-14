@@ -680,7 +680,7 @@
   },
   {
     "id": "bottle_plastic_tiny_glue",
-	"type": "GENERIC",
+    "type": "GENERIC",
     "copy-from": "bottle_plastic_tiny",
     "name": { "str": "tiny plastic glue bottle" },
     "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
