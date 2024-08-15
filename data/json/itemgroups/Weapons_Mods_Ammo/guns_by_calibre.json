@@ -88,6 +88,15 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_762_39",
+    "items": [
+      { "group": "nested_draco", "prob": 10 },
+      { "group": "nested_draco_mini", "prob": 5 },
+      { "group": "nested_draco_micro", "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
   },
@@ -278,6 +287,11 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_display_762_39",
+    "items": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_display_other",
     "items": [ { "item": "kp32", "prob": 5 }, { "item": "taurus_judge", "prob": 9 } ]
   },
@@ -287,7 +301,8 @@
     "items": [
       { "group": "nested_90two", "prob": 20 },
       { "group": "nested_usp_9mm", "prob": 13 },
-      { "group": "nested_p08", "prob": 7 }
+      { "group": "nested_p08", "prob": 7 },
+      { "group": "nested_draco_9mm", "prob": 14 }
     ]
   },
   {
@@ -304,11 +319,6 @@
     "type": "item_group",
     "id": "guns_pistol_rare_40",
     "items": [ { "group": "nested_90two40", "prob": 2 }, { "group": "nested_sig_40", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_762",
-    "items": [ { "group": "nested_draco", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -357,7 +367,12 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_display_9mm",
-    "items": [ { "item": "m9", "variant": "90two", "prob": 5 }, { "item": "usp_9mm", "prob": 48 }, { "item": "p08", "prob": 5 } ]
+    "items": [
+      { "item": "m9", "variant": "90two", "prob": 5 },
+      { "item": "usp_9mm", "prob": 48 },
+      { "item": "p08", "prob": 5 },
+      { "item": "draco_9mm", "prob": 21 }
+    ]
   },
   {
     "type": "item_group",
@@ -368,11 +383,6 @@
     "type": "item_group",
     "id": "guns_pistol_rare_display_40",
     "items": [ { "item": "90two40", "prob": 2 }, { "item": "sig_40", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_762",
-    "items": [ { "item": "draco", "prob": 20 } ]
   },
   {
     "type": "item_group",

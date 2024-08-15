@@ -217,7 +217,7 @@
   {
     "type": "item_group",
     "id": "afs_tools_scavenging",
-    "//": "lightweight tools used for finding and getting into places where you dont belong.",
+    "//": "lightweight tools used for finding and getting into places where you don't belong.",
     "items": [
       { "item": "electrohack", "prob": 100 },
       {
