@@ -3303,6 +3303,11 @@ bool map::can_put_items_ter_furn( const tripoint_bub_ms &p ) const
     return !has_flag( ter_furn_flag::TFLAG_NOITEM, p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, p );
 }
 
+bool map::has_flag_ter( const std::string &flag, const tripoint &p ) const
+{
+    return ter( p ).obj().has_flag( flag );
+}
+
 bool map::has_flag_ter( const std::string &flag, const tripoint_bub_ms &p ) const
 {
     return ter( p ).obj().has_flag( flag );
