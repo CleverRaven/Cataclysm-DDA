@@ -161,6 +161,21 @@
     "color": "dark_gray"
   },
   {
+    "id": "wool_staple",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "wool staple" },
+    "description": "A natural cluster of wool fibers.  Could be processed into felt patches or yarn.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "wool" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fur",
     "symbol": ",",
