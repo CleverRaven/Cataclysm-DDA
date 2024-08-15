@@ -104,7 +104,7 @@
     "id": "afs_civilian_energy_gun",
     "type": "item_group",
     "subtype": "distribution",
-    "//": "Plasma isnt sold to civilians",
+    "//": "Plasma isn't sold to civilians",
     "items": [ { "group": "afs_civilian_laser_gun", "prob": 12 }, { "group": "afs_civilian_voltaic_gun", "prob": 2 } ]
   },
   {
