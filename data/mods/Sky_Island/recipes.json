@@ -244,17 +244,20 @@
     ]
   },
   {
-    "result": "warped_pond",
+    "id": "sky_island_warped_pond",
+    "name": "Warped Pond",
+    "description": "Create a pond on your island.",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",
-    "subcategory": "CSC_WARP_ITEMS",
+    "subcategory": "CSC_WARP_UPGRADES",
     "skill_used": "survival",
-    "time": "1 m",
-    "autolearn": true,
+    "time": "0 m",
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 10 ] ], [ [ "water", 1000000 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "warptoken", 10 ] ], [ [ "water", -1 ] ] ],
+    "flags": [ "BLIND_EASY" ],
+    "result_eocs": [ "EOC_WARPED_POND_CREATION" ]
   }
 ]
