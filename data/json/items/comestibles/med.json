@@ -1125,7 +1125,7 @@
       "type": "consume_drug",
       "activation_message": "You put the anti-inflammatory eyedrops into your eyes.",
       "effects": [ { "id": "steroid_eye", "duration": "3 h" } ],
-	  "moves": 300
+      "moves": 300
     },
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
