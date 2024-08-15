@@ -1990,7 +1990,7 @@
     "max_duration": "3 m",
     "max_intensity": 4,
     "int_decay_tick": 40,
-    "resist_effects": [ "pkill_eye", "PAINRESIST" ],
+    "resist_effects": [ "steroid_eye", "PAINRESIST" ],
     "base_mods": { "per_mod": [ -1, 0 ], "pain_amount": [ 2, 0 ] },
     "scaling_mods": { "per_mod": [ -1 ], "pain_amount": [ 2, 1 ] },
     "limb_score_mods": [
@@ -2042,7 +2042,7 @@
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "30 m",
-    "resist_effects": [ "pkill_eye" ],
+    "resist_effects": [ "steroid_eye" ],
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5, -2 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 0.75 },
@@ -2107,7 +2107,7 @@
     "apply_message": "The chemical irritant damaged your eyes!",
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
-    "resist_effects": [ "pkill_eye" ],
+    "resist_effects": [ "steroid_eye" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
     "int_dur_factor": "50 m",
     "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1, 0 ], "pain_chance": [ 400, 1000 ] },
@@ -3119,12 +3119,11 @@
   },
   {
     "type": "effect_type",
-    "id": "pkill_eye",
-    "name": [ "Used Anesthetic Eye Drops" ],
-    "desc": [ "You have used anesthetic eye drops recently." ],
+    "id": "steroid_eye",
+    "name": [ "Used Steroid Eye Drops" ],
+    "desc": [ "You have used steroid eye drops recently." ],
     "rating": "good",
-    "max_duration": 1800,
-    "dur_add_perc": 35
+    "max_duration": 10800
   },
   {
     "type": "effect_type",
