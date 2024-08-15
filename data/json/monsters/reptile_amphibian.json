@@ -575,7 +575,7 @@
     "id": "mon_bullfrog_frog",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
-    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
+    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards, and any other living thing it can stuff down its gullet.",
     "name": { "str": "bullfrog" },
     "volume": "1000 ml",
     "weight": "750 g",
@@ -616,7 +616,7 @@
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
+    "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomiting."
   },
   {
     "id": "mon_freedom_toad",

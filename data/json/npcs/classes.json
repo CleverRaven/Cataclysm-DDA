@@ -127,7 +127,7 @@
     "type": "npc_class",
     "id": "NC_VETERINARIAN",
     "name": { "str": "Veterinarian" },
-    "//": "Reasonably, this class should recieve animal-specific medical proficiencies if they're ever added.",
+    "//": "Reasonably, this class should receive animal-specific medical proficiencies if they're ever added.",
     "job_description": "I'm looking for wounded to help.",
     "traits": [
       { "group": "BG_survival_story_STUCK_IN_TOWN" },

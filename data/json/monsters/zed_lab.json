@@ -40,7 +40,7 @@
     "id": "mon_zombie_phase_skulker",
     "type": "MONSTER",
     "name": { "str": "phase skulker" },
-    "description": "What remains of a researcher lost to the portal storms, twisted and enervated by the presences that lurk beneath natural perception.  It walks and stumbles in a stuttered manner, and is granted tenuous corporality only by grace of the experimental gear it wore when it died.",
+    "description": "What remains of a researcher lost to the portal storms, twisted and enervated by the presences that lurk beneath natural perception.  It walks and stumbles in a stuttered manner, and is granted tenuous corporeality only by grace of the experimental gear it wore when it died.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ABERRATION" ],

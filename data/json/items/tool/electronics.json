@@ -296,7 +296,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 5000,
+    "charges_per_use": 2400,
     "use_action": [ "MEASURE_RESONANCE" ],
     "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
     "pocket_data": [
