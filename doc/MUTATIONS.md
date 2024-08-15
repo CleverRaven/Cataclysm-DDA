@@ -10,7 +10,7 @@ Traits and mutations are the same thing in DDA's code. The terms are used interc
 
 There are two substances required to mutate: mutagen and primer. All mutagen and primers are handled as vitamins in the code.
 
-Mutagen is the core nutrient, and it's what is required to initate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
+Mutagen is the core nutrient, and it's what is required to initiate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
 
 Primers do not cause mutations to happen on their own, but instead influence what mutations the player gains. Think of mutagen as a car that can only drive on roads, and each type of primer as a possible road for the car to drive on. Every type of mutation category has an associated primer vitamin, and when mutating, the game will mutate down the category that has the most respective primer present. The car can't drive without any roads, but at the same time, the roads will do nothing without the car. Both nutrients are needed to cause mutation.
 
@@ -44,7 +44,7 @@ The mutation system works in several steps. All time references are in game time
   * Otherwise, the game chooses a random mutation in that category. This is the target mutation.
   * If the character has an existing trait that conflicts with the target mutation, the conflicting trait will be removed or downgraded, and nothing else will happen. Otherwise, the player will gain that mutation.
   * Each mutation attempt can take only one "step". For instance, if the game attempts to mutate towards the Beautiful trait while the character has no beauty-related traits, it would simply give them the Pretty trait, because Pretty is a prerequisite of Beautiful. However, if the character had the Ugly trait, then that trait would be removed and nothing else would happen.
-  * On a successful mutation, primer of that mutation's category is removed from the character's body. This defaults to 100, but can be overriden on a by-trait basis.
+  * On a successful mutation, primer of that mutation's category is removed from the character's body. This defaults to 100, but can be overridden on a by-trait basis.
   * Finally, Instability equal to the primer cost is added to the player. Instability is explained in the next section.
 5. When the player mutates towards a trait, if they have at least 2200 of the primer tied to that trait's category, attempt to cross the threshold. The game rolls a chance to pass the threshold, which is heavily influenced by how mutated into that category the player is. If the check succeeds, the player gains the threshold mutation and receives a unique message - they have "crossed the threshold".
 6. Repeat from step 3 until the character no longer has enough mutagen in their body to continue mutating. The `Changing` trait will be then removed, and the game will begin repeating step 1 once more until the character takes enough mutagen to begin mutating again.
