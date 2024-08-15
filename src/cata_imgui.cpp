@@ -436,6 +436,11 @@ void cataimgui::draw_colored_text( std::string const &text,
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
+
+    if( text.empty() ) {
+        ImGui::NewLine( );
+    }
+
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
