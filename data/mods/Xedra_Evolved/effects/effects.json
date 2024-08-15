@@ -1773,6 +1773,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_walk_on_water_magic_square",
+    "name": [ "To Walk Upon the Water" ],
+    "desc": [ "NAHARIAMA\nA  Q\nH      E\nA Q\nR\nI\nA      Q\nM     QA\nA." ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "max_duration": "30 m",
+    "max_intensity": 1800,
+    "int_dur_factor": "1 s",
+    "rating": "good",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [

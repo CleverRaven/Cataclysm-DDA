@@ -153,7 +153,8 @@
         "hedge_breathe_water_magic_square",
         "hedge_bash_terrain_magic_square",
         "hedge_food_or_drink_magic_square",
-        "hedge_armed_men_magic_square"
+        "hedge_armed_men_magic_square",
+        "hedge_invisibility_magic_square"
       ]
     }
   }

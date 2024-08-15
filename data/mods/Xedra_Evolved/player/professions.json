@@ -472,7 +472,8 @@
       { "id": "hedge_breathe_water_magic_square", "level": 1 },
       { "id": "hedge_bash_terrain_magic_square", "level": 1 },
       { "id": "hedge_food_or_drink_magic_square", "level": 1 },
-      { "id": "hedge_armed_men_magic_square", "level": 1 }
+      { "id": "hedge_armed_men_magic_square", "level": 1 },
+      { "id": "hedge_invisibility_magic_square", "level": 1 }
     ],
     "items": {
       "both": {
