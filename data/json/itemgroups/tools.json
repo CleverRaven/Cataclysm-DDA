@@ -195,7 +195,6 @@
       [ "jerrycan_big", 10 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
       { "item": "dehydrator", "prob": 5 },
-      [ "tongs", 1 ],
       [ "tourist_table", 1 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
