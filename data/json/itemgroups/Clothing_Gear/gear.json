@@ -23,7 +23,7 @@
   {
     "id": "gasmask_inserts_in_use",
     "type": "item_group",
-    "//": "Accessories grouped together for use as pre-installed spawnes within gas masks.",
+    "//": "Accessories grouped together for use as pre-installed spawns within gas masks.",
     "subtype": "distribution",
     "items": [
       {

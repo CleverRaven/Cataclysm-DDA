@@ -364,7 +364,7 @@
     "burn_into": "mon_frog_husk",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "//": "Translation note - 'Croaked' is a euphimistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
+    "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
   {
     "id": "mon_frog_shadow",

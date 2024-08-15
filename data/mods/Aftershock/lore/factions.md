@@ -1,6 +1,6 @@
 
 ## United Interstellar Coordination Agency [UICA]
-Formed relatively recently, after the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's control. Since most colonies never possessed the technological and industrial base to support themselves on the long term, this goal is usually achieved through relatively peaceful means, even then, UICA fields the largest military in human history for when peaceful reintegration isnt possible.
+Formed relatively recently, after the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's control. Since most colonies never possessed the technological and industrial base to support themselves on the long term, this goal is usually achieved through relatively peaceful means, even then, UICA fields the largest military in human history for when peaceful reintegration isn't possible.
 
 While this all nice and noble (as long as you ask an Earthling) this far out in the frontier UICA personnel is either irremediably corrupt and/or incompetent. They will willingly part with valuable military equipment or classified information in exchange for appropriate sums of money or personal favors.
 
