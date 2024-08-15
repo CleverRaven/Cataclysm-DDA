@@ -1250,12 +1250,9 @@
     "desc": [ "You are glowing like the sun." ],
     "apply_message": "",
     "remove_message": "The last light finally dies.",
-    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 46,
-    "dur_add_perc": 10,
-    "int_dur_factor": "20 s",
     "base_mods": { "dodge_mod": [ 4 ] },
     "enchantments": [ "enchant_photokin_blinding_glare" ]
   },
@@ -1298,15 +1295,9 @@
     "desc": [ "The air around you has its temperature controlled." ],
     "apply_message": "",
     "remove_message": "A cool breeze hits your skin.",
-    "decay_messages": [
-      [ "The warm air you've surrounded yourself with is nearly spent.", "bad" ],
-      [ "The air around you is slowing beginning to cool.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "60 minutes",
+    "max_duration": "7 days",
     "max_intensity": 77,
-    "dur_add_perc": 10,
-    "int_dur_factor": "46 s",
     "enchantments": [ "enchant_pyrokin_cloak" ],
     "flags": [ "BARKY" ]
   },

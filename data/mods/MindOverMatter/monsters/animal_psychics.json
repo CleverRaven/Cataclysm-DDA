@@ -26,10 +26,10 @@
     "regenerates": 1,
     "special_attacks": [
       [ "EAT_FOOD", 20 ],
-      { "type": "bite", "cooldown": { "math": [ "7 + rand(19)" ] }, "infection_chance": 44 },
+      { "type": "bite", "cooldown": { "math": [ "7 + rand(14)" ] }, "infection_chance": 44 },
       {
         "id": "ranged_pull",
-        "cooldown": { "math": [ "10 + rand(15)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
@@ -85,7 +85,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "psychic_shriek",
-        "cooldown": { "math": [ "2 + rand(7)" ] },
+        "cooldown": { "math": [ "3 + rand(6)" ] },
         "move_cost": 100,
         "range": 3,
         "dodgeable": false,
@@ -134,18 +134,18 @@
       {
         "id": "scratch",
         "move_cost": 140,
-        "cooldown": { "math": [ "1 + rand(4)" ] },
+        "cooldown": { "math": [ "1 + rand(3)" ] },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.75 } ],
         "min_mul": 1.5,
         "max_mul": 3.5
       },
-      { "id": "stag_smash", "cooldown": { "math": [ "10 + rand(15)" ] }, "min_mul": 0.8, "throw_strength": 70 },
+      { "id": "stag_smash", "cooldown": { "math": [ "7 + rand(15)" ] }, "min_mul": 0.8, "throw_strength": 70 },
       {
         "id": "psi_hodag_speed_boost",
         "type": "spell",
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
-        "cooldown": { "math": [ "9 + rand(22)" ] },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
         "monster_message": "%1$s moves too quickly for the eye to follow!"
       },
       {
@@ -205,7 +205,7 @@
         "id": "psi_cockatrice_telepathic_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
-        "cooldown": { "math": [ "9 + rand(22)" ] },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
@@ -268,7 +268,7 @@
         "id": "psi_pigeon_telepathic_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
-        "cooldown": { "math": [ "9 + rand(22)" ] },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$'s third eye opens and it coos!"
       },
@@ -308,7 +308,7 @@
         "id": "psi_gremlin_power_draining_spell",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_power_draining" },
-        "cooldown": { "math": [ "rand(45) + 5" ] },
+        "cooldown": { "math": [ "5 + rand(45)" ] },
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "Sparks flicker over %1$s's fur."

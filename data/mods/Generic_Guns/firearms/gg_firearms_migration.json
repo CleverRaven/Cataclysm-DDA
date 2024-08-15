@@ -56,7 +56,17 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
+    "id": [
+      "deagle_44",
+      "modular_deagle",
+      "modular_deagle_357",
+      "modular_deagle_44",
+      "modular_deagle_50",
+      "m1911-460",
+      "draco",
+      "draco_mini",
+      "draco_micro"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -153,7 +163,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895", "draco_9mm" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
