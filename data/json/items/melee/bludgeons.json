@@ -73,7 +73,7 @@
     "type": "GENERIC",
     "id": "bat",
     "name": { "str": "baseball bat" },
-    "description": "A sturdy wooden bat with a plastic handle.  Makes a great melee weapon.",
+    "description": "A sturdy wooden bat used to play the great american pastime.  Makes for a great melee weapon too.",
     "weight": "1133 g",
     "longest_side": "90 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
