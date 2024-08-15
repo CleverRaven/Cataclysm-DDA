@@ -930,20 +930,35 @@
     "id": "EOC_WARPED_POND_CREATION",
     "effect": [
       {
-        "run_eoc_selector": [
-          "EOC_WARPED_POND_CREATION_NW",
-          "EOC_WARPED_POND_CREATION_NE",
-          "EOC_WARPED_POND_CREATION_SW",
-          "EOC_WARPED_POND_CREATION_SE"
-        ],
-        "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
-        "title": "Choose the location for a pond",
-        "descriptions": [
-          "Place a pond in the northwest.",
-          "Place a pond in the northeast.",
-          "Place a pond in the southwest.",
-          "Place a pond in the southeast."
-        ]
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "warped_pond_location" },
+          "message": "Select nearby water source"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
+          "then": {
+            "run_eoc_selector": [
+              "EOC_WARPED_POND_CREATION_NW",
+              "EOC_WARPED_POND_CREATION_NE",
+              "EOC_WARPED_POND_CREATION_SW",
+              "EOC_WARPED_POND_CREATION_SE"
+            ],
+            "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
+            "title": "Choose the location for a pond",
+            "descriptions": [
+              "Place a pond in the northwest.",
+              "Place a pond in the northeast.",
+              "Place a pond in the southwest.",
+              "Place a pond in the southeast."
+            ]
+          },
+          "else": [
+            { "u_spawn_item": "warptoken", "count": 10, "suppress_message": true },
+            { "u_message": "You must be near a water source to created a warped pond.", "type": "neutral" }
+          ]
+        },
+        "else": { "u_message": "Canceled" }
       }
     ]
   },
