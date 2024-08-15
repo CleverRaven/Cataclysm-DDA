@@ -66,6 +66,7 @@
         "cooldown": { "math": [ "7 + rand(19)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 6, "armor_multiplier": 0.8 } ],
         "effects": [ { "id": "effect_psi_neutralized", "duration": 15 } ],
+        "effects_require_dmg": false,
         "hit_dmg_u": "%1$s strikes at your %2$s!",
         "hit_dmg_npc": "%1$s strikes at <npcname>!",
         "miss_msg_u": "%1$s strikes at you, but you dodge!",
@@ -85,6 +86,7 @@
         "id": "zombie_null_nether_banish_monster",
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster" },
+        "condition": { "npc_has_species": "NETHER" },
         "cooldown": { "math": [ "10 + rand(25)" ] },
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
       }
@@ -124,7 +126,7 @@
     "grab_strength": 30,
     "special_attacks": [
       { "id": "grab" },
-      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(5)" ] } },
       {
         "id": "scratch",
         "cooldown": { "math": [ "5 + rand(13)" ] },
@@ -140,7 +142,8 @@
         "id": "zombie_anti_concentration_spell",
         "type": "spell",
         "spell_data": { "id": "null_break_concentration_spell" },
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "condition": "npc_is_character",
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
       }
     ],
@@ -173,13 +176,14 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 5,
+    "attack_effs": [ { "id": "effect_psi_neutralized", "duration": 5 } ],
     "bleed_rate": 50,
     "vision_day": 35,
     "vision_night": 5,
-    "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
+    "emit_fields": [ { "emit_id": "emit_anti_psi_void", "delay": "1 s" } ],
     "grab_strength": 50,
     "special_attacks": [
-      { "id": "ranged_pull", "range": 3 },
+      { "id": "ranged_pull", "range": 3, "no_adjacent": true },
       { "id": "grab_drag", "cooldown": { "math": [ "2 + rand(3)" ] } },
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(5)" ] } },
@@ -188,6 +192,7 @@
         "cooldown": { "math": [ "6 + rand(15)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 6, "armor_multiplier": 0.8 } ],
         "effects": [ { "id": "effect_psi_neutralized", "duration": 30 } ],
+        "effects_require_dmg": false,
         "hit_dmg_u": "%1$s strikes at your %2$s!",
         "hit_dmg_npc": "%1$s strikes at <npcname>!",
         "miss_msg_u": "%1$s strikes at you, but you dodge!",
@@ -207,6 +212,7 @@
         "id": "zombie_void_nether_banish_monster",
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster_greater" },
+        "condition": { "npc_has_species": "NETHER" },
         "cooldown": { "math": [ "7 + rand(19)" ] },
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision creeps inward for a moment."
       }

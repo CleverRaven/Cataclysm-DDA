@@ -37,6 +37,7 @@
     "id": "NC_CARAVAN_MERCHANT",
     "name": { "str": "Trader" },
     "job_description": "I'm collecting gear and selling it.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_EVACUEE" },
       { "group": "NPC_starting_traits" },
@@ -53,6 +54,7 @@
     "id": "NC_CARAVAN_GUARD",
     "name": { "str": "Bounty Hunter" },
     "job_description": "I'm a killer for hire.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_POLICE" },
       { "group": "NPC_starting_traits" },

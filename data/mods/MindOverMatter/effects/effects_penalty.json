@@ -128,6 +128,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_turn_off_powers",
+    "//": "This exists to trigger EoCs or as a rider on other psi effects",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_psi_neutralized",
     "name": [ "Neutralized" ],
     "//": "Same as above but it also cancels all active psionic buffs on the target.  Should be used very rarely.",
