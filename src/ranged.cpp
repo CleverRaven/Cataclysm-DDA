@@ -33,6 +33,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -173,6 +174,8 @@ static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
@@ -654,10 +657,29 @@ bool Character::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.has_fault_flag( "JAMMED_GUN" ) ) {
-        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
+    if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
+        add_msg_if_player( m_warning, _( "Your %s is too hot, it is too dangerous to continue the fire." ),
+                           it.tname() );
         return false;
     }
+
+    // if it's a simple fault, character can try to fix it on the fly
+    if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+        if( one_in( 10 ) ) {
+            add_msg_if_player( m_warning,
+                               _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
+                               it.tname() );
+            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+        } else {
+            add_msg_if_player( m_warning,
+                               _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
+                               it.tname() );
+        }
+        mod_moves( -get_speed() * rng( 1, 3 ) );
+        recoil = MAX_RECOIL;
+        return false;
+    }
+
     if( it.has_fault_flag( "RUINED_GUN" ) ) {
         add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
         return false;
@@ -684,19 +706,26 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
-
-    double mag_ftf_chance = 0.0;
-    double mag_damage = 0.0;
-    if (it.magazine_current()) { 
-    mag_ftf_chance = it.magazine_current()->type->magazine->mag_fail_to_feed_chance;
-    mag_damage = it.magazine_current()->damage() / 1000.0;
+    double default_gun_jam_chance = 0.00027;
+    double default_magazine_jam_chance = 0.00053;
+    double mag_jam_mult = 0;
+    double mag_damage = 0;
+    if( it.magazine_current() ) {
+        mag_jam_mult = it.magazine_current()->type->magazine->mag_jam_mult;
+        mag_damage = it.magazine_current()->damage() / 1000.0;
     }
     const double gun_damage = it.damage() / 1000.0;
-    const double gun_ftf_chance = firing.gun_fail_to_feed_chance;
+    const double gun_jam_mult = firing.gun_jam_mult;
 
-    const double jam_chance = (mag_ftf_chance + gun_ftf_chance) * std::pow(2, (gun_damage * 1.75) + (mag_damage * 2));
-     
-    add_msg_debug(debugmode::DF_RANGED, "Gun fail to feed chance: %g\nMagazine fail to feed chance: %g\nGun damage level: %g\nMagazine damage level: %g\nFail to feed chance: %g%%", gun_ftf_chance, mag_ftf_chance, gun_damage, mag_damage, jam_chance * 100);
+    double gun_jam_chance = default_gun_jam_chance * gun_jam_mult;
+    double mag_jam_chance = default_magazine_jam_chance * mag_jam_mult;
+
+    const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * std::pow( 2,
+                              ( gun_damage * 1.75 ) + ( mag_damage * 2 ) );
+
+    add_msg_debug( debugmode::DF_RANGED,
+                   "Gun jam chance: %g\nMagazine jam chance: %g\nGun damage level: %g\nMagazine damage level: %g\nFail to feed chance: %g%%",
+                   gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance * 100 );
 
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
@@ -713,20 +742,20 @@ bool Character::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    }
-    else if (one_in((2 << effective_durability) * 3) && !it.has_flag(flag_NEVER_JAMS)) {
-        add_msg_player_or_npc(_("Your %s malfunctions!"),
-            _("<npcname>'s %s malfunctions!"),
-            it.tname());
+    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
+        add_msg_player_or_npc( _( "Your %s malfunctions!" ),
+                               _( "<npcname>'s %s malfunctions!" ),
+                               it.tname() );
         return false;
-        // Here we check for a chance for the weapon to suffer a failure to feed
-        // usually caused by the magazine size or condition
-    }
-    else if (x_in_y(jam_chance, 1 )) {
-        add_msg_player_or_npc(_("Your %s didn't load into the chamber!"),
-            _("<npcname>'s %s didn't load into the chamber!"),
-            it.tname());
+
+        // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
+    } else if( x_in_y( jam_chance, 1 ) ) {
+        add_msg_player_or_npc( _( "Your %s didn't load into the chamber!" ),
+                               _( "<npcname>'s %s didn't load into the chamber!" ),
+                               it.tname() );
+        it.faults.insert( faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) );
         return false;
+
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
@@ -987,11 +1016,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             gun.reload( you, ammo, 1 );
             you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
                                   get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-        }
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            mod_moves( -get_speed() * 0.5 );
-            gun.faults.erase( fault_gun_chamber_spent );
-            add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
         if( !handle_gun_damage( gun ) ) {
