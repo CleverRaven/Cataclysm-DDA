@@ -3,7 +3,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bat",
-    "byproducts": [ [ "splinter", 10 ] ],
+    "byproducts": [ [ "splinter", 30 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
