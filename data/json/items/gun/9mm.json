@@ -1313,5 +1313,58 @@
       }
     ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "draco_9mm",
+    "//": "Based off of https://www.centuryarms.com/draco-nak9.html",
+    "copy-from": "pistol_base",
+    "looks_like": "draco",
+    "type": "GUN",
+    "name": { "str": "Glock AK pistol" },
+    "description": "A 9mm AK pistol that accepts Glock magazines.  Has an 11.14\" barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_9mm",
+        "name": { "str": "NAK 9" },
+        "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
+      }
+    ],
+    "weight": "2894 g",
+    "volume": "1617 ml",
+    "longest_side": "495 mm",
+    "barrel_length": "283 mm",
+    "price": "699 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "//1": "Surface as line, as there's only 1 face to hit something with, and requires a really weird grip angle",
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "range": 5,
+    "dispersion": 250,
+    "durability": 7,
+    "min_cycle_recoil": 380,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]
