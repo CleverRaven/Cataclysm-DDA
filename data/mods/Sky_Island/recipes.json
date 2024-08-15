@@ -256,7 +256,7 @@
     "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 10 ] ] ],
+    "components": [ [ [ "warptoken", 30 ] ] ],
     "flags": [ "BLIND_EASY" ],
     "result_eocs": [ "EOC_WARPED_POND_CREATION" ]
   }
