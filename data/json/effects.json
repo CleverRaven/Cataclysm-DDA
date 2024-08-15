@@ -2150,9 +2150,8 @@
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.9, "resist_modifier": 0.95 } ],
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-	"max_duration": "7 days",
-	"dur_add_perc": 35
-	
+    "max_duration": "7 days",
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
