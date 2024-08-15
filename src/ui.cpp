@@ -129,8 +129,9 @@ void uilist_impl::draw_controls()
 
     if( parent.desc_enabled ) {
         ImGui::Separator();
-        ImGui::TextWrapped( "%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str()
-                            : parent.footer_text.c_str() );
+        cataimgui::draw_colored_text( parent.footer_text.empty() ?
+                                      parent.entries[parent.selected].desc.c_str()
+                                      : parent.footer_text.c_str() );
     }
 }
 

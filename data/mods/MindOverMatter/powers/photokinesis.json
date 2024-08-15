@@ -432,6 +432,7 @@
     "name": "[Ψ]Lucid Shadows",
     "description": "Form images of yourself to confuse and distract enemies.",
     "message": "Identical copies of you suddenly appear!",
+    "teachable": false,
     "valid_targets": [ "ground", "hostile", "self", "ally" ],
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
