@@ -840,7 +840,7 @@ Transformed active mutations (extended claws etc) properly cause instability
 Only count CONTAINER type pockets in the pickup inventory
 Allow select-all when highlighted item is non-selectable
 Eddie can talk about his father.
-Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall length is too long
+Fixes issue where ImGui popup doesn't wrap buttons to a new line when the overall length is too long
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
 AIM: Now moving all items will not move favourite items, if other items are present.
@@ -1000,7 +1000,7 @@ Adds VS Code Dev Containers & Workspace Config
 Allow for cross-compiling from Linux to Windows in Devcontainer
 Faster local VS builds
 Fast Windows iteration with llvm-lib and lld-link
-Cross compile object creator from linux to Windows using Devcontainer
+Cross compile object creator from Linux to Windows using Devcontainer
 add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
@@ -1014,7 +1014,7 @@ Update Flatpak manifest to use clang and include the default soundpack
 stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
-Fixed linux experimental build automation issues caused by SDL dependencies
+Fixed Linux experimental build automation issues caused by SDL dependencies
 
 
 ## I18N and A11Y:
@@ -1134,7 +1134,7 @@ Hunted scenario adds a nemesis zombie chasing the PC
 Practice recipes
 Player can nickname monsters
 All items can have cosmetic variants now
-Tons of work on zones, such as personal zones, dissasembly zones and automop zones
+Tons of work on zones, such as personal zones, disassembly zones and automop zones
 Allow non-debug change of gender, hair, facial hair, eye and skin color
 Books can now be copied into a variety of condensing items: ebooks, book binders etc
 PC can track their adventure in their diary
@@ -1258,7 +1258,7 @@ Show properly-fitted clothing in the crafting screen
 Progress update while heating food
 Hides the old sidebars and replaces them with fancy json sidebars
 Jsonified "Unexplored" OMT
-Support fuzzy search with accented latin letters
+Support fuzzy search with accented Latin letters
 Many new color themes
 Possibility to turn distractions on and off
 Show compatible guns in magazine descriptions
@@ -1305,7 +1305,7 @@ Dinomod Apex predators don't appear randomly day one
 Adds TropiCataclysm to the repository
 craftable holiday sweaters for dinos
 Hylian Adventurer Profession for Mythical Martial Arts
-Many south american animals added to Tropicataclysm
+Many South American animals added to Tropicataclysm
 Adds an innawood mod for wilderness survival.
 Aftershock Exoplanet: Glacial tunnels, a new low-risk area and the fauna that inhabits them
 TropiCataclysm Adds Termites and new content for Triffids
