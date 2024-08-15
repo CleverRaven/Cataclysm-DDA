@@ -1063,7 +1063,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     // TODO: Move this to update_needs when NPCs can mutate
     if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
             u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
-        here.is_outside( u.pos() ) ) {
+        here.is_outside( u.pos_bub() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
@@ -1085,7 +1085,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos_bub() ) ) {
                 if( u.get_sleepiness() >= 0 ) {
                     u.mod_sleepiness( -5 ); // Local guides need less sleep on fungal soil
                 }

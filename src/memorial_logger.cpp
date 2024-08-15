@@ -42,6 +42,7 @@
 #include "mutation.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
@@ -127,7 +128,7 @@ void memorial_logger::add( const std::string_view male_msg,
 
     const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
-    const std::string &oter_name = cur_ter->get_name();
+    const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
     log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }

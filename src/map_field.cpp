@@ -643,7 +643,7 @@ static void field_processor_extra_radiation( const tripoint &p, field_entry &cur
     const field_intensity_level &ilevel = cur.get_intensity_level();
     if( ilevel.extra_radiation_max > 0 ) {
         int extra_radiation = rng( ilevel.extra_radiation_min, ilevel.extra_radiation_max );
-        pd.here.adjust_radiation( p, extra_radiation );
+        pd.here.adjust_radiation( tripoint_bub_ms( p ), extra_radiation );
     }
 }
 
@@ -1068,7 +1068,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
     int part;
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
-    vehicle *veh = here.veh_at_internal( p, part );
+    vehicle *veh = here.veh_at_internal( tripoint_bub_ms( p ), part );
     if( veh != nullptr ) {
         veh->damage( here, part, cur.get_field_intensity() * 10, damage_heat, true );
         // Damage the vehicle in the fire.
@@ -1087,7 +1087,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
@@ -1098,7 +1098,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1495,7 +1495,7 @@ void map::player_in_field( Character &you )
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if( you.in_vehicle ) {
-        if( const optional_vpart_position vp = veh_at( you.pos() ) ) {
+        if( const optional_vpart_position vp = veh_at( you.pos_bub() ) ) {
             inside = vp->is_inside();
         }
     }
@@ -1810,7 +1810,7 @@ void map::creature_in_field( Creature &critter )
             // If we are in a vehicle figure out if we are inside (reduces effects usually)
             // and what part of the vehicle we need to deal with.
             if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( you->pos() ) ) {
+                if( const optional_vpart_position vp = veh_at( you->pos_bub() ) ) {
                     if( vp->is_inside() ) {
                         inside_vehicle = true;
                     }
@@ -1820,7 +1820,7 @@ void map::creature_in_field( Creature &critter )
         }
     }
 
-    field &curfield = get_field( critter.pos() );
+    field &curfield = get_field( critter.pos_bub() );
     for( auto &field_entry_it : curfield ) {
         field_entry &cur_field_entry = field_entry_it.second;
         if( !cur_field_entry.is_field_alive() ) {
@@ -1865,7 +1865,7 @@ void map::creature_in_field( Creature &critter )
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
             if( cur_field_id->decrease_intensity_on_contact ) {
-                mod_field_intensity( critter.pos(), cur_field_id, -1 );
+                mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
             }
         }
     }
@@ -1877,11 +1877,11 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
-    if( veh_at( z.pos() ) ) {
+    if( veh_at( z.pos_bub() ) ) {
         // FIXME: Immune when in a vehicle for now.
         return;
     }
-    field &curfield = get_field( z.pos() );
+    field &curfield = get_field( z.pos_bub() );
 
     int dam = 0;
     // Iterate through all field effects on this tile.

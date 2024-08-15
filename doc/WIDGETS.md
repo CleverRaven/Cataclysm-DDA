@@ -601,9 +601,9 @@ If you have a `text` style widget that has no other options for what to display,
 
 ## fill
 
-For "graph" widgets with more than two sybols, different ways of filling up the graph become
+For "graph" widgets with more than two symbols, different ways of filling up the graph become
 possible.  The method is specified with the "fill" field. By default the "bucket" fill method is
-used, but there is also a "pool" method described helow.
+used, but there is also a "pool" method described below.
 
 With "bucket" fill, positions are filled like a row of buckets, using all symbols in the first
 position before beginning to fill the next position.  This is like the classic 5-bar HP meter.
@@ -969,7 +969,7 @@ In the example above, the widget would print out the following text:
 # Variable ranges
 
 Widgets using a numeric "var" (those without a `_text` suffix) have a predetermined absolute range
-(minimum and maximum), as well as a predermined normal value or range.  These limits are not
+(minimum and maximum), as well as a predetermined normal value or range.  These limits are not
 customizable in widget JSON, but knowing about them will make it easier to understand how "graph"
 widgets are drawn, and how the "colors" list is mapped to the variable's numeric range.
 

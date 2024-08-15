@@ -1,5 +1,11 @@
 [
   {
+    "id": "modular_m4a1",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_m4_carbine", "contents-item": [ "retool_ar15_223rem_medium" ] } ]
+  },
+  {
     "id": "m4_cqbr",
     "type": "item_group",
     "subtype": "collection",
@@ -94,6 +100,12 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_762" } ]
+  },
+  {
+    "id": "ar15_22",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_22" } ]
   },
   {
     "id": "mdrx_223",

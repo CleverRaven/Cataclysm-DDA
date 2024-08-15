@@ -71,7 +71,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    const tripoint &pt = attack.end_point;
+    const tripoint_bub_ms &pt = tripoint_bub_ms( attack.end_point );
 
     if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
@@ -173,7 +173,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt, dropped_item );
+            tr.trigger( pt.raw(), dropped_item );
         }
     }
 }
@@ -202,6 +202,8 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
     aim.dispersion = dispersion.roll();
+    add_msg_debug( debugmode::DF_BALLISTIC, "Dispersion rolled / max : %f / %f; %f / %f degrees",
+                   aim.dispersion, dispersion.max(), aim.dispersion / 60.0, dispersion.max() / 60.0 );
 
     // an isosceles triangle is formed by the intended and actual target tiles
     aim.missed_by_tiles = iso_tangent( range, units::from_arcmin( aim.dispersion ) );
@@ -297,8 +299,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * sin( rad ) );
+        target.x = std::clamp( source.x + roll_remainder( new_range * cos( rad ) ), 0, MAPSIZE_X - 1 );
+        target.y = std::clamp( source.y + roll_remainder( new_range * sin( rad ) ), 0, MAPSIZE_Y - 1 );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );
@@ -521,7 +523,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
+    int dealt_damage = attack.dealt_dam.total_damage();
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
         explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );

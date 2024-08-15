@@ -238,7 +238,7 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
     "type": "talk_topic",
-    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.",
+    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.\"",
     "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
   },
   {
@@ -437,7 +437,7 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success",
     "type": "talk_topic",
-    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.\"",
     "responses": [
       {
         "text": "Glad to help.",
@@ -454,7 +454,7 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail",
     "type": "talk_topic",
-    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.\"",
     "responses": [
       {
         "text": "Alright then, <name_b>.  I guess that's what I get for my troubles.",

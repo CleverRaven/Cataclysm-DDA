@@ -4,13 +4,7 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
-        "prob": 88,
-        "charges": [ 0, 30 ],
-        "contents-group": "issued_carbine_mods"
-      },
+      { "group": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
@@ -32,7 +26,7 @@
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+    "entries": [ { "group": "modular_m4a1", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
@@ -638,7 +632,7 @@
       { "item": "20x66_slug", "prob": 4 },
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 7 },
+      { "group": "modular_m4a1", "prob": 7 },
       { "group": "m4_cqbr", "prob": 1 },
       { "item": "modular_m16a4", "prob": 5 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_m16a3", "prob": 1 },

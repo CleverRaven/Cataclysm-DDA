@@ -259,8 +259,7 @@
       "ruger_arr_mag",
       "bren2_762mag30",
       "bren2_762mag10",
-      "g36mag_30rd",
-      "g36mag_100rd",
+      "sl8mag",
       "blrmag",
       "m1918bigmag",
       "m1918mag",
@@ -308,7 +307,9 @@
       "m1carbinebigmag",
       "zpap85mag",
       "papm77mag",
-      "papm77mag_10rd"
+      "papm77mag_10rd",
+      "22_ar15mag_10",
+      "22_ar15mag_28"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
@@ -381,6 +382,9 @@
       "saiga10mag",
       "saiga30mag",
       "srm_1216_mag_16",
+      "mka_1919_5",
+      "mka_1919_10",
+      "mka_1919_20",
       "afs_raketa30mag",
       "afs_shot_speedloader8",
       "USAS10mag",

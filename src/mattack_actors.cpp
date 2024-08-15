@@ -12,6 +12,7 @@
 #include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -366,6 +367,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
+    optional( obj, was_loaded, "eoc", eoc );
     optional( obj, was_loaded, "hitsize_min", hitsize_min, -1 );
     optional( obj, was_loaded, "hitsize_max", hitsize_max, -1 );
     optional( obj, was_loaded, "attack_upper", attack_upper, true );
@@ -467,7 +469,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     }
     // Handle some messaging in-grab
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     Character *foe = target->as_character();
     map &here = get_map();
@@ -489,7 +491,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         }
         add_msg_debug( debugmode::DF_MATTACK, "Target weight %d g under weight limit  %.1f g, ",
                        to_gram( target->get_weight() ), to_gram( z.get_weight() ) * grab_data.pull_weight_ratio );
-        const optional_vpart_position veh_part = here.veh_at( target->pos() );
+        const optional_vpart_position veh_part = here.veh_at( target->pos_bub() );
         if( foe && foe->in_vehicle && veh_part ) {
             const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
             if( vp_seatbelt ) {
@@ -914,6 +916,14 @@ bool melee_actor::call( monster &z ) const
             }
         }
     }
+
+    //run EoCs
+    for( const effect_on_condition_id &eoc : eoc ) {
+        dialogue d( get_talker_for( z ), get_talker_for( target ) );
+        write_var_value( var_type::context, "npctalk_var_damage", &d, damage_total );
+        eoc->activate( d );
+    }
+
     return true;
 }
 

@@ -154,6 +154,7 @@ static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -494,7 +495,7 @@ std::optional<int> iuse::sewage( Character *p, item *, const tripoint & )
 
 std::optional<int> iuse::honeycomb( Character *p, item *, const tripoint & )
 {
-    get_map().spawn_item( p->pos(), itype_wax, 2 );
+    get_map().spawn_item( p->pos_bub(), itype_wax, 2 );
     return 1;
 }
 
@@ -676,8 +677,8 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
     }
-    if( p->has_effect( effect_conjunctivitis ) ) {
-        effect &eff = p->get_effect( effect_conjunctivitis );
+    if( p->has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) ) {
+        effect &eff = p->get_effect( effect_conjunctivitis, bodypart_id( "eyes" ) );
         if( eff.get_duration() > 2_days ) {
             p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
             eff.set_duration( 2_days );
@@ -1810,13 +1811,13 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint & )
     if( !pnt_ ) {
         return std::nullopt;
     }
-    const tripoint pnt = *pnt_;
+    const tripoint_bub_ms pnt = tripoint_bub_ms( *pnt_ );
 
     if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return std::nullopt;
     }
-    if( !good_fishing_spot( pnt, p ) ) {
+    if( !good_fishing_spot( pnt.raw(), p ) ) {
         return std::nullopt;
     }
     it->active = true;
@@ -2218,7 +2219,7 @@ class exosuit_interact
                 } else if( ret == 0 ) {
                     // Unload existing module
                     pkt->remove_items_if( [&c, &here]( const item & i ) {
-                        here.add_item_or_charges( c.pos(), i );
+                        here.add_item_or_charges( c.pos_bub(), i );
                         return true;
                     } );
                     return to_moves<int>( 5_seconds );
@@ -2279,7 +2280,7 @@ class exosuit_interact
             // Unload existing module
             if( not_empty ) {
                 pkt->remove_items_if( [&c, &here]( const item & i ) {
-                    here.add_item_or_charges( c.pos(), i );
+                    here.add_item_or_charges( c.pos_bub(), i );
                     return true;
                 } );
                 moves += to_moves<int>( 5_seconds );
@@ -2403,6 +2404,7 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
     if( !p ) {
         debugmsg( "%s called action pack_item that requires character but no character is present",
                   it->typeId().str() );
+        return std::nullopt;
     }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
@@ -3155,7 +3157,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint & )
         }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
-                                  get_map().get_radiation( p->pos() ) );
+                                  get_map().get_radiation( p->pos_bub() ) );
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
@@ -3403,16 +3405,24 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint &pos
 
 std::optional<int> iuse::c4( Character *p, item *it, const tripoint & )
 {
-    int time;
-    bool got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
-    if( !got_value || time <= 0 ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return std::nullopt;
+    int time = 0;
+    bool got_value = false;
+    if( p->is_avatar() ) {
+        got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        if( !got_value || time <= 0 ) {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return std::nullopt;
+        }
     }
     p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
                                      "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
-    it->countdown_point = calendar::turn + time_duration::from_seconds( time );
+    if( got_value ) {
+        it->countdown_point = calendar::turn + time_duration::from_seconds( time );
+    } else {
+        // Uses value from the converted type (e.g. currently hardcoded c4armed)
+        it->countdown_point = calendar::turn + it->type->countdown_interval;
+    }
     it->active = true;
     return 1;
 }
@@ -4402,7 +4412,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : get_map().i_at( point_bub_ms( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
@@ -4483,7 +4493,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos() );
+    p.activity.placement = get_map().getglobal( p.pos_bub() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint & )
@@ -4498,9 +4508,9 @@ std::optional<int> iuse::lumber( Character *p, item *it, const tripoint & )
     }
     map &here = get_map();
     // Check if player is standing on any lumber
-    for( item &i : here.i_at( p->pos() ) ) {
+    for( item &i : here.i_at( p->pos_bub() ) ) {
         if( i.typeId() == itype_log ) {
-            here.i_rem( p->pos(), &i );
+            here.i_rem( p->pos_bub(), &i );
             cut_log_into_planks( *p );
             return 1;
         }
@@ -4898,7 +4908,7 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint & )
 
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint & )
 {
-    if( get_map().has_nearby_fire( p->pos() ) ) {
+    if( get_map().has_nearby_fire( p->pos_bub() ) ) {
         heat_item( *p );
         return 0;
     } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
@@ -4958,7 +4968,8 @@ int iuse::towel_common( Character *p, item *it, bool )
     bool slime = p->has_effect( effect_slimed );
     bool boom = p->has_effect( effect_boomered );
     bool glow = p->has_effect( effect_glowing );
-    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+    bool bile = p->has_effect( effect_bile_irritant );
+    int mult = slime + boom + glow + bile; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
     const std::string name = it ? it->tname() : _( "towel" );
 
@@ -4970,10 +4981,11 @@ int iuse::towel_common( Character *p, item *it, bool )
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
-    } else if( slime || boom || glow ) {
+    } else if( slime || boom || glow || bile ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
+        p->remove_effect( effect_bile_irritant );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
                               name );
 
@@ -5870,36 +5882,33 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
-        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>.  " ) ) },
-        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>.  " ), 1 ) },
-        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>.  " ), 13 ) },
+        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>." ) ) },
+        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>." ), 1 ) },
+        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>." ), 13 ) },
         { effect_downed, ef_con( translation(), to_translation( "downed" ) ) },
         { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
-        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>.  " ) ) },
-        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
-        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
-        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
-        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
-        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
-        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
-        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>.  " ), 1 ) },
-        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>.  " ), to_translation( "lies" ) ) },
-        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>.  " ) ) },
-        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
-        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
-        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>.  " ) ) },
-        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle.  " ) ) },
-        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>.  " ) ) },
-        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
-        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached.  " ) ) },
-        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>.  " ) ) },
+        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>." ) ) },
+        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>." ) ) },
+        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap." ) ) },
+        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body." ) ) },
+        { effect_boomered, ef_con( to_translation( " has <color_magenta>bile</color> covering their eyes." ) ) },
+        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>." ) ) },
+        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>." ) ) },
+        { effect_bile_irritant, ef_con( to_translation( " is covered in <color_magenta>bile</color>." ) ) },
+        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>." ) ) },
+        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>." ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>." ) ) },
+        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>." ), 1 ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>." ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>." ) ) },
+        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>." ), to_translation( "lies" ) ) },
+        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>." ), to_translation( "lies" ) ) },
+        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>." ) ) },
+        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>." ) ) },
+        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle." ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>." ) ) },
+        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached." ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>." ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
@@ -5908,7 +5917,8 @@ static std::string effects_description_for_creature( Creature *const creature, s
         for( const auto &pair : vec_effect_status ) {
             if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
                 if( !pair.second.status.empty() ) {
-                    figure_effects += pronoun_gender + pair.second.status;
+                    figure_effects += string_format( pgettext( "effects_description_for_creature", "%s%s  " ),
+                                                     pronoun_gender, pair.second.status );
                 }
                 if( !pair.second.pose.empty() ) {
                     pose = pair.second.pose.translated();
@@ -6330,10 +6340,11 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
     }
 
     // TODO: fix point types
-    const oter_id &cur_ter =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( aim_point ) ) ) );
+    tripoint_abs_omt omp( ms_to_omt_copy( here.getabs( aim_point ) ) );
+    const oter_id &cur_ter = overmap_buffer.ter( omp );
+    om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
-                               colorize( cur_ter->get_name(), cur_ter->get_color() ) );
+                               colorize( cur_ter->get_name( vision ), cur_ter->get_color( vision ) ) );
     if( outside_tiles_num == total_tiles_num ) {
         photo_text += _( "\n\nThis photo was taken <color_dark_gray>outside</color>." );
     } else if( outside_tiles_num == 0 ) {
@@ -7281,7 +7292,6 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {
@@ -7791,8 +7801,8 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
         std::string temperature_str;
-        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos() ) ||
-            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos() ) ) {
+        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
+            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
             temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
             temperature_str = print_temperature( player_local_temp );
@@ -7805,12 +7815,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                                                    g->is_sheltered( p->pos_bub() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                                                    g->is_sheltered( p->pos_bub() ) ) ) );
         }
     }
     if( it->has_flag( flag_BAROMETER ) ) {
@@ -7826,12 +7836,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
 
     if( it->typeId() == itype_weather_reader ) {
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = get_map().veh_at( p->pos() ) ) {
+        if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos() ) );
+                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -8158,7 +8168,7 @@ heater find_heater( Character *p, item *it )
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
-    if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
+    if( get_map().has_nearby_fire( p->pos_bub() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
@@ -8589,16 +8599,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint & )
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), "splinter", 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), "stick", 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos(), "stick", 1 );
-        here.spawn_item( p->pos(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), "stick", 1 );
+        here.spawn_item( p->pos_bub(), "splinter", 1 );
         return 1;
     }
     return 0;
@@ -9023,6 +9033,10 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
     item_location ereader = item_location( *p, it );
     const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
     if( to_scan.empty() ) {

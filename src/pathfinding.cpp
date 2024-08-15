@@ -327,7 +327,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     return PF_IMPASSABLE;
 }
 
-int map::cost_to_avoid( const tripoint & /*cur*/, const tripoint &p,
+int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings, pf_special p_special ) const
 {
     if( settings.avoid_traps && ( p_special & PF_TRAP ) ) {
@@ -350,7 +350,8 @@ int map::cost_to_avoid( const tripoint & /*cur*/, const tripoint &p,
     return 0;
 }
 
-int map::extra_cost( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                     const pathfinding_settings &settings,
                      pf_special p_special ) const
 {
     int pass_cost = cost_to_pass( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
@@ -464,7 +465,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
             const pf_special p_special = pf_cache.special[p.x][p.y];
-            const int cost = extra_cost( cur, p, settings, p_special );
+            const int cost = extra_cost( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
             if( cost < 0 ) {
                 if( cost == PF_IMPASSABLE ) {
                     layer.closed[index] = true;

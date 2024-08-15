@@ -562,14 +562,15 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 6,
+    "calories": 37,
     "description": "Dried and powdered gelatin, used as a gelling agent when mixed with water.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
     "material": "powder",
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "iron", "100 μg" ], [ "calcium", "6 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1434,16 +1435,6 @@
     "fun": -15,
     "freezing_point": -274,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "blood_pancakes_wheat_free",
-    "copy-from": "blood_pancakes",
-    "name": { "str": "wheat-free blodplättar" },
-    "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
-    "material": [ "veggy", "blood" ],
-    "primary_material": "veggy",
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

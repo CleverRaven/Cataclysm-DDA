@@ -66,6 +66,7 @@
 #include "music.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -518,7 +519,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, const tripoint & )
             content.set_flag( flag_FILTHY );
         }
 
-        here.add_item_or_charges( p->pos(), content );
+        here.add_item_or_charges( p->pos_bub(), content );
     }
 
     p->i_rem( &it );
@@ -1184,7 +1185,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1221,7 +1222,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
-        if( !overmap_buffer.seen( place ) ) {
+        if( overmap_buffer.seen( place ) != om_vision_level::full ) {
             // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
             get_avatar().map_revealed_omts.emplace( place );
         }
@@ -1311,7 +1312,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
     for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
         // Don't ask if we're setting a fire on top of a fireplace
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos ) ) {
             break;
         }
         // Skip the position we're trying to light on fire
@@ -1319,7 +1320,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             continue;
         }
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
                 return false;
             } else {
@@ -1746,7 +1747,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
              cut.get_item()->tname() );
 
     const item_location::type cut_type = cut.where();
-    const tripoint pos = cut.position();
+    const tripoint_bub_ms pos = cut.pos_bub();
     const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.
@@ -2350,11 +2351,9 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint 
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height_setup = 24;
-    spellbook_uilist.w_width_setup = 80;
+    spellbook_uilist.desired_bounds = { -1.0, -1.0, 80 * ImGui::CalcTextSize( "X" ).x, 24 * ImGui::GetTextLineHeightWithSpacing() };
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -5429,7 +5428,6 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
-    tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
     tmenu.query();
     const int choice = tmenu.ret;

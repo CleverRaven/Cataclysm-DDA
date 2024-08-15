@@ -14,6 +14,7 @@
       { "group": "guns_pistol_common_38", "prob": 11 },
       { "group": "guns_pistol_common_44", "prob": 1 },
       { "group": "guns_pistol_common_10mm", "prob": 1 },
+      { "group": "guns_pistol_common_762_39", "prob": 1 },
       { "group": "guns_pistol_common_other", "prob": 39 }
     ]
   },
@@ -51,6 +52,7 @@
       { "group": "guns_pistol_common_display_44", "prob": 1 },
       { "group": "guns_pistol_common_display_45colt", "prob": 5 },
       { "group": "guns_pistol_common_display_10mm", "prob": 1 },
+      { "group": "guns_pistol_common_display_762_39", "prob": 1 },
       { "group": "guns_pistol_common_display_other", "prob": 46 }
     ]
   },
@@ -64,7 +66,6 @@
       { "group": "guns_pistol_rare_223", "prob": 1 },
       { "group": "guns_pistol_rare_45", "prob": 15 },
       { "group": "guns_pistol_rare_40", "prob": 6 },
-      { "group": "guns_pistol_rare_762", "prob": 1 },
       { "group": "guns_pistol_rare_357mag", "prob": 8 },
       { "group": "guns_pistol_rare_38", "prob": 1 },
       { "group": "guns_pistol_rare_44", "prob": 45 },
@@ -151,7 +152,6 @@
     "id": "guns_pistol_obscure_display",
     "//": "Very obscure pistols which are illegal to sell.",
     "items": [
-      { "item": "draco", "prob": 30 },
       { "item": "ar_pistol", "prob": 35 },
       { "group": "guns_pistol_collectible", "prob": 1 },
       { "item": "minidraco556", "prob": 30 }
@@ -167,7 +167,7 @@
     "type": "item_group",
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [ { "item": "ashot", "prob": 100 } ]
+    "items": [ { "item": "ashot", "prob": 1 }, { "item": "2_shot_special", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -433,6 +433,7 @@
       { "group": "nested_rifle_flintlock", "prob": 180 },
       { "group": "nested_steyr_aug", "prob": 40 },
       { "group": "nested_win70_458", "prob": 60 },
+      { "group": "nested_sl8", "prob": 10 },
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_psl", "prob": 10 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
@@ -457,11 +458,11 @@
       { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 2, "charges": 0 },
       { "item": "m60_semi", "prob": 5 },
       { "item": "steyr_aug", "prob": 5 },
+      { "group": "nested_sl8", "prob": 2 },
       { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
-      { "item": "hk_g36", "prob": 30 },
       { "item": "m1918", "prob": 30 },
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 45 },
+      { "group": "modular_m4a1", "prob": 45 },
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
@@ -476,7 +477,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 } ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_38", "prob": 30 }, { "item": "rifle_44", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -498,6 +499,7 @@
       { "group": "nested_mossberg_930", "prob": 15 },
       { "group": "nested_shotgun_410", "prob": 30 },
       { "group": "nested_shotgun_d", "prob": 30 },
+      { "group": "nested_shotgun_triple", "prob": 2 },
       { "group": "nested_shotgun_s", "prob": 30 }
     ]
   },
@@ -564,6 +566,8 @@
       { "group": "nested_ksg", "prob": 50 },
       { "group": "nested_dp_12", "prob": 3 },
       { "group": "nested_srm_1216", "prob": 2 },
+      { "group": "nested_ar12_shotgun", "prob": 5 },
+      { "group": "nested_gfy_1", "prob": 2 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
       { "group": "nested_slp", "prob": 10 },
@@ -579,8 +583,11 @@
     "entries": [
       { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
       { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
+      { "item": "ar12_shotgun", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "gfy_1", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "shotgun_triple", "prob": 1, "charges": [ 0, 3 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
       { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
@@ -595,6 +602,8 @@
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
       { "item": "srm_1216", "prob": 3 },
+      { "item": "ar12_shotgun", "prob": 5 },
+      { "item": "gfy_1", "prob": 2 },
       { "item": "dp_12", "prob": 4 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
@@ -639,11 +648,7 @@
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [
-      { "group": "nested_saiga_12", "prob": 50 },
-      { "group": "nested_streetsweeper", "prob": 4 },
-      { "group": "nested_saiga_410", "prob": 40 }
-    ]
+    "items": [ { "group": "nested_saiga_12", "prob": 50 }, { "group": "nested_saiga_410", "prob": 40 } ]
   },
   {
     "type": "item_group",
@@ -652,7 +657,6 @@
     "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
     "items": [
       { "item": "saiga_12", "prob": 25 },
-      { "item": "streetsweeper", "prob": 4 },
       { "item": "winchester_1887", "prob": 10 },
       { "item": "winchester_1897", "prob": 20 },
       { "item": "saiga_410", "prob": 10 }
@@ -663,10 +667,12 @@
     "id": "guns_shotgun_improvised",
     "//": "Makeshift or otherwise poor quality shotguns.",
     "items": [
-      { "item": "blunderbuss", "prob": 70 },
-      { "item": "pipe_double_shotgun", "prob": 70, "charges": [ 0, 2 ] },
-      { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges": [ 0, 6 ] }
+      { "item": "blunderbuss", "prob": 10 },
+      { "item": "pipe_double_shotgun", "prob": 10 },
+      { "item": "pipe_shotgun", "prob": 20 },
+      { "item": "revolver_shotgun", "prob": 1 },
+      { "item": "slamfire_shotgun", "prob": 100 },
+      { "item": "slamfire_shotgun_d", "prob": 30 }
     ]
   },
   {
@@ -720,12 +726,6 @@
       { "group": "guns_launcher_grenade", "prob": 70 },
       { "group": "guns_launcher_rocket", "prob": 30 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_launcher_improvised",
-    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
-    "items": [ { "item": "launcher_simple", "prob": 100 }, { "item": "triple_launcher_simple", "prob": 15, "charges": [ 0, 3 ] } ]
   },
   {
     "type": "item_group",
@@ -823,8 +823,7 @@
       { "group": "guns_pistol_improvised", "prob": 41 },
       { "group": "guns_smg_improvised", "prob": 1 },
       { "group": "guns_rifle_improvised", "prob": 56 },
-      { "group": "guns_shotgun_improvised", "prob": 1 },
-      { "group": "guns_launcher_improvised", "prob": 1 }
+      { "group": "guns_shotgun_improvised", "prob": 1 }
     ]
   },
   {
@@ -848,16 +847,14 @@
         "prob": 40
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
         "prob": 8
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "m4_cqbr",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
@@ -874,13 +871,6 @@
       { "item": "ruger_mini", "ammo-item": "223", "charges": [ 0, 20 ], "contents-item": "shoulder_strap", "prob": 5 },
       {
         "item": "steyr_aug",
-        "ammo-item": "556_mk318",
-        "charges": [ 0, 30 ],
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
-        "item": "hk_g36",
         "ammo-item": "556_mk318",
         "charges": [ 0, 30 ],
         "contents-item": "shoulder_strap",
@@ -929,16 +919,14 @@
       { "group": "ar15_223short", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap", "prob": 70 },
       { "group": "ar15_223long", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap", "prob": 40 },
       {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": 30,
         "contents-item": "shoulder_strap",
         "prob": 8
       },
       {
-        "item": "modular_m4_carbine",
-        "variant": "m4_cqbr",
+        "group": "modular_m4a1",
         "ammo-item": "556_mk318",
         "charges": 30,
         "contents-item": "shoulder_strap",
@@ -954,7 +942,6 @@
       },
       { "item": "ruger_mini", "ammo-item": "223", "charges": 20, "contents-item": "shoulder_strap", "prob": 5 },
       { "item": "steyr_aug", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
-      { "item": "hk_g36", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
       {
         "item": "benelli_tsa",
         "variant": "mossberg_500_security",
@@ -1040,8 +1027,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1058,8 +1044,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1116,20 +1101,6 @@
             "dirt": [ 0, 7050 ]
           },
           { "group": "field_steyraug" }
-        ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          {
-            "item": "hk_g36",
-            "ammo-item": "556_mk318",
-            "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
-          { "group": "field_g36" }
         ],
         "prob": 1
       },
@@ -1234,7 +1205,6 @@
       { "group": "field_ar15_mk318", "prob": 80 },
       { "group": "field_mini14", "prob": 5 },
       { "group": "field_steyraug", "prob": 1 },
-      { "group": "field_g36", "prob": 1 },
       { "group": "field_shotgun", "prob": 10 },
       { "group": "field_308", "prob": 10 },
       { "group": "field_3006", "prob": 5 }
@@ -1402,8 +1372,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",
@@ -1420,8 +1389,7 @@
       {
         "collection": [
           {
-            "item": "modular_m4_carbine",
-            "variant": "m4_cqbr",
+            "group": "m4_cqbr",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
             "contents-item": "shoulder_strap",

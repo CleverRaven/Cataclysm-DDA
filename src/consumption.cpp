@@ -248,6 +248,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     kcal = you.enchantment_cache->modify_value( enchant_vals::mod::KCAL, kcal );
+    kcal = std::max( 0.0f, kcal );
 
     return static_cast<int>( kcal );
 }
@@ -291,6 +292,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     for( std::pair<const vitamin_id, int> &vit : res ) {
         vit.second = you.enchantment_cache->modify_value( enchant_vals::mod::VITAMIN_ABSORB_MOD,
                      vit.second );
+        vit.second = std::max( 0, vit.second );
     }
     return res;
 }
@@ -463,6 +465,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
 int Character::nutrition_for( const item &comest ) const
 {
+    // Note: This will round down to zero for super-low-calorie foods
     return compute_effective_nutrients( comest ).kcal() / islot_comestible::kcal_per_nutr;
 }
 
@@ -899,7 +902,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
-    if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
+    if( has_trait( trait_CARNIVORE ) && compute_effective_nutrients( food ).kcal() > 0 &&
         food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
@@ -1325,7 +1328,7 @@ void Character::modify_morale( item &food, const int nutr )
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
+        if( here.has_nearby_chair( pos_bub(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( morale_ate_without_table );
                 if( !food.rotten() ) {

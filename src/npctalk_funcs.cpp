@@ -363,7 +363,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        if( !overmap_buffer.seen( elem ) ) {
+        if( overmap_buffer.seen( elem ) == om_vision_level::unseen ) {
             continue;
         }
         std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
@@ -984,7 +984,7 @@ bool talk_function::drop_stolen_item( item &cur_item, npc &p )
         item to_drop = player_character.i_rem( &cur_item );
         to_drop.remove_old_owner();
         to_drop.set_owner( p );
-        here.add_item_or_charges( player_character.pos(), to_drop );
+        here.add_item_or_charges( player_character.pos_bub(), to_drop );
         dropped = true;
     } else if( cur_item.is_container() ) {
         bool changed = false;
@@ -1046,7 +1046,7 @@ void talk_function::drop_weapon( npc &p )
         return;
     }
     item weap = p.remove_weapon();
-    get_map().add_item_or_charges( p.pos(), weap );
+    get_map().add_item_or_charges( p.pos_bub(), weap );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -1253,7 +1253,6 @@ npc *pick_follower()
     uilist menu;
     menu.text = _( "Select a follower" );
     menu.callback = &callback;
-    menu.w_y_setup = 2;
 
     for( const npc *p : followers ) {
         menu.addentry( -1, true, MENU_AUTOASSIGN, p->get_name() );
@@ -1290,7 +1289,8 @@ void talk_function::npc_thankful( npc &p )
     if( p.chatbin.first_topic != p.chatbin.talk_friend ) {
         p.chatbin.first_topic = p.chatbin.talk_stranger_friendly;
     }
-    p.personality.aggression -= 1;
+    int8_t &aggro = p.personality.aggression;
+    aggro = std::clamp<int8_t>( aggro - 1, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
 }
 

@@ -224,7 +224,6 @@ void avatar::control_npc_menu( const bool debug )
         popup( _( "There's no one to take control of!" ) );
         return;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
@@ -1949,10 +1948,10 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 void avatar::try_to_sleep( const time_duration &dur )
 {
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos() );
-    const trap &trap_at_pos = here.tr_at( pos() );
-    const ter_id ter_at_pos = here.ter( pos() );
-    const furn_id furn_at_pos = here.furn( pos() );
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    const trap &trap_at_pos = here.tr_at( pos_bub() );
+    const ter_id ter_at_pos = here.ter( pos_bub() );
+    const furn_id furn_at_pos = here.furn( pos_bub() );
     bool plantsleep = false;
     bool fungaloid_cosplay = false;
     bool websleep = false;
@@ -1976,7 +1975,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -1990,7 +1989,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), fd_web );
+        int web = here.get_field_intensity( pos_bub(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -2023,7 +2022,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }

@@ -262,8 +262,7 @@
         "distribution": [
           { "group": "guns_smg_improvised", "prob": 10 },
           { "group": "guns_rifle_improvised", "prob": 100 },
-          { "group": "guns_shotgun_improvised", "prob": 100 },
-          { "group": "guns_launcher_improvised", "prob": 30 }
+          { "group": "guns_shotgun_improvised", "prob": 100 }
         ],
         "prob": 200
       },

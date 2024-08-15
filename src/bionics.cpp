@@ -899,7 +899,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
                        static_cast<std::string>( bio_resonator ) );
-        for( const tripoint &bashpoint : here.points_in_radius( pos(), 1 ) ) {
+        for( const tripoint_bub_ms &bashpoint : here.points_in_radius( pos_bub(), 1 ) ) {
             here.bash( bashpoint, 110 );
             // Multibash effect, so that doors &c will fall
             here.bash( bashpoint, 110 );
@@ -964,7 +964,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_water_extractor ) {
         bool no_target = true;
         bool extracted = false;
-        for( item &it : here.i_at( pos() ) ) {
+        for( item &it : here.i_at( pos_bub() ) ) {
             static const units::volume volume_per_water_charge = 500_ml;
             if( it.is_corpse() ) {
                 const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
@@ -999,8 +999,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
-        for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 10 ) ) {
+            if( p == pos_bub() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 continue;
             }
 
@@ -1008,7 +1008,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
-                    affected.emplace_back( *it, p );
+                    affected.emplace_back( *it, p.raw() );
                     stack.erase( it );
                     break;
                 }
@@ -1060,7 +1060,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         // Calculate local wind power
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = here.veh_at( pos() ) ) {
+        if( optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
             // vehicle velocity in mph
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
@@ -1481,14 +1481,14 @@ void Character::burn_fuel( bionic &bio )
         // Wind power
         int vehwindspeed = 0;
 
-        const optional_vpart_position vp = here.veh_at( pos() );
+        const optional_vpart_position vp = here.veh_at( pos_bub() );
         if( vp ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
         weather_manager &weather = get_weather();
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                               overmap_buffer.ter( global_omt_location() ), get_location(), weather.winddirection,
-                              g->is_sheltered( pos() ) );
+                              g->is_sheltered( pos_bub() ) );
         energy_gain = 1_kJ * windpower;
     }
 
@@ -2745,7 +2745,8 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
 
     bionic_uid bio_uid = generate_bionic_uid();
 
-    my_bionics->emplace_back( b, get_free_invlet( *this ), bio_uid, parent_uid );
+    const char invlet = b->activated ? get_free_invlet( *this ) : ' ';
+    my_bionics->emplace_back( b, invlet, bio_uid, parent_uid );
     bionic &bio = my_bionics->back();
     if( bio.id->activated_on_install ) {
         activate_bionic( bio );

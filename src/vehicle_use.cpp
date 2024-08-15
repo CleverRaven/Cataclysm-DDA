@@ -111,7 +111,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 void handbrake()
 {
     Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( !vp ) {
         return;
     }
@@ -1030,7 +1030,7 @@ void vehicle::operate_reaper()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
-        const tripoint reaper_pos = vp.pos();
+        const tripoint_bub_ms reaper_pos = vp.pos_bub();
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
@@ -1851,8 +1851,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                                          : has_part_here( "CTRL_ELECTRONIC" );
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
-    const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
-                               &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
+    const bool player_inside = get_map().veh_at( get_player_character().pos_bub() ) ?
+                               &get_map().veh_at( get_player_character().pos_bub() )->vehicle() == this :
                                false;
     bool power_linked = false;
     bool item_linked = false;
@@ -2204,7 +2204,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
-            get_map().has_items( vp.pos() ) ||
+            get_map().has_items( vp.pos_bub() ) ||
             ( vp_cargo && !vp_cargo->items().empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )

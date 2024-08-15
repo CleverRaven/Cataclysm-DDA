@@ -559,16 +559,18 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
-    personality.aggression = rng( -10, 10 );
-    personality.bravery    = rng( -3, 10 );
-    personality.collector  = rng( -1, 10 );
-    // Normal distribution. Mean = 0, stddev = 3, clamp at -10 and 10. Rounded to return integer value.
-    personality.altruism   = std::round( std::max( -10.0, std::min( normal_roll( 0, 3 ), 10.0 ) ) );
+    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery    = rng( -3, NPC_PERSONALITY_MAX );
+    personality.collector  = rng( -1, NPC_PERSONALITY_MAX );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
+    personality.altruism   = std::round( std::clamp( normal_roll( 0, 3 ),
+                                         static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
     pick_name();
     randomize_height();
+    // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
     set_base_age( rng( 18, 55 ) );
     str_max = dice( 4, 3 );
     dex_max = dice( 4, 3 );
@@ -622,12 +624,14 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.collector += myclass->roll_collector();
     personality.altruism += myclass->roll_altruism();
 
-    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
-                                         NPC_PERSONALITY_MAX );
-    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
-                                        NPC_PERSONALITY_MAX );
-    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.aggression = std::clamp<int8_t>( personality.aggression,
+                             NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp<int8_t>( personality.bravery,
+                          NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp<int8_t>( personality.collector,
+                            NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp<int8_t>( personality.altruism,
+                           NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -1343,7 +1347,7 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        get_map().add_item_or_charges( pos(), remove_item( it ) );
+        get_map().add_item_or_charges( pos_bub(), remove_item( it ) );
     }
 }
 
@@ -1581,6 +1585,7 @@ void npc::mutiny()
     my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_amf );
+    rules = npc_follower_rules(); // Mutinous NPCs no longer follower your rules
     job.clear_all_priorities();
     if( assigned_camp ) {
         assigned_camp = std::nullopt;
@@ -1595,8 +1600,8 @@ void npc::mutiny()
 
 float npc::vehicle_danger( int radius ) const
 {
-    const tripoint from( posx() - radius, posy() - radius, posz() );
-    const tripoint to( posx() + radius, posy() + radius, posz() );
+    const tripoint_bub_ms from( posx() - radius, posy() - radius, posz() );
+    const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
     VehicleList vehicles = get_map().get_vehicles( from, to );
 
     int danger = 0;
@@ -2561,8 +2566,8 @@ int npc::follow_distance() const
     // HACK: If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
     if( is_walking_with() &&
-        ( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos() ) ||
-          here.has_flag( ter_furn_flag::TFLAG_GOES_UP, player_character.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ||
+          here.has_flag( ter_furn_flag::TFLAG_GOES_UP, player_character.pos_bub() ) ) ) {
         return 1;
     }
     // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
@@ -3351,14 +3356,12 @@ std::function<bool( const tripoint & )> npc::get_path_avoid() const
             doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
             return true;
         }
-        if( rules.has_flag( ally_rule::hold_the_line ) && ( here.close_door( p, true, true ) ||
-                here.move_cost( p ) > 2 ) ) {
+        if( rules.has_flag( ally_rule::hold_the_line ) &&
+            ( here.close_door( tripoint_bub_ms( p ), true, true ) ||
+              here.move_cost( p ) > 2 ) ) {
             return true;
         }
         if( sees_dangerous_field( p ) ) {
-            return true;
-        }
-        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
             return true;
         }
         return false;

@@ -1,0 +1,40 @@
+[
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_temperature_adaptation",
+    "name": { "str": "Climate Control" },
+    "points": 0,
+    "description": "The climate is controlled for you when you are in the bunker.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_CLIMATE_CONTROL",
+    "recurrence": [ "3 seconds", "3 seconds" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "mut_skyisland_temperature_adaptation" },
+        { "u_at_om_location": "open_air" },
+        { "math": [ "u_val('pos_z')", "==", "6" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "mut_skyisland_temperature_adaptation" } },
+    "effect": [ { "math": [ "weather('temperature')", "=", "from_fahrenheit( 70 )" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_CLIMATE_CONTROL_SURFACE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "and": [ { "u_has_trait": "mut_skyisland_temperature_adaptation" }, { "u_at_om_location": "sky_island_core" } ] },
+    "effect": [ { "run_eocs": "EOC_SKY_ISLAND_CLIMATE_RESET" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_CLIMATE_RESET",
+    "condition": { "u_has_trait": "mut_skyisland_temperature_adaptation" },
+    "effect": [ "next_weather" ]
+  }
+]

@@ -23,7 +23,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 1,
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "harvest": "zombie_animal",
     "vision_night": 7,
@@ -137,7 +137,7 @@
     "dodge": 4,
     "vision_day": 7,
     "vision_night": 7,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_basic_amphibian" ],
     "harvest": "exempt",
     "grab_strength": 15,
     "special_attacks": [
@@ -229,7 +229,14 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "dodge": 2,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_electromagnetics" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_basic_amphibian",
+      "prof_wp_zombie",
+      "prof_electromagnetics"
+    ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "harvest": "zombie_animal_electric",
     "luminance": 16,
@@ -357,7 +364,7 @@
     "burn_into": "mon_frog_husk",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "//": "Translation note - 'Croaked' is a euphimistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
+    "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
   {
     "id": "mon_frog_shadow",
@@ -466,7 +473,14 @@
     "melee_skill": 6,
     "melee_dice": 5,
     "armor": { "bash": 15, "cut": 30, "bullet": 20, "electric": 4 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_basic_amphibian",
+      "prof_wp_zombie",
+      "prof_wp_skeleton"
+    ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
     "attack_cost": 75,
     "grab_strength": 50,
@@ -765,7 +779,7 @@
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
@@ -948,6 +962,7 @@
     "harvest": "zombie_grabber",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -976,6 +991,7 @@
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": false,
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER" ] }
   },
@@ -1029,6 +1045,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
+    "burn_into": "mon_zombie_fiend",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
@@ -1398,7 +1415,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
     "bleed_rate": 125,
-    "vision_day": 1000,
+    "vision_day": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }

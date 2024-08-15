@@ -101,7 +101,7 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.25, "skill_penalty": 0.15 } ],
     "using": [ [ "tailoring_lycra_patchwork", 1 ] ],
-    "byproducts": [ [ "lycra_patch", 1 ], [ "scrap_lycra", 1 ] ]
+    "byproducts": [ [ "scrap_lycra", 1 ] ]
   },
   {
     "result": "boy_shorts",
