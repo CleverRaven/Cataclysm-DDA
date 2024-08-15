@@ -282,7 +282,7 @@
       { "prob": 5, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
       { "group": "mansion_guns", "prob": 3 },
-      { "group": "harddrugs", "prob": 1 },
+      { "group": "harddrugs_residential", "prob": 1 },
       { "group": "wallets", "prob": 10 },
       [ "ankle_wallet_pouch", 1 ],
       [ "joint", 1 ],
