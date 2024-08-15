@@ -338,6 +338,7 @@
     "color": "light_gray",
     "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and hammering them.",
+    "category": "tools",
     "price": "25 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
