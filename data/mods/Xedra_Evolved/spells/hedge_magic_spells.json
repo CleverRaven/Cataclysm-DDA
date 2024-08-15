@@ -411,7 +411,7 @@
     "shape": "blast",
     "components": "spell_components_hedge_walk_on_water",
     "max_level": 1,
-    "base_casting_time": 1000
+    "base_casting_time": 6000
   },
   {
     "id": "hedge_bless_steel_weapon",
@@ -447,5 +447,25 @@
     "min_range": 1,
     "max_range": 1,
     "targeted_monster_species": [ "NETHER", "ABERRATION", "HORROR", "NETHER_EMANATION" ]
+  },
+  {
+    "id": "hedge_walk_on_water_magic_square",
+    "type": "SPELL",
+    "name": "To Walk Upon the Water",
+    "description": "Create a magic square that can later be used in a short ritual to walk across the surface of the water.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "PERMANENT", "PERMANENT_ALL_LEVELS" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "spawn_item",
+    "effect_str": "item_walk_on_water_magic_square",
+    "shape": "blast",
+    "components": "spell_components_hedge_magic_square",
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "base_casting_time": 1440000
   }
 ]

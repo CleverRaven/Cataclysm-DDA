@@ -197,5 +197,14 @@
     "type": "requirement",
     "tools": [ [ [ "candle_lit", -1 ] ] ],
     "components": [ [ [ "salt", 15 ] ], [ [ "wild_herbs", 30 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "paper", 1 ] ] ]
   }
 ]

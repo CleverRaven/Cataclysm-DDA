@@ -130,5 +130,31 @@
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
     }
+  },
+  {
+    "id": "spellbook_hedge_abramelin_the_mage",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Book of the Sacred Magic of Abra-Melin the Mage",
+      "str_pl": "copies of The Book of the Sacred Magic of Abra-Melin the Mage"
+    },
+    "description": "Translated from the French edition by Samuel L MacGregor Mathers, this tome compiles the journeys of a man named Abraham to Egypt, where he learned occult secrets from the wizard Abra-Melin who lived in a small town near the Nile.  The magic contained within focuses mostly on the creation of magic squares which, when used in ceremonies by an initiate, provide magical effects.",
+    "weight": "539 g",
+    "volume": "674 ml",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "hedge_walk_on_water_magic_square",
+        "hedge_breathe_water_magic_square",
+        "hedge_bash_terrain_magic_square",
+        "hedge_food_or_drink_magic_square",
+        "hedge_armed_men_magic_square"
+      ]
+    }
   }
 ]
