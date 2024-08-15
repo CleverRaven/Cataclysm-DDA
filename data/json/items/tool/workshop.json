@@ -890,7 +890,7 @@
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE", "NO_SALVAGE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 30, "stab": 15 }
   },

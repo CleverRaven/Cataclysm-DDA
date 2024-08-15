@@ -215,6 +215,11 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+bool talker_character_const::is_trait_purifiable( const trait_id &trait_to_check ) const
+{
+    return me_chr_const->purifiable( trait_to_check );
+}
+
 bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
 {
     return me_chr_const->knows_recipe( &*recipe_to_check );
@@ -255,6 +260,22 @@ void talker_character::mutate_towards( const trait_id &trait, const mutation_cat
                                        const bool &use_vitamins )
 {
     me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
+void talker_character::set_trait_purifiability( const trait_id &trait, const bool &purifiable )
+{
+    // If we want to set it non-purifiable and we didn't already do that and we really do have the trait
+    if( me_chr->has_trait( trait ) ) {
+        if( !purifiable && !me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.insert( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s unpurifiable", trait.c_str() );
+        };
+        // If we want to set it purifiable
+        if( purifiable && me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.erase( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s purifiable", trait.c_str() );
+        }
+    }
 }
 
 void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )

@@ -31,7 +31,8 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
-    "flags": [ "TRADER_AVOID" ]
+    "countdown_interval": "6 seconds",
+    "flags": [ "NPC_THROW_NOW" ]
   },
   {
     "id": "dynamite",
@@ -408,6 +409,7 @@
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
+    "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 6 }
   },

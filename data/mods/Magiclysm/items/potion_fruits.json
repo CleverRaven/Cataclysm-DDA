@@ -296,7 +296,7 @@
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the mayapple potion fruits.",
+      "description": "Eat the mayapple potion fruit.",
       "effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
     }
   },

@@ -804,7 +804,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "weakpoint_sets": [ "wps_arthropod" ],
     "harvest": "arachnid_acid",
     "dissect": "dissect_troglobite_sample_small",
