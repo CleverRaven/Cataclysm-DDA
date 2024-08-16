@@ -1170,6 +1170,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
+        print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERMAP_WEATHER",
                     !get_map().is_outside( get_player_character().pos_bub() ) ? c_dark_gray :
                     uistate.overmap_visible_weather ? c_pink : c_magenta );
@@ -1787,6 +1788,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
+    ictxt.register_action( "TOGGLE_FAST_TRAVEL" );
     ictxt.register_action( "MISSIONS" );
 
     if( data.debug_editor ) {
@@ -1979,6 +1981,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             fast_scroll = !fast_scroll;
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
+        } else if( action == "TOGGLE_FAST_TRAVEL" ) {
+            uistate.overmap_fast_travel = !uistate.overmap_fast_travel;
         } else if( action == "SEARCH" ) {
             if( !search( ui, curs, orig ) ) {
                 continue;

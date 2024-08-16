@@ -140,6 +140,7 @@ class uistatedata
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
+        bool overmap_fast_travel = false;
 
         // Distraction manager stuff
         bool distraction_noise = true;
