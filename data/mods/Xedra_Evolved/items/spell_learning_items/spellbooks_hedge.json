@@ -136,10 +136,10 @@
     "type": "BOOK",
     "category": "manuals",
     "name": {
-      "str": "The Book of the Sacred Magic of Abra-Melin the Mage",
-      "str_pl": "copies of The Book of the Sacred Magic of Abra-Melin the Mage"
+      "str": "The Book of the Sacred Magic of Abramelin the Mage",
+      "str_pl": "copies of The Book of the Sacred Magic of Abramelin the Mage"
     },
-    "description": "Translated from the French edition by Samuel L MacGregor Mathers, this tome compiles the journeys of a man named Abraham to Egypt, where he learned occult secrets from the wizard Abra-Melin who lived in a small town near the Nile.  The magic contained within focuses mostly on the creation of magic squares which, when used in ceremonies by an initiate, provide magical effects.",
+    "description": "Translated from the French edition by Samuel L MacGregor Mathers, this tome compiles the journeys of a man named Abraham of Worms to Egypt, where he learned occult secrets from the wizard Abramelin who lived in a small town near the Nile.  The magic contained within focuses mostly on the creation of magic squares which, when used in ceremonies by an initiate, provide magical effects.",
     "weight": "539 g",
     "volume": "674 ml",
     "material": [ "paper" ],

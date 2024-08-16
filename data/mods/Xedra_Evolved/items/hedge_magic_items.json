@@ -298,5 +298,50 @@
         }
       ]
     }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_breathe_water_magic_square",
+    "copy-from": "magic_square_base",
+    "name": { "str": "magic square (To Operate Under the Water)", "str_pl": "magic squares (To Operate Under the Water)" },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_BREATHE_WATER_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_add_effect": "effect_hedge_breathe_water_magic_square", "duration": 7200, "intensity": 7200 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_bash_terrain_magic_square",
+    "copy-from": "magic_square_base",
+    "name": {
+      "str": "magic square (To Demolish Buildings and Strongholds)",
+      "str_pl": "magic squares (To Demolish Buildings and Strongholds)"
+    },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_BASH_TERRAIN_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_cast_spell": { "id": "hedge_bash_terrain_magic_square_real" }, "targeted": true }
+          ]
+        }
+      ]
+    }
   }
 ]
