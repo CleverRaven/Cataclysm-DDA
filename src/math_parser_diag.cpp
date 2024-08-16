@@ -270,6 +270,78 @@ std::function<void( dialogue &, double )> faction_trust_ass( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> faction_food_supply_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->food_supply.calories;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_food_supply_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->food_supply.calories = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_wealth_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->wealth;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_wealth_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->wealth = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_power_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->power;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_power_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->power = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_size_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->size;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_size_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->size = val;
+    };
+}
+
 std::function<double( dialogue & )> field_strength_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1412,6 +1484,87 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> npc_anger_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_anger();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_fear_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_fear();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_value_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_value();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_trust_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_trust();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> npc_anger_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_anger( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_fear_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_fear( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_value_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_value( val );
+    };
+}
+
+
+std::function<void( dialogue &, double )> npc_trust_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_trust( val );
+    };
+}
+
 std::function<double( dialogue & )> calories_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
@@ -1597,6 +1750,10 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "faction_like", { "g", 1, faction_like_eval } },
     { "faction_respect", { "g", 1, faction_respect_eval } },
     { "faction_trust", { "g", 1, faction_trust_eval } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_eval } },
+    { "faction_wealth", { "g", 1, faction_wealth_eval } },
+    { "faction_power", { "g", 1, faction_power_eval } },
+    { "faction_size", { "g", 1, faction_size_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
@@ -1633,6 +1790,10 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
+    { "npc_anger", { "un", 0, npc_anger_eval } },
+    { "npc_fear", { "un", 0, npc_fear_eval } },
+    { "npc_value", { "un", 0, npc_value_eval } },
+    { "npc_trust", { "un", 0, npc_trust_eval } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
@@ -1648,6 +1809,10 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "faction_like", { "g", 1, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_ass } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_ass } },
+    { "faction_wealth", { "g", 1, faction_wealth_ass } },
+    { "faction_power", { "g", 1, faction_power_ass } },
+    { "faction_size", { "g", 1, faction_size_ass } },
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
@@ -1660,6 +1825,10 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", 1, u_val_ass } },
+    { "npc_anger", { "un", 0, npc_anger_ass } },
+    { "npc_fear", { "un", 0, npc_fear_ass } },
+    { "npc_value", { "un", 0, npc_value_ass } },
+    { "npc_trust", { "un", 0, npc_trust_ass } },
     { "calories", { "un", 0, calories_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },

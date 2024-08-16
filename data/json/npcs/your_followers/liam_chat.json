@@ -149,7 +149,7 @@
     "id": "BGSS_Liam2",
     "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at Foodplace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
     "responses": [
-      { "text": "How did you make it through the cataclysm?", "topic": "BGSS_Liam3" },
+      { "text": "How did you make it through the Cataclysm?", "topic": "BGSS_Liam3" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
       { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -741,7 +741,7 @@
     "dynamic_line": "You sure we haven't bit off more than we can chew here?\"  He stares at you for a moment.  \"This isn't DOTA2, this is real life.  These guys are gonna have guns and shit.  I know we've been through a lot together but if they're ready for us they could take us out before we're even close enough to see them.  I mean, I'm with you if you think we can do it, but be careful, okay?",
     "responses": [
       {
-        "text": "Thanks man, I'll keep that in mind.  We gotta do this though.  Any suggestions for how to do it safely?.",
+        "text": "Thanks man, I'll keep that in mind.  We gotta do this though.  Any suggestions for how to do it safely?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1"
       },
       {

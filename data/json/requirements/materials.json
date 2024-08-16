@@ -3,7 +3,25 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "super_glue", 10 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_any",
+    "type": "requirement",
+    "//": "Any type of all-surface glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_waterproof",
+    "type": "requirement",
+    "//": "Any type of waterproof glue, which is just about everything except bone/hide glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ] ] ]
+  },
+  {
+    "id": "glue_strong",
+    "type": "requirement",
+    "//": "Strong glue, such as superglues, epoxy resin.  Each unit is 0.5cm^2 of coverage",
+    "components": [ [ [ "super_glue", 1 ] ] ]
   },
   {
     "id": "adhesive_cordage",

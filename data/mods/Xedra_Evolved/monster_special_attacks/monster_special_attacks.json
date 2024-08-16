@@ -27,7 +27,7 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
     "hitsize_min": 4,
     "hit_dmg_u": "%1$s bites and injects poison into your %2$s!",
-    "hit_dmg_npc": "%1$s bites and injects poison into your <npcname>!",
+    "hit_dmg_npc": "%1$s bites and injects poison into <npcname>!",
     "miss_msg_u": "%1$s tries to bite your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s tries to bite your %2$s, but fails to penetrate your armor.",

@@ -1675,5 +1675,20 @@
     "flags": [ "INEDIBLE" ],
     "smoking_result": "kombu",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mashed_potato",
+    "name": { "str_sp": "mashed potato" },
+    "copy-from": "potato_baked",
+    "color": "white",
+    "spoils_in": "1 day 12 hours",
+    "quench": 3,
+    "calories": 136,
+    "description": "Boiled potatoes mashed together with salt & oil.",
+    "price": "50 cent",
+    "price_postapoc": "30 cent",
+    "sealed": true,
+    "delete": { "flags": [ "RAW" ] }
   }
 ]

@@ -618,7 +618,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "spears (intermediate)",
-    "description": "Practice advanced spear moves and accurate thrusts against a training dummy.  It's not glamorous, but spears were the workhorses of armed combat for millenia with good reason.",
+    "description": "Practice advanced spear moves and accurate thrusts against a training dummy.  It's not glamorous, but spears were the workhorses of armed combat for millennia with good reason.",
     "skill_used": "stabbing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
