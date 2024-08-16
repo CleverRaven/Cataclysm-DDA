@@ -1325,7 +1325,7 @@
       { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "harddrugs_residential": "harddrugs", "prob": 5 },
+      { "group": "harddrugs_residential", "prob": 5 },
       [ "hairbrush", 30 ],
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
