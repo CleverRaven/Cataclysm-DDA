@@ -727,8 +727,8 @@ bool Character::handle_gun_damage( item &it )
     const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * 1.8;
 
     add_msg_debug( debugmode::DF_RANGED,
-                   "Gun jam chance: %g\nMagazine jam chance: %g\nGun damage level: %g\nMagazine damage level: %g\nFail to feed chance: %g%%",
-                   gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance * 100 );
+                   "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
+                   gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance );
 
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
