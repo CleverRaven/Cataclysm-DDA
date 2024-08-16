@@ -5349,6 +5349,17 @@
     ]
   },
   {
+    "id": "nested_posts_long",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "long wooden posts",
+    "description": "Recipes related to constructing 8 ft wooden posts.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "wooden_post_long_from wood beam by hand", "wooden_post_long_from wood beam with powertools" ]
+  },
+  {
     "id": "nested_posts_normal",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -5384,7 +5395,7 @@
     "name": "wooden posts",
     "description": "Recipes related to constructing all wooden posts.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "wooden_post_long" ]
+    "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "nested_posts_long" ]
   },
   {
     "id": "nested_bots",
