@@ -261,6 +261,8 @@ struct swim_scenario {
 static int swimming_steps( avatar &swimmer )
 {
     map &here = get_map();
+    // This shouldn't work.
+    avatar_action::move( swimmer, here, tripoint_west );
     const tripoint left = swimmer.pos();
     const tripoint right = left + tripoint_east;
     int steps = 0;
