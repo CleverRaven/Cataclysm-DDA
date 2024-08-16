@@ -3,7 +3,7 @@
     "id": "FM_early_pickup",
     "type": "vehicle",
     "name": "Caravaner's Pickup Truck",
-    "//": "Basically a pickup truck, but spawns some different items in the bed.  Later versions could have a mounted gun, a ram, and some armour.",
+    "//": "Basically a pickup truck, but spawns some different items in the bed.  Later versions could have a mounted gun, a ram, and some armor.",
     "blueprint": [
       [ "-o--+o-" ],
       [ "==='#'|" ],

@@ -143,7 +143,7 @@ XStrength: 9
 The screen reader will start reading at "weak" even though that's above the
 terminal cursor.
 
-Behaviour like this means that screen readers struggle with certain common UI
+Behavior like this means that screen readers struggle with certain common UI
 layouts.  Some examples are listed below.  Examples of how to implement theses
 changes can be found in `src/newcharacter.cpp`.
 

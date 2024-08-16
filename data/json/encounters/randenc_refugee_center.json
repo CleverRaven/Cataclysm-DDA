@@ -49,7 +49,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_RC_JohnBailey_add",
-    "//": "Specific travelling NPC John Bailey stops in at the refugee center.  Regardless of where you meet him, you can't meet John more than once per 3 days.",
+    "//": "Specific traveling NPC John Bailey stops in at the refugee center.  Regardless of where you meet him, you can't meet John more than once per 3 days.",
     "recurrence": 3200,
     "global": true,
     "condition": {

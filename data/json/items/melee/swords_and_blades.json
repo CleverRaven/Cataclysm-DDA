@@ -302,7 +302,7 @@
     "category": "weapons",
     "name": { "str": "USMC bayonet" },
     "description": "A modern bayonet in use with the US Marine Corps, adopted in an effort to improve USMC hand-to-hand fighting capabilities.  The bayonet is optimized to function as a fighting knife, sporting an ergonomic handle that will minimize hand fatigue during combat.  The blade tip is sharper in profile than other bayonets to assist in penetrating body armor, and also features a small serrated section to provide for some utility.",
-    "//": "Modelled after the OKC3S bayonet.",
+    "//": "Modeled after the OKC3S bayonet.",
     "weight": "405 g",
     "volume": "260 ml",
     "longest_side": "34 cm",
