@@ -15,8 +15,8 @@
     "type": "test_data",
     "//": "Just junk items",
     "expected_dps": {
-      "fishing_rod_tele": 4.7970198756,
-      "fishing_rod_2pc": 4.912610716,
+      "fishing_rod_tele": 4.79702,
+      "fishing_rod_2pc": 4.912611,
       "banjo": 5.53,
       "saxophone": 5.55,
       "pool_ball": 5.58,
