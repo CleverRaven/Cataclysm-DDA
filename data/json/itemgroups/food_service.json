@@ -369,7 +369,7 @@
       { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       [ "broom", 13 ],
-      { "item": "fursuit","variant":"dinosuit", "prob": 7 },
+      { "item": "fursuit", "variant": "dinosuit", "prob": 7 },
       [ "hat_ball", 19 ],
       [ "jacket_light", 15 ],
       [ "mbag", 10 ],
