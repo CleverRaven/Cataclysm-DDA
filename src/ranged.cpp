@@ -679,22 +679,52 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
-    double default_gun_jam_chance = 0.00027;
-    double default_magazine_jam_chance = 0.00053;
-    double mag_jam_mult = 0;
-    double mag_damage = 0;
-    if( it.magazine_current() ) {
-        mag_jam_mult = it.magazine_current()->type->magazine->mag_jam_mult;
-        mag_damage = it.magazine_current()->damage() / 1000.0;
+
+    // i am bad at math, so we will use vibes instead
+    double gun_jam_chance;
+    int gun_damage = it.damage() / 1000.0;
+    switch( gun_damage ) {
+        case 0:
+            gun_jam_chance = 0.0000018 * firing.gun_jam_mult;
+            break;
+        case 1:
+            gun_jam_chance = 0.03 * firing.gun_jam_mult;
+            break;
+        case 2:
+            gun_jam_chance = 0.15 * firing.gun_jam_mult;
+            break;
+        case 3:
+            gun_jam_chance = 0.6 * firing.gun_jam_mult;
+            break;
+        case 4:
+            gun_jam_chance = 1.5 * firing.gun_jam_mult;
+            break;
     }
-    const double gun_damage = it.damage() / 1000.0;
-    const double gun_jam_mult = firing.gun_jam_mult;
 
-    double gun_jam_chance = default_gun_jam_chance * gun_jam_mult;
-    double mag_jam_chance = default_magazine_jam_chance * mag_jam_mult;
+    int mag_damage;
+    double mag_jam_chance = 0;
+    if( it.magazine_current() ) {
+        mag_damage = it.magazine_current()->damage() / 1000.0;
+        switch( mag_damage ) {
+            case 0:
+                mag_jam_chance = 0.00000288 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 1:
+                mag_jam_chance = 0.05 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 2:
+                mag_jam_chance = 0.24 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 3:
+                mag_jam_chance = 0.96 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 4:
+                mag_jam_chance = 2.5 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+        }
+    }
 
-    const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * std::pow( 2,
-                              ( gun_damage * 1.75 ) + ( mag_damage * 2 ) );
+    const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * 1.8;
 
     add_msg_debug( debugmode::DF_RANGED,
                    "Gun jam chance: %g\nMagazine jam chance: %g\nGun damage level: %g\nMagazine damage level: %g\nFail to feed chance: %g%%",
@@ -722,7 +752,8 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) ) {
+    } else if( x_in_y( jam_chance, 1 ) &&
+               faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
         add_msg_player_or_npc( _( "Your %s didn't load into the chamber!" ),
                                _( "<npcname>'s %s didn't load into the chamber!" ),
                                it.tname() );
