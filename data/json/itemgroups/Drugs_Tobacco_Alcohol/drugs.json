@@ -379,13 +379,10 @@
       [ "syringe", 8 ]
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "harddrugs",
-    "items": [
-      { "group": "harddrugs_residential", "prob": 133 },
-      { "item": "flu_shot", "prob": 5 }
-    ]
+    "items": [ { "group": "harddrugs_residential", "prob": 133 }, { "item": "flu_shot", "prob": 5 } ]
   },
   {
     "type": "item_group",
