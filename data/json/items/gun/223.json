@@ -39,6 +39,7 @@
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
