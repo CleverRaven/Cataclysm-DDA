@@ -657,33 +657,6 @@ bool Character::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
-        add_msg_if_player( m_warning, _( "Your %s is too hot, it is too dangerous to continue the fire." ),
-                           it.tname() );
-        return false;
-    }
-
-    // if it's a simple fault, character can try to fix it on the fly
-    if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
-        if( one_in( 10 ) ) {
-            add_msg_if_player( m_warning,
-                               _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
-                               it.tname() );
-            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
-        } else {
-            add_msg_if_player( m_warning,
-                               _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
-                               it.tname() );
-        }
-        mod_moves( -get_speed() * rng( 1, 3 ) );
-        recoil = MAX_RECOIL;
-        return false;
-    }
-
-    if( it.has_fault_flag( "RUINED_GUN" ) ) {
-        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
-        return false;
-    }
 
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
