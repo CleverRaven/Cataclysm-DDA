@@ -8959,7 +8959,19 @@
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
     "prereqs": [ "SEESLEEP", "FROG_EYES" ],
     "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
