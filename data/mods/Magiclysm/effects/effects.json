@@ -1057,8 +1057,8 @@
     "type": "effect_type",
     "name": [ "Increased Stability" ],
     "desc": [
-      "You are overcoming the aftereffects of XE037 overexposure.",
-      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+      "You are defended against the possible effects of XE037 overexposure.",
+      "You are still defended against the effects of XE037 overexposure but now you feel awful!"
     ],
     "apply_message": "You feel…strange.",
     "remove_message": "The strange feeling passes and you feel more like yourself.",
