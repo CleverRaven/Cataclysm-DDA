@@ -51,67 +51,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "ar_pistol",
-    "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "AR pistol" },
-    "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
-    "weight": "2267 g",
-    "volume": "1758 ml",
-    "longest_side": "584 mm",
-    "barrel_length": "191 mm",
-    "price": "914 USD",
-    "price_postapoc": "35 USD",
-    "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 380,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
     "id": "modular_m27_assault_rifle",
     "looks_like": "modular_ar15",
