@@ -131,11 +131,7 @@
     "id": "zombie_fursuits",
     "subtype": "distribution",
     "entries": [
-      { "item": "wolfsuit", "prob": 50, "damage": [ 2, 3 ] },
-      { "item": "dragonsuit", "prob": 50, "damage": [ 2, 3 ] },
-      { "item": "felinesuit", "prob": 50, "damage": [ 2, 3 ] },
-      { "item": "dinosuit", "prob": 50, "damage": [ 2, 3 ] },
-      { "item": "sharksuit", "prob": 50, "damage": [ 2, 3 ] }
+      { "item": "fursuit", "prob": 50, "damage": [ 2, 3 ] }
     ]
   },
   {
