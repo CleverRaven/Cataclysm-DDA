@@ -384,7 +384,7 @@
     "id": "harddrugs",
     "items": [
       { "group": "harddrugs_residential", "prob": 133 },
-      { "item": "flu_shot", "prob": 5 },
+      { "item": "flu_shot", "prob": 5 }
     ]
   },
   {
