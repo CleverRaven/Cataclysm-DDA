@@ -55,55 +55,51 @@ const comfort_data &comfort_data::human()
     return human_comfort;
 }
 
-int comfort_data::human_comfort_at(const tripoint& p)
+int comfort_data::human_comfort_at( const tripoint &p )
 {
-    const map& here = get_map();
-    const optional_vpart_position vp = here.veh_at(p);
-    const furn_id furn = here.furn(p);
-    const trap& trap = here.tr_at(p);
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    const furn_id furn = here.furn( p );
+    const trap &trap = here.tr_at( p );
 
-    if (vp) {
-        const std::optional<vpart_reference> board = vp.part_with_feature("BOARDABLE", true);
-        return board ? board->info().comfort : -here.move_cost(p);
-    }
-    else if (furn != furn_str_id::NULL_ID()) {
+    if( vp ) {
+        const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+        return board ? board->info().comfort : -here.move_cost( p );
+    } else if( furn != furn_str_id::NULL_ID() ) {
         return furn->comfort;
-    }
-    else if (!trap.is_null()) {
+    } else if( !trap.is_null() ) {
         return trap.comfort;
-    }
-    else {
-        return here.ter(p)->comfort - here.move_cost(p);
+    } else {
+        return here.ter( p )->comfort - here.move_cost( p );
     }
 }
 
-bool comfort_data::try_get_sleep_aid_at(const tripoint& p, item& result)
+bool comfort_data::try_get_sleep_aid_at( const tripoint &p, item &result )
 {
-    map& here = get_map();
-    const optional_vpart_position vp = here.veh_at(p);
-    const map_stack items = here.i_at(p);
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    const map_stack items = here.i_at( p );
     item_stack::const_iterator begin = items.begin();
     item_stack::const_iterator end = items.end();
 
-    if (vp) {
-        if (const std::optional<vpart_reference> cargo = vp.cargo()) {
+    if( vp ) {
+        if( const std::optional<vpart_reference> cargo = vp.cargo() ) {
             const vehicle_stack vs = cargo->items();
             begin = vs.begin();
             end = vs.end();
         }
     }
 
-    for (item_stack::const_iterator item_it = begin; item_it != end; item_it++) {
-        if (item_it->has_flag(flag_SLEEP_AID)) {
+    for( item_stack::const_iterator item_it = begin; item_it != end; item_it++ ) {
+        if( item_it->has_flag( flag_SLEEP_AID ) ) {
             result = *item_it;
             return true;
-        }
-        else if (item_it->has_flag(flag_SLEEP_AID_CONTAINER)) {
-            if (item_it->num_item_stacks() > 1) {
+        } else if( item_it->has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+            if( item_it->num_item_stacks() > 1 ) {
                 continue;
             }
-            for (const item* it : item_it->all_items_top()) {
-                if (it->has_flag(flag_SLEEP_AID)) {
+            for( const item *it : item_it->all_items_top() ) {
+                if( it->has_flag( flag_SLEEP_AID ) ) {
                     result = *item_it;
                     return true;
                 }
@@ -118,7 +114,7 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
     bool result = false;
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
-    const trap& trap = here.tr_at(p);
+    const trap &trap = here.tr_at( p );
     switch( category ) {
         case category::terrain:
             if( !id.empty() ) {
@@ -135,7 +131,7 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
             }
             break;
         case category::trap:
-            result = trap_id(id) == trap.id;
+            result = trap_id( id ) == trap.id;
             break;
         case category::field:
             result = intensity >= here.get_field_intensity( p, field_type_id( id ) );
@@ -171,7 +167,7 @@ void comfort_data::condition::deserialize( const JsonObject &jo )
             optional( jo, false, "flag", flag );
             break;
         case category::trap:
-            mandatory(jo, false, "id", id);
+            mandatory( jo, false, "id", id );
             break;
         case category::field:
             mandatory( jo, false, "id", id );
@@ -197,6 +193,11 @@ void comfort_data::message::deserialize( const JsonObject &jo )
     optional( jo, false, "rating", type );
 }
 
+bool comfort_data::human_or_impossible() const
+{
+    return this == &human_comfort || base_comfort == COMFORT_IMPOSSIBLE;
+}
+
 bool comfort_data::are_conditions_true( const Character &guy, const tripoint &p ) const
 {
     for( const condition &cond : conditions ) {
@@ -207,16 +208,16 @@ bool comfort_data::are_conditions_true( const Character &guy, const tripoint &p 
     return true;
 }
 
-comfort_data::response comfort_data::get_comfort_at(const tripoint& p) const
+comfort_data::response comfort_data::get_comfort_at( const tripoint &p ) const
 {
     response result;
     result.data = this;
     result.comfort = base_comfort;
-    if (add_human_comfort) {
-        result.comfort += human_comfort_at(p);
+    if( add_human_comfort ) {
+        result.comfort += human_comfort_at( p );
     }
     item sleep_aid;
-    if (add_sleep_aids && try_get_sleep_aid_at(p, sleep_aid)) {
+    if( add_sleep_aids && try_get_sleep_aid_at( p, sleep_aid ) ) {
         result.comfort += COMFORT_SLEEP_AID;
         result.sleep_aid = sleep_aid.tname();
     }

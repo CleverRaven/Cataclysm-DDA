@@ -50,6 +50,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "safe_reference.h"
+#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
@@ -3857,6 +3858,11 @@ class Character : public Creature, public visitable
         std::pair<int, int> kcal_range(
             const itype_id &id,
             const std::function<bool( const item & )> &filter, Character &player_character ) const;
+
+        // --------------- Sleep Stuff ---------------
+        const comfort_data &find_comfort_data_for( const tripoint &p ) const;
+        const comfort_data::response &get_comfort_at( const tripoint &p );
+        comfort_data::response comfort_cache;
 
     protected:
         Character();

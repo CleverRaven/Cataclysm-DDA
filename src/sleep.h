@@ -70,11 +70,12 @@ struct comfort_data {
     message msg_fall;
 
     static const comfort_data &human();
-    static int human_comfort_at(const tripoint& p);
-    static bool try_get_sleep_aid_at(const tripoint& p, item& result);
+    static int human_comfort_at( const tripoint &p );
+    static bool try_get_sleep_aid_at( const tripoint &p, item &result );
 
+    bool human_or_impossible() const;
     bool are_conditions_true( const Character &guy, const tripoint &p ) const;
-    response get_comfort_at(const tripoint& p) const;
+    response get_comfort_at( const tripoint &p ) const;
 
     void deserialize_comfort( const JsonObject &jo, bool was_loaded );
     void deserialize( const JsonObject &jo );

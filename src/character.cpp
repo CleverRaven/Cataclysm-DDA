@@ -11304,6 +11304,30 @@ bool Character::can_sleep()
     return result;
 }
 
+const comfort_data &Character::find_comfort_data_for( const tripoint &p ) const
+{
+    const comfort_data *worst = nullptr;
+    for( const trait_id trait : get_mutations() ) {
+        for( const comfort_data &data : trait->comfort ) {
+            if( data.are_conditions_true( *this, p ) ) {
+                if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
+                    worst = &data;
+                }
+                break;
+            }
+        }
+    }
+    return worst == nullptr ? comfort_data::human() : *worst;
+}
+
+const comfort_data::response &Character::get_comfort_at( const tripoint &p )
+{
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
+        return comfort_cache;
+    }
+    return comfort_cache = find_comfort_data_for( p ).get_comfort_at( p );
+}
+
 void Character::shift_destination( const point &shift )
 {
     if( next_expected_position ) {
