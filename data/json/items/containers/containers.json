@@ -679,6 +679,64 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_tiny_glue",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_tiny",
+    "name": { "str": "tiny plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "longest_side": "120 mm",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bottle_plastic_tiny_superglue",
+        "name": { "str": "large superglue bottle" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "small_squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small squeeze tube" },
+    "description": "A small squeeze tube, holds 3 mL of liquid.  It cannot be refilled after it's empty.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "11 ml",
+    "longest_side": "3 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4 ml",
+        "max_item_volume": "4 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "NO_RELOAD", "NO_UNLOAD", "COLLAPSE_CONTENTS" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "small_squeeze_tube_superglue",
+        "name": { "str": "superglue tube" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic_pill_prescription",
     "type": "GENERIC",
     "category": "container",
