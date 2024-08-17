@@ -122,7 +122,7 @@
       { "item": "pistol_scope", "prob": 10 },
       { "item": "improve_sights", "prob": 20 },
       { "item": "ashot", "prob": 5 },
-      { "item": "superglue", "prob": 30 },
+      { "group": "superglue", "prob": 30 },
       { "item": "string_6", "prob": 2 },
       { "item": "string_36", "prob": 40 },
       { "item": "wrench", "prob": 30 },

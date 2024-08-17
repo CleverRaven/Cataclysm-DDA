@@ -218,7 +218,7 @@
     "difficulty": 8,
     "time": "1 h",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "glue_any", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
@@ -227,7 +227,6 @@
       { "proficiency": "prof_elec_integrated_circuits" }
     ],
     "components": [
-      [ [ "superglue", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "amplifier", 1 ] ],
@@ -549,9 +548,9 @@
     "book_learn": [ [ "recipe_caseless", 8 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_elec_semiconductors" } ],
+    "using": [ [ "glue_any", 1 ] ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "thermos", 2 ] ],
@@ -601,14 +600,14 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 5 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "plastic_molding", 2 ], [ "glue_waterproof", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -679,7 +678,7 @@
     "time": "1 h",
     "reversible": true,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "mag_electronics", 6 ], [ "manual_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "glue_any", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
@@ -690,7 +689,6 @@
       [ [ "scrap_aluminum", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
-      [ [ "superglue", 2 ] ],
       [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
       [ [ "hose", 1 ] ],
       [ [ "power_supply", 1 ] ]
@@ -767,7 +765,7 @@
     "components": [
       [ [ "plastic_chunk", 10 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "super_glue", 5 ], [ "duct_tape", 10 ] ],
       [ [ "string_36", 4 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "e_scrap", 1 ] ]
@@ -801,7 +799,7 @@
     "time": "8 h 45 m",
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 8 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 8 ], [ "glue_any", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
@@ -809,7 +807,6 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "components": [
-      [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
