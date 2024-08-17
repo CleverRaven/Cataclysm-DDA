@@ -114,6 +114,14 @@
     "//": "Grows up into a sparrow as a fallback"
   },
   {
+    "abstract": "mon_generic_chick_water",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "upgrades": { "age_grow": 14, "into": "mon_duck" },
+    "//": "Grows up into a duck as a fallback",
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
     "id": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "chicken" },
