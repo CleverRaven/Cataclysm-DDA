@@ -127,7 +127,6 @@
     "name": { "str": "toco toucan" },
     "description": "The largest species of toucan sporting dark plumage and a bright colored beak.  This bird can be found pretty much all over South America, feeding on fruits and seeds.",
     "copy-from": "mon_bird_flying_base",
-    "species": [ "BIRD" ],
     "volume": "867 ml",
     "weight": "650 g",
     "hp": 6,
