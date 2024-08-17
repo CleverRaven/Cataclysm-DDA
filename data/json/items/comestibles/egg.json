@@ -43,8 +43,8 @@
     "type": "COMESTIBLE",
     "id": "egg_grouse",
     "name": { "str": "ruffed grouse egg" },
-    "copy-from": "egg_chicken",
     "spoils_in": "13 days",
+    "copy-from": "egg_chicken",
     "proportional": { "volume": 0.67, "weight": 0.67, "calories": 0.67 },
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
@@ -134,8 +134,8 @@
     "type": "COMESTIBLE",
     "id": "egg_duck",
     "name": { "str": "mallard egg" },
-    "copy-from": "egg_chicken",
     "spoils_in": "14 days",
+    "copy-from": "egg_chicken",
     "proportional": { "volume": 1.4, "weight": 1.4 },
     "calories": 130,
     "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "45 mg" ], [ "egg_allergen", 1 ] ],
@@ -145,8 +145,8 @@
     "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
     "name": { "str": "Canada goose egg" },
-    "copy-from": "egg_chicken",
     "spoils_in": "15 days",
+    "copy-from": "egg_chicken",
     "proportional": { "volume": 3.26, "weight": 3.26 },
     "calories": 302,
     "vitamins": [ [ "iron", "6 mg" ], [ "calcium", "98 mg" ], [ "egg_allergen", 1 ] ],
@@ -156,8 +156,8 @@
     "type": "COMESTIBLE",
     "id": "egg_turkey",
     "name": { "str": "wild turkey egg" },
-    "copy-from": "egg_chicken",
     "spoils_in": "15 days",
+    "copy-from": "egg_chicken",
     "proportional": { "volume": 1.58, "weight": 1.58 },
     "calories": 135,
     "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "78 mg" ], [ "egg_allergen", 1 ] ],
@@ -167,8 +167,8 @@
     "type": "COMESTIBLE",
     "id": "egg_pheasant",
     "name": { "str": "ring-necked pheasant egg" },
-    "copy-from": "egg_chicken",
     "spoils_in": "14 days",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
   {
@@ -1193,7 +1193,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose",
-    "name": { "str": "Domestic goose egg" },
+    "name": { "str": "domestic goose egg" },
     "copy-from": "egg_chicken",
     "proportional": { "volume": 2.88, "weight": 2.88 },
     "calories": 266,
@@ -1213,9 +1213,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_woodpecker",
-    "name": "woodpecker egg",
-    "spoils_in": "7 days",
-    "copy-from": "egg_crow",
+    "name": { "str": "downy woodpecker egg" },
+    "spoils_in": "6 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WOODPECKER"
   },
   {

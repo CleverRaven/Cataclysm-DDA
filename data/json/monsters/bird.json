@@ -586,33 +586,12 @@
   {
     "id": "mon_woodpecker",
     "type": "MONSTER",
-    "name": { "str": "woodpecker" },
-    "description": "A small bird with woody colors and a colored crest on its head.  These birds are well known for their ability to poke holes on trees while looking for grubs.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "400 ml",
-    "weight": "400 g",
-    "hp": 10,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_small",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_woodpecker", "baby_count": 5, "baby_timer": 14 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SMALL_HIDER" ]
+    "name": { "str": "downy woodpecker" },
+    "description": "A small bird with woody colors and a colored crest on its head.  Well known for its ability to poke holes on trees while looking for grubs.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "35 ml",
+    "weight": "26 g",
+    "reproduction": { "baby_egg": "egg_woodpecker", "baby_count": 5, "baby_timer": 30 }
   },
   {
     "id": "mon_hummingbird_chick",
@@ -624,10 +603,8 @@
   {
     "id": "mon_woodpecker_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "volume": "200 ml",
-    "weight": "15 g",
-    "upgrades": { "age_grow": 11, "into": "mon_woodpecker" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 6, "into": "mon_woodpecker" }
   },
   {
     "id": "mon_coot",
