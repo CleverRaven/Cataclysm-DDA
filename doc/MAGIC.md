@@ -957,6 +957,7 @@ Character status value  | Description
 `ARMOR_STAB`            | 
 `REGEN_HP`              | Affects the rate the monster recovers hp.
 `SPEED`                 | Affects the base speed of the monster.
+`LUMINATION`            | Affects monster luminance
 
 ### Enchantment value examples
 
