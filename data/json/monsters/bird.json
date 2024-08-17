@@ -50,6 +50,7 @@
     "name": { "str": "flightless bird abstract" },
     "description": "This is an abstract monsters for other flightless birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.  Use this when your bird can neither fly nor swim.",
     "copy-from": "mon_bird_flying_base",
+    "speed": 95,
     "delete": { "flags": [ "FLIES" ] }
   },
   {
@@ -58,6 +59,7 @@
     "name": { "str": "water bird abstract" },
     "description": "This is an abstract monsters for other water birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.  Use this when your bird can both fly and swim.",
     "copy-from": "mon_bird_flying_base",
+    "speed": 85,
     "extend": { "flags": [ "SWIMS" ] }
   },
   {
