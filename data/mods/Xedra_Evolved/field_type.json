@@ -171,7 +171,7 @@
     "half_life": "3 minutes",
      "percent_spread": 90,
     "phase": "gas",
-    "display_items": true,
+    "display_items": true
   },
   {
     "id": "fd_pollen_arvore_weaken",
