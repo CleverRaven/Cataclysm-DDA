@@ -90,13 +90,13 @@
     "price": "40 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "point", "balance": "good" },
     "use_action": {
-        "target": "long_pole",
-        "msg": "You wipe down the long pole.",
-        "moves": 1000,
-        "type": "delayed_transform",
-        "transform_age": 15000,
-        "not_ready_msg": "The long pole is still soaking.",
-        "//": "4 hours"
+      "target": "long_pole",
+      "msg": "You wipe down the long pole.",
+      "moves": 1000,
+      "type": "delayed_transform",
+      "transform_age": 15000,
+      "not_ready_msg": "The long pole is still soaking.",
+      "//": "4 hours"
     },
     "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
