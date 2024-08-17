@@ -50,6 +50,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_finch_saffron",
+    "name": { "str": "saffron finch egg" },
+    "copy-from": "egg_waxwing",
+    "rot_spawn": "GROUP_EGG_FINCH_SAFFRON"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_tinamou",
     "name": "tinamou egg",
     "copy-from": "egg_bird",

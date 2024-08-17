@@ -188,6 +188,24 @@
     }
   },
   {
+    "id": "mon_finch_saffron",
+    "type": "MONSTER",
+    "name": { "str": "saffron finch", "str_pl": "saffron finches" },
+    "description": "A small bird with bright yellow plumage, common in most of Brazil.",
+    "copy-from": "mon_bird_flying_base",
+    "color": "yellow",
+    "volume": "27 ml",
+    "weight": "20 g",
+    "reproduction": { "baby_egg": "egg_finch_saffron", "baby_count": 5, "baby_timer": 16 },
+    "//": "Values for reproduction and chick growth copied from the cedar waxwing, as no info could be found online."
+  },
+  {
+    "id": "mon_finch_saffron_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 8, "into": "mon_finch_saffron" }
+  },
+  {
     "id": "mon_tinamou",
     "type": "MONSTER",
     "name": { "str": "tinamou" },
