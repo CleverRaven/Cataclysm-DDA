@@ -1640,17 +1640,17 @@
   {
     "id": "plr16",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "oa93",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "m231pfw",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "moss_brownie",
