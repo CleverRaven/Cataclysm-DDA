@@ -297,7 +297,7 @@ struct string_input_params {
     str_translation_or_var title;
     str_translation_or_var description;
     int width = 20;
-    std::string identifier = "";
+    std::string identifier;
     bool only_digits = false;
     static string_input_params parse_string_input_params( const JsonObject &jo );
 };
