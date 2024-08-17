@@ -119,5 +119,415 @@
       { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
       { "npc_add_var": "dialogue_missions_got_mission", "value": "yes" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_MOVEMENT",
+    "//": "Runs once an hour and moves New ENgland Community Church npcs around based on what hour it is, and what they should be doing.",
+    "global": true,
+    "recurrence": "1 hours",
+    "effect": [
+      {
+        "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_NECC_NPC_BEDTIME" } },
+          { "case": 8, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 9, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 12, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 13, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 18, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 19, "effect": { "run_eocs": "EOC_NECC_NPC_CHURCH_SERVICE" } },
+          { "case": 20, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 22, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } }
+        ]
+      },
+      { "u_message": "This EOC activates!", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_SLEEP",
+    "effect": [
+      { "u_add_effect": "allow_sleep", "duration": "8 hours" },
+      {
+        "if": { "math": [ "u_val('sleepiness')", "<", "200" ] },
+        "then": { "math": [ "u_val('sleepiness')", "=", "200" ] }
+      },
+      { "u_add_effect": "sleep", "duration": "8 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_WAKE_UP",
+    "effect": [
+      { "u_lose_effect": "allow_sleep" },
+      {
+        "if": { "and": [ { "math": [ "u_val('sleepiness')", ">", "0" ] }, { "math": [ "u_val('sleepiness')", "<", "200" ] } ] },
+        "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
+      },
+      { "u_lose_effect": "sleep" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_sleeping_spot" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_eating_seat" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_day_job" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_CHURCH_SEAT",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_church_seat" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_BEDTIME",
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ],
+        "unique_ids": [
+          "GODCO_HELENA",
+          "GODCO_SIMON",
+          "GODCO_SONIA",
+          "GODCO_ZACHARY",
+          "GODCO_CHLOE",
+          "GODCO_DARRYL",
+          "GODCO_JULIAN",
+          "GODCO_KATHERINE",
+          "GODCO_GEMMA",
+          "GODCO_TOM",
+          "GODCO_KOSTAS",
+          "GODCO_GREENWOOD",
+          "GODCO_JANE",
+          "GODCO_CORRIE",
+          "GODCO_ARTURO",
+          "GODCO_FELICITY",
+          "GODCO_THERESA",
+          "GODCO_JEREMIAH",
+          "GODCO_EDDIE",
+          "GODCO_RUSSEL",
+          "GODCO_OLWEN",
+          "GODCO_MARIA"
+        ]
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_RECHECK",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_SLEEP",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "4 minutes"
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_WAKE_UP",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "480 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_MEALTIME",
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ],
+        "unique_ids": [
+          "GODCO_HELENA",
+          "GODCO_SIMON",
+          "GODCO_SONIA",
+          "GODCO_ZACHARY",
+          "GODCO_CHLOE",
+          "GODCO_DARRYL",
+          "GODCO_JULIAN",
+          "GODCO_KATHERINE",
+          "GODCO_GEMMA",
+          "GODCO_TOM",
+          "GODCO_KOSTAS",
+          "GODCO_GREENWOOD",
+          "GODCO_JANE",
+          "GODCO_CORRIE",
+          "GODCO_ARTURO",
+          "GODCO_FELICITY",
+          "GODCO_THERESA",
+          "GODCO_JEREMIAH",
+          "GODCO_EDDIE",
+          "GODCO_RUSSEL",
+          "GODCO_OLWEN",
+          "GODCO_MARIA"
+        ]
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_MEALTIME_RECHECK",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_DAY_JOB",
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ],
+        "unique_ids": [
+          "GODCO_HELENA",
+          "GODCO_SIMON",
+          "GODCO_SONIA",
+          "GODCO_ZACHARY",
+          "GODCO_CHLOE",
+          "GODCO_DARRYL",
+          "GODCO_JULIAN",
+          "GODCO_KATHERINE",
+          "GODCO_GEMMA",
+          "GODCO_TOM",
+          "GODCO_KOSTAS",
+          "GODCO_GREENWOOD",
+          "GODCO_JANE",
+          "GODCO_CORRIE",
+          "GODCO_ARTURO",
+          "GODCO_FELICITY",
+          "GODCO_THERESA",
+          "GODCO_JEREMIAH",
+          "GODCO_EDDIE",
+          "GODCO_RUSSEL",
+          "GODCO_OLWEN",
+          "GODCO_MARIA"
+        ]
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_DAY_JOB_RECHECK",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_CHURCH_SERVICE",
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_CHURCH_SEAT" ],
+        "unique_ids": [
+          "GODCO_HELENA",
+          "GODCO_SIMON",
+          "GODCO_SONIA",
+          "GODCO_ZACHARY",
+          "GODCO_CHLOE",
+          "GODCO_DARRYL",
+          "GODCO_JULIAN",
+          "GODCO_KATHERINE",
+          "GODCO_GEMMA",
+          "GODCO_TOM",
+          "GODCO_KOSTAS",
+          "GODCO_GREENWOOD",
+          "GODCO_JANE",
+          "GODCO_CORRIE",
+          "GODCO_ARTURO",
+          "GODCO_FELICITY",
+          "GODCO_THERESA",
+          "GODCO_JEREMIAH",
+          "GODCO_EDDIE",
+          "GODCO_RUSSEL",
+          "GODCO_OLWEN",
+          "GODCO_MARIA"
+        ]
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_CHURCH_SERVICE_RECHECK",
+          "effect": [
+            {
+              "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_CHURCH_SEAT" ],
+              "unique_ids": [
+                "GODCO_HELENA",
+                "GODCO_SIMON",
+                "GODCO_SONIA",
+                "GODCO_ZACHARY",
+                "GODCO_CHLOE",
+                "GODCO_DARRYL",
+                "GODCO_JULIAN",
+                "GODCO_KATHERINE",
+                "GODCO_GEMMA",
+                "GODCO_TOM",
+                "GODCO_KOSTAS",
+                "GODCO_GREENWOOD",
+                "GODCO_JANE",
+                "GODCO_CORRIE",
+                "GODCO_ARTURO",
+                "GODCO_FELICITY",
+                "GODCO_THERESA",
+                "GODCO_JEREMIAH",
+                "GODCO_EDDIE",
+                "GODCO_RUSSEL",
+                "GODCO_OLWEN",
+                "GODCO_MARIA"
+              ]
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
   }
 ]
