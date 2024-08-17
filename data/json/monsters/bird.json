@@ -666,15 +666,13 @@
   {
     "id": "mon_grebe",
     "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "name": { "str": "grebe" },
-    "description": "A medium sized aquatic bird with a long neck.  These birds can be distinguished by their strange leg placement which makes them great at diving.",
-    "volume": "500 ml",
-    "weight": "500 g",
+    "name": { "str": "horned grebe" },
+    "description": "A medium sized aquatic bird with a long neck.  They can be distinguished by their strange leg placement which makes them great at diving.",
+    "copy-from": "mon_bird_water_base",
+    "volume": "580 ml",
+    "weight": "435 g",
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_grebe", "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "reproduction": { "baby_egg": "egg_grebe", "baby_count": 8, "baby_timer": 49 }
   },
   {
     "id": "mon_coot_chick",
@@ -697,7 +695,8 @@
   {
     "id": "mon_grebe_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 14, "into": "mon_grebe" }
+    "copy-from": "mon_generic_chick_water",
+    "upgrades": { "age_grow": 60, "into": "mon_grebe" },
+    "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   }
 ]
