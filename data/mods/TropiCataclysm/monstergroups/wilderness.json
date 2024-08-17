@@ -60,6 +60,7 @@
       { "monster": "mon_parrot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
       { "monster": "mon_finch_saffron", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_great_kiskadee", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_rufous_hornero", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_toucan", "weight": 2, "cost_multiplier": 0, "pack_size": [ 1, 10 ] },
       { "monster": "mon_macaw", "weight": 3, "cost_multiplier": 0, "pack_size": [ 1, 8 ] },
       { "monster": "mon_seriema", "weight": 15, "cost_multiplier": 10 },
@@ -146,6 +147,7 @@
       { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_finch_saffron", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_great_kiskadee", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_rufous_hornero", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_iguana", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_macaw", "weight": 15, "cost_multiplier": 0 }
     ]
@@ -157,7 +159,8 @@
     "monsters": [
       { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_finch_saffron", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_great_kiskadee", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_great_kiskadee", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_rufous_hornero", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_boa", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_gecko", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_guinea_fowl", "weight": 10, "cost_multiplier": 0 },
@@ -195,7 +198,8 @@
     "monsters": [
       { "monster": "mon_parrot", "weight": 35, "cost_multiplier": 0 },
       { "monster": "mon_finch_saffron", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_great_kiskadee", "weight": 15, "cost_multiplier": 0 }
+      { "monster": "mon_great_kiskadee", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_rufous_hornero", "weight": 15, "cost_multiplier": 0 }
     ]
   }
 ]

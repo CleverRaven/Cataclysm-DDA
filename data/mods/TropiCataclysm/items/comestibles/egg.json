@@ -64,6 +64,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_rufous_hornero",
+    "name": { "str": "rufous hornero egg" },
+    "copy-from": "egg_waxwing",
+    "rot_spawn": "GROUP_EGG_RUFOUS_HORNERO"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_tinamou",
     "name": "tinamou egg",
     "copy-from": "egg_bird",

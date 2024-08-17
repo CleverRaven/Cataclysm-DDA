@@ -224,6 +224,23 @@
     "upgrades": { "age_grow": 10, "into": "mon_great_kiskadee" }
   },
   {
+    "id": "mon_rufous_hornero",
+    "type": "MONSTER",
+    "name": { "str": "rufous hornero" },
+    "description": "Placeholder.  Next commit.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "60 ml",
+    "weight": "45 g",
+    "reproduction": { "baby_egg": "egg_rufous_hornero", "baby_count": 4, "baby_timer": 44 }
+  },
+  {
+    "id": "mon_rufous_hornero_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 25, "into": "mon_rufous_hornero" },
+    "//": "24-26 days to reach independence. Use the default multiplier of 4 to our advantage to get a rough estimate of reaching adult size."
+  },
+  {
     "id": "mon_tinamou",
     "type": "MONSTER",
     "name": { "str": "tinamou" },
