@@ -144,13 +144,12 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
-    "name": { "str": "goose egg" },
-    "spoils_in": "14 days",
+    "name": { "str": "Canada goose egg" },
     "copy-from": "egg_chicken",
-    "calories": 266,
-    "volume": "130 ml",
-    "weight": "143 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
+    "spoils_in": "15 days",
+    "proportional": { "volume": 3.26, "weight": 3.26 },
+    "calories": 302,
+    "vitamins": [ [ "iron", "6 mg" ], [ "calcium", "98 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
@@ -1194,8 +1193,11 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose",
-    "name": "goose egg",
-    "copy-from": "egg_goose_canadian",
+    "name": { "str": "Domestic goose egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 2.88, "weight": 2.88 },
+    "calories": 266,
+    "vitamins": [ [ "iron", "5 mg" ], [ "calcium", "86 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
