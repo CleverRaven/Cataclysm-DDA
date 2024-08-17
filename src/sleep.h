@@ -63,10 +63,12 @@ struct comfort_data {
     };
 
     std::vector<condition> conditions;
+    bool conditions_or = false;
     int base_comfort = COMFORT_NEUTRAL;
     bool add_human_comfort = false;
     bool add_sleep_aids = false;
     message msg_try;
+    message msg_hint;
     message msg_fall;
 
     static const comfort_data &human();

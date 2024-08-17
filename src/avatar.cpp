@@ -126,35 +126,20 @@ static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_floor( "t_floor" );
-static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
-
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
-static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
@@ -1948,10 +1933,14 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 
 void avatar::try_to_sleep( const time_duration &dur )
 {
-    const comfort_data::response &comfort = get_comfort_at( pos_bub().raw() );
-    const comfort_data::message &msg = comfort.data->msg_try;
-    if( !msg.text.empty() ) {
-        add_msg_if_player( msg.type, msg.text );
+    const comfort_data::response &comfort = get_comfort_at( pos_bub() );
+    const comfort_data::message &msg_try = comfort.data->msg_try;
+    if( !msg_try.text.empty() ) {
+        add_msg_if_player( msg_try.type, msg_try.text );
+    }
+    const comfort_data::message &msg_hint = comfort.data->msg_hint;
+    if( !msg_hint.text.empty() ) {
+        add_msg_if_player( msg_hint.type, msg_hint.text );
     }
 
     if( !comfort.sleep_aid.empty() ) {
@@ -1966,20 +1955,22 @@ void avatar::try_to_sleep( const time_duration &dur )
         if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
             if( const std::optional<vpart_reference> aisle = vp.part_with_feature( "AISLE", true ) ) {
                 //~ %1$s: vehicle name, %2$s: vehicle part name
-                add_msg_if_player( _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
+                add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
                                    vp->vehicle().disp_name(), aisle->part().name( false ) );
             } else {
                 //~ %1$s: vehicle name
-                add_msg_if_player( _( "It's hard to get to sleep in %1$s." ), vp->vehicle().disp_name() );
+                add_msg_if_player( m_bad, _( "It's hard to get to sleep in %1$s." ),
+                                   vp->vehicle().disp_name() );
             }
         } else {
             const ter_id ter = here.ter( pos_bub() );
             if( ter->movecost <= 2 ) {
                 //~ %s: terrain name
-                add_msg_if_player( _( "It's a little hard to get to sleep on this %s." ), ter->name() );
+                add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %s." ),
+                                   ter->name() );
             } else {
                 //~ %s: terrain name
-                add_msg_if_player( _( "It's hard to get to sleep on this %s." ), ter->name() );
+                add_msg_if_player( m_bad, _( "It's hard to get to sleep on this %s." ), ter->name() );
             }
         }
     }

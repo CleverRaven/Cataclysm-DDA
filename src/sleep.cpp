@@ -201,11 +201,12 @@ bool comfort_data::human_or_impossible() const
 bool comfort_data::are_conditions_true( const Character &guy, const tripoint &p ) const
 {
     for( const condition &cond : conditions ) {
-        if( !cond.is_condition_true( guy, p ) ) {
-            return false;
+        const bool passed = cond.is_condition_true( guy, p );
+        if( conditions_or == passed ) {
+            return conditions_or;
         }
     }
-    return true;
+    return !conditions_or;
 }
 
 comfort_data::response comfort_data::get_comfort_at( const tripoint &p ) const
@@ -257,10 +258,12 @@ void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded )
 void comfort_data::deserialize( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "conditions", conditions );
+    optional( jo, was_loaded, "conditions_or", conditions_or );
     deserialize_comfort( jo, was_loaded );
     optional( jo, was_loaded, "add_human_comfort", add_human_comfort );
     optional( jo, was_loaded, "add_sleep_aids", add_sleep_aids );
     optional( jo, was_loaded, "msg_try", msg_try );
+    optional( jo, was_loaded, "msg_hint", msg_hint );
     optional( jo, was_loaded, "msg_fall", msg_fall );
     was_loaded = true;
 }
