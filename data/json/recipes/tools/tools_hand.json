@@ -1683,7 +1683,7 @@
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 113 ] ],
       [ [ "2x4", 2 ], [ "stick", 2 ] ],
-      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "super_glue", 4 ] ]
     ]
   },
   {
@@ -1702,7 +1702,7 @@
       [ [ "clay_lump", 32 ] ],
       [ [ "material_sand", 9000 ] ],
       [ [ "2x4", 8 ] ],
-      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "super_glue", 8 ] ]
     ]
   },
   {
@@ -1721,7 +1721,7 @@
       [ [ "clay_lump", 9 ] ],
       [ [ "material_sand", 2532 ] ],
       [ [ "2x4", 8 ] ],
-      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "super_glue", 8 ] ]
     ]
   },
   {
@@ -1740,7 +1740,7 @@
       [ [ "clay_lump", 5 ] ],
       [ [ "material_sand", 1350 ] ],
       [ [ "2x4", 4 ], [ "stick", 4 ] ],
-      [ [ "nails", 8, "LIST" ], [ "superglue", 4 ] ]
+      [ [ "nails", 8, "LIST" ], [ "super_glue", 4 ] ]
     ]
   },
   {

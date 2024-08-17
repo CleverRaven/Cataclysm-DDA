@@ -1009,5 +1009,53 @@
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyisland_bunker" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_pond",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ]]]**]]]]?      ",
+        "       ?]]*****]]]?     ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]    ",
+        "    ?]**[[~~~~[****]    ",
+        "    ]]***[~~~~[***]]    ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "    ?]]***[[***]]???    ",
+        "     ]]]]*****]]? ?     ",
+        "       ??]]****]        ",
+        "           **           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
+      "terrain": {
+        "*": "t_water_sh",
+        "?": [ [ "t_water_sh", 3 ], [ "t_dirt", 5 ], [ "t_grass", 6 ], [ "t_shrub", 2 ], [ "t_tree", 2 ] ],
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
+        "~": "t_water_dp"
+      }
+    }
   }
 ]

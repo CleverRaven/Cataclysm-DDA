@@ -1898,7 +1898,7 @@
   {
     "id": "molle_pack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE assault pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1450 g",
@@ -1989,7 +1989,7 @@
   {
     "id": "molle_medium_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE medium rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military medium rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1600 g",
@@ -2080,7 +2080,7 @@
   {
     "id": "molle_large_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE large rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military large rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "2200 g",
