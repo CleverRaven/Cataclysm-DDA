@@ -76,7 +76,7 @@
     "type": "GENERIC",
     "id": "soaking_long_pole",
     "name": { "str_sp": "soaking long pole" },
-    "description": "A stout, ten-foot pole.  Could be used similarly to a spear. It's currently soaked with oil and quite slippery. Once the oil penetrates the wood it can be wiped down and used for further projects.",
+    "description": "A stout, ten-foot pole.  Could be used similarly to a spear.  It's currently soaked with oil and quite slippery.  Once the oil penetrates the wood it can be wiped down and used for further projects.",
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "color": "brown",
     "symbol": "/",
