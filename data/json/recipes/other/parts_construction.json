@@ -530,14 +530,14 @@
     "difficulty": 2,
     "time": "40 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 80 ] ],
+    "using": [ [ "welding_standard", 80 ], [ "glue_strong", 250 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ] ]
   },
   {
     "type": "recipe",

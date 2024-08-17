@@ -2482,6 +2482,11 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
                 fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
+        // Warning: The above call to `repair_item_actor::repair` might
+        // invalidate the item and the item_location, for example when
+        // spilling items from spillable containers. It is therefore
+        // important that we don't use `fix_location` in code below
+        // here without first checking whether it is still valid.
 
         // If the item being repaired has been destroyed stop further
         // processing in case the items being used for the repair was
@@ -2512,6 +2517,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
+                                            !fix_location ||
                                             !actor->can_repair_target( *you, *fix_location, !destroyed, true );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.

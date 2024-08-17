@@ -658,11 +658,11 @@
     "difficulty": 3,
     "time": "60 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "glue_strong", 4 ] ],
     "//": "20cm weld",
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "omnicamera", 1 ] ], [ [ "wire", 4 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "omnicamera", 1 ] ], [ [ "wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -950,9 +950,9 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "using": [ [ "surface_heat", 10 ] ],
+    "using": [ [ "surface_heat", 10 ], [ "glue_any", 1 ] ],
     "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "wheel_caster", 1 ] ] ]
   },
   {
     "type": "recipe",

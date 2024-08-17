@@ -1621,7 +1621,7 @@
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
       [ "duct_tape", 60 ],
-      [ "superglue", 20 ],
+      { "group": "superglue", "prob": 20 },
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
       [ "wolfsuit", 3 ],
