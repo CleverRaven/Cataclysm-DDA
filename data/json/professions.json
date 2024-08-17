@@ -4352,7 +4352,7 @@
     "type": "profession",
     "id": "hardened_convict",
     "name": "Hardened Convict",
-    "description": "Most of your adult life has been spent in prison doing hard time. It's been rough but you've learned a few tricks to keep them on their toes. Time to see how tough these zombies are.",
+    "description": "Most of your adult life has been spent in prison doing hard time.  It's been rough but you've learned a few tricks to keep them on their toes.  Time to see how tough these zombies are.",
     "points": 0,
     "proficiencies": [ "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [
