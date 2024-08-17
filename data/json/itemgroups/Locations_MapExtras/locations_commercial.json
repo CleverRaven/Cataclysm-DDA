@@ -97,11 +97,10 @@
       [ "toilet_paper", 10 ],
       { "item": "handflare", "prob": 15, "charges": 300 },
       [ "duct_tape", 25 ],
-      [ "superglue", 20 ],
+      { "group": "superglue", "prob": 45 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
-      [ "superglue", 25 ],
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
@@ -1202,7 +1201,7 @@
       { "item": "screwdriver", "prob": 40 },
       { "item": "screwdriver_set", "prob": 20 },
       { "item": "socket_screwdriver_set", "prob": 10 },
-      { "item": "superglue", "prob": 30 },
+      { "group": "superglue", "prob": 55 },
       { "item": "hacksaw", "prob": 17 },
       { "item": "pliers", "prob": 40 },
       { "item": "gloves_leather", "prob": 45 },
@@ -1211,7 +1210,6 @@
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 25 },
       { "item": "misc_repairkit", "prob": 15 },
       { "group": "tools_toolbox", "prob": 2 }
     ]
@@ -1272,7 +1270,7 @@
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "socket_screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
-          { "item": "superglue", "prob": 10 },
+          { "group": "superglue", "prob": 10 },
           { "item": "misc_repairkit", "prob": 25 },
           { "group": "tools_toolbox", "prob": 2 }
         ]
@@ -1450,7 +1448,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ]
@@ -1510,7 +1508,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1541,7 +1539,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1799,7 +1797,7 @@
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
       [ "solder_wire", 50 ],
-      [ "superglue", 55 ],
+      { "group": "superglue", "prob": 55 },
       [ "screwdriver", 60 ],
       [ "motor_small", 30 ]
     ]
@@ -2099,7 +2097,7 @@
       [ "yarn", 15 ],
       [ "sinew", 15 ],
       [ "duct_tape", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "feather", 15 ],
       [ "mag_animecon", 15 ],
       [ "mag_beauty", 15 ],
