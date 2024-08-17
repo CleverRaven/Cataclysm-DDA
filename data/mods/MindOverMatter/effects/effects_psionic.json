@@ -435,7 +435,7 @@
             }
           },
           { "value": "MOVE_COST", "multiply": -0.1 },
-          { "value": "RECOIL_MODIFIER", "add": -30 },
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
