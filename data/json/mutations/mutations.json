@@ -10160,7 +10160,6 @@
     "type": "mutation",
     "id": "DARK_TRIAD",
     "name": { "str": "Dark Triad" },
-    "points": 1,
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
     "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
