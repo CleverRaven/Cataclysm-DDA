@@ -206,6 +206,24 @@
     "upgrades": { "age_grow": 8, "into": "mon_finch_saffron" }
   },
   {
+    "id": "mon_great_kiskadee",
+    "type": "MONSTER",
+    "name": { "str": "great kiskadee" },
+    "description": "A fairly large species of flycatcher with a yellow and brown plumage.",
+    "copy-from": "mon_bird_flying_base",
+    "color": "yellow",
+    "volume": "80 ml",
+    "weight": "60 g",
+    "reproduction": { "baby_egg": "egg_great_kiskadee", "baby_count": 5, "baby_timer": 18 },
+    "//": "Values for reproduction and chick growth copied from the bluejay, as no info could be found online."
+  },
+  {
+    "id": "mon_great_kiskadee_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 10, "into": "mon_great_kiskadee" }
+  },
+  {
     "id": "mon_tinamou",
     "type": "MONSTER",
     "name": { "str": "tinamou" },

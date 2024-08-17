@@ -57,6 +57,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_great_kiskadee",
+    "name": { "str": "great kiskadee egg" },
+    "copy-from": "egg_bluejay",
+    "rot_spawn": "GROUP_EGG_GREAT_KISKADEE"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_tinamou",
     "name": "tinamou egg",
     "copy-from": "egg_bird",

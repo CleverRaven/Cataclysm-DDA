@@ -45,6 +45,11 @@
     "monsters": [ { "monster": "mon_finch_saffron_chick" } ]
   },
   {
+    "name": "GROUP_EGG_GREAT_KISKADEE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_great_kiskadee_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_TINAMOU",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_tinamou_chick" } ]
