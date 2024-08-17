@@ -569,8 +569,7 @@
       { "monster": "mon_coot", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_moorhen", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cormorant", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_grebe", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_goose_golden", "weight": 10, "cost_multiplier": 0 }
+      { "monster": "mon_grebe", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {

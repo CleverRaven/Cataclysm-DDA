@@ -1201,14 +1201,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_goose_golden",
-    "name": "golden goose egg",
-    "copy-from": "egg_goose_canadian",
-    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "rot_spawn": "GROUP_EGG_GOOSE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_hummingbird",
     "name": "hummingbird egg",
     "spoils_in": "8 days",

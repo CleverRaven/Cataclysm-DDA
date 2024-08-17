@@ -1825,5 +1825,10 @@
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
     "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "egg_goose_golden",
+    "type": "MIGRATION",
+    "replace": "egg_goose"
   }
 ]

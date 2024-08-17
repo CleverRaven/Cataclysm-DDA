@@ -570,32 +570,10 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
   {
-    "id": "mon_goose_golden",
-    "type": "MONSTER",
-    "copy-from": "mon_goose",
-    "name": { "str": "royal honker" },
-    "description": "This strange colored goose seems larger than the rest.  Even more strange is its docile, almost regal demeanor.",
-    "volume": "8 L",
-    "weight": "4000 g",
-    "hp": 25,
-    "symbol": "g",
-    "color": "yellow",
-    "aggression": 0,
-    "morale": 30,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "reproduction": { "baby_egg": "egg_goose_golden", "baby_count": 1, "baby_timer": 10 }
-  },
-  {
     "id": "mon_goose_chick",
     "type": "MONSTER",
     "copy-from": "mon_duck_chick",
     "upgrades": { "age_grow": 16, "into": "mon_goose" }
-  },
-  {
-    "id": "mon_goose_golden_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_goose_chick",
-    "upgrades": { "age_grow": 16, "into": "mon_goose_golden" }
   },
   {
     "id": "mon_hummingbird",

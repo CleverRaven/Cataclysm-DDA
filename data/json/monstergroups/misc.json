@@ -279,7 +279,6 @@
       { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 },
       { "monster": "mon_goose", "weight": 10 },
-      { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
       { "monster": "mon_cicada_nymph", "weight": 10 },
