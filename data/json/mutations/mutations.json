@@ -10165,6 +10165,7 @@
     "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
     "valid": false,
     "mixed_effect": true,
+    "points": -1,
     "flags": [ "ASOCIAL2" ],
     "category": [ "ALPHA" ],
     "triggers": [
