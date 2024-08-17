@@ -156,13 +156,12 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_turkey",
-    "name": { "str": "turkey egg" },
-    "spoils_in": "14 days",
+    "name": { "str": "wild turkey egg" },
     "copy-from": "egg_chicken",
-    "volume": "83 ml",
-    "weight": "79 g",
+    "spoils_in": "15 days",
+    "proportional": { "volume": 1.58, "weight": 1.58 },
     "calories": 135,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "78 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
