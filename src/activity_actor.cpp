@@ -324,7 +324,7 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 void aim_activity_actor::start( player_activity &act, Character &who )
 {
     item_location weapon = get_weapon();
-    item it = *weapon.get_item();
+    item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
         aborted = true; // why doesn't interrupt?

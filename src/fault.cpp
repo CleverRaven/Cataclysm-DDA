@@ -43,7 +43,6 @@ const fault_id &faults::random_of_type_item_has( const item &it, const std::stri
     // not actually random
     for( const fault_id &fid : typed->second ) {
         if( it.has_fault( fid ) ) {
-            debugmsg( "picked fault: '%s'", fid.c_str() );
             return fid;
         }
     }

@@ -694,10 +694,10 @@ bool Character::handle_gun_damage( item &it )
             gun_jam_chance = 0.15 * firing.gun_jam_mult;
             break;
         case 3:
-            gun_jam_chance = 0.6 * firing.gun_jam_mult;
+            gun_jam_chance = 0.45 * firing.gun_jam_mult;
             break;
         case 4:
-            gun_jam_chance = 1.5 * firing.gun_jam_mult;
+            gun_jam_chance = 0.8 * firing.gun_jam_mult;
             break;
     }
 
@@ -754,8 +754,8 @@ bool Character::handle_gun_damage( item &it )
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
     } else if( x_in_y( jam_chance, 1 ) && !firing.u_know_round_in_chamber &&
                faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
-        add_msg_player_or_npc( _( "Your %s didn't load into the chamber!" ),
-                               _( "<npcname>'s %s didn't load into the chamber!" ),
+        add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
+                               _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
         it.faults.insert( faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) );
         return false;
