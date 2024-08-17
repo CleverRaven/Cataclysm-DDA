@@ -33,7 +33,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR pistol" },
-    "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
+    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
     "weight": "1043 g",
     "volume": "748 ml",
     "longest_side": "373 mm",
