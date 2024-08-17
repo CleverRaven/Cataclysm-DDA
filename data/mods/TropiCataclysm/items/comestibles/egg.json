@@ -27,10 +27,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_toucan",
-    "name": "toucan egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_TOUCAN",
-    "rot_spawn_chance": 70
+    "name": { "str": "toco toucan egg" },
+    "spoils_in": "18 days",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_TOUCAN"
   },
   {
     "type": "COMESTIBLE",
