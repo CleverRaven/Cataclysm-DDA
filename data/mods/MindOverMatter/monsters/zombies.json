@@ -59,11 +59,11 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "grab_strength": 40,
     "special_attacks": [
-      { "id": "grab" },
+      { "id": "grab", "cooldown": { "math": [ "5 + rand(10)" ] } },
       { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
         "id": "scratch",
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 6, "armor_multiplier": 0.8 } ],
         "effects": [ { "id": "effect_psi_neutralized", "duration": 15 } ],
         "effects_require_dmg": false,
@@ -76,7 +76,7 @@
       },
       {
         "type": "leap",
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "max_range": 3,
         "min_consider_range": 2,
         "max_consider_range": 4,
@@ -87,7 +87,7 @@
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster" },
         "condition": { "npc_has_species": "NETHER" },
-        "cooldown": { "math": [ "10 + rand(25)" ] },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
       }
     ],
@@ -125,11 +125,11 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "grab_strength": 30,
     "special_attacks": [
-      { "id": "grab" },
-      { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(5)" ] } },
+      { "id": "grab", "cooldown": { "math": [ "5 + rand(10)" ] } },
+      { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
         "id": "scratch",
-        "cooldown": { "math": [ "5 + rand(13)" ] },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 6, "armor_multiplier": 0.8 } ],
         "hit_dmg_u": "%1$s strikes at your %2$s!",
         "hit_dmg_npc": "%1$s strikes at <npcname>!",
@@ -165,7 +165,7 @@
     "copy-from": "mon_zombie_base",
     "type": "MONSTER",
     "name": { "str": "nether-void" },
-    "description": "Thoughts of old creepy Internet memes arise unbidden as you see this zombie.  It's almost ten feet fall but incredibly thin, with spindly legs and with arms that hang down almost all the way to the ground.  Occasionally, it drops on all fours to clamber with uncanny speed over some bit of rubble.  When you look directly at it, gray static flickers on the edge of your vision and you hear a very low droning hum.",
+    "description": "Thoughts of old creepy Internet memes arise unbidden as you see this zombie.  It's almost ten feet tall but incredibly thin, with spindly legs and with arms that hang down almost all the way to the ground.  Occasionally, it drops on all fours to clamber with uncanny speed over some bit of rubble.  When you look directly at it, gray static flickers on the edge of your vision and you hear a very low droning hum.",
     "species": [ "ZOMBIE", "HUMAN", "PSI_NULL" ],
     "proportional": { "hp": 1.3, "speed": 2 },
     "symbol": "Z",
@@ -183,13 +183,13 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi_void", "delay": "1 s" } ],
     "grab_strength": 50,
     "special_attacks": [
-      { "id": "ranged_pull", "range": 3, "no_adjacent": true },
-      { "id": "grab_drag", "cooldown": { "math": [ "2 + rand(3)" ] } },
+      { "id": "ranged_pull", "range": 3, "cooldown": { "math": [ "2 + rand(4)" ] }, "no_adjacent": true },
+      { "id": "grab_drag", "cooldown": { "math": [ "2 + rand(4)" ] } },
       { "id": "drag_followup" },
-      { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(5)" ] } },
+      { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
         "id": "scratch",
-        "cooldown": { "math": [ "6 + rand(15)" ] },
+        "cooldown": { "math": [ "6 + rand(12)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 6, "armor_multiplier": 0.8 } ],
         "effects": [ { "id": "effect_psi_neutralized", "duration": 30 } ],
         "effects_require_dmg": false,
@@ -202,7 +202,7 @@
       },
       {
         "type": "leap",
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "max_range": 4,
         "min_consider_range": 2,
         "max_consider_range": 6,
@@ -213,7 +213,7 @@
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster_greater" },
         "condition": { "npc_has_species": "NETHER" },
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision creeps inward for a moment."
       }
     ],

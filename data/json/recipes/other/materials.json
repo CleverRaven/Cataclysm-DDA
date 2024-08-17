@@ -971,7 +971,8 @@
     "time": "45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "using": [ [ "glue_strong", 450 ] ],
+    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ] ]
   },
   {
     "result": "sheet_cotton",
