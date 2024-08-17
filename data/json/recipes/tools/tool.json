@@ -626,12 +626,8 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "material_sand", -1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "cu_pipe", 1 ] ],
-      [ [ "bone_glue", 1 ], [ "superglue", 1 ] ],
-      [ [ "duct_tape", 10 ] ]
-    ]
+    "using": [ [ "glue_waterproof", 15 ] ],
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "cu_pipe", 1 ] ], [ [ "duct_tape", 10 ] ] ]
   },
   {
     "result": "electrolyzer_makeshift",
@@ -1378,7 +1374,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "glue_waterproof", 12 ] ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "filament", 40, "LIST" ] ] ]
   },
   {
     "result": "masonrysaw_off",

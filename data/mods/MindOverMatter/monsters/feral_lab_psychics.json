@@ -39,7 +39,7 @@
         "id": "psi_drbrain_flashbang",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
-        "cooldown": { "math": [ "6 + rand(15)" ] },
+        "cooldown": { "math": [ "6 + rand(12)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
@@ -47,7 +47,7 @@
         "id": "psi_drbrain_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
-        "cooldown": { "math": [ "5 + rand(13)" ] },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
@@ -55,7 +55,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_telekinetic_mindhammer",
-        "cooldown": { "math": [ "5 + rand(13)" ] },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
         "move_cost": 80,
         "range": 6,
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25 } ],
@@ -73,7 +73,7 @@
       {
         "id": "smash",
         "move_cost": 80,
-        "cooldown": { "math": [ "4 + rand(10)" ] },
+        "cooldown": { "math": [ "4 + rand(8)" ] },
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
@@ -166,13 +166,13 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 50,
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 15 ],
       {
         "id": "bio_op_takedown",
-        "cooldown": { "math": [ "10 + rand(15)" ] },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       {

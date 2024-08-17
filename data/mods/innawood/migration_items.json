@@ -1,7 +1,7 @@
 [
   {
-    "id": "superglue",
+    "id": "small_squeeze_tube",
     "type": "MIGRATION",
-    "replace": "bone_glue"
+    "replace": "clay_canister"
   }
 ]
