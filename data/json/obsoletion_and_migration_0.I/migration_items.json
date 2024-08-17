@@ -5,6 +5,36 @@
     "replace": "combat_exoskeleton_light_salvaged"
   },
   {
+    "type": "MIGRATION",
+    "id": "dinosuit",
+    "replace": "fursuit",
+    "variant": "dinosuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wolfsuit",
+    "replace": "fursuit",
+    "variant": "wolfsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "felinesuit",
+    "replace": "fursuit",
+    "variant": "felinesuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "dragonsuit",
+    "replace": "fursuit",
+    "variant": "dragonsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sharksuit",
+    "replace": "fursuit",
+    "variant": "sharksuit"
+  },
+  {
     "id": "depowered_helmet",
     "type": "MIGRATION",
     "replace": "combat_exoskeleton_armor_head_light"
