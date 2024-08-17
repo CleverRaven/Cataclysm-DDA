@@ -43,10 +43,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_macaw",
-    "name": "macaw egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_MACAW",
-    "rot_spawn_chance": 70
+    "name": { "str": "blue-and-yellow macaw egg" },
+    "spoils_in": "13 days",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_MACAW"
   },
   {
     "type": "COMESTIBLE",

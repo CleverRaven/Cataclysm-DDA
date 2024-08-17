@@ -167,45 +167,26 @@
   {
     "id": "mon_macaw",
     "type": "MONSTER",
-    "name": { "str": "macaw" },
-    "description": "A medium to large bird with bright colored plumage and a short hooked beak.  These are the largest flying parrots in the world, living usually in the thickest rainforests.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1000 ml",
-    "weight": "900 g",
-    "hp": 25,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "harvest": "bird_small",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_macaw", "baby_count": 5, "baby_timer": 14 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "name": { "str": "blue-and-yellow macaw" },
+    "description": "A large parrot sporting beautiful blue plumage.  Intelligent and often kept as a pet.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "1800 ml",
+    "weight": "1350 g",
+    "hp": 8,
+    "color": "light_blue",
+    "reproduction": { "baby_egg": "egg_macaw", "baby_count": 3, "baby_timer": 116 }
   },
   {
     "id": "mon_macaw_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
-    "volume": "240 ml",
-    "weight": "20 g",
-    "upgrades": { "age_grow": 11, "into": "mon_macaw" }
+    "copy-from": "mon_generic_chick",
+    "upgrades": { "age_grow": 23, "into": "mon_macaw" },
+    "//": "3 months to reach independence.",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
   },
   {
     "id": "mon_tinamou",
