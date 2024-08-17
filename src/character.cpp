@@ -9059,6 +9059,10 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
+    const comfort_data::message &msg = get_comfort_at( pos_bub().raw() ).data->msg_fall;
+    if( !msg.text.empty() ) {
+        add_msg_if_player( msg.type, msg.text );
+    }
     if( has_bionic( bio_sleep_shutdown ) ) {
         add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response." ) );
     }
@@ -11304,7 +11308,7 @@ bool Character::can_sleep()
     return result;
 }
 
-const comfort_data &Character::find_comfort_data_for( const tripoint &p ) const
+const comfort_data &Character::get_comfort_data_for( const tripoint &p ) const
 {
     const comfort_data *worst = nullptr;
     for( const trait_id trait : get_mutations() ) {
@@ -11325,7 +11329,7 @@ const comfort_data::response &Character::get_comfort_at( const tripoint &p )
     if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
         return comfort_cache;
     }
-    return comfort_cache = find_comfort_data_for( p ).get_comfort_at( p );
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
 }
 
 void Character::shift_destination( const point &shift )

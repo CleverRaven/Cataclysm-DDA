@@ -3860,7 +3860,7 @@ class Character : public Creature, public visitable
             const std::function<bool( const item & )> &filter, Character &player_character ) const;
 
         // --------------- Sleep Stuff ---------------
-        const comfort_data &find_comfort_data_for( const tripoint &p ) const;
+        const comfort_data &get_comfort_data_for( const tripoint &p ) const;
         const comfort_data::response &get_comfort_at( const tripoint &p );
         comfort_data::response comfort_cache;
 

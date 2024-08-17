@@ -69,6 +69,7 @@
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -1947,119 +1948,46 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 
 void avatar::try_to_sleep( const time_duration &dur )
 {
-    map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos_bub() );
-    const trap &trap_at_pos = here.tr_at( pos_bub() );
-    const ter_id ter_at_pos = here.ter( pos_bub() );
-    const furn_id furn_at_pos = here.furn( pos_bub() );
-    bool plantsleep = false;
-    bool fungaloid_cosplay = false;
-    bool websleep = false;
-    bool webforce = false;
-    bool websleeping = false;
-    bool in_shell = false;
-    bool watersleep = false;
-    if( has_trait( trait_CHLOROMORPH ) ) {
-        plantsleep = true;
-        const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
-        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp &&
-            furn_at_pos == furn_str_id::NULL_ID() ) {
-            add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
-        } else if( vp ) {
-            add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != furn_str_id::NULL_ID() ) {
-            add_msg_if_player( m_bad,
-                               _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
-        } else { // Floor problems
-            add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
-        }
-    } else if( has_trait( trait_M_SKIN3 ) ) {
-        fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() ) ) {
-            add_msg_if_player( m_good,
-                               _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
-        }
+    const comfort_data::response &comfort = get_comfort_at( pos_bub().raw() );
+    const comfort_data::message &msg = comfort.data->msg_try;
+    if( !msg.text.empty() ) {
+        add_msg_if_player( msg.type, msg.text );
     }
-    if( has_trait( trait_WEB_WALKER ) ) {
-        websleep = true;
+
+    if( !comfort.sleep_aid.empty() ) {
+        //~ %s: item name
+        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort.sleep_aid );
     }
-    // Not sure how one would get Arachnid w/o web-making, but Just In Case
-    if( has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-            has_trait( trait_WEB_WEAVER ) ) ) {
-        webforce = true;
-    }
-    if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos_bub(), fd_web );
-        if( !webforce ) {
-            // At this point, it's kinda weird, but surprisingly comfy...
-            if( web >= 3 ) {
-                add_msg_if_player( m_good,
-                                   _( "These thick webs support your weight, and are strangely comfortable…" ) );
-                websleeping = true;
-            } else if( web > 0 ) {
-                add_msg_if_player( m_info,
-                                   _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), fd_web );
+
+    if( comfort.comfort > comfort_data::COMFORT_NEUTRAL ) {
+        add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
+    } else {
+        const map &here = get_map();
+        if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
+            if( const std::optional<vpart_reference> aisle = vp.part_with_feature( "AISLE", true ) ) {
+                //~ %1$s: vehicle name, %2$s: vehicle part name
+                add_msg_if_player( _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
+                                   vp->vehicle().disp_name(), aisle->part().name( false ) );
+            } else {
+                //~ %1$s: vehicle name
+                add_msg_if_player( _( "It's hard to get to sleep in %1$s." ), vp->vehicle().disp_name() );
             }
         } else {
-            // Here, you're just not comfortable outside a nice thick web.
-            if( web >= 3 ) {
-                add_msg_if_player( m_good, _( "You relax into your web." ) );
-                websleeping = true;
+            const ter_id ter = here.ter( pos_bub() );
+            if( ter->movecost <= 2 ) {
+                //~ %s: terrain name
+                add_msg_if_player( _( "It's a little hard to get to sleep on this %s." ), ter->name() );
             } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to sleep, but you feel exposed and your spinnerets keep twitching." ) );
-                add_msg_if_player( m_info, _( "Maybe a nice thick web would help you sleep." ) );
+                //~ %s: terrain name
+                add_msg_if_player( _( "It's hard to get to sleep on this %s." ), ter->name() );
             }
         }
     }
-    if( has_active_mutation( trait_SHELL2 ) || has_active_mutation( trait_SHELL3 ) ) {
-        // Your shell's interior is a comfortable place to sleep.
-        in_shell = true;
-    }
-    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
-        if( underwater ) {
-            add_msg_if_player( m_good,
-                               _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
-            watersleep = true;
-        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
-            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
-            watersleep = true;
-        }
-    }
-    if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
-                         in_shell || websleeping || watersleep ||
-                         vp.part_with_feature( "SEAT", true ) ||
-                         vp.part_with_feature( "BED", true ) ) ) {
-        add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
-    } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        if( !vp && ter_at_pos != ter_t_floor ) {
-            add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
-                               _( "It's a little hard to get to sleep on this %s." ) :
-                               _( "It's hard to get to sleep on this %s." ),
-                               ter_at_pos.obj().name() );
-        } else if( vp ) {
-            if( vp->part_with_feature( VPFLAG_AISLE, true ) ) {
-                add_msg_if_player(
-                    //~ %1$s: vehicle name, %2$s: vehicle part name
-                    _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
-                    vp->vehicle().disp_name(),
-                    vp->part_with_feature( VPFLAG_AISLE, true )->part().name( false ) );
-            } else {
-                add_msg_if_player(
-                    //~ %1$s: vehicle name
-                    _( "It's hard to get to sleep in %1$s." ),
-                    vp->vehicle().disp_name() );
-            }
-        }
-    }
+
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
         bio_soporific_powered_at_last_sleep_check = has_power();
         if( bio_soporific_powered_at_last_sleep_check ) {
-            // The actual bonus is applied in sleep_spot( p ).
             add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
         } else {
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
