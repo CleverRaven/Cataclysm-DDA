@@ -42,22 +42,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_budgerigar",
-    "name": "budgerigar egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_BUDGERIGAR",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_cockatoo",
-    "name": "cockatoo egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_COCKATOO",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_macaw",
     "name": "macaw egg",
     "copy-from": "egg_bird",
@@ -102,14 +86,6 @@
     "name": "curassow egg",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CURASSOW",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_flamingo",
-    "name": "flamingo egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_FLAMINGO",
     "rot_spawn_chance": 70
   },
   {

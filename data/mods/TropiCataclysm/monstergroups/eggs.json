@@ -40,18 +40,6 @@
     "monsters": [ { "monster": "mon_parrot_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
-    "name": "GROUP_EGG_BUDGERIGAR",
-    "type": "monstergroup",
-    "default": "mon_budgerigar_chick",
-    "monsters": [ { "monster": "mon_budgerigar_chick", "weight": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_COCKATOO",
-    "type": "monstergroup",
-    "default": "mon_cockatoo_chick",
-    "monsters": [ { "monster": "mon_cockatoo_chick", "weight": 100, "cost_multiplier": 1 } ]
-  },
-  {
     "name": "GROUP_EGG_MACAW",
     "type": "monstergroup",
     "default": "mon_macaw_chick",
@@ -86,12 +74,6 @@
     "type": "monstergroup",
     "default": "mon_curassow_chick",
     "monsters": [ { "monster": "mon_curassow_chick", "weight": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_FLAMINGO",
-    "type": "monstergroup",
-    "default": "mon_flamingo_chick",
-    "monsters": [ { "monster": "mon_flamingo_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_CONSTRICTOR",
