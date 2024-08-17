@@ -10136,7 +10136,7 @@
           "condition": {
             "or": [
               { "math": [ "u_val('morale')", "<", "-75" ] },
-              { "math": [ "u_val('morale')", "<", "75" ] },
+              { "math": [ "u_val('morale')", "<", "75" ] }
             ]
           },
           "msg_on": { "text": "You give in to your worst instincts.", "rating": "mixed" }
@@ -10147,7 +10147,7 @@
           "condition": {
             "or": [
               { "math": [ "u_val('stim')", "<", "-50" ] },
-              { "math": [ "u_val('stim')", "<", "50" ] },
+              { "math": [ "u_val('stim')", "<", "50" ] }
             ]
           },
           "msg_on": { "text": "You give in to your worst instincts.", "rating": "mixed" }
