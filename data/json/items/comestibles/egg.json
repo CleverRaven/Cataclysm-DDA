@@ -167,9 +167,9 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_pheasant",
-    "name": { "str": "pheasant egg" },
-    "spoils_in": "14 days",
+    "name": { "str": "ring-necked pheasant egg" },
     "copy-from": "egg_chicken",
+    "spoils_in": "14 days",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
   {

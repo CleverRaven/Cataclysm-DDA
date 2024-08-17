@@ -311,18 +311,15 @@
   {
     "id": "mon_pheasant",
     "type": "MONSTER",
-    "copy-from": "mon_turkey",
-    "name": { "str": "pheasant" },
-    "description": "A medium-sized game bird that can have bright feathers depending on the sex and species.",
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 6,
-    "speed": 130,
-    "dodge": 4,
-    "aggression": -99,
-    "morale": -8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 5, "baby_timer": 8 },
+    "name": { "str": "ring-necked pheasant" },
+    "description": "A medium-sized game bird that can have bright feathers depending on the sex.  Introduced from Asia to New England.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "1467 ml",
+    "weight": "1100 g",
+    "//": "0.9kg for females, 1.2kg for males. We don't differentiate genders, so lets take a rough middle ground.",
+    "hp": 3,
+    "speed": 140,
+    "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 15, "baby_timer": 108 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -407,7 +404,8 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
+    "upgrades": { "age_grow": 55, "into": "mon_pheasant" },
+    "//": "A year to reach sexual maturity, but only 80 days to reach independence, so lets get an average from that."
   },
   {
     "id": "mon_duck_chick",
