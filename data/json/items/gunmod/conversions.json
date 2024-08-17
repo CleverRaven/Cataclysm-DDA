@@ -137,7 +137,7 @@
     "copy-from": "retool_ar15_223rem",
     "//": "Based on https://veriforcetactical.com/product/ar-15-pistol-upper-556-7-inch-m-lok-slim-profile-with-mcbs/",
     "type": "GUNMOD",
-    "name": { "str": "Pistol .223 upper receiver" },
+    "name": { "str": "pistol .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 7.5-inch barrel chambered for .223 Remington ammunition.  These are most often found on stockless AR pistol lowers, to comply with legal restrictions on short barrels on rifles.  No such laws exist now, or at least people that can enforce them.",
     "weight": "1134 g",
     "volume": "718 ml",
