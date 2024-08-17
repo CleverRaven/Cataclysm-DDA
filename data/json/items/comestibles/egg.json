@@ -42,8 +42,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_grouse",
-    "name": { "str": "grouse egg" },
+    "name": { "str": "ruffed grouse egg" },
     "copy-from": "egg_chicken",
+    "spoils_in": "13 days",
+    "proportional": { "volume": 0.67, "weight": 0.67, "calories": 0.67 },
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
@@ -131,13 +133,12 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_duck",
-    "name": { "str": "duck egg" },
+    "name": { "str": "mallard egg" },
     "copy-from": "egg_chicken",
     "spoils_in": "14 days",
+    "proportional": { "volume": 1.4, "weight": 1.4 },
     "calories": 130,
-    "volume": "83 ml",
-    "weight": "70 g",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "45 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {

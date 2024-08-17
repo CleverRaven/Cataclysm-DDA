@@ -118,6 +118,8 @@
   {
     "abstract": "mon_generic_chick_water",
     "type": "MONSTER",
+    "name": { "str": "waterfowl chick" },
+    "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
     "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_duck" },
     "//": "Grows up into a duck as a fallback",
@@ -261,34 +263,15 @@
   {
     "id": "mon_duck",
     "type": "MONSTER",
-    "name": { "str": "duck" },
-    "description": "A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-Cataclysm, bread scraps.",
-    "default_faction": "small_animal",
-    "bodytype": "bird",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1500 ml",
-    "weight": "1500 g",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
+    "name": { "str": "mallard" },
+    "description": "A common species of duck often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-Cataclysm, bread scraps.",
+    "copy-from": "mon_bird_water_base",
+    "volume": "1387 ml",
+    "weight": "1040 g",
+    "hp": 3,
     "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_small",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
+    "reproduction": { "baby_egg": "egg_duck", "baby_count": 13, "baby_timer": 88 },
+    "baby_flags": [ "SPRING" ]
   },
   {
     "id": "mon_goose_canadian",
@@ -447,15 +430,14 @@
   {
     "id": "mon_duck_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "name": { "str": "waterfowl chick" },
-    "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
+    "copy-from": "mon_generic_chick_water",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 12, "into": "mon_duck" }
+    "upgrades": { "age_grow": 60, "into": "mon_duck" },
+    "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   },
   {
     "id": "mon_goose_canadian_chick",
