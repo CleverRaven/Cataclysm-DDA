@@ -762,11 +762,11 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
 {
     dbl_or_var weight = get_dbl_or_var( jio, "weight", false,  1000 );
     if( weight.min.is_constant() && ( weight.min.constant() < 0 ||
-                                      weight.min.constant() >= 2147483648 ) ) {
+                                      weight.min.constant() >= INT_MAX ) ) {
         jio.throw_error_at( "weight", "min value out of bounds (0 - max int)" );
     }
     if( weight.pair && weight.max.is_constant() && ( weight.max.constant() < 0 ||
-            weight.max.constant() >= 2147483648 ) ) {
+            weight.max.constant() >= INT_MAX ) ) {
         jio.throw_error_at( "weight", "max value out of bounds (0 - max int)" );
     }
 
