@@ -325,6 +325,41 @@
     ]
   },
   {
+    "id": "bionics_pulled_out_prototype",
+    "type": "item_group",
+    "items": [
+      { "item": "bio_power_storage", "prob": 100, "count": [ 1, 5 ] },
+      { "item": "bio_power_storage_mkII", "prob": 8, "count": [ 1, 2 ] },
+      { "item": "bio_armor_arms", "prob": 60, "count": 1 },
+      { "item": "bio_armor_eyes", "prob": 60, "count": 1 },
+      { "item": "bio_armor_head", "prob": 60, "count": 1 },
+      { "item": "bio_armor_legs", "prob": 60, "count": 1 },
+      { "item": "bio_armor_torso", "prob": 60, "count": 1 },
+      { "item": "bio_batteries", "prob": 11, "count": 1 },
+      { "item": "bio_blood_anal", "prob": 4, "count": 1 },
+      { "item": "bio_blood_filter", "prob": 5, "count": 1 },
+      { "item": "bio_cable", "prob": 30, "count": 1 },
+      { "item": "bio_climate", "prob": 10, "count": 1 },
+      { "item": "bio_dex_enhancer", "prob": 8, "count": 1 },
+      { "item": "bio_ears", "prob": 17, "count": 1 },
+      { "item": "bio_sonar", "prob": 2, "count": 1 },
+      { "item": "bio_evap", "prob": 8, "count": 1 },
+      { "item": "bio_eye_enhancer", "prob": 2, "count": 1 },
+      { "item": "bio_eye_optic", "prob": 2, "count": 1 },
+      { "item": "bio_fitnessband", "prob": 16, "count": 1 },
+      { "item": "bio_geiger", "prob": 18, "count": 1 },
+      { "item": "bio_gills", "prob": 10, "count": 1 },
+      { "item": "bio_ground_sonar", "prob": 9, "count": 1 },
+      { "item": "bio_heat_absorb", "prob": 4, "count": 1 },
+      { "item": "bio_heatsink", "prob": 6, "count": 1 },
+      { "item": "bio_radio", "prob": 11, "count": 1 },
+      { "item": "bio_sunglasses", "prob": 11, "count": 1 },
+      { "item": "bio_ar", "prob": 22, "count": 1 },
+      { "item": "bio_alarm", "prob": 26, "count": 1 },
+      { "item": "bio_painkiller", "prob": 12, "count": 1 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_fun",
     "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 2 ] ]
