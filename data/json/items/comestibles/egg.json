@@ -1203,11 +1203,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_hummingbird",
-    "name": "hummingbird egg",
-    "spoils_in": "8 days",
-    "copy-from": "egg_crow",
-    "volume": "1 ml",
-    "weight": "1 g",
+    "name": { "str": "ruby-throated hummingbird egg" },
+    "spoils_in": "7 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.01, "weight": 0.01, "calories": 0.01 },
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {

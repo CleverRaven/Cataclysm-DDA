@@ -555,33 +555,14 @@
   {
     "id": "mon_hummingbird",
     "type": "MONSTER",
-    "name": { "str": "hummingbird" },
-    "description": "A very small ruby-throated hummingbird of varied colored feathers.  It flies at incredible speeds while seeking nectar among flowers.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "150 ml",
-    "weight": "18 g",
-    "hp": 3,
-    "speed": 160,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_hummingbird", "baby_count": 5, "baby_timer": 14 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SMALL_HIDER" ]
+    "name": { "str": "ruby-throated hummingbird" },
+    "description": "A very small hummingbird of varied colorful feathers.  It flies at incredible speeds while seeking nectar among flowers.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "5 ml",
+    "weight": "3600 mg",
+    "color": "light_green",
+    "reproduction": { "baby_egg": "egg_hummingbird", "baby_count": 3, "baby_timer": 36 },
+    "baby_flags": [ "SPRING" ]
   },
   {
     "id": "mon_woodpecker",
@@ -596,9 +577,8 @@
   {
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "weight": "7 g",
-    "upgrades": { "age_grow": 11, "into": "mon_hummingbird" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 6, "into": "mon_hummingbird" }
   },
   {
     "id": "mon_woodpecker_chick",
