@@ -332,19 +332,19 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "long_pole",
-    "byproducts": [ [ "splinter", 30 ] ],
+    "result": "soaking_long_pole",
+    "byproducts": [ [ "splinter", 60 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "5 h 40 m",
+    "time": "2 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
-      [ [ "wood_beam", 1 ] ],
+      [ [ "wooden_post_long", 1 ] ],
       [
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],
