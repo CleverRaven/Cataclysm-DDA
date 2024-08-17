@@ -557,6 +557,7 @@
     "id": "1911_22",
     "copy-from": "pistol_base",
     "type": "GUN",
+    "looks_like": "1911",
     "//": "Based on https://www.browning.com/products/firearms/pistols/1911-22/1911-22-a1.html",
     "name": { "str": ".22 1911 pistol" },
     "description": "A 1911 in .22 LR, with a 4 1/4\" barrel, and feeding from 10 round magazines.",
