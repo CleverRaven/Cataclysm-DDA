@@ -2,6 +2,6 @@
   {
     "id": "eggs_bird",
     "type": "requirement",
-    "extend": { "components": [ [ [ "egg_toucan", 3 ] ] ] }
+    "extend": { "components": [ [ [ "egg_toucan", 3 ], [ "egg_parrot", 6 ] ] ] }
   }
 ]

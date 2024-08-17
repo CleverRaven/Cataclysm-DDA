@@ -28,17 +28,17 @@
     "type": "COMESTIBLE",
     "id": "egg_toucan",
     "name": { "str": "toco toucan egg" },
-    "spoils_in": "18 days",
+    "spoils_in": "9 days",
     "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_TOUCAN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_parrot",
-    "name": "parrot egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_PARROT",
-    "rot_spawn_chance": 70
+    "name": { "str": "white-eyed parakeet egg" },
+    "spoils_in": "13 days",
+    "copy-from": "egg_bluejay",
+    "rot_spawn": "GROUP_EGG_PARROT"
   },
   {
     "type": "COMESTIBLE",
