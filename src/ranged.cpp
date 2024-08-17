@@ -752,7 +752,7 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) &&
+    } else if( x_in_y( jam_chance, 1 ) && !firing.u_know_round_in_chamber &&
                faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
         add_msg_player_or_npc( _( "Your %s didn't load into the chamber!" ),
                                _( "<npcname>'s %s didn't load into the chamber!" ),
@@ -853,6 +853,12 @@ bool Character::handle_gun_damage( item &it )
         // Don't increment until after the message
         it.inc_damage();
     }
+
+    if( firing.u_know_round_in_chamber ) {
+        islot_gun gun = *it.type->gun;
+        gun.u_know_round_in_chamber = false;
+    }
+
     return true;
 }
 

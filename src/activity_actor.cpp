@@ -353,6 +353,8 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
             it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+            islot_gun &firing = *it.type->gun;
+            firing.u_know_round_in_chamber = true;
         } else {
             who.add_msg_if_player( m_warning,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
