@@ -2308,16 +2308,10 @@
     "skills_required": [ "melee", 5 ],
     "time": "25 m",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "glue_strong", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [
-      [ [ "machete", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "filament_durable", 20, "LIST" ] ],
-      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
-      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
-    ]
+    "components": [ [ [ "machete", 1 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ] ]
   },
   {
     "result": "survivor_machete_qt",
@@ -2330,17 +2324,11 @@
     "skills_required": [ "melee", 5 ],
     "time": "4 h 48 m",
     "book_learn": [ [ "textbook_weapwest", 5 ], [ "welding_book", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ], [ "glue_strong", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -80 ], [ "water_clean", -80 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_quenching", "skill_penalty": 1 } ],
-    "components": [
-      [ [ "machete", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "filament_durable", 20, "LIST" ] ],
-      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
-      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
-    ]
+    "components": [ [ [ "machete", 1 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ] ]
   },
   {
     "type": "recipe",

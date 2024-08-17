@@ -2621,9 +2621,10 @@ void spellcasting_callback::display_spell_info( size_t index )
     } else if( sp.effect() == "spawn_item" ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             // todo: more user-friendly presentation
-            ImGui::Text( _( "Spawn item group %1$s %2$d times" ),
-                         sp.effect_data().c_str(),
-                         sp.damage( pc ) );
+            const std::string s = string_format( _( "Spawn item group %1$s %2$d times" ),
+                                                 sp.effect_data(),
+                                                 sp.damage( pc ) );
+            ImGui::Text( "%s", s.c_str() );
         } else {
             ImGui::Text( "%s %d %s", _( "Spawn" ), sp.damage( pc ),
                          item::nname( itype_id( sp.effect_data() ), sp.damage( pc ) ).c_str() );

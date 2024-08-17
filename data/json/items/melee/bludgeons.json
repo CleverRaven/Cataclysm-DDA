@@ -1513,7 +1513,7 @@
     "symbol": "/",
     "material": [ "wood", "steel" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "UNBREAKABLE_MELEE" ],
     "volume": "2500 ml",
     "longest_side": "60 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },

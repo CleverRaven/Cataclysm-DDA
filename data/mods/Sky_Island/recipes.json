@@ -242,5 +242,22 @@
       [ [ "nuts_bolts", 4 ], [ "pipe_fittings", 4 ], [ "sheet_metal_small", 10 ] ],
       [ [ "nail", 40 ] ]
     ]
+  },
+  {
+    "id": "sky_island_warped_pond",
+    "name": "Warped Pond",
+    "description": "Create a pond on your island.  You must be standing next to a water source to successfully create the pond.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "time": "0 m",
+    "autolearn": false,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 30 ] ] ],
+    "flags": [ "BLIND_EASY" ],
+    "result_eocs": [ "EOC_WARPED_POND_CREATION" ]
   }
 ]

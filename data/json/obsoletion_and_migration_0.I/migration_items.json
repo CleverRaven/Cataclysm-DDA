@@ -1819,5 +1819,11 @@
     "id": "g36mag_100rd",
     "type": "MIGRATION",
     "replace": "stanag100drum"
+  },
+  {
+    "id": "superglue",
+    "type": "MIGRATION",
+    "replace": "small_squeeze_tube",
+    "contents": [ { "id": "super_glue", "count": 40 } ]
   }
 ]
