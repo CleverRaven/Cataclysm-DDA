@@ -48,7 +48,7 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
-	  { "item": "ruger_mk4_mag", "prob": 39 },
+      { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
   },
@@ -57,10 +57,14 @@
     "subtype": "distribution",
     "id": "common_magazines_30_carbine",
     "//": "Collections of magazines for 30 carbine guns that are sold in gunstores, such as M1 Carbines and... nothing else.",
-    "items": [
-      { "item": "m1carbinemag", "prob": 100 },
-      { "item": "m1carbinebigmag", "prob": 10 }
-    ]
+    "items": [ { "item": "m1carbinemag", "prob": 100 }, { "item": "m1carbinebigmag", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_32",
+    "//": "Collections of magazines for 32 ACP guns that are sold in gunstores, such as a PPK.",
+    "items": [ { "item": "ppkmag", "prob": 100 }, { "item": "kp32mag", "prob": 68 } ]
   },
   {
     "type": "item_group",
