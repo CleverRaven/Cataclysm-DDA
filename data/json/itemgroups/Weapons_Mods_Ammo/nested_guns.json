@@ -255,6 +255,19 @@
     ]
   },
   {
+    "id": "nested_1911_22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "1911_22", "charges": [ 0, 10 ] },
+      { "item": "1911_22_mag" },
+      { "item": "1911_22_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_ruger_charger",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
