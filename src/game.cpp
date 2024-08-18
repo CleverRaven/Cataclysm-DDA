@@ -5541,7 +5541,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( true );
+                veh->start_engines( &u, true );
             }
         }
     }
