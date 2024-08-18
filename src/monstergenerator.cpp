@@ -377,7 +377,7 @@ void MonsterGenerator::finalize_mtypes()
                 armor_diff += dt.second;
             }
         }
-        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER"};
+        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER", "GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
         int special_attacks_diff = 0;
         for( const auto &special : mon.special_attacks ) {
             if( !blacklisted_specials.count( special.first ) ) {
