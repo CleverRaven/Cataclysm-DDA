@@ -275,6 +275,18 @@
     "baby_flags": [ "SPRING" ]
   },
   {
+    "id": "mon_duck_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_water",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "upgrades": { "age_grow": 60, "into": "mon_duck" },
+    "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
+  },
+  {
     "id": "mon_goose_canadian",
     "type": "MONSTER",
     "name": { "str": "Canada goose", "str_pl": "Canada geese" },
@@ -303,6 +315,17 @@
     "speed": 140,
     "color": "brown",
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 17, "baby_timer": 151 }
+  },
+  {
+    "id": "mon_turkey_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "upgrades": { "age_grow": 75, "into": "mon_turkey" }
   },
   {
     "id": "mon_pheasant",
@@ -381,17 +404,6 @@
     "upgrades": { "age_grow": 7, "into": "mon_sparrow" }
   },
   {
-    "id": "mon_turkey_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "upgrades": { "age_grow": 75, "into": "mon_turkey" }
-  },
-  {
     "id": "mon_pheasant_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
@@ -402,18 +414,6 @@
     },
     "upgrades": { "age_grow": 55, "into": "mon_pheasant" },
     "//": "A year to reach sexual maturity, but only 80 days to reach independence, so lets get an average from that."
-  },
-  {
-    "id": "mon_duck_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_generic_chick_water",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "upgrades": { "age_grow": 60, "into": "mon_duck" },
-    "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   },
   {
     "id": "mon_goose_canadian_chick",
