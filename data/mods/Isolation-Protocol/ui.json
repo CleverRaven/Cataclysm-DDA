@@ -37,7 +37,7 @@
   {
     "id": "iso_danger",
     "type": "widget",
-    "label": "Ambient normality:",
+    "label": "Ambient normality",
     "style": "text",
     "clauses": [
       {
@@ -65,7 +65,7 @@
         "text": "Distorted",
         "color": "dark_gray",
         "condition": {
-          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "15" ] } ]
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "20" ] } ]
         }
       },
       {
@@ -73,7 +73,7 @@
         "text": "Unstable",
         "color": "magenta",
         "condition": {
-          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "20" ] } ]
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "25" ] } ]
         }
       },
       {
