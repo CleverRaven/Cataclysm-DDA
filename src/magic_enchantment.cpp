@@ -95,6 +95,7 @@ namespace io
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchant_vals::mod::VISION_RANGE: return "VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
@@ -324,6 +325,7 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
@@ -344,6 +346,7 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
