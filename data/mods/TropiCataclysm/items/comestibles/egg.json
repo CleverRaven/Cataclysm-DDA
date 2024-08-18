@@ -27,42 +27,47 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_toucan",
-    "name": "toucan egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_TOUCAN",
-    "rot_spawn_chance": 70
+    "name": { "str": "toco toucan egg" },
+    "spoils_in": "9 days",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_TOUCAN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_parrot",
-    "name": "parrot egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_PARROT",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_budgerigar",
-    "name": "budgerigar egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_BUDGERIGAR",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_cockatoo",
-    "name": "cockatoo egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_COCKATOO",
-    "rot_spawn_chance": 70
+    "name": { "str": "white-eyed parakeet egg" },
+    "spoils_in": "13 days",
+    "copy-from": "egg_bluejay",
+    "rot_spawn": "GROUP_EGG_PARROT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_macaw",
-    "name": "macaw egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_MACAW",
-    "rot_spawn_chance": 70
+    "name": { "str": "blue-and-yellow macaw egg" },
+    "spoils_in": "13 days",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_MACAW"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_finch_saffron",
+    "name": { "str": "saffron finch egg" },
+    "copy-from": "egg_waxwing",
+    "rot_spawn": "GROUP_EGG_FINCH_SAFFRON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_great_kiskadee",
+    "name": { "str": "great kiskadee egg" },
+    "copy-from": "egg_bluejay",
+    "rot_spawn": "GROUP_EGG_GREAT_KISKADEE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rufous_hornero",
+    "name": { "str": "rufous hornero egg" },
+    "copy-from": "egg_waxwing",
+    "rot_spawn": "GROUP_EGG_RUFOUS_HORNERO"
   },
   {
     "type": "COMESTIBLE",
@@ -102,14 +107,6 @@
     "name": "curassow egg",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CURASSOW",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_flamingo",
-    "name": "flamingo egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_FLAMINGO",
     "rot_spawn_chance": 70
   },
   {
