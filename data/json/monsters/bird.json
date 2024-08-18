@@ -600,14 +600,12 @@
     "id": "mon_cormorant",
     "type": "MONSTER",
     "copy-from": "mon_coot",
-    "name": { "str": "cormorant" },
-    "description": "An aquatic bird with a long snake-like neck.  They are considered coastal birds but many species can also be found on freshwater habitats.",
-    "volume": "340 ml",
-    "weight": "340 g",
-    "color": "brown",
-    "reproduction": { "baby_egg": "egg_cormorant", "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "name": { "str": "double-crested cormorant" },
+    "description": "An aquatic bird with a long snake-like neck.  While often considered coastal birds, they feel just as at home in freshwater habitats.",
+    "volume": "2467 ml",
+    "weight": "1850 g",
+    "speed": 110,
+    "reproduction": { "baby_egg": "egg_cormorant", "baby_count": 7, "baby_timer": 98 }
   },
   {
     "id": "mon_moorhen",
@@ -641,7 +639,8 @@
     "id": "mon_cormorant_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 14, "into": "mon_cormorant" }
+    "upgrades": { "age_grow": 97, "into": "mon_cormorant" },
+    "//": "2 years to reach sexual maturity, but only 10 weeks to reach independence, so lets get an average from that."
   },
   {
     "id": "mon_moorhen_chick",

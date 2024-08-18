@@ -1230,8 +1230,8 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_cormorant",
-    "name": "cormorant egg",
-    "spoils_in": "13 days",
+    "name": { "str": "double-crested cormorant egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CORMORANT"
   },
