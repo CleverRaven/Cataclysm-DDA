@@ -1220,9 +1220,10 @@
     "name": { "str": "ruby-throated hummingbird egg" },
     "spoils_in": "7 days",
     "copy-from": "egg_chicken",
-    "proportional": { "weight": 0.01, "calories": 0.01 },
+    "proportional": { "weight": 0.01 },
     "volume": "1 ml",
-    "//": "Volume defined manually because proportional rounded it down to 0",
+    "calories": 1,
+    "//": "Volume and calories defined manually because proportional rounded them down to 0",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {
