@@ -1220,7 +1220,9 @@
     "name": { "str": "ruby-throated hummingbird egg" },
     "spoils_in": "7 days",
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.01, "weight": 0.01, "calories": 0.01 },
+    "proportional": { "weight": 0.01, "calories": 0.01 },
+    "volume": "1 ml",
+    "//": "Volume defined manually because proportional rounded it down to 0",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {
@@ -1253,7 +1255,6 @@
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
     "name": { "str": "common gallinule egg" },
-    "spoils_in": "11 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_MOORHEN"
