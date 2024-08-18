@@ -1,0 +1,40 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_9mm",
+    "//": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
+    "items": [
+      { "group": "magazines_9mm_glock", "prob": 100 },
+      { "group": "magazines_9mm_m9", "prob": 20 },
+      { "group": "magazines_9mm_px4", "prob": 20 },
+      { "group": "magazines_9mm_usp", "prob": 20 },
+      { "group": "magazines_9mm_p226", "prob": 40 },
+      { "group": "magazines_9mm_p320", "prob": 60 },
+      { "group": "magazines_9mm_browning_hi", "prob": 18 },
+      { "group": "magazines_9mm_ppq", "prob": 15 },
+      { "group": "magazines_9mm_hipoint_c9", "prob": 30 },
+      { "group": "magazines_9mm_cz", "prob": 40 },
+      { "group": "magazines_9mm_ccp", "prob": 5 },
+      { "group": "magazines_9mm_sp2022", "prob": 10 },
+      { "group": "magazines_9mm_mp5", "prob": 19 },
+      { "group": "magazines_9mm_p38", "prob": 14 },
+      { "group": "magazines_9mm_apc9", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "rare_magazines_9mm",
+    "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
+    "items": [
+      { "group": "magazines_9mm_calico", "prob": 1 },
+      { "group": "magazines_9mm_luger", "prob": 60 },
+      { "group": "magazines_9mm_mauser", "prob": 20 },
+      { "group": "magazines_9mm_mp40", "prob": 60 },
+      { "group": "magazines_9mm_sten", "prob": 40 },
+      { "group": "magazines_9mm_tec9", "prob": 60 },
+      { "group": "magazines_9mm_uzi", "prob": 18 }
+    ]
+  }
+]
