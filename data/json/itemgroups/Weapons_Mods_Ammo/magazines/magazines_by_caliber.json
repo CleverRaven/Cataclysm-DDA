@@ -25,6 +25,20 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_10mm",
+    "//": "Collections of magazines for 10mm guns that are sold in gunstores, such as Glocks.",
+    "items": [
+      { "group": "magazines_10mm_glock", "prob": 100 },
+      { "item": "40_speedloader6", "prob": 16 },
+      { "item": "m1911_10mag", "prob": 7 },
+      { "item": "p220_10_mag", "prob": 9 },
+      { "item": "witness_mag_10", "prob": 2 },
+      { "item": "xd_10_mag", "prob": 24 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
