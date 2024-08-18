@@ -84,6 +84,7 @@
         [ "egg_waxwing", 17 ],
         [ "egg_chickadee", 34 ],
         [ "egg_duck", 1 ],
+        [ "egg_duck_domestic", 1 ],
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_turkey_domestic", 1 ],

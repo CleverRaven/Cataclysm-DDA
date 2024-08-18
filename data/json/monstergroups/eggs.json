@@ -79,6 +79,11 @@
     "monsters": [ { "monster": "mon_duck_chick" } ]
   },
   {
+    "name": "GROUP_EGG_DUCK_DOMESTIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_duck_domestic_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_GOOSE_CANADIAN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_goose_canadian_chick" } ]

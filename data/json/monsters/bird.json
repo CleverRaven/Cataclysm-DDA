@@ -287,6 +287,36 @@
     "//": "A year to reach sexual maturity, so lets assume 2/3 of that time to reach roughly adult size."
   },
   {
+    "id": "mon_duck_domestic",
+    "type": "MONSTER",
+    "name": { "str": "domestic duck" },
+    "description": "A domestic variety of the common mallard sporting while plumage.",
+    "copy-from": "mon_bird_water_base",
+    "volume": "2400 ml",
+    "weight": "1800 g",
+    "hp": 6,
+    "color": "white",
+    "reproduction": { "baby_egg": "egg_duck_domestic", "baby_count": 8, "baby_timer": 14 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
+  },
+  {
+    "id": "mon_duck_domestic_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_water",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "upgrades": { "age_grow": 49, "into": "mon_duck_domestic" },
+    "//": "28 weeks to start laying eggs for pekins."
+  },
+  {
     "id": "mon_goose_canadian",
     "type": "MONSTER",
     "name": { "str": "Canada goose", "str_pl": "Canada geese" },

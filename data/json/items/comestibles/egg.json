@@ -143,6 +143,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_duck_domestic",
+    "name": { "str": "domestic duck egg" },
+    "copy-from": "egg_duck",
+    "rot_spawn": "GROUP_EGG_DUCK_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
     "name": { "str": "Canada goose egg" },
     "spoils_in": "15 days",
