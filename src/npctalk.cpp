@@ -5215,6 +5215,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
                 continue;
             }
 
+            auto wrap60 = []( const std::string & text ) {
+                return string_join( foldstring( text, 60 ), "\n" );
+            };
             std::string name;
             std::string description;
             if( eoc_names.empty() ) {
@@ -5226,6 +5229,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
                 parse_tags( description, alpha, beta, d );
+                description = wrap60( description );
             }
 
             if( eoc_keys.empty() ) {
