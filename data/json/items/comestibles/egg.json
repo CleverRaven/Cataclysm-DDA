@@ -1238,9 +1238,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
-    "name": "moorhen egg",
-    "spoils_in": "10 days",
+    "name": { "str": "common moorhen egg" },
+    "spoils_in": "11 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_MOORHEN"
   },
   {

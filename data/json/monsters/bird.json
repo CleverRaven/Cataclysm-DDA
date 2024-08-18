@@ -612,16 +612,13 @@
   {
     "id": "mon_moorhen",
     "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "name": { "str": "moorhen" },
-    "description": "A bird belonging to the Rallidae family.  They are relatives of the coots but have a distinctive red coloration on their heads and brownish plumage.",
-    "volume": "400 ml",
-    "weight": "400 g",
+    "name": { "str": "common moorhen" },
+    "description": "A bird belonging to the same family as rails.  A relative of the coot with a distinctive red coloration on its heads and brownish plumage.",
+    "copy-from": "mon_bird_water_base",
+    "volume": "511 ml",
+    "weight": "383 g",
     "speed": 110,
-    "color": "brown",
-    "reproduction": { "baby_egg": "egg_moorhen", "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "reproduction": { "baby_egg": "egg_moorhen", "baby_count": 8, "baby_timer": 78 }
   },
   {
     "id": "mon_grebe",
@@ -649,8 +646,8 @@
   {
     "id": "mon_moorhen_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 14, "into": "mon_moorhen" }
+    "copy-from": "mon_generic_chick_water",
+    "upgrades": { "age_grow": 22, "into": "mon_moorhen" }
   },
   {
     "id": "mon_grebe_chick",
