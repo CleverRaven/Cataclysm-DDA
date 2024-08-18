@@ -128,7 +128,7 @@
             { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
             { "compare_string": [ "downed", { "context_val": "effect" } ] }
           ]
-        }, 
+        },
         { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
       ]
     },
