@@ -13349,6 +13349,11 @@ bool Character::can_lift( const T &obj ) const
 template bool Character::can_lift<item>( const item &obj ) const;
 template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu
 {
     enum style_selection {
@@ -13379,9 +13384,8 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.\n"
-                                   "\n"
-                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    kmenu.title = _( "Select a style.\n" );
+    kmenu.text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                    "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
@@ -13393,7 +13397,7 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
                          keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
-                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+                         wrap60( _( "When this is enabled, player won't wield things unless explicitly told to." ) ) );
 
     kmenu.selected = STYLE_OFFSET;
 
@@ -13412,7 +13416,8 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text,
+                             wrap60( style.description.translated() ) );
     }
 
     kmenu.query();
