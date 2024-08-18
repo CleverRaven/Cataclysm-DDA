@@ -522,35 +522,34 @@
   {
     "id": "mon_goose",
     "type": "MONSTER",
-    "copy-from": "mon_duck",
-    "name": { "str": "goose", "str_pl": "geese" },
-    "description": "The domestic goose.  A waterfowl well known for its loud honking and aggressive behavior.",
+    "name": { "str": "domestic goose", "str_pl": "domestic geese" },
+    "description": "A type of waterfowl well known for its loud honking and relatively aggressive behavior.",
+    "copy-from": "mon_bird_water_base",
     "volume": "5 L",
     "weight": "3750 g",
-    "hp": 15,
+    "hp": 13,
     "looks_like": "mon_goose_canadian",
     "aggression": 1,
     "morale": 15,
-    "dodge": 3,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "reproduction": { "baby_egg": "egg_goose", "baby_count": 5, "baby_timer": 10 },
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "reproduction": { "baby_egg": "egg_goose", "baby_count": 15, "baby_timer": 35 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
+  },
+  {
+    "id": "mon_goose_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_water",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CAN_BE_CULLED", "SMALL_HIDER" ]
-  },
-  {
-    "id": "mon_goose_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_duck_chick",
-    "upgrades": { "age_grow": 16, "into": "mon_goose" }
+    "upgrades": { "age_grow": 53, "into": "mon_goose" }
   },
   {
     "id": "mon_hummingbird",
