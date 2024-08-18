@@ -638,7 +638,7 @@
   {
     "id": "mon_cormorant_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
+    "copy-from": "mon_generic_chick_water",
     "upgrades": { "age_grow": 97, "into": "mon_cormorant" },
     "//": "2 years to reach sexual maturity, but only 10 weeks to reach independence, so lets get an average from that."
   },
