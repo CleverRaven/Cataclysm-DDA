@@ -2921,7 +2921,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 2000 );
 }
 
 void game::death_screen()
