@@ -180,6 +180,16 @@
     }
   },
   {
+    "id": "mon_grouse_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_grouse_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
+  },
+  {
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
     "copy-from": "mon_hummingbird_chick",
