@@ -346,9 +346,13 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
     // if it's a simple fault, character can try to fix it on the fly
     if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
-        who.mod_moves( -who.get_speed() * rng( 2, 3 ) );
+        // fixing fault should cost more than 1 second
+        // but until game running the next activity actor without ever verifying
+        // was the previous one successful or not will be resolved,
+        // it would be safer to limit it somewhat
+        who.mod_moves( -who.get_speed() );
         who.recoil = MAX_RECOIL;
-        if( one_in( std::max( 5.0f, ( 10.0f - ( 2.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+        if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
