@@ -386,10 +386,19 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fly",
-    "name": "fly egg",
+    "name": { "str": "fly egg" },
     "description": "The egg of a fly.",
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moth_fly",
+    "name": { "str": "moth fly egg" },
+    "description": "The egg of a moth fly.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOTH_FLY",
     "rot_spawn_chance": 50
   },
   {

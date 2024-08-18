@@ -187,6 +187,11 @@
     "monsters": [ { "monster": "mon_fly_larva" } ]
   },
   {
+    "name": "GROUP_EGG_MOTH_FLY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_moth_fly_larva" } ]
+  },
+  {
     "name": "GROUP_EGG_MOSQUITO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_mosquito_larva" } ]
