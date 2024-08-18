@@ -610,7 +610,7 @@
   {
     "id": "mon_moorhen",
     "type": "MONSTER",
-    "name": { "str": "common moorhen" },
+    "name": { "str": "common gallinule" },
     "description": "A bird belonging to the same family as rails.  A relative of the coot with a distinctive red coloration on its heads and brownish plumage.",
     "copy-from": "mon_bird_water_base",
     "volume": "511 ml",

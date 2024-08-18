@@ -1238,7 +1238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
-    "name": { "str": "common moorhen egg" },
+    "name": { "str": "common gallinule egg" },
     "spoils_in": "11 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
