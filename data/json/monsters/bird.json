@@ -328,6 +328,35 @@
     "upgrades": { "age_grow": 75, "into": "mon_turkey" }
   },
   {
+    "id": "mon_turkey_domestic",
+    "type": "MONSTER",
+    "name": { "str": "domestic turkey" },
+    "description": "A domesticated relative of the common wild turkey.  Lost most of its colors and the ability to fly, but at least it got bigger!",
+    "copy-from": "mon_bird_flightless_base",
+    "volume": "10667 ml",
+    "weight": "8 kg",
+    "hp": 26,
+    "color": "white",
+    "reproduction": { "baby_egg": "egg_turkey_domestic", "baby_count": 10, "baby_timer": 21 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
+  },
+  {
+    "id": "mon_turkey_domestic_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "upgrades": { "age_grow": 75, "into": "mon_turkey_domestic" }
+  },
+  {
     "id": "mon_pheasant",
     "type": "MONSTER",
     "name": { "str": "ring-necked pheasant" },

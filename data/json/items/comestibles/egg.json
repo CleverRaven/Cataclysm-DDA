@@ -165,6 +165,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_turkey_domestic",
+    "name": { "str": "domestic turkey egg" },
+    "copy-from": "egg_turkey",
+    "rot_spawn": "GROUP_EGG_TURKEY_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pheasant",
     "name": { "str": "ring-necked pheasant egg" },
     "spoils_in": "14 days",

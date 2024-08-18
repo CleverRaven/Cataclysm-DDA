@@ -89,6 +89,11 @@
     "monsters": [ { "monster": "mon_turkey_chick" } ]
   },
   {
+    "name": "GROUP_EGG_TURKEY_DOMESTIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turkey_domestic_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_PHEASANT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_pheasant_chick" } ]

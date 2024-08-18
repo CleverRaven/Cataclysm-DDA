@@ -86,6 +86,7 @@
         [ "egg_duck", 1 ],
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
+        [ "egg_turkey_domestic", 1 ],
         [ "egg_pheasant", 1 ],
         [ "egg_goose", 1 ],
         [ "egg_hummingbird", 100 ],
