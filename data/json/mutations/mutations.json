@@ -10171,7 +10171,6 @@
         {
           "condition": { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] }
           }
-        }
       ]
     ],
     "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
