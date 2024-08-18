@@ -330,7 +330,11 @@
                     { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] }
+                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] },
+   { "math": [ "u_spell_level(' telekinetic_lifting_field')", ">=", "12" ] },
+
+
+               
               ]
             }
           ]
