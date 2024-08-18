@@ -231,7 +231,9 @@ item Single_item_creator::create_single_without_container( const time_point &bir
         tmp.set_flag( flag_FIT );
     }
 
-    tmp.active = active;
+    if( active.has_value() ) {
+        tmp.active = *active;
+    }
 
     if( components_items ) {
         for( itype_id component_id : *components_items ) {
