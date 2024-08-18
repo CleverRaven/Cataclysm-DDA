@@ -11,12 +11,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mlb_generic_subhallway",
-    "copy-from": "microlab_generic",
-    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "microlab_generic_edge",
     "copy-from": "microlab_generic"
   },

@@ -16,6 +16,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mlb_generic_subhallway",
+    "copy-from": "microlab_generic",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "iso_hallway_isolated" ],
     "name": "lab entrance hallway",
     "sym": "L",
