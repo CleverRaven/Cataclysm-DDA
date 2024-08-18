@@ -45,7 +45,7 @@
     "name": { "str": "ruffed grouse egg" },
     "spoils_in": "13 days",
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.67, "weight": 0.67, "calories": 0.67 },
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
@@ -1221,9 +1221,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_coot",
-    "name": "coot egg",
-    "spoils_in": "12 days",
+    "name": { "str": "American coot egg" },
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_COOT"
   },
   {
