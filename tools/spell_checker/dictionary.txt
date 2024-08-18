@@ -2678,6 +2678,8 @@ Horayot
 horchata
 horks
 Hornblower
+hornero
+horneros
 Horrorpelta
 Horrorpeltas
 hosomaki
@@ -3160,6 +3162,8 @@ kippahs
 Kippur
 kirpan
 kirpans
+kiskadee
+kiskadees
 Kitáb
 KITT
 kittel
@@ -6241,6 +6245,7 @@ tlatoani
 TNT
 Toby
 tock
+toco
 TODO
 Toffer
 toggleable

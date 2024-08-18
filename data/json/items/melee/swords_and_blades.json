@@ -780,6 +780,7 @@
     "type": "TOOL",
     "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
+    "category": "weapons",
     "weight": "380 g",
     "volume": "187 ml",
     "longest_side": "36 cm",
