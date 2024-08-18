@@ -444,7 +444,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
       { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
-      { "math": [ "u_spell_exp('photokinetic_light_dodge')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('photokinetic_invisibility')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_INVISIBILITY_DRAIN",
@@ -457,6 +457,66 @@
           {
             "math": [
               "( (u_spell_level('photokinetic_invisibility') * 23) + 42) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_BLINDING_GLARE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_photokin_blinding_glare" } },
+    "effect": [
+      { "u_message": "You begin glowing as brightly as the sun!", "type": "good" },
+      { "u_add_effect": "effect_photokin_blinding_glare", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_BLINDING_GLARE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_blinding_glare') * 11) + 59) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_blinding_glare') * 47) + 178) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE",
+    "condition": { "u_has_effect": "effect_photokin_blinding_glare" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_photokin_blinding_glare" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_BLINDING_GLARE_DRAIN",
+    "condition": { "u_has_effect": "effect_photokin_blinding_glare" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(7)" ] },
+      { "math": [ "u_spell_exp('photokinetic_blinding_glare')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_BLINDING_GLARE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_blinding_glare') * 11) + 59) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_blinding_glare') * 47) + 178) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

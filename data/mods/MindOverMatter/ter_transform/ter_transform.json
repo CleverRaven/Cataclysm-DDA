@@ -7,7 +7,7 @@
   {
     "type": "ter_furn_transform",
     "id": "ter_null_zombie_delete_fields",
-    "field": [ { "result": "fd_null", "valid_field": [ "fd_nullifying_field" ] } ]
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_nullifying_field", "fd_neutralizing_field" ] } ]
   },
   {
     "type": "ter_furn_transform",
