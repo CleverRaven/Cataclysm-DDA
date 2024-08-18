@@ -205,7 +205,7 @@ class Item_spawn_data
          */
         std::optional<std::vector<itype_id>> components_items;
         bool sealed = true;
-        std::optional<bool> active = false;
+        std::optional<bool> active = std::nullptr;
 
         struct relic_generator {
             relic_procgen_data::generation_rules rules;
