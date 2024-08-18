@@ -39,6 +39,22 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_22lr",
+    "//": "Collections of magazines for .22 LR guns that are sold in gunstores, such as 10/22s, Ruger Standards.",
+    "items": [
+      { "group": "magazines_22_ar", "prob": 8 },
+      { "group": "magazines_22_1022", "prob": 100 },
+      { "group": "magazines_22_cp33", "prob": 5 },
+      { "item": "22_speedloader8", "prob": 1 },
+      { "item": "mosquitomag", "prob": 20 },
+      { "item": "wp22mag", "prob": 23 },
+	  { "item": "ruger_mk4_mag", "prob": 39 },
+      { "item": "1911_22_mag", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
