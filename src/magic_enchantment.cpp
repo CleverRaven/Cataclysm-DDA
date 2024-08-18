@@ -324,7 +324,8 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -343,7 +344,8 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
