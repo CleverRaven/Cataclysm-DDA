@@ -412,6 +412,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_centipede_house",
+    "name": { "str": "house centipede egg" },
+    "description": "The egg of a house centipede.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_CENTIPEDE_HOUSE",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_mosquito",
     "name": "mosquito egg",
     "description": "The egg of a mosquito.",
