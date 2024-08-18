@@ -622,7 +622,7 @@
     "id": "mon_grebe",
     "type": "MONSTER",
     "name": { "str": "horned grebe" },
-    "description": "A medium sized aquatic bird with a long neck.  They can be distinguished by their strange leg placement which makes them great at diving.",
+    "description": "A medium-sized aquatic bird with a long neck.  They can be distinguished by their strange leg placement which makes them great at diving.",
     "copy-from": "mon_bird_water_base",
     "volume": "580 ml",
     "weight": "435 g",
