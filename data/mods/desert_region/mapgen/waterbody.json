@@ -17,7 +17,7 @@
       "river_c_not_sw"
     ],
     "//": "Weight should be removed if/when lake_shore and river (or their weights) are unhardcoded",
-    "weight": 100000000000,
+    "weight": 1000000000,
     "object": {
       "fill_ter": "t_mudcrack",
       "place_nested": [
