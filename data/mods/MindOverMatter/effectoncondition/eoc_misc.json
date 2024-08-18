@@ -218,7 +218,7 @@
             { "compare_string": [ "effect_psi_null", { "context_val": "effect" } ] },
             { "compare_string": [ "effect_psi_null_unbound", { "context_val": "effect" } ] }
           ]
-        }, 
+        },
         { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
       ]
     },
