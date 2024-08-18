@@ -152,7 +152,7 @@
   {
     "id": "mon_goose_canadian_chick",
     "type": "MONSTER",
-    "copy-from": "mon_goose_canadian",
+    "copy-from": "mon_goose_canadian_chick",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
