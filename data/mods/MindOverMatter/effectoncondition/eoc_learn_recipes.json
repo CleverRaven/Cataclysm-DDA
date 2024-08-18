@@ -709,13 +709,13 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_push')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_pull')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" } ]
   },
   {
     "type": "effect_on_condition",
