@@ -4517,7 +4517,8 @@ void game::mon_info_update( )
                                       p->attitude_to( u ),
                                       npc_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED ;
-            } else {
+            }
+            if( !need_processing ) {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
             }
