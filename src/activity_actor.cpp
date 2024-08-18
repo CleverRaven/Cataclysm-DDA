@@ -346,17 +346,16 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
     // if it's a simple fault, character can try to fix it on the fly
     if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
-        who.mod_moves( -who.get_speed() * rng( 1, 3 ) );
+        who.mod_moves( -who.get_speed() * rng( 2, 3 ) );
         who.recoil = MAX_RECOIL;
-        if( one_in( std::max( 2.0f, ( 7 - ( 2 * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+        if( one_in( std::max( 5.0f, ( 10.0f - ( 2.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
             it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
-            islot_gun &firing = *it.type->gun;
-            firing.u_know_round_in_chamber = true;
+            it.set_var( "u_know_round_in_chamber", true );
         } else {
-            who.add_msg_if_player( m_warning,
+            who.add_msg_if_player( m_bad,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
                                    it.tname() );
             return false;

@@ -792,11 +792,6 @@ struct islot_gun : common_ranged_data {
     */
     double gun_jam_mult = 1;
 
-    /**
-    *  character spend time to repair failure to feed, so if true, it is guarantee the round is in the chamber
-    */
-    bool u_know_round_in_chamber = false;
-
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
     /**
