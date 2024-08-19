@@ -92,6 +92,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_44",
+    "//": "Collections of magazines/speedloaders for 44 magnum guns that are sold in gunstores, such as the Colt Anaconda.",
+    "items": [ { "item": "44_speedloader6", "prob": 100 }, { "item": "deaglemag", "prob": 17 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
