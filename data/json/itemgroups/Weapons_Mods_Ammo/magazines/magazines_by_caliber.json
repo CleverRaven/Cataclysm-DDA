@@ -69,6 +69,17 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_38",
+    "//": "Collections of speedloaders for 38/357 revolvers that are sold in gunstores, such as a 686 or Model 10.",
+    "items": [
+      { "item": "38_speedloader", "prob": 58 },
+      { "item": "38_speedloader5", "prob": 100 },
+      { "item": "38_speedloader6", "prob": 14 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
