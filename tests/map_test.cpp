@@ -150,12 +150,13 @@ void map::check_submap_active_item_consistency()
     for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < MAPSIZE; ++x ) {
             for( int y = 0; y < MAPSIZE; ++y ) {
-                tripoint_rel_sm p( x, y, z );
+                const tripoint_bub_sm p( x, y, z );
+                const tripoint_abs_sm p_abs = p.raw() + abs_sub.xy();
                 submap *s = get_submap_at_grid( p );
                 REQUIRE( s != nullptr );
                 bool submap_has_active_items = !s->active_items.empty();
-                bool cache_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() ) != 0;
-                CAPTURE( abs_sub.xy(), p, p + abs_sub.xy() );
+                bool cache_has_active_items = submaps_with_active_items.count( p_abs ) != 0;
+                CAPTURE( abs_sub.xy(), p, p_abs );
                 CHECK( submap_has_active_items == cache_has_active_items );
             }
         }

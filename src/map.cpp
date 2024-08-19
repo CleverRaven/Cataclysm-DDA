@@ -574,7 +574,7 @@ void map::reset_vehicles_sm_pos()
         level_cache &ch = get_cache( z );
         for( int x = 0; x < getmapsize(); x++ ) {
             for( int y = 0; y < getmapsize(); y++ ) {
-                tripoint_rel_sm const grid( x, y, z );
+                tripoint_bub_sm_ib const grid( x, y, z );
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
@@ -629,7 +629,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( tripoint_bub_sm( veh->sm_pos ) );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x,
                   veh->sm_pos.y, veh->sm_pos.z );
@@ -1338,7 +1338,8 @@ VehicleList map::get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_
     for( int cx = chunk_sx; cx <= chunk_ex; ++cx ) {
         for( int cy = chunk_sy; cy <= chunk_ey; ++cy ) {
             for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
-                submap *current_submap = get_submap_at_grid( { cx, cy, cz } );
+                const tripoint_bub_sm_ib submap_pos{ cx, cy, cz };
+                submap *current_submap = get_submap_at_grid( submap_pos );
                 if( current_submap == nullptr ) {
                     debugmsg( "Tried to process vehicle at (%d,%d,%d) but the submap is not loaded", cx, cy, cz );
                     continue;
@@ -3770,7 +3771,8 @@ void map::decay_fields_and_scent( const time_duration &amount )
     const auto &outside_cache = get_cache_ref( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            submap *cur_submap = get_submap_at_grid( { smx, smy, smz } );
+            const tripoint_bub_sm_ib submap_pos{ smx, smy, smz };
+            submap *cur_submap = get_submap_at_grid( submap_pos );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", smx, smy, smz );
                 continue;
@@ -5986,7 +5988,7 @@ void map::process_items()
             submaps_with_vehicles.emplace( pos.x / SEEX, pos.y / SEEY, pos.z );
         }
         for( const tripoint &pos : submaps_with_vehicles ) {
-            submap *const current_submap = get_submap_at_grid( tripoint_rel_sm( pos ) );
+            submap *const current_submap = get_submap_at_grid( tripoint_bub_sm( pos ) );
             if( current_submap == nullptr ) {
                 debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", pos.x, pos.y,
                           pos.z );
@@ -6003,14 +6005,13 @@ void map::process_items()
             iter = submaps_with_active_items.erase( iter );
             continue;
         }
-        const tripoint_rel_sm local_pos = abs_pos - abs_sub.xy();
+        const tripoint_bub_sm local_pos { ( abs_pos - abs_sub.xy() ).raw() };
         submap *const current_submap = get_submap_at_grid( local_pos );
         if( current_submap == nullptr ) {
             debugmsg( "Tried to process items at %s but the submap is not loaded",
                       local_pos.to_string() );
             continue;
         }
-        // TODO: fix point types
         process_items_in_submap( *current_submap, local_pos );
         if( current_submap->active_items.empty() ) {
             iter = submaps_with_active_items.erase( iter );
@@ -6020,7 +6021,7 @@ void map::process_items()
     }
 }
 
-void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm &gridp )
+void map::process_items_in_submap( submap &current_submap, const tripoint_bub_sm &gridp )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -8338,10 +8339,10 @@ void map::save()
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    saven( tripoint( gridx, gridy, gridz ) );
+                    saven( tripoint_bub_sm_ib( gridx, gridy, gridz ) );
                 }
             } else {
-                saven( tripoint( gridx, gridy, abs_sub.z() ) );
+                saven( tripoint_bub_sm_ib( gridx, gridy, abs_sub.z() ) );
             }
         }
     }
@@ -8369,7 +8370,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle );
+            loadn( point_bub_sm_ib( gridx, gridy ), update_vehicle );
             if( pump_events ) {
                 inp_mngr.pump_events();
             }
@@ -8481,7 +8482,7 @@ void map::shift( const point_rel_sm &sp )
     }
 
     const tripoint_abs_sm abs = get_abs_sub();
-    std::vector<tripoint_rel_sm> loaded_grids;
+    std::vector<tripoint_bub_sm_ib> loaded_grids;
 
     // TODO: fix point types (sp should be relative?)
     set_abs_sub( abs + sp );
@@ -8532,11 +8533,13 @@ void map::shift( const point_rel_sm &sp )
 
     for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
         for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            const point_bub_sm_ib p{ gridx, gridy };
             if( gridx + sp.x() != x_stop && gridy + sp.y() != y_stop ) {
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-                    const tripoint_rel_sm grid( gridx, gridy, gridz );
+                    const tripoint_bub_sm_ib grid{ p, gridz };
+                    const tripoint_bub_sm_ib from{ p + sp, gridz };
 
-                    copy_grid( grid, grid + sp );
+                    copy_grid( grid, from );
                     submap *const cur_submap = get_submap_at_grid( grid );
                     if( cur_submap == nullptr ) {
                         debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
@@ -8545,7 +8548,7 @@ void map::shift( const point_rel_sm &sp )
                     update_vehicle_list( cur_submap, gridz );
                 }
             } else {
-                loadn( point( gridx, gridy ), true );
+                loadn( p, true );
 
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
                     loaded_grids.emplace_back( gridx, gridy, gridz );
@@ -8567,7 +8570,7 @@ void map::shift( const point_rel_sm &sp )
     }
     // actualize after loading all submaps to prevent errors
     // with entities at the edges
-    for( tripoint_rel_sm loaded_grid : loaded_grids ) {
+    for( tripoint_bub_sm_ib loaded_grid : loaded_grids ) {
         actualize( loaded_grid );
     }
 }
@@ -8599,23 +8602,23 @@ void map::vertical_shift( const int newz )
 // 0,2 1,2 2,2
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-void map::saven( const tripoint &grid )
+void map::saven( const tripoint_bub_sm_ib &grid )
 {
     dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x() << "], worldy[" << abs_sub.y()
                   << "], worldz[" << abs_sub.z()
-                  << "], gridx[" << grid.x << "], gridy[" << grid.y << "], gridz[" << grid.z << "])";
-    const int gridn = get_nonant( tripoint_rel_sm( grid ) );
+                  << "], grid[" << grid << "])";
+    const size_t gridn = get_nonant( grid );
     submap *submap_to_save = getsubmap( gridn );
     if( submap_to_save == nullptr ) {
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
 
-    const tripoint_abs_sm abs = abs_sub.xy() + grid;
+    const tripoint_abs_sm abs = abs_sub.xy() + grid.raw();
 
-    if( !zlevels && grid.z != abs_sub.z() ) {
+    if( !zlevels && grid.z() != abs_sub.z() ) {
         debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds",
-                  abs.x(), abs.y(), abs_sub.z(), abs.x(), abs.y(), grid.z );
+                  abs.x(), abs.y(), abs_sub.z(), abs.x(), abs.y(), grid.z() );
     }
 
     dbg( D_INFO ) << "map::saven abs: " << abs
@@ -8671,12 +8674,12 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     return ret;
 }
 
-void map::loadn( const point &grid, bool update_vehicles )
+void map::loadn( const point_bub_sm_ib &grid, bool update_vehicles )
 {
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x()
                   << "], worldy[" << abs_sub.y() << "], grid " << grid << ")";
 
-    const tripoint_abs_sm grid_abs_sub = abs_sub + grid;
+    const tripoint_abs_sm grid_abs_sub = abs_sub + grid.raw();
     const tripoint_abs_omt grid_abs_omt = project_to<coords::omt>( grid_abs_sub );
     // Get the base submap "grid" is an offset from.
     const tripoint_abs_sm grid_sm_base = project_to<coords::sm>( grid_abs_omt );
@@ -8723,6 +8726,7 @@ void map::loadn( const point &grid, bool update_vehicles )
 
     for( int z = start_z; z <= stop_z; z++ ) {
         const tripoint_abs_sm pos = { grid_abs_sub.xy(), z };
+        const tripoint_bub_sm_ib submap_pos{ grid, z };
         // New submap changes the content of the map and all caches must be recalculated
         set_transparency_cache_dirty( z );
         set_seen_cache_dirty( z );
@@ -8730,12 +8734,12 @@ void map::loadn( const point &grid, bool update_vehicles )
         set_floor_cache_dirty( z );
         set_pathfinding_cache_dirty( z );
         tmpsub = MAPBUFFER.lookup_submap( pos );
-        setsubmap( get_nonant( tripoint_rel_sm{ grid.x, grid.y, z } ), tmpsub );
+        setsubmap( get_nonant( submap_pos ), tmpsub );
         if( !tmpsub->active_items.empty() ) {
             submaps_with_active_items_dirty.emplace( pos );
         }
         if( tmpsub->field_count > 0 ) {
-            get_cache( z ).field_cache.set( grid.x + grid.y * MAPSIZE );
+            get_cache( z ).field_cache.set( grid.x() + grid.y() * MAPSIZE );
         }
 
         // Destroy bugged no-part vehicles
@@ -8744,7 +8748,7 @@ void map::loadn( const point &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid, z };
+                veh->sm_pos = submap_pos.raw();
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8773,7 +8777,7 @@ void map::loadn( const point &grid, bool update_vehicles )
         }
 
         if( zlevels ) {
-            add_tree_tops( tripoint_rel_sm( grid.x, grid.y, z ) );
+            add_tree_tops( submap_pos );
         }
     }
 }
@@ -9144,7 +9148,7 @@ void map::decay_cosmetic_fields( const tripoint &p,
     }
 }
 
-void map::actualize( const tripoint_rel_sm &grid )
+void map::actualize( const tripoint_bub_sm_ib &grid )
 {
     submap *const tmpsub = get_submap_at_grid( grid );
     if( tmpsub == nullptr ) {
@@ -9210,7 +9214,7 @@ void map::actualize( const tripoint_rel_sm &grid )
     tmpsub->last_touched = calendar::turn;
 }
 
-void map::add_tree_tops( const tripoint_rel_sm &grid )
+void map::add_tree_tops( const tripoint_bub_sm_ib &grid )
 {
     if( !zlevels ) {
         // Can't add things on the level above when the map doesn't contain that level.
@@ -9256,7 +9260,7 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
     }
 }
 
-void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
+void map::copy_grid( const tripoint_bub_sm_ib &to, const tripoint_bub_sm_ib &from )
 {
     submap *smap = get_submap_at_grid( from );
     if( smap == nullptr ) {
@@ -9264,13 +9268,13 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
                   from.z() );
         return;
     }
-    setsubmap( get_nonant( tripoint_rel_sm( to ) ), smap );
+    setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
         it->sm_pos = to.raw();
     }
 }
 
-void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &group,
+void map::spawn_monsters_submap_group( const tripoint_bub_sm_ib &gp, mongroup &group,
                                        bool ignore_sight )
 {
     Character &player_character = get_player_character();
@@ -9414,9 +9418,10 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
     group.clear();
 }
 
-void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, bool spawn_nonlocal )
+void map::spawn_monsters_submap( const tripoint_bub_sm_ib &gp, bool ignore_sight,
+                                 bool spawn_nonlocal )
 {
-    const tripoint_abs_sm submap_pos( gp + abs_sub.xy() );
+    const tripoint_abs_sm submap_pos( gp.raw() + abs_sub.xy() );
     // Load unloaded monsters
     overmap_buffer.spawn_monster( submap_pos, spawn_nonlocal );
     // Only spawn new monsters after existing monsters are loaded.
@@ -9514,7 +9519,7 @@ void map::spawn_monsters( bool ignore_sight, bool spawn_nonlocal )
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
-    tripoint_rel_sm gp;
+    tripoint_bub_sm_ib gp;
     int &gx = gp.x();
     int &gy = gp.y();
     int &gz = gp.z();
@@ -9598,6 +9603,13 @@ bool map::inbounds( const tripoint_abs_omt &p ) const
             p.y() <= map_origin.y() + my_HALF_MAPSIZE;
 }
 
+bool map::inbounds( const tripoint_bub_sm &p ) const
+{
+    return p.x() >= 0 && p.x() < my_MAPSIZE &&
+           p.y() >= 0 && p.y() < my_MAPSIZE &&
+           p.z() >= -OVERMAP_DEPTH && p.z() <= OVERMAP_HEIGHT;
+}
+
 tripoint_range<tripoint> tinymap::points_on_zlevel() const
 {
     return map::points_on_zlevel();
@@ -9660,13 +9672,14 @@ fake_map::fake_map( const ter_id &ter_type )
     set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
         for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
+            const tripoint_bub_sm_ib p{ gridx, gridy, fake_map_z };
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
             sm->set_all_furn( furn_str_id::NULL_ID() );
             sm->set_all_traps( tr_null );
 
-            setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );
+            setsubmap( get_nonant( p ), sm.get() );
 
             temp_submaps_.emplace_back( std::move( sm ) );
         }
@@ -9682,13 +9695,14 @@ small_fake_map::small_fake_map( const ter_id &ter_type )
     for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
         for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                const tripoint_bub_sm_ib p{ gridx, gridy, gridz };
                 std::unique_ptr<submap> sm = std::make_unique<submap>();
 
                 sm->set_all_ter( ter_type );
                 sm->set_all_furn( furn_str_id::NULL_ID() );
                 sm->set_all_traps( tr_null );
 
-                setsubmap( get_nonant( { gridx, gridy, gridz } ), sm.get() );
+                setsubmap( get_nonant( p ), sm.get() );
 
                 temp_submaps_.emplace_back( std::move( sm ) );
             }
@@ -9842,7 +9856,8 @@ void map::build_outside_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev } );
+            const tripoint_bub_sm_ib submap_pos{ smx, smy, zlev };
+            const submap *cur_submap = get_submap_at_grid( submap_pos );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build outside cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
@@ -9889,7 +9904,7 @@ void map::build_obstacle_cache(
     // TODO: Support z-levels.
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, start.z } );
+            const submap *cur_submap = get_submap_at_grid( tripoint_bub_sm{ smx, smy, start.z } );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build obstacle cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           start.z );
@@ -9992,8 +10007,9 @@ bool map::build_floor_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev } );
-            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev - 1 } ) :
+            const tripoint_bub_sm_ib submap_pos{ smx, smy, zlev };
+            const submap *cur_submap = get_submap_at_grid( submap_pos );
+            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( tripoint_bub_sm_ib{ smx, smy, zlev - 1 } ) :
                                          nullptr;
 
             if( cur_submap == nullptr ) {
@@ -10273,26 +10289,36 @@ const submap *map::get_submap_at( const tripoint_bub_ms &p ) const
     return unsafe_get_submap_at( p );
 }
 
-submap *map::get_submap_at_grid( const tripoint_rel_sm &gridp )
+submap *map::get_submap_at_grid( const tripoint_bub_sm &gridp )
 {
-    return getsubmap( get_nonant( gridp ) );
-}
-
-const submap *map::get_submap_at_grid( const tripoint_rel_sm &gridp ) const
-{
-    return getsubmap( get_nonant( gridp ) );
-}
-
-size_t map::get_nonant( const tripoint_rel_sm &gridp ) const
-{
-    if( gridp.x() < 0 || gridp.x() >= my_MAPSIZE ||
-        gridp.y() < 0 || gridp.y() >= my_MAPSIZE ||
-        gridp.z() < -OVERMAP_DEPTH || gridp.z() > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridp.x(), gridp.y(),
-                  gridp.z() );
-        return 0;
+    if( !inbounds( gridp ) ) {
+        debugmsg( "Tried to access invalid submap position at grid=%s", gridp.to_string() );
+        return nullptr;
     }
+    return get_submap_at_grid( tripoint_bub_sm_ib( gridp.raw() ) );
+}
 
+const submap *map::get_submap_at_grid( const tripoint_bub_sm &gridp ) const
+{
+    if( !inbounds( gridp ) ) {
+        debugmsg( "Tried to access invalid submap position at grid=%s", gridp.to_string() );
+        return nullptr;
+    }
+    return get_submap_at_grid( tripoint_bub_sm_ib( gridp.raw() ) );
+}
+
+submap *map::get_submap_at_grid( const tripoint_bub_sm_ib &gridp )
+{
+    return getsubmap( get_nonant( gridp ) );
+}
+
+const submap *map::get_submap_at_grid( const tripoint_bub_sm_ib &gridp ) const
+{
+    return getsubmap( get_nonant( gridp ) );
+}
+
+size_t map::get_nonant( const tripoint_bub_sm_ib &gridp ) const
+{
     if( zlevels ) {
         const int indexz = gridp.z() + OVERMAP_DEPTH; // Can't be lower than 0
         return indexz + ( gridp.x() + gridp.y() * my_MAPSIZE ) * OVERMAP_LAYERS;
@@ -10330,7 +10356,8 @@ void map::draw_fill_background( const ter_id &type )
     // Fill each submap rather than each tile
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            submap *sm = get_submap_at_grid( point{gridx, gridy} );
+            const tripoint_bub_sm_ib submap_pos{ gridx, gridy, abs_sub.z() };
+            submap *sm = get_submap_at_grid( submap_pos );
             if( sm == nullptr ) {
                 debugmsg( "Tried to fill background at (%d,%d) but the submap is not loaded", gridx, gridy );
                 continue;
@@ -10583,7 +10610,8 @@ void map::function_over( const tripoint &start, const tripoint &end, Functor fun
     for( z = min.z; z <= max.z; z++ ) {
         for( smx = min_sm.x; smx <= max_sm.x; smx++ ) {
             for( smy = min_sm.y; smy <= max_sm.y; smy++ ) {
-                submap const *cur_submap = get_submap_at_grid( { smx, smy, z } );
+                const tripoint_bub_sm submap_pos{ smx, smy, z };
+                submap const *cur_submap = get_submap_at_grid( submap_pos );
                 if( cur_submap == nullptr ) {
                     debugmsg( "Tried to function over (%d,%d,%d) but the submap is not loaded", smx, smy, z );
                     continue;
@@ -10760,7 +10788,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
                       std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
 
     for( const tripoint_abs_sm &abs_submap_loc : submaps_with_active_items ) {
-        const tripoint_rel_sm submap_loc = ( abs_submap_loc - abs_sub.xy() );
+        const tripoint_bub_sm submap_loc { ( abs_submap_loc - abs_sub.xy() ).raw() };
         if( submap_loc.x() < ming.x || submap_loc.y() < ming.y ||
             submap_loc.x() > maxg.x || submap_loc.y() > maxg.y ) {
             continue;
@@ -11076,7 +11104,8 @@ int map::calc_max_populated_zlev()
         bool level_done = false;
         for( int sx = 0; sx < my_MAPSIZE; sx++ ) {
             for( int sy = 0; sy < my_MAPSIZE; sy++ ) {
-                const submap *sm = get_submap_at_grid( { sx, sy, sz } );
+                const tripoint_bub_sm_ib submap_pos{ sx, sy, sz };
+                const submap *sm = get_submap_at_grid( submap_pos );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to calc max populated zlev at (%d,%d,%d) but the submap is not loaded", sx, sy,
                               sz );

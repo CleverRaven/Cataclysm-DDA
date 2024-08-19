@@ -214,6 +214,11 @@ static const trap_str_id tr_telepad( "tr_telepad" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
+static const point_bub_sm_ib p_sm_zero{ point_zero };
+static const point_bub_sm_ib p_sm_east{ point_east };
+static const point_bub_sm_ib p_sm_south_east{ point_south_east };
+static const point_bub_sm_ib p_sm_south{ point_south };
+
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -236,10 +241,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                const tripoint_rel_sm pos( gridx, gridy, gridz );
+                const tripoint_bub_sm_ib pos( gridx, gridy, gridz );
+                const tripoint_abs_sm pos_abs = p_sm_base.xy() + pos.raw();
                 const size_t grid_pos = get_nonant( pos );
                 // For some reason 'emplace' doesn't work. emplacing data later overwrote data...
-                generated[grid_pos] = MAPBUFFER.submap_exists( p_sm_base.xy() + pos );
+                generated[grid_pos] = MAPBUFFER.submap_exists( pos_abs );
 
                 if( !generated.at( grid_pos ) || !save_results ) {
                     setsubmap( grid_pos, new submap() );
@@ -252,7 +258,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                         getsubmap( grid_pos )->last_touched = calendar::turn;
                     }
                 } else {
-                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
+                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( pos_abs ) );
                 }
             }
         }
@@ -277,7 +283,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
-                const tripoint_rel_sm pos( gridx, gridy, gridz );
+                const tripoint_bub_sm_ib pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
 
                 if( ( !generated.at( grid_pos ) || !save_results ) &&
@@ -302,10 +308,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = !generated.at( get_nonant( { point_rel_sm_zero, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
+        const tripoint_bub_sm_ib p_zero { p_sm_zero, gridz };
+        const tripoint_bub_sm_ib p_east { p_sm_east, gridz };
+        const tripoint_bub_sm_ib p_south_east { p_sm_south_east, gridz };
+        const tripoint_bub_sm_ib p_south { p_sm_south, gridz };
+        const bool any_missing = !generated.at( get_nonant( p_zero ) ) ||
+                                 !generated.at( get_nonant( p_east ) ) ||
+                                 !generated.at( get_nonant( p_south_east ) ) ||
+                                 !generated.at( get_nonant( p_south ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
@@ -316,7 +326,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         // Merge the overlays generated earlier into the current Z level now we have the base map on it.
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
-                const tripoint_rel_sm pos( gridx, gridy, gridz );
+                const tripoint_bub_sm_ib pos( gridx, gridy, gridz );
                 const size_t index = gridx + gridy * 2;
                 if( saved_overlay.at( index ) != nullptr ) {
                     const size_t grid_pos = get_nonant( pos );
@@ -392,11 +402,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
             for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    const tripoint_rel_sm pos( gridx, gridy, gridz );
+                    const tripoint_bub_sm_ib pos( gridx, gridy, gridz );
                     const size_t grid_pos = get_nonant( pos );
                     if( !generated.at( grid_pos ) ) {
                         if( gridx <= 1 && gridy <= 1 ) {
-                            saven( { gridx, gridy, gridz } );
+                            saven( pos );
                         } else {
                             delete getsubmap( grid_pos );
                         }
@@ -6905,7 +6915,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( tripoint_rel_sm( placed_vehicle->sm_pos ) );
+        submap *place_on_submap = get_submap_at_grid( tripoint_bub_sm( placed_vehicle->sm_pos ) );
         if( place_on_submap == nullptr ) {
             debugmsg( "Tried to add vehicle at (%d,%d,%d) but the submap is not loaded",
                       placed_vehicle->sm_pos.x, placed_vehicle->sm_pos.y, placed_vehicle->sm_pos.z );
@@ -7186,10 +7196,10 @@ void map::rotate( int turns, const bool setpos_safe )
     for( int z_level = bottom_level; z_level <= top_level; z_level++ ) {
         clear_vehicle_list( z_level );
 
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( { point_rel_sm_east, z_level } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_east, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
                       point_zero.y );
@@ -7209,7 +7219,7 @@ void map::rotate( int turns, const bool setpos_safe )
             for( int k = 0; k < 4; ++k ) {
                 p = p.rotate( turns, { 2, 2 } );
                 point tmpp = point_south_east - p;
-                submap *psep = get_submap_at_grid( tripoint_rel_sm( tmpp.x, tmpp.y, z_level ) );
+                submap *psep = get_submap_at_grid( tripoint_bub_sm( tmpp.x, tmpp.y, z_level ) );
                 if( psep == nullptr ) {
                     debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x, tmpp.y );
                     continue;
@@ -7222,7 +7232,7 @@ void map::rotate( int turns, const bool setpos_safe )
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
                 point p( i, j );
-                submap *sm = get_submap_at_grid( tripoint_rel_sm( p.x, p.y, z_level ) );
+                submap *sm = get_submap_at_grid( tripoint_bub_sm( p.x, p.y, z_level ) );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", p.x, p.y );
                     continue;
@@ -7280,11 +7290,11 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( {point_rel_sm_east, z_level
-                                         } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+
+        submap *pz = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_east, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_bub_sm_ib{ p_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point_zero.x,
                       point_zero.y, z_level );
@@ -7304,8 +7314,8 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         // Then mirror them.
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
-                point_rel_sm p( i, j );
-                submap *sm = get_submap_at_grid( { p, z_level } );
+                const tripoint_bub_sm_ib p( i, j, z_level );
+                submap *sm = get_submap_at_grid( p );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", p.x(), p.y(),
                               z_level );

@@ -668,7 +668,8 @@ void editmap::draw_main_ui_overlay()
             std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z()} );
+                    const tripoint_bub_sm_ib submap_pos{ x, y, target.z() };
+                    submap *sm = tmpmap.get_submap_at_grid( submap_pos );
                     if( sm ) {
                         const tripoint_bub_ms sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z() );
                         for( const spawn_point &sp : sm->spawns ) {
@@ -1879,7 +1880,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
-            const point_rel_sm target_sub( target.x() / SEEX, target.y() / SEEY );
+            const point_bub_sm target_sub( target.x() / SEEX, target.y() / SEEY );
 
             here.set_transparency_cache_dirty( target.z() );
             here.set_outside_cache_dirty( target.z() );
@@ -1894,8 +1895,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                         // functions that would alter the results
-                        const tripoint_rel_sm dest_pos = target_sub + tripoint( x, y, z );
-                        const tripoint_rel_sm src_pos = tripoint_rel_sm{ x, y, z };
+                        const tripoint_bub_sm dest_pos = target_sub + tripoint( x, y, z );
+                        const tripoint_bub_sm_ib src_pos = tripoint_bub_sm_ib{ x, y, z };
 
                         submap *destsm = here.get_submap_at_grid( dest_pos );
                         submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
@@ -1921,7 +1922,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
             for( int x = 0; x < here.getmapsize(); x++ ) {
                 for( int y = 0; y < here.getmapsize(); y++ ) {
-                    const tripoint_rel_sm dest_pos = tripoint_rel_sm( x, y, target.z() );
+                    const tripoint_bub_sm_ib dest_pos = tripoint_bub_sm_ib( x, y, target.z() );
                     const submap *destsm = here.get_submap_at_grid( dest_pos );
                     if( destsm == nullptr ) {
                         debugmsg( "Tried to update vehicle cache at (%d,%d,%d) but the submap is not loaded", dest_pos.x(),
@@ -1968,7 +1969,8 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            const tripoint_bub_sm_ib submap_pos{ x, y, target.z() };
+            submap *destsm = target_bay.get_submap_at_grid( submap_pos );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;
@@ -2005,7 +2007,8 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     target_bay.load( omt_tgt, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z()} );
+            const tripoint_bub_sm_ib submap_pos{ x, y, target.z() };
+            submap *destsm = target_bay.get_submap_at_grid( submap_pos );
             if( destsm == nullptr ) {
                 debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z() );
                 continue;

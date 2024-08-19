@@ -169,7 +169,8 @@ void map::process_fields()
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 if( field_cache[ x + y * MAPSIZE ] ) {
-                    submap *const current_submap = get_submap_at_grid( { x, y, z } );
+                    const tripoint_bub_sm_ib submap_pos{ x, y, z };
+                    submap *const current_submap = get_submap_at_grid( submap_pos );
                     if( current_submap == nullptr ) {
                         debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", x, y, z );
                         continue;

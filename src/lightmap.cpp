@@ -114,7 +114,8 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const tripoint_bub_sm_ib submap_pos{ smx, smy, zlev };
+            const submap *cur_submap = get_submap_at_grid( submap_pos );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
@@ -435,7 +436,8 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const tripoint_bub_sm_ib submap_pos{ smx, smy, zlev };
+            const submap *cur_submap = get_submap_at_grid( submap_pos );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                 continue;

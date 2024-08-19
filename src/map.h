@@ -2175,6 +2175,7 @@ class map
         bool inbounds( const point &p ) const {
             return inbounds( tripoint_bub_ms( p.x, p.y, 0 ) );
         }
+        bool inbounds( const tripoint_bub_sm &p ) const;
 
         bool inbounds_z( const int z ) const {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
@@ -2237,26 +2238,26 @@ class map
         void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
-        void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
+        void spawn_monsters_submap( const tripoint_bub_sm_ib &gp, bool ignore_sight,
                                     bool spawn_nonlocal = false );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
-        void spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &group,
+        void spawn_monsters_submap_group( const tripoint_bub_sm_ib &gp, mongroup &group,
                                           bool ignore_sight );
 
     protected:
-        void saven( const tripoint &grid );
-        void loadn( const point &grid, bool update_vehicles );
+        void saven( const tripoint_bub_sm_ib &grid );
+        void loadn( const point_bub_sm_ib &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
-        void actualize( const tripoint_rel_sm &grid );
+        void actualize( const tripoint_bub_sm_ib &grid );
         /**
          * Hacks in missing tree tops. It CAN be done in other ways, but it would be a lot of work
          * to get regional translation code to deal with chunks instead of terrain, and then use these
          * chunks everywhere instead of tree terrain tokens. Maybe some day...
          */
-        void add_tree_tops( const tripoint_rel_sm &grid );
+        void add_tree_tops( const tripoint_bub_sm_ib &grid );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
@@ -2301,7 +2302,7 @@ class map
          */
         void shift_traps( const tripoint &shift );
 
-        void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
+        void copy_grid( const tripoint_bub_sm_ib &to, const tripoint_bub_sm_ib &from );
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
@@ -2368,7 +2369,7 @@ class map
         // TODO: fix point types (remove the first overload)
         inline submap *unsafe_get_submap_at( const tripoint &p ) {
             cata_assert( inbounds( p ) );
-            return get_submap_at_grid( tripoint_rel_sm{ p.x / SEEX, p.y / SEEY, p.z } );
+            return get_submap_at_grid( tripoint_bub_sm_ib{ p.x / SEEX, p.y / SEEY, p.z } );
         }
         inline submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) {
             return unsafe_get_submap_at( p.raw() );
@@ -2376,7 +2377,7 @@ class map
         // TODO: fix point types (remove the first overload)
         inline const submap *unsafe_get_submap_at( const tripoint &p ) const {
             cata_assert( inbounds( p ) );
-            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+            return get_submap_at_grid( tripoint_bub_sm_ib{ p.x / SEEX, p.y / SEEY, p.z } );
         }
         inline const submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) const {
             return unsafe_get_submap_at( p.raw() );
@@ -2393,21 +2394,9 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        // TODO: fix point types (remove the first overload)
-        submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) {
-            offset_p.x = p.x % SEEX;
-            offset_p.y = p.y % SEEY;
-            return unsafe_get_submap_at( p );
-        }
         submap *unsafe_get_submap_at( const tripoint_bub_ms p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
             std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
-            return unsafe_get_submap_at( p );
-        }
-        // TODO: fix point types (remove the first overload)
-        const submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
-            offset_p.x = p.x % SEEX;
-            offset_p.y = p.y % SEEY;
             return unsafe_get_submap_at( p );
         }
         const submap *unsafe_get_submap_at(
@@ -2440,24 +2429,17 @@ class map
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( const point &gridp ) {
-            return getsubmap( get_nonant( gridp ) );
-        }
-        const submap *get_submap_at_grid( const point &gridp ) const {
-            return getsubmap( get_nonant( gridp ) );
-        }
-        submap *get_submap_at_grid( const tripoint_rel_sm &gridp );
-        const submap *get_submap_at_grid( const tripoint_rel_sm &gridp ) const;
+        submap *get_submap_at_grid( const tripoint_bub_sm &gridp );
+        const submap *get_submap_at_grid( const tripoint_bub_sm &gridp ) const;
+        submap *get_submap_at_grid( const tripoint_bub_sm_ib &gridp );
+        const submap *get_submap_at_grid( const tripoint_bub_sm_ib &gridp ) const;
     protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( const tripoint_rel_sm &gridp ) const;
-        size_t get_nonant( const point &gridp ) const {
-            return get_nonant( tripoint_rel_sm{ gridp.x, gridp.y, abs_sub.z() } );
-        }
+        size_t get_nonant( const tripoint_bub_sm_ib &gridp ) const;
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
          * @ref getsubmap, any existing pointer is overwritten. The index must be valid.
@@ -2540,7 +2522,7 @@ class map
         void process_items();
     private:
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items_in_submap( submap &current_submap, const tripoint_rel_sm &gridp );
+        void process_items_in_submap( submap &current_submap, const tripoint_bub_sm &gridp );
         void process_items_in_vehicles( submap &current_submap );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
