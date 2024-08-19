@@ -276,16 +276,6 @@
                   { "u_is_on_terrain_with_flag": "YOUNG" }
                 ]
               },
-              { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-              { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-              { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-              { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-              { "not": { "u_near_om_location": "road_end", "range": 1 } },
-              { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-              { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
               { "not": { "u_near_om_location": "road", "range": 1 } }
             ]
           },

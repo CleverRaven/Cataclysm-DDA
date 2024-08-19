@@ -420,16 +420,6 @@
       {
         "condition": {
           "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
             { "u_near_om_location": "road", "range": 3 },
             { "u_near_om_location": "dirt_road", "range": 3 },
             { "u_near_om_location": "subway", "range": 3 },
