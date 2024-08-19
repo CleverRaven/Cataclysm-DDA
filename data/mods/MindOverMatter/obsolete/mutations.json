@@ -15,7 +15,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },
-      { "u_forget_recipe": "improve_telekinesis_lifting_field" }, 
+      { "u_forget_recipe": "improve_telekinesis_lifting_field" },
       { "u_learn_recipe": "practice_telekinetic_lifting_field" },
       {
         "u_message": "Your Lifting Field has been updated to a power.  You now know the contemplation recipe and have an appropiate level of field for your previous prowess in the ability.",

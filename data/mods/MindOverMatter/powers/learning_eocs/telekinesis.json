@@ -193,12 +193,12 @@
             {
               "or": [
                 { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "3" ] },
-                   {
-              "and": [
-                { "math": [ "u_spell_level('telekinetic_pull')", ">=", "7" ] },
-                { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
-              ]
-            }
+                {
+                  "and": [
+                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
+                  ]
+                }
               ]
             }
           ]
@@ -331,10 +331,7 @@
                   ]
                 },
                 { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] },
-   { "math": [ "u_spell_level(' telekinetic_lifting_field')", ">=", "12" ] },
-
-
-               
+                { "math": [ "u_spell_level(' telekinetic_lifting_field')", ">=", "12" ] }
               ]
             }
           ]
