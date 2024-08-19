@@ -96,7 +96,7 @@
     "entries": [
       { "item": "gummy_vitamins" },
       { "item": "matches", "charges": 20 },
-      { "item": "napkin", "count": 8 },
+      { "item": "napkin", "count": 1 },
       { "item": "gum", "count": 2 },
       { "group": "pur_tablets_beverage_bag_6" },
       { "group": "sugar_beverage_bag_2" },
