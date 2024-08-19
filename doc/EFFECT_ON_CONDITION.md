@@ -2977,7 +2977,17 @@ Store string from `set_string_var` in the variable object `target_var`
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 | "i18n"       | optional | boolean | Whether the string values should be localized | 
+| "string_input" | optional | object | Accepts user input. When using `string_input`, the user will input a string and assign it to `target_var`. If the input is canceled, the value in `set_string_var` will be assigned as the default value. See details in the table below. |
 
+##### String Input Details
+
+| Property | Optionality | Type | Description |
+| --- | --- | --- | --- |
+| "title" | **mandatory** | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
+| "description" | **mandatory** | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "width" | optional | integer | The character length of the input box. Default is 20. |
+| "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
+| "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
 
 ##### Valid talkers:
 
@@ -3007,6 +3017,26 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 Concatenate string of variable `foo` and `bar`
 ```json
 { "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
+```
+
+Get the user input
+```json
+{
+  "id": "EOC_string_input_test",
+  "type": "effect_on_condition",
+  "effect": [
+    {
+      "set_string_var": "",
+      "string_input": {
+        "title": { "i18n": true, "str": "Input a value:" },
+        "description": { "i18n": true, "str": "Just say something" },
+        "width": 30
+      },
+      "target_var": { "context_val": "str" }
+    },
+    { "u_message": "You said: <context_val:str>" }
+  ]
+}
 ```
 
 

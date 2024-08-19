@@ -690,6 +690,7 @@
           "type": "22",
           "weight": 204,
           "items": {
+            "1911-22": 1,
             "marlin_9a": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
@@ -700,6 +701,7 @@
             "ruger_charger": 1,
             "ruger_charger_auto": 1,
             "ruger_1022_auto": 1,
+            "ruger_mk4": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
             "rossi_gallery": 1
@@ -967,6 +969,7 @@
           "type": "pistols",
           "weight": 616,
           "items": {
+            "1911_22": 1,
             "2_shot_special": 1,
             "90two40": 1,
             "ar_pistol": 1,
@@ -1038,6 +1041,7 @@
             "rugerlcp": 1,
             "ruger_lcr_22": 1,
             "ruger_lcr_38": 1,
+            "ruger_mk4": 1,
             "ruger_redhawk": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
