@@ -125,6 +125,18 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_223",
+    "//": "Collections of magazines for 223/556 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_stanag", "prob": 1007 },
+      { "group": "magazines_mini14", "prob": 100 },
+      { "group": "magazines_aug", "prob": 28 },
+      { "item": "sl8mag", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [

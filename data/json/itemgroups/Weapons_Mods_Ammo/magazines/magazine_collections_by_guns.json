@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_glock",
-    "//2": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//2": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "glockmag", "prob": 300 },
       { "item": "glock17_17", "prob": 500 },
@@ -18,7 +18,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_m9",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "m9mag_10rd", "prob": 300 },
       { "item": "m9mag", "prob": 500 },
@@ -34,7 +34,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_px4",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "px4mag_10rd", "prob": 200 },
       { "item": "px4mag_15rd", "prob": 400 },
@@ -46,7 +46,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_usp",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "usp9mag_10rd", "prob": 300 },
       { "item": "usp9mag", "prob": 500 },
@@ -58,14 +58,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_p226",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "p226mag_10rd_9x19mm", "prob": 500 }, { "item": "p226mag_15rd_9x19mm", "prob": 500 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_p320",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "p320mag_10rd_9x19mm", "prob": 250 },
       { "item": "p320mag_17rd_9x19mm", "prob": 500 },
@@ -83,7 +83,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_ppq",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "ppq9mag_10rd", "prob": 400 },
       { "item": "ppq9mag_15rd", "prob": 500 },
@@ -94,7 +94,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_hipoint_c9",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "hptc9mag_8rd", "prob": 500 },
       { "item": "hptc9mag_10rd", "prob": 100 },
@@ -105,7 +105,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_cz",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "cz75mag_16rd", "prob": 500 },
       { "item": "cz75mag_20rd", "prob": 100 },
@@ -123,21 +123,21 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_p38",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "p38mag", "prob": 500 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_ccp",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "ccpmag", "prob": 500 }, { "item": "ccpmag_9rd", "prob": 400 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_apc9",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "btmp9mag_9x19mm_10rd", "prob": 250 },
       { "item": "btmp9mag_9x19mm_15", "prob": 400 },
@@ -151,14 +151,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_calico",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "calicomag", "prob": 500 }, { "item": "calicomag_100rd", "prob": 200 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_mp5",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "mp5mag_10rd", "prob": 250 },
       { "item": "mp5mag_15rd", "prob": 350 },
@@ -174,35 +174,35 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_luger",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "p08mag_8rd", "prob": 500 }, { "item": "p08mag_32rd", "prob": 3 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_mauser",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "mausermag_10rd", "prob": 500 }, { "item": "mausermag_20rd", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_mp40",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "mp40mag_32rd", "prob": 500 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_sten",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "stenmag", "prob": 500 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_tec9",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "tec9mag_20rd", "prob": 400 },
       { "item": "tec9mag_30rd", "prob": 450 },
@@ -216,7 +216,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_9mm_uzi",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "uzimag_20rd", "prob": 400 },
       { "item": "uzimag_25rd", "prob": 450 },
@@ -230,14 +230,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_40_glock",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "glock40mag", "prob": 500 }, { "item": "glock40bigmag", "prob": 350 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_10mm_glock",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "glock_29mag", "prob": 250 },
       { "item": "glock_20mag", "prob": 500 },
@@ -248,35 +248,35 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_22_ar",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "22_ar15mag_10", "prob": 500 }, { "item": "22_ar15mag_28", "prob": 200 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_22_1022",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "ruger1022mag", "prob": 500 }, { "item": "ruger1022bigmag", "prob": 300 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_22_cp33",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "cp33_mag", "prob": 500 }, { "item": "cp33_mag_50", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_45_glock",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "glock_21mag", "prob": 500 }, { "item": "glock_21mag26", "prob": 100 }, { "item": "tdi_mag", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_45_thompson",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "thompson_mag", "prob": 500 },
       { "item": "thompson_bigmag", "prob": 60 },
@@ -287,21 +287,71 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_45_usc",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "usc10mag", "prob": 400 }, { "item": "usc15mag", "prob": 500 }, { "item": "usc20mag", "prob": 200 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_45_1911",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "m1911mag", "prob": 500 }, { "item": "m1911bigmag", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_57_ruger",
-    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "ruger_57_10_round_mag", "prob": 300 }, { "item": "ruger_57mag", "prob": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_stanag",
+    "//": "Collections of magazines for STANAG guns. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [
+      { "item": "stanag5", "prob": 300 },
+      { "item": "stanag5ranger", "prob": 30 },
+      { "item": "stanag10", "prob": 350 },
+      { "item": "stanag10ranger", "prob": 35 },
+      { "item": "stanag20", "prob": 400 },
+      { "item": "stanag20ranger", "prob": 40 },
+      { "item": "stanag30", "prob": 500 },
+      { "item": "stanag30ranger", "prob": 60 },
+      { "item": "stanag40", "prob": 200 },
+      { "item": "stanag40ranger", "prob": 20 },
+      { "item": "stanag50", "prob": 150 },
+      { "item": "stanag60", "prob": 15 },
+      { "item": "stanag60drum", "prob": 200 },
+      { "item": "stanag90", "prob": 10 },
+      { "item": "stanag100", "prob": 8 },
+      { "item": "stanag100drum", "prob": 8 },
+      { "item": "stanag150", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_mini14",
+    "//": "Collections of magazines for the gun. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [
+      { "item": "ruger5", "prob": 300 },
+      { "item": "ruger10", "prob": 400 },
+      { "item": "ruger20", "prob": 400 },
+      { "item": "ruger30", "prob": 400 },
+      { "item": "ruger90", "prob": 60 },
+      { "item": "ruger100", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_aug",
+    "//": "Collections of magazines for the gun. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [
+      { "item": "augmag_10rd", "prob": 250 },
+      { "item": "augmag_30rd", "prob": 500 },
+      { "item": "augmag_42rd", "prob": 40 }
+    ]
   }
 ]
