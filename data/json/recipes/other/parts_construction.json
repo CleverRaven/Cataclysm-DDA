@@ -408,7 +408,7 @@
     "byproducts": [ [ "splinter", 6 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
-    "id_suffix": "from_long_pole",
+    "id_suffix": "from long pole",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h",
