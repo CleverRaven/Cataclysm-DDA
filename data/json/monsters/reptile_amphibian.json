@@ -51,8 +51,8 @@
     "name": { "str": "abstract snakelet" },
     "description": "This is an abstract monster for other snakelets to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
     "copy-from": "mon_snake_abstract",
-    "volume": "15 ml",
-    "weight": "15 g",
+    "volume": "10 ml",
+    "weight": "10 g",
     "hp": 1,
     "speed": 60,
     "aggression": -20,
@@ -65,7 +65,7 @@
   {
     "id": "mon_rattlesnake_s",
     "type": "MONSTER",
-    "name": { "str_sp": "timber rattlesnake snakelet" },
+    "name": { "str": "timber rattlesnake snakelet" },
     "description": "A timber rattlesnake in its hatchling stage.  It will eventually grow a rattle and learn how to hunt.",
     "copy-from": "mon_snakelet_abstract",
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
@@ -87,6 +87,31 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "extend": { "flags": [ "BADVENOM" ] }
+  },
+  {
+    "id": "mon_wormsnake",
+    "type": "MONSTER",
+    "name": { "str": "worm snake" },
+    "description": "A small burrowing reptile that's just enjoying its time hunting earthworms.",
+    "copy-from": "mon_snake_abstract",
+    "volume": "25 ml",
+    "weight": "25 g",
+    "hp": 1,
+    "speed": 70,
+    "vision_day": 6,
+    "vision_night": 6,
+    "//": "Actually no info on weight, I just kinda assumed 1g per 1cm of length since they're tiny.",
+    "reproduction": { "baby_egg": "egg_wormsnake", "baby_count": 8, "baby_timer": 50 },
+    "extend": { "flags": [ "CAN_DIG" ], "fear_triggers": [ "SOUND", "BRIGHT_LIGHT" ] }
+  },
+  {
+    "id": "mon_wormsnake_baby",
+    "type": "MONSTER",
+    "name": { "str": "worm snake snakelet" },
+    "description": "A worm snake in its hatchling stage.  Not that much smaller than an adult, actually.",
+    "copy-from": "mon_snakelet_abstract",
+    "upgrades": { "age_grow": 75, "into": "mon_wormsnake" },
+    "extend": { "fear_triggers": [ "BRIGHT_LIGHT" ] }
   },
   {
     "id": "mon_rattlesnake_big",
