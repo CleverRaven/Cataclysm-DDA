@@ -394,7 +394,7 @@
     "weight": "15 kg",
     "hp": 23,
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "age_grow": 30, "into": "mon_giant_cockroach" },
+    "upgrades": { "age_grow": 30, "into": "mon_silverfish" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
   {
