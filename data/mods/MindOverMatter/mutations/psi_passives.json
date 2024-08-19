@@ -142,7 +142,7 @@
         "values": [
           {
             "value": "OBTAIN_COST_MULTIPLIER",
-            "multiply": { "math": [ "-0.1 + (u_spell_level_sum('school': 'TELEKINETIC') * -0.0075)" ] }
+            "multiply": { "math": [ "-0.1 + (u_spell_level_sum('school': 'TELEKINETIC') * -0.00075)" ] }
           }
         ]
       }
