@@ -114,6 +114,17 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_57",
+    "//": "Collections of magazines for 5.7mm guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_57_ruger", "prob": 100 },
+      { "item": "fn57mag", "prob": 13 },
+      { "item": "fnp90mag", "prob": 115 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [

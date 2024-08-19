@@ -296,5 +296,12 @@
     "id": "magazines_45_1911",
     "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [ { "item": "m1911mag", "prob": 500 }, { "item": "m1911bigmag", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_57_ruger",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "ruger_57_10_round_mag", "prob": 300 }, { "item": "ruger_57mag", "prob": 500 } ]
   }
 ]
