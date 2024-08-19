@@ -13,7 +13,7 @@
     "required_event": "game_load",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_telekinesis_lifting_field_updated", "!=", "1" ] } ] },
     "effect": [
-      { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
+      { "run_eocs": "EOC_TELEKIN_LIFTING_FIELD_SWITCHER_REMOVE" },
       { "u_add_trait": "TELEKINETIC_GRAB_POCKETS" },
       { "u_forget_recipe": "improve_telekinesis_lifting_field" },
       { "u_learn_recipe": "practice_telekinetic_lifting_field" },
@@ -22,7 +22,7 @@
         "popup": true
       },
       {
-        "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "u_spell_level_sum('school': 'TELEKINETIC') / 8" ]
+        "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "(u_spell_level_sum('school': 'TELEKINETIC') / 8) + 1" ]
       }
     ]
   }

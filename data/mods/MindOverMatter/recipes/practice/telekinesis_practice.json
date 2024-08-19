@@ -583,7 +583,7 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Wave of Force power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Lifting Field power.",
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "1" ] },

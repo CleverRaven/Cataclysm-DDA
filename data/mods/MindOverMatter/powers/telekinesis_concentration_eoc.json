@@ -77,7 +77,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('telekinetic_lifting_field') * 259) + 1674 * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telekinetic_lifting_field') * 259) + 1674) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -192,7 +192,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('telekinetic_lifting_field') * 259) + 1674 * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telekinetic_lifting_field') * 259) + 1674) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -218,7 +218,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('telekinetic_strength') * 30) + 120 )* (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telekinetic_strength') * 30) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

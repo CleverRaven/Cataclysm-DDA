@@ -470,7 +470,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telekinetic_lifting_field') * 25900) + 167400 * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telekinetic_lifting_field') * 25900) + 167400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -481,7 +481,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 10 : max((200 -(u_spell_level('telekinetic_lifting_field') * 6.5), 55)"
+        "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 10 : max((200 - (u_spell_level('telekinetic_lifting_field') * 6.5)), 55)"
       ]
     }
   },
