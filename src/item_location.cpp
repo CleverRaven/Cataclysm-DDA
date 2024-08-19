@@ -841,7 +841,7 @@ void item_location::deserialize( const JsonObject &obj )
         item_location parent;
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
-            if( parent.where() == type::invalid ) {
+            if( parent == nowhere ) {
                 debugmsg( "parent location doesn't exist.  Item_location has lost its target over a save/load cycle." );
                 ptr.reset( new impl::nowhere );
                 return;
