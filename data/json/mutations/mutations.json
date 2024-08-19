@@ -5823,7 +5823,7 @@
           { "type": "trait", "id": "WEB_WEAVER", "invert": true }
         ],
         "comfort": "sleep_aid",
-        "add_human_comfort": true,
+        "use_better_comfort": true,
         "add_sleep_aids": true,
         "msg_try": { "text": "These thick webs support your weight, and are strangely comfortable…", "rating": "good" }
       },
@@ -8609,7 +8609,6 @@
       {
         "conditions": [ { "type": "trait", "id": "SHELL2", "active": true } ],
         "comfort": "sleep_aid",
-        "add_human_comfort": true,
         "add_sleep_aids": true
       }
     ]
@@ -8635,7 +8634,6 @@
       {
         "conditions": [ { "type": "trait", "id": "SHELL3", "active": true } ],
         "comfort": "sleep_aid",
-        "add_human_comfort": true,
         "add_sleep_aids": true
       }
     ]

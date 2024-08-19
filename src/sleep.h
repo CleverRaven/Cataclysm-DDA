@@ -66,6 +66,7 @@ struct comfort_data {
     bool conditions_or = false;
     int base_comfort = COMFORT_NEUTRAL;
     bool add_human_comfort = false;
+    bool use_better_comfort = false;
     bool add_sleep_aids = false;
     message msg_try;
     message msg_hint;
@@ -74,12 +75,13 @@ struct comfort_data {
     static const comfort_data &human();
     static int human_comfort_at( const tripoint &p );
     static bool try_get_sleep_aid_at( const tripoint &p, item &result );
+    static void deserialize_comfort( const JsonObject &jo, bool was_loaded, std::string name,
+                                     int &member );
 
     bool human_or_impossible() const;
     bool are_conditions_true( const Character &guy, const tripoint &p ) const;
     response get_comfort_at( const tripoint &p ) const;
 
-    void deserialize_comfort( const JsonObject &jo, bool was_loaded );
     void deserialize( const JsonObject &jo );
     bool was_loaded = false;
 };

@@ -109,6 +109,35 @@ bool comfort_data::try_get_sleep_aid_at( const tripoint &p, item &result )
     return false;
 }
 
+void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded, std::string name,
+                                        int &member )
+{
+    if( !was_loaded ) {
+        if( jo.has_int( name ) ) {
+            member = jo.get_int( name );
+        } else if( jo.has_string( name ) ) {
+            const std::string str = jo.get_string( name );
+            if( str == "impossible" ) {
+                member = COMFORT_IMPOSSIBLE;
+            } else if( str == "uncomfortable" ) {
+                member = COMFORT_UNCOMFORTABLE;
+            } else if( str == "neutral" ) {
+                member = COMFORT_NEUTRAL;
+            } else if( str == "slightly_comfortable" ) {
+                member = COMFORT_SLIGHTLY_COMFORTABLE;
+            } else if( str == "sleep_aid" ) {
+                member = COMFORT_SLEEP_AID;
+            } else if( str == "comfortable" ) {
+                member = COMFORT_COMFORTABLE;
+            } else if( str == "very_comfortable" ) {
+                member = COMFORT_VERY_COMFORTABLE;
+            } else {
+                jo.throw_error( "invalid comfort level" );
+            }
+        }
+    }
+}
+
 bool comfort_data::condition::is_condition_true( const Character &guy, const tripoint &p ) const
 {
     bool result = false;
@@ -134,7 +163,7 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
             result = trap_id( id ) == trap.id;
             break;
         case category::field:
-            result = intensity >= here.get_field_intensity( p, field_type_id( id ) );
+            result = here.get_field_intensity( p, field_type_id( id ) ) >= intensity;
             break;
         case category::vehicle:
             if( vp && !flag.empty() ) {
@@ -171,7 +200,7 @@ void comfort_data::condition::deserialize( const JsonObject &jo )
             break;
         case category::field:
             mandatory( jo, false, "id", id );
-            optional( jo, false, "intensity", intensity );
+            optional( jo, false, "intensity", intensity, 1 );
             break;
         case category::vehicle:
             optional( jo, false, "flag", flag );
@@ -214,8 +243,11 @@ comfort_data::response comfort_data::get_comfort_at( const tripoint &p ) const
     response result;
     result.data = this;
     result.comfort = base_comfort;
-    if( add_human_comfort ) {
-        result.comfort += human_comfort_at( p );
+    const int hc = human_comfort_at( p );
+    if( use_better_comfort && hc > base_comfort ) {
+        result.comfort = hc;
+    } else if( add_human_comfort ) {
+        result.comfort += hc;
     }
     item sleep_aid;
     if( add_sleep_aids && try_get_sleep_aid_at( p, sleep_aid ) ) {
@@ -227,40 +259,13 @@ comfort_data::response comfort_data::get_comfort_at( const tripoint &p ) const
     return result;
 }
 
-void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded )
-{
-    if( !was_loaded ) {
-        if( jo.has_int( "comfort" ) ) {
-            base_comfort = jo.get_int( "comfort" );
-        } else if( jo.has_string( "comfort" ) ) {
-            const std::string str = jo.get_string( "comfort" );
-            if( str == "impossible" ) {
-                base_comfort = COMFORT_IMPOSSIBLE;
-            } else if( str == "uncomfortable" ) {
-                base_comfort = COMFORT_UNCOMFORTABLE;
-            } else if( str == "neutral" ) {
-                base_comfort = COMFORT_NEUTRAL;
-            } else if( str == "slightly_comfortable" ) {
-                base_comfort = COMFORT_SLIGHTLY_COMFORTABLE;
-            } else if( str == "sleep_aid" ) {
-                base_comfort = COMFORT_SLEEP_AID;
-            } else if( str == "comfortable" ) {
-                base_comfort = COMFORT_COMFORTABLE;
-            } else if( str == "very_comfortable" ) {
-                base_comfort = COMFORT_VERY_COMFORTABLE;
-            } else {
-                jo.throw_error( "invalid comfort level" );
-            }
-        }
-    }
-}
-
 void comfort_data::deserialize( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "conditions", conditions );
-    optional( jo, was_loaded, "conditions_or", conditions_or );
-    deserialize_comfort( jo, was_loaded );
+    optional( jo, was_loaded, "conditions_any", conditions_or );
+    deserialize_comfort( jo, was_loaded, "comfort", base_comfort );
     optional( jo, was_loaded, "add_human_comfort", add_human_comfort );
+    optional( jo, was_loaded, "use_better_comfort", use_better_comfort );
     optional( jo, was_loaded, "add_sleep_aids", add_sleep_aids );
     optional( jo, was_loaded, "msg_try", msg_try );
     optional( jo, was_loaded, "msg_hint", msg_hint );
