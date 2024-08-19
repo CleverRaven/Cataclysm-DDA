@@ -215,7 +215,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electrohack" },
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 5 charges of battery power per use.",
     "weight": "114 g",
     "volume": "500 ml",
     "price": "400 USD",
@@ -236,7 +236,7 @@
       }
     ],
     "melee_damage": { "bash": 5 },
-    "charges_per_use": 25,
+    "charges_per_use": 5,
     "qualities": [ [ "HACK", 2 ] ]
   },
   {
