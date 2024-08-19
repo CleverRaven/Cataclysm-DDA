@@ -5350,7 +5350,7 @@
     "name": "long wooden posts",
     "description": "Recipes related to constructing 8 ft wooden posts.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "wooden_post_long_from_wood_beam_by_hand", "wooden_post_long_from wood beam with powertools" ]
+    "nested_category_data": [ "wooden_post_long_from_wood_beam_by_hand", "wooden_post_long_from_wood_beam_with_powertools" ]
   },
   {
     "id": "nested_posts_normal",
