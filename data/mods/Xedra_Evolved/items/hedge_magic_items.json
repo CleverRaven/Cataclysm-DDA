@@ -10,7 +10,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "TINDER", "PAPER_SHAPED" ],
+    "flags": [ "TINDER", "PAPER_SHAPED", "SINGLE_USE" ],
     "volume": "6 ml",
     "longest_side": "297 mm"
   },
@@ -339,6 +339,36 @@
           "effect": [
             { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
             { "u_cast_spell": { "id": "hedge_bash_terrain_magic_square_real" }, "targeted": true }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_armed_men_magic_square",
+    "copy-from": "magic_square_base",
+    "name": { "str": "magic square (To Cause Armed Men to Appear)", "str_pl": "magic squares (To Cause Armed Men to Appear)" },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_ARMED_MEN_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            {
+              "u_spawn_monster": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+              "real_count": { "math": [ "2 + rand(3)" ] },
+              "group": true,
+              "min_radius": 1,
+              "max_radius": 3,
+              "lifespan": [ "15 minutes", "45 minutes" ],
+              "spawn_message": "An armed warrior appears.",
+              "spawn_message_plural": "Several armed warriors appear."
+            }
           ]
         }
       ]
