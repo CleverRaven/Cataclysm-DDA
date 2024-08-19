@@ -527,8 +527,8 @@
   {
     "id": "biomancer_remove_instability",
     "type": "SPELL",
-    "name": "Restore Genetic Stability",
-    "description": "The scroll said that this spell is for \"Curing the aftereffects of XE037 overexposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
+    "name": "Preserve Genetic Stability",
+    "description": "The scroll said that this spell is for \"Reducing negative consequencse from XE037 exposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "components": "spell_components_remove_instability",

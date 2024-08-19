@@ -1478,6 +1478,10 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
         talker const *const actor = d.actor( beta );
         if( Character const *const chr = actor->get_character(); chr != nullptr ) {
             return chr->unimpaired_range();
+        } else if( monster const *const mon = actor->get_monster(); mon != nullptr ) {
+            map &here = get_map();
+            tripoint_bub_ms tripoint = get_map().bub_from_abs( mon->get_location() );
+            return mon->sight_range( here.ambient_light_at( tripoint ) );
         }
         debugmsg( "Tried to access vision range of a non-Character talker" );
         return 0;

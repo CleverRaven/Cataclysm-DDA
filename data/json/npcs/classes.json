@@ -636,6 +636,30 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_CYBORG_RESCUE",
+    "name": { "str": "Cyborg" },
+    "job_description": "I'm transhuman above and beyond.",
+    "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ],
+    "common": false,
+    "worn_override": "NC_ANCILLA_GRUNT_worn",
+    "carry_override": "NC_ANCILLA_GRUNT_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "bionics": [
+      { "id": "bio_armor_head", "chance": 100 },
+      { "id": "bio_armor_torso", "chance": 100 },
+      { "id": "bio_armor_arms", "chance": 100 },
+      { "id": "bio_armor_legs", "chance": 100 },
+      { "id": "bio_armor_eyes", "chance": 100 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_painkiller", "chance": 16 },
+      { "id": "bio_power_storage_mkII", "chance": 90 }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_CITY_COP",
     "name": { "str": "Former Cop" },
     "job_description": "I used to be a police officer, but I'm just a survivor now.",
