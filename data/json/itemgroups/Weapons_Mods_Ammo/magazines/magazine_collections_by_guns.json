@@ -224,5 +224,44 @@
       { "item": "uzimag_50rd", "prob": 50 },
       { "item": "uzimag_100rd", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_40_glock",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "glock40mag", "prob": 500 }, { "item": "glock40bigmag", "prob": 350 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_10mm_glock",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [
+      { "item": "glock_29mag", "prob": 250 },
+      { "item": "glock_20mag", "prob": 500 },
+      { "item": "tdi_10mm_mag", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_22_ar",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "22_ar15mag_10", "prob": 500 }, { "item": "22_ar15mag_28", "prob": 200 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_22_1022",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "ruger1022mag", "prob": 500 }, { "item": "ruger1022bigmag", "prob": 300 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_22_cp33",
+    "//": "Collections of magazine for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "cp33_mag", "prob": 500 }, { "item": "cp33_mag_50", "prob": 100 } ]
   }
 ]
