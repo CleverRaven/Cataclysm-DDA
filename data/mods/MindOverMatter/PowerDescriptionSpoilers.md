@@ -805,7 +805,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 ## Lifting Field (C)
 *Difficulty*: 4<br />
 *Target*: Self<br />
-*Duration*: From 10 minutes to 25 minutes, plus 3 minutes and 10 seconds to 7 minutes per power level<br />
+*Duration*: From 8 minutes and 14 seconds to 27 minutes and 54 seconds, plus 1 minute and 33 seconds to 4 minutes and 19 seconds per power level<br />
 *Stamina Cost*: 4500, minus 100 per level to a minimum of 2000<br />
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 55<br />
 *Effects*: Create a field to float a single object next to the psion, keeping it close at hand and preventing its weight or encumbrance from affecting them. The weight limit increases at each level of the power; there is no volume or length limit.<br />
