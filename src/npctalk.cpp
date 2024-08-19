@@ -4726,6 +4726,12 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         const std::string_view )
 {
     const bool i18n = jo.get_bool( "i18n", false );
+    std::optional<string_input_params> input_params;
+    if( jo.has_object( "string_input" ) ) {
+        JsonObject input_obj = jo.get_object( "string_input" );
+        input_params = string_input_params::parse_string_input_params( input_obj );
+    }
+
     std::vector<str_or_var> str_vals;
     std::vector<translation_or_var> i18n_vals;
     if( jo.has_array( member ) ) {
@@ -4745,9 +4751,33 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
     }
     bool parse = jo.get_bool( "parse_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    return [i18n, str_vals, i18n_vals, var, parse]( dialogue & d ) {
+    return [i18n, input_params, str_vals, i18n_vals, var, parse]( dialogue & d ) {
         int index = rng( 0, ( i18n ? i18n_vals.size() : str_vals.size() ) - 1 );
         std::string str = i18n ? i18n_vals[index].evaluate( d ) : str_vals[index].evaluate( d );
+
+        if( input_params.has_value() ) {
+            string_input_popup popup;
+            popup
+            .title( input_params.value().title.evaluate( d ) )
+            .description( input_params.value().description.evaluate( d ) )
+            .width( input_params.value().width )
+            .identifier( input_params.value().identifier );
+
+            if( input_params.value().only_digits ) {
+                int num_temp;
+                popup.edit( num_temp );
+                if( !popup.canceled() ) {
+                    str = std::to_string( num_temp );
+                }
+            } else {
+                std::string str_temp;
+                popup.edit( str_temp );
+                if( !popup.canceled() ) {
+                    str = str_temp;
+                }
+            }
+        }
+
         if( parse ) {
             std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
             talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
@@ -5215,6 +5245,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
                 continue;
             }
 
+            auto wrap60 = []( const std::string & text ) {
+                return string_join( foldstring( text, 60 ), "\n" );
+            };
             std::string name;
             std::string description;
             if( eoc_names.empty() ) {
@@ -5226,6 +5259,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
                 parse_tags( description, alpha, beta, d );
+                description = wrap60( description );
             }
 
             if( eoc_keys.empty() ) {

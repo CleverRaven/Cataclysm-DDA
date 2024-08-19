@@ -134,9 +134,13 @@ void uilist_impl::draw_controls()
 
     if( parent.desc_enabled ) {
         ImGui::Separator();
-        cataimgui::draw_colored_text( parent.footer_text.empty() ?
-                                      parent.entries[parent.selected].desc.c_str()
-                                      : parent.footer_text.c_str() );
+        std::string description;
+        if( !parent.footer_text.empty() ) {
+            description = parent.footer_text;
+        } else if( parent.selected >= -1 ) {
+            description = parent.entries[parent.selected].desc;
+        }
+        cataimgui::draw_colored_text( description );
     }
 }
 

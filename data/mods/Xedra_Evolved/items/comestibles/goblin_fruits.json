@@ -431,6 +431,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "shadow_fruit",
+    "name": { "str": "shadowy goblin fruit" },
+    "description": "This greyish goblin fruit is shaped like a pear, if pears had scales like a pinecone.  There is a pulpy meat underneath the scales.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "dark_gray",
+    "weight": "118 g",
+    "volume": "151 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the shadowy goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SHADOW" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SHADOW",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_shadow", "duration": { "math": [ "500 + rand(5000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "goblin_fruit_giant_growth",
     "name": { "str": "shiny goblin fruit" },
     "description": "This round blue goblin fruit glows bright enough to read by.  The light flickers like firelight, even when the fruit is simply placed on the table.  It smells like pine needles soaked in strong alcohol.",

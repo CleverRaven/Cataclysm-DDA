@@ -71,6 +71,22 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(val, origin,
                                              comment="Text variable value in "
                                              "{}".format(comment))
+            if "set_string_var" in eff and "string_input" in eff:
+                string_input = eff["string_input"]
+                if "title" in string_input:
+                    write_translation_or_var(
+                        string_input["title"],
+                        origin,
+                        comment="String input window's title in {}"
+                        .format(comment)
+                    )
+                if "description" in string_input:
+                    write_translation_or_var(
+                        string_input["description"],
+                        origin,
+                        comment="String input window's description in {}"
+                        .format(comment)
+                    )
             if ("u_spawn_monster" in eff or "npc_spawn_monster" in eff or
                     "u_spawn_npc" in eff or "npc_spawn_npc" in eff):
                 if "u_spawn_monster" in eff or "npc_spawn_monster" in eff:

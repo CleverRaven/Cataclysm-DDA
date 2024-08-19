@@ -207,7 +207,8 @@
       "kp32mag",
       "cp33_mag",
       "cp33_mag_50",
-      "ruger_mk4_mag"
+      "ruger_mk4_mag",
+      "1911_22_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
