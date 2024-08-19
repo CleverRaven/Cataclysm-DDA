@@ -99,6 +99,21 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_45",
+    "//": "Collections of magazines for 45 ACP guns that are sold in gunstores, such as Glocks, 1911s",
+    "items": [
+      { "group": "magazines_45_glock", "prob": 100 },
+      { "group": "magazines_45_thompson", "prob": 21 },
+      { "group": "magazines_45_usc", "prob": 18 },
+      { "group": "magazines_45_1911", "prob": 1107 },
+      { "item": "usp45mag", "prob": 30 },
+      { "item": "ppq45mag", "prob": 5 },
+      { "item": "hptjhpmag", "prob": 103 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
@@ -110,5 +125,12 @@
       { "group": "magazines_9mm_tec9", "prob": 60 },
       { "group": "magazines_9mm_uzi", "prob": 18 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "rare_magazines_45",
+    "//": "Collections of magazines for 45 ACP guns that are rare and should only be found in collections or gunshows, such as MACs.",
+    "items": [ { "item": "mac10mag", "prob": 100 }, { "item": "ump45mag", "prob": 5 }, { "item": "greasegun30mag", "prob": 25 } ]
   }
 ]
