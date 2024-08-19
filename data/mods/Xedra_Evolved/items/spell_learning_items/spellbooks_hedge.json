@@ -151,7 +151,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE",
-          "//": "Max research time before failure is 84 hours. Average result of 504 after 84 hours of study with Deduction 0.",
+          "//": "Max research time before failure is 84 hours. Average result of 504 after 84 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
           "condition": { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "!=", "1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_abramelin_the_mage", "target_var": { "u_val": "latest_studied_occult_text_name" } },
@@ -185,6 +185,13 @@
             { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
             {
               "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
               "time_in_future": [
                 { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
                 { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
