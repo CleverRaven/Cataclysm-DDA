@@ -207,7 +207,8 @@
       "kp32mag",
       "cp33_mag",
       "cp33_mag_50",
-      "ruger_mk4_mag"
+      "ruger_mk4_mag",
+      "1911_22_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
@@ -382,6 +383,9 @@
       "saiga10mag",
       "saiga30mag",
       "srm_1216_mag_16",
+      "mka_1919_5",
+      "mka_1919_10",
+      "mka_1919_20",
       "afs_raketa30mag",
       "afs_shot_speedloader8",
       "USAS10mag",

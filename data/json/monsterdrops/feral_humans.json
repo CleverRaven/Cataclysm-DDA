@@ -764,9 +764,7 @@
         "distribution": [
           { "item": "longshirt", "prob": 10, "damage": [ 1, 4 ] },
           { "item": "polo_shirt", "prob": 50, "damage": [ 1, 4 ] },
-          { "item": "tshirt", "prob": 80, "damage": [ 1, 4 ] },
-          { "item": "linuxtshirt", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "tshirt_tour", "prob": 50, "damage": [ 1, 4 ] }
+          { "item": "tshirt", "prob": 80, "damage": [ 1, 4 ] }
         ]
       },
       { "group": "feral_jackboot_shotgun", "prob": 100, "damage": [ 1, 4 ] },

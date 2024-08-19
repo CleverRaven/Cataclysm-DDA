@@ -609,6 +609,15 @@ conditional_t::func f_has_trait( const JsonObject &jo, std::string_view member, 
     };
 }
 
+conditional_t::func f_is_trait_purifiable( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_trait_purifiable( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
 conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2121,10 +2130,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "mana_max", &talker::mana_max },
     { "mana", &talker::mana_cur },
     { "morale", &talker::morale_cur },
-    { "npc_anger", &talker::get_npc_anger },
-    { "npc_fear", &talker::get_npc_fear },
-    { "npc_trust", &talker::get_npc_trust },
-    { "npc_value", &talker::get_npc_value },
     { "owed", &talker::debt },
     { "perception_base", &talker::get_per_max },
     { "perception_bonus", &talker::get_per_bonus },
@@ -2226,10 +2231,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "intelligence_bonus", &talker::set_int_bonus },
     { "mana", &talker::set_mana_cur },
     { "morale", &talker::set_morale },
-    { "npc_anger", &talker::set_npc_anger },
-    { "npc_fear", &talker::set_npc_fear },
-    { "npc_trust", &talker::set_npc_trust },
-    { "npc_value", &talker::set_npc_value },
     { "perception_base", &talker::set_per_max },
     { "perception_bonus", &talker::set_per_bonus },
     { "pkill", &talker::set_pkill },
@@ -2431,6 +2432,7 @@ std::vector<condition_parser>
 parsers = {
     {"u_has_any_trait", "npc_has_any_trait", jarg::array, &conditional_fun::f_has_any_trait },
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_fun::f_has_trait },
+    { "u_is_trait_purifiable", "npc_is_trait_purifiable", jarg::member, &conditional_fun::f_is_trait_purifiable},
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_fun::f_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_fun::f_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_fun::f_using_martial_art },

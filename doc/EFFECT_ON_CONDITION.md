@@ -327,6 +327,13 @@ return true if alpha talker is female
 - `npc` is any NPC, except Avatar
 - `character` is both NPC or Avatar
 
+```
+Creature ---> Character ---> avatar
+          \              \
+           \              \--> npc
+            \---> monster
+```
+
 #### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
@@ -408,6 +415,24 @@ Checks do alpha talker has `FEATHERS` mutation
 ```json
 { "u_has_trait": "FEATHERS" }
 ```
+
+### `u_is_trait_purifiable`, `npc_is_trait_purifiable`
+- type: string or [variable object](##variable-object)
+- return true if the checked trait is purifiable for the alpha or beta talker
+- non-purifiability is either set globally in the trait definition or per-character via `u/npc_set_trait_purifiability`
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+Checks if the `FEATHERS` trait is purifiable for the character (returns true as per the trait definition unless another effect set the trait non-purifiable for the target)
+```json
+{ "u_is_trait_purifiable": "FEATHERS" }
+```
+
 
 ### `u_has_martial_art`, `npc_has_martial_art`
 - type: string or [variable object](##variable-object)
@@ -2318,6 +2343,46 @@ Reveal the route between you and `house_02`
 }
 ```
 
+#### `closest_city`
+Store coordinates of the closest city nearby in a variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "closest_city" | **mandatory** | [variable object](#variable-object) | location variable, center of the found city |
+| "known" | optional | boolean | default true; if true, picks the closest city you know (has yellow text of the city name on your map), otherwise picks the closest city even if you didn't visit it yet |
+
+Additionaly sends context variables `city_name` (string) and `city_size` (int)
+
+##### Examples
+
+Stores coordinates of closest known city, and print variables
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY",
+    "effect": [
+      { "closest_city": { "context_val": "city" } },
+      { "u_message": "Known city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
+```
+
+Same, but return any city nearby
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_CITY_NEARBY_UNKNOWN",
+    "effect": [
+      { "closest_city": { "context_val": "city" }, "known": false },
+      { "u_message": "Unknown city: <context_val:city>" },
+      { "u_message": "city_name: <context_val:city_name>" },
+      { "u_message": "city_size: <context_val:city_size>" }
+    ]
+  },
+```
+
 #### `weighted_list_eocs`
 Will choose one of a list of eocs to activate based on it's weight
 
@@ -2491,6 +2556,23 @@ Mutate towards Tail Stub (removing any incompatibilities) using the category set
         "category": { "u_val": "upcoming_mutation_category", },
         "use_vitamins": true
       },
+```
+
+#### `u_set_trait_purifiability`, `npc_set_trait_purifiability`
+
+If you have the given trait it will be added to /removed from your list of non-purifiable traits, overriding `purifiable: true` in the given trait's definition.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u/npc_set_trait_purifiablility" | **mandatory** | string or [variable object](##variable-object) | id of the trait to change
+| "purifiable" | **mandatory** | bool | `true` adds the trait to the unpurifiable trait list, `false` removes it |
+
+```json
+{
+  "u_set_trait_purifiability": "BEAK",   // Trait ID to change
+  "purifiable": false   // Turns the trait unpurifiable for the talker
+}
+
 ```
 
 #### `u_add_effect`, `npc_add_effect`
@@ -2895,7 +2977,17 @@ Store string from `set_string_var` in the variable object `target_var`
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 | "i18n"       | optional | boolean | Whether the string values should be localized | 
+| "string_input" | optional | object | Accepts user input. When using `string_input`, the user will input a string and assign it to `target_var`. If the input is canceled, the value in `set_string_var` will be assigned as the default value. See details in the table below. |
 
+##### String Input Details
+
+| Property | Optionality | Type | Description |
+| --- | --- | --- | --- |
+| "title" | **mandatory** | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
+| "description" | **mandatory** | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "width" | optional | integer | The character length of the input box. Default is 20. |
+| "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
+| "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
 
 ##### Valid talkers:
 
@@ -2925,6 +3017,26 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 Concatenate string of variable `foo` and `bar`
 ```json
 { "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
+```
+
+Get the user input
+```json
+{
+  "id": "EOC_string_input_test",
+  "type": "effect_on_condition",
+  "effect": [
+    {
+      "set_string_var": "",
+      "string_input": {
+        "title": { "i18n": true, "str": "Input a value:" },
+        "description": { "i18n": true, "str": "Just say something" },
+        "width": 30
+      },
+      "target_var": { "context_val": "str" }
+    },
+    { "u_message": "You said: <context_val:str>" }
+  ]
+}
 ```
 
 

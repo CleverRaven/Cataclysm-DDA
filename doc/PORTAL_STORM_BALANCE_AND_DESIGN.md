@@ -43,7 +43,7 @@ Passive examples include stuff like:
 * Giant appendages, similarly creatures with no senses, however these ones are much more dangerous if you do get into melee with them.
 
 ### `Active`
-These events represent goal 2 in the entry above. This is where the designs can get more awful. These entities should be actively trying to sabotage, disrupt, and destroy the player. This doesn't mean they should be strong combatants but it does mean they should be able to percieve, track and follow the player.  These effects should *only* happen if you have built up `ire` and should cost `ire` to generate.
+These events represent goal 2 in the entry above. This is where the designs can get more awful. These entities should be actively trying to sabotage, disrupt, and destroy the player. This doesn't mean they should be strong combatants but it does mean they should be able to perceive, track and follow the player.  These effects should *only* happen if you have built up `ire` and should cost `ire` to generate.
 
 Active examples include stuff like:
 * The Person, a clairvoyant entity that attempts to follow you into buildings and on touching you causes nightmares and hallucinations

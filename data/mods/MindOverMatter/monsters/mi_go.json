@@ -32,17 +32,21 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      { "id": "stretch_attack" },
+      { "id": "stretch_attack", "cooldown": { "math": [ "10 + rand(20)" ] } },
       {
         "id": "longswipe",
-        "cooldown": 12,
+        "cooldown": { "math": [ "12 + rand(24)" ] },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 7, "armor_multiplier": 0.6 } ]
       },
-      { "id": "cut_throat", "cooldown": 12 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.4 } ] },
+      { "id": "cut_throat", "cooldown": { "math": [ "6 + rand(12)" ] } },
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.4 } ],
+        "cooldown": { "math": [ "10 + rand(20)" ] }
+      },
       {
         "type": "leap",
-        "cooldown": { "math": [ "2 + rand(7)" ] },
+        "cooldown": { "math": [ "2 + rand(4)" ] },
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 7,
@@ -53,7 +57,7 @@
         "id": "psi_juggernaut_speed_boost",
         "type": "spell",
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
-        "cooldown": { "math": [ "9 + rand(23)" ] },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s moves so quickly it's nothing but a blur!"
       }
@@ -109,12 +113,16 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ],
+        "cooldown": { "math": [ "10 + rand(20)" ] }
+      },
       {
         "id": "psi_mi-go_illumination",
         "type": "spell",
         "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 5 },
-        "cooldown": { "math": [ "15 + rand(38)" ] },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
@@ -122,7 +130,7 @@
         "id": "psi_mi-go_laser",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 7 },
-        "cooldown": { "math": [ "10 + rand(25)" ] },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
@@ -130,7 +138,7 @@
         "id": "psi_mi-go_radiation",
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
-        "cooldown": { "math": [ "12 + rand(32)" ] },
+        "cooldown": { "math": [ "12 + rand(24)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       }
@@ -185,13 +193,17 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ],
+        "cooldown": { "math": [ "10 + rand(20)" ] }
+      },
       {
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mind_blast_monster",
         "move_cost": 80,
-        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
         "accuracy": 5,
         "range": 10,
         "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 15, "armor_penetration": 0 } ],
@@ -207,7 +219,7 @@
         "id": "psi_mi-go_hallucinations",
         "type": "spell",
         "spell_data": { "id": "telepathic_hallucinations_monster", "min_level": 10 },
-        "cooldown": { "math": [ "10 + rand(25)" ] },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
@@ -215,7 +227,7 @@
         "id": "psi_mi-go_blinding",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
-        "cooldown": { "math": [ "15 + rand(38)" ] },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       }

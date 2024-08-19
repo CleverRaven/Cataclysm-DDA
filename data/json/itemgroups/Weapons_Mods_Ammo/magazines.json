@@ -190,7 +190,8 @@
       [ "wp22mag", 7 ],
       [ "cp33_mag", 4 ],
       [ "cp33_mag_50", 1 ],
-      [ "ruger_mk4_mag", 11 ]
+      [ "ruger_mk4_mag", 11 ],
+      [ "1911_22_mag", 7 ]
     ]
   },
   {
@@ -484,6 +485,9 @@
       { "item": "saiga30mag", "prob": 10 },
       { "item": "saiga410mag_10rd", "prob": 30 },
       { "item": "saiga410mag_30rd", "prob": 10 },
+      { "item": "mka_1919_5", "prob": 4 },
+      { "item": "mka_1919_10", "prob": 4 },
+      { "item": "mka_1919_20", "prob": 3 },
       { "item": "mossberg_590m_mag_5", "prob": 3, "charges": 0 },
       { "item": "mossberg_590m_mag_10", "prob": 2, "charges": 0 },
       { "item": "mossberg_590m_mag_15", "prob": 1, "charges": 0 },

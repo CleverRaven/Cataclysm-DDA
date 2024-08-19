@@ -742,7 +742,7 @@
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "//": "Only have a chance for a rotary when no orthoganally adjacent curved",
+      "//": "Only have a chance for a rotary when no orthogonally adjacent curved",
       "place_nested": [
         {
           "chunks": [ [ "24x24_road_four_way_crossroad", 39 ], [ "24x24_road_four_way_rotary", 1 ] ],

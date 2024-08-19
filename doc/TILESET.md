@@ -514,7 +514,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random for each item.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
@@ -524,7 +524,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"field": "fd_fire"` the field id. (only supported in field_variants)
 
-`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
+`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random based on map position.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 

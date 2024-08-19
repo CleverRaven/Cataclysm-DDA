@@ -217,14 +217,14 @@ bool mut_personality_score::load( const JsonObject &jsobj, const std::string_vie
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, false, "min_aggression", min_aggression, -10 );
-    optional( j, false, "max_aggression", max_aggression, 10 );
-    optional( j, false, "min_bravery", min_bravery, -10 );
-    optional( j, false, "max_bravery", max_bravery, 10 );
-    optional( j, false, "min_collector", min_collector, -10 );
-    optional( j, false, "max_collector", max_collector, 10 );
-    optional( j, false, "min_altruism", min_altruism, -10 );
-    optional( j, false, "max_altruism", max_altruism, 10 );
+    optional( j, false, "min_aggression", min_aggression, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_aggression", max_aggression, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_bravery", min_bravery, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_bravery", max_bravery, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_collector", min_collector, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_collector", max_collector, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_altruism", min_altruism, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_altruism", max_altruism, NPC_PERSONALITY_MAX );
 
     return true;
 }

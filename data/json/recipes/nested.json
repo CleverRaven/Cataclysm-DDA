@@ -2422,7 +2422,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "standard Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
     "difficulty": 6
   },
@@ -2434,7 +2434,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "light Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
     "difficulty": 5
   },
@@ -2446,7 +2446,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel-plated Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
     "difficulty": 7
   },
@@ -2458,7 +2458,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "Kevlar firesuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
     "difficulty": 8
   },
@@ -2470,7 +2470,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "winter Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [
       "wsurvivor_jumpsuit_nofur",
       "xs_wsurvivor_jumpsuit_nofur",
@@ -2489,7 +2489,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "Kevlar wetsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "nested_category_data": [
       "h20survivor_jumpsuit",
       "xs_h20survivor_jumpsuit",
@@ -4138,14 +4138,7 @@
     "name": "modified attachments",
     "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "bipod_mod",
-      "grip_mod",
-      "stabilizer_mod",
-      "muzzle_brake_mod",
-      "nested_modified_gunmods_weapons",
-      "nested_modified_gunmods_sights"
-    ]
+    "nested_category_data": [ "bipod_mod", "grip_mod", "muzzle_brake_mod", "nested_modified_gunmods_weapons", "nested_modified_gunmods_sights" ]
   },
   {
     "id": "nested_modified_gunmods_weapons",

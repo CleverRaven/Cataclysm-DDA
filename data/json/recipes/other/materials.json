@@ -58,10 +58,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "10m",
+    "time": "1m",
     "autolearn": true,
+    "charges": 8,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "components": [ [ [ "pebble", 10 ] ] ]
+    "components": [ [ [ "pebble", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -970,7 +971,8 @@
     "time": "45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "using": [ [ "glue_strong", 450 ] ],
+    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ] ]
   },
   {
     "result": "sheet_cotton",

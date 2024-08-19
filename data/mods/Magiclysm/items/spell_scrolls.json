@@ -1506,8 +1506,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_remove_instability",
     "//": "Biomancer spell",
-    "name": { "str": "Formula of Restore Genetic Stability", "str_pl": "Formulae of Restore Genetic Stability" },
-    "description": "This research paper has an extremely complicated series of formulae with various genetic interspersed.  It claims that the spell will cure the aftereffects of XE037 overexposure.",
+    "name": { "str": "Formula of Preserve Genetic Stability", "str_pl": "Formulae of Preserve Genetic Stability" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic code diagrams interspersed.  It claims that the spell will reduce the negative effects of XE037 exposure.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_remove_instability" ] }
   },
   {

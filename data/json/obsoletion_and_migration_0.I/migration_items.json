@@ -10,6 +10,11 @@
     "replace": "combat_exoskeleton_armor_head_light"
   },
   {
+    "id": "streetsweeper",
+    "type": "MIGRATION",
+    "replace": "dp_12"
+  },
+  {
     "id": "power_armor_frame",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"
@@ -84,6 +89,29 @@
     "type": "MIGRATION",
     "replace": "box_medium_wood",
     "contents": [ { "id": "steel_lump", "count": 6 } ]
+  },
+  {
+    "id": "tshirt_text",
+    "type": "MIGRATION",
+    "replace": "tshirt"
+  },
+  {
+    "id": "flag_shirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "flag_shirt"
+  },
+  {
+    "id": "linuxtshirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "tux"
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "death"
   },
   {
     "id": "fridge",
@@ -1612,17 +1640,17 @@
   {
     "id": "plr16",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "oa93",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "m231pfw",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "moss_brownie",
@@ -1791,5 +1819,26 @@
     "id": "g36mag_100rd",
     "type": "MIGRATION",
     "replace": "stanag100drum"
+  },
+  {
+    "id": "superglue",
+    "type": "MIGRATION",
+    "replace": "small_squeeze_tube",
+    "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "ar_pistol",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "stabilizer",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
+  },
+  {
+    "id": "stabilizer_mod",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
   }
 ]

@@ -29,13 +29,8 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 3 ], [ "advanced_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 1 ] ],
-      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]
-    ]
+    "using": [ [ "glue_any", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 1 ] ], [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -199,9 +194,9 @@
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_caseless", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "glue_any", 1 ] ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ],
@@ -368,10 +363,10 @@
     "time": "45 m",
     "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -384,10 +379,10 @@
     "time": "45 m",
     "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -402,12 +397,7 @@
     "book_learn": [ [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ], [ "recipe_caseless", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "betavoltaic", 4 ] ]
-    ]
+    "using": [ [ "glue_any", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 2 ] ], [ [ "betavoltaic", 4 ] ] ]
   }
 ]
