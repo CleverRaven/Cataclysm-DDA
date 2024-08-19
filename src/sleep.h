@@ -60,6 +60,9 @@ struct comfort_data {
         std::string sleep_aid;
         tripoint last_position;
         time_point last_time;
+
+        void add_try_msgs( const Character &guy ) const;
+        void add_sleep_msgs( const Character &guy ) const;
     };
 
     std::vector<condition> conditions;
@@ -70,7 +73,7 @@ struct comfort_data {
     bool add_sleep_aids = false;
     message msg_try;
     message msg_hint;
-    message msg_fall;
+    message msg_sleep;
 
     static const comfort_data &human();
     static int human_comfort_at( const tripoint &p );

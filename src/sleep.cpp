@@ -222,6 +222,68 @@ void comfort_data::message::deserialize( const JsonObject &jo )
     optional( jo, false, "rating", type );
 }
 
+void comfort_data::response::add_try_msgs( const Character &guy ) const
+{
+    const message &msg_try = data->msg_try;
+    if( !msg_try.text.empty() ) {
+        guy.add_msg_if_player( msg_try.type, msg_try.text );
+    }
+
+    const message &msg_hint = data->msg_hint;
+    if( !msg_hint.text.empty() ) {
+        guy.add_msg_if_player( msg_hint.type, msg_hint.text );
+    }
+
+    if( !sleep_aid.empty() ) {
+        //~ %s: item name
+        guy.add_msg_if_player( m_info, _( "You use your %s for comfort." ), sleep_aid );
+    }
+
+    if( comfort > COMFORT_NEUTRAL ) {
+        guy.add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
+    } else {
+        const map &here = get_map();
+        if( const optional_vpart_position &vp = here.veh_at( last_position ) ) {
+            if( const std::optional<vpart_reference> aisle = vp.part_with_feature( "AISLE", true ) ) {
+                //~ %1$s: vehicle name, %2$s: vehicle part name
+                guy.add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
+                                       vp->vehicle().disp_name(), aisle->part().name( false ) );
+            } else {
+                //~ %1$s: vehicle name
+                guy.add_msg_if_player( m_bad, _( "It's hard to get to sleep in %1$s." ),
+                                       vp->vehicle().disp_name() );
+            }
+        } else {
+            std::string name;
+            const furn_id furn = here.furn( last_position );
+            const trap &trap = here.tr_at( last_position );
+            const ter_id ter = here.ter( last_position );
+            if( furn != furn_str_id::NULL_ID() ) {
+                name = furn->name();
+            } else if( !trap.is_null() ) {
+                name = trap.name();
+            } else {
+                name = ter->name();
+            }
+            if( comfort <= 2 ) {
+                //~ %s: terrain/furniture/trap name
+                guy.add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %s." ), name );
+            } else {
+                //~ %s: terrain/furniture/trap name
+                guy.add_msg_if_player( m_bad, _( "It's hard to get to sleep on this %s." ), name );
+            }
+        }
+    }
+}
+
+void comfort_data::response::add_sleep_msgs( const Character &guy ) const
+{
+    const message &msg_sleep = data->msg_sleep;
+    if( !msg_sleep.text.empty() ) {
+        guy.add_msg_if_player( msg_sleep.type, msg_sleep.text );
+    }
+}
+
 bool comfort_data::human_or_impossible() const
 {
     return this == &human_comfort || base_comfort == COMFORT_IMPOSSIBLE;
@@ -269,6 +331,6 @@ void comfort_data::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "add_sleep_aids", add_sleep_aids );
     optional( jo, was_loaded, "msg_try", msg_try );
     optional( jo, was_loaded, "msg_hint", msg_hint );
-    optional( jo, was_loaded, "msg_fall", msg_fall );
+    optional( jo, was_loaded, "msg_sleep", msg_sleep );
     was_loaded = true;
 }

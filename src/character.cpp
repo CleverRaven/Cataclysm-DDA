@@ -8876,10 +8876,9 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
-    const comfort_data::message &msg = get_comfort_at( pos_bub() ).data->msg_fall;
-    if( !msg.text.empty() ) {
-        add_msg_if_player( msg.type, msg.text );
-    }
+
+    get_comfort_at( pos_bub() ).add_sleep_msgs( *this );
+
     if( has_bionic( bio_sleep_shutdown ) ) {
         add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response." ) );
     }

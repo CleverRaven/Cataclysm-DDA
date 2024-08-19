@@ -8148,7 +8148,7 @@
           { "type": "terrain", "id": "t_pit" },
           { "type": "terrain", "id": "t_pit_shallow" }
         ],
-        "conditions_or": true,
+        "conditions_any": true,
         "comfort": "very_comfortable",
         "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
       },

@@ -1933,47 +1933,7 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 
 void avatar::try_to_sleep( const time_duration &dur )
 {
-    const comfort_data::response &comfort = get_comfort_at( pos_bub() );
-    const comfort_data::message &msg_try = comfort.data->msg_try;
-    if( !msg_try.text.empty() ) {
-        add_msg_if_player( msg_try.type, msg_try.text );
-    }
-    const comfort_data::message &msg_hint = comfort.data->msg_hint;
-    if( !msg_hint.text.empty() ) {
-        add_msg_if_player( msg_hint.type, msg_hint.text );
-    }
-
-    if( !comfort.sleep_aid.empty() ) {
-        //~ %s: item name
-        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort.sleep_aid );
-    }
-
-    if( comfort.comfort > comfort_data::COMFORT_NEUTRAL ) {
-        add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
-    } else {
-        const map &here = get_map();
-        if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
-            if( const std::optional<vpart_reference> aisle = vp.part_with_feature( "AISLE", true ) ) {
-                //~ %1$s: vehicle name, %2$s: vehicle part name
-                add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
-                                   vp->vehicle().disp_name(), aisle->part().name( false ) );
-            } else {
-                //~ %1$s: vehicle name
-                add_msg_if_player( m_bad, _( "It's hard to get to sleep in %1$s." ),
-                                   vp->vehicle().disp_name() );
-            }
-        } else {
-            const ter_id ter = here.ter( pos_bub() );
-            if( ter->movecost <= 2 ) {
-                //~ %s: terrain name
-                add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %s." ),
-                                   ter->name() );
-            } else {
-                //~ %s: terrain name
-                add_msg_if_player( m_bad, _( "It's hard to get to sleep on this %s." ), ter->name() );
-            }
-        }
-    }
+    get_comfort_at( pos_bub() ).add_try_msgs( *this );
 
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
