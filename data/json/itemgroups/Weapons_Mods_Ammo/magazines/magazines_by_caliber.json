@@ -80,6 +80,18 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_40sw",
+    "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22.",
+    "items": [
+      { "group": "magazines_40_glock", "prob": 100 },
+      { "item": "px4_40mag", "prob": 21 },
+      { "item": "bhp40mag", "prob": 3 },
+      { "item": "hptjcpmag", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
