@@ -1825,5 +1825,15 @@
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
     "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "stabilizer",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
+  },
+  {
+    "id": "stabilizer_mod",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
   }
 ]

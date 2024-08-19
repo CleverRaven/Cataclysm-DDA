@@ -95,33 +95,5 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "flags": [ "LASER_SIGHT" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
-  },
-  {
-    "id": "stabilizer",
-    "type": "GUNMOD",
-    "name": { "str": "gyroscopic stabilizer" },
-    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.",
-    "weight": "286 g",
-    "volume": "750 ml",
-    "integral_volume": "500 ml",
-    "price": "680 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "install_time": "10 m",
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ":",
-    "color": "blue",
-    "location": "rail",
-    "mod_targets": [ "smg", "rifle", "crossbow" ],
-    "dispersion_modifier": -1,
-    "handling_modifier": 6,
-    "min_skills": [ [ "weapon", 6 ] ]
-  },
-  {
-    "id": "stabilizer_mod",
-    "copy-from": "stabilizer",
-    "type": "GUNMOD",
-    "name": { "str": "modified gyroscopic stabilizer" },
-    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   }
 ]
