@@ -5323,7 +5323,7 @@
     "name": "planks",
     "description": "Recipes related to constructing 4 ft planks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "2x4_from_long_planks_by_hand", "2x4_from_long_planks_with_powertools", "2x4_from_logs_with_powertools" ]
+    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
   {
     "id": "nested_planks_short",
@@ -5335,10 +5335,10 @@
     "description": "Recipes related to constructing 2 ft planks.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "plank_short_from_long_planks_by_hand",
-      "plank_short_from_long_planks_with_powertools",
-      "plank_short_from_planks_by_hand",
-      "plank_short_from_planks_with_powertools"
+      "plank_short_from long planks by hand",
+      "plank_short_from long planks with powertools",
+      "plank_short_from planks by hand",
+      "plank_short_from planks with powertools"
     ]
   },
   {
@@ -5350,7 +5350,7 @@
     "name": "long wooden posts",
     "description": "Recipes related to constructing 8 ft wooden posts.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "wooden_post_long_from_wood_beam_by_hand", "wooden_post_long_from_wood_beam_with_powertools" ]
+    "nested_category_data": [ "wooden_post_long_from wood beam by hand", "wooden_post_long_from wood beam with powertools" ]
   },
   {
     "id": "nested_posts_normal",
@@ -5361,7 +5361,7 @@
     "name": "wooden posts",
     "description": "Recipes related to constructing 4 ft wooden posts.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "wooden_post_from_long_posts_by_hand", "wooden_post_from_long_posts_with_powertools" ]
+    "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from_long posts with powertools" ]
   },
   {
     "id": "nested_posts_short",
@@ -5373,10 +5373,10 @@
     "description": "Recipes related to constructing 2 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [
-      "wooden_post_short_from_long_posts_by_hand",
-      "wooden_post_short_from_long_posts_with_powertools",
-      "wooden_post_short_from_posts_by_hand",
-      "wooden_post_short_from_posts_with_powertools"
+      "wooden_post_short_from long posts by hand",
+      "wooden_post_short_from long posts with powertools",
+      "wooden_post_short_from posts by hand",
+      "wooden_post_short_from posts with powertools"
     ]
   },
   {
