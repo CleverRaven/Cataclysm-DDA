@@ -2921,7 +2921,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 2000 );
 }
 
 void game::death_screen()
@@ -4517,7 +4517,8 @@ void game::mon_info_update( )
                                       p->attitude_to( u ),
                                       npc_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED ;
-            } else {
+            }
+            if( !need_processing ) {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
             }
@@ -5540,7 +5541,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( true );
+                veh->start_engines( &u, true );
             }
         }
     }

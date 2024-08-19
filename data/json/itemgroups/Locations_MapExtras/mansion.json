@@ -313,7 +313,7 @@
     "id": "dresser_shabby",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "harddrugs", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
+    "groups": [ [ "harddrugs_residential", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
   },
   {
     "id": "dresser_fancy",
@@ -1325,7 +1325,7 @@
       { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 },
+      { "group": "harddrugs_residential", "prob": 5 },
       [ "hairbrush", 30 ],
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
