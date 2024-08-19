@@ -735,7 +735,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their total levels in their telekinetic powers, increasing by one rank per 8 total telekinetic levels, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Grasping Hand**: The telekinetic may bring items quickly to hand, reducing the time necessary to pull items from pockets or containers by 10%, plus 0.75% times the telekinetic's total levels in telekinesis powers.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
