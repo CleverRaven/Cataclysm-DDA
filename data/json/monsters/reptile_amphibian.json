@@ -152,7 +152,6 @@
     "weight": "1 kg",
     "hp": 12,
     "speed": 90,
-    "dodge": 6,
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
