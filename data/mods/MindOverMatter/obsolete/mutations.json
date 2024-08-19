@@ -18,7 +18,7 @@
       { "u_forget_recipe": "improve_telekinesis_lifting_field" },
       { "u_learn_recipe": "practice_telekinetic_lifting_field" },
       {
-        "u_message": "Your Lifting Field has been updated to a power.  You now know the contemplation recipe and have an appropiate level of field for your previous prowess in the ability.",
+        "u_message": "Your Lifting Field has been updated to a power.  You now know the contemplation recipe and have an appropriate level of field for your previous prowess in the ability.",
         "popup": true
       },
       {
