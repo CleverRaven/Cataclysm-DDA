@@ -964,7 +964,7 @@ void process_explosions()
     std::vector<queued_explosion> explosions_copy( _explosions );
     _explosions.clear();
 
-    for( const queued_explosion &ex : _explosions_copy ) {
+    for( const queued_explosion &ex : explosions_copy ) {
         const int safe_range = ex.data.safe_range();
         map  *bubble_map = &get_map();
         const tripoint_bub_ms bubble_pos( bubble_map->bub_from_abs( ex.pos ) );
