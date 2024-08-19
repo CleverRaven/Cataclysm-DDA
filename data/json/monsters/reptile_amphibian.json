@@ -102,6 +102,7 @@
     "vision_night": 6,
     "//": "Actually no info on weight, I just kinda assumed 1g per 1cm of length since they're tiny.",
     "reproduction": { "baby_egg": "egg_wormsnake", "baby_count": 8, "baby_timer": 50 },
+    "biosignature": { "biosig_item": "shed_snakeskin_little", "biosig_timer": 180 },
     "extend": { "flags": [ "CAN_DIG" ], "fear_triggers": [ "SOUND", "BRIGHT_LIGHT" ] }
   },
   {
