@@ -221,7 +221,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "wooden_post_long",
-    "id_suffix": "from wood beam by hand",
+    "id_suffix": "from_wood_beam_by_hand",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
