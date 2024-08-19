@@ -5361,7 +5361,7 @@
     "name": "wooden posts",
     "description": "Recipes related to constructing 4 ft wooden posts.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from_long posts with powertools" ]
+    "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from long posts with powertools" ]
   },
   {
     "id": "nested_posts_short",
