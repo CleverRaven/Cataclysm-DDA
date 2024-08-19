@@ -1,4 +1,4 @@
-#if !(defined(TILES) || defined(_WIN32))
+#if !(defined(TILES))
 
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -22,7 +22,6 @@
 #include <cstdint>
 #include <cstring>
 #include <iosfwd>
-#include <langinfo.h>
 #include <memory>
 #include <stdexcept>
 
@@ -35,6 +34,12 @@
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
+
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include <langinfo.h>
+#endif
 
 std::unique_ptr<cataimgui::client> imclient;
 
@@ -302,14 +307,19 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
                                 OK, "init_pair" );
 }
 
-catacurses::window catacurses::newscr;
 catacurses::window catacurses::stdscr;
+#if !defined(USE_PDCURSES)
+catacurses::window catacurses::newscr;
+#endif
 
 void catacurses::resizeterm()
 {
+#if !defined(USE_PDCURSES)
     const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
-    if( ::is_term_resized( new_x, new_y ) ) {
+    if( ::is_term_resized( new_x, new_y ) )
+#endif
+    {
         game_ui::init_ui();
         ui_manager::screen_resized();
         catacurses::doupdate();
@@ -324,16 +334,20 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
+#if !defined(USE_PDCURSES)
     newscr = window( std::shared_ptr<void>( ::newscr, []( void *const ) { } ) );
     if( !newscr ) {
         throw std::runtime_error( "null newscr" );
     }
+#endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
+#if !defined(USE_PDCURSES)
     set_escdelay( 10 ); // Make Escape actually responsive
+#endif
     // TODO: error checking
     start_color();
     imclient = std::make_unique<cataimgui::client>();
@@ -572,7 +586,11 @@ void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
+#if defined(_WIN32)
+    if( CP_UTF8 != GetConsoleOutputCP() ) {
+#else
     if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
+#endif
         // do not use ui_adaptor here to avoid re-entry
         int key = ERR;
         do {

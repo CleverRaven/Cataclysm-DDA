@@ -68,7 +68,7 @@
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_celebrate1",
     "dynamic_line": "Mmm, delicious.  You know, you are good friend, and a good cook.  I'm glad that I'm with you at the day like this.  Say, what do you think about me going with you?  As you can see, my restaurant is thrashes, my house ruined, the only option left is to travel somewhere, and it's better if I do it with someone.",
-    "speaker_effect": { "effect": [ "morale_chat", { "npc_add_trait": "BGSS_pizzaiolo" } ] },
+    "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_trait": "BGSS_pizzaiolo" } ] },
     "responses": [
       { "text": "Sure, <name_g>.  <end_talking>", "topic": "TALK_DONE", "effect": "follow" },
       {

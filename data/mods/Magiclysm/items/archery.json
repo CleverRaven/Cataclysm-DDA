@@ -74,7 +74,7 @@
     "count": 15,
     "stack_size": 15,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_65" ],
+    "recovery_chance": 98,
     "melee_damage": { "bash": 12 }
   },
   {
@@ -98,7 +98,8 @@
     "loudness": 0,
     "show_stats": true,
     "critical_multiplier": 10,
-    "effects": [ "TANGLE", "RECOVER_7" ]
+    "recovery_chance": 86,
+    "effects": [ "TANGLE" ]
   },
   {
     "id": "arrow_stormshaper_crafted",
@@ -106,8 +107,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "thunderclap arrow" },
     "color": "magenta",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a stormshaper rune in the arrowhead.  It trails lightning and explodes with a crash of thunder.",
-    "effects": [ "LIGHTNING", "FLASHBANG", "RECOVER_7" ]
+    "effects": [ "LIGHTNING", "FLASHBANG" ]
   },
   {
     "id": "arrow_earthshaper_crafted",
@@ -124,8 +126,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "fireball arrow" },
     "color": "red",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a kelvinist rune in the arrowhead.  It explodes into a firestorm.",
-    "effects": [ "NAPALM", "RECOVER_7" ]
+    "effects": [ "NAPALM" ]
   },
   {
     "id": "arrow_biomancer_crafted",
@@ -134,8 +137,9 @@
     "name": { "str": "visceral arrow" },
     "color": "green",
     "material": [ "bone" ],
+    "recovery_chance": 86,
     "description": "A disturbing bone arrow with a fragment of a biomancer rune in the arrowhead.  It showers its target in acid.",
-    "effects": [ "ACIDBOMB", "RECOVER_7" ]
+    "effects": [ "ACIDBOMB" ]
   },
   {
     "id": "arrow_technomancer_crafted",
@@ -143,8 +147,9 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "sparking arrow" },
     "color": "white",
+    "recovery_chance": 86,
     "description": "A metallic arrow with a fragment of a technomancer rune in the arrowhead.  It destroys electronic targets.",
-    "effects": [ "EMP", "DRAW_LASER_BEAM", "RECOVER_7" ]
+    "effects": [ "EMP", "DRAW_LASER_BEAM" ]
   },
   {
     "id": "arrow_magus_crafted",
@@ -153,8 +158,9 @@
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
     "color": "black",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
-    "effects": [ "BOUNCE", "RECOVER_7" ]
+    "effects": [ "BOUNCE" ]
   },
   {
     "id": "arrow_animist_crafted",
@@ -163,8 +169,9 @@
     "//": "I'd like this to drain life but see above.",
     "name": { "str": "enervating arrow" },
     "color": "cyan",
+    "recovery_chance": 86,
     "description": "An arrow with a fragment of an animist rune in the arrowhead.  It unleashes a cloud of enervating gas.",
-    "effects": [ "PARALYZEPOISON", "TOXICGAS", "RECOVER_7" ]
+    "effects": [ "PARALYZEPOISON", "TOXICGAS" ]
   },
   {
     "id": "quiver_of_holding_plus_one",

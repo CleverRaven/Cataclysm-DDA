@@ -66,7 +66,8 @@
         "q+",
         "  "
       ],
-      "terrain": { "q": "t_wall_wood", "+": "t_door_c" }
+      "terrain": { "q": "t_wall_wood", "+": "t_door_c" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -79,7 +80,8 @@
         "+q",
         "  "
       ],
-      "terrain": { "q": "t_wall_wood", "+": "t_door_c" }
+      "terrain": { "q": "t_wall_wood", "+": "t_door_c" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -125,7 +127,8 @@
         "   ..........       ",
         "   ..........       "
       ],
-      "terrain": { ".": "t_dirt" }
+      "terrain": { ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -141,22 +144,54 @@
         "                    ",
         "                    ",
         "                    ",
-        "       w..wwwww     ",
-        "       w..w...w     ",
-        "       w..w...w     ",
-        "wwwwwwww..ww.www..ww",
-        "w.............w....w",
-        "w..................w",
-        "w.............w....w",
-        "w.............wwwwww",
-        "w.............w     ",
-        "w.............w     ",
-        "wwww........www     ",
-        "   .........w       ",
-        "   .........w       ",
+        "       w  wwwww     ",
+        "       w  w   w     ",
+        "       w  w   w     ",
+        "wwwwwwww  ww www  ww",
+        "w             w    w",
+        "w                  w",
+        "w             w    w",
+        "w             wwwwww",
+        "w             w     ",
+        "w             w     ",
+        "wwww        www     ",
+        "            w       ",
+        "            w       ",
         "   wwwwwwwwww       "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirt" }
+      "terrain": { "w": "t_wall_half" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_bar_15_roof",
+    "object": {
+      "mapgensize": [ 20, 20 ],
+      "rows": [
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "       rrrrrrrr     ",
+        "       rrrrrrrr     ",
+        "       rrrrrrrr     ",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrr     ",
+        "rrrrrrrrrrrrrrr     ",
+        "rrrrrrrrrrrrrrr     ",
+        "   rrrrrrrrrr       ",
+        "   rrrrrrrrrr       ",
+        "   rrrrrrrrrr       "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -187,7 +222,9 @@
         "   f........w       ",
         "   wwww00wwww       "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_bar_15_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -269,7 +306,8 @@
         { "item": "cotton_patchwork", "x": 13, "y": 15, "faction": "tacoma_commune", "repeat": [ 2, 4 ] },
         { "item": "glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 15, 30 ] },
         { "item": "shot_glass", "x": 13, "y": 14, "faction": "tacoma_commune", "repeat": [ 10, 20 ] }
-      ]
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -295,7 +333,8 @@
         "               ",
         "               "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
+      "terrain": { ".": "t_dirt", "q": "t_wall_half" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -327,7 +366,39 @@
         "                    "
       ],
       "terrain": { "w": "t_wall", "f": "t_door_frame", ".": "t_dirt", "q": "t_wall_half", "0": "t_window_empty" },
-      "furniture": { "k": "f_wood_keg" }
+      "furniture": { "k": "f_wood_keg" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_bar_bartender_3_roof",
+    "object": {
+      "mapgensize": [ 20, 20 ],
+      "rows": [
+        "rrrrrrrrrrrrrrr     ",
+        "rrrrrrrrrrrrrrr     ",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrr        rrrrr",
+        "               rrrrr",
+        "               rrrrr",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -358,7 +429,9 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass", "+": "t_door_c", "2": "t_floor_olight" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -385,7 +458,8 @@
         "                ",
         "                "
       ],
-      "furniture": { "C": "f_chair", "t": "f_table", "k": "f_wood_keg", "v": "f_fvat_empty", "s": "f_standing_tank" }
+      "furniture": { "C": "f_chair", "t": "f_table", "k": "f_wood_keg", "v": "f_fvat_empty", "s": "f_standing_tank" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -416,7 +490,8 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirt" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -431,23 +506,55 @@
         "                    ",
         "                    ",
         "wwwwwwwwwwwwwwwwwwww",
-        "w..................w",
-        "....................",
-        "....................",
-        "....................",
-        "....................",
-        "....................",
-        "....................",
-        "w..................w",
+        "w                  w",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "w                  w",
         "wwwwwww+www+wwwwwwww",
-        "     w...w...w      ",
-        "     w...w...w      ",
+        "     w   w   w      ",
+        "     w   w   w      ",
         "     wwwwww+ww      ",
         "                    ",
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "+": "t_door_c" }
+      "terrain": { "w": "t_wall", "+": "t_door_c" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_chopshop_12_roof",
+    "object": {
+      "mapgensize": [ 20, 20 ],
+      "rows": [
+        "                    ",
+        "                    ",
+        "                    ",
+        "                    ",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrr",
+        "     rrrrrrrrr      ",
+        "     rrrrrrrrr      ",
+        "     rrrrrrrrr      ",
+        "                    ",
+        "                    ",
+        "                    "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -481,7 +588,9 @@
       "terrain": { "w": "t_wall", ".": "t_dirtfloor", "+": "t_door_c", "r": "t_dirtfloor", "c": "t_dirtfloor", "b": "t_dirtfloor" },
       "furniture": { "r": "f_rack", "c": "f_counter", "b": "f_makeshift_bed" },
       "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7, "faction": "tacoma_commune" } ],
-      "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ]
+      "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ],
+      "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_12_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -511,7 +620,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { ".": "t_dirt" }
+      "terrain": { ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -542,41 +652,14 @@
         "                   "
       ],
       "terrain": { "w": "t_wall_half" },
-      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ]
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18, "faction": "tacoma_commune" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_10_1",
-    "object": {
-      "mapgensize": [ 17, 17 ],
-      "rows": [
-        "                 ",
-        "                 ",
-        "                 ",
-        "                 ",
-        "......     ......",
-        "......  .  ......",
-        "...... ... ......",
-        ".................",
-        "...... ... ......",
-        "......     ......",
-        "  ..             ",
-        "                 ",
-        "                 ",
-        "                 ",
-        "                 ",
-        "                 ",
-        "                 "
-      ],
-      "terrain": { ".": "t_dirtfloor" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "tacoma_commune_clinic_10",
     "object": {
       "mapgensize": [ 19, 19 ],
       "rows": [
@@ -600,8 +683,70 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall", "[": "t_window_boarded_noglass", "f": "t_door_frame" },
-      "place_item": [ { "item": "ax", "x": 13, "y": 18, "faction": "tacoma_commune" } ]
+      "terrain": { "w": "t_wall", "[": "t_window_boarded_noglass", "f": "t_door_frame" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_10_roof",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                   ",
+        "                   ",
+        "                   ",
+        "rrrrrrrr   rrrrrrrr",
+        "rrrrrrrr   rrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrr   rrrrrrrr",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "terrain": { "r": "t_wood_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_10",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        " ......     ...... ",
+        " ......  .  ...... ",
+        " ...... ... ...... ",
+        " ................. ",
+        " ...... ... ...... ",
+        " ......     ...... ",
+        "   ..              ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "terrain": { ".": "t_dirtfloor" },
+      "place_item": [ { "item": "ax", "x": 13, "y": 18, "faction": "tacoma_commune" } ],
+      "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -633,7 +778,8 @@
       "furniture": { "c": "f_cupboard", "t": "f_table", "s": "f_stool" },
       "place_signs": [ { "signage": "Clinic", "x": 1, "y": 10 } ],
       "place_npcs": [ { "class": "ranch_nurse_1", "x": 4, "y": 6 } ],
-      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ]
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18, "faction": "tacoma_commune" } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -655,15 +801,16 @@
         "                   ",
         "                   ",
         "wwwwwwww   wwwwwwww",
-        "w      wwwww      w",
-        "w      w   w      w",
-        "w      f   f      w",
-        "w      w   w      w",
-        "w      w   w      w",
-        "w      w   w      w",
-        "wwwwwwww   wwwwwwww"
+        "w......wwwww......w",
+        "w......w...w......w",
+        "w......f...f......w",
+        "w......w...w......w",
+        "w......w...w......w",
+        "w......w...w......w",
+        "wwwwwwww...wwwwwwww"
       ],
-      "terrain": { "w": "t_wall_half", "f": "t_door_frame" }
+      "terrain": { ".": "t_dirt", "w": "t_wall_half", "f": "t_door_frame" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -673,9 +820,9 @@
     "object": {
       "mapgensize": [ 16, 16 ],
       "rows": [
-        " w    w   w    w",
-        " w    f   f    w",
-        " w    w   w    w",
+        " w....w...w....w",
+        " w....f...f....w",
+        " w....w...w....w",
         "                ",
         "                ",
         "                ",
@@ -690,8 +837,66 @@
         "                ",
         "                "
       ],
-      "terrain": { "w": "t_wall_half", "f": "t_door_frame" },
-      "furniture": { "c": "f_chair", "t": "f_table" }
+      "terrain": { ".": "t_dirt", "w": "t_wall_half", "f": "t_door_frame" },
+      "furniture": { "c": "f_chair", "t": "f_table" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_12a_roof",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "rrrrrrrr   rrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrr"
+      ],
+      "terrain": { "r": "t_wood_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_clinic_12b_roof",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rows": [
+        " rrrrrrrrrrrrrrr",
+        " rrrrrrrrrrrrrrr",
+        " rrrrrrrrrrrrrrr",
+        "       rrr      ",
+        "       rrr      ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -729,7 +934,32 @@
         "w.........w  ",
         "wwwww.wwwww  "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirt" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_greenhouse_17_roof",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  ",
+        "rrrrrrrrrrr  "
+      ],
+      "terrain": { "r": "t_glass_roof" }
     }
   },
   {
@@ -740,20 +970,21 @@
       "mapgensize": [ 13, 13 ],
       "rows": [
         "wwwww+wwwww  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
-        "w.........w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
+        "w         w  ",
         "wwwww+wwwww  "
       ],
-      "terrain": { "w": "t_window", ".": "t_dirt", "+": "t_door_c" }
+      "terrain": { "w": "t_window", "+": "t_door_c" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_greenhouse_17_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -806,7 +1037,35 @@
         "       wwwwwww  ",
         "                "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirt" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_junk_shop_13_roof",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rows": [
+        "rrrrrr          ",
+        "rrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrr",
+        "     rrrrrrrrrrr",
+        "     rrrrrrrrrrr",
+        "     rrrrrrrrrrr",
+        "     rrrrrrrrrrr",
+        "       rrrrrrr  ",
+        "       rrrrrrr  ",
+        "       rrrrrrr  ",
+        "       rrrrrrr  ",
+        "       rrrrrrr  ",
+        "                "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -833,7 +1092,9 @@
         "       wwwwwww  ",
         "                "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_13_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -875,7 +1136,8 @@
         { "signage": "Extra Supplies.  Take what you need.", "x": 11, "y": 8 },
         { "signage": "Scavenger Storage.  Stay out!", "x": 5, "y": 4 }
       ],
-      "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
+      "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -890,7 +1152,8 @@
         "w  w",
         "wwww"
       ],
-      "terrain": { "w": "t_wall_half", "f": "t_door_frame" }
+      "terrain": { "w": "t_wall_half", "f": "t_door_frame" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -907,7 +1170,8 @@
       ],
       "terrain": { "w": "t_wall_wood", "d": "t_door_locked", ".": "t_dirtfloor", "s": "t_dirtfloor" },
       "furniture": { "s": "f_woodstove" },
-      "place_item": [ { "item": "log", "x": 2, "y": 1, "amount": [ 3, 5 ] } ]
+      "place_item": [ { "item": "log", "x": 2, "y": 1, "amount": [ 3, 5 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -930,7 +1194,31 @@
         "..........  ",
         "..........  "
       ],
-      "terrain": { "W": "t_wall_log_half", ".": "t_dirt" }
+      "terrain": { "W": "t_wall_log_half", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_lumbermill_5_roof",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  ",
+        "rrrrrrrrrr  "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -954,7 +1242,8 @@
         "WWW....WWW  "
       ],
       "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "W": "t_wall_log", ".": "t_dirtfloor" }
+      "terrain": { "W": "t_wall_log", ".": "t_dirtfloor" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -966,18 +1255,18 @@
       "rows": [
         "            ",
         "            ",
-        "WWW....WWW  ",
-        "W........W  ",
-        "W........W  ",
-        "W.........  ",
-        "W.........  ",
-        "W.........  ",
-        "W.........  ",
-        "W.......rW  ",
-        "W.......rW  ",
-        "WWW....WWW  "
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "        r   ",
+        "        r   ",
+        "            "
       ],
-      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor" },
+      "terrain": {  },
       "furniture": { "r": "f_rack" },
       "place_item": [
         { "item": "frame", "x": 3, "y": 6, "faction": "tacoma_commune" },
@@ -995,19 +1284,20 @@
       "rows": [
         "            ",
         "            ",
-        "WWWc...WWW  ",
-        "W..c....rW  ",
-        "W..c....rW  ",
-        "W..c......  ",
-        "W.........  ",
-        "W.........  ",
-        "W.........  ",
-        "W.......rW  ",
-        "W.......rW  ",
-        "WWW....WWW  "
+        "   c        ",
+        "   c    r   ",
+        "   c    r   ",
+        "   c        ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
       ],
-      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "c": "t_conveyor" },
-      "furniture": { "r": "f_rack" }
+      "terrain": { "c": "t_conveyor" },
+      "furniture": { "r": "f_rack" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1019,19 +1309,19 @@
       "rows": [
         "            ",
         "            ",
-        "WWWc...WWW  ",
-        "W..c....rW  ",
-        "W..c....rW  ",
-        "W..c......  ",
-        "W..m......  ",
-        "W..m......  ",
-        "W..M......  ",
-        "W.......rW  ",
-        "W.......rW  ",
-        "WWW....WWW  "
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "   m        ",
+        "   m        ",
+        "   M        ",
+        "            ",
+        "            ",
+        "            "
       ],
-      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
-      "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
+      "terrain": {  },
+      "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy" },
       "place_item": [
         { "item": "log", "x": 3, "y": 0 },
         { "item": "log", "x": 3, "y": 1 },
@@ -1057,7 +1347,24 @@
         "..0w ",
         "wwww "
       ],
-      "terrain": { "w": "t_wall_half", "0": "t_pit", ".": "t_dirtfloor" }
+      "terrain": { "w": "t_wall_half", "0": "t_pit", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_outhouse_9_roof",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "rrrr ",
+        "rrrr ",
+        "rrrr ",
+        "rrrr ",
+        "rrrr "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -1074,7 +1381,9 @@
         "wwww "
       ],
       "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirtfloor", "0": "t_pit" },
-      "place_npcs": [ { "class": "ranch_ill_1", "x": 2, "y": 1 } ]
+      "place_npcs": [ { "class": "ranch_ill_1", "x": 2, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "tacoma_commune_outhouse_9_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -1091,7 +1400,25 @@
         "wwwwww",
         "      "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirtfloor" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_toolshed_9_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "      "
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
@@ -1109,7 +1436,9 @@
         "      "
       ],
       "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor", ".": "t_dirtfloor" },
-      "furniture": { "c": "f_counter" }
+      "furniture": { "c": "f_counter" },
+      "place_nested": [ { "chunks": [ "tacoma_commune_toolshed_9_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1141,7 +1470,8 @@
         { "square": "terrain", "id": "t_dirtmound", "x": 15, "y": 3, "x2": 15, "y2": 20 },
         { "square": "terrain", "id": "t_dirtmound", "x": 17, "y": 2, "x2": 17, "y2": 21 }
       ],
-      "place_signs": [ { "signage": "Your name is crudely scribbled on the sign with 'Not for commune use' below it.", "x": 0, "y": 9 } ]
+      "place_signs": [ { "signage": "Your name is crudely scribbled on the sign with 'Not for commune use' below it.", "x": 0, "y": 9 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1157,7 +1487,8 @@
         { "point": "terrain", "id": "t_fencegate_c", "x": 10, "y": 1 },
         { "point": "terrain", "id": "t_fencegate_c", "x": 10, "y": 22 },
         { "square": "terrain", "id": "t_fencegate_c", "x": 2, "y": 11, "x2": 2, "y2": 12 }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

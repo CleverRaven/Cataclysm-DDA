@@ -2011,7 +2011,7 @@
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
-        "target": [ "overmap_special_id", "Isherwood Farms" ],
+        "target": [ "overmap_special_id", "Isherwood Farm Mutable" ],
         "visible": "when_achievement_completed",
         "description": "Reach Isherwood Farms"
       }

@@ -1,0 +1,12 @@
+[
+  {
+    "result": "cowboy_hat",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 14 ] ], [ [ "thread", 40 ] ] ]
+  }
+]

@@ -11,9 +11,24 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
+
+static const morale_type morale_antifruit( "morale_antifruit" );
+static const morale_type morale_antijunk( "morale_antijunk" );
+static const morale_type morale_antimeat( "morale_antimeat" );
+static const morale_type morale_antiveggy( "morale_antiveggy" );
+static const morale_type morale_antiwheat( "morale_antiwheat" );
+static const morale_type morale_ate_with_table( "morale_ate_with_table" );
+static const morale_type morale_ate_without_table( "morale_ate_without_table" );
+static const morale_type morale_cannibal( "morale_cannibal" );
+static const morale_type morale_food_bad( "morale_food_bad" );
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_food_hot( "morale_food_hot" );
+static const morale_type morale_honey( "morale_honey" );
+static const morale_type morale_lactose( "morale_lactose" );
+static const morale_type morale_no_digest( "morale_no_digest" );
+static const morale_type morale_sweettooth( "morale_sweettooth" );
 
 static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
@@ -59,7 +74,7 @@ TEST_CASE( "food_enjoyability", "[food][modify_morale][fun]" )
 
         THEN( "character gets a morale bonus because it tastes good" ) {
             dummy.modify_morale( *toastem );
-            CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) >= fun.first );
+            CHECK( dummy.has_morale( morale_food_good ) >= fun.first );
         }
     }
 
@@ -70,7 +85,7 @@ TEST_CASE( "food_enjoyability", "[food][modify_morale][fun]" )
 
         THEN( "character gets a morale penalty because it tastes bad" ) {
             dummy.modify_morale( *garlic );
-            CHECK( dummy.has_morale( MORALE_FOOD_BAD ) <= fun.first );
+            CHECK( dummy.has_morale( morale_food_bad ) <= fun.first );
         }
     }
 }
@@ -110,7 +125,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
 
     GIVEN( "no table or chair are nearby" ) {
         REQUIRE_FALSE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
-        REQUIRE_FALSE( here.has_nearby_chair( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( here.has_nearby_chair( dummy.pos_bub(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
@@ -118,7 +133,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
             THEN( "their morale is unaffected by eating without a table" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
+                CHECK_FALSE( dummy.has_morale( morale_ate_without_table ) );
             }
         }
 
@@ -129,7 +144,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
             THEN( "they get a morale penalty for eating food without a table" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
+                CHECK( dummy.has_morale( morale_ate_without_table ) <= -2 );
             }
 
             for( const std::string &item_name : no_table_eating_bonus ) {
@@ -138,7 +153,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
                 THEN( "they get no morale penalty for using " + item_name + " at a table" ) {
                     dummy.clear_morale();
                     dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
+                    CHECK_FALSE( dummy.has_morale( morale_ate_without_table ) );
                 }
             }
         }
@@ -148,7 +163,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
         here.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
         here.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
         REQUIRE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
-        REQUIRE( here.has_nearby_chair( dummy.pos(), 1 ) );
+        REQUIRE( here.has_nearby_chair( dummy.pos_bub(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
@@ -156,7 +171,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
             THEN( "they get a minimal morale bonus for eating with a table" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
+                CHECK( dummy.has_morale( morale_ate_with_table ) >= 1 );
             }
 
             for( const std::string &item_name : no_table_eating_bonus ) {
@@ -165,7 +180,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
                     dummy.clear_morale();
                     dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
+                    CHECK_FALSE( dummy.has_morale( morale_ate_with_table ) );
                 }
             }
         }
@@ -177,7 +192,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
             THEN( "they get a small morale bonus for eating with a table" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
+                CHECK( dummy.has_morale( morale_ate_with_table ) >= 3 );
             }
 
             for( const std::string &item_name : no_table_eating_bonus ) {
@@ -186,7 +201,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
                     dummy.clear_morale();
                     dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
+                    CHECK_FALSE( dummy.has_morale( morale_ate_with_table ) );
                 }
             }
         }
@@ -209,7 +224,7 @@ TEST_CASE( "eating_hot_food", "[food][modify_morale][hot]" )
             THEN( "character gets a morale bonus for having a hot meal" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK( dummy.has_morale( MORALE_FOOD_HOT ) > 0 );
+                CHECK( dummy.has_morale( morale_food_hot ) > 0 );
             }
         }
 
@@ -219,7 +234,7 @@ TEST_CASE( "eating_hot_food", "[food][modify_morale][hot]" )
             THEN( "character does not get any morale bonus" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *bread );
-                CHECK_FALSE( dummy.has_morale( MORALE_FOOD_HOT ) );
+                CHECK_FALSE( dummy.has_morale( morale_food_hot ) );
             }
         }
     }
@@ -251,7 +266,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 
     GIVEN( "avatar has baseline morale" ) {
         dummy.clear_morale();
-        REQUIRE( dummy.has_morale( MORALE_FOOD_GOOD ) == 0 );
+        REQUIRE( dummy.has_morale( morale_food_good ) == 0 );
 
         for( const std::string &drug_name : drugs_to_test ) {
             item drug( drug_name );
@@ -260,7 +275,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 
             THEN( "they enjoy " + drug_name ) {
                 dummy.modify_morale( drug );
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) >= fun.first );
+                CHECK( dummy.has_morale( morale_food_good ) >= fun.first );
             }
         }
     }
@@ -282,7 +297,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         THEN( "they get a large morale penalty for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( *human );
-            CHECK( dummy.has_morale( MORALE_CANNIBAL ) <= -60 );
+            CHECK( dummy.has_morale( morale_cannibal ) <= -60 );
         }
 
         WHEN( "character is a psychopath" ) {
@@ -292,7 +307,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
             THEN( "their morale is unaffected by eating humans" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *human );
-                CHECK( dummy.has_morale( MORALE_CANNIBAL ) == 0 );
+                CHECK( dummy.has_morale( morale_cannibal ) == 0 );
             }
 
             AND_WHEN( "character is a spiritual psychopath" ) {
@@ -302,7 +317,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
                 THEN( "they get a small morale bonus for eating humans" ) {
                     dummy.clear_morale();
                     dummy.modify_morale( *human );
-                    CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 5 );
+                    CHECK( dummy.has_morale( morale_cannibal ) >= 5 );
                 }
             }
         }
@@ -315,7 +330,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         THEN( "they get a morale bonus for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( *human );
-            CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 10 );
+            CHECK( dummy.has_morale( morale_cannibal ) >= 10 );
         }
 
         AND_WHEN( "they are also a psychopath" ) {
@@ -325,7 +340,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
             THEN( "they get a substantial morale bonus for eating humans" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *human );
-                CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 15 );
+                CHECK( dummy.has_morale( morale_cannibal ) >= 15 );
             }
 
             AND_WHEN( "they are also spiritual" ) {
@@ -335,7 +350,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
                 THEN( "they get a large morale bonus for eating humans" ) {
                     dummy.clear_morale();
                     dummy.modify_morale( *human );
-                    CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 25 );
+                    CHECK( dummy.has_morale( morale_cannibal ) >= 25 );
                 }
             }
         }
@@ -358,11 +373,11 @@ TEST_CASE( "sweet_junk_food", "[food][modify_morale][junk][sweet]" )
             THEN( "they get a morale bonus from its sweetness" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *necco );
-                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) >= 5 );
-                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) <= 5 );
+                CHECK( dummy.has_morale( morale_sweettooth ) >= 5 );
+                CHECK( dummy.has_morale( morale_sweettooth ) <= 5 );
 
                 AND_THEN( "they enjoy it" ) {
-                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                    CHECK( dummy.has_morale( morale_food_good ) > 0 );
                 }
             }
         }
@@ -374,11 +389,11 @@ TEST_CASE( "sweet_junk_food", "[food][modify_morale][junk][sweet]" )
             THEN( "they get a significant morale bonus from its sweetness" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *necco );
-                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) >= 10 );
-                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) <= 50 );
+                CHECK( dummy.has_morale( morale_sweettooth ) >= 10 );
+                CHECK( dummy.has_morale( morale_sweettooth ) <= 50 );
 
                 AND_THEN( "they enjoy it" ) {
-                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+                    CHECK( dummy.has_morale( morale_food_good ) );
                 }
             }
         }
@@ -390,7 +405,7 @@ TEST_CASE( "sweet_junk_food", "[food][modify_morale][junk][sweet]" )
             THEN( "they get an morale penalty due to indigestion" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( *necco );
-                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) <= -25 );
+                CHECK( dummy.has_morale( morale_no_digest ) <= -25 );
             }
         }
     }
@@ -423,10 +438,10 @@ TEST_CASE( "junk_food_that_is_not_ingested", "[modify_morale][junk][no_ingest]" 
         THEN( "they do not get an extra morale bonus for chewing gum" ) {
             dummy.clear_morale();
             dummy.modify_morale( *caff_gum );
-            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+            CHECK( dummy.has_morale( morale_sweettooth ) == 0 );
 
             AND_THEN( "they still enjoy it" ) {
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                CHECK( dummy.has_morale( morale_food_good ) > 0 );
             }
         }
     }
@@ -438,10 +453,10 @@ TEST_CASE( "junk_food_that_is_not_ingested", "[modify_morale][junk][no_ingest]" 
         THEN( "they do not get an extra morale bonus for chewing gum" ) {
             dummy.clear_morale();
             dummy.modify_morale( *caff_gum );
-            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+            CHECK( dummy.has_morale( morale_sweettooth ) == 0 );
 
             AND_THEN( "they still enjoy it" ) {
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                CHECK( dummy.has_morale( morale_food_good ) > 0 );
             }
         }
     }
@@ -453,10 +468,10 @@ TEST_CASE( "junk_food_that_is_not_ingested", "[modify_morale][junk][no_ingest]" 
         THEN( "they do not get a morale penalty for chewing gum" ) {
             dummy.clear_morale();
             dummy.modify_morale( *caff_gum );
-            CHECK( dummy.has_morale( MORALE_ANTIJUNK ) == 0 );
+            CHECK( dummy.has_morale( morale_antijunk ) == 0 );
 
             AND_THEN( "they still enjoy it" ) {
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                CHECK( dummy.has_morale( morale_food_good ) > 0 );
             }
         }
     }
@@ -478,7 +493,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( meat->has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( *meat );
-            CHECK( dummy.has_morale( MORALE_ANTIMEAT ) <= penalty );
+            CHECK( dummy.has_morale( morale_antimeat ) <= penalty );
         }
     }
 
@@ -492,7 +507,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
-            CHECK( dummy.has_morale( MORALE_LACTOSE ) <= penalty );
+            CHECK( dummy.has_morale( morale_lactose ) <= penalty );
         }
     }
 
@@ -505,7 +520,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( wheat->has_flag( flag_ALLERGEN_WHEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( *wheat );
-            CHECK( dummy.has_morale( MORALE_ANTIWHEAT ) <= penalty );
+            CHECK( dummy.has_morale( morale_antiwheat ) <= penalty );
         }
     }
 
@@ -518,7 +533,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( veggy->has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( *veggy );
-            CHECK( dummy.has_morale( MORALE_ANTIVEGGY ) <= penalty );
+            CHECK( dummy.has_morale( morale_antiveggy ) <= penalty );
         }
     }
 
@@ -531,7 +546,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( fruit->has_flag( flag_ALLERGEN_FRUIT ) );
             dummy.clear_morale();
             dummy.modify_morale( *fruit );
-            CHECK( dummy.has_morale( MORALE_ANTIFRUIT ) <= penalty );
+            CHECK( dummy.has_morale( morale_antifruit ) <= penalty );
         }
     }
 
@@ -544,7 +559,7 @@ TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( junk->has_flag( flag_ALLERGEN_JUNK ) );
             dummy.clear_morale();
             dummy.modify_morale( *junk );
-            CHECK( dummy.has_morale( MORALE_ANTIJUNK ) <= penalty );
+            CHECK( dummy.has_morale( morale_antijunk ) <= penalty );
         }
     }
 }
@@ -568,7 +583,7 @@ TEST_CASE( "saprophage_character", "[food][modify_morale][saprophage]" )
 
             THEN( "they enjoy it" ) {
                 dummy.modify_morale( *toastem );
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 10 );
+                CHECK( dummy.has_morale( morale_food_good ) > 10 );
             }
         }
 
@@ -580,7 +595,7 @@ TEST_CASE( "saprophage_character", "[food][modify_morale][saprophage]" )
 
             THEN( "they get a morale penalty due to indigestion" ) {
                 dummy.modify_morale( *toastem );
-                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) <= -25 );
+                CHECK( dummy.has_morale( morale_no_digest ) <= -25 );
             }
         }
     }
@@ -612,10 +627,10 @@ TEST_CASE( "ursine_honey", "[food][modify_morale][ursine][honey]" )
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( *honeycomb );
-                CHECK( dummy.has_morale( MORALE_HONEY ) > 0 );
+                CHECK( dummy.has_morale( morale_honey ) > 0 );
 
                 AND_THEN( "they enjoy it" ) {
-                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                    CHECK( dummy.has_morale( morale_food_good ) > 0 );
                 }
             }
         }

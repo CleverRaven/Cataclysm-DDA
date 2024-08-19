@@ -84,12 +84,12 @@
     "items": [
       [ "baton-extended", 50 ],
       [ "PR24-retracted", 50 ],
-      [ "knife_steak", 30 ],
-      [ "knife_chef", 30 ],
-      [ "knife_paring", 30 ],
-      [ "knife_butcher", 30 ],
-      [ "knife_meat_cleaver", 30 ],
-      [ "knife_carving", 30 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 30 },
+      { "item": "knife_large", "variant": "knife_chef", "prob": 30 },
+      { "item": "knife_small", "variant": "knife_paring", "prob": 30 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
+      { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 30 },
+      { "item": "knife_large", "variant": "knife_carving", "prob": 30 },
       [ "pointy_stick", 30 ],
       [ "cudgel", 20 ],
       [ "knuckle_nail", 20 ],
@@ -106,7 +106,7 @@
       [ "chisel", 5 ],
       [ "scissors", 5 ],
       [ "screwdriver", 5 ],
-      [ "knife_steak", 5 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 5 },
       [ "knuckle_brass", 3 ],
       [ "knuckle_steel_forged", 2 ],
       [ "switchblade", 5 ],
@@ -432,7 +432,7 @@
     },
     "responses": [
       {
-        "text": "[Show the military ID card] You mean this stuff?",
+        "text": "[Show the military ID card.] You mean this stuff?",
         "topic": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
         "condition": {
           "and": [

@@ -188,9 +188,8 @@ class game
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
          *  @param ui structure for load progress display
-         *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
+        void load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
         /**
          * @brief Should be invoked whenever options change.
@@ -303,7 +302,7 @@ class game
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
-        void use_computer( const tripoint &p );
+        void use_computer( const tripoint_bub_ms &p );
         /**
          * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
@@ -344,8 +343,11 @@ class game
          * the one contained in @p mon).
          */
         /** @{ */
+        // TODO: Get rid of untyped overload.
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
+        monster *place_critter_at( const mtype_id &id, const tripoint_bub_ms &p );
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
+        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius, bool forced = false );
@@ -494,7 +496,9 @@ class game
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
+        // TODO: Get rid of untyped overload.
         bool is_sheltered( const tripoint &p );
+        bool is_sheltered( const tripoint_bub_ms &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
@@ -840,27 +844,6 @@ class game
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );
 
-        // Forcefully close a door at p.
-        // The function checks for creatures/items/vehicles at that point and
-        // might kill/harm/destroy them.
-        // If there still remains something that prevents the door from closing
-        // (e.g. a very big creatures, a vehicle) the door will not be closed and
-        // the function returns false.
-        // If the door gets closed the terrain at p is set to door_type and
-        // true is returned.
-        // bash_dmg controls how much damage the door does to the
-        // creatures/items/vehicle.
-        // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
-        // at all and they will prevent the door from closing.
-        // If bash_dmg is smaller than 0, _every_ item on the door tile will
-        // prevent the door from closing. If bash_dmg is 0, only very small items
-        // will do so, if bash_dmg is greater than 0, items won't stop the door
-        // from closing at all.
-        // If the door gets closed the items on the door tile get moved away or destroyed.
-        // TODO: Get rid of untyped overload.
-        bool forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg );
-        bool forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg );
-
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
 
@@ -920,11 +903,13 @@ class game
         not to step there */
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp, bool via_ramp );
-        bool grabbed_veh_move( const tripoint &dp );
+        bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
+        // TODO: Get rid of untyped overload.
         void examine( const tripoint &p, bool with_pickup = false );
+        void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
 
         // Pick up items from a single nearby tile (prompting first)
@@ -965,7 +950,9 @@ class game
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Pick up items from the given point
+        // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
+        void pickup( const tripoint_bub_ms &p );
     private:
         void wield();
         void wield( item_location loc );
@@ -1028,7 +1015,6 @@ class game
         bool is_game_over();     // Returns true if the player quit or died
         void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void draw_minimap();     // Draw the 5x5 minimap
     public:
         /**
          * If there is a robot (that can be disabled), query the player
@@ -1037,7 +1023,9 @@ class game
          * been done. false if the player did not choose any action and the function
          * has effectively done nothing.
          */
+        // TODO: Get rid of untyped overload.
         bool disable_robot( const tripoint &p );
+        bool disable_robot( const tripoint_bub_ms &p );
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:
@@ -1154,6 +1142,9 @@ class game
 
         // show NPC pathfinding on overmap ui
         bool debug_pathfinding = false; // NOLINT(cata-serialize)
+
+        //Ugly kludge to pass info to tile overmaps
+        npc *follower_path_to_show = nullptr; // NOLINT(cata-serialize)
 
         /* tile overlays */
         // Toggle all other overlays off and flip the given overlay on/off.

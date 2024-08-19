@@ -28,7 +28,6 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -171,14 +170,14 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             avatar &player_character = get_avatar();
             for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
-                if( i.type->monster_kill_goal == 1 ) {
-                    if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                    if( i.type->monster_kill_goal == 1 ) {
                         i.step_complete( 1 );
-                        return;
+                    } else {
+                        // Recurring nemesis!!
+                        mission_start::kill_nemesis( &i );
                     }
-                } else {
-                    // Recurring nemesis!!
-                    mission_start::kill_nemesis( &i );
+                    return;
                 }
             }
         }
@@ -878,7 +877,7 @@ mission::mission()
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;

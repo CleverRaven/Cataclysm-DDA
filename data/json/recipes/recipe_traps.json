@@ -26,7 +26,8 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 4 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "using": [ [ "glue_any", 4 ] ],
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -56,7 +57,8 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "nm_teeth", 4 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "using": [ [ "glue_any", 4 ] ],
+    "components": [ [ [ "nm_teeth", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -88,7 +90,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_traps" } ],
-    "components": [ [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "super_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -226,7 +228,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "super_glue", 150 ], [ "duct_tape", 75 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 200 ], [ "nails", 100, "LIST" ] ],
       [

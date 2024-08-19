@@ -62,6 +62,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "NETHER_BURROWING",
+    "description": "a nether creature",
+    "footsteps": "rustling",
+    "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "NETHER_EMANATION",
     "description": "a reflection of another dimension",
     "fear_triggers": [ "HURT" ],

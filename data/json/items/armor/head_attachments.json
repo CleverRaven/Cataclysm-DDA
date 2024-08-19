@@ -211,7 +211,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str_sp": "night vision goggles" },
-    "description": "Last generation double-tube night vision device, designed to be mounted to a helmet.  Currently raised up and out of the way.",
+    "description": "Last generation double-tube night vision device, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
     "weight": "680 g",
     "volume": "1200 ml",
     "price": "10000 USD",
@@ -239,17 +239,21 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
+    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
-    "armor": [ { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] } ]
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
+    ]
   },
   {
     "id": "military_nvg_on",
     "type": "TOOL_ARMOR",
     "copy-from": "military_nvg",
     "name": { "str_sp": "night vision goggles (on)" },
-    "description": "Last generation double-tube night vision device, designed to be mounted to a helmet.  Very limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "description": "Last generation single-tube night vision device, designed to be mounted on a compatible helmet.  Limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "//": "AN/PVS-7",
+    "extend": { "flags": [ "NVG_GREEN" ] },
     "power_draw": "140 mW",
     "revert_to": "military_nvg",
     "use_action": {
@@ -259,14 +263,14 @@
       "msg": "Your %s deactivates.",
       "target": "military_nvg"
     },
-    "armor": [ { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 } ]
+    "armor": [ { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20, "rigid_layer_only": true } ]
   },
   {
     "id": "advanced_gpnvg",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str_sp": "panoramic night vision goggles" },
-    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted to a helmet.  Currently raised up and out of the way.",
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
     "weight": "765 g",
     "volume": "1600 ml",
     "price": "47000 USD",
@@ -294,10 +298,16 @@
         "default_magazine": "medium_plus_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "armor": [
-      { "covers": [ "head" ], "encumbrance": 12, "coverage": 80, "specifically_covers": [ "head_forehead", "head_crown" ] }
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 12,
+        "coverage": 80,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
     ]
   },
   {
@@ -305,8 +315,9 @@
     "type": "TOOL_ARMOR",
     "copy-from": "advanced_gpnvg",
     "name": { "str_sp": "panoramic night vision goggles (on)" },
-    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted to a helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "//": "GPNVG-18",
+    "extend": { "flags": [ "NVG_GREEN" ] },
     "power_draw": "180 mW",
     "revert_to": "advanced_gpnvg",
     "use_action": {
@@ -317,7 +328,7 @@
       "target": "advanced_gpnvg"
     },
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
     ]
   },
@@ -326,7 +337,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str_sp": "enhanced night vision goggles" },
-    "description": "New and rare high-resolution thermal NVG device, designed to be mounted to a helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Currently raised up and out of the way.",
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Currently raised up and out of the way.",
     "weight": "720 g",
     "volume": "1400 ml",
     "price": "10000 USD",
@@ -354,10 +365,16 @@
         "default_magazine": "medium_plus_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "armor": [
-      { "covers": [ "head" ], "encumbrance": 10, "coverage": 70, "specifically_covers": [ "head_forehead", "head_crown" ] }
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 10,
+        "coverage": 70,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
     ]
   },
   {
@@ -365,10 +382,10 @@
     "type": "TOOL_ARMOR",
     "copy-from": "enhanced_nvg",
     "name": { "str_sp": "enhanced night vision goggles (on)" },
-    "description": "New and rare high-resolution thermal NVG device, designed to be mounted to a helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "extend": { "flags": [ "IR_EFFECT" ] },
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "//": "AN/PSQ-42",
-    "power_draw": "250 W",
+    "extend": { "flags": [ "NVG_GREEN", "IR_EFFECT" ] },
+    "power_draw": "320 mW",
     "revert_to": "enhanced_nvg",
     "use_action": {
       "ammo_scale": 0,
@@ -378,7 +395,7 @@
       "target": "enhanced_nvg"
     },
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
     ]
   },
@@ -916,5 +933,102 @@
     "name": { "str": "hardened steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "outsert_clear",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "clear outsert lens", "str_pl": "clear outsert lenses" },
+    "description": "A simple and flexible transparent lens of plastic that clips into place over a panoramic gas mask's solitary eyepiece, providing extra protection from scratches, abrasions, and ballistic threats.",
+    "weight": "55 g",
+    "volume": "46 ml",
+    "longest_side": "17 cm",
+    "price": "69 USD 50 cent",
+    "price_postapoc": "1 USD",
+    "//": "Simulating https://shop.avon-protection.com/products/clear-outsert?variant=44365968310509",
+    "material": [ "hard_plastic_transp" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 2.5,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "flags": [ "PANORAMIC_OUTSERT", "CANT_WEAR", "OUTER" ]
+  },
+  {
+    "id": "outsert_sunlight",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "sunlight outsert lens", "str_pl": "sunlight outsert lenses" },
+    "description": "A tinted and flexible plastic outsert intended to be mounted over the eyepiece of a panoramic-view gas mask to protect the wearer from high-level UV light, sudden flashes, and overly bright flares.",
+    "weight": "37 g",
+    "volume": "31 ml",
+    "price": "80 USD 75 cent",
+    "//": "Simulating https://shop.avon-protection.com/products/sunlight-outsert?variant=44366007730413",
+    "material_thickness": 1,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "extend": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] }
+  },
+  {
+    "id": "outsert_breach",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "breach outsert lens", "str_pl": "breach outsert lenses" },
+    "description": "A specialized lens designed to clip into place over the solitary eyepiece of a panoramic gas mask, providing eye protection to users deploying a cutting torch while also improving impact resistance.",
+    "weight": "43 g",
+    "volume": "36 ml",
+    "price": "170 USD 34 cent",
+    "price_postapoc": "1 USD 10 cent",
+    "//": "Simulating https://danasafetysupply.com/avon-protection-70501-688-breach-shade-5-outsert-fits-fm53-and-fm54-masks/",
+    "material_thickness": 1.5,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "encumbrance": 40,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "qualities": [ [ "GLARE", 1 ] ],
+    "extend": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] }
+  },
+  {
+    "id": "insert_vision_correction",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
+    "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask's visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",
+    "weight": "33 g",
+    "volume": "17 ml",
+    "longest_side": "10 cm",
+    "//": "Simulating https://www.avon-protection.com/media/drxes0hg/avon-protection_vision-correction-assembly_data-sheet_en.pdf",
+    "//2": "According to Avon's datasheet, the weight of the frame, without any lenses, is 8-gramms. Calculating the mass of 2 glass lenses of 4.6x3.7x0.3mm with a cubic density of 2500 kg per m3 and adding that to the weight of the frame yields our final result.",
+    "//3": "According to Avon's datasheet, the individual lenses are 46mm in horizontal width and 50mm in diagonal width, with 64mm inter-pupillary. Adding the horizontal width of two lenses doesn't add up to the total weight of the frame with the nose bridge factored in, so we sum it up to a round ten cm for the overall length.",
+    "price": "119 USD 70 cent",
+    "price_postapoc": "1 USD 25 cent",
+    "material": [ { "type": "glass", "portion": 6 }, { "type": "hard_plastic_transp", "portion": 4 } ],
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [ { "type": "glass", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 0,
+        "coverage": 75,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "delete": { "flags": [ "PANORAMIC_OUTSERT" ] },
+    "extend": { "flags": [ "PANORAMIC_INSERT", "FIX_NEARSIGHT", "FIX_FARSIGHT", "SKINTIGHT" ] }
   }
 ]

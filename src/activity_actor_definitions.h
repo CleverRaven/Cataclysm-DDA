@@ -497,12 +497,12 @@ class move_items_activity_actor : public activity_actor
         std::vector<item_location> target_items;
         std::vector<int> quantities;
         bool to_vehicle;
-        tripoint relative_destination;
+        tripoint_rel_ms relative_destination;
         bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
+                                   bool to_vehicle, tripoint_rel_ms relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
             relative_destination( relative_destination ),
@@ -1049,7 +1049,7 @@ class drop_activity_actor : public activity_actor
     public:
         drop_activity_actor() = default;
         drop_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                             const tripoint &placement, const bool force_ground )
+                             const tripoint_rel_ms &placement, const bool force_ground )
             : items( items ), placement( placement ), force_ground( force_ground ) {}
 
         activity_id get_type() const override {
@@ -1075,7 +1075,7 @@ class drop_activity_actor : public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool force_ground = false;
         bool current_bulk_unload = false;
 };
@@ -1085,7 +1085,7 @@ class stash_activity_actor: public activity_actor
     public:
         stash_activity_actor() = default;
         stash_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                              const tripoint &placement )
+                              const tripoint_rel_ms &placement )
             : items( items ), placement( placement ) {}
 
         activity_id get_type() const override {
@@ -1111,7 +1111,7 @@ class stash_activity_actor: public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool current_bulk_unload = false;
 };
 
@@ -1256,7 +1256,7 @@ class disassemble_activity_actor : public activity_actor
         int moves_total;
         float activity_override = NO_EXERCISE; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
-        bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
+        bool use_cached_workbench_multiplier = false; // NOLINT(cata-serialize)
     public:
         item_location target;
 
@@ -1738,7 +1738,7 @@ class heat_activity_actor : public activity_actor
             to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
 
         activity_id get_type() const override {
-            return activity_id( "ACT_HEAT" );
+            return activity_id( "ACT_HEATING" );
         }
 
         void start( player_activity &act, Character & ) override;

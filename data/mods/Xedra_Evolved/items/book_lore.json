@@ -121,5 +121,45 @@
     "material": [ "stone" ],
     "symbol": "/",
     "color": "light_gray"
+  },
+  {
+    "id": "vampire_mentor_book",
+    "type": "TOOL",
+    "name": { "str": "Walking the shadowed path of Blood", "str_pl": "copies of Walking the shadowed path of Blood" },
+    "description": "This handwritten book contains a very thorough detailing of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Read the book.",
+      "effect_on_conditions": [ "EOC_READ_VAMPIRE_MENTOR_BOOK" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_VAMPIRE_MENTOR_BOOK",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_READ_VAMPIRE_MENTOR_BOOK" } },
+      { "run_eocs": "EOC_LEARN_FROM_VAMPIRE_MENTOR_BOOK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_FROM_VAMPIRE_MENTOR_BOOK",
+    "//": "Using roll-remainder allows to grant recipes that do not create items.  Switch them if a better way is found.",
+    "condition": { "not": { "u_has_var": "you_know_vampire_mentor_recipes", "value": "yes" } },
+    "effect": [
+      { "u_roll_remainder": [ "stormwrought_blood" ], "type": "recipe" },
+      { "u_learn_recipe": "concentrated_underhill_essence" },
+      { "u_learn_recipe": "dream_drainer_catalyst" },
+      { "u_learn_recipe": "revenant_effigy" },
+      { "u_roll_remainder": [ "bait_abyssal_hunger" ], "type": "recipe" },
+      { "u_add_var": "you_know_vampire_mentor_recipes", "value": "yes" }
+    ]
   }
 ]

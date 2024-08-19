@@ -30,7 +30,9 @@
             "THRESH_MOUSE",
             "THRESH_MARLOSS",
             "THRESH_MYCUS",
-            "THRESH_CRUSTACEAN"
+            "THRESH_CRUSTACEAN",
+            "THRESH_CHIROPTERAN",
+            "THRESH_RABBIT"
           ]
         }
       ]

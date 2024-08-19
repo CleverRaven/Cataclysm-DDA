@@ -111,6 +111,7 @@
       { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
       { "text": "A magic academy.", "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY" },
       { "text": "A wizard tower.", "topic": "TALK_FORGE_LORD_DIVINER_TOWER" },
+      { "text": "A druid tower.", "topic": "TALK_FORGE_LORD_DIVINER_DRUID_TOWER" },
       { "text": "A goblin city.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
@@ -775,6 +776,26 @@
     ]
   },
   {
+    "id": "TALK_FORGE_LORD_DIVINER_DRUID_TOWER",
+    "type": "talk_topic",
+    "dynamic_line": "Poor druids, they were hit hardest by the rise of technology.  Magi, technomancers, animists, they can just close the windows and keep their chanting low so to not bother the neighbors.  Even earthshapers can just go into the backyard, but druids had to move out to the middle of nowhere.  That's where their tower will be, mind.  There won't be a road there, so you're in for quite the trip.  I'll mark one on your map for one denarius.",
+    "responses": [
+      {
+        "text": "I could use a nice walk.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_DRUID_TOWER" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_FORGE_LORD_DIVINER_RIVER",
     "type": "talk_topic",
     "dynamic_line": "Rivers.  Water, sand, clay, fish, giant mutant bugs.  Generally pretty big.  If you're still having trouble finding one, I'll mark one on your map for one denarius.",
@@ -915,7 +936,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
     "type": "talk_topic",
-    "dynamic_line": "There is only one Forge of Wonders, it's not like this a multidimensional franchise opportunity.",
+    "dynamic_line": "There is only one Forge of Wonders, it's not like this is a multidimensional franchise opportunity.",
     "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {

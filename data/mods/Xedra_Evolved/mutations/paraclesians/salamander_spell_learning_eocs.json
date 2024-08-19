@@ -11,6 +11,7 @@
           "u_has_any_trait": [
             "SALAMANDER_MAKE_FIRE",
             "SALAMANDER_DASH_BOOM",
+            "SALAMANDER_EXPLOSION_TRAP",
             "SALAMANDER_SMOKE_TELEPORT",
             "SALAMANDER_FLAME_PUNCH",
             "SALAMANDER_SUMMON_FIRE_SPIRIT",
@@ -57,6 +58,7 @@
       "or": [
         { "math": [ "u_spell_level('salamander_make_fire')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_dash_boom_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_explosion_trap_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_smoke_teleport_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_flame_punch_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_summon_fire_spirit')", "<", "35" ] },
@@ -66,6 +68,7 @@
         { "math": [ "u_spell_level('salamander_flaming_whip_spell')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_emit_heat')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_cure_conditions')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_fire_dot_spell')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('create_light_salamander')", "<", "20" ] },
         { "math": [ "u_spell_level('salamander_fire_fly')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_ally_flame_immune_spell')", "<", "per_to_level(1)" ] },
@@ -78,6 +81,7 @@
       "weighted_list_eocs": [
         [ "EOC_LEVELER_SALAMANDER_MAKE_FIRE", 10 ],
         [ "EOC_LEVELER_SALAMANDER_DASH_BOOM", 7 ],
+        [ "EOC_LEVELER_SALAMANDER_EXPLOSION_TRAP", 6 ],
         [ "EOC_LEVELER_SALAMANDER_SMOKE_TELEPORT", 8 ],
         [ "EOC_LEVELER_SALAMANDER_FLAME_PUNCH", 8 ],
         [ "EOC_LEVELER_SALAMANDER_SUMMON_FIRE_SPIRIT", 8 ],
@@ -87,6 +91,7 @@
         [ "EOC_LEVELER_SALAMANDER_SUMMON_WHIP", 6 ],
         [ "EOC_LEVELER_SALAMANDER_EMIT_HEAT", 5 ],
         [ "EOC_LEVELER_SALAMANDER_CURE_CONDITIONS", 5 ],
+        [ "EOC_LEVELER_SALAMANDER_FIRE_DOT", 6 ],
         [ "EOC_LEVELER_SALAMANDER_CREATE_LIGHT", 9 ],
         [ "EOC_LEVELER_SALAMANDER_FLY_IN_FIRE_SPELL", 5 ],
         [ "EOC_LEVELER_SALAMANDER_FLAME_IMMUNITY_ALLY", 4 ],
@@ -129,6 +134,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('salamander_dash_boom_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_EXPLOSION_TRAP",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_explosion_trap_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_explosion_trap_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_explosion_trap_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -291,6 +314,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('salamander_cure_conditions')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_FIRE_DOT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_fire_dot_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_fire_dot_spell')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_fire_dot_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

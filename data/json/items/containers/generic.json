@@ -204,5 +204,31 @@
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 ml", "max_contains_weight": "400 g" } ]
+  },
+  {
+    "id": "wrapping_vacuumed",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "bag_plastic",
+    "name": { "str": "vacuum-sealed package" },
+    "description": "A hermetically sealed article of packaging, made from thick plastic, designed to keep the contents isolated from atmospheric contact.  Shame that its properties melt away after you tear it open to get at the goodies within.",
+    "weight": "6 g",
+    "volume": "25 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": "%",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

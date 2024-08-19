@@ -2110,6 +2110,15 @@
   },
   {
     "type": "ascii_art",
+    "id": "condom_sealed",
+    "picture": [
+      "<color_dark_gray>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "condom_flavored_cherry",
     "picture": [
       "<color_red>╔↔↔↔╗",
@@ -2140,33 +2149,6 @@
     "id": "condom_flavored_orange",
     "picture": [
       "<color_yellow>╔↔↔↔╗",
-      "║( )║",
-      "╚↔↔↔╝"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "condom_flavored_foodplace",
-    "picture": [
-      "<color_magenta>╔↔↔↔╗",
-      "║( )║",
-      "╚↔↔↔╝"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "condom_flavored_jalapeno",
-    "picture": [
-      "<color_light_green>╔↔↔↔╗",
-      "║( )║",
-      "╚↔↔↔╝"
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "condom_sealed",
-    "picture": [
-      "<color_dark_gray>╔↔↔↔╗",
       "║( )║",
       "╚↔↔↔╝"
     ]

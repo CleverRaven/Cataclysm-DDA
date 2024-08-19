@@ -33,13 +33,23 @@
       "shop_sigma": 80,
       "park_radius": 20,
       "park_sigma": 80,
-      "houses": { "afs_city_ruinfield": 400, "afs_formless_ruins_dynamic": 600, "afs_house_1": 300, "afs_habitat_block_1": 200 },
-      "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10 },
+      "houses": {
+        "afs_city_ruinfield": 400,
+        "afs_formless_ruins_dynamic": 600,
+        "afs_house_1": 300,
+        "afs_habitat_block_1": 200,
+        "afs_habitat_block_2": 100,
+        "afs_habitat_block_3": 200
+      },
+      "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
       "shops": {
         "afs_augmentation_clinic_1": 400,
         "afs_astrobiology_lab": 400,
         "afs_general_store_1": 400,
-        "afs_city_urban_farm_small": 300
+        "afs_city_urban_farm_small": 300,
+        "afs_enforcer_station_1": 100,
+        "afs_exosuit_garage_1": 100,
+        "afs_exosuit_garage_2": 100
       }
     },
     "weather": {

@@ -17,6 +17,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -159,10 +160,6 @@ class avatar : public Character
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
-        /** Provides the window and detailed morale data */
-        void disp_morale();
-        /** Opens the medical window */
-        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -245,7 +242,7 @@ class avatar : public Character
 
         void wake_up() override;
         // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms_zero );
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();

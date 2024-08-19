@@ -22,6 +22,7 @@ dynamic_line_string_keys = [
     "npc_available", "npc_following", "npc_friend", "npc_hostile",
     "npc_train_skills", "npc_train_styles", "npc_train_spells",
     "at_safe_space", "is_day", "npc_has_activity",
+    "u_is_travelling", "npc_is_travelling",
     "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
     "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon",
     "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",

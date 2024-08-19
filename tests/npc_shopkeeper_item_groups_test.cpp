@@ -60,7 +60,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             item_location const scrap_inv = guy.i_add( scrap );
             REQUIRE( scrap_inv );
             THEN( "sell_belongings is true - item in inventory available for sale" ) {
-                guy.myclass = NC_NONE;
+                guy.myclass = npc_class_id::NULL_ID();
                 REQUIRE( guy.myclass->sells_belongings == true );
                 REQUIRE( guy.wants_to_sell( scrap_inv ) );
             }

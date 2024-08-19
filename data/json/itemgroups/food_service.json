@@ -597,7 +597,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_butcher", "prob": 30 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
       { "prob": 50, "group": "bread_bag_plastic_14" },
       { "prob": 50, "group": "seasoning_salt_bulk" },
       { "prob": 50, "group": "seasoning_italian_bulk" },
@@ -660,7 +660,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "hat_ball", "prob": 30 },
-      { "item": "knife_steak", "prob": 20 },
+      { "item": "knife_small", "variant": "knife_steak", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 40, "charges": 10 },
       { "item": "towel", "prob": 40 },
       { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
@@ -910,7 +910,7 @@
       [ "spoon", 50 ],
       [ "fork", 50 ],
       [ "knife_butter", 40 ],
-      [ "knife_steak", 35 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 35 },
       [ "spork", 10 ],
       [ "foon", 10 ],
       [ "bottle_glass", 15 ],
@@ -935,7 +935,7 @@
       [ "spoon", 50 ],
       [ "fork", 50 ],
       [ "knife_butter", 40 ],
-      [ "knife_steak", 35 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 35 },
       [ "bottle_glass", 15 ],
       { "group": "bar_alcohol", "prob": 68 },
       [ "lobster_roll", 10 ],
@@ -1067,14 +1067,14 @@
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       [ "cornmeal", 3 ],
-      [ "knife_steak", 15 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
       [ "spaghetti_raw", 20 ],
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
       [ "foodplace_food", 5 ],
-      [ "knife_butcher", 10 ]
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
   },
   {
@@ -1106,11 +1106,11 @@
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       [ "cornmeal", 3 ],
-      [ "knife_steak", 15 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
       [ "macaroni_raw", 20 ],
-      [ "knife_butcher", 10 ]
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
   },
   {
@@ -1151,7 +1151,7 @@
       [ "ceramic_plate", 50 ],
       [ "glass", 50 ],
       [ "knife_butter", 30 ],
-      [ "knife_steak", 15 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       [ "spoon", 20 ],
       [ "fork", 20 ],
       [ "spork", 5 ],
@@ -1175,7 +1175,7 @@
       [ "ceramic_plate", 50 ],
       [ "glass", 50 ],
       [ "knife_butter", 50 ],
-      [ "knife_steak", 25 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 25 },
       [ "spoon", 50 ],
       [ "fork", 50 ],
       [ "spork", 5 ],
@@ -1350,8 +1350,8 @@
     "id": "butcher_tools",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_steak", "prob": 20 },
-      { "item": "knife_butcher", "prob": 30 },
+      { "item": "knife_small", "variant": "knife_steak", "prob": 20 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
       { "item": "butchering_kit", "prob": 5 },
       { "item": "tongs", "prob": 10 },
       { "item": "carver_off", "prob": 5, "charges": [ 0, 500 ] },
@@ -1559,6 +1559,27 @@
       { "item": "carrot", "prob": 4, "container-item": "null", "count": [ 1, 102 ] },
       { "item": "onion", "prob": 4, "container-item": "null", "count": [ 1, 60 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bakery_dairy",
+    "subtype": "collection",
+    "//": "Large amounts of butter, milk, and eggs for use in baking.",
+    "//2": "These are large-ish quantities for use in commercial bakeries.",
+    "entries": [
+      { "group": "milk_full_gallon", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "milk_full_gallon", "prob": 40, "count": [ 2, 4 ] },
+      { "group": "butter_wrapper_8", "prob": 50, "count": [ 2, 4 ] },
+      { "group": "butter_wrapper_8", "prob": 40, "count": [ 2, 5 ] },
+      { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 40, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_full_gallon",
+    "subtype": "distribution",
+    "entries": [ { "item": "milk", "container-item": "jug_plastic" } ]
   },
   {
     "type": "item_group",

@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "catacharset.h"
+#include "cata_imgui.h"
 #include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
@@ -34,6 +35,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "imgui/imgui.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -48,7 +50,6 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -71,6 +72,8 @@
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
+
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
@@ -159,6 +162,9 @@ static const mfaction_str_id monfaction_ant( "ant" );
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
+
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
+static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
@@ -600,11 +606,11 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub() );
+                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub(), friendly );
             } else {
                 const item egg( type->baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
-                    here.add_item_or_charges( pos(), egg, true );
+                    here.add_item_or_charges( pos_bub(), egg, true );
                 }
             }
         }
@@ -698,7 +704,7 @@ void monster::try_biosignature()
         if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-        here.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
+        here.add_item_or_charges( pos_bub(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
         counter += 1;
     }
@@ -955,6 +961,92 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         }
     }
     return ++vStart;
+}
+
+void monster::print_info_imgui() const
+{
+    ImGui::TextUnformatted( _( "Origin: " ) );
+    std::string mods = enumerate_as_string( type->src.begin(),
+                                            type->src.end(),
+    []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    },
+    enumeration_conjunction::arrow );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextUnformatted( mods.c_str() );
+
+    if( debug_mode ) {
+        ImGui::TextUnformatted( type->id.c_str() );
+    }
+    ImGui::NewLine();
+
+    // Print health bar, monster name, then statuses on the first line.
+    nc_color bar_color = c_white;
+    std::string bar_str;
+    get_HP_Bar( bar_color, bar_str );
+    ImGui::TextColored( bar_color, "%s", bar_str.c_str() );
+    std::string unbar_str = std::string( 5 - utf8_width( bar_str ), '.' );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( c_white, "%s", unbar_str.c_str() );
+    nc_color symbol_color = basic_symbol_color();
+    ImGui::SameLine();
+    ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
+                        get_effect_status().c_str() );
+
+    Character &pc = get_player_character();
+    bool sees_player = sees( pc );
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
+
+    // Hostility indicator on the second line.
+    std::pair<std::string, nc_color> att = get_attitude();
+    if( player_knows ) {
+        ImGui::TextColored( att.second, "%s", att.first.c_str() );
+    }
+
+    // Awareness indicator in the third line.
+    std::string senses_str = sees_player ? _( "Can see to your current location" ) :
+                             _( "Can't see to your current location" );
+
+    if( player_knows ) {
+        cataimgui::draw_colored_text( senses_str, ( player_knows && sees_player ) ? c_red : c_green );
+    }
+
+    const std::string speed_desc = speed_description(
+                                       speed_rating(),
+                                       has_flag( mon_flag_IMMOBILE ),
+                                       type->speed_desc );
+    cataimgui::draw_colored_text( speed_desc, c_white );
+
+    // Monster description on following lines.
+    ImGui::NewLine();
+    ImGui::TextWrapped( "%s", type->get_description().c_str() );
+    ImGui::NewLine();
+
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        ImGui::TextWrapped( "%s", fused_desc.c_str() );
+    }
+
+    // Riding indicator on next line after description.
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        ImGui::Text( _( "Rider: %s" ), mounted_player->disp_name().c_str() );
+    }
+
+    // Show monster size on the last line
+    if( size_bonus > 0 ) {
+        ImGui::Text( _( " It is %s." ), size_names.at( get_size() ).translated().c_str() );
+    }
+
+    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+        const ascii_art_id art = type->get_picture_id();
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                cataimgui::draw_colored_text( line, c_white );
+            }
+        }
+    }
 }
 
 std::string monster::extended_description() const
@@ -1293,12 +1385,14 @@ int monster::sight_range( const float light_level ) const
     }
     static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
-        return type->vision_night;
+        return calculate_by_enchantment( type->vision_night, enchant_vals::mod::VISION_RANGE, true );
     } else if( light_level >= default_daylight ) {
-        return type->vision_day;
+        return calculate_by_enchantment( type->vision_day, enchant_vals::mod::VISION_RANGE, true );
     }
     int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
                   type->vision_night ) / default_daylight;
+
+    range = calculate_by_enchantment( range, enchant_vals::mod::VISION_RANGE, true );
 
     return range;
 }
@@ -1337,8 +1431,7 @@ bool monster::has_intelligence() const
 {
     return has_flag( mon_flag_PATH_AVOID_FALL ) ||
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
            get_pathfinding_settings().avoid_sharp ||
            get_pathfinding_settings().avoid_traps;
@@ -2104,7 +2197,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &effects = proj.proj_effects;
 
     // Whip has a chance to scare wildlife even if it misses
-    if( effects.count( "WHIP" ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
+    if( effects.count( ammo_effect_WHIP ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
         add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
@@ -2234,7 +2327,7 @@ bool monster::move_effects( bool )
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
-                here.add_item_or_charges( pos(), *tied_item );
+                here.add_item_or_charges( pos_bub(), *tied_item );
                 tied_item.reset();
             }
         } else {
@@ -2242,7 +2335,7 @@ bool monster::move_effects( bool )
                 const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
                                          type->melee_dice * type->melee_sides * 250 ) ) > 800;
                 if( !broken ) {
-                    here.add_item_or_charges( pos(), *tied_item );
+                    here.add_item_or_charges( pos_bub(), *tied_item );
                 }
                 tied_item.reset();
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
@@ -2292,8 +2385,8 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 7 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 32 ) ) {
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos(), "rope_6" );
-                here.spawn_item( pos(), "snare_trigger" );
+                here.spawn_item( pos_bub(), "rope_6" );
+                here.spawn_item( pos_bub(), "snare_trigger" );
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
@@ -2721,7 +2814,7 @@ void monster::process_turn()
                 }
             }
             if( weather.lightning_active && !has_effect( effect_supercharged ) &&
-                here.is_outside( pos() ) ) {
+                here.is_outside( pos_bub() ) ) {
                 weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
@@ -2772,8 +2865,8 @@ void monster::die( Creature *nkiller )
                     const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
                     ch->add_msg_if_player( m_good, "%s", snip );
                 }
-                ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
-                ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
+                ch->add_morale( morale_killer_has_killed, 5, 10, 6_hours, 4_hours );
+                ch->rem_morale( morale_killer_need_to_kill );
             }
         }
     }
@@ -2854,7 +2947,7 @@ void monster::die( Creature *nkiller )
     if( type->mdeath_effect.eoc.has_value() ) {
         //Not a hallucination, go process the death effects.
         if( type->mdeath_effect.eoc.value().is_valid() ) {
-            dialogue d( get_talker_for( *this ), nullptr );
+            dialogue d( killer == nullptr ? nullptr : get_talker_for( killer ), get_talker_for( *this ) );
             type->mdeath_effect.eoc.value()->activate( d );
         } else {
             debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );
@@ -2910,7 +3003,7 @@ void monster::die( Creature *nkiller )
             if( corpse ) {
                 corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
-                get_map().add_item_or_charges( pos(), it );
+                get_map().add_item_or_charges( pos_bub(), it );
             }
         }
         for( const item &it : dissectable_inv ) {
@@ -2941,7 +3034,7 @@ void monster::die( Creature *nkiller )
                 continue;
             }
 
-            if( here.sees( critter.pos(), pos(), light ) ) {
+            if( here.sees( critter.pos_bub(), pos_bub(), light ) ) {
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.anger += 15;
@@ -3038,7 +3131,7 @@ void monster::drop_items_on_death( item *corpse )
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {
-            get_map().add_item_or_charges( pos(), it );
+            get_map().add_item_or_charges( pos_bub(), it );
         }
         return;
     }
@@ -3362,10 +3455,7 @@ void monster::process_effects()
         }
     }
 
-    bool cramped = false;
-    // return is intentionally discarded, sets cramped if appropriate
-    can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
-    if( !cramped ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 
@@ -3664,7 +3754,7 @@ void monster::on_hit( Creature *source, bodypart_id,
                 continue;
             }
 
-            if( here.sees( critter.pos(), pos(), light ) ) {
+            if( here.sees( critter.pos_bub(), pos_bub(), light ) ) {
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;
@@ -3802,7 +3892,7 @@ bool monster::will_join_horde( int size )
     if( mha == MHA_ALWAYS ) {
         return true;
     }
-    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos() ) &&
+    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos_bub() ) &&
         ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
         return false;
     }
@@ -3945,34 +4035,29 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::unordered_set<tripoint> monster::get_path_avoid() const
+std::function<bool( const tripoint & )> monster::get_path_avoid() const
 {
-    std::unordered_set<tripoint> ret;
-
-    map &here = get_map();
-    int radius = std::min( sight_range( here.ambient_light_at( pos_bub() ) ), 5 );
-
-    for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
-        if( !can_move_to( p ) ) {
-            if( bash_skill() <= 0 || !here.is_bashable( p ) ) {
-                ret.insert( p );
-            }
+    return [this]( const tripoint & p ) {
+        map &here = get_map();
+        // If we can't move there and can't bash it, don't path through it.
+        if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
+            return true;
         }
-    }
 
-    if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
-        radius = 2;
-    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
-        radius = 1;
-    } else {
-        return ret;
-    }
-    for( Creature *critter : here.get_creatures_in_radius( pos(), radius ) ) {
-        ret.insert( critter->pos() );
-    }
-
-    return ret;
+        // Avoid nearby creatures if we have the flag.
+        int radius;
+        if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
+            radius = 2;
+        } else if( has_flag( mon_flag_PATH_AVOID_DANGER ) ) {
+            radius = 1;
+        } else {
+            return false;
+        }
+        if( rl_dist( p, pos() ) <= radius && get_creature_tracker().creature_at( p ) ) {
+            return true;
+        }
+        return false;
+    };
 }
 
 double monster::calculate_by_enchantment( double modify, enchant_vals::mod value,

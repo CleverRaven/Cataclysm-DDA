@@ -57,7 +57,6 @@
     "volume": "1 L",
     "price": "1 kUSD 750 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -2,
     "melee_damage": { "bash": 8 },
     "material": [ "plastic", "aluminum", "nether_crystal" ],
     "symbol": ",",

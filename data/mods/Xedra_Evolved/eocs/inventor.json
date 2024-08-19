@@ -65,7 +65,8 @@
           "mod_inv_pistol_booster",
           "inventor_research_base_3",
           "inventor_research_energy_1",
-          "software_AI"
+          "software_AI",
+          "stunning_qr_trap"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
@@ -101,6 +102,7 @@
           "vision_halo",
           "sonic_gun",
           "mace_magic",
+          "stunning_arg_trap",
           "inventor_fists_plus",
           "inventor_plasma_axe_off",
           "inventor_research_energy_1"

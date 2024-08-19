@@ -11,7 +11,7 @@
     "//": "Forming of shot from raw materials",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "water", 1 ], [ "water_clean", -1 ], [ "salt_water", -1 ], [ "water_sewage", -1 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [
         [ "ladle", -1 ],
         [ "ceramic_mug", -1 ],

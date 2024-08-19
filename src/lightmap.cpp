@@ -129,15 +129,15 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const point & p ) {
-                const point sp = p - sm_offset;
+            auto calc_transp = [&]( const point_sm_ms & p ) {
+                const point_sm_ms sp = p - sm_offset;
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
                     return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
-                if( outside_cache[p.x][p.y] ) {
+                if( outside_cache[p.x()][p.y()] ) {
                     // FIXME: Places inside vehicles haven't been marked as
                     // inside yet so this is incorrectly penalising for
                     // weather in vehicles.
@@ -159,7 +159,7 @@ bool map::build_transparency_cache( const int zlev )
             if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
-                std::tie( value, dummy ) = calc_transp( sm_offset );
+                std::tie( value, dummy ) = calc_transp( point_sm_ms( sm_offset ) );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
                     bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
@@ -508,8 +508,10 @@ void map::generate_lightmap( const int zlev )
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if( critter.type->luminance > 0 ) {
-                apply_light_source( mp, critter.type->luminance );
+            float critter_luminance = critter.calculate_by_enchantment( critter.type->luminance,
+                                      enchant_vals::mod::LUMINATION, true );
+            if( critter_luminance > 0 ) {
+                apply_light_source( mp, critter_luminance );
             }
         }
     }

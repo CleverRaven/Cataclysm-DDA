@@ -307,6 +307,18 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
+bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
+{
+    if( is_null() ) {
+        // There is no trap at all, so logically one can not see it.
+        return false;
+    }
+    if( is_always_invisible() ) {
+        return false;
+    }
+    return visibility < 0 || p.knows_trap( pos );
+}
+
 void trap::trigger( const tripoint &pos ) const
 {
     if( is_null() ) {
@@ -419,6 +431,11 @@ void trap::check_consistency()
 bool trap::easy_take_down() const
 {
     return avoidance == 0 && difficulty == 0;
+}
+
+void trap::set_trap_data( itype_id trap_item_type_id )
+{
+    trap_item_type = trap_item_type_id;
 }
 
 bool trap::can_not_be_disarmed() const

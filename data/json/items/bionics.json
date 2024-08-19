@@ -11,10 +11,9 @@
     "color": "yellow",
     "price_postapoc": "10 USD",
     "use_action": [ "install_bionic" ],
-    "flags": [ "CBM" ],
+    "flags": [ "CBM", "FRAGILE_MELEE" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ],
-    "melee_damage": { "bash": 8 }
+    "faults": [ "fault_bionic_salvaged" ]
   },
   {
     "abstract": "bionic_general_npc_usable",
@@ -693,7 +692,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Artificial Night Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "When active, this bionic eliminates all light within a 15-tile radius of the user through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius of the user through destructive interference.",
     "price": "8 kUSD 500 USD",
     "price_postapoc": "80 USD",
     "difficulty": 5

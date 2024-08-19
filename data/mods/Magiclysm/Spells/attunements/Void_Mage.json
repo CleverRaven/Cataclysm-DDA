@@ -28,7 +28,7 @@
     "final_energy_cost": 150,
     "energy_increment": -5,
     "difficulty": 9,
-    "extra_effects": [ { "id": "voidmage_final_grasp_slowdown" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "voidmage_final_grasp_slowdown" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "voidmage_final_grasp_slowdown",

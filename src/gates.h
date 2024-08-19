@@ -5,6 +5,7 @@
 #include <string>
 
 #include "coords_fwd.h"
+#include "type_id.h"
 
 class Character;
 class Creature;
@@ -33,6 +34,21 @@ namespace doors
  * checking if it can be closed, etc.
 */
 void close_door( map &m, Creature &who, const tripoint_bub_ms &closep );
+/**
+ * Forcefully closes a door
+ * Checks for creatures/items/vehicles at the door tile and attempts to displace them, dealing bash damage.
+ * If something remains that prevents the door from closing
+ * (e.g. a very big creatures, a vehicle) the door will not be closed
+ * @param p position gate is closed from, usually the player's position
+ * @param affected_tiles positions of any tiles that are being closed alongside this one
+ * @param bash_dmg controls how much damage the door does to the creatures/items/vehicle.
+ * If bash_dmg is smaller than 0, _every_ item on the door tile will prevent the door from closing.
+ * If bash_dmg is 0, only very small items will do so
+ * If bash_dmg is greater than 0, items won't stop the door from closing at all.
+ * @returns true if the door can successfully be closed
+*/
+bool forced_door_closing( const tripoint_bub_ms &p, std::vector<tripoint_bub_ms> affected_tiles,
+                          const ter_id &door_type, int bash_dmg );
 /**
  * Locks a door at "lockp" as "who."
  *

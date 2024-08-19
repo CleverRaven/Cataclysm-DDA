@@ -14,7 +14,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
@@ -164,7 +164,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
@@ -229,7 +229,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock_large", 2 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
@@ -246,7 +246,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 100 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -355,11 +355,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [
-      [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
-    ]
+    "components": [ [ [ "rock", 1 ] ], [ [ "any_water", 1, "LIST" ] ], [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -509,10 +505,12 @@
     "time": "30 m",
     "autolearn": true,
     "reversible": true,
+    "//": "Slow sand biofilter: https://wwwnc.cdc.gov/travel/yellowbook/2024/preparing/water-disinfection#:~:text=Figure%202%2D02.%20Emergency%20gravel%20and%20sand%20filter",
+    "//1": "Density of sand is around 1.6g/cm^3. Gravel is similar. In a 10 in diameter bucket, 4 in of gravel is about 8 kg and 10 in of sand is about 20 kg.",
     "components": [
       [ [ "bucket_5gal", 1 ] ],
-      [ [ "material_sand", 1250 ] ],
-      [ [ "material_gravel", 500 ] ],
+      [ [ "material_sand", 2500 ] ],
+      [ [ "material_gravel", 1000 ] ],
       [ [ "cotton_patchwork", 4 ], [ "wire_mesh", 4 ] ]
     ]
   }

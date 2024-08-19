@@ -13,8 +13,6 @@
 
 class input_context;
 struct input_event;
-struct point;
-struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -474,7 +472,10 @@ bool can_action_change_worldstate( action_id act );
  *            exits with the return value set to the tripoint, or std::nullopt
  *            if the tripoint is not a valid adjacent location.
  */
+// TODO: Get rid of untyped overload and rename _bub when the profile is free.
 std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
+        bool allow_vertical = false );
 // TODO: Get rid of untyped overload.
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical = false );
@@ -594,21 +595,19 @@ enum class iso_rotate : int {
  * that would generated that delta.  See @ref action_id for the list of available movement
  * commands that may be generated.  This function takes iso mode into account.
  *
- * The only valid values for the coordinates of \p d are -1, 0 and 1
- *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
- * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
- * 2. If d.z is invalid, it is treated as if it were zero.
- * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_FORTH_LEFT
- * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_FORTH_LEFT
+ * 1. If d.x, d.y are valid and non-zero, then d.z is ignored.
+ * 2. If d.x, d.y and d.z are invalid or zero, then result is @ref ACTION_NULL
  *
  * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_action_from_delta( const tripoint &d, iso_rotate rot );
+action_id get_movement_action_from_delta( const tripoint_rel_ms &d, iso_rotate rot );
 
 // Helper function to convert movement action to coordinate delta point
+// TODO: Remove untyped overload and rename typed version.
 point get_delta_from_movement_action( action_id act, iso_rotate rot );
+point_rel_ms get_delta_from_movement_action_rel_ms( action_id act, iso_rotate rot );
 
 /**
  * Show the action menu
@@ -643,8 +642,6 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
-// TODO: Get rid of untyped overload.
-bool can_interact_at( action_id action, const tripoint &p );
 bool can_interact_at( action_id action, const tripoint_bub_ms &p );
 
 /**
@@ -659,7 +656,7 @@ bool can_interact_at( action_id action, const tripoint_bub_ms &p );
  * @param p Point to perform the test at
  * @returns true if there is a corpse or item that can be disassembled at a point, otherwise false
  */
-bool can_butcher_at( const tripoint &p );
+bool can_butcher_at( const tripoint_bub_ms &p );
 
 /**
  * Test whether vertical movement is possible
@@ -675,7 +672,7 @@ bool can_butcher_at( const tripoint &p );
  * @param movez Direction to move. -1 for down, all other values for up
  * @returns true if movement is possible in the indicated direction, otherwise false
  */
-bool can_move_vertical_at( const tripoint &p, int movez );
+bool can_move_vertical_at( const tripoint_bub_ms &p, int movez );
 
 /**
  * Test whether examine is possible
@@ -689,6 +686,6 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint &p, bool with_pickup = false );
+bool can_examine_at( const tripoint_bub_ms &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

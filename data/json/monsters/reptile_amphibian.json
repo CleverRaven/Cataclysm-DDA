@@ -22,10 +22,10 @@
     "morale": -5,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin_little", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -54,7 +54,7 @@
     "dodge": 6,
     "vision_day": 30,
     "vision_night": 8,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_lizard_sample_single",
     "special_attacks": [ [ "RATTLE", 6 ] ],
@@ -66,7 +66,7 @@
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_big",
@@ -88,10 +88,10 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 180 },
+    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
-    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 240 },
+    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 180 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },
@@ -115,7 +115,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -143,7 +143,7 @@
     "dodge": 4,
     "vision_day": 30,
     "vision_night": 8,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_small",
     "special_attacks": [
@@ -161,7 +161,7 @@
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -191,7 +191,7 @@
     "dodge": 3,
     "vision_day": 35,
     "vision_night": 35,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_large",
     "//grab": "Big jaw full of long fangs - about as grabby as you can get without multiple appendages, consider a coiling attack on next update",
@@ -214,7 +214,7 @@
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
     "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
@@ -242,7 +242,7 @@
     "dodge": 1,
     "vision_day": 1,
     "vision_night": 30,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_single",
     "path_settings": { "max_dist": 5 },
@@ -269,7 +269,7 @@
     "morale": -5,
     "dodge": 10,
     "melee_training_cap": 0,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "exempt",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
@@ -478,7 +478,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "melee_training_cap": 1,
     "dodge": 6,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_batrachian_sample_single",
     "harvest": "mutant_animal_noskin",
     "vision_night": 30,
@@ -541,7 +541,7 @@
     "color": "brown",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "dissect": "dissect_batrachian_sample_single",
     "harvest": "mammal_tiny",
@@ -575,7 +575,7 @@
     "id": "mon_bullfrog_frog",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
-    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
+    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards, and any other living thing it can stuff down its gullet.",
     "name": { "str": "bullfrog" },
     "volume": "1000 ml",
     "weight": "750 g",
@@ -616,7 +616,7 @@
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
+    "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomiting."
   },
   {
     "id": "mon_freedom_toad",
@@ -822,7 +822,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "armor": { "bash": 4 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "dissect": "dissect_batrachian_sample_single",
     "harvest": "mutant_animal_large_noskin",
@@ -1063,7 +1063,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "armor": { "bash": 4, "electric": 1 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "dissect": "dissect_batrachian_sample_small",
     "harvest": "mutant_animal_large_noskin",
@@ -1179,7 +1179,7 @@
     "melee_dice_sides": 20,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "armor": { "bash": 6, "cut": 3, "acid": 5, "heat": 2, "electric": 2 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
     "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
     "special_attacks": [
@@ -1235,7 +1235,7 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "armor": { "bash": 8, "cut": 3, "bullet": 2, "electric": 2 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "dissect": "dissect_batrachian_sample_huge",
     "harvest": "mutant_animal_large_noskin",
@@ -1334,7 +1334,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 1,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
     "grab_strength": 35,
     "special_attacks": [

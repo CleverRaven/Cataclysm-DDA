@@ -33,7 +33,7 @@ struct itype;
 struct tripoint;
 
 // size of connect groups bitset; increase if needed
-const int NUM_TERCONN = 32;
+const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
@@ -325,6 +325,7 @@ enum class ter_furn_flag : int {
     TFLAG_SINGLE_SUPPORT,
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
+    TFLAG_HARVEST_REQ_CUT1,
 
     NUM_TFLAG_FLAGS
 };
@@ -490,11 +491,15 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
+        // TODO: Get rid of untyped overload.
         bool can_examine( const tripoint &examp ) const;
+        bool can_examine( const tripoint_bub_ms &examp ) const;
         bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_functions func );
+        // TODO: Get rid of untyped overload.
         void examine( Character &, const tripoint & ) const;
+        void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -692,7 +697,20 @@ void verify_terrain();
 class ter_furn_migrations
 {
     public:
-        /** Handler for loading "ter_furn_migrations" type of json object */
+        /** Handler for loading "ter_furn_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
+class field_type_migrations
+{
+    public:
+        /** Handler for loading "field_type_migration" type of json object */
         static void load( const JsonObject &jo );
 
         /** Clears migration list */

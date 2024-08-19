@@ -128,7 +128,10 @@
       { "item": "shoulder_holster", "prob": 5 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "helmet_liner", "prob": 30 },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      {
+        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "prob": 10
+      },
       { "item": "knife_combat", "container-item": "sheath", "prob": 3 },
       { "item": "knife_combat_marine", "container-item": "sheath", "prob": 1 },
       { "item": "knife_combat_army", "container-item": "sheath", "prob": 1 },

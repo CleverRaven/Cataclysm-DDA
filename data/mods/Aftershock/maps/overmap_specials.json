@@ -167,7 +167,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -251,5 +251,55 @@
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_solar_array",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "afs_solar_arrary_a1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_solar_array_a2_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_solar_arrary_a1_roof_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_solar_array_a2_roof_south" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 7, -1 ],
+    "city_sizes": [ 10, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_power_station_small",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_pwr_sub_s_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_pwr_sub_s_roof_south" },
+      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "EXOPLANET", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "power_station_large",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "afs_pwr_large_entrance_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "afs_pwr_large_entrance_roof_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "afs_pwr_large_2_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "afs_pwr_large_2_roof_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "afs_pwr_large_3_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_pwr_large_4_north" },
+      { "point": [ 0, 2, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, 30 ],
+    "city_sizes": [ 6, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "EXOPLANET", "URBAN", "MAN_MADE" ]
   }
 ]

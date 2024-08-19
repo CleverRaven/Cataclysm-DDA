@@ -222,6 +222,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "LIXA_road_guard_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ---------             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  ---------             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "LIXA_road",
     "object": {
       "fill_ter": "t_region_groundcover",

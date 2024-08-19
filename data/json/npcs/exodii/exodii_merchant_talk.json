@@ -82,6 +82,25 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
+      },
+      {
+        "text": "Any chance I can buy some riot armor?  I need five complete sets.",
+        "condition": {
+          "and": [
+            { "u_has_faction_trust": 2 },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            {
+              "not": { "npc_has_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear"
+      },
+      {
+        "text": "Remember that riot gear you gave me?",
+        "condition": { "u_has_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback"
       }
     ]
   },
@@ -165,6 +184,42 @@
         "text": "Just popping in to say hi.  See you later, alligator.",
         "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "How is my buddy doing?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", "<", "time('1 d')" ] },
+            { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing"
+      },
+      {
+        "text": "How is my buddy doing?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", ">", "time('1 d')" ] },
+            { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete"
+      },
+      {
+        "text": "Fast, can you help this lad?",
+        "condition": {
+          "and": [
+            { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" } },
+            {
+              "or": [
+                { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
+                { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue"
       }
     ]
   },
@@ -384,16 +439,225 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing",
+    "type": "talk_topic",
+    "dynamic_line": { "//~": "Nay, mate, still operating", "str": "Nah, mate, still operatin" },
+    "responses": [
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Ok.  See you later then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
+    "type": "talk_topic",
+    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Gimme spek, 'n  fetch 'em 'ere." },
+    "responses": [
+      {
+        "text": "Of course, it is time for us to talk.",
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "yank_out_all_bionics_from_prototype" },
+        "effect": [
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
+          { "u_spawn_item": "bionics_pulled_out_prototype", "use_item_group": true },
+          {
+            "u_spawn_npc": "BEM_prototype_cyborg_with_yonked_bionics",
+            "real_count": 1,
+            "outdoor_only": false,
+            "min_radius": 1,
+            "max_radius": 3,
+            "spawn_message": "Rubic leads a person to you."
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Of course, it is time for us to talk.",
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" },
+        "effect": [
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
+          {
+            "u_spawn_npc": "BEM_prototype_cyborg_with_bionics",
+            "real_count": 1,
+            "outdoor_only": false,
+            "min_radius": 1,
+            "max_radius": 3,
+            "spawn_message": "Rubic leads a person to you."
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Of course, it is time for us to talk.",
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype" },
+        "effect": [
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
+          {
+            "u_spawn_npc": "BEM_prototype_cyborg_with_yonked_bionics",
+            "real_count": 1,
+            "outdoor_only": false,
+            "min_radius": 1,
+            "max_radius": 3,
+            "spawn_message": "Rubic leads a person to you."
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Let's see what I get.",
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" },
+        "effect": [
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
+          { "u_spawn_item": "ruined_chunks", "count": 20 },
+          { "u_spawn_item": "bionics_pulled_out_prototype", "use_item_group": true }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "It is time to put this body to rest.",
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" },
+        "effect": [
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
+          { "u_spawn_item": "corpse_generic_human" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, forget it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": { "//~": "Let me see.  Will do what I can for a coin.", "str": "Lemme poke.  Will tass what ye can for a shiny." },
+    "responses": [
+      {
+        "text": "[Prototype Cyborg] Can you help this guy it seems like they have lost their mind?",
+        "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
+        "topic": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue"
+      },
+      {
+        "text": "[Broken Cyborg] Can you save my buddy who looks a bit rough around the edges, but they still haven't flatlined?",
+        "condition": { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
+        "topic": "TALK_EXODII_MERCHANT_Experiment_Broken_Cyborg_Rescue"
+      },
+      { "text": "Actually, forget it's not my problem.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "For this one I can pull out their cbm and give any working to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively why don't you just give them to me I surely can help them adjust to life as a cyborg.'",
+      "str": "Fer this 'un, I can yank out their bits 'n give 'em to ya, or I can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to me?  I reckon I can turn 'im into a right useful worker."
+    },
+    "responses": [
+      {
+        "text": "[$300] Take everything from him and if there is something useful, put it aside for me.",
+        "condition": { "u_are_owed": 30000 },
+        "effect": [
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
+          { "u_spend_cash": 30000 },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          {
+            "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
+            "value": "yank_out_all_bionics_from_prototype"
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "[200$] Just remove broken bits so they can control themselves.",
+        "condition": { "u_are_owed": 20000 },
+        "effect": [
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
+          { "u_spend_cash": 20000 },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "[95$] Pull everything out, you can keep what works.  Just bring my buddy back.",
+        "condition": { "u_are_owed": 9500 },
+        "effect": [
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
+          { "u_spend_cash": 9500 },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          {
+            "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
+            "value": "reverse_cybernization_prototype"
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "They are all yours.  [Adds 200$]",
+        "effect": [ { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true }, { "u_spend_cash": -20000 } ],
+        "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Actually, forget it's not my problem.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Broken_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "This one can't be saved too much brain rotted but i can salvage bits from them or repurpose them for walker, or just cut out rot and neural interface so you can bury them proper",
+      "str": "This 'unwon't be twitching', too much grey lost to dead.  But ye can salvage bits from 'em or born 'em for a walker, or just cut out the rot 'n grey link so ya can miss 'em proper."
+    },
+    "responses": [
+      {
+        "text": "[200$] Pull out CBM if he can't use it, I can.",
+        "condition": { "u_are_owed": 20000 },
+        "effect": [
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
+          { "u_spend_cash": 20000 },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "[25$] Pull everything out, you can keep what works.  He deserves a burial.",
+        "condition": { "u_are_owed": 2500 },
+        "effect": [
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
+          { "u_spend_cash": 2500 },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "They are all yours.  [Adds 150$]",
+        "effect": [ { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true }, { "u_spend_cash": -15000 } ],
+        "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Actually, forget it's not my problem.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1a",
     "type": "talk_topic",
     "dynamic_line": "'Ow long's it been since the mess happened?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1b",
     "type": "talk_topic",
     "dynamic_line": "Thank ye.  When you an' Rubik first met, how long'd it been since the mess begun?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
@@ -843,7 +1107,11 @@
       {
         "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
         "condition": {
-          "and": [ { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } }, { "math": [ "exodii_knows_hub01", "!=", "1" ] } ]
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
+            { "not": { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } },
+            { "math": [ "exodii_knows_hub01", "!=", "1" ] }
+          ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
@@ -852,6 +1120,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
+            { "not": { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } },
             { "math": [ "warehouse_was_found", "!=", "1" ] },
             { "math": [ "exodii_knows_hub01", "==", "1" ] }
           ]
@@ -1296,6 +1565,81 @@
     "responses": [
       { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
       { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear",
+    "type": "talk_topic",
+    "dynamic_line": "Mayhaps this gear will do you better than it did the scuffers wot trained with it. [$400]",
+    "responses": [
+      {
+        "text": "I'll buy it.",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_buy_riot_gear_success",
+              "effect": [
+                { "u_spawn_item": "armor_riot", "count": 5 },
+                { "u_spawn_item": "helmet_riot", "count": 5 },
+                { "u_spawn_item": "armor_riot_arm", "count": 5 },
+                { "u_spawn_item": "armor_riot_leg", "count": 5 },
+                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "Any chance I can buy gear this on layaway?",
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
+    "type": "talk_topic",
+    "dynamic_line": "If'n you survive, we can give you a fortnight and six odd days to pay us'n back.",
+    "responses": [
+      {
+        "text": "Thanks Rubik, I'll be back with your payment soon.",
+        "effect": [
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback",
+    "type": "talk_topic",
+    "dynamic_line": "Right and done, don't let whatever you are going after turn you into a pork loin well done.  I's expectin' you back.",
+    "responses": [
+      {
+        "text": "Here's the money to pay off that debt.",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_pay_back_riot_gear_success",
+              "effect": [ { "finish_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR", "success": true } ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   }
 ]

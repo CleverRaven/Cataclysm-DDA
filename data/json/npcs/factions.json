@@ -23,7 +23,33 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" },
+      { "power_min": 150, "id": "epilogue_faction_your_followers_150" },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "free_merchants", "power_min": 150 },
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_your_followers_FM"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "free_merchants", "power_max": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ],
+        "id": "epilogue_faction_your_followers_revolt"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_your_followers_OG"
+      }
+    ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -82,7 +108,36 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
-      { "power_min": 150, "power_max": 299, "id": "epilogue_faction_robofac_150" }
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "exodii", "power_max": 150 }, { "faction": "the_great_library", "power_max": 150 } ],
+        "id": "epilogue_faction_robofac_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "exodii", "power_min": 150 }, { "faction": "the_great_library", "power_max": 150 } ],
+        "id": "epilogue_faction_robofac_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "exodii", "power_max": 150 }, { "faction": "the_great_library", "power_min": 150 } ],
+        "id": "epilogue_faction_robofac_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "exodii", "power_min": 150 }, { "faction": "the_great_library", "power_min": 150 } ],
+        "id": "epilogue_faction_robofac_thrive"
+      },
+      {
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 },
+          { "faction": "exodii", "power_min": 150 },
+          { "faction": "the_great_library", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_robofac_thrive_OG"
+      }
     ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
@@ -147,8 +202,27 @@
       "hells_raiders": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_old_guard_0" },
-      { "power_min": 150, "id": "epilogue_faction_old_guard_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_old_guard_0" },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "tacoma_commune", "power_max": 150 }, { "faction": "robofac", "power_min": 150 } ],
+        "id": "epilogue_faction_old_guard_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "robofac", "power_max": 150 } ],
+        "id": "epilogue_faction_old_guard_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "tacoma_commune", "power_max": 150 }, { "faction": "robofac", "power_max": 150 } ],
+        "id": "epilogue_faction_old_guard_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "robofac", "power_min": 150 } ],
+        "id": "epilogue_faction_old_guard_thrive"
+      }
     ],
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
@@ -237,7 +311,26 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_free_merchants_0" },
-      { "power_min": 150, "id": "epilogue_faction_free_merchants_150" }
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ],
+        "id": "epilogue_faction_free_merchants_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_max": 150 } ],
+        "id": "epilogue_faction_free_merchants_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "tacoma_commune", "power_max": 150 } ],
+        "id": "epilogue_faction_free_merchants_150"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ],
+        "id": "epilogue_faction_free_merchants_thrive"
+      }
     ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
@@ -328,7 +421,33 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_tacoma_commune_0" },
-      { "power_min": 150, "id": "epilogue_faction_tacoma_commune_150" }
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "free_merchants", "power_min": 150 } ],
+        "id": "epilogue_faction_tacoma_commune_150"
+      },
+      {
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_tacoma_commune_150_OG"
+      },
+      {
+        "dynamic": [ { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "free_merchants", "power_max": 150 } ],
+        "id": "epilogue_faction_tacoma_commune_revolt"
+      },
+      {
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_max": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_tacoma_commune_revolt_OG"
+      }
     ],
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
@@ -469,8 +588,32 @@
       "your_followers": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_hells_raiders_0" },
-      { "power_min": 150, "id": "epilogue_faction_hells_raiders_150" }
+      {
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_max": 150 } ],
+        "id": "epilogue_faction_hells_raiders_0"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_min": 150 } ],
+        "id": "epilogue_faction_hells_raiders_150"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_max": 150 } ],
+        "id": "epilogue_faction_hells_raiders_stalemate"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_min": 150 } ],
+        "id": "epilogue_faction_hells_raiders_stalemate"
+      },
+      {
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 },
+          { "faction": "exodii", "power_min": 150 },
+          { "faction": "the_great_library", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_hells_raiders_collapse"
+      }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
@@ -608,6 +751,26 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isherwoods_0" },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_isherwoods_OG_FM"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_max": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_isherwoods_OG"
+      },
       { "power_min": 150, "id": "epilogue_faction_isherwoods_150" }
     ],
     "description": "A small family surviving on their generational land."
