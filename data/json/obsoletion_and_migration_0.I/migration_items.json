@@ -1640,17 +1640,17 @@
   {
     "id": "plr16",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "oa93",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "m231pfw",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "moss_brownie",
@@ -1830,6 +1830,11 @@
     "id": "egg_goose_golden",
     "type": "MIGRATION",
     "replace": "egg_goose"
+  },
+  {
+    "id": "ar_pistol",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
   },
   {
     "id": "stabilizer",
