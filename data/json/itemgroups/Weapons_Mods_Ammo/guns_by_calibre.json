@@ -28,7 +28,8 @@
       { "group": "nested_sig_mosquito", "prob": 18 },
       { "group": "nested_cp33", "prob": 9 },
       { "group": "nested_ruger_mk4", "prob": 74 },
-      { "group": "nested_ruger_charger", "prob": 1 }
+      { "group": "nested_ruger_charger", "prob": 1 },
+      { "group": "nested_1911_22", "prob": 40 }
     ]
   },
   {
@@ -123,7 +124,8 @@
       { "item": "sig_mosquito", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 30, "charges": [ 0, -1 ] },
       { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] },
-      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] }
+      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] },
+      { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -221,7 +223,8 @@
       { "item": "rough_rider_pistol_9", "prob": 4 },
       { "item": "cp33", "prob": 14 },
       { "item": "ruger_mk4", "prob": 72 },
-      { "item": "ruger_charger", "prob": 10 }
+      { "item": "ruger_charger", "prob": 10 },
+      { "item": "1911_22", "prob": 50 }
     ]
   },
   {

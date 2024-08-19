@@ -206,17 +206,27 @@
       {
         "text": "I salvaged this combat exoskeleton.  Do you think you could repair it?",
         "condition": {
-          "or": [
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
+          "and": [
+            { "u_has_items": { "item": "combat_exoskeleton_light_salvaged", "count": 1 } },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR"
       },
       {
         "text": "How are my armor repairs coming?",
-        "condition": { "or": [ { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" } ] },
+        "condition": {
+          "and": [
+            { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", ">", "time('now')" ] },
+            {
+              "or": [
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" },
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" },
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
+              ]
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
       },
       {

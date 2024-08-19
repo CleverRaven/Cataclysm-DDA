@@ -158,6 +158,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_shadow_damage_reduction",
+    "name": [ "Shadow Damage Reduction" ],
+    "desc": [ "You are flatter and less real in ways that makes you less susceptible to damage." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "multiply": -0.75 }, { "value": "ARMOR_BASH", "multiply": -0.75 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "creativity",
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],

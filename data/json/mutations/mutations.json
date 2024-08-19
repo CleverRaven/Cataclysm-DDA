@@ -8958,9 +8958,9 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "SEESLEEP", "FROG_EYES" ],
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
+    "prereqs": [ "SEESLEEP", "FROG_EYES", "GILLS_CEPH" ],
+    "category": [ "FISH", "BATRACHIAN", "CEPHALOPOD" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ]
   },
   {
     "type": "mutation",

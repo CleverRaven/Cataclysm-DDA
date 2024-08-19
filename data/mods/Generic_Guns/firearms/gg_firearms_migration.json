@@ -218,7 +218,8 @@
       "cp33",
       "ruger_mk4",
       "rough_rider_pistol",
-      "rough_rider_pistol_9"
+      "rough_rider_pistol_9",
+      "1911_22"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

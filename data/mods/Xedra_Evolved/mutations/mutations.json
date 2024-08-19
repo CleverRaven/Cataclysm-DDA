@@ -25,7 +25,8 @@
     "type": "mutation",
     "id": "DREAMLESS",
     "name": { "str": "Dreamless" },
-    "points": 0,
+    "points": -1,
+    "starting_trait": true,
     "valid": false,
     "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
   },
