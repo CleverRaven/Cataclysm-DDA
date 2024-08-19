@@ -217,6 +217,12 @@
 #include "sdl_utils.h"
 #endif // TILES
 
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -300,6 +306,7 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -2048,7 +2055,7 @@ static hint_rating rate_action_insert( const avatar &you, const item_location &l
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               const inventory_item_menu_position position )
+                               UNUSED const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
@@ -2081,7 +2088,9 @@ int game::inventory_item_menu( item_location locThisItem,
                                                    hint_rating::cant : hint_rating::good;
                 action_menu.reset();
                 action_menu.allow_anykey = true;
+                float popup_width = 0.0;
                 const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
+                    popup_width = std::max( popup_width, ImGui::CalcTextSize( text.c_str() ).x );
                     // The char is used as retval from the uilist *and* as hotkey.
                     action_menu.addentry( key, true, key, text );
                     auto &entry = action_menu.entries.back();
@@ -2138,21 +2147,25 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 oThisItem.info( true, vThisItem );
 
-                action_menu.w_y_setup = 0;
-                action_menu.w_x_setup = [&]( const int popup_width ) -> int {
-                    switch( position )
-                    {
-                        default:
-                        case RIGHT_TERMINAL_EDGE:
-                            return 0;
-                        case LEFT_OF_INFO:
-                            return iStartX() - popup_width;
-                        case RIGHT_OF_INFO:
-                            return iStartX() + iWidth();
-                        case LEFT_TERMINAL_EDGE:
-                            return TERMX - popup_width;
-                    }
-                };
+                popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
+                               ImGui::GetStyle().WindowBorderSize );
+                float x = 0.0;
+                switch( position ) {
+                    default:
+                    case RIGHT_TERMINAL_EDGE:
+                        x = 0.0;
+                        break;
+                    case LEFT_OF_INFO:
+                        x = ( iStartX() * ImGui::CalcTextSize( "X" ).x ) - popup_width;
+                        break;
+                    case RIGHT_OF_INFO:
+                        x = ( iStartX() + iWidth() ) * ImGui::CalcTextSize( "X" ).x;
+                        break;
+                    case LEFT_TERMINAL_EDGE:
+                        x = ImGui::GetMainViewport()->Size.x - popup_width;
+                        break;
+                }
+                action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
                 // Default menu border color is different, this matches the border of the item info window.
@@ -2195,7 +2208,6 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
-                action_menu.vshift = 0;
             } else {
                 cMenu = 0;
             }
@@ -2877,13 +2889,13 @@ void end_screen_ui_impl::draw_controls()
     if( art.is_valid() ) {
         int row = 1;
         for( const std::string &line : art->picture ) {
-            draw_colored_text( line );
+            cataimgui::draw_colored_text( line );
 
             for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
                 if( row ==  info.first.second ) {
                     parse_tags( info.second, u, u );
                     ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
-                    draw_colored_text( info.second );
+                    cataimgui::draw_colored_text( info.second );
                 }
             }
             row++;
@@ -2892,7 +2904,7 @@ void end_screen_ui_impl::draw_controls()
 
     if( !input_label.empty() ) {
         ImGui::NewLine();
-        draw_colored_text( input_label );
+        cataimgui::draw_colored_text( input_label );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
         ImGui::SetKeyboardFocusHere( -1 );
@@ -2909,7 +2921,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 2000 );
 }
 
 void game::death_screen()
@@ -4505,7 +4517,8 @@ void game::mon_info_update( )
                                       p->attitude_to( u ),
                                       npc_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED ;
-            } else {
+            }
+            if( !need_processing ) {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
             }
@@ -5528,7 +5541,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( true );
+                veh->start_engines( &u, true );
             }
         }
     }
@@ -5608,7 +5621,6 @@ bool game::npc_menu( npc &who )
     const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
-
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
@@ -9128,6 +9140,11 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
@@ -9195,7 +9212,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_skin = false;
     bool has_organs = false;
     std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
-    int dissect_wp_hint_lines = 0; // track hint lines so menu width doesn't change
 
     if( index != -1 ) {
         const mtype *dead_mon = corpses[index]->get_mtype();
@@ -9218,7 +9234,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
             }
             if( !dead_mon->families.families.empty() ) {
                 dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
-                dissect_wp_hint_lines += 2;
                 for( const weakpoint_family &wf : dead_mon->families.families ) {
                     std::string prof_status;
                     if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
@@ -9227,7 +9242,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                         prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
                     }
                     dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
-                    dissect_wp_hint_lines++;
                 }
             }
         }
@@ -9275,101 +9289,100 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     uilist smenu;
     smenu.desc_enabled = true;
-    smenu.desc_lines_hint += dissect_wp_hint_lines;
-    smenu.text = _( "Choose type of butchery:" );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ),
-                        is_enabled( butcher_type::QUICK ),
+    smenu.title = _( "Choose type of butchery:" );
+
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used when you are in a hurry, "
-                                          "but still want to harvest something from the corpse. "
-                                          " Yields are lower as you don't try to be precise, "
-                                          "but it's useful if you don't want to set up a workshop.  "
-                                          "Prevents zombies from raising." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used when you are in a hurry, "
+                                   "but still want to harvest something from the corpse. "
+                                   " Yields are lower as you don't try to be precise, "
+                                   "but it's useful if you don't want to set up a workshop.  "
+                                   "Prevents zombies from raising." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FULL ),
                         is_enabled( butcher_type::FULL ),
                         'b', _( "Full butchery" )
                         + progress_str( butcher_type::FULL ),
                         time_or_disabledreason( butcher_type::FULL ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used to properly butcher a corpse, "
-                                          "and requires a rope & a tree or a butchering rack, "
-                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                          "and good tools.  Yields are plentiful and varied, "
-                                          "but it is time consuming." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used to properly butcher a corpse, "
+                                   "and requires a rope & a tree or a butchering rack, "
+                                   "a flat surface (for ex. a table, a leather tarp, etc.) "
+                                   "and good tools.  Yields are plentiful and varied, "
+                                   "but it is time consuming." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ),
                         is_enabled( butcher_type::FIELD_DRESS ),
                         'f', _( "Field dress corpse" )
                         + progress_str( butcher_type::FIELD_DRESS ),
                         time_or_disabledreason( butcher_type::FIELD_DRESS ),
-                        string_format( "%s  %s",
-                                       _( "Technique that involves removing internal organs and "
-                                          "viscera to protect the corpse from rotting from inside.  "
-                                          "Yields internal organs.  Carcass will be lighter and will "
-                                          "stay fresh longer.  Can be combined with other methods for "
-                                          "better effects." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Technique that involves removing internal organs and "
+                                   "viscera to protect the corpse from rotting from inside.  "
+                                   "Yields internal organs.  Carcass will be lighter and will "
+                                   "stay fresh longer.  Can be combined with other methods for "
+                                   "better effects." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::SKIN ),
                         is_enabled( butcher_type::SKIN ),
                         's', _( "Skin corpse" )
                         + progress_str( butcher_type::SKIN ),
                         time_or_disabledreason( butcher_type::SKIN ),
-                        string_format( "%s  %s",
-                                       _( "Skinning a corpse is an involved and careful process that "
-                                          "usually takes some time.  You need skill and an appropriately "
-                                          "sharp and precise knife to do a good job.  Some corpses are "
-                                          "too small to yield a full-sized hide and will instead produce "
-                                          "scraps that can be used in other ways." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Skinning a corpse is an involved and careful process that "
+                                   "usually takes some time.  You need skill and an appropriately "
+                                   "sharp and precise knife to do a good job.  Some corpses are "
+                                   "too small to yield a full-sized hide and will instead produce "
+                                   "scraps that can be used in other ways." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
                         is_enabled( butcher_type::BLEED ),
                         'l', _( "Bleed corpse" )
                         + progress_str( butcher_type::BLEED ),
                         time_or_disabledreason( butcher_type::BLEED ),
-                        string_format( "%s  %s",
-                                       _( "Bleeding involves severing the carotid arteries and jugular "
-                                          "veins, or the blood vessels from which they arise.  "
-                                          "You need skill and an appropriately sharp and precise knife "
-                                          "to do a good job." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Bleeding involves severing the carotid arteries and jugular "
+                                   "veins, or the blood vessels from which they arise.  "
+                                   "You need skill and an appropriately sharp and precise knife "
+                                   "to do a good job." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
                         is_enabled( butcher_type::QUARTER ),
                         'k', _( "Quarter corpse" )
                         + progress_str( butcher_type::QUARTER ),
                         time_or_disabledreason( butcher_type::QUARTER ),
-                        string_format( "%s  %s",
-                                       _( "By quartering a previously field dressed corpse you will "
-                                          "acquire four parts with reduced weight and volume.  It "
-                                          "may help in transporting large game.  This action destroys "
-                                          "skin, hide, pelt, etc., so don't use it if you want to "
-                                          "harvest them later." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "By quartering a previously field dressed corpse you will "
+                                   "acquire four parts with reduced weight and volume.  It "
+                                   "may help in transporting large game.  This action destroys "
+                                   "skin, hide, pelt, etc., so don't use it if you want to "
+                                   "harvest them later." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ),
                         is_enabled( butcher_type::DISMEMBER ),
                         'm', _( "Dismember corpse" )
                         + progress_str( butcher_type::DISMEMBER ),
                         time_or_disabledreason( butcher_type::DISMEMBER ),
-                        string_format( "%s  %s",
-                                       _( "If you're aiming to just destroy a body outright and don't "
-                                          "care about harvesting it, dismembering it will hack it apart "
-                                          "in a very short amount of time but yields little to no usable flesh." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "If you're aiming to just destroy a body outright and don't "
+                                   "care about harvesting it, dismembering it will hack it apart "
+                                   "in a very short amount of time but yields little to no usable flesh." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ),
                         is_enabled( butcher_type::DISSECT ),
                         'd', _( "Dissect corpse" )
                         + progress_str( butcher_type::DISSECT ),
                         time_or_disabledreason( butcher_type::DISSECT ),
-                        string_format( "%s  %s%s",
-                                       _( "By careful dissection of the corpse, you will examine it for "
-                                          "possible bionic implants, or discrete organs and harvest them "
-                                          "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                          "corpse, and consumes a lot of time.  Your medical knowledge "
-                                          "is most useful here." ),
-                                       msgFactorD, dissect_wp_hint ) );
+                        wrap60( string_format( "%s  %s%s",
+                                _( "By careful dissection of the corpse, you will examine it for "
+                                   "possible bionic implants, or discrete organs and harvest them "
+                                   "if possible.  Requires scalpel-grade cutting tools, ruins "
+                                   "corpse, and consumes a lot of time.  Your medical knowledge "
+                                   "is most useful here." ),
+                                msgFactorD, dissect_wp_hint ) ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
@@ -11776,9 +11789,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
     tripoint_bub_ms stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
+    bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) &&
         !u.is_underwater() ) {
         // Climbing
+
         for( const tripoint_bub_ms &p : here.points_in_radius( u.pos_bub(), 2 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
                 adjacent_climb = true;
@@ -11797,7 +11812,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
-                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
+                                    u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
         if( !can_climb_here && !adjacent_climb ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
@@ -11829,6 +11844,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             pts.push_back( stairs.raw() );
         }
 
+        if( climb_flying ) {
+            pts.push_back( stairs.raw() );
+        }
+
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
@@ -11837,8 +11856,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: Make it an extended action
             climbing = true;
             climbing_aid = climbing_aid_furn_CLIMBABLE;
-            u.set_activity_level( EXTRA_EXERCISE );
-            move_cost = cost == 0 ? 1000 : cost + 500;
+
+            if( climb_flying ) {
+                u.set_activity_level( MODERATE_EXERCISE );
+                move_cost = 100;
+            } else {
+                u.set_activity_level( EXTRA_EXERCISE );
+                move_cost = cost == 0 ? 1000 : cost + 500;
+            }
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
@@ -12771,7 +12796,6 @@ void game::display_visibility()
 
             pointmenu_cb callback( locations );
             creature_menu.callback = &callback;
-            creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                 Creature *creature = get_creature_tracker().creature_at<Creature>( locations[creature_menu.ret] );
@@ -12828,7 +12852,6 @@ void game::display_lighting()
             lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
         }
 
-        lighting_menu.w_y_setup = 0;
         lighting_menu.query();
         if( ( lighting_menu.ret >= 0 ) &&
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
@@ -13108,6 +13131,13 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
+    bool climb_flying = u.has_flag( json_flag_CLIMB_FLYING );
+
+    // If you're levitating or flying, there's nothing to slip on
+    if( climb_flying ) {
+        slip = 0;
+    }
+
     if( parkour && badknees ) {
         if( show_chance_messages ) {
             add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
@@ -13133,7 +13163,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
             get_body_part_flags::primary_type ) ) {
-        if( u.get_part_wetness( bp ) > 0 ) {
+        if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
             wet_feet = true;
@@ -13143,7 +13173,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
             get_body_part_flags::primary_type ) ) {
-        if( u.get_part_wetness( bp ) > 0 ) {
+        if( u.get_part_wetness( bp ) > 0 && !climb_flying ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
             wet_hands = true;
@@ -13412,24 +13442,27 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     }
 
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
+    bool levitating = u.has_flag( json_flag_LEVITATION );
     bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
-    if( seems_perfectly_safe ) {
-        query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
-    } else if( slip_chance < 3 ) {
-        query = _( "It <color_green>seems safe</color> to climb down like this." );
-    } else if( slip_chance < 8 ) {
-        query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
-    } else if( slip_chance < 20 ) {
-        query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
-    } else if( slip_chance < 50 ) {
-        query = _( "It <color_red>seems very risky</color> to climb down like this." );
-    } else if( slip_chance < 80 ) {
-        query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
-    } else {
-        query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+    if( !levitating ) {
+        if( seems_perfectly_safe ) {
+            query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
+        } else if( slip_chance < 3 ) {
+            query = _( "It <color_green>seems safe</color> to climb down like this." );
+        } else if( slip_chance < 8 ) {
+            query = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
+        } else if( slip_chance < 20 ) {
+            query = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
+        } else if( slip_chance < 50 ) {
+            query = _( "It <color_red>seems very risky</color> to climb down like this." );
+        } else if( slip_chance < 80 ) {
+            query = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
+        } else {
+            query = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+        }
     }
 
-    if( !seems_perfectly_safe ) {
+    if( !seems_perfectly_safe && !levitating ) {
         std::string hint_fall_damage;
         if( damage_estimate >= 100 ) {
             hint_fall_damage = _( "Falling <color_pink>would kill you</color>." );
@@ -13448,7 +13481,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         query += hint_fall_damage;
     }
 
-    if( fall.height > aid.down.max_height ) {
+    if( fall.height > aid.down.max_height && !levitating ) {
         // Warn the player that they will fall even after a successful climb
         int remaining_height = fall.height - aid.down.max_height;
         query += "\n";
@@ -13466,16 +13499,18 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // Note, this easy_climb_back_up can be set by factors other than the climbing aid.
     bool easy_climb_back_up = false;
     std::string hint_climb_back;
-    if( estimated_climb_cost <= 0 ) {
-        hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
-    } else if( estimated_climb_cost < 200 ) {
-        hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
-        easy_climb_back_up = true;
-    } else {
-        hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
+    if( !levitating ) {
+        if( estimated_climb_cost <= 0 ) {
+            hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
+        } else if( estimated_climb_cost < 200 ) {
+            hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
+            easy_climb_back_up = true;
+        } else {
+            hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
+        }
+        query += "\n";
+        query += hint_climb_back;
     }
-    query += "\n";
-    query += hint_climb_back;
 
     std::string query_prompt = _( "Climb down?" );
     if( !aid.down.confirm_text.empty() ) {

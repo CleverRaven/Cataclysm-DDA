@@ -655,6 +655,7 @@
             "glock_19": 1,
             "hk_mp5": 1,
             "p08": 1,
+            "draco_9mm": 1,
             "mauser_c96": 1,
             "mp40": 1,
             "ksub2000": 1,
@@ -689,6 +690,7 @@
           "type": "22",
           "weight": 204,
           "items": {
+            "1911-22": 1,
             "marlin_9a": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
@@ -699,6 +701,7 @@
             "ruger_charger": 1,
             "ruger_charger_auto": 1,
             "ruger_1022_auto": 1,
+            "ruger_mk4": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
             "rossi_gallery": 1
@@ -709,7 +712,6 @@
           "weight": 125,
           "items": {
             "ar15": 1,
-            "ar_pistol": 1,
             "famas": 1,
             "scar_l": 1,
             "m16a4": 1,
@@ -718,6 +720,7 @@
             "m249_semi": 1,
             "m27_assault_rifle": 1,
             "m4_carbine": 1,
+            "modular_ar_pistol": 1,
             "ruger_mini": 1,
             "sig_assault_rifle": 1,
             "sl8": 1,
@@ -782,7 +785,18 @@
         {
           "type": "762",
           "weight": 34,
-          "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
+          "items": {
+            "ak47": 1,
+            "arx160": 1,
+            "sks": 1,
+            "aksemi": 1,
+            "draco": 1,
+            "draco_mini": 1,
+            "draco_micro": 1,
+            "mk47": 1,
+            "vz58_p": 1,
+            "bren2_762": 1
+          }
         },
         { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1 } },
         {
@@ -955,9 +969,9 @@
           "type": "pistols",
           "weight": 616,
           "items": {
+            "1911_22": 1,
             "2_shot_special": 1,
             "90two40": 1,
-            "ar_pistol": 1,
             "ashot": 1,
             "bfr": 1,
             "bond_410": 1,
@@ -968,6 +982,9 @@
             "cz75": 1,
             "deagle_44": 1,
             "draco": 1,
+            "draco_9mm": 1,
+            "draco_micro": 1,
+            "draco_mini": 1,
             "emp_frond": 1,
             "feral_m9": 1,
             "fn1910": 1,
@@ -1003,6 +1020,7 @@
             "mauser_m714": 1,
             "minidraco556": 1,
             "model_10_revolver": 1,
+            "modular_ar_pistol": 1,
             "chiappa_rhino": 1,
             "p08": 1,
             "p220_10": 1,
@@ -1023,6 +1041,7 @@
             "rugerlcp": 1,
             "ruger_lcr_22": 1,
             "ruger_lcr_38": 1,
+            "ruger_mk4": 1,
             "ruger_redhawk": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,

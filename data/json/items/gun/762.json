@@ -174,26 +174,28 @@
   },
   {
     "id": "draco",
+    "//": "Based off of https://www.centuryarms.com/draco-pistol.html",
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AK \"pistol\"", "str_pl": "AK \"pistols\"" },
-    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
+    "name": { "str": "AK pistol" },
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "draco",
-        "name": { "str": "Mini Draco \"pistol\"", "str_pl": "Mini Draco \"pistols\"" },
-        "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike."
+        "name": { "str": "Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel."
       }
     ],
-    "weight": "2563 g",
-    "volume": "1286 ml",
-    "longest_side": "46 cm",
+    "weight": "2495 g",
+    "volume": "1716 ml",
+    "longest_side": "562 mm",
     "barrel_length": "311 mm",
-    "price": "725 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": -5,
+    "price": "1045 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "//1": "Surface as line, as there's only 1 face to hit something with, and requires a really weird grip angle",
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -213,7 +215,97 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "draco_mini",
+    "//": "Based off of https://www.centuryarms.com/mini-draco-pistol.html",
+    "copy-from": "pistol_base",
+    "looks_like": "draco",
+    "type": "GUN",
+    "name": { "str": "Small AK pistol" },
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Mini Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified."
+      }
+    ],
+    "weight": "2563 g",
+    "volume": "1332 ml",
+    "longest_side": "460 mm",
+    "barrel_length": "197 mm",
+    "price": "1045 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "//1": "Surface as line, as there's only 1 face to hit something with, and requires a really weird grip angle",
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762" ],
+    "dispersion": 280,
+    "durability": 7,
+    "min_cycle_recoil": 1832,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "draco_micro",
+    "//": "Based off of https://www.centuryarms.com/micro-draco-pistol.html",
+    "copy-from": "pistol_base",
+    "looks_like": "draco",
+    "type": "GUN",
+    "name": { "str": "Tiny AK pistol" },
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has a distinctive, oddly curvy handguard.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Micro Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Micro Draco, the smallest, with a 6.25\" barrel.  It has a distinctive, oddly curvy handguard."
+      }
+    ],
+    "weight": "2200 g",
+    "volume": "1072 ml",
+    "longest_side": "388 mm",
+    "barrel_length": "159 mm",
+    "price": "1055 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "//1": "Surface as line, as there's only 1 face to hit something with, and requires a really weird grip angle",
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762" ],
+    "dispersion": 340,
+    "durability": 7,
+    "min_cycle_recoil": 1832,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "mk47",

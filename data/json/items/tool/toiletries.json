@@ -65,7 +65,7 @@
     "id": "elec_hairtrimmer",
     "type": "TOOL",
     "name": { "str": "electric hair trimmer" },
-    "description": "A pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 10 units of charge per use.",
+    "description": "A pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 1 unit of charge per use.",
     "weight": "138 g",
     "volume": "191 ml",
     "longest_side": "15 cm",
@@ -76,7 +76,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       {

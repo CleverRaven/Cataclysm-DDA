@@ -311,18 +311,22 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "GENERIC",
-    "id": "superglue",
+    "type": "AMMO",
+    "id": "super_glue",
     "category": "spare_parts",
     "symbol": ",",
+    "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "A tube of strong glue.  Used in many crafting recipes.",
-    "price": "18 USD",
+    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favourite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
+    "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "weight": "8 g",
-    "volume": "10 ml",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "ammo_type": "superglue",
+    "//": "1 charge of superglue should cover an area of 5mm^2",
+    "count": 40,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -332,7 +336,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str_sp": "rubber cement" },
-    "looks_like": "superglue",
+    "looks_like": "super_glue",
     "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": "18 USD",
     "price_postapoc": "80 cent",
@@ -2670,7 +2674,7 @@
     "price_postapoc": "0 cent",
     "material": [ "soil" ],
     "weight": "1750 g",
-    "volume": "750 ml",
+    "volume": "2250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "target": "adobe_brick",
@@ -2719,42 +2723,37 @@
   },
   {
     "type": "GENERIC",
-    "id": "tanbark",
+    "abstract": "bark_abstract",
     "symbol": ",",
     "color": "brown",
-    "name": { "str_sp": "tanbark" },
-    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark" },
+    "description": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
-    "weight": "323 g",
+    "weight": "200 g",
     "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanbark",
+    "name": { "str": "piece of tanbark", "str_pl": "pieces of tanbark" },
+    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
     "id": "birchbark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "birchbark" },
+    "name": { "str": "piece of birchbark", "str_pl": "pieces of birchbark" },
     "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "wood" ],
-    "weight": "323 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
     "id": "willowbark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str_sp": "willowbark" },
+    "name": { "str": "piece of willowbark", "str_pl": "pieces of willowbark" },
     "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wood" ],
-    "weight": "323 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
@@ -3761,15 +3760,9 @@
   {
     "type": "GENERIC",
     "id": "alder_bark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str_sp": "alder bark" },
+    "name": { "str": "piece of alder bark", "str_pl": "pieces of alder bark" },
     "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wood" ],
-    "weight": "200 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "id": "wallet",

@@ -359,7 +359,7 @@
   },
   {
     "type": "item_group",
-    "id": "harddrugs",
+    "id": "harddrugs_residential",
     "items": [
       { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
       { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_1_10" },
@@ -376,9 +376,13 @@
       { "prob": 3, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       [ "survnote", 1 ],
       { "prob": 4, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
-      [ "flu_shot", 5 ],
       [ "syringe", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "harddrugs",
+    "items": [ { "group": "harddrugs_residential", "prob": 133 }, { "item": "flu_shot", "prob": 5 } ]
   },
   {
     "type": "item_group",

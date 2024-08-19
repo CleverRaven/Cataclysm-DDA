@@ -28,7 +28,8 @@
       { "group": "nested_sig_mosquito", "prob": 18 },
       { "group": "nested_cp33", "prob": 9 },
       { "group": "nested_ruger_mk4", "prob": 74 },
-      { "group": "nested_ruger_charger", "prob": 1 }
+      { "group": "nested_ruger_charger", "prob": 1 },
+      { "group": "nested_1911_22", "prob": 40 }
     ]
   },
   {
@@ -88,6 +89,25 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_762_39",
+    "items": [
+      { "group": "nested_draco", "prob": 10 },
+      { "group": "nested_draco_mini", "prob": 5 },
+      { "group": "nested_draco_micro", "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_223",
+    "items": [ { "group": "nested_ar_pistol", "prob": 8 }, { "group": "nested_ar_pistol_long", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_300",
+    "items": [ { "group": "nested_ar_pistol_300", "prob": 2 }, { "group": "nested_ar_pistol_300_long", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
   },
@@ -114,7 +134,8 @@
       { "item": "sig_mosquito", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 30, "charges": [ 0, -1 ] },
       { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] },
-      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] }
+      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] },
+      { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -212,7 +233,8 @@
       { "item": "rough_rider_pistol_9", "prob": 4 },
       { "item": "cp33", "prob": 14 },
       { "item": "ruger_mk4", "prob": 72 },
-      { "item": "ruger_charger", "prob": 10 }
+      { "item": "ruger_charger", "prob": 10 },
+      { "item": "1911_22", "prob": 50 }
     ]
   },
   {
@@ -278,6 +300,21 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_display_762_39",
+    "items": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_223",
+    "items": [ { "group": "ar_pistol", "prob": 8 }, { "group": "ar_pistol_long", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_300",
+    "items": [ { "group": "ar_pistol_300", "prob": 2 }, { "group": "ar_pistol_300_long", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_display_other",
     "items": [ { "item": "kp32", "prob": 5 }, { "item": "taurus_judge", "prob": 9 } ]
   },
@@ -287,7 +324,8 @@
     "items": [
       { "group": "nested_90two", "prob": 20 },
       { "group": "nested_usp_9mm", "prob": 13 },
-      { "group": "nested_p08", "prob": 7 }
+      { "group": "nested_p08", "prob": 7 },
+      { "group": "nested_draco_9mm", "prob": 14 }
     ]
   },
   {
@@ -304,11 +342,6 @@
     "type": "item_group",
     "id": "guns_pistol_rare_40",
     "items": [ { "group": "nested_90two40", "prob": 2 }, { "group": "nested_sig_40", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_762",
-    "items": [ { "group": "nested_draco", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -357,7 +390,12 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_display_9mm",
-    "items": [ { "item": "m9", "variant": "90two", "prob": 5 }, { "item": "usp_9mm", "prob": 48 }, { "item": "p08", "prob": 5 } ]
+    "items": [
+      { "item": "m9", "variant": "90two", "prob": 5 },
+      { "item": "usp_9mm", "prob": 48 },
+      { "item": "p08", "prob": 5 },
+      { "item": "draco_9mm", "prob": 21 }
+    ]
   },
   {
     "type": "item_group",
@@ -368,11 +406,6 @@
     "type": "item_group",
     "id": "guns_pistol_rare_display_40",
     "items": [ { "item": "90two40", "prob": 2 }, { "item": "sig_40", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_762",
-    "items": [ { "item": "draco", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -500,7 +533,6 @@
     "type": "item_group",
     "id": "guns_rifle_common_worn_223",
     "items": [
-      { "item": "ar_pistol", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "ruger_mini", "prob": 1, "charges": [ 0, 5 ] },
       { "item": "ak556", "prob": 2, "charges": [ 0, 30 ] },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges": [ 0, 30 ] },

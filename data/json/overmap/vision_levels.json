@@ -37,6 +37,16 @@
     "levels": [ { "name": "tower", "sym": "0", "color": "light_gray" }, { "name": "tower", "sym": "0", "color": "light_gray" } ]
   },
   {
+    "id": "isolated_camp",
+    "//": "If there's a tent, it's a camp",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "tent", "sym": ";", "color": "light_gray", "looks_like": "campsite" },
+      { "name": "camp", "sym": "+", "color": "light_gray", "looks_like": "campsite" },
+      { "name": "camp", "sym": "+", "color": "light_gray", "looks_like": "campsite" }
+    ]
+  },
+  {
     "id": "island",
     "//": "any island",
     "type": "oter_vision",

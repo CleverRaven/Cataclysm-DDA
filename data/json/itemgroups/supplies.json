@@ -235,7 +235,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       { "item": "duct_tape", "prob": 200, "charges": [ 50, 200 ] },
-      [ "superglue", 100 ],
+      { "group": "superglue", "prob": 100 },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rubber_cement", 50 ],
@@ -336,7 +336,7 @@
   {
     "type": "item_group",
     "id": "supplies_woodcrafts",
-    "items": [ [ "superglue", 40 ], [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
+    "items": [ { "group": "superglue", "prob": 40 }, [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
   },
   {
     "id": "supplies_hardware",
@@ -363,7 +363,7 @@
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "group": "superglue", "prob": 30 },
       [ "rubber_cement", 25 ],
       [ "magnet", 10 ],
       [ "chain", 20 ],
@@ -756,7 +756,7 @@
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
       { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 5 },
+      { "group": "superglue", "prob": 5 },
       { "group": "ammo_pocket_batteries", "prob": 5 },
       { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "office_holepunch", 10 ],
@@ -795,7 +795,7 @@
       { "group": "writing_utensils", "prob": 35 },
       [ "file", 15 ],
       { "item": "duct_tape", "prob": 15, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 15 },
+      { "group": "superglue", "prob": 15 },
       [ "file", 15 ],
       [ "office_holepunch", 15 ],
       [ "bubblewrap", 15 ],

@@ -949,7 +949,22 @@ void resonance_cascade( const tripoint &p )
 
 void process_explosions()
 {
-    for( const queued_explosion &ex : _explosions ) {
+    if( _explosions.empty() ) {
+        return;
+    }
+
+    // Need to copy and clear this vector before processing the explosions.
+    // Part of processing in `_make_explosion` is handing out shrapnel damage,
+    // which might kill monsters. That might have all sorts of consequences,
+    // such as running eocs, loading new maps (via eoc) or other explosions
+    // being added. There is therefore a chance that we might recursively
+    // enter this function again during explosion processing, and we need to
+    // guard against references becoming invalidated either by items being
+    // added to the vector, or us clearing it here.
+    std::vector<queued_explosion> explosions_copy( _explosions );
+    _explosions.clear();
+
+   for( const queued_explosion &ex : _explosions_copy ) {
         const int safe_range = ex.data.safe_range();
         map  *bubble_map = &get_map();
         const tripoint_bub_ms bubble_pos( bubble_map->bub_from_abs( ex.pos ) );
@@ -970,7 +985,6 @@ void process_explosions()
             _make_explosion( bubble_map, ex.source, bubble_map->bub_from_abs( ex.pos ), ex.data );
         }
     }
-    _explosions.clear();
 }
 
 } // namespace explosion_handler

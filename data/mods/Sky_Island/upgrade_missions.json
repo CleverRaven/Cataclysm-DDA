@@ -195,7 +195,7 @@
       [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
+      [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
       [ [ "medium_battery_cell", 2 ], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
@@ -1507,6 +1507,7 @@
         { "u_learn_recipe": "recipe_craft_random_artifact" },
         { "u_learn_recipe": "warp_vortex_token" },
         { "u_learn_recipe": "warphaulbag" },
+        { "u_learn_recipe": "sky_island_warped_pond" },
         {
           "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
           "type": "mixed"
@@ -2354,7 +2355,7 @@
       [ [ "2x4", 4 ] ],
       [ [ "glass_shard", 150 ] ],
       [ [ "chunk_rubber", 5 ] ],
-      [ [ "superglue", 2 ] ],
+      [ [ "super_glue", 20 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2417,7 +2418,7 @@
       [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
       [ [ "glass_sheet", 3 ] ],
       [ [ "mirror", 1 ] ],
-      [ [ "superglue", 5 ] ],
+      [ [ "super_glue", 40 ] ],
       [ [ "frame_wood", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
@@ -3080,7 +3081,7 @@
     "id": "SKYISLAND_BUILD_northroom1",
     "type": "mission_definition",
     "name": "Construct: North Room 1",
-    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: north Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom1",
     "count": 1,
@@ -3113,7 +3114,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (North)" },
-    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: north Room 1",
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 1",
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",

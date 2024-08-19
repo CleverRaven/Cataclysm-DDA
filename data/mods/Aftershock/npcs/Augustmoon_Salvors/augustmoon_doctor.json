@@ -83,13 +83,13 @@
     },
     "responses": [
       {
-        "text": "[4 HGC, 30m] I need you to patch me up.",
+        "text": "[1200$, 30m] I need you to patch me up.",
         "topic": "TALK_MERCURIAL_DOCTOR_AID_DONE",
         "effect": [ { "u_spend_cash": 120000, "true_eocs": { "id": "give_a_aid", "effect": "give_aid" } } ],
         "condition": { "npc_service": 120000 }
       },
       {
-        "text": "[8 HGC, 1h] I need you to patch my friends up.",
+        "text": "[2400$, 1h] I need you to patch my friends up.",
         "topic": "TALK_MERCURIAL_DOCTOR_AID_DONE",
         "effect": { "u_spend_cash": 240000, "true_eocs": { "id": "give_a_all_aid", "effect": "give_all_aid" } },
         "condition": { "npc_service": 240000 }
