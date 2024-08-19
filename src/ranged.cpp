@@ -725,7 +725,6 @@ bool Character::handle_gun_damage( item &it )
     }
 
     const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * 1.8;
-    bool u_know_round_in_chamber = it.has_var( "u_know_round_in_chamber" );
 
     add_msg_debug( debugmode::DF_RANGED,
                    "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
