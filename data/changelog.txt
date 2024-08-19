@@ -140,11 +140,7 @@ Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
 Google Maps
-Start with a wallet
 Dynamic trait purifiability
-Added mashed potatoes.
-Allow cephalopods to gain the ability to eat, sleep underwater
-Add rocks to drystone wall recipes
 
 
 ## Content:
@@ -311,14 +307,11 @@ More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
 Neutral NPCs may now be shoved.
 Add game screenshots to data/screenshots
-Update some lore for the New England Community Church.
-Add chance of garbage bags in cleaning supplies for evac shelter
-v2 solar panels now spawn in the world more frequently
-Draco pistol additions
 Add more vision level (at least for FEMA camps, for now)
 Superglue Overhaul
 Added a way to fix cyborgs at rubic's castle
-Adds a .22 LR 1911
+Added mashed potatoes.
+Allow cephalopods to gain the ability to eat, sleep underwater
 
 
 ## Interface:
@@ -400,13 +393,6 @@ Removes XS/XXXL traits from the player display
 Fix message 'There is nothing to pickup'
 migrate uilist implementation to use ImGui
 Allow ebooks in read command
-make uilist menus render their footer text/item descriptions with color
-offset the vehicle appliance interaction menu so that it doesn't overlap with the appliance info
-Keep uilist menu items lined up with each other even if some do not have hotkeys
-wrap the text in the butchery menu
-wrap the text in the martial arts selection window
-wrap the descriptions in the EOC selector menu
-draw_colored_text should “draw” an empty line if given an empty string
 
 
 ## Mods:
@@ -623,19 +609,12 @@ Document how spellcasting proficiencies work.
 [XE] Add Tier 5 vampire powers
 [MoM] Nether Attunement affects psionic calorie usage
 [Sky Island] Add statue dialogue to let you repeat construction stages
-[MoM] Switch armor overrides to armor extensions
 Add `CLIMB_FLYING` flag, implement it in Magiclysm, MoM and Xedra Evolved
-[MoM] Make Neuro-Acceleration concentration (for self)
-[Xedra Evolved] Turn activated learn-recipe Paraclesian traits into Passive ones
 Add a new psychic animal, the Direhound.
-[MoM] Move Blinding Radiance to concentration
 [Xedra Evolved] Add Purifying the Air sylph spell
 [MoM] Nether-void edits
-[MoM] Further randomize cooldowns
 [Sky Island] Add Warped Pond craft
-[Magiclysm] Update Restore Genetic Stability biomancer spell for new `MUT_INSTABILITY_MOD` effect
 XE Dreamwounds: Locations for spell item drops
-Illuminated Alchemy Perk uses
 
 
 ## Balance:
@@ -722,12 +701,9 @@ Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
 let hospitalized humans revive as zed crawlers
 Cramped space doesn't prevent sleep
-Make aim game toolkit use less power
 rebalance beverage quench based on oral hydration index
 Greatly reduce weak point proficiency learning times.
-Cut huge atomic battery weight in half
 Adjust martial arts to have crit techs that do not require stun
-Make Frog Eyes neutral
 Exclude PARROT special attack from monster difficulty calculations
 
 
@@ -944,44 +920,16 @@ Wrong header restoring saved AIM layout
 Prevent phantom cramped space on empty tiles
 increase Flame Immunity heat resist so you're actually immune to fire for real this time
 Removes superglue recipe
-[MoM] Fix Heightened Reflexes
-[Isolation Protocol] Fix Hypocrit's Oath perk
-[Magiclysm] Fix hand antlers
-Typo fix
-vehicles incorrectly displacing water creatures
-Removes bonus items from naked and afraid profession
-Correct tail hook stock description
-Fixes ocular zombie sight
-Restore gravel yield from pebble crushing
-Fix stack fires
-Powered exoskeletons are now less exerting to operate than unpowered ones, correct powered states to reduce exertion rather than increase it
-Fix for Carnivores being able to eat low-calorie veggies
-[MoM] Fix nether-void speed
 Reading maps will reveal previously partially revealed tiles
 Prevent div by zero crash in mana widget
-The player could pick up the Exodii mission again if they did not report it
-Fix incorrect conductivity/nonconductivity status of several bolts and arrows
-Make scripted unique NPC spawns unavailable as random spawns
 Mutinous NPCs no longer follower your rules
 NPCs can use C4
 Booby trap releases a live grenade that will actually explode
-Prevent segfault when target of firstaid_activity_actor disappears
-Fixes spelling and grammar errors
 [MoM] Powers should not be directly teachable
 Allow operand number formats on g++14
 Prevent segfault when refitting item in spillable container
-[MoM] Fix Combat Dance recoil mod
-Remove gyroscopic stabilizer
-Recipes: Allow speech to be relearnt in the dark
-Armor repair dialogue Hub-01 fixed
 Treat hostile NPCs as unsafe even if your safe mode rules don't match.
-Treat hostile NPCs as unsafe even if your safe mode rules don't match.
-Prevent crash from -1 array idx when searching zones
-Genetic chaos mutates Perks
-Backport 71801 to the 0.H branch
-`npc::wont_hit_friend` causing segfault
-Prevent crash from using invalidated explosion data
-Out of Breath sounds not playing
+Genetic chaos no longer mutates Perks
 
 
 ## Performance:
@@ -1076,7 +1024,6 @@ Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
 Jsonized end screen
 Specify see_cost for overmap terrain with an enum instead of an integer
-Backport #71595 to the 0.H branch.
 Add Flathub download button and Flatpak manifest
 [EOC] Support user-input text in EOC (similar to num_input in `math`)
 Added support for multiple randomized field sprite variants
