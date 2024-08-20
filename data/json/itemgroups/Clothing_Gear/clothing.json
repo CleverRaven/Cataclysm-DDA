@@ -1625,6 +1625,7 @@
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
       [ "fursuit", 5 ],
+      [ "zentai", 5 ],
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],

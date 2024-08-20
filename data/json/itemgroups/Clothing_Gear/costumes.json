@@ -335,6 +335,7 @@
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
       { "item": "fursuit", "prob": 15 },
+      { "item": "clown_suit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
       { "item": "zentai", "prob": 5 }
     ]
