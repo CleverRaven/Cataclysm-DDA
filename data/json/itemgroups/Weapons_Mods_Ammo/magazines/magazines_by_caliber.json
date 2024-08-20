@@ -138,6 +138,29 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_303",
+    "//": "Collections of magazines/strippers for 303 guns that can be found in gunstores.",
+    "items": [ { "item": "enfield_303mag", "prob": 10 }, { "item": "clip303_5rd", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_303",
+    "//": "Collections of magazines for 308 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_fal", "prob": 25 },
+      { "group": "magazines_g3", "prob": 19 },
+      { "group": "magazines_m14", "prob": 300 },
+      { "group": "magazines_m77", "prob": 39 },
+      { "group": "magazines_scarh", "prob": 49 },
+      { "group": "magazines_ar10", "prob": 100 },
+      { "item": "steyr_scout_mag", "prob": 16 },
+      { "item": "ai_308mag_10", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
