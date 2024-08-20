@@ -102,7 +102,7 @@
                             "effect": [
                               { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
                               {
-                                "u_message": "You've done it.  All the pieces finally fall into place. You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
                               { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "=", "1" ] }
