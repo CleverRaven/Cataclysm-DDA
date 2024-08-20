@@ -5063,8 +5063,7 @@ void Character::update_needs( int rate_multiplier )
 
             }
         }
-        if( calendar::once_every( 10_minutes ) &&
-            ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
+        if( calendar::once_every( 10_minutes ) && has_trait( trait_WATERSLEEP ) ) {
             mod_fatigue( -3 ); // Fish sleep less in water
         }
     }
