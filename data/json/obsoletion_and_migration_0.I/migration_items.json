@@ -142,13 +142,13 @@
     "id": "miner_hat",
     "type": "MIGRATION",
     "replace": "hat_hard",
-    "contents": [ { "id": "flashlight" } ]
+    "contents": [ { "id": "flashlight", "count": 1 } ]
   },
   {
     "id": "miner_hat_on",
     "type": "MIGRATION",
     "replace": "hat_hard",
-    "contents": [ { "id": "flashlight" } ]
+    "contents": [ { "id": "flashlight", "count": 1 } ]
   },
   {
     "id": "ts12_aux_shotgun",
