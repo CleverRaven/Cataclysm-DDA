@@ -692,7 +692,11 @@
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         {
-          "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)" ]
+          "math": [
+            "u_vitamin('vitamin_maintained_powers')",
+            ">=",
+            "( u_val('intelligence') / 4) + u_bonus_concentration_powers + concentration_trait_bonuses()"
+          ]
         }
       ]
     },
