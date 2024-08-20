@@ -491,7 +491,11 @@
           { "item": "paper", "charges": 15 },
           { "group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
-          { "item": "spellbook_hedge_abramelin_the_mage" }
+          { "item": "spellbook_hedge_abramelin_the_mage" },
+          { "item": "item_walk_on_water_magic_square", "count": 2 },
+          { "item": "item_food_or_drink_magic_square", "count": 3 },
+          { "item": "item_invisibility_magic_square", "count": 1 },
+          { "item": "item_armed_men_magic_square", "count": 1 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
