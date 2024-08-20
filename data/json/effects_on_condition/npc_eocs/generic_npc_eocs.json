@@ -418,50 +418,222 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NPC_PLAYER_FORGIVENESS",
-    "global": false,
-    "recurrence": "1 hours",
-    "condition": "u_is_npc",
+    "id": "EOC_NPC_FORGIVENESS",
+    "condition": { "expects_vars": [ "anger_increase", "anger_type" ] },
     "effect": [
-      { "u_set_talker": { "global_val": "u_character_id" } },
+      { "npc_set_talker": { "npc_val": "n_character_id" } },
+      { "math": [ "n_val( 'npc_anger' )", "+=", "_anger_increase" ] },
       {
-        "run_eoc_with": {
-          "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT",
-          "effect": [
-            { "u_set_talker": { "u_val": "u_character_id" } },
-            {
-              "if": {
-                "and": [
-                  { "math": [ "n_val( 'npc_anger' )", ">=", "1" ] },
-                  { "not": { "npc_has_var": "npc_has_forgiveness_timer", "value": "yes" } }
-                ]
-              },
-              "then": [
-                { "npc_add_var": "npc_has_forgiveness_timer", "value": "yes" },
-                {
-                  "queue_eoc_with": {
-                    "id": "EOC_NPC_PLAYER_FORGIVENESS_QUEUE_SECONDARY_EFFECT",
-                    "global": false,
-                    "condition": { "u_has_var": "npc_has_forgiveness_timer", "value": "yes" },
-                    "effect": [
-                      { "math": [ "u_val( 'npc_anger' )", "-=", "1" ] },
-                      { "u_lose_var": "npc_has_forgiveness_timer" },
-                      {
-                        "if": { "math": [ "u_val( 'npc_anger' )", "<", "0" ] },
-                        "then": [ { "math": [ "u_val( 'npc_anger' )", "=", "0" ] } ]
-                      }
-                    ]
-                  },
-                  "time_in_future": {
-                    "math": [ "(ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))) * 86400" ]
-                  },
-                  "variables": { "alpha_talker": { "u_val": "u_character_id" } }
-                }
+        "if": { "math": [ "n_val( 'npc_anger' )", "<", "20" ] },
+        "then": [
+          {
+            "if": {
+              "and": [
+                { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
+                { "not": { "npc_has_var": "u_has_forgiveness_timer_minor_offense", "value": "yes" } }
               ]
+            },
+            "then": [
+              { "math": [ "n_max_forgiveness_minor_offense", "+=", "ceil(_anger_increase * 0.75)" ] },
+              {
+                "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_SET_TALKER",
+                "alpha_talker": { "npc_val": "n_character_id" }
+              },
+              { "npc_add_var": "u_has_forgiveness_timer_minor_offense", "value": "yes" }
+            ]
+          },
+          {
+            "if": {
+              "and": [
+                { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
+                { "not": { "npc_has_var": "u_has_forgiveness_timer_personal_affront", "value": "yes" } }
+              ]
+            },
+            "then": [
+              { "math": [ "n_max_forgiveness_personal_affront", "+=", "ceil(_anger_increase * 0.75)" ] },
+              {
+                "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_SET_TALKER",
+                "alpha_talker": { "npc_val": "n_character_id" }
+              },
+              { "npc_add_var": "u_has_forgiveness_timer_personal_affront", "value": "yes" }
+            ]
+          },
+          {
+            "if": {
+              "and": [
+                { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
+                { "not": { "npc_has_var": "u_has_forgiveness_timer_intimidation", "value": "yes" } }
+              ]
+            },
+            "then": [
+              { "math": [ "n_max_forgiveness_intimidation", "+=", "ceil(_anger_increase * 0.75)" ] },
+              {
+                "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_SET_TALKER",
+                "alpha_talker": { "npc_val": "n_character_id" }
+              },
+              { "npc_add_var": "u_has_forgiveness_timer_intimidation", "value": "yes" }
+            ]
+          },
+          {
+            "if": {
+              "and": [
+                { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
+                { "not": { "npc_has_var": "u_has_forgiveness_timer_mission_fail", "value": "yes" } }
+              ]
+            },
+            "then": [
+              { "math": [ "n_max_forgiveness_mission_fail", "+=", "ceil(_anger_increase * 0.75)" ] },
+              {
+                "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_SET_TALKER",
+                "alpha_talker": { "npc_val": "n_character_id" }
+              },
+              { "npc_add_var": "u_has_forgiveness_timer_mission_fail", "value": "yes" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_SET_TALKER",
+    "effect": [
+      { "u_set_talker": { "u_val": "u_character_id" } },
+      {
+        "if": { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
+        "then": {
+          "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MINOR_OFFENSE",
+          "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+          "time_in_future": {
+            "math": [ "(ceil(1 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))) * 86400" ]
+          }
+        }
+      },
+      {
+        "if": { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
+        "then": {
+          "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_PERSONAL_AFFRONT",
+          "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+          "time_in_future": {
+            "math": [ "(ceil(2 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))) * 86400" ]
+          }
+        }
+      },
+      {
+        "if": { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
+        "then": {
+          "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_INTIMIDATION",
+          "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+          "time_in_future": {
+            "math": [ "(ceil(3 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))) * 86400" ]
+          }
+        }
+      },
+      {
+        "if": { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
+        "then": {
+          "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MISSION_FAIL",
+          "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+          "time_in_future": {
+            "math": [ "(ceil(5 + (n_val( 'npc_anger' ) * 0.3) - (n_val( 'npc_value' ) * 0.1) - (n_val( 'npc_trust' ) * 0.1))) * 86400" ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MINOR_OFFENSE",
+    "global": false,
+    "condition": { "and": [ "u_is_npc", { "u_has_var": "u_has_forgiveness_timer_minor_offense", "value": "yes" } ] },
+    "effect": [
+      { "math": [ "u_val( 'npc_anger' )", "-=", "1" ] },
+      { "math": [ "u_max_forgiveness_minor_offense", "-=", "1" ] },
+      {
+        "if": { "math": [ "u_max_forgiveness_minor_offense", ">=", "1" ] },
+        "then": [
+          { "u_set_talker": { "u_val": "u_character_id" } },
+          {
+            "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MINOR_OFFENSE",
+            "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+            "time_in_future": {
+              "math": [ "(ceil(1 + (u_val( 'npc_anger' ) * 0.3) - (u_val( 'npc_value' ) * 0.1) - (u_val( 'npc_trust' ) * 0.1))) * 86400" ]
             }
-          ]
-        },
-        "beta_talker": { "global_val": "u_character_id" }
+          }
+        ],
+        "else": { "u_lose_var": "u_has_forgiveness_timer_minor_offense" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_PERSONAL_AFFRONT",
+    "global": false,
+    "condition": { "and": [ "u_is_npc", { "u_has_var": "u_has_forgiveness_timer_personal_affront", "value": "yes" } ] },
+    "effect": [
+      { "math": [ "u_val( 'npc_anger' )", "-=", "1" ] },
+      { "math": [ "u_max_forgiveness_personal_affront", "-=", "1" ] },
+      {
+        "if": { "math": [ "u_max_forgiveness_personal_affront", ">=", "1" ] },
+        "then": [
+          { "u_set_talker": { "u_val": "u_character_id" } },
+          {
+            "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_PERSONAL_AFFRONT",
+            "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+            "time_in_future": {
+              "math": [ "(ceil(2 + (u_val( 'npc_anger' ) * 0.3) - (u_val( 'npc_value' ) * 0.1) - (u_val( 'npc_trust' ) * 0.1))) * 86400" ]
+            }
+          }
+        ],
+        "else": { "u_lose_var": "u_has_forgiveness_timer_personal_affront" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_INTIMIDATION",
+    "global": false,
+    "condition": { "and": [ "u_is_npc", { "u_has_var": "u_has_forgiveness_timer_intimidation", "value": "yes" } ] },
+    "effect": [
+      { "math": [ "u_val( 'npc_anger' )", "-=", "1" ] },
+      { "math": [ "u_max_forgiveness_intimidation", "-=", "1" ] },
+      {
+        "if": { "math": [ "u_max_forgiveness_intimidation", ">=", "1" ] },
+        "then": [
+          { "u_set_talker": { "u_val": "u_character_id" } },
+          {
+            "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_INTIMIDATION",
+            "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+            "time_in_future": {
+              "math": [ "(ceil(3 + (u_val( 'npc_anger' ) * 0.3) - (u_val( 'npc_value' ) * 0.1) - (u_val( 'npc_trust' ) * 0.1))) * 86400" ]
+            }
+          }
+        ],
+        "else": { "u_lose_var": "u_has_forgiveness_timer_intimidation" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MISSION_FAIL",
+    "global": false,
+    "condition": { "and": [ "u_is_npc", { "u_has_var": "u_has_forgiveness_timer_mission_fail", "value": "yes" } ] },
+    "effect": [
+      { "math": [ "u_val( 'npc_anger' )", "-=", "1" ] },
+      { "math": [ "u_max_forgiveness_mission_fail", "-=", "1" ] },
+      {
+        "if": { "math": [ "u_max_forgiveness_mission_fail", ">=", "1" ] },
+        "then": [
+          { "u_set_talker": { "u_val": "u_character_id" } },
+          {
+            "queue_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_MISSION_FAIL",
+            "variables": { "alpha_talker": { "u_val": "u_character_id" } },
+            "time_in_future": {
+              "math": [ "(ceil(5 + (u_val( 'npc_anger' ) * 0.3) - (u_val( 'npc_value' ) * 0.1) - (u_val( 'npc_trust' ) * 0.1))) * 86400" ]
+            }
+          }
+        ],
+        "else": { "u_lose_var": "u_has_forgiveness_timer_mission_fail" }
       }
     ]
   }
