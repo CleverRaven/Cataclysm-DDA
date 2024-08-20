@@ -269,7 +269,18 @@
     "type": "talk_topic",
     "dynamic_line": "You're really leaving?",
     "responses": [
-      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
+      {
+        "text": "Yeah, I'm sure.  Bye.",
+        "topic": "TALK_DONE",
+        "effect": [
+          "leave",
+          {
+            "run_eoc_with": "EOC_NPC_FORGIVENESS",
+            "variables": { "anger_increase": "1", "anger_type": "minor_offense" }
+          }
+        ],
+        "opinion": { "trust": -2 }
+      },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
   },
