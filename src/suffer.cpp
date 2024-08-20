@@ -648,7 +648,7 @@ void suffer::in_sunlight( Character &you )
 
     const bool leafy = you.has_trait( trait_LEAVES ) ||
                        you.has_trait( trait_LEAVES2 ) ||
-                        you.has_trait( trait_LEAVES3 );
+                       you.has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy ) {
         const bool leafier = you.has_trait( trait_LEAVES2 );
