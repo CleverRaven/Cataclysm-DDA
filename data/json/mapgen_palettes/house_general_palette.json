@@ -637,7 +637,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_messy_palette",
-    "//": "A disorganized and dirty variant of the standard_domestic_palette. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy and dirty look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "//": "A disorganised and dirty variant of the standard_domestic_palette. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy and dirty look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "items": {
       "f": [
         { "item": "dishes_dining", "chance": 50, "repeat": [ 2, 3 ] },

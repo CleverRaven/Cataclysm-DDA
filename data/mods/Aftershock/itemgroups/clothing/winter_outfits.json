@@ -7,21 +7,21 @@
     "items": [ { "group": "afs_wintersuit_science_advanced", "prob": 2 }, { "group": "afs_wintersuit_generic_advanced", "prob": 2 } ]
   },
   {
-    "//": "A group for any generic-flavor advanced civilian piece of clothing",
+    "//": "A group for any generic-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_generic_advanced",
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_cryopod_g", "prob": 1 } ]
   },
   {
-    "//": "A group for any police-flavor advanced civilian piece of clothing",
+    "//": "A group for any police-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_police_advanced",
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "afs_magellan_g", "prob": 2 } ]
   },
   {
-    "//": "A group for any science-flavor advanced civilian piece of clothing",
+    "//": "A group for any science-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_science_advanced",
     "type": "item_group",
     "subtype": "distribution",

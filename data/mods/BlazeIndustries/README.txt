@@ -1,4 +1,4 @@
-WARNING: THIS IS NOT COMPATIBLE NOR MIGRATION READY WITH THE OLD BLAZEMOD. If you want to use the last modernized version of the legacy blazemod,
+WARNING: THIS IS NOT COMPATIBLE NOR MIGRATION READY WITH THE OLD BLAZEMOD. If you want to use the last modernised version of the legacy blazemod,
 please get it from https://github.com/Soup-de-Loop/CDDA-old-complete-blazemod
 Uninstall any turrets and turretframes from your vehicles before updating to it in order to avoid segfaults, some errors might still be thrown but
 it shouldn't crash. Contact me using the options at the end if you need help, and I will try to set aside some time to direct.
@@ -9,7 +9,7 @@ Where did most of the content of blazemod go, you might be wondering? Despite ha
 content is actually quite out of place when compared to each other, and each part including the basic essentials of blazemod deserve to be worked on
 separately and properly implemented into the game rather than being kept in an uneasy limbo or left to be deleted.
 
-If you wish to restore old content that is now modernized, you can get them at the following links, but do not try to use these in conjunction with
+If you wish to restore old content that is now modernised, you can get them at the following links, but do not try to use these in conjunction with
 the legacy blazemod- these are for Blaze Industries only and new weapons will become available in the new mod:
 
 Legacy weapons:   https://github.com/Soup-de-Loop/CDDA-blaze-legacy-weapons

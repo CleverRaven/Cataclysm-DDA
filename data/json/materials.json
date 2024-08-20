@@ -1677,7 +1677,7 @@
     "id": "composite_transp",
     "copy-from": "plastic",
     "name": "Transparent Bullet Resistant Composite",
-    "//2": "This one represents specialized transparent bulletproof composites, mostly employed on military vehicles and in high-value construction (banks).",
+    "//2": "This one represents specialised transparent bulletproof composites, mostly employed on military vehicles and in high-value construction (banks).",
     "resist": { "bash": 5, "cut": 4, "acid": 9, "heat": 1, "bullet": 2 },
     "repair_difficulty": 5
   },

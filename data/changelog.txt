@@ -44,7 +44,7 @@ Cockroaches flee light, hide under furniture, eat corpses, and breed faster when
 Cataclysm and game start dates are to be set through scenarios
 Friendly NPC crafting by crafting menu
 Functionality to drop items off ledges/cliffs onto creatures below
-NPC fleeing behavior adjusted and slightly improved
+NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 Add overheat mechanics to energy guns.
 Sound-triggered traps
@@ -108,7 +108,7 @@ Implement IME pre-edit text for CJK text
 Allow effects disabling (conditional) limb flags
 Threshold substitutions
 Small scale anaerobic digestion system
-Shatter a zombie's torso armor with a good hard hit.
+Shatter a zombie's torso armour with a good hard hit.
 Limbify Feathered Arms, rework gaining Bird Wings
 Unhardcode KI strike / Drunken master
 Make power grids easier to disconnect, reconnect, and merge parts to
@@ -160,7 +160,7 @@ Dead trees can be harvested for wood(once per tree)
 Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
-New conversion kits, guns, and calibers
+New conversion kits, guns, and calibres
 Crashing ship start for Aftershock
 Add more monsters to the nether monster corpse
 Living lore document
@@ -507,7 +507,7 @@ More specific messages for being unable to use supernatural powers
 [MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
 XE: Trait to avoid learning dream magick
 [MoM] Oubliette works on NPCs now
-[MoM] Utilize test_eoc functionality to reduce duplicate conditions
+[MoM] Utilise test_eoc functionality to reduce duplicate conditions
 [MoM] Power maintenance message change
 [DinoMod] Iguanodon
 [Bombastic Perks] Add more perks
@@ -843,7 +843,7 @@ Eddie can talk about his father.
 Fixes issue where ImGui popup doesn't wrap buttons to a new line when the overall length is too long
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
-AIM: Now moving all items will not move favorite items, if other items are present.
+AIM: Now moving all items will not move favourite items, if other items are present.
 Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
 Fixed arrows disappearing when unwielded
@@ -880,7 +880,7 @@ Fix android build
 Clean water in tanks now stays clean
 Webs, sludge, and sap no longer give you superhuman dodge and melee accuracy
 Sealed recipes won't seal #71878
-Readd condom flavors
+Readd condom flavours
 New England Community Church also dislikes rabbit and bat mutants
 fixes appliances turning off randomly
 Fixing drawing of fallback tiles for weather on overmap
@@ -1352,7 +1352,7 @@ Updated brewing recipes and fermentation times to be more realistic
 Add stamina cost to archery
 Change Cut Cotton to Patchwork, add Patchwork to Rags
 Stop regenerating creatures from doing so while on fire
-Adds weak points to the armor of most zombies
+Adds weak points to the armour of most zombies
 Adjusted lockpick crafting
 You can now pry open metal doors with a halligan bar.
 Adjusted how the hoarder morale penalty is calculated with a focus on small pockets and holsters

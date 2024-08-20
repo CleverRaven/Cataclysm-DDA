@@ -26,7 +26,7 @@
     "weight": "365 g",
     "volume": "910 ml",
     "longest_side": "111 mm",
-    "//": "Statistics modeled after https://www.avon-protection.com/media/cttpaix4/avon-protection_cbrncf50-ce-filter_data-sheet_en.pdf",
+    "//": "Statistics modelled after https://www.avon-protection.com/media/cttpaix4/avon-protection_cbrncf50-ce-filter_data-sheet_en.pdf",
     "//2": "Intended to simulate a standard, CBRN-rated filter cartridge with a 40mm NATO thread.",
     "price": "82 USD",
     "price_postapoc": "1 USD 50 cent",

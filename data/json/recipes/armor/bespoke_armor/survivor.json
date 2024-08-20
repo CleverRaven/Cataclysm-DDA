@@ -66,7 +66,7 @@
     "time": "12 h",
     "autolearn": true,
     "//": "probably new waterproof fasteners/waterproof clasps requirement needed, but i am afraid the deduped_requirement_data simply explode after this",
-    "//2": "just realize it could be fixed when #62618 would be introduced, i slap TODO here so if this holy grail would be added, this recipe could be tweaked properly",
+    "//2": "just realise it could be fixed when #62618 would be introduced, i slap TODO here so if this holy grail would be added, this recipe could be tweaked properly",
     "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 12 ], [ "tailoring_nylon_patchwork", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },

@@ -247,7 +247,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                           |
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `vision_levels`   | Id of a `oter_vision` that describes how this overmap terrain will be displayed when there is not full vision of the tile.
-| `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbors, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
+| `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap.  See table below for possible values.                          |
 | `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |

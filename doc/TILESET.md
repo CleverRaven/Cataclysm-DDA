@@ -355,7 +355,7 @@ A minimal version using only the 4 cardinal directions can be achieved with only
 }
 ```
 
-> Note: When drawing using the template, keep in mind that neighbors to rotate towards are where connections are.
+> Note: When drawing using the template, keep in mind that neighbours to rotate towards are where connections are.
 > The directions at the end of each generated file name are ***not*** the directions to rotate to!
 > Rather, they are the opposite.
 
