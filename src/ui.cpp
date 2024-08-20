@@ -61,6 +61,9 @@ void uilist_impl::on_resized()
 
 void uilist_impl::draw_controls()
 {
+    float hotkey_width =
+        ImGui::CalcTextSize( "[X]" ).x + ImGui::GetStyle().ItemSpacing.x;
+
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -108,6 +111,8 @@ void uilist_impl::draw_controls()
                     ImGui::SameLine( 0, 0 );
                     ImGui::Text( "%c", ']' );
                     ImGui::SameLine();
+                } else {
+                    ImGui::SetCursorPosX( hotkey_width );
                 }
                 nc_color color = ( is_selected ?
                                    parent.hilight_color :
@@ -129,8 +134,13 @@ void uilist_impl::draw_controls()
 
     if( parent.desc_enabled ) {
         ImGui::Separator();
-        ImGui::TextWrapped( "%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str()
-                            : parent.footer_text.c_str() );
+        std::string description;
+        if( !parent.footer_text.empty() ) {
+            description = parent.footer_text;
+        } else if( parent.selected >= 0 ) {
+            description = parent.entries[parent.selected].desc;
+        }
+        cataimgui::draw_colored_text( description );
     }
 }
 

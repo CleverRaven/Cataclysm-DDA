@@ -660,6 +660,73 @@ check do you have 3 manuals in inventory
 { "u_has_item_category": "manuals", "count": 3 }
 ```
 
+
+
+### `u_has_items_sum`, `npc_has_items_sum`
+- type: array of pairs, pair is string or [variable object](##variable-object) and int or [variable object](##variable-object)
+- return true if alpha or beta talker has enough items from the list
+- `item` is an item that should be checked;
+- `amount` is amount of items that should be found
+- may be used in pair with `_consume_item_sum`
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you have 10 blankets of any type in the list
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "condition": {
+      "u_has_items_sum": [
+        { "item": "blanket", "amount": 10 },
+        { "item": "blanket_fur", "amount": 10 },
+        { "item": "electric_blanket", "amount": 10 }
+      ]
+    },
+    "effect": [ { "u_message": "true" } ],
+    "false_effect": [ { "u_message": "false" } ]
+  },
+```
+
+Check do you have enough blankets to cover required amount (for example, it return true if you have 5 `blanket` and 10 `electric_blanket` (each contribute 50% to the desired amount))
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "condition": {
+      "u_has_items_sum": [
+        { "item": "blanket", "amount": 10 },
+        { "item": "blanket_fur", "amount": 15 },
+        { "item": "electric_blanket", "amount": 20 }
+      ]
+    },
+    "effect": [ { "u_message": "true" } ],
+    "false_effect": [ { "u_message": "false" } ]
+  },
+```
+
+Variables are also supported
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "condition": {
+      "u_has_items_sum": [
+        { "item": { "global_val": "foo" }, "amount": { "math": "20 + 2" } },
+        { "item": "blanket_fur", "amount": 15 },
+        { "item": "electric_blanket", "amount": 20 }
+      ]
+    },
+    "effect": [ { "u_message": "true" } ],
+    "false_effect": [ { "u_message": "false" } ]
+  },
+```
+
 ### `u_has_bionics`, `npc_has_bionics`
 - type: string or [variable object](##variable-object)
 - return true if alpha or beta talker has specific bionic; `ANY` can be used to return true if any bionic is presented
@@ -2977,7 +3044,17 @@ Store string from `set_string_var` in the variable object `target_var`
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 | "i18n"       | optional | boolean | Whether the string values should be localized | 
+| "string_input" | optional | object | Accepts user input. When using `string_input`, the user will input a string and assign it to `target_var`. If the input is canceled, the value in `set_string_var` will be assigned as the default value. See details in the table below. |
 
+##### String Input Details
+
+| Property | Optionality | Type | Description |
+| --- | --- | --- | --- |
+| "title" | **mandatory** | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
+| "description" | **mandatory** | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "width" | optional | integer | The character length of the input box. Default is 20. |
+| "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
+| "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
 
 ##### Valid talkers:
 
@@ -3007,6 +3084,26 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 Concatenate string of variable `foo` and `bar`
 ```json
 { "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
+```
+
+Get the user input
+```json
+{
+  "id": "EOC_string_input_test",
+  "type": "effect_on_condition",
+  "effect": [
+    {
+      "set_string_var": "",
+      "string_input": {
+        "title": { "i18n": true, "str": "Input a value:" },
+        "description": { "i18n": true, "str": "Just say something" },
+        "width": 30
+      },
+      "target_var": { "context_val": "str" }
+    },
+    { "u_message": "You said: <context_val:str>" }
+  ]
+}
 ```
 
 
@@ -3423,6 +3520,85 @@ removes morale type, delivered by `morale_id`
 { "u_lose_morale": { "context_val": "morale_id" } }
 ```
 
+
+
+#### `u_consume_item_sum`, `npc_consume_item_sum`
+Consumes all items you have in your inventory, treating count as weight
+Effect does not validate do player actually has enough items to consume, use `_has_items_sum`
+See examples for more info
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_unset_flag" / "npc_unset_flag" | **mandatory** | array of pairs, in pair is string or [variable object](##variable-object) | runs the effect |
+| "item"  | **mandatory** | string or [variable object](##variable-object) | id of item that should be removed |
+| "amount"  | **mandatory** | int or [variable object](##variable-object) | amount of items or charges that should be removed |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Consume 10 blankets. Effect allows to be consumed any item, so in this case player may have 3 `blanket`, 2 `blanket_fur`, and 5 `electric_blanket`, and effect would consume all of it
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      {
+        "u_consume_item_sum": [
+          { "item": "blanket", "amount": 10 },
+          { "item": "blanket_fur", "amount": 10 },
+          { "item": "electric_blanket", "amount": 10 }
+        ]
+      }
+    ]
+  },
+```
+Effect is order dependant, meaning first entry in json would be consumed first, then second and so on.  Having 5 `blanket`, 10 `blanket_fur` and 5 `electric_blanket` would result in 5 `blanket` and 5 `blanket_fur` being consumed
+
+
+Variable `amount` is also supported. In this case amount would be also treated as the weight;  In the next example, having 10 `blanket`, 10 `blanket_fur` and 10 `electric_blanket` would be treated as covering 100% of requirement, 10 `blanket` delivering 40%, 10 `blanket_fur` delivering another 40%, and 10 `electric_blanket` delivering the last 20%
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      {
+        "u_consume_item_sum": [
+          { "item": "blanket", "amount": 25 },
+          { "item": "blanket_fur", "amount": 25 },
+          { "item": "electric_blanket", "amount": 50 }
+        ]
+      }
+    ]
+  },
+```
+Because of how variable amount is calculated, it is recommended to put the values with the smallest `amount` on the top;  It would prevent code overshooting, as:
+```c++
+ // example: we have 99 blankets and 1 blanket_fur
+ // json below would result in 99 blankets and 1 blanket_fur consumed
+{ "item": "blanket", "amount": 100 }, { "item": "blanket_fur", "amount": 2 }
+
+// this json, however, would result in 1 blanket_fur and 50 blanket consumed
+{ "item": "blanket_fur", "amount": 2 }, { "item": "blanket", "amount": 100 }
+```
+
+Variables are also supported
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      {
+        "u_consume_item_sum": [
+          { "item": { "global_val": "foo" }, "amount": { "math": "20 + 2" } }
+        ]
+      }
+    ]
+  },
+```
 
 #### `u_add_faction_trust`
  Your character gains trust with the speaking NPC's faction, which affects which items become available for trading from shopkeepers of that faction. Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction

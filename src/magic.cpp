@@ -975,20 +975,20 @@ int spell::duration( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const int leveled_duration = min_leveled_duration( caster );
-    float duration;
-
+    int return_value;
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
-        return rng( std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) ),
-                    std::max( leveled_duration,
-                              static_cast<int>( type->max_duration.evaluate( d ) ) ) );
+        return_value = rng( std::min( leveled_duration,
+                                      static_cast<int>( type->max_duration.evaluate( d ) ) ),
+                            std::max( leveled_duration,
+                                      static_cast<int>( type->max_duration.evaluate( d ) ) ) );
     } else {
         if( type->max_duration.evaluate( d ) >= type->min_duration.evaluate( d ) ) {
-            return std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
+            return_value = std::min( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
         } else {
-            return std::max( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
+            return_value = std::max( leveled_duration, static_cast<int>( type->max_duration.evaluate( d ) ) );
         }
     }
-    return std::max( duration * temp_duration_multiplyer, 0.0f );
+    return std::max( return_value * temp_duration_multiplyer, 0.0f );
 }
 
 std::string spell::duration_string( const Creature &caster ) const
@@ -2621,9 +2621,10 @@ void spellcasting_callback::display_spell_info( size_t index )
     } else if( sp.effect() == "spawn_item" ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             // todo: more user-friendly presentation
-            ImGui::Text( _( "Spawn item group %1$s %2$d times" ),
-                         sp.effect_data().c_str(),
-                         sp.damage( pc ) );
+            const std::string s = string_format( _( "Spawn item group %1$s %2$d times" ),
+                                                 sp.effect_data(),
+                                                 sp.damage( pc ) );
+            ImGui::Text( "%s", s.c_str() );
         } else {
             ImGui::Text( "%s %d %s", _( "Spawn" ), sp.damage( pc ),
                          item::nname( itype_id( sp.effect_data() ), sp.damage( pc ) ).c_str() );

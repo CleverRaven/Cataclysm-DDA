@@ -74,7 +74,7 @@
       { "item": "cotton_patchwork" },
       { "item": "fur" },
       { "item": "leather" },
-      { "item": "superglue" },
+      { "group": "superglue" },
       { "item": "string_36" },
       { "item": "chain" },
       { "item": "processor" },

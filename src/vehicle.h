@@ -928,9 +928,11 @@ class vehicle
          */
         bool mod_hp( vehicle_part &pt, int qty );
 
-        // check if given player controls this vehicle
+        // check if given character controls this vehicle
         bool player_in_control( const Character &p ) const;
-        // check if player controls this vehicle remotely
+        // check if the *player* character controls this vehicle
+        bool player_is_driving_this_veh() const;
+        // check if the given character controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
@@ -1015,7 +1017,8 @@ class vehicle
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        void start_engines( Character *driver = nullptr, bool take_control = false,
+                            bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
@@ -1394,6 +1397,9 @@ class vehicle
         bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
+        bool has_driver() const;
+        // get character that is currently controlling the vehicle's motion
+        Character *get_driver() const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 

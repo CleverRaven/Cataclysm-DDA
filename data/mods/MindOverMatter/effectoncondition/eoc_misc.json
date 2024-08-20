@@ -65,7 +65,12 @@
     "id": "EOC_PSIONICS_PSI_NEUTRALIZED_ENDS_ALL_POWERS",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
-    "condition": { "compare_string": [ "effect_psi_neutralized", { "context_val": "effect" } ] },
+    "condition": {
+      "or": [
+        { "compare_string": [ "effect_psi_neutralized", { "context_val": "effect" } ] },
+        { "compare_string": [ "effect_psi_turn_off_powers", { "context_val": "effect" } ] }
+      ]
+    },
     "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS" ] } ]
   },
   {

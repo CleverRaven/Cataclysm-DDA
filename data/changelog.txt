@@ -140,6 +140,7 @@ Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
 Google Maps
+Dynamic trait purifiability
 
 
 ## Content:
@@ -306,6 +307,11 @@ More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
 Neutral NPCs may now be shoved.
 Add game screenshots to data/screenshots
+Add more vision level (at least for FEMA camps, for now)
+Superglue Overhaul
+Added a way to fix cyborgs at rubic's castle
+Added mashed potatoes.
+Allow cephalopods to gain the ability to eat, sleep underwater
 
 
 ## Interface:
@@ -383,6 +389,10 @@ Zone Manager: "Show All / Hide Distant" highlights selection
 Add sorting by amount and value/volume in advanced inventory search
 Addiction withdrawals are a toggleable distraction
 The filter is reset when you open the construction menu
+Removes XS/XXXL traits from the player display
+Fix message 'There is nothing to pickup'
+migrate uilist implementation to use ImGui
+Allow ebooks in read command
 
 
 ## Mods:
@@ -597,6 +607,14 @@ Document how spellcasting proficiencies work.
 [MoM] Make Oxygen Absorption effect visible
 [MoM] Update morphic reinforcement serum with MUT_INSTABILITY_MOD, switch it and noetic resilience treatment over to `consume_drug` use action
 [XE] Add Tier 5 vampire powers
+[MoM] Nether Attunement affects psionic calorie usage
+[Sky Island] Add statue dialogue to let you repeat construction stages
+Add `CLIMB_FLYING` flag, implement it in Magiclysm, MoM and Xedra Evolved
+Add a new psychic animal, the Direhound.
+[Xedra Evolved] Add Purifying the Air sylph spell
+[MoM] Nether-void edits
+[Sky Island] Add Warped Pond craft
+XE Dreamwounds: Locations for spell item drops
 
 
 ## Balance:
@@ -683,6 +701,10 @@ Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
 let hospitalized humans revive as zed crawlers
 Cramped space doesn't prevent sleep
+rebalance beverage quench based on oral hydration index
+Greatly reduce weak point proficiency learning times.
+Adjust martial arts to have crit techs that do not require stun
+Exclude PARROT special attack from monster difficulty calculations
 
 
 ## Bugfixes:
@@ -898,6 +920,16 @@ Wrong header restoring saved AIM layout
 Prevent phantom cramped space on empty tiles
 increase Flame Immunity heat resist so you're actually immune to fire for real this time
 Removes superglue recipe
+Reading maps will reveal previously partially revealed tiles
+Prevent div by zero crash in mana widget
+Mutinous NPCs no longer follower your rules
+NPCs can use C4
+Booby trap releases a live grenade that will actually explode
+[MoM] Powers should not be directly teachable
+Allow operand number formats on g++14
+Prevent segfault when refitting item in spillable container
+Treat hostile NPCs as unsafe even if your safe mode rules don't match.
+Genetic chaos no longer mutates Perks
 
 
 ## Performance:
@@ -992,6 +1024,9 @@ Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
 Jsonized end screen
 Specify see_cost for overmap terrain with an enum instead of an integer
+Add Flathub download button and Flatpak manifest
+[EOC] Support user-input text in EOC (similar to num_input in `math`)
+Added support for multiple randomized field sprite variants
 
 
 ## Build:

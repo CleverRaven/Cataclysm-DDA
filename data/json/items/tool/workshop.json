@@ -1515,21 +1515,6 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "wool_staple",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "wool staple" },
-    "description": "A natural cluster of wool fibers.  Could be processed into felt patches or yarn.",
-    "weight": "200 g",
-    "volume": "500 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wool" ],
-    "symbol": ",",
-    "color": "white",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "xacto",
     "type": "TOOL",
     "name": { "str": "X-Acto knife", "str_pl": "X-Acto knives" },

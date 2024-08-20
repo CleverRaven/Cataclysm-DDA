@@ -876,6 +876,45 @@ conditional_t::func f_has_items( const JsonObject &jo, const std::string_view me
     }
 }
 
+conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_view member,
+                                     bool is_npc )
+{
+    std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
+
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
+        const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
+        const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
+        item_and_amount.emplace_back( item, amount );
+    }
+    return [item_and_amount, is_npc]( dialogue & d ) {
+        add_msg_debug( debugmode::DF_TALKER, "using _has_items_sum:" );
+
+        itype_id item_to_find;
+        double percent = 0.0f;
+        double count_desired;
+        double count_present;
+        double charges_present;
+        double total_present;
+        for( const auto &pair : item_and_amount ) {
+            item_to_find = itype_id( pair.first.evaluate( d ) );
+            count_desired = pair.second.evaluate( d );
+            count_present = d.actor( is_npc )->get_amount( item_to_find );
+            charges_present = d.actor( is_npc )->charges_of( item_to_find );
+            total_present = std::max( count_present, charges_present );
+            percent += total_present / count_desired;
+
+            add_msg_debug( debugmode::DF_TALKER,
+                           "item: %s, count_desired: %f, count_present: %f, charges_present: %f, total_present: %f, percent: %f",
+                           item_to_find.str(), count_desired, count_present, charges_present, total_present, percent );
+
+            if( percent >= 1 ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_has_item_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2456,6 +2495,7 @@ parsers = {
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
+    {"u_has_items_sum", "npc_has_items_sum", jarg::array, &conditional_fun::f_has_items_sum },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_fun::f_has_item_category },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },

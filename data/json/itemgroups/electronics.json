@@ -7,7 +7,7 @@
       { "item": "voltmeter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "multimeter", "prob": 30, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
-      [ "superglue", 30 ],
+      { "group": "superglue", "prob": 30 },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
