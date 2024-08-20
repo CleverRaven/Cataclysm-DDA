@@ -15,6 +15,14 @@ class Character;
 class JsonObject;
 class item;
 
+/**
+ * Information for evaluating the comfort of a location.
+ *
+ * @details
+ * Some mutations allow mutants to sleep in locations that unmutated characters would find
+ * uncomfortable. Comfort data provides alternative comfort values to locations that fulfill their
+ * conditions, as well as specialized messages for falling asleep under those conditions.
+ */
 struct comfort_data {
     static const int COMFORT_IMPOSSIBLE = -999;
     static const int COMFORT_UNCOMFORTABLE = -7;
@@ -39,8 +47,11 @@ struct comfort_data {
         category category;
         std::string id;
         std::string flag;
+        /** True if the given field's intensity is greater than or equal to this **/
         int intensity = 1;
+        /** True if the given trait is actived **/
         bool active = false;
+        /** If the truth value of the condition should be inverted **/
         bool invert = false;
 
         bool is_condition_true( const Character &guy, const tripoint &p ) const;
@@ -55,8 +66,10 @@ struct comfort_data {
     };
 
     struct response {
+        /** The comfort data that produced this response **/
         const comfort_data *data;
         int comfort;
+        /** The name of a used sleep aid, if one exists **/
         std::string sleep_aid;
         tripoint last_position;
         time_point last_time;
@@ -66,18 +79,26 @@ struct comfort_data {
     };
 
     std::vector<condition> conditions;
+    /** If conditions should be ORed (true) or ANDed (false) together **/
     bool conditions_or = false;
     int base_comfort = COMFORT_NEUTRAL;
+    /** If the human comfort of a location should be added to base comfort **/
     bool add_human_comfort = false;
+    /** If human comfort should be used instead of base comfort when better **/
     bool use_better_comfort = false;
+    /** If comfort from sleep aids should be added to base comfort **/
     bool add_sleep_aids = false;
     message msg_try;
     message msg_hint;
     message msg_sleep;
 
+    /** The comfort data of an unmutated human **/
     static const comfort_data &human();
+    /** The comfort of a location as provided by its furniture/traps/terrain **/
     static int human_comfort_at( const tripoint &p );
+    /** If there is a sleep aid at a location. The sleep aid will be stored in `result` if it exists **/
     static bool try_get_sleep_aid_at( const tripoint &p, item &result );
+    /** Deserializes an int or string to a comfort value (int) and stores it in `member` **/
     static void deserialize_comfort( const JsonObject &jo, bool was_loaded, std::string name,
                                      int &member );
 

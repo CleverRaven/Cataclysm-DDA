@@ -3842,8 +3842,23 @@ class Character : public Creature, public visitable
             const std::function<bool( const item & )> &filter, Character &player_character ) const;
 
         // --------------- Sleep Stuff ---------------
+        /**
+         * Searches mutations for comfort data and returns the least comfortable valid one.
+         *
+         * @details
+         * For mutations with multiple comfort data, the first data with passing conditions is
+         * selected. Out of each mutation with selected comfort data, the comfort data with the
+         * lowest `base_comfort` is selected and returned.
+         */
         const comfort_data &get_comfort_data_for( const tripoint &p ) const;
         const comfort_data &get_comfort_data_for( const tripoint_bub_ms &p ) const;
+        /**
+         * Calculates and caches the comfort of a location. Returns cached comfort if valid.
+         *
+         * @details
+         * Comfort is considered valid until any time has passed or a new location is evaluated.
+         * Gaining or losing mutations does not currently invalidate cached comfort.
+         */
         const comfort_data::response &get_comfort_at( const tripoint &p );
         const comfort_data::response &get_comfort_at( const tripoint_bub_ms &p );
         comfort_data::response comfort_cache;
