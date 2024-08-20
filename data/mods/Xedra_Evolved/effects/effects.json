@@ -1802,7 +1802,7 @@
     "max_duration": "2 h",
     "max_intensity": 120,
     "int_dur_factor": "1 m",
-    "flags": [ "ITEM_WATERPROOFING", "GILLS" ]
+    "flags": [ "ITEM_WATERPROOFING", "GILLS", "EYE_MEMBRANE" ]
   },
   {
     "type": "effect_type",
