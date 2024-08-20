@@ -61,7 +61,7 @@
     "range_increment": 0.2,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 180000,
     "duration_increment": 5000
