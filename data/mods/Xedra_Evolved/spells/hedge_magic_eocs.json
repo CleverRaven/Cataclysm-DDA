@@ -523,34 +523,54 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_MEAT",
-    "effect": [ { "u_spawn_item": "meat_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true } ]
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked meat appears before you."
+      },
+      { "u_spawn_item": "meat_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_CHEESE",
-    "effect": [ { "u_spawn_item": "cheese_hard", "count": { "math": [ "rand(11) + 4" ] }, "suppress_message": true } ]
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some hard cheese appears before you."
+      },
+      { "u_spawn_item": "cheese_hard", "count": { "math": [ "rand(11) + 4" ] }, "suppress_message": true }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_FISH",
-    "effect": [ { "u_spawn_item": "fish_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true } ]
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked fish appears before you."
+      },
+      { "u_spawn_item": "fish_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_BREAD",
-    "effect": [ { "u_spawn_item": "bread", "count": { "math": [ "rand(6) + 2" ] }, "suppress_message": true } ]
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some fresh bread appears before you."
+      },
+      { "u_spawn_item": "bread", "count": { "math": [ "rand(6) + 2" ] }, "suppress_message": true }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_WINE",
     "effect": [
       {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and a bottle of wine appears before you."
+      },
+      {
         "if": { "math": [ "rand(1)", "==", "1" ] },
-        "then": [ { "u_spawn_item": "wine_riesling_summoned", "count": 3, "suppress_message": true } ],
-        "else": [
-          { "u_spawn_item": "bottle_glass", "count": 1, "suppress_message": true },
-          { "u_spawn_item": "wine_noir", "count": 3, "suppress_message": true }
-        ]
+        "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
+        "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
       }
     ]
   }
