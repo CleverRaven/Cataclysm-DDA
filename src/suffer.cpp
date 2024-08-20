@@ -833,14 +833,6 @@ void suffer::from_sunburn( Character &you, bool severe )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.can_use_hood() )
-                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
-                        you.has_trait( trait_NO_LEFT_ARM ) )
-                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
-                        you.has_trait( trait_NO_RIGHT_ARM ) )
-                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
-                        you.has_trait( trait_NO_LEFT_LEG ) )
-                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
-                        you.has_trait( trait_NO_RIGHT_LEG ) )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
                         && you.can_use_collar() ) ) {
