@@ -61,9 +61,6 @@ void uilist_impl::on_resized()
 
 void uilist_impl::draw_controls()
 {
-    float hotkey_width =
-        ImGui::CalcTextSize( "[X]" ).x + ImGui::GetStyle().ItemSpacing.x;
-
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -81,47 +78,58 @@ void uilist_impl::draw_controls()
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );
 
+        float entry_height = ImGui::GetTextLineHeightWithSpacing();
         if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false ) ) {
-            // It would be natural to make the entries into buttons, or
-            // combos, or other pre-built ui elements. For now I am mostly
-            // going to copy the style of the original textual ui elements.
-            for( size_t i = 0; i < parent.fentries.size(); i++ ) {
-                auto entry = parent.entries[parent.fentries[i]];
-                ImGui::PushID( i );
-                ImGuiSelectableFlags_ flags = !entry.enabled ? ImGuiSelectableFlags_Disabled :
-                                              ImGuiSelectableFlags_None;
-                bool is_selected = static_cast<int>( i ) == parent.fselected;
-                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ||
-                    ImGui::IsItemHovered() ) {
-                    parent.fselected = i;
-                    parent.selected = parent.fentries[parent.fselected];
-                }
-                ImGui::SameLine( 0, 0 );
-                if( is_selected ) {
-                    ImGui::SetItemDefaultFocus();
-                    ImGui::SetScrollHereY();
-                }
+            if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
+                ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
+                                         parent.calculated_hotkey_width );
+                ImGui::TableSetupColumn( "primary", ImGuiTableColumnFlags_WidthFixed,
+                                         parent.calculated_label_width );
+                ImGui::TableSetupColumn( "secondary", ImGuiTableColumnFlags_WidthFixed,
+                                         parent.calculated_secondary_width );
 
-                if( entry.hotkey.has_value() ) {
-                    ImGui::Text( "%c", '[' );
-                    ImGui::SameLine( 0, 0 );
-                    nc_color color = is_selected ? parent.hilight_color : parent.hotkey_color;
-                    cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
-                                                  color );
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::Text( "%c", ']' );
-                    ImGui::SameLine();
-                } else {
-                    ImGui::SetCursorPosX( hotkey_width );
+                // It would be natural to make the entries into buttons, or
+                // combos, or other pre-built ui elements. For now I am mostly
+                // going to copy the style of the original textual ui elements.
+                for( size_t i = 0; i < parent.fentries.size(); i++ ) {
+                    auto entry = parent.entries[parent.fentries[i]];
+                    ImGui::TableNextRow( ImGuiTableRowFlags_None, entry_height );
+                    ImGui::TableSetColumnIndex( 0 );
+
+                    ImVec2 rowMin = ImGui::GetCursorScreenPos();
+                    ImVec2 rowMax = ImVec2( rowMin.x + parent.calculated_menu_size.x, rowMin.y + entry_height );
+                    bool is_hovered = ImGui::IsMouseHoveringRect( rowMin, rowMax, false );
+                    if( is_hovered ) {
+                        ImGui::TableSetBgColor( ImGuiTableBgTarget_RowBg1,
+                                                ImColor( ImGui::GetStyle().Colors[ ImGuiCol_HeaderHovered ] ) );
+                        parent.fselected = i;
+                    }
+                    bool is_selected = static_cast<int>( i ) == parent.fselected;
+                    if( is_selected ) {
+                        ImGui::SetItemDefaultFocus();
+                        ImGui::SetScrollHereY();
+                        ImGui::TableSetBgColor( ImGuiTableBgTarget_RowBg1,
+                                                ImColor( ImGui::GetStyle().Colors[ ImGuiCol_HeaderActive ] ) );
+                    }
+
+                    if( entry.hotkey.has_value() ) {
+                        nc_color color = is_selected ? parent.hilight_color : parent.hotkey_color;
+                        cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                                      color );
+                    }
+                    ImGui::TableSetColumnIndex( 1 );
+                    nc_color color = ( is_selected ?
+                                       parent.hilight_color :
+                                       ( entry.enabled || entry.force_color ?
+                                         entry.text_color :
+                                         parent.disabled_color ) );
+                    cataimgui::draw_colored_text( entry.txt, color );
+                    ImGui::TableSetColumnIndex( 2 );
+                    if( !entry.ctxt.empty() ) {
+                        cataimgui::draw_colored_text( entry.ctxt, color );
+                    }
                 }
-                nc_color color = ( is_selected ?
-                                   parent.hilight_color :
-                                   ( entry.enabled || entry.force_color ?
-                                     entry.text_color :
-                                     parent.disabled_color ) );
-                cataimgui::draw_colored_text( entry.txt,
-                                              color );
-                ImGui::PopID();
+                ImGui::EndTable();
             }
         }
         ImGui::EndChild();
@@ -357,6 +365,9 @@ void uilist::init()
     desired_bounds = std::nullopt;
     calculated_bounds = { -1.f, -1.f, -1.f, -1.f };
     calculated_menu_size = { 0.0, 0.0 };
+    calculated_hotkey_width = 0.0;
+    calculated_label_width = 0.0;
+    calculated_secondary_width = 0.0;
     extra_space_left = 0.0;
     extra_space_right = 0.0;
     ret = UILIST_WAIT_INPUT;
@@ -556,6 +567,8 @@ static ImVec2 calc_size( const std::string_view line )
 
 void uilist::calc_data()
 {
+    ImGuiStyle s = ImGui::GetStyle();
+
     std::vector<int> autoassign;
     for( size_t i = 0; i < entries.size(); i++ ) {
         if( entries[ i ].enabled ) {
@@ -594,13 +607,13 @@ void uilist::calc_data()
     bool has_titlebar = !title.empty();
     if( has_titlebar ) {
         title_size = calc_size( title );
-        title_size.y += ImGui::GetStyle().FramePadding.y * 2.0;
+        title_size.y += s.FramePadding.y * 2.0;
     }
 
     ImVec2 text_size = {};
     if( !text.empty() ) {
         text_size = calc_size( text );
-        text_size.y += ImGui::GetStyle().ItemSpacing.y * 2.0;
+        text_size.y += s.ItemSpacing.y * 2.0;
     }
 
     ImVec2 desc_size = {};
@@ -614,10 +627,10 @@ void uilist::calc_data()
         if( desc_size.y <= 0.0 ) {
             desc_enabled = false;
         }
-        desc_size.y += ImGui::GetStyle().ItemSpacing.y * 2.0;
+        desc_size.y += s.ItemSpacing.y * 2.0;
     }
     float additional_height = title_size.y + text_size.y + desc_size.y + 2.0 *
-                              ( ImGui::GetStyle().FramePadding.y + ImGui::GetStyle().WindowBorderSize );
+                              ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
         ImGui::GetMainViewport()->Size.y ) {
@@ -625,26 +638,40 @@ void uilist::calc_data()
                        ImGui::GetTextLineHeightWithSpacing() );
     }
 
-    calculated_menu_size = { 0.0, 0.0 };
+    float padding = 2.0f * s.CellPadding.x;
+    calculated_hotkey_width = ImGui::CalcTextSize( "X" ).x;
+    calculated_label_width = 0.0;
+    calculated_secondary_width = 0.0;
     for( int fentry : fentries ) {
-        calculated_menu_size.x = std::max( calculated_menu_size.x, calc_size( entries[fentry].txt ).x );
+        calculated_label_width = std::max( calculated_label_width, calc_size( entries[fentry].txt ).x );
+        calculated_secondary_width = std::max( calculated_secondary_width,
+                                               calc_size( entries[fentry].ctxt ).x );
     }
-    calculated_menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
+    calculated_menu_size = { 0.0, 0.0 };
+    calculated_menu_size.x += calculated_hotkey_width + padding;
+    calculated_menu_size.x += calculated_label_width + padding;
+    calculated_menu_size.x += calculated_secondary_width + padding;
     calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y - additional_height,
-                                       vmax * ImGui::GetTextLineHeightWithSpacing() ) + ( ImGui::GetStyle().FramePadding.y * 2.0 );
+                                       vmax * ImGui::GetTextLineHeightWithSpacing() ) + ( s.FramePadding.y * 2.0 );
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
     if( callback != nullptr ) {
-        extra_space_left = callback->desired_extra_space_left( ) + ImGui::GetStyle().FramePadding.x;
-        extra_space_right = callback->desired_extra_space_right( ) + ImGui::GetStyle().FramePadding.x;
+        extra_space_left = callback->desired_extra_space_left( ) + s.FramePadding.x;
+        extra_space_right = callback->desired_extra_space_right( ) + s.FramePadding.x;
     }
 
     float longest_line_width = std::max( std::max( title_size.x, text_size.x ),
                                          std::max( calculated_menu_size.x, desc_size.x ) );
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
-                          + 2 * ( ImGui::GetStyle().WindowPadding.x + ImGui::GetStyle().WindowBorderSize );
+                          + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
+
+    if( longest_line_width > calculated_menu_size.x ) {
+        calculated_menu_size.x = longest_line_width;
+        calculated_label_width = calculated_menu_size.x - calculated_hotkey_width - padding -
+                                 calculated_secondary_width - padding - padding;
+    }
 }
 
 void uilist::setup()
