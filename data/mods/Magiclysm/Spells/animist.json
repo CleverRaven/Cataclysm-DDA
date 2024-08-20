@@ -119,7 +119,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -235,7 +235,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_ZOMBIE_SWARM",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "summon_undead" },
+      "switch": { "u_val": "spell_level", "spell": "summon_undead_swarm" },
       "cases": [
         { "case": 0, "effect": { "u_cast_spell": { "id": "summon_zombie_dog" } } },
         { "case": 5, "effect": { "u_cast_spell": { "id": "summon_dog_skeleton" } } },
@@ -263,7 +263,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
