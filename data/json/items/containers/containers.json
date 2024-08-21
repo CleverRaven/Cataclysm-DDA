@@ -4137,7 +4137,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
-    "description": "A small box with an image of children building things.  It's labelled 'Makerspace Learner Kit'.",
+    "description": "A small box with an image of children building things.  It's labeled 'Makerspace Learner Kit'.",
     "ascii_picture": "maker_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",

@@ -1183,7 +1183,7 @@
     "id": "gasfilter_m",
     "category": "tool_magazine",
     "name": { "str_sp": "activated carbon" },
-    "description": "A small amount of coal-derived carbon material with many small pores, used for the adsorption of harmful chemicals.  Most commonly employed within respirator filters, it traps and retains chemical gases and vapour contaminants while allowing filtered air to pass unhindered.  Once all the carbon has been bonded to intruding chemicals, the filter is expired and must be replaced.",
+    "description": "A small amount of coal-derived carbon material with many small pores, used for the adsorption of harmful chemicals.  Most commonly employed within respirator filters, it traps and retains chemical gases and vapor contaminants while allowing filtered air to pass unhindered.  Once all the carbon has been bonded to intruding chemicals, the filter is expired and must be replaced.",
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "1 cent",

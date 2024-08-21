@@ -109,7 +109,7 @@
         "no": { "gendered_line": "You're back.  Have you come to listen to the song?", "relevant_genders": [ "u" ] },
         "yes": {
           "u_has_trait": "seer_mark",
-          "no": { "gendered_line": "Traveller.", "relevant_genders": [ "u" ] },
+          "no": { "gendered_line": "Traveler.", "relevant_genders": [ "u" ] },
           "yes": { "u_female": true, "yes": "Greetings, sister.", "no": "Greetings, brother." }
         }
       }
@@ -274,7 +274,7 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_POSITIVE",
     "dynamic_line": {
-      "gendered_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveller, listen, listen and feel the song.",
+      "gendered_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveler, listen, listen and feel the song.",
       "relevant_genders": [ "u" ]
     },
     "responses": [ { "text": "I… thank you.", "topic": "TALK_BONE_SEER" } ]
