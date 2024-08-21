@@ -172,6 +172,18 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_762",
+    "//": "Collections of magazines for 7.62x39 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_akm", "prob": 100 },
+      { "group": "magazines_bren2762", "prob": 44 },
+      { "group": "magazines_ar762", "prob": 19 },
+      { "item": "762x39_clip", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
