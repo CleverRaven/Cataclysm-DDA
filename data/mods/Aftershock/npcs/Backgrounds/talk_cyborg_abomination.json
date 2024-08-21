@@ -104,7 +104,13 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
-          "effect": ["follow",{ "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "4", "anger_type": "intimidation" } }],
+          "effect": [
+            "follow",
+            {
+              "run_eoc_with": "EOC_NPC_FORGIVENESS",
+              "variables": { "anger_increase": "4", "anger_type": "intimidation" }
+            }
+          ],
           "opinion": { "trust": -4, "fear": 3, "value": -1 }
         },
         "failure": {
