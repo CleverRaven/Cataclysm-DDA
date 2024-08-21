@@ -25,8 +25,8 @@
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -47,8 +47,8 @@
     "id": "ig_vp_sheet_metal",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 3, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "sheet_metal_small", "count": [ 2, 8 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
       { "item": "scrap", "count": [ 8, 10 ] }
     ]
   },
