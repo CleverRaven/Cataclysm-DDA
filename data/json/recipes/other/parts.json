@@ -121,42 +121,6 @@
     "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "cable", 1 ] ] ]
   },
   {
-    "//": "TODO MAKE A RECIPE FOR THIS AND A BOOK",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "exodii_wire_kit",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "4 m",
-    "using": [ [ "soldering_standard", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exodii_micro_computer", 1 ] ],
-      [ [ "exodii_micro_module", 1 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "clockworks", 1 ] ],
-      [ [ "solder_wire", 2 ] ]
-    ]
-  },
-  {
-    "//": "TODO MAKE A RECIPE FOR THIS AND A BOOK",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "exodii_ac_kit",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "4 m",
-    "using": [ [ "soldering_standard", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exodii_micro_module", 1 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "clockworks", 2 ] ],
-      [ [ "solder_wire", 2 ] ],
-      [ [ "pipe", 1 ] ]
-    ]
-  },
-  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "power_supply",
