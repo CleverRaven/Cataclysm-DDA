@@ -37,7 +37,7 @@
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
-	"material": [ "lc_steel" ]
+    "material": [ "lc_steel" ],
     "weight": "20000 g",
     "to_hit": -5,
     "color": "cyan",

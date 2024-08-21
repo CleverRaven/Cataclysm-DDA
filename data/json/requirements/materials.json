@@ -686,11 +686,5 @@
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
     "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
-  },
-  {
-	"id": "any_wire"
-	"type": "requirement",
-	"//": "Non-graded legacy steel wire and mild steel wire"
-	"components": [ [ [ "wire", 1 ], [ "lc_wire", 1 ] ] ]
   }
 ]
