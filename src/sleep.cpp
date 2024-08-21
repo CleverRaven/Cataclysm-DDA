@@ -269,7 +269,7 @@ void comfort_data::response::add_try_msgs( const Character &guy ) const
             } else {
                 name = ter->name();
             }
-            if( comfort <= 2 ) {
+            if( comfort >= -2 ) {
                 //~ %s: terrain/furniture/trap name
                 guy.add_msg_if_player( m_bad, _( "It's a little hard to get to sleep on this %s." ), name );
             } else {
