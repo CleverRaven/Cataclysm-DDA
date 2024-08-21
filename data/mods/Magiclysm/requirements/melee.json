@@ -1,0 +1,310 @@
+[
+  {
+    "id": "basic_maces",
+    "type": "requirement",
+    "//": "Any basic thing you can use as a mace.",
+    "extend": {
+      "tools": [ [ [ "bat_plus_one", -1 ], [ "bat_plus_two", -1 ], [ "bat_metal_plus_one", -1 ], [ "bat_metal_plus_two", -1 ] ] ]
+    }
+  },
+  {
+    "id": "basic_spears",
+    "type": "requirement",
+    "//": "Any given item that can be used as a spear.  Reserved for crappier things.",
+    "extend": { "tools": [ [ [ "rune_biomancer_weapon", -1 ], [ "rune_biomancer_weapon_adept", -1 ] ] ] }
+  },
+  {
+    "id": "real_maces",
+    "type": "requirement",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independantly swing (those are flails).",
+    "extend": {
+      "tools": [ [ [ "mace_plus_one", -1 ], [ "mace_plus_two", -1 ], [ "morningstar_plus_one", -1 ], [ "morningstar_plus_two", -1 ] ] ]
+    }
+  },
+  {
+    "id": "basic_great_hammers",
+    "type": "requirement",
+    "//": "Any basic thing that works like a great hammer; unga bunga.",
+    "extend": {
+      "tools": [
+        [
+          [ "sledge_plus_one", -1 ],
+          [ "sledge_plus_two", -1 ],
+          [ "sledge_heavy_plus_two", -1 ],
+          [ "sledge_heavy_plus_one", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "basic_batons",
+    "type": "requirement",
+    "//": "Any basic, easy-to-use bashing weapons.  Like police batons, sticks, or baseball bats.",
+    "extend": {
+      "tools": [
+        [
+          [ "cudgel_plus_one", -1 ],
+          [ "cudgel_plus_two", -1 ],
+          [ "q_staff_plus_one", -1 ],
+          [ "q_staff_plus_two", -1 ],
+          [ "bat_plus_one", -1 ],
+          [ "bat_plus_two", -1 ],
+          [ "bat_metal_plus_one", -1 ],
+          [ "bat_metal_plus_two", -1 ],
+          [ "rune_magus_weapon", -1 ],
+          [ "rune_magus_weapon_adept", -1 ],
+          [ "springstaff-extended", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "basic_hooks",
+    "type": "requirement",
+    "//": "Any basic thing that you can use to hook stuff in a fight.",
+    "extend": {
+      "tools": [
+        [
+          [ "sledge_plus_one", -1 ],
+          [ "sledge_plus_two", -1 ],
+          [ "sledge_heavy_plus_one", -1 ],
+          [ "sledge_heavy_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_great_hammers",
+    "type": "requirement",
+    "//": "Any real great hammers.  It's got to have a big blunt end on a long pole, directly attached to it.",
+    "extend": {
+      "tools": [
+        [
+          [ "mjolnir", -1 ],
+          [ "warhammer_plus_one", -1 ],
+          [ "warhammer_plus_two", -1 ],
+          [ "lucerne_plus_one", -1 ],
+          [ "lucerne_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_hooks",
+    "type": "requirement",
+    "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
+    "extend": {
+      "tools": [
+        [
+          [ "mjolnir", -1 ],
+          [ "warhammer_plus_one", -1 ],
+          [ "warhammer_plus_two", -1 ],
+          [ "halberd_plus_one", -1 ],
+          [ "halberd_plus_two", -1 ],
+          [ "glaive_plus_one", -1 ],
+          [ "glaive_plus_two", -1 ],
+          [ "battleaxe_plus_one", -1 ],
+          [ "battleaxe_plus_two", -1 ],
+          [ "lucerne_plus_one", -1 ],
+          [ "lucerne_plus_two", -1 ],
+          [ "grim_reaper_scythe", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_polearms",
+    "type": "requirement",
+    "//": "Any real, top-heavy cutting weapons with a long pole and a blade on the end, designed to swing side-to-side.  Think like a sword with a really long handle.",
+    "extend": { "tools": [ [ [ "halberd_plus_one", -1 ], [ "halberd_plus_two", -1 ] ] ] }
+  },
+  {
+    "id": "real_spears",
+    "type": "requirement",
+    "//": "Any weapon that features a long pole with a pointed tip at the end.  Reserved for quality weapons.",
+    "extend": {
+      "tools": [
+        [
+          [ "gungnir", -1 ],
+          [ "wolfsbane", -1 ],
+          [ "spear_steel_plus_one", -1 ],
+          [ "spear_steel_plus_two", -1 ],
+          [ "qiang_plus_one", -1 ],
+          [ "qiang_plus_two", -1 ],
+          [ "glaive_plus_one", -1 ],
+          [ "glaive_plus_two", -1 ],
+          [ "naginata_plus_one", -1 ],
+          [ "naginata_plus_two", -1 ],
+          [ "pike_plus_one", -1 ],
+          [ "pike_plus_two", -1 ],
+          [ "lucerne_plus_one", -1 ],
+          [ "lucerne_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_thrusting_swords",
+    "type": "requirement",
+    "//": "Any real, quality weapon designed to be used in a thrusting fashion.  Needs to be a sword, not a spear.  This includes fencing weaponry.",
+    "extend": {
+      "tools": [
+        [
+          [ "gram", -1 ],
+          [ "jian_plus_one", -1 ],
+          [ "jian_plus_two", -1 ],
+          [ "estoc_plus_one", -1 ],
+          [ "estoc_plus_two", -1 ],
+          [ "broadsword_plus_one", -1 ],
+          [ "broadsword_plus_two", -1 ],
+          [ "cavalry_sabre_plus_one", -1 ],
+          [ "cavalry_sabre_plus_two", -1 ],
+          [ "rapier_plus_one", -1 ],
+          [ "rapier_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_quarterstaves",
+    "type": "requirement",
+    "//": "Any real, pole-like weapons designed for bashing and smashing.  Reserved for quality items.",
+    "extend": {
+      "tools": [
+        [
+          [ "laevateinn", -1 ],
+          [ "q_staff_plus_one", -1 ],
+          [ "q_staff_plus_two", -1 ],
+          [ "i_staff_plus_one", -1 ],
+          [ "i_staff_plus_two", -1 ],
+          [ "rune_magus_weapon", -1 ],
+          [ "rune_magus_weapon_adept", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "basic_knives",
+    "type": "requirement",
+    "//": "Any small close-range stabbing weapons.  Not explicity designed for combat.",
+    "extend": { "tools": [ [ [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ] ] }
+  },
+  {
+    "id": "real_knives",
+    "type": "requirement",
+    "//": "Any real, small weapons meant to stab someone at close range; larger shivs basically.",
+    "extend": {
+      "tools": [
+        [
+          [ "orich_knife_combat", -1 ],
+          [ "knife_combat_plus_one", -1 ],
+          [ "knife_combat_plus_two", -1 ],
+          [ "knife_rambo_plus_one", -1 ],
+          [ "knife_rambo_plus_two", -1 ],
+          [ "knife_trench_plus_one", -1 ],
+          [ "knife_trench_plus_two", -1 ],
+          [ "kris_plus_one", -1 ],
+          [ "kris_plus_two", -1 ],
+          [ "kukri_plus_one", -1 ],
+          [ "kukri_plus_two", -1 ],
+          [ "tanto_plus_one", -1 ],
+          [ "tanto_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_short_swords",
+    "type": "requirement",
+    "//": "Any real, edged short swords you could practice with, like broadswords.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "extend": {
+      "tools": [
+        [
+          [ "khopesh_plus_one", -1 ],
+          [ "khopesh_plus_two", -1 ],
+          [ "sword_xiphos_plus_one", -1 ],
+          [ "sword_xiphos_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_medium_swords",
+    "type": "requirement",
+    "//": "Any real, edged medium swords you could practice with, like cavalry sabres.  This is any sword that is bigger than a short sword, but shorter than a long sword.",
+    "extend": {
+      "tools": [
+        [
+          [ "gram", -1 ],
+          [ "jian_plus_one", -1 ],
+          [ "jian_plus_two", -1 ],
+          [ "scimitar_plus_one", -1 ],
+          [ "scimitar_plus_two", -1 ],
+          [ "arming_sword_plus_one", -1 ],
+          [ "arming_sword_plus_two", -1 ],
+          [ "broadsword_plus_one", -1 ],
+          [ "broadsword_plus_two", -1 ],
+          [ "cavalry_sabre_plus_one", -1 ],
+          [ "cavalry_sabre_plus_two", -1 ],
+          [ "cutlass_plus_one", -1 ],
+          [ "cutlass_plus_two", -1 ],
+          [ "wakizashi_plus_one", -1 ],
+          [ "wakizashi_plus_two", -1 ],
+          [ "dao_plus_one", -1 ],
+          [ "dao_plus_two", -1 ],
+          [ "rune_kelvinist_weapon", -1 ],
+          [ "rune_kelvinist_ice_adept_weapon", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_long_swords",
+    "type": "requirement",
+    "//": "Any real, edged long swords you could practice with, like katanas, longswords, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "extend": {
+      "tools": [
+        [
+          [ "orich_longsword", -1 ],
+          [ "longsword_mithril", -1 ],
+          [ "longsword_plus_one", -1 ],
+          [ "longsword_plus_two", -1 ],
+          [ "katana_plus_one", -1 ],
+          [ "katana_plus_two", -1 ]
+        ]
+      ]
+    }
+  },
+  {
+    "id": "real_great_swords",
+    "type": "requirement",
+    "//": "Any real, edged, big swords you could practice with, like zweihanders, greatswords, or the Dragonslayer, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side, and is large enough to require a normal human to use two hands can qualify.",
+    "extend": {
+      "tools": [
+        [ [ "nodachi_plus_one", -1 ], [ "nodachi_plus_two", -1 ], [ "zweihander_plus_one", -1 ], [ "zweihander_plus_two", -1 ] ]
+      ]
+    }
+  },
+  {
+    "id": "real_axes",
+    "type": "requirement",
+    "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
+    "extend": { "tools": [ [ [ "rune_stormshaper_weapon", -1 ], [ "rune_stormshaper_weapon_adept", -1 ] ] ] }
+  },
+  {
+    "id": "real_great_axes",
+    "type": "requirement",
+    "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
+    "extend": {
+      "tools": [
+        [
+          [ "orich_fire_ax", -1 ],
+          [ "battleaxe_plus_one", -1 ],
+          [ "battleaxe_plus_two", -1 ],
+          [ "fire_ax_plus_one", -1 ],
+          [ "fire_ax_plus_two", -1 ]
+        ]
+      ]
+    }
+  }
+]

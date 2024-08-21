@@ -32,7 +32,7 @@
     "name": "rural church",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -41,7 +41,7 @@
     "name": "rural church steeple",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -50,12 +50,13 @@
     "name": "rural church steeple roof",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": [ "rural_church_basement" ],
     "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "church basement",
     "sym": "B",
     "color": "light_red"
@@ -96,7 +97,7 @@
     "vision_levels": "large_city_building",
     "sym": "C",
     "color": "i_light_red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -292,7 +293,7 @@
     "name": "regional school",
     "sym": "s",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
   },
@@ -303,7 +304,7 @@
     "name": "regional school",
     "sym": "S",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
   },
@@ -340,7 +341,7 @@
     "vision_levels": "large_city_building",
     "sym": "s",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SOURCE_BOOKS", "RISK_EXTREME" ]
   },
@@ -361,7 +362,7 @@
     "name": "prison",
     "sym": "p",
     "color": "i_light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -488,7 +489,7 @@
     "name": "prison",
     "sym": "p",
     "color": "i_light_blue",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -545,7 +546,7 @@
     "vision_levels": "city_building",
     "sym": "H",
     "color": "green",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -564,7 +565,7 @@
     "vision_levels": "city_building",
     "sym": "H",
     "color": "green",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -574,7 +575,7 @@
     "vision_levels": "city_building",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -584,7 +585,7 @@
     "vision_levels": "city_building",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -594,7 +595,7 @@
     "vision_levels": "roof_or_air",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "none",
     "mondensity": 1
   },
   {
@@ -612,7 +613,7 @@
     "name": "freshwater research station",
     "sym": "~",
     "color": "yellow",
-    "see_cost": 1
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -625,6 +626,7 @@
       "nursing_home_sh7"
     ],
     "vision_levels": "large_building",
+    "see_cost": "full_high",
     "name": "nursing home",
     "sym": "N",
     "color": "white"
@@ -633,6 +635,7 @@
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
     "vision_levels": "large_pavement",
+    "see_cost": "none",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
@@ -659,6 +662,7 @@
     "type": "overmap_terrain",
     "id": [ "nursing_home_1", "nursing_home_2", "nursing_home_3", "nursing_home_5", "nursing_home_6", "nursing_home_7" ],
     "vision_levels": "large_building",
+    "see_cost": "full_high",
     "name": "nursing home",
     "sym": "N",
     "color": "white"
@@ -667,6 +671,7 @@
     "type": "overmap_terrain",
     "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
     "vision_levels": "large_building",
+    "see_cost": "none",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
@@ -700,6 +705,7 @@
       "nursing_home_6_roof"
     ],
     "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "name": "nursing home roof",
     "sym": "N",
     "color": "white"
@@ -721,6 +727,7 @@
       "nursing_home_b12"
     ],
     "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "nursing home basement",
     "sym": "N",
     "color": "light_gray"
@@ -742,6 +749,7 @@
       "nursing_home_bb12"
     ],
     "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "nursing home basement",
     "sym": "N",
     "color": "light_gray"
@@ -763,6 +771,7 @@
       "nursing_home_lab12"
     ],
     "vision_levels": "underground_stone",
+    "see_cost": "full_high",
     "name": "nursing home lab",
     "sym": "N",
     "color": "dark_gray"

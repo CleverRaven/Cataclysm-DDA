@@ -307,7 +307,20 @@ struct oter_type_t {
     public:
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         std::vector<std::string> looks_like;
-        unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        enum class see_costs : uint8_t {
+            all_clear, // no vertical or horizontal obstacles
+            none, // no horizontal obstacles
+            low, // low horizontal obstacles or few higher ones
+            medium, // medium horizontal obstacles
+            spaced_high, //
+            high, // 0.9
+            full_high, // 0.99
+            opaque, // cannot see through
+            last
+        };
+        static double see_cost_value( see_costs cost );
+
+        see_costs see_cost = see_costs::none;     // Affects how far the player can see in the overmap
         oter_travel_cost_type travel_cost_type =
             oter_travel_cost_type::other;  // Affects the pathfinding and travel times
         std::string extras = "none";
@@ -372,6 +385,17 @@ struct oter_type_t {
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
 
+template<>
+struct enum_traits<oter_type_t::see_costs> {
+    static constexpr oter_type_t::see_costs last = oter_type_t::see_costs::last;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<oter_type_t::see_costs>( oter_type_t::see_costs );
+} // namespace io
+
 struct oter_t {
     private:
         const oter_type_t *type;
@@ -414,8 +438,11 @@ struct oter_t {
         void get_rotation_and_subtile( int &rotation, int &subtile ) const;
         int get_rotation() const;
 
-        unsigned char get_see_cost() const {
-            return type->see_cost;
+        double get_see_cost() const {
+            return oter_type_t::see_cost_value( type->see_cost );
+        }
+        bool can_see_down_through() const {
+            return type->see_cost == oter_type_t::see_costs::all_clear;
         }
         oter_travel_cost_type get_travel_cost_type() const {
             return type->travel_cost_type;

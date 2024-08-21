@@ -120,14 +120,30 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_WATER_TO_BOOZE",
-    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_BOOZE" },
-    "effect": [ { "u_learn_recipe": "mixed_alcohol_strong_from_water" } ]
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "SALAMANDER_WATER_TO_BOOZE", { "context_val": "trait" } ] },
+    "effect": [
+      { "u_learn_recipe": "mixed_alcohol_strong_from_water" },
+      {
+        "u_message": "From the fiery depths of your spirit, knowledge of how to turn various other water into strong alcohol fills your mind.",
+        "type": "good"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_WATER_TO_FUEL",
-    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_FUEL" },
-    "effect": [ { "u_learn_recipe": "lamp_oil_from_water" } ]
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "SALAMANDER_WATER_TO_FUEL", { "context_val": "trait" } ] },
+    "effect": [
+      { "u_learn_recipe": "lamp_oil_from_water" },
+      {
+        "u_message": "From the fiery depths of your spirit, knowledge of how to turn various other water into lamp oil fills your mind.",
+        "type": "good"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

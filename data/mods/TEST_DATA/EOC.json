@@ -1,6 +1,22 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_PURIFIABILITY_FALSE",
+    "effect": [
+      { "u_set_trait_purifiability": "purifiability_first", "purifiable": false },
+      { "u_set_trait_purifiability": "purifiability_second", "purifiable": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_PURIFIABILITY_TRUE",
+    "effect": [
+      { "u_set_trait_purifiability": "purifiability_first", "purifiable": true },
+      { "u_set_trait_purifiability": "purifiability_second", "purifiable": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_teleport_test",
     "//": "shifts the character down and to the right",
     "global": true,

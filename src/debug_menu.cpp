@@ -434,6 +434,11 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+// Used for quick setup
+static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+           trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+
 static std::string first_word( const std::string &str )
 {
     const size_t space_pos = str.find( ' ' );
@@ -443,13 +448,39 @@ static std::string first_word( const std::string &str )
     return str.substr( 0, space_pos );
 }
 
-static bool is_debug_character()
+bool is_debug_character()
 {
     static const std::unordered_set<std::string> debug_names = {
         "Debug", "Test", "Sandbox", "Staging", "QA", "UAT"
     };
     return debug_names.count( first_word( get_player_character().name ) ) ||
            debug_names.count( first_word( world_generator->active_world->world_name ) );
+}
+
+static void prompt_or_do_map_reveal( int reveal_level = 0 )
+{
+    if( reveal_level == 0 ) {
+        uilist vis_sel;
+        vis_sel.text = _( "Reveal at which vision level?" );
+        for( int i = static_cast<int>( om_vision_level::unseen );
+             i < static_cast<int>( om_vision_level::last ); ++i ) {
+            vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+        }
+        vis_sel.query();
+        reveal_level = vis_sel.ret;
+        if( reveal_level == UILIST_CANCEL ) {
+            return;
+        }
+    }
+    overmap &cur_om = g->get_cur_om();
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( reveal_level ), true );
+            }
+        }
+    }
+    add_msg( m_good, _( "Current overmap revealed." ) );
 }
 
 static int player_uilist()
@@ -585,7 +616,6 @@ static void monster_edit_menu()
 
     pointmenu_cb callback( locations );
     monster_menu.callback = &callback;
-    monster_menu.w_y_setup = 0;
     monster_menu.query();
     if( monster_menu.ret < 0 || static_cast<size_t>( monster_menu.ret ) >= locations.size() ) {
         return;
@@ -928,7 +958,15 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
     }
 
     while( true ) {
-        const int group = uilist( msg, menu );
+        // TODO(db48x): go back to allowing a uilist to have both a
+        // titlebar and descriptive text, so that this menu makes
+        // sense and can be auto–sized.
+        uilist debug = uilist();
+        debug.text = msg;
+        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
+        debug.entries = menu;
+        debug.query();
+        const int group = debug.ret;
 
         int action;
 
@@ -2121,7 +2159,6 @@ static faction *select_faction()
         factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
     }
 
-    factionlist.w_y_setup = 0;
     factionlist.query();
     if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
         return nullptr;
@@ -2145,7 +2182,6 @@ static void character_edit_menu()
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
@@ -3088,7 +3124,6 @@ static npc *select_follower_to_export()
         popup( _( "There's no one to export!" ) );
         return nullptr;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return nullptr;
@@ -3151,6 +3186,7 @@ static void bleed_self()
 static void change_weather()
 {
     uilist weather_menu;
+    weather_menu.text = _( "Select new weather pattern:" );
     weather_manager &weather = get_weather();
     weather_generator wgen = weather.get_cur_weather_gen();
     weather_menu.text = _( "Select new weather pattern:" );
@@ -3292,7 +3328,6 @@ static void import_folower()
     for( const cata_path &path : npc_files ) {
         filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
     }
-    filemenu.w_y_setup = 0;
     filemenu.query();
     if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
         return;
@@ -3530,8 +3565,8 @@ static void vehicle_export()
 static void wind_direction()
 {
     uilist wind_direction_menu;
-    weather_manager &weather = get_weather();
     wind_direction_menu.text = _( "Select new wind direction:" );
+    weather_manager &weather = get_weather();
     wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                   _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
     int count = 1;
@@ -3552,8 +3587,8 @@ static void wind_direction()
 static void wind_speed()
 {
     uilist wind_speed_menu;
-    weather_manager &weather = get_weather();
     wind_speed_menu.text = _( "Select new wind speed:" );
+    weather_manager &weather = get_weather();
     wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                               _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
     int count = 1;
@@ -3606,6 +3641,28 @@ static void write_global_vars()
     popup( _( "Var list written to var_list.output" ) );
 }
 
+void do_debug_quick_setup()
+{
+    if( !debug_mode ) {
+        // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
+        // Save a few keypresses.
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+    }
+    Character &u = get_avatar();
+    normalize_body( u );
+    // Specifically only adds mutations instead of toggling them.
+    u.set_mutations( setup_traits );
+    u.remove_weapon();
+    u.clear_worn();
+    item backpack( "debug_backpack" );
+    u.wear_item( backpack );
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+        u.set_skill_level( pair.first, 10 );
+    }
+    prompt_or_do_map_reveal( static_cast<int>( om_vision_level::full ) );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -3647,11 +3704,6 @@ void debug()
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
-    // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
-                                       trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-                                       trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
-
     avatar &player_character = get_avatar();
     map &here = get_map();
     switch( *action ) {
@@ -3668,26 +3720,7 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
-            uilist vis_sel;
-            vis_sel.text = _( "Reveal at which vision level?" );
-            for( int i = static_cast<int>( om_vision_level::unseen );
-                 i < static_cast<int>( om_vision_level::last ); ++i ) {
-                vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
-            }
-            vis_sel.query();
-            int vis_ret = vis_sel.ret;
-            if( vis_ret == UILIST_CANCEL ) {
-                break;
-            }
-            overmap &cur_om = g->get_cur_om();
-            for( int i = 0; i < OMAPX; i++ ) {
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( vis_ret ), true );
-                    }
-                }
-            }
-            add_msg( m_good, _( "Current overmap revealed." ) );
+            prompt_or_do_map_reveal();
         }
         break;
 
@@ -4100,23 +4133,7 @@ void debug()
         }
 
         case debug_menu_index::QUICK_SETUP: {
-            if( !debug_mode ) {
-                // Turn on debug mode if not already on, but without any filters enabled (to prevent log spam).
-                // Save a few keypresses.
-                debug_mode = true;
-                debugmode::enabled_filters.clear();
-            }
-            Character &u = get_avatar();
-            normalize_body( u );
-            // Specifically only adds mutations instead of toggling them.
-            u.set_mutations( setup_traits );
-            u.remove_weapon();
-            u.clear_worn();
-            item backpack( "debug_backpack" );
-            u.wear_item( backpack );
-            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
-                u.set_skill_level( pair.first, 10 );
-            }
+            do_debug_quick_setup();
             break;
         }
 

@@ -436,6 +436,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
 
     you.recoil = MAX_RECOIL;
+    you.invalidate_weight_carried_cache();
+
     return items_dropped;
 }
 
@@ -3532,7 +3534,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             }
         } else {
             for( item &it : here.i_at( here.bub_from_abs( loc ) ) ) {
-                item_location i_loc( map_cursor( here.bub_from_abs( loc ) ), &it );
+                item_location i_loc( map_cursor( loc ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

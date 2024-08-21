@@ -6,7 +6,7 @@
     "vision_levels": "city_building",
     "sym": "w",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
@@ -23,7 +23,7 @@
     "name": "public works roof",
     "sym": "w",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "mondensity": 2
   },
   {
@@ -39,7 +39,7 @@
     "sym": "0",
     "color": "i_magenta",
     "vision_levels": "isolated_building",
-    "see_cost": 5
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -48,7 +48,7 @@
     "name": "solar farm",
     "sym": "#",
     "color": "i_yellow",
-    "see_cost": 5
+    "see_cost": "medium"
   },
   {
     "type": "overmap_terrain",
@@ -57,7 +57,7 @@
     "sym": "H",
     "color": "light_cyan",
     "vision_levels": "isolated_building",
-    "see_cost": 5
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -66,7 +66,7 @@
     "sym": "H",
     "color": "light_cyan",
     "vision_levels": "isolated_building",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -75,7 +75,7 @@
     "vision_levels": "isolated_building",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -84,7 +84,7 @@
     "vision_levels": "roof_or_air",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -331,7 +331,7 @@
     "sym": "I",
     "color": "light_blue",
     "vision_levels": "isolated_building",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2
   },
@@ -342,7 +342,7 @@
     "name": "mine entrance",
     "sym": "M",
     "color": "magenta",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -352,7 +352,7 @@
     "name": "mine entrance roof",
     "sym": "M",
     "color": "magenta",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -361,7 +361,7 @@
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
   {
@@ -371,7 +371,7 @@
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP" ]
   },
   {
@@ -410,7 +410,7 @@
     "name": "mine tunnels",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP" ]
   },
   {
@@ -419,7 +419,7 @@
     "vision_levels": "underground_stone",
     "name": "mine tunnels",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_MINERS", "population": [ 1, 2 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   },
@@ -430,7 +430,7 @@
     "name": "mine",
     "sym": "M",
     "color": "brown",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -438,7 +438,7 @@
     "name": "light industry",
     "copy-from": "road_abstract",
     "sym": "─",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2
   },
@@ -458,7 +458,7 @@
     "sym": "I",
     "color": "light_blue",
     "vision_levels": "isolated_building",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2
   }

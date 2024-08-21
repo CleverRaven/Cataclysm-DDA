@@ -239,7 +239,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
     "variants": [
@@ -633,10 +633,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 19 }
   },
@@ -781,6 +780,7 @@
     "type": "TOOL",
     "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
+    "category": "weapons",
     "weight": "380 g",
     "volume": "187 ml",
     "longest_side": "36 cm",

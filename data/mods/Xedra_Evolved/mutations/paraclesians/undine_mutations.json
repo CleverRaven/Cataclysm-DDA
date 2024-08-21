@@ -126,14 +126,12 @@
   {
     "type": "mutation",
     "id": "SALTWATER_TO_FRESHWATER",
-    "name": { "str": "Saltwater to Freshwater" },
+    "name": { "str": "One Foot in the River and One in the Sea" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine can activate this trait to learn how to convert salt water into freshwater and vice versa.",
-    "category": [ "UNDINE" ],
-    "active": true,
-    "activated_eocs": [ "EOC_SALTWATER_TO_FRESHWATER" ]
+    "description": "Upon gaining this ability the Undine learns how to convert salt water into freshwater and vice versa.",
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",
@@ -149,26 +147,22 @@
   {
     "type": "mutation",
     "id": "FOUL_WATER",
-    "name": { "str": "Foul Water" },
+    "name": { "str": "Cleansing the Poison Well" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine can activate this trait to gain the ability to foul water, making it murky and possibly infested.  Conversely, the Undine can also cleanse water that is not already clean.",
-    "category": [ "UNDINE" ],
-    "active": true,
-    "activated_eocs": [ "EOC_FOUL_WATER" ]
+    "description": "Upon gaining this ability the Undine learns how to foul water, making it murky and possibly infested.  Conversely, the Undine can also cleanse water that is not already clean.",
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",
     "id": "LIQUID_TO_WATER",
-    "name": { "str": "Various liquids to Freshwater" },
+    "name": { "str": "Return to Primordial Waters" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine can activate this trait to gain the ability to convert various liquids into freshwater.",
-    "category": [ "UNDINE" ],
-    "active": true,
-    "activated_eocs": [ "EOC_LIQUID_TO_WATER" ]
+    "description": "Upon gaining this ability the Undine learns how to convert various liquids into freshwater.",
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",

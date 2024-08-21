@@ -172,7 +172,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map
-            item_location m4_loc( map_cursor( they.pos_bub() ), &m4a1 );
+            item_location m4_loc( map_cursor( they.get_location() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
             CHECK_FALSE( backpack.has_item( m4a1 ) );
             // Now pick up the M4

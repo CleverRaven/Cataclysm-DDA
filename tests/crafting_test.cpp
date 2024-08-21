@@ -905,7 +905,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 207 );
             }
         }
 

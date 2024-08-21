@@ -467,7 +467,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 16 ] ] ],
+    "components": [ [ [ "rock", 20 ] ] ],
     "pre_terrain": "t_drystone_wall_half",
     "post_terrain": "t_drystone_wall"
   },
@@ -480,7 +480,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "rock", 12 ] ] ],
+    "components": [ [ [ "rock", 20 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_drystone_wall_half"
   },

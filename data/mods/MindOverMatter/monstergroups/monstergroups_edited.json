@@ -249,6 +249,18 @@
     ]
   },
   {
+    "name": "GROUP_STRAY_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog",
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_MUTANT_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_mongrel",
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_CAMP_OM",
     "monsters": [

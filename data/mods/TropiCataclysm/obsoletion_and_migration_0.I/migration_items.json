@@ -1,0 +1,17 @@
+[
+  {
+    "id": "egg_budgerigar",
+    "type": "MIGRATION",
+    "replace": "egg_parrot"
+  },
+  {
+    "id": "egg_cockatoo",
+    "type": "MIGRATION",
+    "replace": "egg_parrot"
+  },
+  {
+    "id": "egg_flamingo",
+    "type": "MIGRATION",
+    "replace": "egg_duck"
+  }
+]
