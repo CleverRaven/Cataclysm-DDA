@@ -408,6 +408,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "lc_steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from steel",
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
     "id": "bronze_tiny",
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from bronze",
@@ -680,5 +686,11 @@
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
     "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
+  },
+  {
+	"id": "any_wire"
+	"type": "requirement",
+	"//": "Non-graded legacy steel wire and mild steel wire"
+	"components": [ [ [ "wire", 1 ], [ "lc_wire", 1 ] ] ]
   }
 ]

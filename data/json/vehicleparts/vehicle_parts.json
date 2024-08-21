@@ -4,8 +4,8 @@
     "id": "ig_vp_frame",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
