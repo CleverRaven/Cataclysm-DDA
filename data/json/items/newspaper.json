@@ -616,7 +616,7 @@
     "category": "other",
     "symbol": "*",
     "color": "white",
-    "name": { "str": "Picture" },
+    "name": { "str": "picture" },
     "description": "A medium picture of something that the owner wished to decorate their house with.",
     "weight": "600 g",
     "volume": "650 ml",
@@ -627,14 +627,14 @@
     "variants": [
       {
         "id": "hp_original",
-        "name": { "str": "Picture" },
+        "name": { "str": "picture" },
         "description": "<home_pictures>",
         "expand_snippets": true,
         "weight": 200
       },
       {
         "id": "hp_snippet_nested",
-        "name": { "str": "Picture" },
+        "name": { "str": "picture" },
         "description": "<hp_nested>",
         "expand_snippets": true,
         "weight": 40

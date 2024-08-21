@@ -956,7 +956,9 @@ Character status value  | Description
 `ARMOR_HEAT`            | 
 `ARMOR_STAB`            | 
 `REGEN_HP`              | Affects the rate the monster recovers hp.
+`VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
+`LUMINATION`            | Affects monster luminance
 
 ### Enchantment value examples
 

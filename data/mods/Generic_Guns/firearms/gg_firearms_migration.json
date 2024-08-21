@@ -218,7 +218,8 @@
       "cp33",
       "ruger_mk4",
       "rough_rider_pistol",
-      "rough_rider_pistol_9"
+      "rough_rider_pistol_9",
+      "1911_22"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -355,7 +356,7 @@
       "ar15_450medium",
       "ar15_450short",
       "ar15_762",
-      "ar_pistol",
+      "modular_ar_pistol",
       "rifle_223",
       "ruger_mini",
       "sig_assault_rifle",

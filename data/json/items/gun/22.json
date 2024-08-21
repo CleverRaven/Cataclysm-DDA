@@ -277,7 +277,7 @@
   {
     "id": "cp33",
     "copy-from": "pistol_base",
-    "looks_like": "ar_pistol",
+    "looks_like": "modular_ar_pistol",
     "type": "GUN",
     "name": { "str": "high capacity handgun" },
     "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
@@ -365,7 +365,7 @@
   },
   {
     "id": "ruger_charger",
-    "looks_like": "ar_pistol",
+    "looks_like": "modular_ar_pistol",
     "type": "GUN",
     "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
     "reload_noise_volume": 10,
@@ -550,6 +550,43 @@
         "id": "rough_rider_pistol",
         "name": { "str_sp": "Heritage Rough Rider 9\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
+      }
+    ]
+  },
+  {
+    "id": "1911_22",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "looks_like": "1911",
+    "//": "Based on https://www.browning.com/products/firearms/pistols/1911-22/1911-22-a1.html",
+    "name": { "str": ".22 1911 pistol" },
+    "description": "A 1911 in .22 LR, with a 4 1/4\" barrel, and feeding from 10 round magazines.",
+    "ascii_picture": "m1911",
+    "weight": "425 g",
+    "volume": "369 ml",
+    "longest_side": "212 mm",
+    "barrel_length": "108 mm",
+    "price": "749 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 320,
+    "durability": 8,
+    "min_cycle_recoil": 39,
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "1911_22_mag" ] } ],
+    "melee_damage": { "bash": 5 },
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "1911_22",
+        "name": { "str_sp": "1911-22" },
+        "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
     ]
   }

@@ -3448,6 +3448,78 @@ talk_effect_fun_t::func f_consume_item( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    // Only after i implemented it, i realised it is a bad way to make it
+    // What it should be is an expansion of f_run_inv_eocs
+    // that allow to pick multiple ids and limit it to some amount of it
+
+    std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
+
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
+        const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
+        const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
+        item_and_amount.emplace_back( item, amount );
+    }
+
+    return [item_and_amount, is_npc]( dialogue & d ) {
+        add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
+
+        itype_id item_to_remove;
+        double percent = 0.0f;
+        double count_desired;
+        double count_present;
+        double charges_present;
+
+        for( const auto &pair : item_and_amount ) {
+            item_to_remove = itype_id( pair.first.evaluate( d ) );
+            count_desired = pair.second.evaluate( d );
+            count_present = d.actor( is_npc )->get_amount( item_to_remove );
+            charges_present = d.actor( is_npc )->charges_of( item_to_remove );
+            if( charges_present > count_present ) {
+                percent += charges_present / count_desired;
+                // if percent is equal or less than 1, it is safe to remove all charges_present
+                // otherwise loop to remove charges one by one
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_charges( item_to_remove, charges_present, true );
+
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, charges_present, percent );
+                } else {
+                    percent -= charges_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_charges( item_to_remove, 1, true );
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, charges_present, percent );
+                    }
+                }
+            } else {
+                percent += count_present / count_desired;
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_amount( item_to_remove, count_present );
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, count_present, percent );
+                } else {
+                    percent -= count_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_amount( item_to_remove, 1 );
+
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, count_present, percent );
+                    }
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_remove_item_with( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
@@ -4726,6 +4798,12 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         const std::string_view )
 {
     const bool i18n = jo.get_bool( "i18n", false );
+    std::optional<string_input_params> input_params;
+    if( jo.has_object( "string_input" ) ) {
+        JsonObject input_obj = jo.get_object( "string_input" );
+        input_params = string_input_params::parse_string_input_params( input_obj );
+    }
+
     std::vector<str_or_var> str_vals;
     std::vector<translation_or_var> i18n_vals;
     if( jo.has_array( member ) ) {
@@ -4745,9 +4823,33 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
     }
     bool parse = jo.get_bool( "parse_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    return [i18n, str_vals, i18n_vals, var, parse]( dialogue & d ) {
+    return [i18n, input_params, str_vals, i18n_vals, var, parse]( dialogue & d ) {
         int index = rng( 0, ( i18n ? i18n_vals.size() : str_vals.size() ) - 1 );
         std::string str = i18n ? i18n_vals[index].evaluate( d ) : str_vals[index].evaluate( d );
+
+        if( input_params.has_value() ) {
+            string_input_popup popup;
+            popup
+            .title( input_params.value().title.evaluate( d ) )
+            .description( input_params.value().description.evaluate( d ) )
+            .width( input_params.value().width )
+            .identifier( input_params.value().identifier );
+
+            if( input_params.value().only_digits ) {
+                int num_temp;
+                popup.edit( num_temp );
+                if( !popup.canceled() ) {
+                    str = std::to_string( num_temp );
+                }
+            } else {
+                std::string str_temp;
+                popup.edit( str_temp );
+                if( !popup.canceled() ) {
+                    str = str_temp;
+                }
+            }
+        }
+
         if( parse ) {
             std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
             talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
@@ -5215,6 +5317,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
                 continue;
             }
 
+            auto wrap60 = []( const std::string & text ) {
+                return string_join( foldstring( text, 60 ), "\n" );
+            };
             std::string name;
             std::string description;
             if( eoc_names.empty() ) {
@@ -5226,6 +5331,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
                 parse_tags( description, alpha, beta, d );
+                description = wrap60( description );
             }
 
             if( eoc_keys.empty() ) {
@@ -6621,6 +6727,7 @@ parsers = {
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
+    { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },
     { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun::f_remove_item_with },
     { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
     { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun::f_bulk_trade_accept },

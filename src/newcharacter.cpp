@@ -378,6 +378,11 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
@@ -393,9 +398,8 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.\n"
-                                  "\n"
-                                  "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    menu.title = _( "Select a style.\n" );
+    menu.text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                   "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
@@ -408,7 +412,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     for( const matype_id &s : styles ) {
         const martialart &style = s.obj();
-        menu.addentry_desc( style.name.translated(), style.description.translated() );
+        menu.addentry_desc( style.name.translated(), wrap60( style.description.translated() ) );
     }
     while( true ) {
         menu.query( true );

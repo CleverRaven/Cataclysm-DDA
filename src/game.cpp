@@ -2921,7 +2921,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 2000 );
 }
 
 void game::death_screen()
@@ -4517,7 +4517,8 @@ void game::mon_info_update( )
                                       p->attitude_to( u ),
                                       npc_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED ;
-            } else {
+            }
+            if( !need_processing ) {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
             }
@@ -5540,7 +5541,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( true );
+                veh->start_engines( &u, true );
             }
         }
     }
@@ -9139,6 +9140,11 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
@@ -9283,100 +9289,100 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     uilist smenu;
     smenu.desc_enabled = true;
-    smenu.text = _( "Choose type of butchery:" );
+    smenu.title = _( "Choose type of butchery:" );
 
     smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used when you are in a hurry, "
-                                          "but still want to harvest something from the corpse. "
-                                          " Yields are lower as you don't try to be precise, "
-                                          "but it's useful if you don't want to set up a workshop.  "
-                                          "Prevents zombies from raising." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used when you are in a hurry, "
+                                   "but still want to harvest something from the corpse. "
+                                   " Yields are lower as you don't try to be precise, "
+                                   "but it's useful if you don't want to set up a workshop.  "
+                                   "Prevents zombies from raising." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FULL ),
                         is_enabled( butcher_type::FULL ),
                         'b', _( "Full butchery" )
                         + progress_str( butcher_type::FULL ),
                         time_or_disabledreason( butcher_type::FULL ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used to properly butcher a corpse, "
-                                          "and requires a rope & a tree or a butchering rack, "
-                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                          "and good tools.  Yields are plentiful and varied, "
-                                          "but it is time consuming." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used to properly butcher a corpse, "
+                                   "and requires a rope & a tree or a butchering rack, "
+                                   "a flat surface (for ex. a table, a leather tarp, etc.) "
+                                   "and good tools.  Yields are plentiful and varied, "
+                                   "but it is time consuming." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ),
                         is_enabled( butcher_type::FIELD_DRESS ),
                         'f', _( "Field dress corpse" )
                         + progress_str( butcher_type::FIELD_DRESS ),
                         time_or_disabledreason( butcher_type::FIELD_DRESS ),
-                        string_format( "%s  %s",
-                                       _( "Technique that involves removing internal organs and "
-                                          "viscera to protect the corpse from rotting from inside.  "
-                                          "Yields internal organs.  Carcass will be lighter and will "
-                                          "stay fresh longer.  Can be combined with other methods for "
-                                          "better effects." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Technique that involves removing internal organs and "
+                                   "viscera to protect the corpse from rotting from inside.  "
+                                   "Yields internal organs.  Carcass will be lighter and will "
+                                   "stay fresh longer.  Can be combined with other methods for "
+                                   "better effects." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::SKIN ),
                         is_enabled( butcher_type::SKIN ),
                         's', _( "Skin corpse" )
                         + progress_str( butcher_type::SKIN ),
                         time_or_disabledreason( butcher_type::SKIN ),
-                        string_format( "%s  %s",
-                                       _( "Skinning a corpse is an involved and careful process that "
-                                          "usually takes some time.  You need skill and an appropriately "
-                                          "sharp and precise knife to do a good job.  Some corpses are "
-                                          "too small to yield a full-sized hide and will instead produce "
-                                          "scraps that can be used in other ways." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Skinning a corpse is an involved and careful process that "
+                                   "usually takes some time.  You need skill and an appropriately "
+                                   "sharp and precise knife to do a good job.  Some corpses are "
+                                   "too small to yield a full-sized hide and will instead produce "
+                                   "scraps that can be used in other ways." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
                         is_enabled( butcher_type::BLEED ),
                         'l', _( "Bleed corpse" )
                         + progress_str( butcher_type::BLEED ),
                         time_or_disabledreason( butcher_type::BLEED ),
-                        string_format( "%s  %s",
-                                       _( "Bleeding involves severing the carotid arteries and jugular "
-                                          "veins, or the blood vessels from which they arise.  "
-                                          "You need skill and an appropriately sharp and precise knife "
-                                          "to do a good job." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Bleeding involves severing the carotid arteries and jugular "
+                                   "veins, or the blood vessels from which they arise.  "
+                                   "You need skill and an appropriately sharp and precise knife "
+                                   "to do a good job." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
                         is_enabled( butcher_type::QUARTER ),
                         'k', _( "Quarter corpse" )
                         + progress_str( butcher_type::QUARTER ),
                         time_or_disabledreason( butcher_type::QUARTER ),
-                        string_format( "%s  %s",
-                                       _( "By quartering a previously field dressed corpse you will "
-                                          "acquire four parts with reduced weight and volume.  It "
-                                          "may help in transporting large game.  This action destroys "
-                                          "skin, hide, pelt, etc., so don't use it if you want to "
-                                          "harvest them later." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "By quartering a previously field dressed corpse you will "
+                                   "acquire four parts with reduced weight and volume.  It "
+                                   "may help in transporting large game.  This action destroys "
+                                   "skin, hide, pelt, etc., so don't use it if you want to "
+                                   "harvest them later." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ),
                         is_enabled( butcher_type::DISMEMBER ),
                         'm', _( "Dismember corpse" )
                         + progress_str( butcher_type::DISMEMBER ),
                         time_or_disabledreason( butcher_type::DISMEMBER ),
-                        string_format( "%s  %s",
-                                       _( "If you're aiming to just destroy a body outright and don't "
-                                          "care about harvesting it, dismembering it will hack it apart "
-                                          "in a very short amount of time but yields little to no usable flesh." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "If you're aiming to just destroy a body outright and don't "
+                                   "care about harvesting it, dismembering it will hack it apart "
+                                   "in a very short amount of time but yields little to no usable flesh." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ),
                         is_enabled( butcher_type::DISSECT ),
                         'd', _( "Dissect corpse" )
                         + progress_str( butcher_type::DISSECT ),
                         time_or_disabledreason( butcher_type::DISSECT ),
-                        string_format( "%s  %s%s",
-                                       _( "By careful dissection of the corpse, you will examine it for "
-                                          "possible bionic implants, or discrete organs and harvest them "
-                                          "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                          "corpse, and consumes a lot of time.  Your medical knowledge "
-                                          "is most useful here." ),
-                                       msgFactorD, dissect_wp_hint ) );
+                        wrap60( string_format( "%s  %s%s",
+                                _( "By careful dissection of the corpse, you will examine it for "
+                                   "possible bionic implants, or discrete organs and harvest them "
+                                   "if possible.  Requires scalpel-grade cutting tools, ruins "
+                                   "corpse, and consumes a lot of time.  Your medical knowledge "
+                                   "is most useful here." ),
+                                msgFactorD, dissect_wp_hint ) ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
