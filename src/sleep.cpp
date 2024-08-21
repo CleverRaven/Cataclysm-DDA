@@ -109,8 +109,8 @@ bool comfort_data::try_get_sleep_aid_at( const tripoint &p, item &result )
     return false;
 }
 
-void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded, std::string name,
-                                        int &member )
+void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded,
+                                        const std::string &name, int &member )
 {
     if( !was_loaded ) {
         if( jo.has_int( name ) ) {
@@ -182,6 +182,8 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
                 result = guy.has_trait( trait_id( id ) );
             }
             break;
+        case category::last:
+            break;
     }
     return result != invert;
 }
@@ -211,6 +213,8 @@ void comfort_data::condition::deserialize( const JsonObject &jo )
         case category::trait:
             mandatory( jo, false, "id", id );
             optional( jo, false, "active", active );
+            break;
+        case category::last:
             break;
     }
     optional( jo, false, "invert", invert );

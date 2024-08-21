@@ -99,8 +99,8 @@ struct comfort_data {
     /** If there is a sleep aid at a location. The sleep aid will be stored in `result` if it exists **/
     static bool try_get_sleep_aid_at( const tripoint &p, item &result );
     /** Deserializes an int or string to a comfort value (int) and stores it in `member` **/
-    static void deserialize_comfort( const JsonObject &jo, bool was_loaded, std::string name,
-                                     int &member );
+    static void deserialize_comfort( const JsonObject &jo, bool was_loaded,
+                                     const std::string &name, int &member );
 
     bool human_or_impossible() const;
     bool are_conditions_true( const Character &guy, const tripoint &p ) const;
