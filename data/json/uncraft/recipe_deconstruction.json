@@ -2079,7 +2079,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap_aluminum", 1 ] ],
-      [ [ "light_plus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]

@@ -37,7 +37,7 @@
   },
   {
     "id": "inventor_heavy_cell",
-    "copy-from": "heavy_disposable_cell",
+    "copy-from": "heavy_plus_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "heavy modified battery", "str_pl": "heavy modified batteries" },
@@ -94,7 +94,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_plus_battery_cell"
+        "default_magazine": "medium_battery_cell"
       },
       {
         "type": "link_up",

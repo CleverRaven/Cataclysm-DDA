@@ -485,7 +485,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
       "pocket_type": "MAGAZINE_WELL",
       "rigid": true,
       "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-      "default_magazine": "light_plus_battery_cell"
+      "default_magazine": "light_battery_cell"
     }
   ],
   "armor": [ { "coverage": 20, "covers": [ "head" ] } ]

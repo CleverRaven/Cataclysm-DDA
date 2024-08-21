@@ -16,10 +16,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 3,
+    "capacity": 2,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_ULTRA_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 993 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ]
   },
   {
     "id": "light_minus_disposable_cell",
@@ -30,7 +30,7 @@
     "description": "A light LMO battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.",
     "ascii_picture": "light_minus_disposable_cell",
     "delete": { "flags": [ "RECHARGE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 992 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ]
   },
   {
     "id": "light_battery_cell",
@@ -49,14 +49,14 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 22,
+    "capacity": 11,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9933 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 11 } } ]
   },
   {
     "id": "light_disposable_cell",
-    "copy-from": "light_minus_battery_cell",
+    "copy-from": "light_battery_cell",
     "type": "MAGAZINE",
     "name": { "str": "light disposable battery", "str_pl": "light disposable batteries" },
     "//": "AA, Zinc-Manganese Dioxide, ENERGIZER E91",
@@ -64,7 +64,8 @@
     "description": "A light AA battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged",
     "ascii_picture": "light_disposable_cell",
     "delete": { "flags": [ "RECHARGE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9922 } } ]
+    "capacity": 16,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16 } } ]
   },
   {
     "id": "medium_battery_cell",
@@ -83,10 +84,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 444,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_MEDIUM" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99444 } } ]
+    "capacity": 29,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 29 } } ]
   },
   {
     "id": "medium_disposable_cell",
@@ -99,7 +100,8 @@
     "price": "118 cent",
     "price_postapoc": "5 cent",
     "delete": { "flags": [ "RECHARGE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99732 } } ]
+    "capacity": 81,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 81 } } ]
   },
   {
     "id": "heavy_battery_cell",
@@ -119,14 +121,14 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 740,
+    "capacity": 503,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99740 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 503 } } ]
   },
   {
     "id": "heavy_plus_battery_cell",
-    "copy-from": "medium_battery_cell",
+    "copy-from": "heavy_battery_cell",
     "type": "MAGAZINE",
     "name": { "str": "small tool battery", "str_pl": "small tool batteries" },
     "description": "A light battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
@@ -137,7 +139,8 @@
     "longest_side": "113 mm",
     "price": "22 USD",
     "price_postapoc": "35 cent",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99925 } } ]
+    "capacity": 259,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 259 } } ]
   },
   {
     "id": "heavy_atomic_battery_cell",

@@ -340,7 +340,7 @@
     "type": "effect_on_condition",
     "id": "EOC_math_item_count",
     "effect": [
-      { "set_string_var": "light_plus_battery_cell", "target_var": { "global_val": "item_id" } },
+      { "set_string_var": "light_battery_cell", "target_var": { "global_val": "item_id" } },
       { "u_spawn_item": "backpack", "force_equip": true },
       { "u_spawn_item": { "global_val": "item_id" } },
       { "u_spawn_item": { "global_val": "item_id" } },

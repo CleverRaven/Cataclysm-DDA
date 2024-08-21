@@ -58,7 +58,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "heavy_battery_cell" ) ) );
         CHECK( has_ammo_types( item( "light_disposable_cell" ) ) );
         CHECK( has_ammo_types( item( "medium_disposable_cell" ) ) );
-        CHECK( has_ammo_types( item( "heavy_disposable_cell" ) ) );
+        CHECK( has_ammo_types( item( "heavy_plus_battery_cell" ) ) );
         // Vehicle batteries
         CHECK( has_ammo_types( item( "battery_car" ) ) );
         CHECK( has_ammo_types( item( "battery_motorbike" ) ) );
