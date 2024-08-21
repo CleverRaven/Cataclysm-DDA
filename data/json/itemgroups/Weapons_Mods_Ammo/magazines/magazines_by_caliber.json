@@ -191,6 +191,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_3006",
+    "//": "Collections of magazines for 308 guns that can be found in gunstores.",
+    "items": [ { "item": "3006_clip", "prob": 33 }, { "item": "blrmag", "prob": 3 }, { "item": "garandclip", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
