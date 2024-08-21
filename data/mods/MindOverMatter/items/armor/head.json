@@ -72,7 +72,7 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes" ] } ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC", "MUNDANE" ],
+    "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
     }
@@ -91,7 +91,7 @@
       "msg": "Your %s deactivates.",
       "target": "psionic_mindsight_glasses"
     },
-    "power_draw": "1820 mW",
+    "power_draw": "3500 mW",
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
     }
