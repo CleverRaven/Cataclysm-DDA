@@ -184,6 +184,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "common_magazines_762R",
+    "//": "Collections of magazines for 7.62x54mmR guns that can be found in gunstores.",
+    "items": [ { "group": "magazines_psl", "prob": 12 }, { "item": "762R_clip", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "rare_magazines_9mm",
     "//": "Collections of magazines for 9mm guns that are rare and should only be found in collections or gunshows, such as Calicos, Lugers.",
     "items": [
