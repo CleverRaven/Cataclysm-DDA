@@ -1270,7 +1270,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
 
         // BANDAGE block
-        if( e.allowed && ( new_b_power > 0 || b_power > 0 ) ) {
+        if( e.allowed && ( new_b_power > 1 || b_power > 1 ) ) {
             desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
             if( new_b_power > 0 ) {
                 desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
@@ -1286,7 +1286,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
 
         // DISINFECTANT block
-        if( e.allowed && ( d_power > 0 || new_d_power > 0 ) ) {
+        if( e.allowed && ( d_power > 1 || new_d_power > 1 ) ) {
             desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
             if( new_d_power > 0 ) {
                 desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
