@@ -42,7 +42,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "looks_like": "ar_glasses_advanced",
-    "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets QD944-P 'Mindsight' glasses" },
+    "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets of QD944-P 'Mindsight' glasses" },
     "description": "A set of AR-looking glasses.  The code \"QD944-P\" is printed in small letters on the temples.",
     "weight": "170 g",
     "volume": "750 ml",
@@ -82,7 +82,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "copy-from": "psionic_mindsight_glasses",
-    "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets QD944-P 'Mindsight' glasses" },
+    "name": { "str": "QD944-P 'Mindsight' glasses (on)", "str_pl": "sets of QD944-P 'Mindsight' glasses (on)" },
     "description": "A set of AR-looking glasses.  The code \"QD944-P\" is printed in small letters on the temples.  They are currently active.",
     "use_action": {
       "ammo_scale": 0,
