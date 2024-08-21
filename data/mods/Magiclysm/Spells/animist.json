@@ -123,7 +123,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_CORPSE_QUIET" ],
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000, 30)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000, 0.034)" ] }
@@ -268,7 +268,7 @@
     "max_range": 3,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_CORPSE_QUIET" ],
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000, 30)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000, 0.034)" ] }

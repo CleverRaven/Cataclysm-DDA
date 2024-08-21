@@ -31,7 +31,14 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
     "magazine_adaptor": [
@@ -126,6 +133,23 @@
     "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
+    "id": "retool_ar15_223rem_pistol",
+    "copy-from": "retool_ar15_223rem",
+    "//": "Based on https://veriforcetactical.com/product/ar-15-pistol-upper-556-7-inch-m-lok-slim-profile-with-mcbs/",
+    "type": "GUNMOD",
+    "name": { "str": "pistol .223 upper receiver" },
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 7.5-inch barrel chambered for .223 Remington ammunition.  These are most often found on stockless AR pistol lowers, to comply with legal restrictions on short barrels on rifles.  No such laws exist now, or at least people that can enforce them.",
+    "weight": "1134 g",
+    "volume": "718 ml",
+    "longest_side": "435 mm",
+    "integral_volume": "1295 ml",
+    "integral_weight": "1819 g",
+    "integral_longest_side": "191 mm",
+    "barrel_length": "191 mm",
+    "price": "499 USD 95 cent",
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+  },
+  {
     "id": "retool_ar15_300blk",
     "type": "GUNMOD",
     "name": { "str": "mid-length .300BLK upper receiver" },
@@ -143,7 +167,14 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "ammo_modifier": [ "300blk" ],
     "magazine_adaptor": [
@@ -252,7 +283,14 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "50beowulf" ],
@@ -326,7 +364,14 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "450" ],
@@ -417,7 +462,14 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "overwrite_min_cycle_recoil": 83,
