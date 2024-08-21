@@ -2045,8 +2045,12 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
         auto deconstruct_items = []( const item_group_id & drop_group ) {
             std::string ret;
+            const Item_spawn_data *spawn_data = item_group::spawn_data_from_group( drop_group );
+            if( spawn_data == nullptr ) {
+                return ret;
+            }
             const std::map<const itype *, std::pair<int, int>> deconstruct_items =
-                        item_group::spawn_data_from_group( drop_group )->every_item_min_max();
+                        spawn_data->every_item_min_max();
             for( const auto &deconstruct_item : deconstruct_items ) {
                 const int &min = deconstruct_item.second.first;
                 const int &max = deconstruct_item.second.second;
