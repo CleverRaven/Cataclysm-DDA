@@ -512,6 +512,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->phasing_move( dest_loc.raw() ) ) {
         return true;
     }
+    if ( g->phasing_move_enchant (dest_loc.raw(), 4 ) ) {
+        return true;
+    }
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;

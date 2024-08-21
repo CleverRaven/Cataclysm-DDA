@@ -11151,6 +11151,54 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
     return false;
 }
 
+bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_distance )
+{
+
+    if( phase_distance < 1 ) {
+        return false;
+    }
+
+    // phasing only applies to impassible tiles such as walls
+
+    tripoint dest = dest_loc;
+    int tunneldist = 0;
+    const point d( sgn( dest.x - u.posx() ), sgn( dest.y - u.posy() ) );
+    creature_tracker &creatures = get_creature_tracker();
+    while( m.impassable( dest ) ||
+           ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
+        // add 1 to tunnel distance for each impassable tile in the line
+        tunneldist += 1;
+        if  (tunneldist > phase_distance ) {
+            return false;
+        }
+        if( tunneldist > 48 ) {
+            return false;
+        }
+
+        dest.x += d.x;
+        dest.y += d.y;
+    }
+
+    if( tunneldist != 0 ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos_bub() );
+        }
+
+        u.setpos( dest );
+
+        if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
+            m.board_vehicle( u.pos_bub(), &u );
+        }
+
+        u.grab( object_type::NONE );
+        on_move_effects();
+        m.creature_on_trap( u );
+        return true;
+    }
+
+    return false;
+}
+
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
     // TODO: Fix when unary operation available
