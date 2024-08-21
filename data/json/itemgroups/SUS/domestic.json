@@ -399,6 +399,7 @@
       { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
       { "group": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
+      { "group": "batteries", "prob": 50 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
       { "prob": 50, "group": "bottle_otc_painkiller_20" },

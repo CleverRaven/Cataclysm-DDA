@@ -154,14 +154,14 @@
     "subtype": "distribution",
     "container-item": "box_paper_small",
     "items": [
-      { "item": "light_minus_battery_cell", "prob": 30, "count": [ 2, 8 ] },
-      { "item": "light_minus_disposable_cell", "prob": 30, "count": [ 2, 8 ] },
-      { "item": "light_battery_cell", "prob": 160, "count": [ 0, 8 ] },
-      { "item": "light_battery_cell", "prob": 15, "count": [ 0, 16 ] },
-      { "item": "light_disposable_cell", "prob": 200, "count": [ 0, 8 ] },
-      { "item": "light_disposable_cell", "prob": 20, "count": [ 0, 16 ] },
-      { "item": "medium_battery_cell", "prob": 15, "count": [ 0, 2 ] },
-      { "item": "medium_disposable_cell", "prob": 15, "count": [ 0, 2 ] }
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 30, "count": [ 2, 8 ] },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": [ 2, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": [ 0, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 16 ] },
+      { "item": "light_disposable_cell", "charges": 1000, "prob": 200, "count": [ 0, 8 ] },
+      { "item": "light_disposable_cell", "charges": 1000, "prob": 20, "count": [ 0, 16 ] },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 2 ] },
+      { "item": "medium_disposable_cell", "charges": 1000, "prob": 15, "count": [ 0, 2 ] }
     ]
   }
 ]
