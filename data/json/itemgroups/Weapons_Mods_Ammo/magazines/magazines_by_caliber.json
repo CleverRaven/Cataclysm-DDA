@@ -145,7 +145,7 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "common_magazines_303",
+    "id": "common_magazines_308",
     "//": "Collections of magazines for 308 guns that can be found in gunstores.",
     "items": [
       { "group": "magazines_fal", "prob": 25 },
@@ -156,6 +156,17 @@
       { "group": "magazines_ar10", "prob": 100 },
       { "item": "steyr_scout_mag", "prob": 16 },
       { "item": "ai_308mag_10", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_380",
+    "//": "Collections of magazines for 380 guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_hipoint380", "prob": 44 },
+      { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "hpt3895mag_10rd", "prob": 4 }
     ]
   },
   {

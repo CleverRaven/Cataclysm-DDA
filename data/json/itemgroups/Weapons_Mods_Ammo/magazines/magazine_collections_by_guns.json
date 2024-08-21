@@ -400,5 +400,12 @@
       { "item": "ar10mag_25rd", "prob": 50 },
       { "item": "ar10mag_50rd", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_hipoint380",
+    "//": "Collections of magazines for the gun. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [ { "item": "hptcf380mag_8rd", "prob": 500 }, { "item": "hptcf380mag_10rd", "prob": 300 } ]
   }
 ]
