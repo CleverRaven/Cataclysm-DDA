@@ -1039,6 +1039,10 @@ void ter_t::check() const
             debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
         }
     }
+    if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ) && !deconstruct.can_do ) {
+        debugmsg( "ter %s has EASY_DECONSTRUCT flag but cannot be deconstructed",
+                  id.c_str(), deconstruct.drop_group.c_str() );
+    }
 }
 
 furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}

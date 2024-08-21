@@ -5037,6 +5037,9 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         modifier.sealed = obj.get_bool( "sealed" );
         use_modifier = true;
     }
+    if( obj.has_member( "active" ) ) {
+        sptr->active = obj.get_bool( "active" );
+    }
     std::vector<std::string> custom_flags;
     use_modifier |= load_string( custom_flags, obj, "custom-flags" );
     modifier.custom_flags.clear();
