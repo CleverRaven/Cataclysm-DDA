@@ -98,6 +98,16 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_223",
+    "items": [ { "group": "nested_ar_pistol", "prob": 8 }, { "group": "nested_ar_pistol_long", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_300",
+    "items": [ { "group": "nested_ar_pistol_300", "prob": 2 }, { "group": "nested_ar_pistol_300_long", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
   },
@@ -292,6 +302,16 @@
     "type": "item_group",
     "id": "guns_pistol_common_display_762_39",
     "items": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_223",
+    "items": [ { "group": "ar_pistol", "prob": 8 }, { "group": "ar_pistol_long", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_300",
+    "items": [ { "group": "ar_pistol_300", "prob": 2 }, { "group": "ar_pistol_300_long", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -513,7 +533,6 @@
     "type": "item_group",
     "id": "guns_rifle_common_worn_223",
     "items": [
-      { "item": "ar_pistol", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "ruger_mini", "prob": 1, "charges": [ 0, 5 ] },
       { "item": "ak556", "prob": 2, "charges": [ 0, 30 ] },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges": [ 0, 30 ] },

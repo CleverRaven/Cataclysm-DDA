@@ -1640,17 +1640,17 @@
   {
     "id": "plr16",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "oa93",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "m231pfw",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "moss_brownie",
@@ -1825,6 +1825,11 @@
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
     "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "ar_pistol",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
   },
   {
     "id": "stabilizer",

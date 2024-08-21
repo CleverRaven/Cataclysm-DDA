@@ -1376,6 +1376,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "rock_large", "count": [ 0, 20 ] }, { "item": "sharp_rock", "count": [ 0, 16 ] } ]
     },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "rock_large", "count": 22 } ] },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
   {
@@ -1494,6 +1495,7 @@
       "HIDE_PLACE",
       "EASY_DECONSTRUCT"
     ],
+    "deconstruct": { "ter_set": "t_pit_shallow", "items": [ { "item": "stick", "count": 12 }, { "item": "pine_bough", "count": 24 } ] },
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1526,6 +1528,10 @@
       "HIDE_PLACE",
       "EASY_DECONSTRUCT"
     ],
+    "deconstruct": {
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "stick", "count": 12 }, { "item": "pine_bough", "count": 24 }, { "item": "withered", "count": 80 } ]
+    },
     "bash": {
       "str_min": 4,
       "str_max": 60,
