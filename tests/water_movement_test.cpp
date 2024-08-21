@@ -262,9 +262,13 @@ static int swimming_steps( avatar &swimmer )
 {
     map &here = get_map();
     // This shouldn't work.
-    avatar_action::move( swimmer, here, tripoint_west );
+    CAPTURE( swimmer.pos() );
+    avatar_action::move( swimmer, here, swimmer.pos() + tripoint_west );
+    CAPTURE( swimmer.pos() );
     const tripoint left = swimmer.pos();
     const tripoint right = left + tripoint_east;
+    CAPTURE( left );
+    CAPTURE( right );
     int steps = 0;
     constexpr int STOP_STEPS = 9000;
     int last_moves = swimmer.get_speed();
@@ -274,10 +278,10 @@ static int swimming_steps( avatar &swimmer )
     while( swimmer.get_stamina() > 0 && !swimmer.has_effect( effect_winded ) && steps < STOP_STEPS ) {
         if( steps % 2 == 0 ) {
             REQUIRE( swimmer.pos() == left );
-            REQUIRE( avatar_action::move( swimmer, here, swimmer.pos() + tripoint_east ) );
+            REQUIRE( avatar_action::move( swimmer, here, right ) );
         } else {
             REQUIRE( swimmer.pos() == right );
-            REQUIRE( avatar_action::move( swimmer, here, swimmer.pos() + tripoint_west ) );
+            REQUIRE( avatar_action::move( swimmer, here, left ) );
         }
         ++steps;
         REQUIRE( swimmer.get_moves() < last_moves );
