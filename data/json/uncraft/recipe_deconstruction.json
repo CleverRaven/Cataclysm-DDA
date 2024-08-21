@@ -7746,7 +7746,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 4 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 4 ] ] ]
   },
   {
     "result": "active_backup_generator",

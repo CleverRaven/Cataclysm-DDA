@@ -11,17 +11,6 @@
   },
   {
     "type": "item_group",
-    "id": "ig_vp_prison_bench",
-    "subtype": "collection",
-    "entries": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "chain", "count": [ 1, 4 ] }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
@@ -57,8 +46,8 @@
     "id": "ig_vp_steel_plate",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 5, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },

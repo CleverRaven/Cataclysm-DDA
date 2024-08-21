@@ -169,7 +169,7 @@
   {
     "id": "metal_bench",
     "copy-from": "seat_back",
-    "breaks_into": "ig_vp_prison_bench",
+    "breaks_into": "ig_vp_steel_plate",
     "comfort": 0,
     "floor_bedding_warmth": 0,
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",

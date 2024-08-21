@@ -1219,7 +1219,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "lc_steel_tiny", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
