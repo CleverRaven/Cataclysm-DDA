@@ -1199,9 +1199,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool bitten = has_effect( effect_bite, bp.id() );
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
-        const int b_power = get_effect_int( effect_bandaged, bp );
-        const int d_power = get_effect_int( effect_disinfected, bp );
-        int new_b_power = static_cast<int>( std::floor( bandage_power ) );
+        const int b_power = get_effect_int( effect_bandaged, bp ) + 1;
+        const int d_power = get_effect_int( effect_disinfected, bp ) + 1;
+        int new_b_power = static_cast<int>( std::floor( bandage_power ) + 1 );
         if( bandaged ) {
             const effect &eff = get_effect( effect_bandaged, bp );
             if( new_b_power > eff.get_max_intensity() ) {
@@ -1209,7 +1209,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             }
 
         }
-        int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
+        int new_d_power = static_cast<int>( std::floor( disinfectant_power ) + 1 );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
