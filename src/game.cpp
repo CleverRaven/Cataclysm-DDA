@@ -11182,9 +11182,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
     }
 
     // vertical handling for adjacent tiles
-    if (d.z < 0 && !m.impassable( dest_loc ) && tunneldist == 0) {
-        tunneldist += 1;
-    } else if (d.z > 0 && !m.impassable( dest_loc ) && tunneldist == 0 ) {
+    if (d.z != 0 && !m.impassable( dest_loc ) && tunneldist == 0) {
         tunneldist += 1;
     }
 
