@@ -196,7 +196,7 @@
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
       [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
-      [ [ "medium_battery_cell", 2 ], [ "medium_disposable_cell", 6 ] ],
+      [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
   },

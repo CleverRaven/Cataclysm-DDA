@@ -1001,6 +1001,11 @@
     "replace": "light_battery_cell"
   },
   {
+    "id": "medium_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
     "id": "medium_plus_battery_cell",
     "type": "MIGRATION",
     "replace": "medium_battery_cell"

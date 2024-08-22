@@ -389,7 +389,6 @@
         "magazine_well": "500 ml",
         "item_restriction": [
           "medium_battery_cell",
-          "medium_disposable_cell",
           "heavy_battery_cell",
           "heavy_plus_battery_cell",
           "heavy_atomic_battery_cell",

@@ -162,8 +162,7 @@
       { "item": "light_disposable_cell", "charges": 1000, "prob": 16, "count": [ 0, 16 ] },
       { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": [ 0, 8 ] },
       { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": [ 0, 16 ] },
-      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 2 ] },
-      { "item": "medium_disposable_cell", "charges": 1000, "prob": 15, "count": [ 0, 2 ] }
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 4 ] }
     ]
   }
 ]

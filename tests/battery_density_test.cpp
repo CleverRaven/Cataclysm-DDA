@@ -13,13 +13,13 @@ struct battery_chemistry_family {
 // NOLINTBEGIN(cata-static-string_id-constants)
 static const std::map<itype_id, std::string> battery_to_chemistry = {
     {itype_id( "light_minus_battery_cell" ), "LiON"},
+    {itype_id( "medium_battery_cell" ), "LiON"},
     {itype_id( "heavy_battery_cell" ), "LiON"},
     {itype_id( "heavy_plus_battery_cell" ), "LiON"},
     {itype_id( "folding_solar_panel_deployed" ), "LiON"},
     {itype_id( "folding_solar_panel_v2_deployed" ), "LiON"},
 
     {itype_id( "light_cell_rechargeable" ), "Nickel-Metal Hydride"},
-    {itype_id( "medium_battery_cell" ), "Nickel-Metal Hydride"},
 
     {itype_id( "light_battery_cell" ), "Lithium/Iron Disulfide"},
 
@@ -28,8 +28,6 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
 
     {itype_id( "light_minus_disposable_cell" ), "Lithium-Manganese"},
     {itype_id( "light_disposable_cell" ), "Lithium-Manganese"},
-
-    {itype_id( "medium_disposable_cell" ), "Zinc-Manganese Dioxide"},
 
     {itype_id( "battery_car" ), "Lead-acid"},
     {itype_id( "battery_motorbike" ), "Lead-acid"},

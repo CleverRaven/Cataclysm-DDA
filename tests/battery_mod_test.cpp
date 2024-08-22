@@ -27,7 +27,7 @@ static const itype_id itype_heavy_plus_battery_cell( "heavy_plus_battery_cell" )
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_light_disposable_cell( "light_disposable_cell" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
-static const itype_id itype_medium_disposable_cell( "medium_disposable_cell" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 
 // Includes functions:
 // item::magazine_compatible
@@ -126,7 +126,6 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
                 CHECK( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
-                CHECK( flashlight.can_reload_with( item( itype_medium_disposable_cell ), true ) );
                 CHECK( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
             }
 

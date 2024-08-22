@@ -38,15 +38,6 @@
   },
   {
     "type": "ascii_art",
-    "id": "medium_disposable_cell",
-    "picture": [
-      "<color_red>,<color_dark_gray>/]===__",
-      "|<color_yellow>< MD  ></color>|",
-      "'───────'"
-    ]
-  },
-  {
-    "type": "ascii_art",
     "id": "heavy_battery_cell",
     "picture": [
       "   <color_yellow>_<color_dark_gray>_</color>_____",

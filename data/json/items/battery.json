@@ -49,10 +49,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 9911,
+    "capacity": 16,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9911 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16 } } ]
   },
   {
     "id": "light_disposable_cell",
@@ -76,21 +76,21 @@
     "description": "A light AA battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged",
     "ascii_picture": "light_disposable_cell",
     "extend": { "flags": [ "RECHARGE" ] },
-    "capacity": 99,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99 } } ]
+    "capacity": 10,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
   },
   {
     "id": "medium_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "medium battery", "str_pl": "medium batteries" },
-    "description": "A medium, D size battery cell, often used in heavy flashlights, two-way radios and security cameras.",
-    "//": "D, Nickel-Metal Hydride, ENERGIZER NH50-2500",
+    "description": "A medium, 18650 type battery cell, often used in heavy flashlights, two-way radios and security cameras.",
+    "//": "18650, Li-ion, https://cdn-shop.adafruit.com/datasheets/18650%204400mAh.pdf",
     "ascii_picture": "medium_battery_cell",
-    "weight": "73 g",
-    "volume": "57 ml",
-    "longest_side": "62 mm",
-    "price": "16 USD",
+    "weight": "85 g",
+    "volume": "17 ml",
+    "longest_side": "65 mm",
+    "price": "101 cent",
     "price_postapoc": "6 cent",
     "material": [ { "type": "budget_steel", "portion": 99 }, { "type": "plastic", "portion": 1 } ],
     "symbol": "=",
@@ -98,22 +98,8 @@
     "ammo_type": [ "battery" ],
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_MEDIUM" ],
-    "capacity": 29,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 29 } } ]
-  },
-  {
-    "id": "medium_disposable_cell",
-    "copy-from": "medium_battery_cell",
-    "type": "MAGAZINE",
-    "name": { "str": "medium disposable battery", "str_pl": "medium disposable batteries" },
-    "description": "A medium, D size battery cell, often used in heavy flashlights, two-way radios and security cameras.  Can't be recharged.",
-    "//": "D, Alkaline(Zinc-Manganese Dioxide), ENERGIZER E95",
-    "weight": "139 g",
-    "price": "118 cent",
-    "price_postapoc": "5 cent",
-    "delete": { "flags": [ "RECHARGE" ] },
-    "capacity": 81,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 81 } } ]
+    "capacity": 9929,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9929 } } ]
   },
   {
     "id": "heavy_battery_cell",

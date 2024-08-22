@@ -17,14 +17,6 @@
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
-    "result": "medium_disposable_cell",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "5 m",
-    "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [ [ [ "medium_battery_shell", 1 ] ] ]
-  },
-  {
     "result": "light_disposable_cell",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

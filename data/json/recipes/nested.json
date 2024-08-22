@@ -206,7 +206,7 @@
     "name": "standard disposable batteries",
     "description": "Recipes related to constructing standard disposable batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "light_minus_disposable_cell", "light_disposable_cell", "medium_disposable_cell" ],
+    "nested_category_data": [ "light_minus_disposable_cell", "light_disposable_cell" ],
     "difficulty": 4
   },
   {
