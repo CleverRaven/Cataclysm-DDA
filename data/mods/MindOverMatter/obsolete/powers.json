@@ -36,7 +36,7 @@
       { "math": [ "u_spell_level('teleport_area_attune')", "=", "-1" ] },
       { "math": [ "u_spell_level('teleport_gateway_legacy')", "=", "u_spell_level('teleport_gateway')" ] },
       {
-        "u_message": "Your Gateway power has been updated.  Your saved locations have not been updated--you can use the Gateway (Legacy) power to return to them and add them to the new Gateway power.",
+        "u_message": "Your Gateway power has been updated.  Your saved locations have not been updated--you can use the Gateway (Obsolete) power to return to them and add them to the new Gateway power.",
         "popup": true
       },
       { "math": [ "u_teleportation_gateway_updated", "=", "1" ] }
