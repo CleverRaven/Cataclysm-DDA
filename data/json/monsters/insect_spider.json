@@ -801,22 +801,29 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 2, "armor_penetration": 8 } ],
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
+      },
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "move_cost": 240,
+        "max_range": 3,
+        "allow_no_target": true,
+        "message": "The %s scurries!"
       }
     ],
     "dodge": 4,
     "dissect": "dissect_insect_sample_single",
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "fear_triggers": [ "BRIGHT_LIGHT", "FIRE", "HURT" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_centipede_house" },
     "armor": { "bash": 1, "cut": 3, "bullet": 1 },
-    "extend": { "flags": [ "NO_BREED" ] }
+    "extend": { "flags": [ "NO_BREED" ], "fear_triggers": [ "HURT" ] }
   },
   {
     "id": "mon_centipede_house",
     "type": "MONSTER",
     "name": { "str": "giant house centipede" },
-    "description": "A roughly human-sized mass of scurrying legs, and somehow the size is the weirder part here.  Normally they're said to look scarier than they really are, but usually they're also marginally smaller…",
+    "description": "A house centipede grown to immense size, with a slender body the size of a child held up by a constantly-twitching mess of legs.  Already a fearsome hunter at its normal scale, both its hunger and range of acceptable prey grew to match its new size.",
     "symbol": "X",
     "color": "brown",
     "default_faction": "centipede_house",
@@ -842,6 +849,14 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_penetration": 8 } ],
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
+      },
+      {
+        "type": "leap",
+        "cooldown": 4,
+        "move_cost": 265,
+        "max_range": 3,
+        "allow_no_target": true,
+        "message": "The %s scurries!"
       }
     ],
     "dodge": 3,
@@ -854,6 +869,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "harvest": "arachnid_centipede",
     "dissect": "dissect_insect_sample_small",
+    "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "BRIGHT_LIGHT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "CLIMBS", "CORNERED_FIGHTER" ],
@@ -1265,7 +1281,6 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 7,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_flying" ],
