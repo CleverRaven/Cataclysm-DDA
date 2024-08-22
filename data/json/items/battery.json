@@ -5,7 +5,7 @@
     "category": "tool_magazine",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "A light, button-like lithium-ion battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.  Can be recharged.",
-    "//": "cr2032, Li-Ion, ENERGIZER CR2032",
+    "//": "LIR2032, Li-Ion, DURACELL DL2032",
     "ascii_picture": "light_minus_battery_cell",
     "weight": "3 g",
     "volume": "1 ml",
@@ -38,7 +38,7 @@
     "category": "tool_magazine",
     "name": { "str": "light battery (high-capacity)", "str_pl": "light batteries (high-capacity)" },
     "description": "A light, high-capacity AA battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.",
-    "//": "AA, Li-Ion, ENERGIZER L91",
+    "//": "AA, Lithium/Iron Disulfide, ENERGIZER L91",
     "ascii_picture": "light_battery_cell",
     "weight": "15 g",
     "volume": "8 ml",
@@ -49,10 +49,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 11,
+    "capacity": 9911,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 11 } } ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 9911 } } ]
   },
   {
     "id": "light_disposable_cell",
@@ -63,9 +63,21 @@
     "weight": "23 g",
     "description": "A light AA battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged",
     "ascii_picture": "light_disposable_cell",
-    "delete": { "flags": [ "RECHARGE" ] },
     "capacity": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16 } } ]
+  },
+  {
+    "id": "light_cell_rechargeable",
+    "copy-from": "light_battery_cell",
+    "type": "MAGAZINE",
+    "name": { "str": "light battery (rechargeable)", "str_pl": "light batteries (rechargeable)" },
+    "//": "AA, Nickel-Metal Hydride, ENERGIZER NH15-2300",
+    "weight": "27 g",
+    "description": "A light AA battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged",
+    "ascii_picture": "light_disposable_cell",
+    "extend": { "flags": [ "RECHARGE" ] },
+    "capacity": 99,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 99 } } ]
   },
   {
     "id": "medium_battery_cell",
