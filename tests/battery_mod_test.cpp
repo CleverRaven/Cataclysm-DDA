@@ -27,7 +27,6 @@ static const itype_id itype_heavy_plus_battery_cell( "heavy_plus_battery_cell" )
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_light_disposable_cell( "light_disposable_cell" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
-static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 
 // Includes functions:
 // item::magazine_compatible
