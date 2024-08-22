@@ -1414,7 +1414,7 @@
   },
   {
     "id": "untidy_floor_clutter",
-    "//": "Items you might find on the floor in a disorganised house.",
+    "//": "Items you might find on the floor in a disorganized house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -1449,7 +1449,7 @@
   },
   {
     "id": "messy_floor_clutter",
-    "//": "Items you might find on the floor in a disorganised and dirty house.",
+    "//": "Items you might find on the floor in a disorganized and dirty house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -1468,7 +1468,7 @@
   },
   {
     "id": "untidy_workbench_clutter",
-    "//": "Items you might find on the floor in a disorganised house.",
+    "//": "Items you might find on the floor in a disorganized house.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "item": "splinter", "prob": 10 }, { "item": "nail", "prob": 10, "charges": [ 1, 3 ] } ]
