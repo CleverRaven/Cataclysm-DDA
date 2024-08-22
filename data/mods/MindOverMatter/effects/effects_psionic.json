@@ -1749,9 +1749,9 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_teleport_phasing",
-    "name": [ "Phasing" ],
-    "desc": [ "You exist slightly outside of baseline reality, allowing you to effortlessly phase through solid matter." ],
+    "id": "effect_teleport_ephemeral_walk",
+    "name": [ "Ephemeral Walk" ],
+    "desc": [ "You exist slightly outside of baseline reality, allowing you to effortlessly walk through solid matter." ],
     "remove_message": "The surrounding matter feels real again.",
     "rating": "good",
     "enchantments": [
@@ -1761,7 +1761,7 @@
             "value": "PHASE_DISTANCE",
             "add": {
               "math": [
-                "max( ( ( ( ( u_spell_level('teleport_phasing') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
+                "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
               ]
             }
           }

@@ -33,7 +33,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPORT_LEARNING_PHASING",
+    "id": "EOC_TELEPORT_LEARNING_EPHEMERAL_WALK",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
@@ -54,14 +54,16 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_phasing')", "<=", "0" ] },
-        { "not": { "u_know_recipe": "practice_teleport_phasing" } }
+        { "math": [ "u_spell_level('teleport_ephemeral_walk')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_ephemeral_walk" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_phasing')", ">=", "1" ] } ] },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_ephemeral_walk')", ">=", "1" ] } ]
+    },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
-      { "u_learn_recipe": "practice_teleport_phasing" },
+      { "u_learn_recipe": "practice_teleport_ephemeral_walk" },
       {
         "u_message": "Use of your powers has led to an insight.  You can maintain a slight offset from normal space, allowing yourself to effortlessly phase through obstacles while still being able to interact with reality, if you can figure out the proper technique.",
         "popup": true
