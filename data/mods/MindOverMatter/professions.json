@@ -249,7 +249,7 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
     "spells": [
       { "id": "telekinetic_push", "level": 5 },
       { "id": "telekinetic_pull", "level": 6 },
