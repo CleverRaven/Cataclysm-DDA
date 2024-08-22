@@ -11169,7 +11169,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
            ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
         // add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
-        if(tunneldist > phase_distance ) {
+        if( tunneldist > phase_distance ) {
             return false;
         }
         if( tunneldist > 48 ) {
@@ -11182,7 +11182,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
     }
 
     // vertical handling for adjacent tiles
-    if (d.z != 0 && !m.impassable( dest_loc ) && tunneldist == 0) {
+    if( d.z != 0 && !m.impassable( dest_loc ) && tunneldist == 0 ) {
         tunneldist += 1;
     }
 
@@ -11191,7 +11191,7 @@ bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_dista
             m.unboard_vehicle( u.pos_bub() );
         }
 
-        if (dest.z != u.posz()) {
+        if( dest.z != u.posz() ) {
             // calling vertical_shift here doesn't actually move the character for some reason, but it does perform other necessary tasks for vertical movement
             vertical_shift( dest.z );
         }
@@ -11862,7 +11862,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( here.has_floor_or_support( stairs.raw() ) ) {
             tripoint dest_phase = u.pos();
             dest_phase.z += 1;
-            if ( phasing_move_enchant(dest_phase, u.calculate_by_enchantment(0, enchant_vals::mod::PHASE_DISTANCE))) {
+            if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                      enchant_vals::mod::PHASE_DISTANCE ) ) ) {
                 return;
             } else {
                 add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -11938,7 +11939,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             stairs = tripoint_bub_ms( *pnt );
         }
     }
-    
+
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
@@ -11951,7 +11952,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             u.set_activity_level( EXTRA_EXERCISE );
             u.burn_energy_all( -750 );
             move_cost += 500;
-        } else if ( phasing_move_enchant(dest_phase, u.calculate_by_enchantment(0, enchant_vals::mod::PHASE_DISTANCE) )) {
+        } else if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                         enchant_vals::mod::PHASE_DISTANCE ) ) ) {
             return;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
