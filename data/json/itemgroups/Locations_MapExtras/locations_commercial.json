@@ -552,7 +552,7 @@
       [ "maid_dress", 3 ],
       [ "maid_dress_short", 3 ],
       [ "maid_hat", 3 ],
-      [ "miner_hat", 3 ],
+      { "group": "hat_hard_flashlight", "prob": 3 },
       [ "grapnel", 1 ],
       [ "razor_blade", 6 ],
       [ "scabbard", 4 ],
