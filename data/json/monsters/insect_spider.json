@@ -808,7 +808,7 @@
         "move_cost": 240,
         "max_range": 3,
         "allow_no_target": true,
-        "message": "The %s scurries!"
+        "message": "%s scurries!"
       }
     ],
     "dodge": 4,
@@ -856,7 +856,7 @@
         "move_cost": 265,
         "max_range": 3,
         "allow_no_target": true,
-        "message": "The %s scurries!"
+        "message": "%s scurries!"
       }
     ],
     "dodge": 3,
