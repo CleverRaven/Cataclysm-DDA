@@ -27,7 +27,7 @@
     "price": "30 USD",
     "price_postapoc": "25 cent",
     "material": [ { "type": "steel", "portion": 12 }, { "type": "nether_crystal" } ],
-    "looks_like": "miner_hat",
+    "looks_like": "hat_hard",
     "symbol": "[",
     "color": "white",
     "material_thickness": 0.33,

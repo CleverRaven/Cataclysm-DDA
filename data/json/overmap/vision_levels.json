@@ -47,6 +47,36 @@
     ]
   },
   {
+    "id": "isolated_electronics",
+    "//": "appliances, machineries visible outside",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "appliances", "sym": "&", "color": "light_gray" },
+      { "name": "deployed appliances", "sym": "A", "color": "light_gray" },
+      { "name": "deployed appliances", "sym": "A", "color": "light_gray" }
+    ]
+  },
+  {
+    "id": "industrial_building",
+    "//": "an industrial building that is neither a warehouse, nor having appliances installed",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "building", "sym": "^", "color": "light_gray" },
+      { "name": "industrial building", "sym": "i", "color": "light_gray" },
+      { "name": "industrial building", "sym": "i", "color": "light_gray" }
+    ]
+  },
+  {
+    "id": "warehouse",
+    "//": "a warehouse or similar",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "building", "sym": "^", "color": "light_gray" },
+      { "name": "warehouse", "sym": "w", "color": "light_gray" },
+      { "name": "warehouse", "sym": "w", "color": "light_gray" }
+    ]
+  },
+  {
     "id": "island",
     "//": "any island",
     "type": "oter_vision",
@@ -168,6 +198,16 @@
       { "name": "city", "color": "light_gray", "sym": "#" },
       { "name": "large building", "color": "i_light_gray", "sym": "+" },
       { "name": "large building", "color": "i_light_gray", "sym": "+" }
+    ]
+  },
+  {
+    "id": "large_industrial_building",
+    "//": "a large industrial building (at least 2x2 overmap tiles)",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "large industrial building", "color": "i_white", "sym": "^" },
+      { "name": "large industrial building", "color": "i_white", "sym": "^" },
+      { "name": "large industrial building", "color": "i_white", "sym": "^" }
     ]
   },
   {
