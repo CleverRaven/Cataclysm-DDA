@@ -665,11 +665,18 @@
       { "group": "hat_hard_modified", "prob": 30 },
       { "item": "hat_hard_hooded", "prob": 10 },
       { "group": "hat_hard_hooded_modified", "prob": 5 },
-      { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "hat_hard_flashlight", "prob": 10 },
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
       { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
+  },
+  {
+    "id": "hat_hard_flashlight",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hat_hard",
+    "items": [ { "item": "light_disposable_cell", "charges": [ 0, -1 ], "container-item": "flashlight" } ]
   },
   {
     "id": "hat_hard_modified",
@@ -678,6 +685,7 @@
     "container-item": "hat_hard",
     "items": [
       { "group": "common_nape_protectors", "prob": 50 },
+      { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "flashlight", "prob": 50 },
       { "group": "common_face_shields", "prob": 15 },
       { "item": "plastic_chin_guard", "prob": 10 },
       { "item": "attachable_ear_muffs", "prob": 5 }
@@ -805,7 +813,7 @@
       [ "gloves_leather", 40 ],
       [ "gloves_work", 45 ],
       { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "miner_hat", "prob": 1, "charges": [ 0, 100 ] }
+      { "group": "hat_hard_flashlight", "prob": 1 }
     ]
   },
   {

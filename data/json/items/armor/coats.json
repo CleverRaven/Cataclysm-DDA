@@ -888,7 +888,7 @@
   },
   {
     "id": "jacket_army",
-    "//": "Intended to be, and modelled off of, an M65 combat jacket.",
+    "//": "Intended to be, and modeled off of, an M65 combat jacket.",
     "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
     "looks_like": "coat_winter",

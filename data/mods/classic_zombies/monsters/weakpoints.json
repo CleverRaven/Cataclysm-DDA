@@ -484,7 +484,7 @@
       {
         "id": "head_coup",
         "name": "the head",
-        "//": "If a zombie is downed, it's way easier to get a headshot.  The armour still applies though.",
+        "//": "If a zombie is downed, it's way easier to get a headshot.  The armor still applies though.",
         "coverage": 25,
         "crit_mult": { "all": 1.5 },
         "difficulty": { "ranged": 7 },

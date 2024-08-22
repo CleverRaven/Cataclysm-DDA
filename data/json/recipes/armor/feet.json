@@ -737,7 +737,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
