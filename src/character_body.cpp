@@ -1199,8 +1199,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool bitten = has_effect( effect_bite, bp.id() );
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
-        const int b_power = get_effect_int( effect_bandaged, bp ) + 1;
-        const int d_power = get_effect_int( effect_disinfected, bp ) + 1;
+        const int b_power = get_effect_int( effect_bandaged, bp );
+        const int d_power = get_effect_int( effect_disinfected, bp );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) + 1 );
         if( bandaged ) {
             const effect &eff = get_effect( effect_bandaged, bp );
@@ -1270,9 +1270,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
 
         // BANDAGE block
-        if( e.allowed && ( new_b_power > 1 || b_power > 1 ) ) {
+        if( e.allowed && ( new_b_power > 1 || b_power > 0 ) ) {
             desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
-            if( new_b_power > 0 ) {
+            if( new_b_power > 1 ) {
                 desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
                 if( new_b_power <= b_power ) {
                     desc += _( " (no improvement)" );
@@ -1286,9 +1286,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
 
         // DISINFECTANT block
-        if( e.allowed && ( d_power > 1 || new_d_power > 1 ) ) {
+        if( e.allowed && ( d_power > 0 || new_d_power > 1 ) ) {
             desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
-            if( new_d_power > 0 ) {
+            if( new_d_power > 1 ) {
                 desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
                 if( new_d_power <= d_power ) {
                     desc += _( " (no improvement)" );
