@@ -193,7 +193,7 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_01", "EOC_TELEPORT_GATEWAY_ATTUNE_01" ],
-        "names": [ "Gateway: <u_val:gateway_destination_name_1>", "Attune to Area" ],
+        "names": [ "Destination: <u_val:gateway_destination_name_1>", "Attune to Area" ],
         "keys": [ "1", "2" ],
         "descriptions": [ "Teleport to <u_val:gateway_destination_name_1>.", "Attune to a new destination." ],
         "hide_failing": true,
@@ -204,7 +204,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_01",
-    "condition": { "math": [ "u_gateway_destination_1", "!=", "0" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_1" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -236,6 +235,122 @@
         "target_var": { "u_val": "gateway_destination_name_1" }
       },
       { "u_location_variable": { "u_val": "gateway_destination_1" }, "min_radius": 0, "max_radius": 0 },
+      { "run_eocs": "EOC_TELEPORTER_ATTUNED_MESSAGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_SELECTOR_02",
+    "condition": {
+      "math": [
+        "(u_spell_level('teleport_gateway') * (1 + (u_has_trait('GOODMEMORY') * 0.2) ) / (1 + (u_has_trait('FORGETFUL') * 0.33) ) ) / 3",
+        ">=",
+        "1"
+      ]
+    },
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_02", "EOC_TELEPORT_GATEWAY_ATTUNE_02" ],
+        "names": [ "Destination: <u_val:gateway_destination_name_2>", "Attune to Area" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Teleport to <u_val:gateway_destination_name_2>.", "Attune to a new destination." ],
+        "hide_failing": true,
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_TELEPORT_02",
+    "effect": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_ATTUNE_02",
+    "effect": [
+      { "run_eocs": "EOC_TELEPORTER_ATTUNING_MESSAGE" },
+      { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
+      { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
+      {
+        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_02_SUCCESS",
+        "time_in_future": { "math": [ "28800 - max(( u_spell_level('teleport_gateway') * 1080), 1800)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_ATTUNE_02_SUCCESS",
+    "condition": { "u_has_effect": "effect_teleporter_attuning_to_area" },
+    "effect": [
+      {
+        "set_string_var": "Destination 2",
+        "string_input": {
+          "title": { "i18n": true, "str": "Input a destination name:" },
+          "description": { "i18n": true, "str": "Destination Name:" },
+          "width": 35,
+          "identifier": ""
+        },
+        "target_var": { "u_val": "gateway_destination_name_2" }
+      },
+      { "u_location_variable": { "u_val": "gateway_destination_2" }, "min_radius": 0, "max_radius": 0 },
+      { "run_eocs": "EOC_TELEPORTER_ATTUNED_MESSAGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_SELECTOR_03",
+    "condition": {
+      "math": [
+        "(u_spell_level('teleport_gateway') * (1 + (u_has_trait('GOODMEMORY') * 0.2) ) / (1 + (u_has_trait('FORGETFUL') * 0.33) ) ) / 3",
+        ">=",
+        "2"
+      ]
+    },
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_03", "EOC_TELEPORT_GATEWAY_ATTUNE_03" ],
+        "names": [ "Destination: <u_val:gateway_destination_name_3>", "Attune to Area" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Teleport to <u_val:gateway_destination_name_3>.", "Attune to a new destination." ],
+        "hide_failing": true,
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_TELEPORT_03",
+    "effect": [ { "u_teleport": { "u_val": "gateway_destination_3" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_ATTUNE_03",
+    "effect": [
+      { "run_eocs": "EOC_TELEPORTER_ATTUNING_MESSAGE" },
+      { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
+      { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
+      {
+        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_03_SUCCESS",
+        "time_in_future": { "math": [ "28800 - max(( u_spell_level('teleport_gateway') * 1080), 1800)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_GATEWAY_ATTUNE_03_SUCCESS",
+    "condition": { "u_has_effect": "effect_teleporter_attuning_to_area" },
+    "effect": [
+      {
+        "set_string_var": "Destination 3",
+        "string_input": {
+          "title": { "i18n": true, "str": "Input a destination name:" },
+          "description": { "i18n": true, "str": "Destination Name:" },
+          "width": 35,
+          "identifier": ""
+        },
+        "target_var": { "u_val": "gateway_destination_name_3" }
+      },
+      { "u_location_variable": { "u_val": "gateway_destination_3" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_TELEPORTER_ATTUNED_MESSAGE" }
     ]
   },
