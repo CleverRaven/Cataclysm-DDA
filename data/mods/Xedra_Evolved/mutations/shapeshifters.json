@@ -94,10 +94,11 @@
           { "value": "MELEE_DAMAGE", "multiply": 0.33 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.8 },
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 }
+          { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 },
+          { "value": "SOCIAL_PERSUADE", "add": -50 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 40 }
         ],
-        "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ],
-        "skills": [ { "value": "unarmed", "add": 4 } ]
+        "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
         "condition": "ALWAYS",
