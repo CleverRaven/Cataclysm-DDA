@@ -677,7 +677,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" },
     "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
   },
