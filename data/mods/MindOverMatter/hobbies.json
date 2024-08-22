@@ -301,7 +301,7 @@
     "name": "Newly-Awakened Telekinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can lift things with your mind.  Mostly just small things, but during the chaos a group of rioters jumped you and you hurled them off of you just by thinking about it.  This will definitely come in handy.",
     "points": 4,
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ]
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ]
   },
   {
     "type": "profession",
@@ -310,7 +310,7 @@
     "name": "Arising Telekinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Moving things at a distance is child's play.  You can pick up zombies and fling them away from you, shatter doors with a thought, and jump from the fifth story and land with barely a bruise.  Nothing is going to get close to you now.",
     "points": 8,
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_9" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
     "skills": [ { "level": 6, "name": "metaphysics" } ],
     "spells": [
       { "id": "telekinetic_push", "level": 8 },
@@ -329,7 +329,7 @@
     "name": "Ascended Telekinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  One ton cars lift off the ground with merely a thought, bullets bounce off the air before they hit you, and you can smash whole groups of zombies to paste in seconds.  You can even fly from rooftop to rooftop, preventing gravity from affecting you by sheer force of will.",
     "points": 12,
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_10" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
     "skills": [ { "level": 11, "name": "metaphysics" } ],
     "spells": [
       { "id": "telekinetic_push", "level": 11 },
@@ -338,6 +338,7 @@
       { "id": "telekinetic_momentum", "level": 10 },
       { "id": "telekinetic_slowfall", "level": 8 },
       { "id": "telekinetic_wave", "level": 10 },
+      { "id": "telekinetic_lifting_field", "level": 7 },
       { "id": "telekinetic_strength", "level": 5 },
       { "id": "telekinetic_hammer", "level": 8 },
       { "id": "telekinetic_vehicle_lift", "level": 6 },
