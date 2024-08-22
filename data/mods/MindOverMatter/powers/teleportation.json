@@ -102,6 +102,43 @@
     "casting_time_increment": -3
   },
   {
+    "id": "teleport_ephemeral_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Ephemeral Walk (C)",
+    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
+      ]
+    }
+  },
+  {
     "id": "teleport_stride",
     "type": "SPELL",
     "name": "[Ψ]Extended Stride (C)",

@@ -1759,6 +1759,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_ephemeral_walk",
+    "name": [ "Ephemeral Walk" ],
+    "desc": [ "You exist slightly outside of baseline reality, allowing you to effortlessly walk through solid matter." ],
+    "remove_message": "The surrounding matter feels real again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],

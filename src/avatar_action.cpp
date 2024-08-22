@@ -509,6 +509,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
+    if( g->phasing_move_enchant( dest_loc.raw(), you.calculate_by_enchantment( 0,
+                                 enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+        return true;
+    }
     if( g->phasing_move( dest_loc.raw() ) ) {
         return true;
     }
