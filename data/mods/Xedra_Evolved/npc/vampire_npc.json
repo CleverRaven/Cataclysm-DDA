@@ -1,0 +1,215 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE",
+    "name": "Vampire",
+    "job_description": "Someone who needs to drink blood to live.",
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
+    ],
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_tier1_vampire", "prob": 100 },
+      { "group": "trait_group_tier2_vampire", "prob": 90 },
+      { "group": "trait_group_tier3_vampire", "prob": 80 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE",
+    "name": "Vampire",
+    "job_description": "Someone who needs to drink blood to live.",
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
+    ],
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_tier1_vampire", "prob": 100 },
+      { "group": "trait_group_tier2_vampire", "prob": 90 },
+      { "group": "trait_group_tier3_vampire", "prob": 80 },
+      { "trait": "VAMPIRE_HUNGRY", "prob": 100 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE_COMPLETE",
+    "name": "Vampire",
+    "job_description": "A very old vampire that reached the full potential of their curse.",
+    "common": false,
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 2, 4 ] } ] } } ],
+    "bonus_int": { "rng": [ 2, 4 ] },
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 2, 4 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_complete_vampire" }
+    ]
+  },
+
+
+
+  {
+    "type": "npc",
+    "id": "xe_vampire_mugger",
+    "//": "Asks for two liters of blood from your veins.  If you can't or won't give it, acts as a regular mugger.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "common_spawn_weight": 0.1,
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_MUGGER",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_regular",
+    "//": "A regular person if not for the vampirism.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "common_spawn_weight": 0.1,
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hungry",
+    "//": "A regular person if not for the vampirism and the gnawing thirst for blood.  Needs a custom class so they can receive the trait that checks if they're hungry.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE_HUNGRY",
+    "common_spawn_weight": 0.1,
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_unwilling",
+    "//": "They never wanted to be a vampire, and are looking for anything to help them get rid of that curse.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "common_spawn_weight": 0.1,
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_UNWILLING",
+    "faction": "vampire"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "id": "TALK_VAMPIRE_MUGGER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "",
+      "value": "yes",
+      "yes": "",
+      "no": ""
+    },
+    "responses": [
+      {
+        "text": "I want to talk.",
+        "topic": "TALK_VAMPIRE_MENTOR_TALK",
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "I want a mentor.",
+        "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "I want to kill vampires.",
+        "topic": "TALK_VAMPIRE_MENTOR_KILLING",
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      },
+      {
+        "text": "I've done it.  I am now a true vampire.",
+        "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
+        "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_var": "told_about_trueness", "value": "yes" } } ] },
+        "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
+      },
+      {
+        "text": "Before, you said there was more that I needed to learn?",
+        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
+        "condition": {
+          "and": [
+            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+            { "u_has_var": "told_about_trueness", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I've lost the book you gave me.  Do you have another?",
+        "topic": "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW",
+        "condition": {
+          "and": [ { "u_has_var": "received_mentor_book", "value": "yes" }, { "not": { "u_has_item": "vampire_mentor_book" } } ]
+        }
+      },
+      {
+        "text": "I have brought back the components you need for the ritual.",
+        "topic": "TALK_VAMPIRE_MENTOR_MAKE_TIER_5",
+        "condition": {
+          "and": [
+            { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" },
+            { "u_has_item": "stormwrought_blood_charged" },
+            { "u_has_items": { "item": "concentrated_underhill_essence", "count": 400 } },
+            { "u_has_item": "dream_drainer_heart" },
+            { "u_has_item": "moonstruck_pearl" },
+            { "u_has_item": "abyssal_hunger_shard" }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "stormwrought_blood_charged", "count": 1 },
+          { "u_sell_item": "concentrated_underhill_essence", "count": 400 },
+          { "u_sell_item": "dream_drainer_heart", "count": 1 },
+          { "u_sell_item": "moonstruck_pearl", "count": 1 },
+          { "u_sell_item": "abyssal_hunger_shard", "count": 1 }
+        ]
+      },
+      {
+        "text": "Just passing through, don't mind me.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+      }
+    ]
+  },
+
+
+
+
+
+]

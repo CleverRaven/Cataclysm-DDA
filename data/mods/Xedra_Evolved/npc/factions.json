@@ -1,0 +1,58 @@
+[
+  {
+    "type": "faction",
+    "id": "vampire",
+    "//": "All vampires sane enough to not attack on sight.  Intended to be hidden from the player and used to make vampire hunters attack vampire NPCs.",
+    "name": "",
+    "likes_u": 0,
+    "respects_u": 0,
+    "trusts_u": 0,
+    "known_by_u": false,
+    "size": 1,
+    "power": 100,
+    "fac_food_supply": { "calories": 115200, "vitamins": { "iron": 800, "calcium": 800, "vitC": 600 } },
+    "consumes_food": false,
+    "lone_wolf_faction": true,
+    "wealth": 0,
+    "relations": {
+      "vampire": {
+        "kill on sight": false
+      },
+      "vampire_hunter": {
+        "kill on sight": true
+      },
+      "hells_raiders": {
+        "kill on sight": true
+      }
+    },
+    "description": "Someone who needs to drink blood to survive."
+  },
+  {
+    "type": "faction",
+    "id": "vampire_hunter",
+    "//": "All vampire hunters sane enough to not attack on sight.  Intended to be hidden from the player and used to make vampire hunters attack vampire NPCs.",
+    "name": "",
+    "likes_u": 0,
+    "respects_u": 0,
+    "trusts_u": 0,
+    "known_by_u": false,
+    "size": 1,
+    "power": 100,
+    "fac_food_supply": { "calories": 115200, "vitamins": { "iron": 800, "calcium": 800, "vitC": 600 } },
+    "consumes_food": false,
+    "lone_wolf_faction": true,
+    "wealth": 0,
+    "relations": {
+      "vampire": {
+        "kill on sight": true
+      },
+      "vampire_hunter": {
+        "kill on sight": false
+      },
+      "hells_raiders": {
+        "kill on sight": true
+      }
+    },
+    "description": "Someone who wish to kill the blood drinkers."
+  }
+]

@@ -2,12 +2,13 @@
   {
     "type": "npc",
     "id": "xe_vampire_mentor",
-    "name_suffix": "ancient vampire",
+    "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
+    "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
     "mission": 2,
     "chat": "TALK_VAMPIRE_MENTOR",
-    "faction": "vampire"
+    "faction": "no_faction"
   },
   {
     "type": "npc_class",
@@ -33,8 +34,12 @@
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "trait_group_complete_vampire" },
-      { "trait": "MENTOR_PEACE", "prob": 100 }
+      { "trait": "VAMPIRE", "prob": 100 },
+      { "trait": "VAMPIRE2", "prob": 100 },
+      { "trait": "VAMPIRE3", "prob": 100 },
+      { "trait": "VAMPIRE4", "prob": 100 },
+      { "trait": "MENTOR_PEACE", "prob": 100 },
+      { "trait": "BLOOD_DRINKER", "prob": 100 }
     ]
   },
   {
