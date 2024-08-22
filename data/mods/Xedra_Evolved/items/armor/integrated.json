@@ -828,7 +828,7 @@
         "encumbrance": 3
       }
     ],
-    "melee_damage": { "cut": 20 }
+    "melee_damage": { "cut": 16 }
   },
   {
     "id": "integrated_werewolf_teeth",
@@ -856,6 +856,6 @@
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "stab": 15 }
+    "melee_damage": { "stab": 13 }
   }
 ]
