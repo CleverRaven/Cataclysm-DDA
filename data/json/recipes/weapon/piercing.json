@@ -403,11 +403,7 @@
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ 
-        [ [ "scrap_bronze", 2 ] ],
-        [ [ "long_pole", 1 ] ],
-        [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
