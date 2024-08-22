@@ -382,5 +382,20 @@
     "damage_type": "pure",
     "min_range": 30,
     "max_range": 30
+  },
+  {
+    "id": "rip_ticket",
+    "type": "SPELL",
+    "name": "Rip",
+    "description": "You hear an otherworldly slice.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
+    "min_damage": 100,
+    "max_damage": 200,
+    "min_range": 9,
+    "max_range": 9,
+    "damage_type": "cut"
   }
 ]
