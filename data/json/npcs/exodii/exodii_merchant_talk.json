@@ -269,7 +269,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
+      "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade.",
       "str": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade."
     },
     "responses": [
@@ -285,7 +285,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
+      "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armor for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
       "str": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the Enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow."
     },
     "responses": [
@@ -300,7 +300,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "This and that, you know.  It's made for a travelling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
+      "//~": "This and that, you know.  It's made for a traveling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
       "str": "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz."
     },
     "responses": [
@@ -1259,7 +1259,7 @@
     "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
     "responses": [
       {
-        "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
+        "text": "So traveling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
       },
       {

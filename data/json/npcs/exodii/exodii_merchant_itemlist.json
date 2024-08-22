@@ -191,7 +191,7 @@
   {
     "type": "item_group",
     "id": "EXODII_Shop_OldArmour",
-    "//": "This stuff should be available in the Exodii store from the start.  Old Thessalonian armour the Exodii brought with them.",
+    "//": "This stuff should be available in the Exodii store from the start.  Old Thessalonian armor the Exodii brought with them.",
     "//2": "Ideally, the spear should be sold as a spearhead and the player crafts it by getting their own pole.",
     "subtype": "collection",
     "items": [
