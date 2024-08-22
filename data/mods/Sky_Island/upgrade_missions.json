@@ -3426,7 +3426,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "2" ] },
         { "u_forget_recipe": "secure_container_2" },
-		{ "u_lose_trait": "mut_secure_container_1" },
+        { "u_lose_trait": "mut_secure_container_1" },
         { "u_add_trait": "mut_secure_container_2" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3473,7 +3473,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "3" ] },
         { "u_forget_recipe": "secure_container_3" },
-		{ "u_lose_trait": "mut_secure_container_2" },
+        { "u_lose_trait": "mut_secure_container_2" },
         { "u_add_trait": "mut_secure_container_3" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3520,7 +3520,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "4" ] },
         { "u_forget_recipe": "secure_container_4" },
-		{ "u_lose_trait": "mut_secure_container_3" },
+        { "u_lose_trait": "mut_secure_container_3" },
         { "u_add_trait": "mut_secure_container_4" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3567,7 +3567,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "5" ] },
         { "u_forget_recipe": "secure_container_5" },
-		{ "u_lose_trait": "mut_secure_container_4" },
+        { "u_lose_trait": "mut_secure_container_4" },
         { "u_add_trait": "mut_secure_container_5" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
