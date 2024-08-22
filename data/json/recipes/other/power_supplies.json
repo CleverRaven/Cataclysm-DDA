@@ -643,29 +643,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_disposable_cell",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "book_learn": [ [ "adv_chemistry", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 12 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "5l_methanol_tank",
     "category": "CC_*",

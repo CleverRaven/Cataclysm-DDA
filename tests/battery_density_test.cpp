@@ -27,7 +27,6 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
     {itype_id( "huge_atomic_battery_cell" ), "atomic"},
 
     {itype_id( "light_minus_disposable_cell" ), "Lithium-Manganese"},
-    {itype_id( "light_disposable_cell" ), "Lithium-Manganese"},
 
     {itype_id( "battery_car" ), "Lead-acid"},
     {itype_id( "battery_motorbike" ), "Lead-acid"},

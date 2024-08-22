@@ -13,7 +13,7 @@
   },
   {
     "id": "inventor_light_cell",
-    "copy-from": "light_disposable_cell",
+    "copy-from": "light_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "light modified battery", "str_pl": "light modified batteries" },

@@ -131,13 +131,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_heavy_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
   },
   {
     "type": "item_group",
@@ -149,7 +149,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_two_way_radio",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
   },
   {
     "type": "item_group",
@@ -5640,7 +5640,7 @@
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5797,7 +5797,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_rich_wallet_full" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
@@ -7538,13 +7538,8 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
-          {
-            "item": "light_disposable_cell",
-            "ammo-item": "battery",
-            "charges": 300,
-            "container-item": "wearable_light"
-          }
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },

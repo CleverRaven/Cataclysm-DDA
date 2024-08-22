@@ -80,49 +80,5 @@
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_disposable_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "light_battery_shell", 1 ] ]
-    ]
   }
 ]

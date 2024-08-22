@@ -20,15 +20,6 @@
   },
   {
     "type": "ascii_art",
-    "id": "light_disposable_cell",
-    "picture": [
-      "<color_yellow>╓<color_light_gray>▬</color>╖",
-      "║<color_white>L</color>║",
-      "<color_light_gray>╙─╜"
-    ]
-  },
-  {
-    "type": "ascii_art",
     "id": "medium_battery_cell",
     "picture": [
       "<color_red>,<color_dark_gray>/]===.",

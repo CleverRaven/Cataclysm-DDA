@@ -17,7 +17,7 @@
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
-    "result": "light_disposable_cell",
+    "result": "light_battery_cell",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",
