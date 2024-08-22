@@ -110,7 +110,7 @@
   },
   {
     "id": "matchhead_38_super",
-    "copy-from": "38_super",
+    "copy-from": "bp_38super",
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Super JHP, matchhead powder" },
@@ -120,7 +120,7 @@
   },
   {
     "id": "matchhead_38_super_fmj",
-    "copy-from": "38super_fmj",
+    "copy-from": "bp_38super_fmj",
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Super FMJ, matchhead powder" },

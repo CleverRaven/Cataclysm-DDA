@@ -112,7 +112,7 @@
   },
   {
     "id": "bp_303sp",
-    "copy-from": "303_fmjbt",
+    "copy-from": "303_sp",
     "type": "AMMO",
     "name": { "str_sp": ".303 British JSP, black powder" },
     "proportional": {

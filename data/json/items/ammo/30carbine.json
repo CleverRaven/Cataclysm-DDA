@@ -87,7 +87,8 @@
     "copy-from": "30carbine_jsp",
     "type": "AMMO",
     "name": { "str_sp": ".30 Carbine JSP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 },
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "matchhead_30carbine_jsp",
@@ -118,7 +119,8 @@
     "copy-from": "30carbine",
     "type": "AMMO",
     "name": { "str_sp": ".30 Carbine, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 },
+    "extend": { "effects": [ "RECYCLED" ] }
   },
   {
     "id": "matchhead_30carbine",

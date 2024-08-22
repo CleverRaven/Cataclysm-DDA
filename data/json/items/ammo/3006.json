@@ -162,7 +162,7 @@
   },
   {
     "id": "bp_3006fmj",
-    "copy-from": "bp_3006",
+    "copy-from": "3006fmj",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP, black powder" },
     "proportional": {
