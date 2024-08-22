@@ -204,7 +204,6 @@
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security2" } },
             { "math": [ "securitylevel", "==", "1" ] },
             { "math": [ "islandrank", ">=", "2" ] },
-            { "math": [ "debug_never_achievable", "==", "1" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security2" } ],
@@ -217,7 +216,6 @@
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security3" } },
             { "math": [ "securitylevel", "==", "2" ] },
             { "math": [ "islandrank", ">=", "4" ] },
-            { "math": [ "debug_never_achievable", "==", "1" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security3" } ],
@@ -230,7 +228,6 @@
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security4" } },
             { "math": [ "securitylevel", "==", "3" ] },
             { "math": [ "islandrank", ">=", "4" ] },
-            { "math": [ "debug_never_achievable", "==", "1" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security4" } ],
@@ -243,7 +240,6 @@
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security5" } },
             { "math": [ "securitylevel", "==", "4" ] },
             { "math": [ "islandrank", ">=", "4" ] },
-            { "math": [ "debug_never_achievable", "==", "1" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security5" } ],
