@@ -566,6 +566,7 @@
     "type": "effect_on_condition",
     "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_LOW_ANGER_GAIN_CHECK",
     "effect": [
+      { "u_set_talker": { "u_val": "u_character_id" } },
       {
         "if": { "math": [ "_anger_increase", "<", "3" ] },
         "then": [
@@ -621,22 +622,128 @@
         ],
         "else": [
           {
-            "if": { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
-            "then": { "math": [ "u_max_forgiveness_minor_offense", "+=", "round(_anger_increase * 0.75)" ] },
-            "else": {
-              "if": { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
-              "then": { "math": [ "u_max_forgiveness_personal_affront", "+=", "round(_anger_increase * 0.75)" ] },
-              "else": {
-                "if": { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
-                "then": { "math": [ "u_max_forgiveness_intimidation", "+=", "round(_anger_increase * 0.75)" ] },
-                "else": {
-                  "if": { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
-                  "then": { "math": [ "u_max_forgiveness_mission_fail", "+=", "round(_anger_increase * 0.75)" ] }
-                }
-              }
-            }
+            "run_eoc_with": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_ADD_MAX_FORGIVENESS",
+            "alpha_talker": { "u_val": "u_character_id" }
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_PLAYER_FORGIVENESS_EFFECT_ADD_MAX_FORGIVENESS",
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
+            { "u_has_trait": "personality_forgiving" }
+          ]
+        },
+        "then": { "math": [ "u_max_forgiveness_minor_offense", "+=", "round(_anger_increase * 0.84)" ] },
+        "else": {
+          "if": {
+            "and": [
+              { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
+              { "u_has_trait": "personality_forgiving_plus" }
+            ]
+          },
+          "then": { "math": [ "u_max_forgiveness_minor_offense", "+=", "round(_anger_increase * 0.875)" ] },
+          "else": {
+            "if": {
+              "and": [
+                { "compare_string": [ "minor_offense", { "context_val": "anger_type" } ] },
+                { "u_has_trait": "personality_neg_forgiving" }
+              ]
+            },
+            "then": { "math": [ "u_max_forgiveness_minor_offense", "+=", "round(_anger_increase * 0.5)" ] },
+            "else": { "math": [ "u_max_forgiveness_minor_offense", "+=", "round(_anger_increase * 0.75)" ] }
+          }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
+            { "u_has_trait": "personality_forgiving" }
+          ]
+        },
+        "then": { "math": [ "u_max_forgiveness_personal_affront", "+=", "round(_anger_increase * 0.84)" ] },
+        "else": {
+          "if": {
+            "and": [
+              { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
+              { "u_has_trait": "personality_forgiving_plus" }
+            ]
+          },
+          "then": { "math": [ "u_max_forgiveness_personal_affront", "+=", "round(_anger_increase * 0.875)" ] },
+          "else": {
+            "if": {
+              "and": [
+                { "compare_string": [ "personal_affront", { "context_val": "anger_type" } ] },
+                { "u_has_trait": "personality_neg_forgiving" }
+              ]
+            },
+            "then": { "math": [ "u_max_forgiveness_personal_affront", "+=", "round(_anger_increase * 0.5)" ] },
+            "else": { "math": [ "u_max_forgiveness_personal_affront", "+=", "round(_anger_increase * 0.75)" ] }
+          }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
+            { "u_has_trait": "personality_forgiving" }
+          ]
+        },
+        "then": { "math": [ "u_max_forgiveness_intimidation", "+=", "round(_anger_increase * 0.84)" ] },
+        "else": {
+          "if": {
+            "and": [
+              { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
+              { "u_has_trait": "personality_forgiving_plus" }
+            ]
+          },
+          "then": { "math": [ "u_max_forgiveness_intimidation", "+=", "round(_anger_increase * 0.875)" ] },
+          "else": {
+            "if": {
+              "and": [
+                { "compare_string": [ "intimidation", { "context_val": "anger_type" } ] },
+                { "u_has_trait": "personality_neg_forgiving" }
+              ]
+            },
+            "then": { "math": [ "u_max_forgiveness_intimidation", "+=", "round(_anger_increase * 0.5)" ] },
+            "else": { "math": [ "u_max_forgiveness_intimidation", "+=", "round(_anger_increase * 0.75)" ] }
+          }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
+            { "u_has_trait": "personality_forgiving" }
+          ]
+        },
+        "then": { "math": [ "u_max_forgiveness_mission_fail", "+=", "round(_anger_increase * 0.84)" ] },
+        "else": {
+          "if": {
+            "and": [
+              { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
+              { "u_has_trait": "personality_forgiving_plus" }
+            ]
+          },
+          "then": { "math": [ "u_max_forgiveness_mission_fail", "+=", "round(_anger_increase * 0.875)" ] },
+          "else": {
+            "if": {
+              "and": [
+                { "compare_string": [ "mission_fail", { "context_val": "anger_type" } ] },
+                { "u_has_trait": "personality_neg_forgiving" }
+              ]
+            },
+            "then": { "math": [ "u_max_forgiveness_mission_fail", "+=", "round(_anger_increase * 0.5)" ] },
+            "else": { "math": [ "u_max_forgiveness_mission_fail", "+=", "round(_anger_increase * 0.75)" ] }
+          }
+        }
       }
     ]
   },
