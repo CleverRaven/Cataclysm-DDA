@@ -1121,7 +1121,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Breach 
 *Difficulty*: 9<br />
 *Target*: A single target within 2 squares plus 1.3 squares per power level<br />
-*Duration*: Indefinitet<br />
+*Duration*: Indefinite<br />
 *Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
 *Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
@@ -1130,7 +1130,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Reality Tear 
 *Difficulty*: 10<br />
 *Target*: A single target within 1 square<br />
-*Duration*: Indefinitet<br />
+*Duration*: Indefinite<br />
 *Stamina Cost*: 1000, minus 250 per level to a minimum of 5000<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
 *Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
