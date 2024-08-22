@@ -20,6 +20,7 @@
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
                       { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+                      { "u_add_trait": "CARNIVORE" },
                       {
                         "u_message": "Your body shifts and you fall on all fours as fur sprouts from your skin and your mouth and teeth lengthen.",
                         "type": "good"
@@ -46,6 +47,7 @@
                         "type": "neutral"
                       },
                       { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+                      { "u_lose_trait": "CARNIVORE" },
                       { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] }
                     ]
                   }
@@ -56,7 +58,7 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" }, { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" } ]
+    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" }, { "run_eocs": "EOC_WEREWOLF_WOLF_FORM_activated_2" } ]
   },
   {
     "type": "effect_on_condition",
@@ -85,6 +87,7 @@
                       { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
                       { "math": [ "u_calories()", "*=", "3" ] },
                       { "u_add_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+                      { "u_add_trait": "CARNIVORE" },
                       {
                         "u_message": "Your body shifts and grows as enormous fangs and claws erupt from your skin and your mouth lengthens into a muzzle.",
                         "type": "good"
@@ -111,6 +114,7 @@
                         "type": "neutral"
                       },
                       { "u_lose_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+                      { "u_lose_trait": "CARNIVORE" },
                       { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
                       { "math": [ "u_calories()", "/=", "3" ] }
                     ]
@@ -122,7 +126,7 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" }, { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" } ]
+    "false_effect": [ { "u_deactivate_trait": "WEREWOLF_ANIMAL_FORM" }, { "run_eocs": "EOC_WEREWOLF_HYBRID_FORM_activated_2" } ]
   },
   {
     "type": "effect_on_condition",
