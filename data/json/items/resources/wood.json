@@ -100,7 +100,7 @@
     "color": "brown",
     "name": { "str_sp": "soaking spear shaft" },
     "looks_like": "q_staff",
-    "description": "A long stick carved and sanded into a smooth staff with a slight taper, for use in making spears. It's currently being soaked with oil and quite slippery. Once the oil penetrates the wood it can be wiped down and used for further projects. ",
+    "description": "A long stick carved and sanded into a smooth staff with a slight taper, for use in making spears. It's currently soaked with oil and quite slippery. Once the oil penetrates the wood it can be wiped down and used for further projects. ",
     "price": "40 USD",
     "material": [ "wood" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
