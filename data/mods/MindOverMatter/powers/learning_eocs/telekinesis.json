@@ -178,6 +178,50 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_LIFTING_FIELD",
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "3" ] },
+                {
+                  "and": [
+                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('telekinetic_lifting_field')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telekinetic_lifting_field" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_lifting_field')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telekinetic_lifting_field" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could hold a single object in place, carrying it next to you without using your hands, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_STRENGTH",
     "recurrence": [
       { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
@@ -286,7 +330,8 @@
                     { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] }
+                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] },
+                { "math": [ "u_spell_level(' telekinetic_lifting_field')", ">=", "12" ] }
               ]
             }
           ]

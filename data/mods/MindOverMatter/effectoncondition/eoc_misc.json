@@ -106,30 +106,7 @@
             { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
           ]
         },
-        {
-          "or": [
-            { "u_has_effect": "effect_biokin_overcome_pain" },
-            { "u_has_effect": "effect_biokin_climate_control" },
-            { "u_has_effect": "effect_biokin_hammerhand" },
-            { "u_has_effect": "effect_biokin_enhance_mobility" },
-            { "u_has_effect": "effect_clair_night_eyes" },
-            { "u_has_effect": "effect_clair_speed_reader" },
-            { "u_has_effect": "effect_electrokin_hacking_interface" },
-            { "u_has_effect": "effect_electrokin_personal_battery" },
-            { "u_has_effect": "effect_photokin_light_local" },
-            { "u_has_effect": "effect_photokin_light_barrier" },
-            { "u_has_effect": "effect_photokinetic_radio" },
-            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
-            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
-            { "u_has_effect": "effect_pyrokinetic_cloak" },
-            { "u_has_effect": "effect_telekinetic_strength" },
-            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
-            { "u_has_effect": "effect_telekinetic_levitation" },
-            { "u_has_effect": "effect_telepathic_learning_bonus" },
-            { "u_has_effect": "effect_telepathic_morale" },
-            { "u_has_effect": "effect_vita_health" }
-          ]
-        }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
       ]
     },
     "effect": [
@@ -152,30 +129,7 @@
             { "compare_string": [ "downed", { "context_val": "effect" } ] }
           ]
         },
-        {
-          "or": [
-            { "u_has_effect": "effect_biokin_overcome_pain" },
-            { "u_has_effect": "effect_biokin_climate_control" },
-            { "u_has_effect": "effect_biokin_hammerhand" },
-            { "u_has_effect": "effect_biokin_enhance_mobility" },
-            { "u_has_effect": "effect_clair_night_eyes" },
-            { "u_has_effect": "effect_clair_speed_reader" },
-            { "u_has_effect": "effect_electrokin_hacking_interface" },
-            { "u_has_effect": "effect_electrokin_personal_battery" },
-            { "u_has_effect": "effect_photokin_light_local" },
-            { "u_has_effect": "effect_photokin_light_barrier" },
-            { "u_has_effect": "effect_photokinetic_radio" },
-            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
-            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
-            { "u_has_effect": "effect_pyrokinetic_cloak" },
-            { "u_has_effect": "effect_telekinetic_strength" },
-            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
-            { "u_has_effect": "effect_telekinetic_levitation" },
-            { "u_has_effect": "effect_telepathic_learning_bonus" },
-            { "u_has_effect": "effect_telepathic_morale" },
-            { "u_has_effect": "effect_vita_health" }
-          ]
-        }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
       ]
     },
     "effect": [
@@ -265,30 +219,7 @@
             { "compare_string": [ "effect_psi_null_unbound", { "context_val": "effect" } ] }
           ]
         },
-        {
-          "or": [
-            { "u_has_effect": "effect_biokin_overcome_pain" },
-            { "u_has_effect": "effect_biokin_climate_control" },
-            { "u_has_effect": "effect_biokin_hammerhand" },
-            { "u_has_effect": "effect_biokin_enhance_mobility" },
-            { "u_has_effect": "effect_clair_night_eyes" },
-            { "u_has_effect": "effect_clair_speed_reader" },
-            { "u_has_effect": "effect_electrokin_hacking_interface" },
-            { "u_has_effect": "effect_electrokin_personal_battery" },
-            { "u_has_effect": "effect_photokin_light_local" },
-            { "u_has_effect": "effect_photokin_light_barrier" },
-            { "u_has_effect": "effect_photokinetic_radio" },
-            { "u_has_effect": "effect_pyrokinetic_fire_tool" },
-            { "u_has_effect": "effect_pyrokinetic_torch_weld" },
-            { "u_has_effect": "effect_pyrokinetic_cloak" },
-            { "u_has_effect": "effect_telekinetic_strength" },
-            { "u_has_effect": "effect_telekinetic_vehicle_lift" },
-            { "u_has_effect": "effect_telekinetic_levitation" },
-            { "u_has_effect": "effect_telepathic_learning_bonus" },
-            { "u_has_effect": "effect_telepathic_morale" },
-            { "u_has_effect": "effect_vita_health" }
-          ]
-        }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]

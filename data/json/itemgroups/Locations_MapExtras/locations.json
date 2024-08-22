@@ -1332,7 +1332,7 @@
       [ "lamp_oil", 5 ],
       [ "shovel", 10 ],
       [ "e_tool", 5 ],
-      { "item": "miner_hat", "prob": 40, "charges": [ 0, 100 ] },
+      { "group": "hat_hard_flashlight", "prob": 40 },
       [ "bucket", 5 ],
       [ "bucket_5gal", 20 ],
       [ "grapnel", 1 ],
