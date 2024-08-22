@@ -44,7 +44,7 @@ struct comfort_data {
     };
 
     struct condition {
-        category category;
+        category ccategory;
         std::string id;
         std::string flag;
         /** True if the given field's intensity is greater than or equal to this **/

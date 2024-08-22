@@ -144,7 +144,7 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     const trap &trap = here.tr_at( p );
-    switch( category ) {
+    switch( ccategory ) {
         case category::terrain:
             if( !id.empty() ) {
                 result = ter_id( id ) == here.ter( p );
@@ -190,8 +190,8 @@ bool comfort_data::condition::is_condition_true( const Character &guy, const tri
 
 void comfort_data::condition::deserialize( const JsonObject &jo )
 {
-    mandatory( jo, false, "type", category );
-    switch( category ) {
+    mandatory( jo, false, "type", ccategory );
+    switch( ccategory ) {
         case category::terrain:
         case category::furniture:
             optional( jo, false, "id", id );
