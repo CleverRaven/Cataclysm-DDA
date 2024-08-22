@@ -54,5 +54,15 @@
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "soldering_iron_portable",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 3 ] ], [ [ "copper", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 10 ] ] ]
   }
 ]
