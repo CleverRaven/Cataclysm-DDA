@@ -1780,7 +1780,7 @@
     "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_zinc_powder", 645 ] ], [ [ "chem_sulphur", 750 ] ], [ [ "superglue", 2 ] ] ]
+    "components": [ [ [ "chem_zinc_powder", 645 ] ], [ [ "chem_sulphur", 750 ] ] ]
   },
   {
     "type": "recipe",

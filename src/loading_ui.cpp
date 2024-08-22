@@ -15,9 +15,15 @@
 #include "sdl_wrappers.h"
 #endif // TILES
 
-loading_ui::loading_ui( bool display )
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+loading_ui::loading_ui( UNUSED bool display )
 {
-    if( display && !test_mode ) {
+    if( !test_mode ) {
         menu = std::make_unique<uilist>();
         menu->settext( _( "Loading" ) );
     }
@@ -37,24 +43,14 @@ void loading_ui::new_context( const std::string &desc )
     if( menu != nullptr ) {
         menu->reset();
         menu->settext( desc );
-        ui = nullptr;
         ui_background = nullptr;
     }
 }
 
 void loading_ui::init()
 {
-    if( menu != nullptr && ui == nullptr ) {
+    if( ui_background == nullptr ) {
         ui_background = std::make_unique<background_pane>();
-
-        ui = std::make_unique<ui_adaptor>();
-        ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-            menu->reposition( ui );
-        } );
-        menu->reposition( *ui );
-        ui->on_redraw( [this]( ui_adaptor & ui ) {
-            menu->show( ui );
-        } );
     }
 }
 

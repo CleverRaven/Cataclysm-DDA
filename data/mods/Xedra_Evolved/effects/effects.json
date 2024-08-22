@@ -158,6 +158,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_shadow_damage_reduction",
+    "name": [ "Shadow Damage Reduction" ],
+    "desc": [ "You are flatter and less real in ways that makes you less susceptible to damage." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "multiply": -0.75 }, { "value": "ARMOR_BASH", "multiply": -0.75 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "creativity",
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
@@ -659,7 +667,7 @@
     "//": "Hidden effect, used to make sure bat form can fly.",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
@@ -1497,6 +1505,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_levitation",
+    "//": "Hidden, paired with the previous effect sometimes but not always.",
+    "name": [  ],
+    "desc": [  ],
+    "flags": [ "CLIMB_FLYING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_hindering_wind",
     "name": [ "Hindering Winds" ],
     "desc": [ "The winds are swirling around you and slowing you down!" ],
@@ -1530,7 +1546,7 @@
     "remove_message": "Your body regains its solidity.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
@@ -1941,5 +1957,21 @@
     "show_intensity": false,
     "show_in_info": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": -130 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_no_gorge_issues",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "blood_quenched" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "last_breath_mist_cooldown",
+    "name": [ "Recovering from the last breath's mist" ],
+    "desc": [
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+    ]
   }
 ]

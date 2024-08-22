@@ -301,20 +301,6 @@
     "components": [ [ [ "offset_sight_rail", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "stabilizer_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 6 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "stabilizer", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "muzzle_brake_mod",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -777,7 +763,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "super_glue", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1273,7 +1259,7 @@
     "tools": [
       [
         [ "modular_ar15", -1 ],
-        [ "ar_pistol", -1 ],
+        [ "modular_ar_pistol", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16_auto_rifle", -1 ],
         [ "modular_m4_carbine", -1 ],
@@ -1298,7 +1284,7 @@
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "modular_ar15", -1 ], [ "ar_pistol", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "tools": [ [ [ "modular_ar15", -1 ], [ "modular_ar_pistol", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {

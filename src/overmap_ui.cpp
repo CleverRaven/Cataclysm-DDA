@@ -1060,6 +1060,9 @@ static void draw_om_sidebar(
                    oter.get_rotation() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    "oter_type: %s", oter.get_type_id().str() );
+        // tileset ids come with a prefix that must be stripped
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   "tileset id: '%s'", oter.get_tileset_id( center_vision ).substr( 3 ) );
         std::vector<oter_id> predecessors = overmap_buffer.predecessors( center );
         if( !predecessors.empty() ) {
             mvwprintz( wbar, point( 1, ++lines ), c_white, "predecessors:" );
@@ -2351,7 +2354,6 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
                                 string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
             cities_menu.entries.emplace_back( entry );
         }
-        cities_menu.w_height_setup = TERMY - 4;
     }
 }
 

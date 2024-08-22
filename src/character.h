@@ -3950,6 +3950,8 @@ class Character : public Creature, public visitable
          * Contains mutation ids of the base traits.
          */
         std::unordered_set<trait_id> my_traits;
+        // Mutations that have been turned unpurifiable via EoC
+        std::unordered_set<trait_id> my_intrinsic_mutations;
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */

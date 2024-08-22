@@ -398,10 +398,10 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
-## Neuro-acceleration
+## Neuro-acceleration (C)
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
-*Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
+*Duration*: 1 minute 21 seconds to 4 minutes 46 seconds, plus 18 to 57 seconds per level if used on self, or <br />
 *Stamina Cost*: 6000, minus 135 per level to a minimum of 2750<br />
 *Channeling Time*: 165 moves, minus 5.5 moves per level to a minimum of 75<br />
 *Effects*: Increases the target's reflexes and response time, adding 5 learning focus plus 1 per power level to a maximum of 35 learning focus, as well as 10 speed plus 1.5 per power level to a maximum of 60 speed.<br />
@@ -485,7 +485,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
 *Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
 
-## Trick of the Light
+## Trick of the Light (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 28 seconds to 2 minutes and 5 seconds, plus 13 to 27 seconds per power level, or until hit in combat<br />
@@ -557,7 +557,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
 *Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
 
-## Sensor Interference (C)
+## Sensor Interference
 *Difficulty*: 5<br />
 *Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 20 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 50 squares<br />
 *Duration*: 2 to 3 seconds plus three-quarters of a second to a second and a half per power level.<br />
@@ -566,13 +566,13 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
 *Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
 
-## Veil of Light
+## Veil of Light (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 16 seconds to 42 seconds, plus 6 seconds to 23 seconds per power level<br />
 *Stamina Cost*: 3500, minus 125 per level to a minimum of 1200<br />
 *Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 35<br />
-*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.<br />
+*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.  It will always break when engaging in melee combat.<br />
 *Prerequisites*: Lucent Barrier 6 *or* Lucid Shadows 6, Mirror-Mask 6 *or* Chameleoflage 10<br />
 
 ## Star Flash
@@ -584,7 +584,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a high-powered laser blast, doing 20 to 54 photokinetic damage plus 2.5 to 6 photokinetic damage per level to everything within the targeted line.<br />
 *Prerequisites*: Photon Beam 8, Lucent Barrier 6 *or* Refracted Arms 6<br />
 
-## Blinding Radiance
+## Blinding Radiance (C)
 *Difficulty*: 7<br />
 *Target*: Self<br />
 *Duration*: 59 seconds to 2 minutes and 58 seconds, plus 11 seconds to 47 seconds per power level<br />
@@ -735,7 +735,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their total levels in their telekinetic powers, increasing by one rank per 8 total telekinetic levels, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Grasping Hand**: The telekinetic may bring items quickly to hand, reducing the time necessary to pull items from pockets or containers by 10%, plus 0.075% times the telekinetic's total levels in telekinesis powers.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
@@ -802,6 +802,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Lifting Field (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: From 8 minutes and 14 seconds to 27 minutes and 54 seconds, plus 1 minute and 33 seconds to 4 minutes and 19 seconds per power level<br />
+*Stamina Cost*: 4500, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 55<br />
+*Effects*: Create a field to float a single object next to the psion, keeping it close at hand and preventing its weight or encumbrance from affecting them. The weight limit increases at each level of the power; there is no volume or length limit.<br />
+*Prerequisites*: Lift Vehicle 3 *or* Far Hand 7 AND Momentum Alteration 5<br />
+
 ## Enhance Strength (C)
 *Difficulty*: 5<br />
 *Target*: Self<br />
@@ -827,7 +836,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 6500, minus 200 per level to a minimum of 3250<br />
 *Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 125<br />
 *Effects*: Create a field to lift up a vehicle just enough to work on the wheels or undercarriage. This field requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8<br />
+*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8 *or* Lifting Field 12<br />
 
 ## Inertial Barrier (C)
 *Difficulty*: 6<br />
@@ -853,7 +862,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: 1 to 5 seconds, plus 0.75 to 2 seconds per power level<br />
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
-*Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
+*Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
 
 # Megakinesis

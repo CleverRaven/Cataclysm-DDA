@@ -204,11 +204,18 @@
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
     "name": { "str": "Find 25 Blankets" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "blanket", "amount": 25 },
+        { "item": "fur_blanket", "amount": 25 },
+        { "item": "down_blanket", "amount": 25 },
+        { "item": "blanket_weighted", "amount": 25 },
+        { "item": "electric_blanket", "amount": 25 }
+      ]
+    },
     "difficulty": 5,
     "value": 50000,
-    "item": "blanket",
-    "count": 25,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_3",
     "dialogue": {
@@ -260,6 +267,17 @@
             { "chunks": [ "tacoma_commune_makeshift_bed" ], "x": 4, "y": 23 }
           ],
           "place_npcs": [ { "class": "ranch_construction_2", "x": 19, "y": 8 } ]
+        }
+      ],
+      "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "blanket", "amount": 25 },
+            { "item": "fur_blanket", "amount": 25 },
+            { "item": "down_blanket", "amount": 25 },
+            { "item": "blanket_weighted", "amount": 25 },
+            { "item": "electric_blanket", "amount": 25 }
+          ]
         }
       ]
     }

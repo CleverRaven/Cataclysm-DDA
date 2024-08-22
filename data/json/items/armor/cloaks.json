@@ -233,7 +233,7 @@
       },
       {
         "id": "bahamanian_flag",
-        "name": { "str": "Bahamanain flag" },
+        "name": { "str": "Bahamanian flag" },
         "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
         "weight": 10,
         "append": true
@@ -408,7 +408,7 @@
       },
       {
         "id": "columbian_flag",
-        "name": { "str": "Columbian flag" },
+        "name": { "str": "Colombian flag" },
         "description": "It has a yellow, navy blue, and red stripe running horizontally.",
         "weight": 10,
         "append": true

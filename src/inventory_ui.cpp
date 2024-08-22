@@ -2097,6 +2097,13 @@ void inventory_selector::add_character_items( Character &character )
     }
 }
 
+void inventory_selector::add_character_ebooks( Character &character )
+{
+    for( item_location &ereader : character.all_items_loc() ) {
+        add_contained_ebooks( ereader );
+    }
+}
+
 void inventory_selector::add_map_items( const tripoint &target )
 {
     map &here = get_map();
@@ -2917,7 +2924,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->chosen_count ) };
         }
     }
 

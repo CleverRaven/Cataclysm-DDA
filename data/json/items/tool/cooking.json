@@ -519,7 +519,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "NO_SALVAGE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
     "qualities": [ [ "HOTPLATE", 2 ] ],

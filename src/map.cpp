@@ -7473,7 +7473,13 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH || get_cache( p.z ).floor_cache[p.x][p.y];
+    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+        return true;
+    } else if( !inbounds( p ) ) {
+        return false;
+    } else {
+        return get_cache( p.z ).floor_cache[p.x][p.y];
+    }
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
@@ -8371,16 +8377,18 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     }
     rebuild_vehicle_level_caches();
 
-    // actualize after loading all submaps to prevent errors
-    // with entities at the edges
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
-            const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
-            for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-                actualize( {gridx, gridy, gridz            } );
-                if( pump_events ) {
-                    inp_mngr.pump_events();
+    if( !explosion_handler::explosion_processing_active() ) {
+        // actualize after loading all submaps to prevent errors
+        // with entities at the edges
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+                const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    actualize( { gridx, gridy, gridz } );
+                    if( pump_events ) {
+                        inp_mngr.pump_events();
+                    }
                 }
             }
         }

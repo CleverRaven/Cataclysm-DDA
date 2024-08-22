@@ -2,6 +2,7 @@
 
 #include "activity_handlers.h"
 #include "cata_catch.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -17,8 +18,12 @@
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_can_drink( "can_drink" );
+static const itype_id itype_canvas_patch( "canvas_patch" );
 static const itype_id itype_leather( "leather" );
 static const itype_id itype_tailors_kit( "tailors_kit" );
+static const itype_id itype_technician_shirt_gray( "technician_shirt_gray" );
 static const itype_id itype_test_baseball( "test_baseball" );
 static const itype_id itype_test_baseball_half_degradation( "test_baseball_half_degradation" );
 static const itype_id itype_test_baseball_x2_degradation( "test_baseball_x2_degradation" );
@@ -221,10 +226,20 @@ TEST_CASE( "Items_that_get_damaged_gain_degradation", "[item][degradation]" )
     }
 }
 
-static void setup_repair( item &fix, player_activity &act, Character &u )
+static item_location setup_tailorkit( Character &u )
 {
     map &m = get_map();
+    const tripoint_bub_ms pos = spawn_pos;
+    item &thread = m.add_item_or_charges( pos, item( itype_thread ) );
+    item &tailor = m.add_item_or_charges( pos, item( itype_tailors_kit ) );
+    thread.charges = 400;
+    tailor.reload( u, { map_cursor( pos ), &thread }, 400 );
+    REQUIRE( m.i_at( spawn_pos ).begin()->typeId() == tailor.typeId() );
+    return item_location( map_cursor( pos ), &tailor );
+}
 
+static void setup_repair( item &fix, player_activity &act, Character &u )
+{
     // Setup character
     clear_character( u, true );
     u.set_skill_level( skill_tailor, 10 );
@@ -232,11 +247,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
     REQUIRE( u.get_wielded_item()->typeId() == fix.typeId() );
 
     // Setup tool
-    item &thread = m.add_item_or_charges( spawn_pos, item( itype_thread ) );
-    item &tailor = m.add_item_or_charges( spawn_pos, item( itype_tailors_kit ) );
-    thread.charges = 400;
-    tailor.reload( u, { map_cursor( tripoint_bub_ms( spawn_pos ) ), &thread }, 400 );
-    REQUIRE( m.i_at( spawn_pos ).begin()->typeId() == tailor.typeId() );
+    item_location tailorloc = setup_tailorkit( u );
 
     // Setup materials
     item leather( itype_leather );
@@ -245,7 +256,6 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 
     // Setup activity
     item_location fixloc( u, &fix );
-    item_location tailorloc( map_cursor( tripoint_bub_ms( spawn_pos ) ), &tailor );
     act.values.emplace_back( /* repeat_type::FULL */ 3 );
     act.str_values.emplace_back( "repair_fabric" );
     act.targets.emplace_back( tailorloc );
@@ -626,5 +636,69 @@ TEST_CASE( "Gun_repair_with_degradation", "[item][degradation]" )
                 CHECK( gun.damage() == 4000 );
             }
         }
+    }
+}
+
+static player_activity setup_repair_activity( item_location &tailorloc, item_location &fixloc )
+{
+    player_activity act( ACT_REPAIR_ITEM );
+    act.values.emplace_back( /* repeat_type::FULL */ 3 );
+    act.str_values.emplace_back( "repair_fabric" );
+    act.targets.emplace_back( tailorloc );
+    act.targets.emplace_back( fixloc );
+    return act;
+}
+
+static item_location put_in_container( item_location &container, const itype_id &type )
+{
+    ret_val<item *> inserted = container->get_contents().insert_item( item( type ),
+                               pocket_type::CONTAINER );
+    REQUIRE( inserted.success() );
+    return item_location( container, inserted.value() );
+}
+
+// Reproduce previous segfault from https://github.com/CleverRaven/Cataclysm-DDA/issues/74254
+TEST_CASE( "refit_item_inside_spillable_container", "[item][repair][container]" )
+{
+    clear_avatar();
+    clear_map();
+    set_time_to_day();
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
+
+    Character &u = get_player_character();
+    u.set_skill_level( skill_tailor, 10 );
+
+    // Setup starting equipment
+    item_location tailorkit = setup_tailorkit( u );
+    REQUIRE( u.wear_item( item( itype_backpack ) ) );
+    item_location backpack = u.top_items_loc().front();
+    item canvas_patch( itype_canvas_patch );
+    u.i_add_or_drop( canvas_patch, 100 );
+
+    // Starting inventory looks like:
+    //   backpack >
+    //     100 canvas patch
+    //     aluminum can >
+    //       work t-shirt (poor fit)
+    // It's a bit odd that we can put the shirt into the aluminum can, since it
+    // would normally reject that with a message stating that it would spill.
+    GIVEN( "backpack > aluminum can > work t-shirt (poor fit)" ) {
+        item_location aluminum_can = put_in_container( backpack, itype_can_drink );
+        item_location fix_tshirt = put_in_container( aluminum_can, itype_technician_shirt_gray );
+        WHEN( "Refitting tshirt inside spillable container" ) {
+            REQUIRE_FALSE( fix_tshirt->has_flag( flag_FIT ) );
+            player_activity act = setup_repair_activity( tailorkit, fix_tshirt );
+            while( !act.is_null() ) {
+                ::repair_item_finish( &act, &u, true );
+            }
+            THEN( "tshirt should be refitted successfully" ) {
+                const item *refitted_tshirt = backpack->get_item_with( [&]( const item & i ) {
+                    return i.typeId() == itype_technician_shirt_gray;
+                } );
+                REQUIRE( refitted_tshirt != nullptr );
+                CHECK( refitted_tshirt->has_flag( flag_FIT ) );
+            }
+        }
+
     }
 }

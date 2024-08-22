@@ -258,5 +258,32 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "1911_22_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "//": "Based on https://www.browning.com/products/shooting-accessories/magazines/1911-22-magazine.html#Black",
+    "name": { "str": ".22 1911 pistol magazine" },
+    "description": "A 10-round magazine for a .22 1911 pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "1911_22_mag",
+        "name": { "str": "1911-22 magazine" },
+        "description": "A magazine for the 1911-22 pistol, holding 10 rounds of .22 LR.  It features a magazine follower button to allow easier reloading, along with a cut-out in the side to see your round count."
+      }
+    ],
+    "weight": "91 g",
+    "volume": "44 ml",
+    "longest_side": "113 mm",
+    "price": "59 USD 99 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]

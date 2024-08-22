@@ -155,9 +155,9 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "//": "effect used as tracker",
+    "name": [ "Oxygen Absorption" ],
+    "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -196,7 +196,7 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_reflex",
-    "name": [ "Enhanced Reflexes" ],
+    "name": [ "Heightened Reflexes" ],
     "desc": [ "You are enhancing your speed and senses." ],
     "apply_message": "",
     "remove_message": "The world speeds up again.",
@@ -219,7 +219,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "max((( 5 + ( u_spell_level('biokin_physical_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
+                "min((( 5 + ( u_spell_level('biokin_reflex_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
               ]
             }
           }
@@ -435,7 +435,7 @@
             }
           },
           { "value": "MOVE_COST", "multiply": -0.1 },
-          { "value": "RECOIL_MODIFIER", "add": -30 },
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
@@ -868,7 +868,7 @@
       "ETHEREAL",
       "INVISIBLE",
       "FEATHER_FALL",
-      "CLIMB_NO_LADDER",
+      "CLIMB_FLYING",
       "LEVITATION",
       "ITEM_WATERPROOFING",
       "WALK_UNDERWATER",
@@ -1050,15 +1050,9 @@
     "desc": [ "You are enhancing your nervous system." ],
     "apply_message": "",
     "remove_message": "Your reactions return to baseline.",
-    "decay_messages": [
-      [ "Your enhanced reactions are nearly gone.", "bad" ],
-      [ "Your reaction times are gradually becoming slower.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 61,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "removes_effects": [ "effect_electrokinetic_pain_immune" ],
     "enchantments": [
       {
@@ -1131,12 +1125,9 @@
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
     "apply_message": "",
     "remove_message": "The illusions around you suddenly vanish!",
-    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 38,
-    "dur_add_perc": 10,
-    "int_dur_factor": "24 s",
     "blocks_effects": [ "grabbed" ],
     "base_mods": { "dodge_mod": [ 6 ] },
     "enchantments": [
@@ -1214,14 +1205,11 @@
     "id": "effect_photokin_invisibility",
     "name": [ "Invisibility" ],
     "desc": [ "Nothing can see you." ],
-    "apply_message": "You refract light in a way that makes you appear invisible.",
-    "remove_message": "You let light flow naturally again.",
-    "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
-    "flags": [ "INVISIBLE" ],
-    "max_duration": "3 h",
+    "apply_message": "",
+    "remove_message": "The obscuring veil of light fades, revealing your presence.",
+    "max_duration": "7 days",
     "max_intensity": 177,
-    "dur_add_perc": 10,
-    "int_dur_factor": " 62 s"
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1262,12 +1250,9 @@
     "desc": [ "You are glowing like the sun." ],
     "apply_message": "",
     "remove_message": "The last light finally dies.",
-    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 46,
-    "dur_add_perc": 10,
-    "int_dur_factor": "20 s",
     "base_mods": { "dodge_mod": [ 4 ] },
     "enchantments": [ "enchant_photokin_blinding_glare" ]
   },
@@ -1310,15 +1295,9 @@
     "desc": [ "The air around you has its temperature controlled." ],
     "apply_message": "",
     "remove_message": "A cool breeze hits your skin.",
-    "decay_messages": [
-      [ "The warm air you've surrounded yourself with is nearly spent.", "bad" ],
-      [ "The air around you is slowing beginning to cool.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "60 minutes",
+    "max_duration": "7 days",
     "max_intensity": 77,
-    "dur_add_perc": 10,
-    "int_dur_factor": "46 s",
     "enchantments": [ "enchant_pyrokin_cloak" ],
     "flags": [ "BARKY" ]
   },
@@ -1354,7 +1333,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "blocks_effects": [ "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 100000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
@@ -1451,6 +1430,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_lifting_field",
+    "name": [ "Lifting Field" ],
+    "desc": [ "You can hover a single item nearby, at the ready." ],
+    "apply_message": "",
+    "remove_message": "Your lifting field dissipates.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_strength",
     "name": [ "Telekinetic Strength" ],
     "desc": [ "You are greatly enhancing your ability to lift and break things." ],
@@ -1544,7 +1533,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",

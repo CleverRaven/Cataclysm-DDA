@@ -6988,7 +6988,7 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
         // Check first and only if possible attempt it with player char
         // This suppresses warnings unless it is an item the player wears
         if( actor->valid_to_cut_up( nullptr, it ) ) {
-            item_location item_loc( map_cursor( who.pos_bub() ), &it );
+            item_location item_loc( map_cursor( who.get_location() ), &it );
             actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }
