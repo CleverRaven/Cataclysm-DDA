@@ -204,6 +204,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_01",
+    "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_1" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -262,6 +263,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_02",
+    "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -320,6 +322,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_03",
+    "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_3" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -378,6 +381,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_04",
+    "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_4" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -436,6 +440,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_05",
+    "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_5" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -494,6 +499,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_06",
+    "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_6" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -552,6 +558,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_07",
+    "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_7" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -610,7 +617,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_08",
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_3" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
+    "effect": [ { "u_teleport": { "u_val": "gateway_destination_8" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -668,6 +676,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_09",
+    "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_9" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
@@ -726,6 +735,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_10",
+    "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
     "effect": [ { "u_teleport": { "u_val": "gateway_destination_10" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
   },
   {
