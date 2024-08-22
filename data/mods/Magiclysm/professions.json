@@ -635,7 +635,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "light_minus_disposable_cell", "charges": 100 },
-          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+          { "group": "hat_hard_flashlight", "prob": 40 }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },

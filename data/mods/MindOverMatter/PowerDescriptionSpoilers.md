@@ -735,7 +735,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their total levels in their telekinetic powers, increasing by one rank per 8 total telekinetic levels, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Grasping Hand**: The telekinetic may bring items quickly to hand, reducing the time necessary to pull items from pockets or containers by 10%, plus 0.075% times the telekinetic's total levels in telekinesis powers.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
@@ -802,6 +802,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Lifting Field (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: From 8 minutes and 14 seconds to 27 minutes and 54 seconds, plus 1 minute and 33 seconds to 4 minutes and 19 seconds per power level<br />
+*Stamina Cost*: 4500, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 55<br />
+*Effects*: Create a field to float a single object next to the psion, keeping it close at hand and preventing its weight or encumbrance from affecting them. The weight limit increases at each level of the power; there is no volume or length limit.<br />
+*Prerequisites*: Lift Vehicle 3 *or* Far Hand 7 AND Momentum Alteration 5<br />
+
 ## Enhance Strength (C)
 *Difficulty*: 5<br />
 *Target*: Self<br />
@@ -827,7 +836,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 6500, minus 200 per level to a minimum of 3250<br />
 *Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 125<br />
 *Effects*: Create a field to lift up a vehicle just enough to work on the wheels or undercarriage. This field requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8<br />
+*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8 *or* Lifting Field 12<br />
 
 ## Inertial Barrier (C)
 *Difficulty*: 6<br />

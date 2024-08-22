@@ -55,6 +55,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "concentration_calculations",
+    "num_args": 0,
+    "return": "(u_val('intelligence') / 4) + u_bonus_concentration_powers + concentration_trait_bonuses()"
+  },
+  {
+    "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
     "//": "This equates to about 500 XP per hour of contemplation when at minimum focus",
