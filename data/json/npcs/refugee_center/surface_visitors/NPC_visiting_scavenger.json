@@ -41,7 +41,7 @@
     },
     "responses": [
       {
-        "text": "You looking for a travelling companion?  I could use someone to watch my back.",
+        "text": "You looking for a traveling companion?  I could use someone to watch my back.",
         "topic": "TALK_RC_SURVIVOR_Join"
       },
       { "text": "You seen anything interesting out there?", "topic": "TALK_RC_SURVIVOR_Tips" },
