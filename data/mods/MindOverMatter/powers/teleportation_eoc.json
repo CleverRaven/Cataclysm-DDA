@@ -709,7 +709,7 @@
       "math": [
         "(u_spell_level('teleport_gateway') * (1 + (u_has_trait('GOODMEMORY') * 0.2) ) / (1 + (u_has_trait('FORGETFUL') * 0.33) ) ) / 3",
         ">=",
-        "2"
+        "9"
       ]
     },
     "effect": [
