@@ -90,8 +90,9 @@
           { "value": "STRENGTH", "add": 6 },
           { "value": "NIGHT_VIS", "add": 8 },
           { "value": "MELEE_DAMAGE", "multiply": 0.33 },
-          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 }
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.8 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 }
         ],
         "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ],
         "skills": [ { "value": "unarmed", "add": 4 } ]
@@ -105,12 +106,15 @@
           { "value": "DODGE_CHANCE", "add": 4 }
         ]
       },
-      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },
+        "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
+      },
       {
         "intermittent_activation": {
           "effects": [
             {
-              "frequency": "10 seconds",
+              "frequency": "6 seconds",
               "spell_effects": [ { "id": "goblin_fruit_regeneration_spell" }, { "id": "shapeshifter_remove_pain_spell" } ]
             }
           ]

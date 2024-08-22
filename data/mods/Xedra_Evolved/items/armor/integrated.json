@@ -817,6 +817,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
+    "techniques": [ "CLAWS_SHAPESHIFTER", "CLAWS_SHAPESHIFTER_RENDING", "CLAWS_SHAPESHIFTER_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
@@ -844,7 +845,7 @@
     "color": "white",
     "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "techniques": [ "FANGS_BITE_SHAPESHIFTER", "FANGS_BITE_SHAPESHIFTER_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
@@ -855,6 +856,6 @@
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "stab": 18 }
+    "melee_damage": { "stab": 15 }
   }
 ]
