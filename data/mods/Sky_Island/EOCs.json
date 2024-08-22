@@ -936,7 +936,13 @@
           "message": "Select nearby water source"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
+          "if": {
+            "or": [
+              { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_water_pump", "loc": { "context_val": "warped_pond_location" } }
+            ]
+          },
           "then": {
             "run_eoc_selector": [
               "EOC_WARPED_POND_CREATION_NW",

@@ -541,13 +541,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
-    "condition": {
-      "math": [
-        "u_vitamin('vitamin_maintained_powers')",
-        ">=",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
-      ]
-    },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
@@ -561,13 +555,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
-    "condition": {
-      "math": [
-        "u_vitamin('vitamin_maintained_powers')",
-        "==",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
-      ]
-    },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "concentration_calculations() + 1" ] },
     "effect": [
       { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
       { "u_lose_effect": "effect_psi_intense_concentration" },
@@ -580,22 +568,9 @@
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "condition": {
       "and": [
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "concentration_calculations()" ] },
         {
-          "math": [
-            "u_vitamin('vitamin_maintained_powers')",
-            ">",
-            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
-          ]
-        },
-        {
-          "x_in_y_chance": {
-            "x": {
-              "math": [
-                "((u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
-              ]
-            },
-            "y": 100
-          }
+          "x_in_y_chance": { "x": { "math": [ "(u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5" ] }, "y": 100 }
         }
       ]
     },
@@ -606,7 +581,7 @@
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
           "+=",
-          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
+          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / concentration_calculations()"
         ]
       },
       {
@@ -691,9 +666,7 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        {
-          "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)" ]
-        }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
