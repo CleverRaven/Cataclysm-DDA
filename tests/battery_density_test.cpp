@@ -92,7 +92,6 @@ static const std::map<std::string, battery_chemistry_family> chemistries = {
     {std::string( "Nickel-Metal Hydride" ), { 400.0, 1550.0}},
     {std::string( "Zinc-Manganese Dioxide" ), { 590.0, 1430.0}},
     {std::string( "Lithium/Iron Disulfide" ), { 1069.0, 2160.0}},
-    
     {std::string( "Lead-acid" ), { 180, 360 }}
 };
 

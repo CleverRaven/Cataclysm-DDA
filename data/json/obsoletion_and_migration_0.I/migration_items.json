@@ -996,6 +996,11 @@
     "replace": "light_battery_cell"
   },
   {
+    "id": "light_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
     "id": "light_dry_cell",
     "type": "MIGRATION",
     "replace": "light_battery_cell"
