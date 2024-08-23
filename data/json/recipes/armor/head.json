@@ -1939,28 +1939,6 @@
     ]
   },
   {
-    "result": "miner_hat",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "reversible": true,
-    "components": [
-      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
-      [ [ "flashlight", 1 ] ],
-      [
-        [ "cotton_patchwork", 2 ],
-        [ "leather", 2 ],
-        [ "cordage", 1, "LIST" ],
-        [ "duct_tape", 10 ],
-        [ "medical_tape", 20 ]
-      ]
-    ]
-  },
-  {
     "result": "nomex_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

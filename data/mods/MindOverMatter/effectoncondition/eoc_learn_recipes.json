@@ -692,6 +692,7 @@
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LIFTING_FIELD",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
@@ -708,13 +709,13 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_push')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_pull')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" } ]
   },
   {
     "type": "effect_on_condition",
@@ -739,6 +740,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_telekinetic_wave" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LIFTING_FIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_lifting_field')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_lifting_field" } ]
   },
   {
     "type": "effect_on_condition",
@@ -991,7 +998,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH",
-    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_breach')", ">=", "0" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_summon')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_breach" } ]
   },
   {

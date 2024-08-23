@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": [ "public_works_NE", "public_works_NW", "public_works_SE" ],
     "name": "public works",
-    "vision_levels": "city_building",
+    "vision_levels": "industrial_building",
     "sym": "w",
     "color": "light_gray",
     "see_cost": "high",
@@ -38,7 +38,7 @@
     "name": "serving area interface",
     "sym": "0",
     "color": "i_magenta",
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_electronics",
     "see_cost": "spaced_high"
   },
   {
@@ -56,7 +56,7 @@
     "name": "small power substation",
     "sym": "H",
     "color": "light_cyan",
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_electronics",
     "see_cost": "spaced_high"
   },
   {
@@ -65,14 +65,14 @@
     "name": "small power substation roof",
     "sym": "H",
     "color": "light_cyan",
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_electronics",
     "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": [ "pwr_large_entrance", "pwr_large_2", "pwr_large_3", "pwr_large_4" ],
     "name": "large power substation",
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_electronics",
     "sym": "H",
     "color": "cyan",
     "see_cost": "spaced_high"
@@ -91,6 +91,7 @@
     "id": "warehouse",
     "copy-from": "generic_city_building",
     "name": "small warehouse",
+    "vision_levels": "warehouse",
     "sym": "w",
     "color": "light_blue"
   },
@@ -99,6 +100,7 @@
     "id": "warehouse_roof",
     "copy-from": "generic_city_building",
     "name": "small warehouse roof",
+    "vision_levels": "warehouse",
     "sym": "w",
     "color": "light_blue"
   },
@@ -107,6 +109,7 @@
     "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "generic_city_building",
     "name": "small storage units",
+    "vision_levels": "warehouse",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -115,6 +118,7 @@
     "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "small storage units roof",
+    "vision_levels": "warehouse",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -123,6 +127,7 @@
     "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ],
     "copy-from": "generic_city_building",
     "name": "lumberyard",
+    "vision_levels": "industrial_building",
     "sym": "L",
     "color": "i_green",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
@@ -133,6 +138,7 @@
     "id": [ "lumberyard_0_0_roof", "lumberyard_0_1_roof", "lumberyard_1_0_roof", "lumberyard_1_1_roof" ],
     "copy-from": "generic_city_building",
     "name": "lumberyard",
+    "vision_levels": "industrial_building",
     "sym": "L",
     "color": "i_green"
   },
@@ -140,7 +146,7 @@
     "type": "overmap_terrain",
     "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "vision_levels": "isolated_building",
+    "vision_levels": "industrial_building",
     "name": "lumbermill",
     "sym": "L",
     "color": "i_green",
@@ -171,6 +177,7 @@
     "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
     "name": "construction site",
     "copy-from": "generic_city_building",
+    "vision_levels": "industrial_building",
     "sym": "x",
     "color": "i_light_gray",
     "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
@@ -180,6 +187,7 @@
     "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
     "copy-from": "generic_city_building",
     "name": "abandoned warehouse",
+    "vision_levels": "warehouse",
     "sym": "w",
     "color": "brown"
   },
@@ -194,6 +202,7 @@
     ],
     "copy-from": "generic_city_building",
     "name": "abandoned warehouse roof",
+    "vision_levels": "warehouse",
     "sym": "w",
     "color": "brown"
   },
@@ -208,6 +217,7 @@
     ],
     "copy-from": "generic_city_building",
     "name": "storage units",
+    "vision_levels": "warehouse",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -222,6 +232,7 @@
     ],
     "copy-from": "generic_city_building",
     "name": "storage units roof",
+    "vision_levels": "warehouse",
     "sym": "#",
     "color": "i_yellow"
   },
@@ -284,7 +295,7 @@
       "steel_mill_4_3_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "vision_levels": "large_building",
+    "vision_levels": "large_industrial_building",
     "name": "steel mill",
     "sym": "S",
     "color": "dark_gray"
@@ -330,7 +341,7 @@
     "name": "light industry",
     "sym": "I",
     "color": "light_blue",
-    "vision_levels": "isolated_building",
+    "vision_levels": "industrial_building",
     "see_cost": "high",
     "extras": "build",
     "mondensity": 2
@@ -338,7 +349,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
-    "vision_levels": "isolated_building",
+    "vision_levels": "industrial_building",
     "name": "mine entrance",
     "sym": "M",
     "color": "magenta",
@@ -457,7 +468,7 @@
     "name": "light industry",
     "sym": "I",
     "color": "light_blue",
-    "vision_levels": "isolated_building",
+    "vision_levels": "industrial_building",
     "see_cost": "high",
     "extras": "build",
     "mondensity": 2
