@@ -94,7 +94,7 @@
       { "group": "guns_rifle_obscure", "prob": 18 },
       { "group": "guns_shotgun_obscure", "prob": 1 },
       { "group": "ammo_obscure", "prob": 40 },
-      { "group": "mags_obscure", "prob": 40 }
+      { "group": "mags_common", "prob": 40 }
     ]
   },
   {

@@ -72,11 +72,12 @@
     "copy-from": "mags_common",
     "extend": {
       "items": [
-        [ "afs_5x50_50_mag", 10 ],
-        [ "afs_5x50_100_mag", 6 ],
-        [ "afs_84k_20mag", 20 ],
-        [ "afs_UICASTA30", 30 ],
-        [ "afs_UICASTA100drum", 15 ]
+        [ "afs_5x50_50_mag", 9 ],
+        [ "afs_5x50_100_mag", 5 ],
+        [ "afs_84k_20mag", 18 ],
+        [ "afs_UICASTA30", 28 ],
+        [ "afs_UICASTA100drum", 14 ],
+        [ "afs_25mm_mag", 12 ]
       ]
     }
   },
@@ -84,12 +85,6 @@
     "type": "item_group",
     "id": "afs_UICASTA30",
     "items": [ [ "afs_UICASTA30", 40 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_shotgun_rare",
-    "copy-from": "mags_shotgun_rare",
-    "extend": { "items": [ [ "afs_25mm_mag", 50 ] ] }
   },
   {
     "type": "item_group",

@@ -1619,7 +1619,7 @@
       { "group": "archery_ammo", "prob": 60 },
       { "group": "crossbow_bolts", "prob": 60 },
       { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_obscure", "prob": 30 },
+      { "group": "mags_common", "prob": 30 },
       { "group": "ammo_cannon", "prob": 10 }
     ]
   },
