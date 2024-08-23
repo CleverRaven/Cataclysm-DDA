@@ -356,7 +356,7 @@
     "material": [ "plastic" ],
     "weight": "280 g",
     "volume": "250 ml",
-    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT"s ],
+    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "variant_type": "generic",
