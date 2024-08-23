@@ -236,12 +236,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_FAE_BAN_KEEP_FOOD_TRAITS",
-    "//": "This is to prevent the Homullus from purifying those traits away as long as they have The Top of the Food Chain.",
+    "//": "This is to prevent the Homullus from purifying those traits away as long as they have The Top of the Food Chain, or are post-threshold.",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "HOMULLUS_EAT_DEMIHUMANS" },
+        { "or": [ { "u_has_trait": "HOMULLUS_EAT_DEMIHUMANS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
         { "or": [ { "not": { "u_has_trait": "PICKYEATER" } }, { "not": { "u_has_trait": "ANTIJUNK" } } ] }
       ]
     },
