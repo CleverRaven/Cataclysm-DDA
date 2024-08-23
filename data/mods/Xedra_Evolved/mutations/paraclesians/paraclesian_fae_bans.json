@@ -126,7 +126,7 @@
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
-        "u_message": "You an in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
+        "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
         "type": "bad"
       }
     ]
