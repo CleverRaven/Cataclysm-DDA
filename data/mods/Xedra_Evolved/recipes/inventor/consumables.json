@@ -1,0 +1,36 @@
+[
+    {
+        "type": "recipe",
+        "activity_level": "LIGHT_EXERCISE",
+        "result": "rip_ticket",
+        "tools": [
+          [
+            [ "pen", 25 ],
+            [ "black_pen", 25 ],
+            [ "blue_pen", 25 ],
+            [ "red_pen", 25 ],
+            [ "green_pen", 25 ],
+            [ "pencil", 25 ],
+            [ "permanent_marker", 25 ],
+            [ "survival_marker", 25 ]
+          ]
+        ],
+        "components": [
+          [
+            [ "money_one", 1 ],
+            [ "money_two", 1 ],
+            [ "money_five", 1 ],
+            [ "money_ten", 1 ],
+            [ "money_twenty", 1 ],
+            [ "money_fifty", 1 ],
+            [ "money_hundred", 1 ]
+          ]
+        ],
+        "time": "2 h",
+        "skill_used": "deduction",
+        "difficulty": 5,
+        "flags": [ "SECRET" ],
+        "category": "CC_XEDRA",
+        "subcategory": "CSC_XEDRA_WEAPONS"
+      }
+]
