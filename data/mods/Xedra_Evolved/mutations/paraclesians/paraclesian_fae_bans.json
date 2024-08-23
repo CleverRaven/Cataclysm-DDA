@@ -70,7 +70,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
     "eoc_type": "EVENT",
-    "required_event": "character_wakes_up",
+    "required_event": "character_s_up",
     "condition": {
       "and": [
         { "u_has_trait": "THRESH_ARVORE" },
@@ -87,7 +87,7 @@
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
-        "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
+        "u_message": "You an with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
         "type": "bad"
       }
     ]
@@ -96,7 +96,7 @@
     "type": "effect_on_condition",
     "id": "EOC_IERDE_FAE_BAN_DIDNT_SLEEP_UNDERGROUND",
     "eoc_type": "EVENT",
-    "required_event": "character_wakes_up",
+    "required_event": "character_s_up",
     "condition": {
       "and": [
         { "u_has_trait": "THRESH_IERDE" },
@@ -126,7 +126,7 @@
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
-        "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
+        "u_message": "You an in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
         "type": "bad"
       }
     ]
@@ -198,6 +198,44 @@
       }
     ]
   },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_DIDNT_SLEEP_NEAR_HUMANS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "u_has_trait": "HOMULLUS_BACKSTAGE" }, { "u_has_trait": "HOMULLUS_REGEN_STAMINA" } ] },
+            { "u_has_trait": "THRESH_HOMULLUS" }
+          ]
+        },
+        { "math": [ "(u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You awaken with a start as a terrible feeling of crushing loneliness grips you.  You were meant to live in close contat with humans, not wake up to an empty home.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_PICKY_EATER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Picky Eater trait when gaining the Top of the Food Chain trait",
+    "condition": {
+      "and": [
+        { "compare_string": [ "HOMULLUS_EAT_DEMIHUMANS", { "context_val": "trait" } ] },
+        { "u_has_trait": "HOMULLUS" } }
+      ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" } ]
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_FAE_BAN_GET_WET",
