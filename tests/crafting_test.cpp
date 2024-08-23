@@ -893,7 +893,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( plastic_molding );
 
             item UPS( "UPS_off" );
-            item UPS_mag( UPS.magazine_default() );
+            item UPS_mag( "heavy_atomic_battery_cell" );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
@@ -905,7 +905,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 207 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 
