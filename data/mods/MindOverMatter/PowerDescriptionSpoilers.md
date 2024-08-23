@@ -1131,7 +1131,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Difficulty*: 10<br />
 *Target*: A single target within 1 square<br />
 *Duration*: Indefinite<br />
-*Stamina Cost*: 1000, minus 250 per level to a minimum of 5000<br />
+*Stamina Cost*: 10000, minus 250 per level to a minimum of 5000<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
 *Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
 *Prerequisites*: Gateway 10, Breach 10<br />
