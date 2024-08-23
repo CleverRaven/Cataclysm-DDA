@@ -31,7 +31,7 @@
         "condition": { "not": { "npc_has_effect": "npc_value_interaction_timer_short" } },
         "effect": [
           { "npc_add_effect": "npc_value_interaction_timer_short", "duration": "30 hours" },
-          { "math": [ "n_val( 'npc_value' )", "++" ] }
+          { "math": [ "n_npc_value()", "++" ] }
         ]
       }
     ],
