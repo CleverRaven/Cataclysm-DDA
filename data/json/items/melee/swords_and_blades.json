@@ -2913,6 +2913,7 @@
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
@@ -3002,6 +3003,7 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {

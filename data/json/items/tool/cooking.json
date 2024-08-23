@@ -124,6 +124,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
