@@ -227,9 +227,23 @@
     "id": "EOC_HOMULLUS_FAE_BAN_PICKY_EATER",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
-    "//": "Automatically gain the Picky Eater and Junkfood Intolerance traits when gaining the Top of the Food Chain trait",
+    "//": "Automatically gain the Picky Eater and Junkfood Intolerance traits when gaining the The Top of the Food Chain trait",
     "condition": {
       "and": [ { "compare_string": [ "HOMULLUS_EAT_DEMIHUMANS", { "context_val": "trait" } ] }, { "u_has_trait": "HOMULLUS" } ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KEEP_FOOD_TRAITS",
+    "//": "This is to prevent the Homullus from purifying those traits away as long as they have The Top of the Food Chain.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS_EAT_DEMIHUMANS" },
+        { "or": [ { "not": { "u_has_trait": "PICKYEATER" } }, { "not": { "u_has_trait": "ANTIJUNK" } } ] }
+      ]
     },
     "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
   },
