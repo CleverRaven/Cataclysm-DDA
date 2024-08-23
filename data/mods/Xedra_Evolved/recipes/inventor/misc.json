@@ -238,5 +238,34 @@
     "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_TOOLS"
+  },
+  {
+    "result": "inventor_nre_recorder",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 h",
+    "tools": [ [ [ "laptop", 30 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "scrap", 20 ] ],
+      [ [ "scrap_aluminum", 10 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "magnetron", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
+    "skill_used": "deduction",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 6 ],
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS"
   }
 ]

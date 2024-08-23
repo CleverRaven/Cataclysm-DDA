@@ -114,5 +114,15 @@
     "description": "A USB thumb drive with a simple intelligent agent to provide support in parsing big layers of information.",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "qualities": [ [ "AI_TOOL", 1 ] ]
+  },
+  {
+    "id": "inventor_nre_recorder",
+    "copy-from": "nre_recorder",
+    "type": "TOOL",
+    "name": { "str": "ERN recorder" },
+    "material": [ "lc_steel", "aluminum" ],
+    "description": "A phone-like device covered with sensors and other doodads.  Use it to print out data recorded from chasing portal storms.",
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
+    "delete": { "flags": [ "WATER_BREAK" ] }
   }
 ]
