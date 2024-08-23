@@ -15,14 +15,14 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Theresa_Story",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Theresa_Mood" },
       { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
       {
         "text": "How've things been since <the_cataclysm>?",
         "condition": {
-          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_val( 'npc_value' )", ">=", "3" ] } ]
+          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_npc_value()", ">=", "3" ] } ]
         },
         "topic": "TALK_GODCO_Theresa_Cataclysm"
       },
@@ -37,10 +37,10 @@
       "value": "yes",
       "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
       "no": {
-        "math": [ "n_val( 'npc_anger' )", ">=", "5" ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "What are you doing around here?  I don't want to talk to you.",
         "no": {
-          "math": [ "n_val( 'npc_value' )", ">=", "3" ],
+          "math": [ "n_npc_value()", ">=", "3" ],
           "yes": "&Theresa looks up from her knitting, with a sparkle in her eyes.  \"Come on in, <granny_name_g>.  I'm glad to see you again, have a seat.\"",
           "no": {
             "npc_has_var": "general_meeting_u_met_godco_theresa",
@@ -67,7 +67,7 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -78,7 +78,7 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -89,7 +89,7 @@
         "text": "I'm afraid I can't talk right now.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -103,10 +103,7 @@
       {
         "text": "Fuck you then, I'm leaving.",
         "condition": {
-          "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
-          ]
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
         },
         "topic": "TALK_DONE"
       }

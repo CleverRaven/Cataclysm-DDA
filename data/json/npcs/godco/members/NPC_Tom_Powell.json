@@ -12,12 +12,12 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       }
     ]
   },
@@ -28,27 +28,27 @@
       {
         "text": "Tell me about yourself.",
         "topic": "TALK_GODCO_Tom_Background",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       {
         "text": "Tell me about your family.",
         "topic": "TALK_GODCO_Tom_Family",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       {
         "text": "Tell me about the community.",
         "topic": "TALK_GODCO_Tom_Community",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       }
     ]
   },
@@ -60,7 +60,7 @@
       "value": "yes",
       "yes": "What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "math": [ "n_val( 'npc_anger' )", ">=", "5" ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "It's you again <u_name>, you have some nerve coming around after what you've done.",
         "no": {
           "npc_has_var": "general_meeting_u_met_godco_tom",
@@ -89,7 +89,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_tom", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -100,7 +100,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_tom", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -111,7 +111,7 @@
         "text": "Hey, Tom.  I can't stay to talk.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -121,7 +121,7 @@
         "text": "Alright, alright, I'll leave you be.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },

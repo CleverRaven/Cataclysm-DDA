@@ -15,7 +15,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Gemma_Story",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Gemma_Mood" },
       { "text": "What does a dorm leader do exactly?", "topic": "TALK_GODCO_Gemma_Leader" },
@@ -29,7 +29,7 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_value' )", ">=", "3" ] },
+            { "math": [ "n_npc_value()", ">=", "3" ] },
             { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
@@ -48,7 +48,7 @@
         "relevant_genders": [ "u" ]
       },
       "no": {
-        "math": [ "n_val( 'npc_anger' )", ">=", "5" ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "I'm rather busy at the moment, I don't have the time to talk right now.",
         "no": {
           "npc_has_var": "general_meeting_u_met_godco_gemma",
@@ -98,17 +98,14 @@
         "text": "Hi, Gemma.  How're you doing?",
         "topic": "TALK_GODCO_Gemma_Mood",
         "condition": {
-          "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
-          ]
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } ]
         }
       },
       {
         "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -118,10 +115,7 @@
         "text": "Are you sure?  I've got all the time in the world.",
         "topic": "TALK_GODCO_Gemma_Angry",
         "condition": {
-          "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
-          ]
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } ]
         }
       },
       {

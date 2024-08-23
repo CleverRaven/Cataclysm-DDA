@@ -36,7 +36,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Kostas_Story",
-        "condition": { "math": [ "n_val( 'npc_value' )", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Kostas_Mood" },
       { "text": "What do you do around here?", "topic": "TALK_GODCO_Kostas_Task" },
@@ -51,7 +51,7 @@
       "value": "yes",
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
-        "math": [ "n_val( 'npc_anger' )", ">=", "5" ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "&Kostas looks up at you and scorns.  \"I'm rather busy right now with an important project, go away please.\"",
         "no": {
           "npc_has_var": "general_meeting_u_met_godco_kostas",
@@ -80,7 +80,7 @@
         "text": "Hey, good to see you again.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -102,7 +102,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "npc_has_effect": "godco_kostas_trade" }
@@ -115,7 +115,7 @@
         "text": "Hey, I think we've got some time to chat, don't you?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -126,7 +126,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "npc_has_effect": "godco_kostas_trade" }
@@ -137,13 +137,13 @@
       {
         "text": "Hey Kostas, find something interesting lately?",
         "topic": "TALK_GODCO_Kostas_Interval",
-        "condition": { "math": [ "n_val( 'npc_anger' )", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
       },
       {
         "text": "Hey, Kostas.  I can't stay to talk.",
         "condition": {
           "and": [
-            { "math": [ "n_val( 'npc_anger' )", "<", "5" ] },
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -157,10 +157,7 @@
       {
         "text": "Alright then.",
         "condition": {
-          "or": [
-            { "math": [ "n_val( 'npc_anger' )", ">=", "5" ] },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
-          ]
+          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
         },
         "topic": "TALK_DONE"
       }
