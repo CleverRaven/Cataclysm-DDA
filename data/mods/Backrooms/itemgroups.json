@@ -182,11 +182,10 @@
       { "group": "guns_shotgun_common", "prob": 60 },
       { "group": "guns_shotgun_rare", "prob": 25 },
       { "group": "mags_pistol_common", "prob": 75 },
-      { "group": "mags_pistol_rare", "prob": 50 },
+      { "group": "mags_common", "prob": 100 },
       { "group": "mags_smg_common", "prob": 50 },
       { "group": "mags_smg_rare", "prob": 50 },
       { "group": "mags_rifle_common", "prob": 60 },
-      { "group": "mags_rifle_rare", "prob": 50 },
       { "group": "mags_milspec", "prob": 100 },
       { "group": "ammo_launcher_grenade", "prob": 20 },
       { "group": "archery", "prob": 25 }

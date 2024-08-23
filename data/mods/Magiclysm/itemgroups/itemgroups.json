@@ -135,9 +135,9 @@
   },
   {
     "type": "item_group",
-    "id": "mags_rifle_rare",
-    "copy-from": "mags_rifle_rare",
-    "extend": { "items": [ [ "borealmosin_clip", 5 ] ] }
+    "id": "mags_common",
+    "copy-from": "mags_common",
+    "extend": { "items": [ [ "borealmosin_clip", 4 ] ] }
   },
   {
     "type": "item_group",

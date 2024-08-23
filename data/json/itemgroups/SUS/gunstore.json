@@ -21,7 +21,7 @@
     "entries": [
       { "group": "guns_pistol_obscure_display", "prob": 15 },
       {
-        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
+        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_common", "count": [ 1, 6 ] } ],
         "prob": 45
       },
       {
@@ -46,7 +46,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "guns_common_display", "prob": 80 },
-      { "group": "mags_common_gunstore", "prob": 80 },
+      { "group": "mags_common", "prob": 80 },
       { "group": "gunmod_common", "prob": 15 },
       { "group": "conversion_kits", "prob": 15 },
       { "group": "book_gunmags", "prob": 60 },

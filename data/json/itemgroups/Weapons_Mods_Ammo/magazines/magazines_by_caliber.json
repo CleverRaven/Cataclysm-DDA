@@ -31,10 +31,10 @@
     "items": [
       { "group": "magazines_10mm_glock", "prob": 100 },
       { "item": "40_speedloader6", "prob": 16 },
-      { "item": "m1911_10mag", "prob": 7 },
-      { "item": "p220_10_mag", "prob": 9 },
-      { "item": "witness_mag_10", "prob": 2 },
-      { "item": "xd_10_mag", "prob": 24 }
+      { "item": "m1911_10mag", "prob": 3 },
+      { "item": "p220_10_mag", "prob": 21 },
+      { "item": "witness_mag_10", "prob": 13 },
+      { "item": "xd_10_mag", "prob": 19 }
     ]
   },
   {
@@ -73,9 +73,10 @@
     "id": "common_magazines_38",
     "//": "Collections of speedloaders for 38/357 revolvers that are sold in gunstores, such as a 686 or Model 10.",
     "items": [
-      { "item": "38_speedloader", "prob": 58 },
-      { "item": "38_speedloader5", "prob": 100 },
-      { "item": "38_speedloader6", "prob": 14 }
+      { "item": "38_speedloader", "prob": 10 },
+      { "item": "38_speedloader5", "prob": 31 },
+      { "item": "38_speedloader6", "prob": 100 },
+      { "item": "deaglemag_357", "prob": 7 }
     ]
   },
   {
@@ -154,8 +155,7 @@
       { "group": "magazines_m77", "prob": 39 },
       { "group": "magazines_scarh", "prob": 49 },
       { "group": "magazines_ar10", "prob": 100 },
-      { "item": "steyr_scout_mag", "prob": 16 },
-      { "item": "ai_308mag_10", "prob": 1 }
+      { "item": "steyr_scout_mag", "prob": 16 }
     ]
   },
   {
@@ -194,6 +194,26 @@
     "id": "common_magazines_3006",
     "//": "Collections of magazines for 308 guns that can be found in gunstores.",
     "items": [ { "item": "3006_clip", "prob": 33 }, { "item": "blrmag", "prob": 3 }, { "item": "garandclip", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_450",
+    "//": "Collections of magazines for 450 Bushmaster guns that can be found in gunstores.",
+    "items": [ { "item": "450_ar15mag", "prob": 100 }, { "item": "ruger_arr_mag", "prob": 54 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "common_magazines_12",
+    "//": "Collections of magazines for 12 gauge guns that can be found in gunstores.",
+    "items": [
+      { "group": "magazines_saiga12", "prob": 6 },
+      { "group": "magazines_shot_speedloaders", "prob": 20 },
+      { "group": "magazines_590m", "prob": 8 },
+      { "group": "magazines_mka", "prob": 100 },
+      { "item": "srm_1216_mag_16", "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
