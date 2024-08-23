@@ -148,7 +148,6 @@
       { "u_message": "As you meditate, you feel your spirit slipping free from your body.", "type": "good" },
       { "u_spawn_item": "body_astral_projection", "suppress_message": true },
       { "u_spawn_item": "item_clair_astral_projection_cord", "suppress_message": true, "force_equip": true },
-      { "math": [ "u_spell_level('clair_astral_projection_passwall')", "=", "0" ] },
       { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "0" ] }
     ]
   },
