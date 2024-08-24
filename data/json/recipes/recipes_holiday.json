@@ -37,6 +37,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jackolantern",
+    "byproducts": [ [ "pumpkin_cut", 1 ], [ "seed_pumpkin", 6 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
