@@ -1844,6 +1844,11 @@
     "replace": "egg_goose"
   },
   {
+    "id": "egg_reptile",
+    "type": "MIGRATION",
+    "replace": "egg_turtle_painted"
+  },
+  {
     "id": "ar_pistol",
     "type": "MIGRATION",
     "replace": "rdb_223"
