@@ -1220,7 +1220,7 @@
     "proportional": { "price_postapoc": 0.5 },
     "fun": -20,
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "mutant_toxin", 50 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 10 ], [ "mutant_toxin", 50 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_brain_cooked",
