@@ -322,7 +322,7 @@
     "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "weight": "1 g",
+    "weight": "19 mg",
     "volume": "1 ml",
     "ammo_type": "superglue",
     "//": "1 charge of superglue should cover an area of 5mm^2",
