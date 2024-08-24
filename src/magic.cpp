@@ -1855,7 +1855,7 @@ int spell::heal( const tripoint &target, Creature &caster ) const
     return -1;
 }
 
-void spell::cast_spell_effect( item &source, const tripoint &target ) const
+void spell::cast_spell_effect( const tripoint &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
@@ -1881,7 +1881,7 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
     type->effect( *this, source, target );
 }
 
-void spell::cast_all_effects( item &source, const tripoint &target ) const
+void spell::cast_all_effects( const tripoint &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
@@ -1900,15 +1900,15 @@ void spell::cast_all_effects( item &source, const tripoint &target ) const
             // if a message is added to the casting spell, it will be sent as well.
             add_msg( sp.message() );
 
-            sp.cast_all_effects( source, target );
+            sp.cast_all_effects( target );
         }
     } else {
         if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
-            cast_extra_spell_effects( source, target );
-            cast_spell_effect( source, target );
+            cast_extra_spell_effects( target );
+            cast_spell_effect( target );
         } else {
-            cast_spell_effect( source, target );
-            cast_extra_spell_effects( source, target );
+            cast_spell_effect( target );
+            cast_extra_spell_effects( target );
         }
     }
 }
@@ -1954,13 +1954,13 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-void spell::cast_extra_spell_effects( item &source, const tripoint &target ) const
+void spell::cast_extra_spell_effects( const tripoint &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( fake_avatar, get_effective_level() );
-        sp.cast_all_effects( source, target );
+        sp.cast_all_effects( target );
     }
 }
 
