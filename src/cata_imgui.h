@@ -62,7 +62,7 @@ class client
                 const GeometryRenderer_Ptr &sdl_geometry );
         void load_fonts( const std::unique_ptr<Font> &cata_fonts,
                          const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                         const std::vector<std::string> &typeface);
+                         const std::vector<std::string> &typeface );
 #endif
         ~client();
 
