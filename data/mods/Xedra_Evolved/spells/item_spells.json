@@ -441,7 +441,7 @@
     "effect": "attack",
     "shape": "blast",
     "field_id": "fd_fatigue",
-    "field_chance": 0.5,
+    "field_chance": 2,
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "valid_targets": [ "ground", "self", "ally", "hostile", "field", "item", "none" ],
