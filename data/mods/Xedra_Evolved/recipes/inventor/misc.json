@@ -240,7 +240,8 @@
     "subcategory": "CSC_XEDRA_TOOLS"
   },
   {
-    "result": "inventor_nre_recorder",
+    "result": "nre_recorder",
+    "id_suffix": "inventor",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "time": "4 h",
