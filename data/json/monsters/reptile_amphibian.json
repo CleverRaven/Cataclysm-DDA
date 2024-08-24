@@ -202,7 +202,7 @@
   {
     "id": "mon_turtle_snapping_common",
     "type": "MONSTER",
-    "name": { "str": "common snaping turtle" },
+    "name": { "str": "common snapping turtle" },
     "description": "A prehistoric-looking species of freshwater turtle with a nasty bite.",
     "copy-from": "mon_turtle_abstract",
     "volume": "6 L",
