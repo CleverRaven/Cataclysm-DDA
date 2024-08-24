@@ -90,6 +90,7 @@ class aim_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
+        bool check_gun_ability_to_shoot( Character &who, item &it );
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
