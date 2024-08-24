@@ -2,7 +2,7 @@
   {
     "id": "rip_ticket",
     "name": { "str": "vancian bill" },
-    "description": "A small bill covered in odd symbols. Tearing it will in turn cause a small dimensional tear located within a nearby entity.  Despite only lasting a few milliseconds, an internal tear in reality should be enough to kill anything.  Hopefully.",
+    "description": "A small bill covered in odd symbols.  Tearing it will in turn cause a small dimensional tear located within a nearby entity.  Despite only lasting a few milliseconds, an internal tear in reality should be enough to kill anything.  Hopefully.",
     "type": "TOOL",
     "weight": "1 g",
     "volume": "1 ml",
