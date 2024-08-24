@@ -211,7 +211,7 @@
       { "monster": "mon_dog_dachshund", "weight": 2, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_gshepherd", "weight": 3, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_samoyed", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_chicken", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 50, "cost_multiplier": 5, "pack_size": [ 1, 12 ] },
       { "group": "GROUP_COWS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "group": "GROUP_HORSES", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
@@ -221,7 +221,6 @@
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_SHEEPS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
-      { "monster": "mon_goose", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
@@ -237,6 +236,28 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_BIRD_DOMESTIC",
+    "default": "mon_chicken",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 10, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_duck_domestic", "weight": 6, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_goose", "weight": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_turkey_domestic", "weight": 1, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BIRD_DOMESTIC_WATERFOWL",
+    "default": "mon_duck_domestic",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_duck_domestic", "weight": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_goose", "weight": 1, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
@@ -244,7 +265,7 @@
       { "monster": "mon_null", "weight": 679 },
       { "monster": "mon_bat", "weight": 10 },
       { "monster": "mon_bobcat", "weight": 10 },
-      { "monster": "mon_chicken", "weight": 10 },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 20 },
       { "monster": "mon_chipmunk", "weight": 10 },
       { "monster": "mon_crow", "weight": 10 },
       { "monster": "mon_raven", "weight": 10 },
@@ -278,8 +299,6 @@
       { "group": "GROUP_SHEEPS", "weight": 10 },
       { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 },
-      { "monster": "mon_goose", "weight": 10 },
-      { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
       { "monster": "mon_cicada_nymph", "weight": 10 },
@@ -521,7 +540,6 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_squirrel", "weight": 20 },
       { "monster": "mon_weasel", "weight": 20 },
-      { "monster": "mon_chicken", "weight": 10 },
       { "monster": "mon_grouse", "weight": 10 },
       { "monster": "mon_pheasant", "weight": 10 },
       { "monster": "mon_turkey", "weight": 20 }
@@ -533,7 +551,6 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
-      { "monster": "mon_chicken", "weight": 20 },
       { "monster": "mon_grouse", "weight": 2 },
       { "monster": "mon_pheasant", "weight": 2 },
       { "monster": "mon_turkey", "weight": 10 },
