@@ -1858,13 +1858,13 @@ int spell::heal( const tripoint &target, Creature &caster ) const
 void spell::cast_spell_effect( item &source, const tripoint &target ) const
 {
     avatar fake_avatar;
-    fake_avatar.setpos(target);
+    fake_avatar.setpos( target );
 
-    get_event_bus().send<event_type::character_casts_spell>( character_id(-1),
-                    this->id(), this->spell_class(), 
-                    0, 0, 0, this->damage( fake_avatar ));
+    get_event_bus().send<event_type::character_casts_spell>( character_id( -1 ),
+            this->id(), this->spell_class(),
+            0, 0, 0, this->damage( fake_avatar ) );
 
-    type->effect( *this, fake_avatar, target);
+    type->effect( *this, fake_avatar, target );
 }
 
 void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
@@ -1884,7 +1884,7 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 void spell::cast_all_effects( item &source, const tripoint &target ) const
 {
     avatar fake_avatar;
-    fake_avatar.setpos(target);
+    fake_avatar.setpos( target );
 
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
@@ -1957,7 +1957,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 void spell::cast_extra_spell_effects( item &source, const tripoint &target ) const
 {
     avatar fake_avatar;
-    fake_avatar.setpos(target);
+    fake_avatar.setpos( target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( fake_avatar, get_effective_level() );
         sp.cast_all_effects( source, target );

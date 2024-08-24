@@ -2449,11 +2449,11 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
     spell casting = spell( spell_id( item_spell ) );
 
     // Spell is being cast from a non-held item
-    if (p==NULL && &it) {
-        casting.cast_all_effects(it, pos);
+    if( p == NULL && &it ) {
+        casting.cast_all_effects( it, pos );
         return 0;
     }
-    
+
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( *p ) );
     // [0] this is used as a spell level override for items casting spells
     cast_spell.values.emplace_back( spell_level );

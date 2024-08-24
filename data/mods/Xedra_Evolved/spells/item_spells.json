@@ -405,7 +405,10 @@
     "description": "Having this spell is a bug.  And casting it is lethal",
     "message": "The location the grenade occupied is instantly overwhelmed with sounds and colors you've never felt before as space warps in impossible ways.  Whatever used to be there is now gone.",
     "effect": "attack",
-    "extra_effects": [ { "id": "netherium_warp_grenade_detonation_terrain", "max_level": 0 }, { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 } ],
+    "extra_effects": [
+      { "id": "netherium_warp_grenade_detonation_terrain", "max_level": 0 },
+      { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 }
+    ],
     "shape": "blast",
     "valid_targets": [ "self", "hostile", "ally" ],
     "min_damage": 1000,
@@ -413,7 +416,7 @@
     "min_aoe": 2,
     "max_aoe": 5,
     "damage_type": "pure",
-    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
   },
   {
     "id": "netherium_warp_grenade_detonation_terrain",
@@ -423,7 +426,7 @@
     "effect": "bash",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "IGNORE_WALLS" ],
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "IGNORE_WALLS" ],
     "min_damage": 10000,
     "max_damage": 10000,
     "min_aoe": 2,
@@ -442,7 +445,7 @@
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "valid_targets": [ "ground", "self", "ally", "hostile", "field", "item", "none" ],
-    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL" ]
   },
   {
     "id": "inventor_portal_closer_spell",
@@ -459,7 +462,7 @@
     "max_damage": 1,
     "min_range": 1,
     "max_range": 1,
-    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
   },
   {
     "id": "inventor_portal_closer_spell_portal_storm",
@@ -471,24 +474,12 @@
     "effect_str": "EOC_CAUSE_PORTAL_STORM",
     "shape": "blast",
     "valid_targets": [ "ground", "self" ],
-    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
   },
   {
     "type": "ter_furn_transform",
     "id": "inventor_portal_closer_spell_furn_transform",
-    "field": [
-      {
-        "result": [ "fd_null" ],
-        "valid_field": [ "fd_fatigue" ],
-        "message": "The tear in reality smoothes out."
-      }
-    ],
-    "trap": [
-      {
-        "result": [ "tr_glass" ],
-        "valid_trap": [ "tr_portal" ],
-        "message": "The portal shatters into shards of glass!"
-      }
-    ]
+    "field": [ { "result": [ "fd_null" ], "valid_field": [ "fd_fatigue" ], "message": "The tear in reality smoothes out." } ],
+    "trap": [ { "result": [ "tr_glass" ], "valid_trap": [ "tr_portal" ], "message": "The portal shatters into shards of glass!" } ]
   }
 ]

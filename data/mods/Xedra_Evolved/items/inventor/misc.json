@@ -147,14 +147,7 @@
         "charge_rate": "500 W"
       }
     ],
-    "use_action": [
-      {
-        "type": "cast_spell",
-        "spell_id": "inventor_portal_closer_spell",
-        "no_fail": true,
-        "level": 0
-      }
-    ],
+    "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
   }
 ]

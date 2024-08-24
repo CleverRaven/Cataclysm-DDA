@@ -115,12 +115,7 @@
     "activity_level": "NO_EXERCISE",
     "result_eocs": [ "EOC_INVENTOR_RESEARCH_DIMENSION_1" ],
     "tools": [ [ [ "laptop", 100 ] ] ],
-    "components": [
-      [
-        [ "medium_printout_portal_storm_data", 1 ],
-        [ "small_printout_portal_storm_data", 3 ]
-      ]
-    ],
+    "components": [ [ [ "medium_printout_portal_storm_data", 1 ], [ "small_printout_portal_storm_data", 3 ] ] ],
     "time": "10 h",
     "skill_used": "deduction",
     "difficulty": 10,
