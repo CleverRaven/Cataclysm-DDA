@@ -469,7 +469,6 @@
     "type": "SPELL",
     "name": "Netherium-Reality Smooth - Portal Spell",
     "description": "Having this spell is a bug.  Causes a strong portal storm.",
-    "message": "casted portal spell",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CAUSE_PORTAL_STORM",
     "shape": "blast",
