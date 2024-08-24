@@ -440,6 +440,7 @@
       { "id": "teleport_displacement", "level": 10 },
       { "id": "teleport_stride", "level": 12 },
       { "id": "teleport_phase", "level": 12 },
+      { "id": "teleport_ephemeral_walk", "level": 4 },
       { "id": "teleport_collapse", "level": 7 },
       { "id": "teleport_farstep", "level": 10 },
       { "id": "teleport_banish", "level": 6 },

@@ -1,0 +1,130 @@
+[
+  {
+    "type": "mutation",
+    "id": "NATIVE_SHAPESHIFTER",
+    "name": { "str": "Natural Shapeshifter" },
+    "points": 0,
+    "description": "You were born a shapeshifter, and after your gifts manifested themselves, you gained other benefits as well.  Even in human form, you heal a little faster than normal and your broken bones heal straight and true.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamin_rates": [
+      [ "mutagen", 1 ],
+      [ "mutagen_alpha", 1 ],
+      [ "mutagen_batrachian", 1 ],
+      [ "mutagen_beast", 1 ],
+      [ "mutagen_bird", 1 ],
+      [ "mutagen_cattle", 1 ],
+      [ "mutagen_cephalopod", 1 ],
+      [ "mutagen_chimera", 1 ],
+      [ "mutagen_crustacean", 1 ],
+      [ "mutagen_elfa", 1 ],
+      [ "mutagen_feline", 1 ],
+      [ "mutagen_fish", 1 ],
+      [ "mutagen_gastropod", 1 ],
+      [ "mutagen_human", 1 ],
+      [ "mutagen_insect", 1 ],
+      [ "mutagen_lizard", 1 ],
+      [ "mutagen_lupine", 1 ],
+      [ "mutagen_medical", 1 ],
+      [ "mutagen_mouse", 1 ],
+      [ "mutagen_plant", 1 ],
+      [ "mutagen_raptor", 1 ],
+      [ "mutagen_rabbit", 1 ],
+      [ "mutagen_rat", 1 ],
+      [ "mutagen_slime", 1 ],
+      [ "mutagen_spider", 1 ],
+      [ "mutagen_troglobite", 1 ],
+      [ "mutagen_ursine", 1 ]
+    ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "MEND_ALL" ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_ANIMAL_FORM",
+    "name": { "str": "Lupine Form" },
+    "points": 0,
+    "description": "You can transform yourself into a wolf and run through the forests.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_WOLF_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_HYBRID_FORM",
+    "name": { "str": "War Form" },
+    "points": 0,
+    "description": "You can transform yourself into a wolf-human hybrid and rip your enemies to shreds.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_HYBRID_FORM_TRAITS",
+    "name": { "str": "Werewolf Hybrid Form" },
+    "points": 99,
+    "description": "You are a hybrid of wolf and human.  This provides the actual effects of werewolf hybrid form.  Should not be player-visible",
+    "visibility": 30,
+    "ugliness": 30,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "STRENGTH", "add": 6 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.8 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 },
+          { "value": "SOCIAL_PERSUADE", "add": -50 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 40 }
+        ],
+        "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "HEARING_MULT", "multiply": 0.75 },
+          { "value": "COMBAT_CATCHUP", "multiply": 2 },
+          { "value": "DODGE_CHANCE", "add": 4 }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },
+        "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
+      },
+      {
+        "intermittent_activation": {
+          "effects": [
+            {
+              "frequency": "6 seconds",
+              "spell_effects": [ { "id": "goblin_fruit_regeneration_spell" }, { "id": "shapeshifter_remove_pain_spell" } ]
+            }
+          ]
+        }
+      }
+    ],
+    "flags": [ "NO_SPELLCASTING", "PRED3", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "override_look": { "id": "mon_loup_garou", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_claws_werewolf", "integrated_werewolf_teeth", "integrated_lupine_fur" ]
+  }
+]
