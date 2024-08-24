@@ -393,7 +393,7 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
     "min_damage": 80,
-    "max_damage": 120,
+    "max_damage": 100,
     "min_range": 9,
     "max_range": 9,
     "damage_type": "cut"

@@ -47,6 +47,7 @@
     "using": [ [ "soldering_standard", 60 ], [ "welding_standard", 30 ] ],
     "components": [
       [ [ "power_supply", 2 ] ],
+      [ [ "teleporter", 1 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "scrap_aluminum", 5 ] ],
       [ [ "sheet_metal_small", 10 ] ],
