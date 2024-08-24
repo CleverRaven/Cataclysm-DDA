@@ -313,7 +313,7 @@
       { "math": [ "dimension_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "rip_ticket", "inventor_warp_grenade" ],
+        "u_roll_remainder": [ "rip_ticket", "inventor_warp_grenade", "inventor_portal_closer" ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {

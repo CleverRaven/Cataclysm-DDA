@@ -443,5 +443,52 @@
     "max_field_intensity": 10,
     "valid_targets": [ "ground", "self", "ally", "hostile", "field", "item", "none" ],
     "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL" ]
+  },
+  {
+    "id": "inventor_portal_closer_spell",
+    "type": "SPELL",
+    "name": "Netherium-Reality Smooth",
+    "description": "Having this spell is a bug.  Will remove tears in reality and other portals with side effects.",
+    "message": "The two halves of the smoother surge together, forcing the teleporters together with a massive clang!  Due to your precise engineering the teleporters activate at the exact moment of impact, temporarily shunting them into the nether and unleashing a massive cascade of netherium energy that ripples around you.",
+    "effect": "ter_transform",
+    "effect_str": "inventor_portal_closer_spell_furn_transform",
+    "extra_effects": [ { "id": "inventor_portal_closer_spell_portal_storm", "max_level": 0, "hit_self": true } ],
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "max_range": 1,
+    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+  },
+  {
+    "id": "inventor_portal_closer_spell_portal_storm",
+    "type": "SPELL",
+    "name": "Netherium-Reality Smooth - Portal Spell",
+    "description": "Having this spell is a bug.  Causes a strong portal storm.",
+    "message": "casted portal spell",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CAUSE_PORTAL_STORM",
+    "shape": "blast",
+    "valid_targets": [ "ground", "self" ],
+    "flags": ["NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "inventor_portal_closer_spell_furn_transform",
+    "field": [
+      {
+        "result": [ "fd_null" ],
+        "valid_field": [ "fd_fatigue" ],
+        "message": "The tear in reality smoothes out."
+      }
+    ],
+    "trap": [
+      {
+        "result": [ "tr_glass" ],
+        "valid_trap": [ "tr_portal" ],
+        "message": "The portal shatters into shards of glass!"
+      }
+    ]
   }
 ]
