@@ -2839,6 +2839,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "heat_per_shot", slot.heat_per_shot, strict, 0.0 );
     assign( jo, "cooling_value", slot.cooling_value, strict, 0.0 );
     assign( jo, "overheat_threshold", slot.overheat_threshold, strict, -1.0 );
+    optional( jo, false, "gun_jam_mult", slot.gun_jam_mult, 1 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -3573,6 +3574,7 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
+    optional( jo, false, "mag_jam_mult", slot.mag_jam_mult, 1 );
     assign( jo, "linkage", slot.linkage, strict );
 }
 
