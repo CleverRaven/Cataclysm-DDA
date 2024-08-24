@@ -261,7 +261,7 @@ void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        std::vector<std::string> typefaces;
+        std::vector<std::string> io_typefaces{ typefaces };
         ensure_unifont_loaded( typefaces );
 
         for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
