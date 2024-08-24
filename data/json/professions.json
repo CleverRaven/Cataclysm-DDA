@@ -6063,6 +6063,7 @@
           { "item": "jeans" },
           { "item": "longshirt" },
           { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
           { "item": "mbag" },
           { "group": "full_survival_kit" },
           { "group": "starter_wallet_full" }
