@@ -23,7 +23,8 @@
       },
       {
         "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "(u_spell_level_sum('school': 'TELEKINETIC') / 8) + 1" ]
-      }
+      },
+      { "math": [ "u_telekinesis_lifting_field_updated", "=", "1" ] }
     ]
   }
 ]
