@@ -1466,7 +1466,7 @@ static bool cancel_auto_move( Character &you, const std::string &text )
     g->invalidate_main_ui_adaptor();
     if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
         add_msg( m_warning, _( "%s Auto move canceled." ), text );
-        you.clear_destination();
+        you.abort_automove();
         return true;
     }
     return false;
@@ -1602,7 +1602,7 @@ bool game::cancel_activity_query( const std::string &text )
             }
         }
         u.cancel_activity();
-        u.clear_destination();
+        u.abort_automove();
         u.resume_backlog_activity();
         return true;
     }
