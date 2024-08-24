@@ -213,6 +213,7 @@
       "effect_telepathic_morale",
       "effect_telepath_invisibility",
       "effect_telepath_network_effect",
+      "effect_teleport_ephemeral_walk",
       "effect_teleport_stride",
       "effect_vita_health",
       "effect_vitakin_purge_rads",

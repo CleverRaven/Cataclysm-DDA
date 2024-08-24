@@ -15,8 +15,7 @@
       { "monster": "mon_cardinal_chick", "weight": 15 },
       { "monster": "mon_sparrow_chick", "weight": 15 },
       { "monster": "mon_goose_canadian_chick", "weight": 100 },
-      { "monster": "mon_goose_chick", "weight": 100, "cost_multiplier": 1 },
-      { "monster": "mon_goose_golden_chick", "weight": 100, "cost_multiplier": 1 }
+      { "monster": "mon_goose_chick", "weight": 100 }
     ]
   },
   {
@@ -80,6 +79,11 @@
     "monsters": [ { "monster": "mon_duck_chick" } ]
   },
   {
+    "name": "GROUP_EGG_DUCK_DOMESTIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_duck_domestic_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_GOOSE_CANADIAN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_goose_canadian_chick" } ]
@@ -88,6 +92,11 @@
     "name": "GROUP_EGG_TURKEY",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_turkey_chick" } ]
+  },
+  {
+    "name": "GROUP_EGG_TURKEY_DOMESTIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turkey_domestic_chick" } ]
   },
   {
     "name": "GROUP_EGG_PHEASANT",
@@ -240,11 +249,6 @@
     "name": "GROUP_EGG_GOOSE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_goose_chick" } ]
-  },
-  {
-    "name": "GROUP_EGG_GOOSE_GOLD",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_goose_golden_chick" } ]
   },
   {
     "name": "GROUP_EGG_HUMMINGBIRD",
