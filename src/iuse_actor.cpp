@@ -2449,7 +2449,7 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
     spell casting = spell( spell_id( item_spell ) );
 
     // Spell is being cast from a non-held item
-    if( p == nullptr && &it ) {
+    if( p == nullptr ) {
         casting.cast_all_effects( pos );
         return 0;
     }
