@@ -136,11 +136,13 @@
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -1 }, { "value": "METABOLISM", "multiply": -0.8 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -1 }, { "value": "METABOLISM", "multiply": -0.8 } ] }
+    ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
-   {
+  {
     "type": "mutation",
     "id": "RADIOTROPHIC",
     "name": { "str": "Radiotrophic" },
