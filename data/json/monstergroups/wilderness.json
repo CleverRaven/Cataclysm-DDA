@@ -356,7 +356,7 @@
         "pack_size": [ 1, 3 ]
       },
       { "group": "GROUP_WATER_STRIDER", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_goose", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_BIRD_DOMESTIC_WATERFOWL", "weight": 15, "cost_multiplier": 5 },
       { "monster": "mon_coot", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
       { "monster": "mon_moorhen", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
       { "monster": "mon_cormorant", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
@@ -521,7 +521,6 @@
       { "monster": "mon_chipmunk", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel_red", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_chicken", "weight": 10 },
       { "monster": "mon_turkey", "weight": 10 },
       {
         "monster": "mon_raccoon",
@@ -565,12 +564,11 @@
     "monsters": [
       { "monster": "mon_duck", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_goose_canadian", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_goose", "weight": 50, "cost_multiplier": 0 },
+      { "group": "GROUP_BIRD_DOMESTIC_WATERFOWL", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_coot", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_moorhen", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cormorant", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_grebe", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_goose_golden", "weight": 10, "cost_multiplier": 0 }
+      { "monster": "mon_grebe", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {
@@ -628,7 +626,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_goat", "weight": 1, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_chicken", "weight": 10, "pack_size": [ 4, 6 ] }
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 10, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -637,7 +635,6 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_duck", "weight": 20, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_goose", "weight": 15, "pack_size": [ 2, 4 ] },
       { "monster": "mon_coot", "weight": 15, "pack_size": [ 2, 4 ] },
       { "monster": "mon_moorhen", "weight": 15, "pack_size": [ 2, 4 ] },
       { "monster": "mon_cormorant", "weight": 15, "pack_size": [ 2, 4 ] },

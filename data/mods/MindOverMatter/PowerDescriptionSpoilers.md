@@ -1046,6 +1046,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
 *Prerequisites*: Blink 6<br />
 
+## Ephemeral Walk (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 5 minutes, plus 10 to 30 seconds per power level<br />
+*Stamina Cost*: 6500, minus 200 per level to a minimum of 2000<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
+*Prerequisites*: Phase 10, Extended Stride 5<br />
+
 ## Extended Stride (C)
 *Difficulty*: 3<br />
 *Target*: Self<br />

@@ -42,8 +42,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_grouse",
-    "name": { "str": "grouse egg" },
+    "name": { "str": "ruffed grouse egg" },
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
@@ -131,43 +133,54 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_duck",
-    "name": { "str": "duck egg" },
-    "copy-from": "egg_chicken",
+    "name": { "str": "mallard egg" },
     "spoils_in": "14 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 1.4, "weight": 1.4 },
     "calories": 130,
-    "volume": "83 ml",
-    "weight": "70 g",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "45 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_duck_domestic",
+    "name": { "str": "domestic duck egg" },
+    "copy-from": "egg_duck",
+    "rot_spawn": "GROUP_EGG_DUCK_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
-    "name": { "str": "goose egg" },
-    "spoils_in": "14 days",
+    "name": { "str": "Canada goose egg" },
+    "spoils_in": "15 days",
     "copy-from": "egg_chicken",
-    "calories": 266,
-    "volume": "130 ml",
-    "weight": "143 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
+    "proportional": { "volume": 3.26, "weight": 3.26 },
+    "calories": 302,
+    "vitamins": [ [ "iron", "6 mg" ], [ "calcium", "98 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_turkey",
-    "name": { "str": "turkey egg" },
-    "spoils_in": "14 days",
+    "name": { "str": "wild turkey egg" },
+    "spoils_in": "15 days",
     "copy-from": "egg_chicken",
-    "volume": "83 ml",
-    "weight": "79 g",
+    "proportional": { "volume": 1.58, "weight": 1.58 },
     "calories": 135,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "78 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_turkey_domestic",
+    "name": { "str": "domestic turkey egg" },
+    "copy-from": "egg_turkey",
+    "rot_spawn": "GROUP_EGG_TURKEY_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pheasant",
-    "name": { "str": "pheasant egg" },
+    "name": { "str": "ring-necked pheasant egg" },
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
@@ -1194,64 +1207,63 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose",
-    "name": "goose egg",
-    "copy-from": "egg_goose_canadian",
-    "rot_spawn": "GROUP_EGG_GOOSE"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_goose_golden",
-    "name": "golden goose egg",
-    "copy-from": "egg_goose_canadian",
-    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
+    "name": { "str": "domestic goose egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 2.88, "weight": 2.88 },
+    "calories": 266,
+    "vitamins": [ [ "iron", "5 mg" ], [ "calcium", "86 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_hummingbird",
-    "name": "hummingbird egg",
-    "spoils_in": "8 days",
-    "copy-from": "egg_crow",
+    "name": { "str": "ruby-throated hummingbird egg" },
+    "spoils_in": "7 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "weight": 0.01 },
     "volume": "1 ml",
-    "weight": "1 g",
+    "calories": 1,
+    "//": "Volume and calories defined manually because proportional rounded them down to 0",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_woodpecker",
-    "name": "woodpecker egg",
-    "spoils_in": "7 days",
-    "copy-from": "egg_crow",
+    "name": { "str": "downy woodpecker egg" },
+    "spoils_in": "6 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WOODPECKER"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_coot",
-    "name": "coot egg",
-    "spoils_in": "12 days",
+    "name": { "str": "American coot egg" },
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_COOT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cormorant",
-    "name": "cormorant egg",
-    "spoils_in": "13 days",
+    "name": { "str": "double-crested cormorant egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CORMORANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
-    "name": "moorhen egg",
-    "spoils_in": "10 days",
+    "name": { "str": "common gallinule egg" },
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_MOORHEN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_grebe",
-    "name": "grebe egg",
+    "name": { "str": "horned grebe egg" },
     "spoils_in": "12 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GREBE"
