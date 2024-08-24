@@ -103,7 +103,14 @@
     "id": "eggs_reptile",
     "type": "requirement",
     "//": "All of the different reptile eggs",
-    "components": [ [ [ "egg_wormsnake", 17 ], [ "egg_skink_fivelined", 17 ] ] ]
+    "components": [
+      [
+        [ "egg_turtle_painted", 4 ],
+        [ "egg_turtle_snapping_common", 4 ],
+        [ "egg_wormsnake", 17 ],
+        [ "egg_skink_fivelined", 17 ]
+      ]
+    ]
   },
   {
     "id": "eggs_frog",

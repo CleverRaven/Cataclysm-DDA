@@ -109,6 +109,16 @@
     "monsters": [ { "monster": "mon_wormsnake_baby" } ]
   },
   {
+    "name": "GROUP_EGG_TURTLE_PAINTED",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle_painted_baby" } ]
+  },
+  {
+    "name": "GROUP_EGG_TURTLE_SNAPPING_COMMON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle_snapping_common_baby" } ]
+  },
+  {
     "name": "GROUP_EGG_SKINK_FIVELINED",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_skink_fivelined_baby" } ]
