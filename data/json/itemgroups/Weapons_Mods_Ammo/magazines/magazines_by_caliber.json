@@ -1,10 +1,11 @@
 [
   {
     "//": "Note, common and rare don't mean exactly that.  It's meant moreso as a dividing line between being able to feasibly pick this up at a gunstore, and only being found in collectors items.  For example, yes, an SL8 magazine is rare, but not on the level of a collectors item like a luger drum mag",
+    "//2": "Magazines are weighted by gun ratios on gunbroker, the gun with prob of 100 is the basis of these ratios, and further additions should be compared to that",
     "type": "item_group",
     "subtype": "distribution",
     "id": "common_magazines_9mm",
-    "//2": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
+    "//3": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
     "items": [
       { "group": "magazines_9mm_glock", "prob": 100 },
       { "group": "magazines_9mm_m9", "prob": 20 },
