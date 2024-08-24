@@ -255,8 +255,9 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    const std::vector<std::string> &typefaces)
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
