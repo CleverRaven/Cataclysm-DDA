@@ -860,7 +860,15 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.96 },
           { "value": "EVASION", "add": 1 },
-          { "value": "REGEN_STAMINA", "multiply": -1 }
+          { "value": "REGEN_STAMINA", "multiply": -1 },
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "( 1 + ( u_spell_level('clair_astral_projection') * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
         ]
       }
     ],
