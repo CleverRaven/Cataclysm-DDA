@@ -37,7 +37,7 @@
     "symbol": ",",
     "description": "A carefully folded raw hide harvested from a black dragon.  It is a large enough piece that it is workable to make armor, and with enough scales you could make scale mail.",
     "price": "500 USD",
-    "material": [ "black_dragon_hide", "flesh" ],
+    "material": [ { "type": "black_dragon_hide", "portion": 25 }, { "type": "black_dragon_scales", "portion": 50 }, { "type": "flesh", "portion": 25 } ]
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "volume": "4 L"
