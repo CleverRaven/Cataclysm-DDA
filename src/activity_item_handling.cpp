@@ -674,7 +674,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const auto &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you.pos_bub(), tp, you.get_pathfinding_settings() );
 
         if( !route.empty() ) {
             return route;
@@ -752,7 +752,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
     }
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you.pos_bub(), tp, you.get_pathfinding_settings() );
 
         if( !route.empty() ) {
             return route;
@@ -2055,8 +2055,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     return;
                 }
                 std::vector<tripoint_bub_ms> route;
-                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings());
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2112,8 +2111,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
-                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
+                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings());
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead

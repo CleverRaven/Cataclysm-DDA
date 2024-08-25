@@ -257,10 +257,6 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), my_HALF_MAPSIZE( map
         grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE, nullptr );
     }
 
-    for( auto &ptr : pathfinding_caches ) {
-        ptr = std::make_unique<pathfinding_cache>();
-    }
-
     dbg( D_INFO ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
@@ -1864,7 +1860,7 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.raw() );
+    set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
 
     // Make sure the furniture falls if it needs to
     support_dirty( p.raw() );
@@ -2332,7 +2328,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p );
+    set_pathfinding_cache_dirty(tripoint_bub_ms(p));
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -3353,6 +3349,42 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
     vehicle *const veh = vp ? &vp->vehicle() : nullptr;
     const int part = vp ? vp->part_index() : -1;
     return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
+}
+
+std::optional<std::pair<int, int>> map::bash_range(const tripoint& p,
+    const bool allow_floor) const
+{
+    if (!inbounds(p)) {
+        DebugLog(D_WARNING, D_MAP) << "Looking for out-of-bounds is_bashable at "
+            << p.x << ", " << p.y << ", " << p.z;
+        return std::nullopt;
+    }
+
+    if (const optional_vpart_position vp = veh_at(p)) {
+        if (const auto vpobst = vp->obstacle_at_part()) {
+            const int bash_part = vpobst->part_index();
+            // Car obstacle that isn't a door
+            // TODO: Account for armor
+            const int hp = vp->vehicle().part(bash_part).hp();
+            const int bash_min = hp / 20 + 1;
+            // Large max to discourage bashing.
+            const int bash_max = bash_min + 100;
+            return std::make_pair(bash_min, bash_max);
+        }
+    }
+
+    const furn_t& furniture = furn(p).obj();
+    ///\EFFECT_STR determines what furniture can be smashed
+    if (furniture.id && furniture.bash.str_max != -1) {
+        return std::make_pair(furniture.bash.str_min, furniture.bash.str_max);
+    }
+
+    const ter_t& terrain = ter(p).obj();
+    if (terrain.bash.str_max != -1 && (!terrain.bash.bash_below || allow_floor)) {
+        return std::make_pair(terrain.bash.str_min, terrain.bash.str_max);
+    }
+
+    return std::nullopt;
 }
 
 // End of 3D bashable
@@ -6738,7 +6770,7 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
     }
 
     if( fd_type.is_dangerous() ) {
-        set_pathfinding_cache_dirty( p );
+        set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
     }
 
     // Ensure blood type fields don't hang in the air
@@ -9003,10 +9035,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
     // Find horde's target submap
     for( monster &tmp : group.monsters ) {
+        const PathfindingSettings settings = tmp.get_pathfinding_settings();
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint local_pos = random_entry_removed( locations );
             const tripoint_abs_ms abs_pos = get_map().getglobal( local_pos );
-            if( !tmp.can_move_to( local_pos ) ) {
+            if( !tmp.can_move_to( local_pos, settings ) ) {
                 continue; // target can not contain the monster
             }
             if( group.horde ) {
@@ -10450,27 +10483,17 @@ const level_cache &map::access_cache( int zlev ) const
     return nullcache;
 }
 
-pathfinding_cache::pathfinding_cache()
-{
-    dirty = true;
-}
-
-pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
-{
-    return *pathfinding_caches[zlev + OVERMAP_DEPTH];
-}
-
 void map::set_pathfinding_cache_dirty( const int zlev )
 {
-    if( inbounds_z( zlev ) ) {
-        get_pathfinding_cache( zlev ).dirty = true;
+    if (pathfinding_cache_ && inbounds_z(zlev)) {
+        pathfinding_cache_->invalidate(zlev);
     }
 }
 
-void map::set_pathfinding_cache_dirty( const tripoint &p )
+void map::set_pathfinding_cache_dirty( const tripoint_bub_ms &p )
 {
-    if( inbounds( p ) ) {
-        get_pathfinding_cache( p.z ).dirty_points.insert( p.xy() );
+    if (pathfinding_cache_ && inbounds(p)) {
+        pathfinding_cache_->invalidate(p);
     }
 }
 
@@ -10489,98 +10512,6 @@ bool map::is_main_cleanup_queued() const
 void map::main_cleanup_override( bool over )
 {
     _main_cleanup_override = over;
-}
-
-const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
-{
-    if( !inbounds_z( zlev ) ) {
-        debugmsg( "Tried to get pathfinding cache for out of bounds z-level %d", zlev );
-        return *pathfinding_caches[ OVERMAP_DEPTH ];
-    }
-    pathfinding_cache &cache = get_pathfinding_cache( zlev );
-    if( cache.dirty || !cache.dirty_points.empty() ) {
-        update_pathfinding_cache( zlev );
-    }
-
-    return cache;
-}
-
-void map::update_pathfinding_cache( const tripoint &p ) const
-{
-    if( !inbounds( p ) ) {
-        return;
-    }
-    pathfinding_cache &cache = get_pathfinding_cache( p.z );
-    pf_special cur_value = PF_NORMAL;
-
-    const_maptile tile = maptile_at_internal( p );
-
-    const ter_t &terrain = tile.get_ter_t();
-    const furn_t &furniture = tile.get_furn_t();
-    const field &field = tile.get_field();
-    const map &here = get_map();
-    int part;
-    const vehicle *veh = veh_at_internal( p, part );
-
-    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-
-    if( cost > 2 ) {
-        cur_value |= PF_SLOW;
-    } else if( cost <= 0 ) {
-        cur_value |= PF_WALL;
-        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
-            cur_value |= PF_CLIMBABLE;
-        }
-    }
-
-    if( veh != nullptr ) {
-        cur_value |= PF_VEHICLE;
-    }
-
-    for( const auto &fld : tile.get_field() ) {
-        const field_entry &cur = fld.second;
-        if( cur.is_dangerous() ) {
-            cur_value |= PF_FIELD;
-        }
-    }
-
-    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-        !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_TRAP;
-    }
-
-    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
-        cur_value |= PF_UPDOWN;
-    }
-
-    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_SHARP;
-    }
-
-    cache.special[p.x][p.y] = cur_value;
-}
-
-void map::update_pathfinding_cache( int zlev ) const
-{
-    pathfinding_cache &cache = get_pathfinding_cache( zlev );
-
-    if( cache.dirty ) {
-        const int size = getmapsize();
-        for( int x = 0; x < size * SEEX; ++x ) {
-            for( int y = 0; y < size * SEEX; ++y ) {
-                update_pathfinding_cache( { x, y, zlev } );
-            }
-        }
-        cache.dirty = false;
-    } else {
-        for( const point &p : cache.dirty_points ) {
-            update_pathfinding_cache( { p, zlev } );
-        }
-    }
-    cache.dirty_points.clear();
 }
 
 void map::clip_to_bounds( tripoint &p ) const
@@ -10688,6 +10619,7 @@ void map::invalidate_max_populated_zlev( int zlev )
     }
 }
 
+// PERF: 40.66% (Part of npc::regen_ai_cache)
 bool map::has_potential_los( const tripoint &from, const tripoint &to ) const
 {
     const point key = sees_cache_key( from, to );

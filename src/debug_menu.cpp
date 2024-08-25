@@ -3427,8 +3427,7 @@ static void set_automove()
 
     // TODO: fix point types
     auto rt = get_map().route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
-                               player_character.get_pathfinding_settings(),
-                               player_character.get_path_avoid() );
+                               player_character.get_pathfinding_settings());
     if( !rt.empty() ) {
         player_character.set_destination( rt );
     } else {

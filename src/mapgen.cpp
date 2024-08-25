@@ -6892,6 +6892,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         add_vehicle_to_cache( placed_vehicle );
 
         rebuild_vehicle_level_caches();
+        // TODO: Only invalidate points the vehicle is at.
         set_pathfinding_cache_dirty( p.z );
         placed_vehicle->place_zones( *this );
     }

@@ -945,11 +945,6 @@ class Creature : public viewer
 
         virtual units::mass weight_capacity() const;
 
-        /** Returns settings for pathfinding. */
-        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
-        /** Returns a set of points we do not want to path through. */
-        virtual std::function<bool( const tripoint & )> get_path_avoid() const = 0;
-
         bool underwater;
         void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
         // TODO: Get rid of the untyped overload

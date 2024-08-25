@@ -1343,8 +1343,8 @@ bool monster::has_intelligence() const
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
            has_flag( mon_flag_PATH_AVOID_DANGER ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
-           get_pathfinding_settings().avoid_sharp ||
-           get_pathfinding_settings().avoid_traps;
+           type->path_settings.avoid_sharp ||
+           type->path_settings.avoid_traps;
 }
 
 std::vector<material_id> monster::get_absorb_material() const
@@ -1384,7 +1384,7 @@ tripoint_abs_ms monster::get_dest() const
 
 void monster::set_dest( const tripoint_abs_ms &p )
 {
-    if( !goal || rl_dist( p, *goal ) > 2 ) {
+    if (!goal || rl_dist(p, *goal) > 4) {
         reset_pathfinding_cd();
     }
     goal = p;
@@ -3941,36 +3941,6 @@ void monster::on_load()
 
     add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",
                    name(), to_turns<int>( dt ), healed, healed_speed );
-}
-
-const pathfinding_settings &monster::get_pathfinding_settings() const
-{
-    return type->path_settings;
-}
-
-std::function<bool( const tripoint & )> monster::get_path_avoid() const
-{
-    return [this]( const tripoint & p ) {
-        map &here = get_map();
-        // If we can't move there and can't bash it, don't path through it.
-        if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
-            return true;
-        }
-
-        // Avoid nearby creatures if we have the flag.
-        int radius;
-        if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
-            radius = 2;
-        } else if( has_flag( mon_flag_PATH_AVOID_DANGER ) ) {
-            radius = 1;
-        } else {
-            return false;
-        }
-        if( rl_dist( p, pos() ) <= radius && get_creature_tracker().creature_at( p ) ) {
-            return true;
-        }
-        return false;
-    };
 }
 
 double monster::calculate_by_enchantment( double modify, enchant_vals::mod value,
