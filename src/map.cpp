@@ -10619,7 +10619,6 @@ void map::invalidate_max_populated_zlev( int zlev )
     }
 }
 
-// PERF: 40.66% (Part of npc::regen_ai_cache)
 bool map::has_potential_los( const tripoint &from, const tripoint &to ) const
 {
     const point key = sees_cache_key( from, to );
