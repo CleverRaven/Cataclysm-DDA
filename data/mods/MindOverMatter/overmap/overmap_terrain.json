@@ -303,6 +303,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "alien_meadow_end",
     "copy-from": "alien_meadow"
   }

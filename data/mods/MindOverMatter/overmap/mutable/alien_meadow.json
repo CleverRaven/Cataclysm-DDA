@@ -4,7 +4,7 @@
     "id": "alien_meadow_mutable",
     "subtype": "mutable",
     "locations": [ "field_no_meadow" ],
-    "occurrences": [ 10, 100 ],
+    "occurrences": [ 5, 100 ],
     "//": "Place before all priority buildings and before meadows",
     "priority": 3,
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ],
@@ -13,6 +13,13 @@
     "overmaps": {
       "alien_meadow_core": {
         "overmap": "alien_meadow_core",
+        "north": "alien_meadow_to_alien_meadow",
+        "east": "alien_meadow_to_alien_meadow",
+        "south": "alien_meadow_to_alien_meadow",
+        "west": "alien_meadow_to_alien_meadow"
+      },
+      "alien_meadow_join": {
+        "overmap": "alien_meadow_join",
         "north": "alien_meadow_to_alien_meadow",
         "east": "alien_meadow_to_alien_meadow",
         "south": "alien_meadow_to_alien_meadow",
@@ -29,7 +36,7 @@
     "root": "alien_meadow_core",
     "phases": [
       [
-        { "overmap": "alien_meadow_core", "weight": 200 },
+        { "overmap": "alien_meadow_join", "weight": 200 },
         { "overmap": "alien_meadow_end", "weight": 100 },
         { "overmap": "alien_meadow_fill", "weight": 1 }
       ]
