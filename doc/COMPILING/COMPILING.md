@@ -118,12 +118,6 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 [llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [our llama README](../../tools/llama/README.md) for more details.
 
-# Debian
-
-Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
-
-The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
-
 # Fedora
 ## Ncurses builds
 
@@ -182,6 +176,14 @@ It may also be possible to get away with fewer dependencies, but this set has be
 Once the above libraries are installed, compile with:
 
     make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
+
+
+# Debian
+
+Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
+
+The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+
 
 ## Linux (native) ncurses builds
 
