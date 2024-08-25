@@ -25,10 +25,7 @@
       "effect_on_conditions": [
         {
           "id": "shade_arms",
-          "effect": [
-            { "u_message": "You exchanged your previous arms for these." },
-            { "u_add_trait": "SHADE_ARMS" }
-          ]
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_ARMS" } ]
         }
       ]
     }
@@ -46,10 +43,7 @@
       "effect_on_conditions": [
         {
           "id": "strong_arms",
-          "effect": [
-            { "u_message": "You exchanged your previous arms for these." },
-            { "u_add_trait": "SHADE_STRONG_ARMS" }
-          ]
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ]
         }
       ]
     }
@@ -67,10 +61,7 @@
       "effect_on_conditions": [
         {
           "id": "long_arms",
-          "effect": [
-            { "u_message": "You exchanged your previous arms for these." },
-            { "u_add_trait": "SHADE_LONG_ARMS" }
-          ]
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_LONG_ARMS" } ]
         }
       ]
     }

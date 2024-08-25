@@ -539,7 +539,18 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
-    "flags": [ "INTEGRATED", "NO_UNLOAD", "PADDED", "SEMITANGIBLE", "ZERO_WEIGHT", "TARDIS", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY" ]
+    "flags": [
+      "INTEGRATED",
+      "NO_UNLOAD",
+      "PADDED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "TARDIS",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SOFT",
+      "WATER_FRIENDLY"
+    ]
   },
   {
     "id": "integrated_cloud_skin",
