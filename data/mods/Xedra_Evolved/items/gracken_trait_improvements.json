@@ -1,0 +1,78 @@
+[
+  {
+    "abstract": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "category": "MED",
+    "name": { "str": "abstract gracken improvement" },
+    "weight": "2041 g",
+    "volume": "2500 ml",
+    "material": [ "demihuman_flesh", "shadowstuff" ],
+    "symbol": "!",
+    "color": "light_gray",
+    "price_postapoc": "10 USD",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+  },
+  {
+    "id": "gracken_shade_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str": "Gracken Shade Arms" },
+    "looks_like": "fetus",
+    "description": "An organ that allows a mature Gracken to convert their arms back to a base state.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back to a base model.",
+      "effect_on_conditions": [
+        {
+          "id": "shade_arms",
+          "effect": [
+            { "u_message": "You exchanged your previous arms for these." },
+            { "u_add_trait": "SHADE_ARMS" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_strong_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str": "Gracken Strong Arms" },
+    "looks_like": "fetus",
+    "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a stronger form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "strong_arms",
+          "effect": [
+            { "u_message": "You exchanged your previous arms for these." },
+            { "u_add_trait": "SHADE_STRONG_ARMS" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_strong_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str": "Gracken Long Arms" },
+    "looks_like": "fetus",
+    "description": "An organ that allows a mature Gracken to convert their arms to a longer form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a longer form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "long_arms",
+          "effect": [
+            { "u_message": "You exchanged your previous arms for these." },
+            { "u_add_trait": "SHADE_LONG_ARMS" }
+          ]
+        }
+      ]
+    }
+  }
+]

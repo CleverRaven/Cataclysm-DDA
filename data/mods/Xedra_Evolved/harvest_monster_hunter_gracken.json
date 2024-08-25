@@ -1,0 +1,10 @@
+[
+  {
+    "id": "zombie_grabber",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "zombie_grabber",
+    "extend": { "entries": [ { "item": "grappler_sinew", "mass_ratio": 0.00035 } ] },
+    "delete": { "entries": [ { "item": "sinew", "mass_ratio": 0.00035 } ] }
+  }
+]
