@@ -30,7 +30,7 @@
     "category": "spare_parts",
     "name": { "str_sp": "raw black dragon hide" },
     "weight": "10100 g",
-	"//": "Tanning 1 raw hide can get 20 scales as byproduct, those scales should be on the hide before tann ing",
+    "//": "Tanning 1 raw hide can get 20 scales as byproduct, those scales should be on the hide before tanning",
     "color": "black_white",
     "spoils_in": "3 day",
     "comestible_type": "FOOD",
