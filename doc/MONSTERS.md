@@ -360,6 +360,7 @@ The `effects` field is a list of objects with the following subfields:
 Field              | Description
 ---                | ---
 `effect`           | The effect type.
+`effect_on_conditions` | Array of EoCs that would be run. `u_` is attacker, `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `chance`           | The probability of causing the effect.
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.

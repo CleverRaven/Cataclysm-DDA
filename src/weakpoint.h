@@ -59,6 +59,8 @@ struct weakpoint_attack {
 struct weakpoint_effect {
     // The type of the effect.
     efftype_id effect;
+    // Effect on condition, that would be run.
+    std::vector<effect_on_condition_id> effect_on_conditions;
     // The percent chance of causing the effect.
     float chance;
     // Whether the effect is permanent.
