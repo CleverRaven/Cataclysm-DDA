@@ -2828,7 +2828,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
         }
     }
 
-    std::vector<tripoint> new_path = get_map().route( pos(), p, get_pathfinding_settings( no_bashing ));
+    std::vector<tripoint> new_path = get_map().route( pos(), p,
+                                     get_pathfinding_settings( no_bashing ) );
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
             ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
@@ -4992,7 +4993,7 @@ void npc::go_to_omt_destination()
             }
         }
     }
-    path = here.route( pos(), centre_sub, get_pathfinding_settings());
+    path = here.route( pos(), centre_sub, get_pathfinding_settings() );
     add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", get_name(), omt_pos.to_string_writable(),
                    goal.to_string_writable() );
 

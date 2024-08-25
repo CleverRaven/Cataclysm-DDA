@@ -209,13 +209,13 @@ class monster : public Creature
          * If called multiple times in a loop, prefer getting the settings separately and
          * reusing them.
          */
-        bool can_move_to(const tripoint& p) const {
-            return can_move_to(p, get_pathfinding_settings());
+        bool can_move_to( const tripoint &p ) const {
+            return can_move_to( p, get_pathfinding_settings() );
         }
-        bool can_move_to(const tripoint& p, const PathfindingSettings& settings) const;
+        bool can_move_to( const tripoint &p, const PathfindingSettings &settings ) const;
 
         // Get the pathfinding settings for this monster.
-        PathfindingSettings get_pathfinding_settings(bool avoid_bashing = true) const;
+        PathfindingSettings get_pathfinding_settings( bool avoid_bashing = true ) const;
 
         // Returns true if the monster has a current goal
         bool has_dest() const;

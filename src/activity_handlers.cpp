@@ -2911,7 +2911,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             }
         }
         const std::vector<tripoint_bub_ms> route_to =
-            here.route( you->pos_bub(), centre_sub, you->get_pathfinding_settings());
+            here.route( you->pos_bub(), centre_sub, you->get_pathfinding_settings() );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );
@@ -3597,7 +3597,7 @@ static void perform_zone_activity_turn(
         const tripoint_bub_ms &tile_loc = here.bub_from_abs( tile );
 
         std::vector<tripoint_bub_ms> route =
-            here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings());
+            here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings() );
         if( route.size() > 1 ) {
             route.pop_back();
 

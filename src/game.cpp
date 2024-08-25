@@ -5009,7 +5009,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     if( creatures.creature_at<Character>( p ) ) {
         return false;
     }
-    return mon.can_move_to(p);
+    return mon.can_move_to( p );
 }
 
 static bool can_place_npc( const tripoint &p )
@@ -7458,7 +7458,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
         // TODO: Check the new pathfinding settings returns an equivalent result.
         const route_t route = here.route( who.pos_bub(), p,
-        who.get_pathfinding_settings());
+                                          who.get_pathfinding_settings() );
         if( route.empty() ) {
             continue; // no route
         }
@@ -12323,17 +12323,17 @@ void game::start_hauling( const tripoint &pos )
     u.assign_activity( actor );
 }
 
-std::optional<tripoint> game::find_stairs(const map& mp, const int z_after, const tripoint& pos)
+std::optional<tripoint> game::find_stairs( const map &mp, const int z_after, const tripoint &pos )
 {
     // Try to find the stairs.
     const int movez = z_after - pos.z;
     const bool going_down_1 = movez == -1;
     // If there are stairs on the same x and y as we currently are, use those
-    if (going_down_1 && mp.has_flag(ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below)) {
+    if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below ) ) {
         return pos + tripoint_below;
     }
     const bool going_up_1 = movez == 1;
-    if (going_up_1 && mp.has_flag(ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above)) {
+    if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above ) ) {
         return pos + tripoint_above;
     }
 
@@ -12341,31 +12341,32 @@ std::optional<tripoint> game::find_stairs(const map& mp, const int z_after, cons
     int best = INT_MAX;
     std::optional<tripoint> stairs;
     const int omtilesz = SEEX * 2 - 1;
-    real_coords rc(mp.getabs(pos.xy()));
-    tripoint omtile_align_start(mp.getlocal(rc.begin_om_pos()), z_after);
-    tripoint omtile_align_end(omtile_align_start + point(omtilesz, omtilesz));
-    for (const tripoint& dest : mp.points_in_rectangle(omtile_align_start, omtile_align_end)) {
-        if (rl_dist(pos, dest) <= best &&
-            ((going_down_1 && mp.has_flag(ter_furn_flag::TFLAG_GOES_UP, dest)) ||
-                (going_up_1 && (mp.has_flag(ter_furn_flag::TFLAG_GOES_DOWN, dest) ||
-                    mp.ter(dest) == ter_t_manhole_cover)) ||
-                ((movez == 2 || movez == -2) && mp.ter(dest) == ter_t_elevator))) {
-            stairs.emplace(dest);
-            best = rl_dist(pos, dest);
+    real_coords rc( mp.getabs( pos.xy() ) );
+    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
+    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+    for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
+        if( rl_dist( pos, dest ) <= best &&
+            ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
+                                mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+              ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
+            stairs.emplace( dest );
+            best = rl_dist( pos, dest );
         }
     }
 
     return stairs;
 }
 
-std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after, bool &rope_ladder,
+std::optional<tripoint> game::find_or_make_stairs( const map &mp, const int z_after,
+        bool &rope_ladder,
         bool peeking, const tripoint &pos )
 {
     const bool is_avatar = u.pos() == pos;
     const int movez = z_after - pos.z;
 
     // Try to find the stairs.
-    std::optional<tripoint> stairs = find_stairs(mp, z_after, pos);
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, pos );
 
     creature_tracker &creatures = get_creature_tracker();
     if( stairs.has_value() ) {

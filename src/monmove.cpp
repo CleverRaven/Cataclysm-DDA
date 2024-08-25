@@ -129,117 +129,111 @@ bool monster::is_immune_field( const field_type_id &fid ) const
 }
 
 
-PathfindingSettings monster::get_pathfinding_settings(bool avoid_bashing) const
+PathfindingSettings monster::get_pathfinding_settings( bool avoid_bashing ) const
 {
     PathfindingSettings settings = type->path_settings.to_new_pathfinding_settings();
 
-    settings.set_size_restriction(get_size());
+    settings.set_size_restriction( get_size() );
 
-    settings.set_avoid_bashing(avoid_bashing);
+    settings.set_avoid_bashing( avoid_bashing );
 
-    settings.set_is_digging(digging());
+    settings.set_is_digging( digging() );
 
-    settings.set_avoid_climbing(!can_climb());
+    settings.set_avoid_climbing( !can_climb() );
 
     const bool can_fly = flies();
-    settings.set_avoid_deep_water(!can_submerge() && !can_fly);
+    settings.set_avoid_deep_water( !can_submerge() && !can_fly );
 
-    settings.set_avoid_hard_ground(digs());
+    settings.set_avoid_hard_ground( digs() );
 
-    const bool is_aquatic = has_flag(mon_flag_AQUATIC);
-    settings.set_avoid_ground(is_aquatic);
+    const bool is_aquatic = has_flag( mon_flag_AQUATIC );
+    settings.set_avoid_ground( is_aquatic );
     // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
-    settings.set_avoid_vehicle(is_aquatic && !get_map().veh_at(pos()));
+    settings.set_avoid_vehicle( is_aquatic && !get_map().veh_at( pos() ) );
 
     // If we hate the sun, stay inside when it is out.
-    settings.set_avoid_unsheltered(has_flag(mon_flag_SUNDEATH) &&
-        incident_sun_irradiance(get_weather().weather_id, calendar::turn) > irradiance::minimal);
+    settings.set_avoid_unsheltered( has_flag( mon_flag_SUNDEATH ) &&
+                                    incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal );
 
     // Various avoiding behaviors.
-    bool avoid_fire = has_flag(mon_flag_PATH_AVOID_FIRE);
-    bool avoid_fall = has_flag(mon_flag_PATH_AVOID_FALL);
-    bool avoid_simple = has_flag(mon_flag_PATH_AVOID_DANGER);
+    bool avoid_fire = has_flag( mon_flag_PATH_AVOID_FIRE );
+    bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
+    bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER );
     bool avoid_sharp = type->path_settings.avoid_sharp;
     bool avoid_traps = type->path_settings.avoid_traps;
     bool avoid_dangerous_fields = type->path_settings.avoid_dangerous_fields;
-    
+
     // avoid_simple implies avoid fire, fall, and sharp.
-    if (avoid_simple) {
+    if( avoid_simple ) {
         avoid_fire = true;
         avoid_fall = true;
         avoid_sharp = true;
     }
 
     // Don't enter lava if we have any concept of heat being bad
-    settings.set_avoid_lava(avoid_fire);
+    settings.set_avoid_lava( avoid_fire );
 
-    settings.set_is_flying(can_fly);
-    if (can_fly) {
+    settings.set_is_flying( can_fly );
+    if( can_fly ) {
         avoid_fall = false;
     }
 
     // Don't throw ourselves off cliffs if we have a concept of falling
-    settings.set_avoid_falling(avoid_fall);
+    settings.set_avoid_falling( avoid_fall );
 
     // Don't enter open pits ever unless tiny, can fly or climb well
-    settings.set_avoid_pits(avoid_fall && type->size != creature_size::tiny && !can_climb());
+    settings.set_avoid_pits( avoid_fall && type->size != creature_size::tiny && !can_climb() );
 
     // Some things are only avoided if we're not attacking the player
-    if (get_player_character().get_location() != get_dest() ||
-        attitude(&get_player_character()) != MATT_ATTACK) {
+    if( get_player_character().get_location() != get_dest() ||
+        attitude( &get_player_character() ) != MATT_ATTACK ) {
         // Sharp terrain is ignored while attacking
-        settings.set_avoid_sharp(avoid_sharp && !(type->size == creature_size::tiny || can_fly ||
-            get_armor_type(damage_cut, bodypart_id("torso")) >= 10));
-    }
-    else {
+        settings.set_avoid_sharp( avoid_sharp && !( type->size == creature_size::tiny || can_fly ||
+                                  get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) );
+    } else {
         // yolo, get that bread, etc
-        settings.set_avoid_sharp(false);
+        settings.set_avoid_sharp( false );
     }
 
     // Don't step on any traps (if we can see)
-    settings.set_avoid_dangerous_traps(avoid_traps && has_flag(mon_flag_SEES));
+    settings.set_avoid_dangerous_traps( avoid_traps && has_flag( mon_flag_SEES ) );
 
-    if (avoid_dangerous_fields) {
+    if( avoid_dangerous_fields ) {
         // Don't enter any dangerous fields
-        settings.set_maybe_avoid_dangerous_fields_fn([this](const field_type_id& field_id) {
-            return !is_immune_field(field_id);
-            });
-    }
-    else {
+        settings.set_maybe_avoid_dangerous_fields_fn( [this]( const field_type_id & field_id ) {
+            return !is_immune_field( field_id );
+        } );
+    } else {
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        const bool should_avoid_fire = avoid_fire && !is_immune_field(fd_fire);
-        const bool should_avoid_simple = avoid_simple && !is_immune_field(fd_electricity);
-        if (should_avoid_fire && should_avoid_simple) {
-            settings.set_maybe_avoid_dangerous_fields_fn([](const field_type_id& field_id) {
+        const bool should_avoid_fire = avoid_fire && !is_immune_field( fd_fire );
+        const bool should_avoid_simple = avoid_simple && !is_immune_field( fd_electricity );
+        if( should_avoid_fire && should_avoid_simple ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
                 return field_id == fd_fire || field_id == fd_electricity;
-                });
-        }
-        else if (should_avoid_fire) {
-            settings.set_maybe_avoid_dangerous_fields_fn([](const field_type_id& field_id) {
+            } );
+        } else if( should_avoid_fire ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
                 return field_id == fd_fire;
-                });
-        }
-        else if (should_avoid_simple) {
-            settings.set_maybe_avoid_dangerous_fields_fn([](const field_type_id& field_id) {
+            } );
+        } else if( should_avoid_simple ) {
+            settings.set_maybe_avoid_dangerous_fields_fn( []( const field_type_id & field_id ) {
                 return field_id == fd_electricity;
-                });
-        }
-        else {
+            } );
+        } else {
             settings.set_maybe_avoid_dangerous_fields_fn();
         }
     }
     return settings;
 }
 
-bool monster::can_move_to(const tripoint& p, const PathfindingSettings& settings) const
+bool monster::can_move_to( const tripoint &p, const PathfindingSettings &settings ) const
 {
-    const map& here = get_map();
-    const tripoint_bub_ms& from = pos_bub();
-    if (here.inbounds(from)) {
-        return here.can_move(from, tripoint_bub_ms(p), settings);
-    }
-    else {
-        return here.can_teleport(tripoint_bub_ms(p), settings);
+    const map &here = get_map();
+    const tripoint_bub_ms &from = pos_bub();
+    if( here.inbounds( from ) ) {
+        return here.can_move( from, tripoint_bub_ms( p ), settings );
+    } else {
+        return here.can_teleport( tripoint_bub_ms( p ), settings );
     }
 }
 
@@ -964,30 +958,30 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            if (settings.max_distance() >= rl_dist(get_location(), get_dest()) &&
+            if( settings.max_distance() >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
                 path.clear();
                 // Temporarily allow bashing to find a path through bashable terrain.
-                settings.set_avoid_bashing(false);
+                settings.set_avoid_bashing( false );
 
                 if( can_pathfind() ) {
-                    for (const tripoint_bub_ms& p : here.route(pos_bub(), tripoint_bub_ms(local_dest), settings)) {
-                        path.push_back(p.raw());
+                    for( const tripoint_bub_ms &p : here.route( pos_bub(), tripoint_bub_ms( local_dest ), settings ) ) {
+                        path.push_back( p.raw() );
                     }
-                    if (path.empty()) {
+                    if( path.empty() ) {
                         increment_pathfinding_cd();
                     }
                 } else {
-                    for (const tripoint_bub_ms& p : here.straight_route(pos_bub(), tripoint_bub_ms(local_dest),
-                        settings)) {
-                        path.push_back(p.raw());
+                    for( const tripoint_bub_ms &p : here.straight_route( pos_bub(), tripoint_bub_ms( local_dest ),
+                            settings ) ) {
+                        path.push_back( p.raw() );
                     }
                 }
                 if( !path.empty() ) {
                     reset_pathfinding_cd();
                 }
-                settings.set_avoid_bashing(true);
+                settings.set_avoid_bashing( true );
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
@@ -1050,8 +1044,8 @@ void monster::move()
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
-        const float distance_to_target = trig_dist(pos(), destination);
-        for (tripoint& candidate : squares_closer_to(pos(), destination)) {
+        const float distance_to_target = trig_dist( pos(), destination );
+        for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1070,16 +1064,16 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
 
-            if( candidate.z != pos().z) {
+            if( candidate.z != pos().z ) {
                 bool can_z_move = true;
-                if( !here.valid_move( pos(), candidate, false, true, via_ramp)) {
+                if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > pos().z && !(via_ramp || flies())) {
+                if( candidate.z > pos().z && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
@@ -1212,7 +1206,7 @@ void monster::move()
             // If we ended up in a place we didn't plan to, maybe we stumbled or fell, either way the path is
             // invalid now.
             const tripoint new_pos = pos();
-            if (!path.empty() && path.front() != new_pos && new_pos != pos()) {
+            if( !path.empty() && path.front() != new_pos && new_pos != pos() ) {
                 path.clear();
             }
 

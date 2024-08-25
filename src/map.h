@@ -420,16 +420,16 @@ class map
 
         void invalidate_map_cache( int zlev );
 
-        RealityBubblePathfindingCache* pathfinding_cache() const {
-            if (!pathfinding_cache_) {
+        RealityBubblePathfindingCache *pathfinding_cache() const {
+            if( !pathfinding_cache_ ) {
                 pathfinding_cache_ = std::make_unique<RealityBubblePathfindingCache>();
             }
             return pathfinding_cache_.get();
         }
 
-        RealityBubblePathfinder* pathfinder() const {
-            if (!pathfinder_) {
-                pathfinder_ = std::make_unique<RealityBubblePathfinder>(pathfinding_cache());
+        RealityBubblePathfinder *pathfinder() const {
+            if( !pathfinder_ ) {
+                pathfinder_ = std::make_unique<RealityBubblePathfinder>( pathfinding_cache() );
             }
             return pathfinder_.get();
         }
@@ -754,23 +754,23 @@ class map
         //    return false;
         //} ) const;
 
-        bool can_teleport(const tripoint_bub_ms& t, const PathfindingSettings& settings) const;
-        bool can_move(const tripoint_bub_ms& f, const tripoint_bub_ms& t,
-            const PathfindingSettings& settings) const;
-        std::optional<int> move_cost(const tripoint_bub_ms& f, const tripoint_bub_ms& t,
-            const PathfindingSettings& settings) const;
-        std::vector<tripoint_bub_ms> straight_route(const tripoint_bub_ms& f, const tripoint_bub_ms& t,
-            const PathfindingSettings& settings) const;
-        std::vector<tripoint_bub_ms> route(const tripoint_bub_ms& f, const tripoint_bub_ms& t,
-            const PathfindingSettings& settings) const;
+        bool can_teleport( const tripoint_bub_ms &t, const PathfindingSettings &settings ) const;
+        bool can_move( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                       const PathfindingSettings &settings ) const;
+        std::optional<int> move_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                                      const PathfindingSettings &settings ) const;
+        std::vector<tripoint_bub_ms> straight_route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                const PathfindingSettings &settings ) const;
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                                            const PathfindingSettings &settings ) const;
 
         // TODO: Update callers to the new PathfindingSettings so that this overload is not necessary.
-        std::vector<tripoint_bub_ms> route(const tripoint_bub_ms& f, const tripoint_bub_ms& t,
-            const pathfinding_settings& settings) const;
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                                            const pathfinding_settings &settings ) const;
 
         // TODO: Replace this with a typesafe variant.
-        std::vector<tripoint> route(const tripoint& f, const tripoint& t,
-            const pathfinding_settings& settings);
+        std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                                     const pathfinding_settings &settings );
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
@@ -1185,7 +1185,7 @@ class map
 
         // The range of minimum and maximum bash strength needed to bash something on the given tile.
         // Returns std::nullopt if there is nothing bashable.
-        std::optional<std::pair<int, int>> bash_range(const tripoint& p, bool allow_floor = false) const;
+        std::optional<std::pair<int, int>> bash_range( const tripoint &p, bool allow_floor = false ) const;
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists

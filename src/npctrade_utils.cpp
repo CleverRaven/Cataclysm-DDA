@@ -94,7 +94,7 @@ void add_fallback_zone( npc &guy )
             ( here.furn( t_here )->max_volume > ter_t_floor->max_volume ||
               here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
-            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings())
+            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings() )
             .empty() ) {
             points.emplace_back( t );
         }

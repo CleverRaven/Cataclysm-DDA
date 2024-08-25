@@ -254,7 +254,7 @@ int manhattan_dist( const point &loc1, const point &loc2 );
 // cost sqrt(2) or sqrt(3) and cardinal moves cost 1.
 int octile_dist( const point &loc1, const point &loc2, int multiplier = 1 );
 float octile_dist_exact( const point &loc1, const point &loc2 );
-float octile_dist_exact(const tripoint& from, const tripoint& to);
+float octile_dist_exact( const tripoint &from, const tripoint &to );
 
 // get angle of direction represented by point
 units::angle atan2( const point & );

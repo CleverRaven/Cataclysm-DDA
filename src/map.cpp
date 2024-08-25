@@ -2328,7 +2328,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty(tripoint_bub_ms(p));
+    set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -3351,37 +3351,37 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
     return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
 }
 
-std::optional<std::pair<int, int>> map::bash_range(const tripoint& p,
-    const bool allow_floor) const
+std::optional<std::pair<int, int>> map::bash_range( const tripoint &p,
+                                const bool allow_floor ) const
 {
-    if (!inbounds(p)) {
-        DebugLog(D_WARNING, D_MAP) << "Looking for out-of-bounds is_bashable at "
-            << p.x << ", " << p.y << ", " << p.z;
+    if( !inbounds( p ) ) {
+        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
+                                     << p.x << ", " << p.y << ", " << p.z;
         return std::nullopt;
     }
 
-    if (const optional_vpart_position vp = veh_at(p)) {
-        if (const auto vpobst = vp->obstacle_at_part()) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
+        if( const auto vpobst = vp->obstacle_at_part() ) {
             const int bash_part = vpobst->part_index();
             // Car obstacle that isn't a door
             // TODO: Account for armor
-            const int hp = vp->vehicle().part(bash_part).hp();
+            const int hp = vp->vehicle().part( bash_part ).hp();
             const int bash_min = hp / 20 + 1;
             // Large max to discourage bashing.
             const int bash_max = bash_min + 100;
-            return std::make_pair(bash_min, bash_max);
+            return std::make_pair( bash_min, bash_max );
         }
     }
 
-    const furn_t& furniture = furn(p).obj();
+    const furn_t &furniture = furn( p ).obj();
     ///\EFFECT_STR determines what furniture can be smashed
-    if (furniture.id && furniture.bash.str_max != -1) {
-        return std::make_pair(furniture.bash.str_min, furniture.bash.str_max);
+    if( furniture.id && furniture.bash.str_max != -1 ) {
+        return std::make_pair( furniture.bash.str_min, furniture.bash.str_max );
     }
 
-    const ter_t& terrain = ter(p).obj();
-    if (terrain.bash.str_max != -1 && (!terrain.bash.bash_below || allow_floor)) {
-        return std::make_pair(terrain.bash.str_min, terrain.bash.str_max);
+    const ter_t &terrain = ter( p ).obj();
+    if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
+        return std::make_pair( terrain.bash.str_min, terrain.bash.str_max );
     }
 
     return std::nullopt;
@@ -10485,15 +10485,15 @@ const level_cache &map::access_cache( int zlev ) const
 
 void map::set_pathfinding_cache_dirty( const int zlev )
 {
-    if (pathfinding_cache_ && inbounds_z(zlev)) {
-        pathfinding_cache_->invalidate(zlev);
+    if( pathfinding_cache_ && inbounds_z( zlev ) ) {
+        pathfinding_cache_->invalidate( zlev );
     }
 }
 
 void map::set_pathfinding_cache_dirty( const tripoint_bub_ms &p )
 {
-    if (pathfinding_cache_ && inbounds(p)) {
-        pathfinding_cache_->invalidate(p);
+    if( pathfinding_cache_ && inbounds( p ) ) {
+        pathfinding_cache_->invalidate( p );
     }
 }
 

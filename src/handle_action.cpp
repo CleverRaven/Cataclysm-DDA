@@ -2243,7 +2243,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
                         destination_preview =
                             m.route( player_character.pos_bub(), auto_travel_destination,
-                                     player_character.get_pathfinding_settings());
+                                     player_character.get_pathfinding_settings() );
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );

@@ -159,10 +159,10 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
     std::vector<point> result;
     result.reserve( n + ( is_center_included ? 1 : 0 ) );
 
-    find_point_closest_first(center, min_dist, max_dist, [&result](const point& p) {
-        result.push_back(p);
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const point & p ) {
+        result.push_back( p );
         return false;
-     } );
+    } );
 
     return result;
 }

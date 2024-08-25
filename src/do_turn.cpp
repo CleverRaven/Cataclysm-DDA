@@ -269,27 +269,27 @@ void monmove()
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
 
-        if (!critter.is_dead() && m.impassable(critter.pos())) {
+        if( !critter.is_dead() && m.impassable( critter.pos() ) ) {
             const PathfindingSettings settings = critter.get_pathfinding_settings();
-            if (!critter.can_move_to(critter.pos(), settings)) {
-                dbg(D_ERROR) << "game:monmove: " << critter.name()
-                    << " can't move to its location!  (" << critter.posx()
-                    << ":" << critter.posy() << ":" << critter.posz() << "), "
-                    << m.tername(critter.pos());
-                add_msg_debug(debugmode::DF_MONSTER, "%s can't move to its location!  (%d,%d,%d), %s",
-                    critter.name(),
-                    critter.posx(), critter.posy(), critter.posz(), m.tername(critter.pos()));
+            if( !critter.can_move_to( critter.pos(), settings ) ) {
+                dbg( D_ERROR ) << "game:monmove: " << critter.name()
+                               << " can't move to its location!  (" << critter.posx()
+                               << ":" << critter.posy() << ":" << critter.posz() << "), "
+                               << m.tername( critter.pos() );
+                add_msg_debug( debugmode::DF_MONSTER, "%s can't move to its location!  (%d,%d,%d), %s",
+                               critter.name(),
+                               critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
                 bool okay = false;
-                for (const tripoint& dest : m.points_in_radius(critter.pos(), 3)) {
-                    if (critter.can_move_to(dest, settings) && g->is_empty(dest)) {
-                        critter.setpos(dest);
+                for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+                    if( critter.can_move_to( dest, settings ) && g->is_empty( dest ) ) {
+                        critter.setpos( dest );
                         okay = true;
                         break;
                     }
                 }
-                if (!okay) {
+                if( !okay ) {
                     // die of "natural" cause (overpopulation is natural)
-                    critter.die(nullptr);
+                    critter.die( nullptr );
                 }
             }
         }

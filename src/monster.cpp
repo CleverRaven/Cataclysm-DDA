@@ -1384,7 +1384,7 @@ tripoint_abs_ms monster::get_dest() const
 
 void monster::set_dest( const tripoint_abs_ms &p )
 {
-    if (!goal || rl_dist(p, *goal) > 4) {
+    if( !goal || rl_dist( p, *goal ) > 4 ) {
         reset_pathfinding_cd();
     }
     goal = p;

@@ -711,10 +711,10 @@ inline int octile_dist( const coords::coord_point<Point, Origin, Scale, LhsInBou
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline float octile_dist_exact(const coords::coord_point<Point, Origin, Scale>& loc1,
-    const coords::coord_point<Point, Origin, Scale>& loc2)
+inline float octile_dist_exact( const coords::coord_point<Point, Origin, Scale> &loc1,
+                                const coords::coord_point<Point, Origin, Scale> &loc2 )
 {
-    return octile_dist_exact(loc1.raw(), loc2.raw());
+    return octile_dist_exact( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
