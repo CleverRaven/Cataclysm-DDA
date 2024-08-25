@@ -705,13 +705,11 @@ std::optional<int> npc_short_term_cache::closest_enemy_to_friendly_distance() co
     return distance;
 }
 
-// PERF: 52.61%
 void npc::assess_danger()
 {
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
     int friendly_count = 1; // count yourself as a friendly
-    // PERF: 2.20%
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
@@ -728,12 +726,10 @@ void npc::assess_danger()
     preferred_close_range = std::min( preferred_close_range, preferred_medium_range / 2 );
 
     Character &player_character = get_player_character();
-    // PERF: 1.19%
     bool sees_player = sees( player_character.pos() );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
-    // PERF: 1.25%
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
                               !too_close( pos(), player_character.pos(), follow_distance() ) &&
                               !is_guarding();
@@ -805,7 +801,6 @@ void npc::assess_danger()
         if( &guy == this ) {
             continue;
         }
-        // PERF: 31.03% (has_potential_los())
         if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
             continue;
         }
@@ -824,7 +819,6 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        // PERF: 10.27% (has_potential_los())
         if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
             continue;
         }

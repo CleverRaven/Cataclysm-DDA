@@ -1041,7 +1041,6 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const tripoint starting_pos = pos();
     const bool can_open_doors = has_flag( mon_flag_CAN_OPEN_DOORS ) && !is_hallucination();
     const bool staggers = has_flag( mon_flag_STUMBLES );
     if( moved ) {
@@ -1051,8 +1050,8 @@ void monster::move()
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
-        const float distance_to_target = trig_dist(starting_pos, destination);
-        for (tripoint& candidate : squares_closer_to(starting_pos, destination)) {
+        const float distance_to_target = trig_dist(pos(), destination);
+        for (tripoint& candidate : squares_closer_to(pos(), destination)) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1071,18 +1070,18 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
 
-            if( candidate.z != starting_pos.z ) {
+            if( candidate.z != pos().z) {
                 bool can_z_move = true;
-                if( !here.valid_move( starting_pos, candidate, false, true, via_ramp ) ) {
+                if( !here.valid_move( pos(), candidate, false, true, via_ramp)) {
                     // Can't phase through floor
                     can_z_move = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > starting_pos.z && !( via_ramp || flies() ) ) {
+                if( candidate.z > pos().z && !(via_ramp || flies())) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, starting_pos ) ||
+                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
@@ -1095,8 +1094,8 @@ void monster::move()
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
-                    const tripoint upper = candidate.z > starting_pos.z ? candidate : starting_pos;
-                    const tripoint lower = candidate.z > starting_pos.z ? starting_pos : candidate;
+                    const tripoint upper = candidate.z > pos().z ? candidate : pos();
+                    const tripoint lower = candidate.z > pos().z ? pos() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;
@@ -1140,7 +1139,7 @@ void monster::move()
 
             // is there an openable door?
             if( can_open_doors &&
-                here.open_door( *this, candidate, !here.is_outside( starting_pos ), true ) ) {
+                here.open_door( *this, candidate, !here.is_outside( pos() ), true ) ) {
                 moved = true;
                 next_step = candidate_abs;
                 continue;
@@ -1213,7 +1212,7 @@ void monster::move()
             // If we ended up in a place we didn't plan to, maybe we stumbled or fell, either way the path is
             // invalid now.
             const tripoint new_pos = pos();
-            if (!path.empty() && path.front() != new_pos && new_pos != starting_pos) {
+            if (!path.empty() && path.front() != new_pos && new_pos != pos()) {
                 path.clear();
             }
 

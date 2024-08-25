@@ -217,8 +217,6 @@ class monster : public Creature
         // Get the pathfinding settings for this monster.
         PathfindingSettings get_pathfinding_settings(bool avoid_bashing = true) const;
 
-        bool monster_move_in_vehicle(const tripoint& p) const;
-
         // Returns true if the monster has a current goal
         bool has_dest() const;
         // Returns point at the end of the monster's current plans
