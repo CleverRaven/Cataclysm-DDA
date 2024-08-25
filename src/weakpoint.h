@@ -133,10 +133,6 @@ struct weakpoint {
     std::unordered_map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::unordered_map<damage_type_id, float> crit_mult;
-    // A list of required effects.
-    std::vector<efftype_id> required_effects;
-    // A list of effects that will disable this weakpoint.
-    std::vector<efftype_id> disabled_by;
     // Dialogue conditions of weakpoint
     std::function<bool( dialogue & )> condition;
     bool has_condition = false;

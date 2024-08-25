@@ -417,12 +417,6 @@ void weakpoint::load( const JsonObject &jo )
         // Default to damage multiplier, if crit multipler is not specified.
         crit_mult = damage_mult;
     }
-    if( jo.has_array( "required_effects" ) ) {
-        assign( jo, "required_effects", required_effects );
-    }
-    if( jo.has_array( "disabled_by" ) ) {
-        assign( jo, "disabled_by", disabled_by );
-    }
     if( jo.has_member( "condition" ) ) {
         read_condition( jo, "condition", condition, false );
         has_condition = true;
@@ -514,19 +508,7 @@ void weakpoint::apply_effects( Creature &target, int total_damage,
 
 float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
-    // Check for required effects
-    for( const auto &effect : required_effects ) {
-        if( !attack.target->has_effect( effect ) ) {
-            return 0.0f;
-        }
-    }
-    // Effects that disable this weakpoint
-    for( const auto &effect : disabled_by ) {
-        if( attack.target->has_effect( effect ) ) {
-            return 0.0f;
-        }
-    }
-
+    // Evaluate condition
     if( has_condition ) {
         dialogue d( get_talker_for( *attack.source ), get_talker_for( *attack.target ) );
         if( !condition( d ) ) {

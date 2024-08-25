@@ -352,8 +352,6 @@ Field              | Description
 `armor_penalty`    | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
-`required_effects` | list of effect names applied to the monster required to hit the weakpoint.
-`disabled_by`      | list of effect names applied to the monster which prevent you to hit the weakpoint.
 `condition`        | condition, that need to be met for weakpoint to be used. `u_` is attacker, `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 

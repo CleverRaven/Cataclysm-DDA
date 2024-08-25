@@ -58,7 +58,7 @@
             "damage_required": [ 31, 100 ]
           }
         ],
-        "required_effects": [ "grabbing" ],
+        "condition": { "u_has_any_effect": [ "grabbing" ] },
         "coverage": 8
       },
       {
