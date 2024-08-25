@@ -3448,6 +3448,78 @@ talk_effect_fun_t::func f_consume_item( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    // Only after i implemented it, i realised it is a bad way to make it
+    // What it should be is an expansion of f_run_inv_eocs
+    // that allow to pick multiple ids and limit it to some amount of it
+
+    std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
+
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
+        const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
+        const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
+        item_and_amount.emplace_back( item, amount );
+    }
+
+    return [item_and_amount, is_npc]( dialogue & d ) {
+        add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
+
+        itype_id item_to_remove;
+        double percent = 0.0f;
+        double count_desired;
+        double count_present;
+        double charges_present;
+
+        for( const auto &pair : item_and_amount ) {
+            item_to_remove = itype_id( pair.first.evaluate( d ) );
+            count_desired = pair.second.evaluate( d );
+            count_present = d.actor( is_npc )->get_amount( item_to_remove );
+            charges_present = d.actor( is_npc )->charges_of( item_to_remove );
+            if( charges_present > count_present ) {
+                percent += charges_present / count_desired;
+                // if percent is equal or less than 1, it is safe to remove all charges_present
+                // otherwise loop to remove charges one by one
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_charges( item_to_remove, charges_present, true );
+
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, charges_present, percent );
+                } else {
+                    percent -= charges_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_charges( item_to_remove, 1, true );
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, charges_present, percent );
+                    }
+                }
+            } else {
+                percent += count_present / count_desired;
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_amount( item_to_remove, count_present );
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, count_present, percent );
+                } else {
+                    percent -= count_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_amount( item_to_remove, 1 );
+
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, count_present, percent );
+                    }
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_remove_item_with( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
@@ -6655,6 +6727,7 @@ parsers = {
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
+    { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },
     { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun::f_remove_item_with },
     { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
     { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun::f_bulk_trade_accept },

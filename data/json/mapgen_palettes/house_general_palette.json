@@ -515,7 +515,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_untidy_palette",
-    "//": "A disorganised but clean variant of the standard_domestic_palette. Adds out-of-place item spawns, such as dining items on desks and laundry on the floor. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "//": "A disorganized but clean variant of the standard_domestic_palette. Adds out-of-place item spawns, such as dining items on desks and laundry on the floor. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "items": {
       "f": [
         { "item": "dishes_dining", "chance": 50, "repeat": [ 2, 3 ] },

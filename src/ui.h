@@ -460,6 +460,9 @@ class uilist // NOLINT(cata-xy)
     private:
         ImVec2 calculated_menu_size;
         cataimgui::bounds calculated_bounds;
+        float calculated_hotkey_width;
+        float calculated_label_width;
+        float calculated_secondary_width;
         float extra_space_left;
         float extra_space_right;
         std::vector<int> fentries;

@@ -404,6 +404,17 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_QD944_P",
+    "text": [
+      {
+        "name": "QD944-P Progress Update",
+        "id": "lab_file_item_QD944_P_01",
+        "text": "Dr. Doherty,\nHere's the latest updated version of JUKEBOX TALISMAN.  The first thing I have to say is that it finally works--no headaches, no eyestrain, no expensive prop that requires a mathematician to achieve its stated function, no whatever happened during test J4-6553 (hopefully B55 has made a full recovery).  Someone off the street could put on QD944-P and immediately see any potential targets through walls.\n\nNow, the downsides.  Seeing others through walls is all that it can do.  As of yet, we've been unable to achieve the main goals of JUKEBOX TALISMAN.  The next prototype after this one might have gotten closer to meeting the project goals, but it's impossible to tell because anyone, including a GRAY DAWN mathematician, who puts one on immediately gets a splitting headache.  We have also been unable to miniaturize the power source enough to make the glasses inconspicuous, since COBALT RAIN still has not gotten below the \"large generator\" stage, and even with existing battery sizes the power draw is considerable.  Hopefully COBALT RAIN reaches the miniaturization stage soon.  That said, I think the existing prototype is still valuable enough to be workable while we further refine the design.\nErin McGrath\nResearcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_matrix_research",
     "text": [
       {

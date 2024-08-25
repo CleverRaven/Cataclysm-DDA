@@ -139,6 +139,18 @@
     "replace": "m26_mass"
   },
   {
+    "id": "miner_hat",
+    "type": "MIGRATION",
+    "replace": "hat_hard",
+    "contents": [ { "id": "flashlight", "count": 1 } ]
+  },
+  {
+    "id": "miner_hat_on",
+    "type": "MIGRATION",
+    "replace": "hat_hard",
+    "contents": [ { "id": "flashlight", "count": 1 } ]
+  },
+  {
     "id": "ts12_aux_shotgun",
     "type": "MIGRATION",
     "replace": "m26_mass"
@@ -1825,6 +1837,11 @@
     "type": "MIGRATION",
     "replace": "small_squeeze_tube",
     "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "egg_goose_golden",
+    "type": "MIGRATION",
+    "replace": "egg_goose"
   },
   {
     "id": "ar_pistol",
