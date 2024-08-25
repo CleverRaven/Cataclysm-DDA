@@ -1008,7 +1008,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     }
 
     if( proj_effects.count( ammo_effect_ROBOT_DAZZLE ) ) {
-        if( critical && (target.in_species( species_ROBOT ) || target.in_species( species_CYBORG ) ) ) {
+        if( critical && ( target.in_species( species_ROBOT ) || target.in_species( species_CYBORG ) ) ) {
             time_duration duration = rng( 6_turns, 8_turns );
             target.add_effect( effect_source( source ), effect_stunned, duration );
             target.add_effect( effect_source( source ), effect_sensor_stun, duration );
