@@ -3050,8 +3050,9 @@ Store string from `set_string_var` in the variable object `target_var`
 
 | Property | Optionality | Type | Description |
 | --- | --- | --- | --- |
-| "title" | **mandatory** | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
-| "description" | **mandatory** | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "title" | optional | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
+| "description" | optional | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
@@ -3060,7 +3061,7 @@ Store string from `set_string_var` in the variable object `target_var`
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Replace value of variable `foo` with value `bar`
