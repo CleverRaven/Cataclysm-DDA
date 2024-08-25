@@ -59,5 +59,31 @@
         { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_2",
+    "name": "alien bush",
+    "description": "An alien bush, but one that looks very similar to a terrestrial bush despite the dark purple leaves.  There are even clusters of white berries growing from it.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_alien_meadow_shrub_2_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "shrub_alien_meadow_shrub_2_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
   }
 ]
