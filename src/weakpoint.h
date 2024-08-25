@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "condition.h"
 #include "damage.h"
 #include "translation.h"
 #include "type_id.h"
@@ -136,6 +137,9 @@ struct weakpoint {
     std::vector<efftype_id> required_effects;
     // A list of effects that will disable this weakpoint.
     std::vector<efftype_id> disabled_by;
+    // Dialogue conditions of weakpoint
+    std::function<bool( dialogue & )> condition;
+    bool has_condition = false;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
     // Constant coverage multipliers, depending on the attack type.

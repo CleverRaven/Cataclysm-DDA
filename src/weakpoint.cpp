@@ -423,6 +423,10 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_array( "disabled_by" ) ) {
         assign( jo, "disabled_by", disabled_by );
     }
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
     if( jo.has_array( "effects" ) ) {
         for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
             weakpoint_effect effect;
@@ -522,6 +526,15 @@ float weakpoint::hit_chance( const weakpoint_attack &attack ) const
             return 0.0f;
         }
     }
+
+    if( has_condition ) {
+        dialogue d( get_talker_for( *attack.source ), get_talker_for( *attack.target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MONSTER, "Attack conditionals failed" );
+            return 0.0f;
+        }
+    }
+
     // Retrieve multipliers.
     float constant_mult = coverage_mult.of( attack );
     // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
