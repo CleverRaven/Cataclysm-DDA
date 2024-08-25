@@ -283,9 +283,9 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
                            time_duration::from_turns( rng( duration.first, duration.second ) ),
                            permanent, rng( intensity.first, intensity.second ) );
     }
-
     for( const effect_on_condition_id &eoc : effect_on_conditions ) {
-        dialogue d( get_talker_for( *attack.source ), get_talker_for( target ) );
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( target ) );
         eoc->activate( d );
     }
 
@@ -522,7 +522,8 @@ float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
     // Evaluate condition
     if( has_condition ) {
-        dialogue d( get_talker_for( *attack.source ), get_talker_for( *attack.target ) );
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( *attack.target ) );
         if( !condition( d ) ) {
             add_msg_debug( debugmode::DF_MONSTER, "Attack conditionals failed" );
             return 0.0f;
