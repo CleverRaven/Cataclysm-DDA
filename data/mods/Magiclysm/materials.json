@@ -40,7 +40,7 @@
     "type": "material",
     "id": "black_dragon_scales",
     "name": "Black Dragon Scale",
-    "density": 5.06,
+    "density": 5.0667,
     "latent_heat": 533,
     "chip_resist": 35,
     "breathability": "AVERAGE",
