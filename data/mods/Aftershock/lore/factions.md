@@ -27,7 +27,7 @@ Valid locations that could be added:
 - Small military outposts out in the frozen wastes.
 - Manned infrastructure buildings. (Power plants, radar stations, planetary defenses, smaller spaceports)
 
-Additionally there's a single UICA space cruiser stationed on polar orbit.
+Additionally there's a single UICA space cruiser stationed in polar orbit.
 
 ### Lore Ideas
 - Is space NATO really a good thing?
