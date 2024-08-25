@@ -532,24 +532,13 @@
     "type": "GENERIC",
     "category": "clothing",
     "name": { "str": "shadowstuff organ" },
-    "description": "You have an organ inside of your body that makes a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
+    "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
     "to_hit": -1,
     "material": [ "demihuman_flesh" ],
     "symbol": ")",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_item_volume": "80 ml",
-        "max_contains_weight": "6 kg",
-        "volume_encumber_modifier": 0,
-        "volume_multiplier": 0,
-        "weight_multiplier": 0,
-        "item_restriction": [ "scrap_shadowstuff" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
     "flags": [ "INTEGRATED", "NO_UNLOAD", "PADDED", "SEMITANGIBLE", "ZERO_WEIGHT", "TARDIS", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY" ]
   },
   {

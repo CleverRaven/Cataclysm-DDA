@@ -1,0 +1,16 @@
+[
+  {
+    "id": "gracken_arm_push_spell",
+    "type": "SPELL",
+    "name": "Gracken Long Arms Spell",
+    "description": "Push a target to you.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": { "math": [ "(u_val('dexterity') / 2)" ] },
+    "min_range": { "math": [ "(u_val('dexterity') / 4)" ] }
+  }
+]
