@@ -1,20 +1,31 @@
 [
   {
-    "type": "palette",
-    "id": "fm_corn",
-    "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seedling_corn",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } }
+    }
   },
   {
-    "type": "palette",
-    "id": "fm_wheat",
-    "sealed_item": { "#": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seedling_wheat",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "sealed_item": { "#": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_seedling", "chance": 70 } }
+    }
   },
   {
     "type": "palette",
     "id": "farm_lots",
-    "palettes": [ { "distribution": [ [ "fm_corn", 10 ], [ "fm_wheat", 2 ] ] } ],
+    "parameters": {
+      "variant": { "type": "nested_mapgen_id", "default": { "distribution": [ [ "seedling_corn", 70 ], [ "seedling_wheat", 30 ] ] } }
+    },
+    "nested": { "#": { "chunks": [ { "param": "variant", "fallback": "seedling_corn" } ] } },
     "terrain": {
       ",": "t_dirtfloor",
       ":": "t_metal_floor",
@@ -53,7 +64,8 @@
       "t": "t_region_groundcover_barren",
       "B": "t_region_groundcover_barren"
     },
-    "furniture": { "r": "f_rack", "t": "f_table", "B": "f_bench", "x": "f_crate_c", "@": "f_hay", "/": "f_null" }
+    "furniture": { "r": "f_rack", "t": "f_table", "B": "f_bench", "x": "f_crate_c", "@": "f_hay", "/": "f_null" },
+    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
   },
   {
     "type": "palette",

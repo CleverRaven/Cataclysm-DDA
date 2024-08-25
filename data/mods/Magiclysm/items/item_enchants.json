@@ -156,5 +156,48 @@
       "SMELLY2",
       "DEFORMED3"
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_luck_bone",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "name": { "str": "Luck Bone" },
+    "//": "relic_data is set when the item is created and then never changes, so each luck-bone should have random minor effects.  All deliberately picked so they can't be seen on the character sheet",
+    "description": "The spirits within are giving you their blessing.",
+    "values": [
+      { "value": "ARMOR_ACID", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_BASH", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_BIO", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_BULLET", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_COLD", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_CUT", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_ELEC", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_HEAT", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "ARMOR_STAB", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "FORCEFIELD", "add": { "math": [ "rand(5) * 0.01" ] } },
+      { "value": "EVASION", "add": { "math": [ "rand(5) * 0.01" ] } },
+      { "value": "LEARNING_FOCUS", "add": { "math": [ "rand(5)" ] } },
+      { "value": "PAIN", "add": { "math": [ "rand(3) * -1" ] } },
+      { "value": "REGEN_HP", "multiply": { "math": [ "rand(10) * 0.01" ] } },
+      { "value": "REGEN_MANA", "multiply": { "math": [ "rand(10) * 0.01" ] } },
+      { "value": "REGEN_STAMINA", "multiply": { "math": [ "rand(10) * 0.01" ] } }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_technomancer_far_sight_lens",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "name": { "str": "Enhanced Vision" },
+    "description": "Looking through your enchanted lens allows you to see farther than ever.",
+    "values": [
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": {
+          "math": [ "(5 + (0.5 * u_spell_level('technomancer_far_sight')) + (1 * u_spell_level('technomancer_far_sight_plus')))" ]
+        }
+      }
+    ]
   }
 ]

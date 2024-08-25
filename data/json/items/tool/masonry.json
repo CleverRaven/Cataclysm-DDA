@@ -7,8 +7,8 @@
     "weight": "4500 g",
     "volume": "2500 ml",
     "longest_side": "25 cm",
-    "price": 8000,
-    "price_postapoc": 500,
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -17,7 +17,27 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__masonrysaw",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "masonrysaw_on",
+              "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
+              "volume": "20",
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
+            }
+          },
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4 }
   },
@@ -33,8 +53,33 @@
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CIRCSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__masonrysaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__masonrysaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your masonry saw buzzes." },
+              "volume": "7",
+              "revert_to": "masonrysaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 70 }
   },
@@ -46,8 +91,8 @@
     "weight": "4500 g",
     "volume": "2500 ml",
     "longest_side": "25 cm",
-    "price": 8000,
-    "price_postapoc": 500,
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -84,7 +129,16 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [
-      "TOOLWEAPON_DEACTIVATE",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
+            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
+          }
+        ]
+      },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
@@ -93,7 +147,23 @@
         "charge_rate": "2200 W"
       }
     ],
-    "tick_action": [ "ELECTRIC_CIRCSAW_ON" ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__electric_masonrysaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your electric masonry saw buzzes." },
+              "volume": "7",
+              "revert_to": "electric_masonrysaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [
       "MESSY",
       "TRADER_AVOID",
@@ -114,10 +184,10 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "grinder blade" },
-    "description": "A 125mm angle grinder blade.  You could make a power tool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
+    "description": "A 125 mm angle grinder blade.  You could make a power tool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
     "category": "spare_parts",
-    "price": 20,
-    "price_postapoc": 500,
+    "price": "20 cent",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",

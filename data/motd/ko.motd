@@ -7,15 +7,14 @@
 
 <color_white>버그 보고, 기능 제안, 개발현황 확인:</color>
 
-<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
-<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+<color_light_gray>* 깃허브: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* 이메일: </color><color_light_cyan>kevin.granade@gmail.com</color>
 
 <color_white>포럼 및 대화에 대한 토론 참여:</color>
 
-<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
-<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* 디스코스 (Discourse):                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* 디스코드:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC:                       </color><color_cyan>libera.chat 채널이름 #CataclysmDDA</color>
-<color_light_gray>* Lemmy (Fediverse):         </color><color_cyan>https://cdda.social/</color>
 
 <color_light_gray>다른 유용한 링크들도 홈페이지에서 이용할 수 있습니다.</color>
 
@@ -25,26 +24,26 @@
 <color_light_red>    실험 빌드에 대한 고지사항 :</color>
 <color_light_red>******************************************************************************</color>
 
-<color_white>Q: </color><color_yellow>실험버전 빌드가 무엇입니까?</color>
+<color_white>Q: </color><color_yellow>실험판 빌드는 무엇인가요?</color>
 
-<color_white>A: </color><color_light_gray>실험버전 빌드의 목표는 품질관리의 두번째 단계가 되는 것입니다. 초기 품질관리 후 새로운 콘텐츠의 테스트나 밸런스 조정을 실시하기 위한 버전입니다. 최신 실험빌드를 플레이하는것은 말 그대로 새로운 콘텐츠의 테스트 플레이를 수행하여 개발 프로세스에 참여한다는 것입니다. 버그나 기능 오류가 발생하기 쉬운 빌드임을 알아두도록 하십시오.</color>
+<color_white>A: </color><color_light_gray>실험판 빌드는 품질관리의 두번째 단계가 되는 것입니다. 초기 품질관리 후 새로운 콘텐츠의 테스트나 밸런스 조정을 실시하기 위한 버전입니다. 최신 실험판를 플레이하는것은 말 그대로 새로운 콘텐츠의 테스트 플레이를 수행하여 개발 프로세스에 참여한다는 것입니다. 버그나 기능 오류가 발생하기 쉬운 빌드임을 알아두세요.</color>
 
-<color_white>Q: </color><color_yellow>실험빌드는 무엇을 위해 존재합니까?</color>
+<color_white>Q: </color><color_yellow>실험판은 정확히 뭔가요?</color>
 
-<color_white>A: </color><color_light_gray>알파버전이나 베타버전을 플레이하는 것과 같다고 생각하시면 됩니다. 실험빌드에는 버그나 기능오류도 포함되어 있습니다. 지속적인 통합은 어렵기 때문에 실험버전 빌드는 항상 지속적인 작업이 진행중입니다. 실험버전은 버그 탐지와 폴리싱이 이루어지는 샌드박스라고 생각하시면 됩니다. 전반적인 안정성과 밸런스를 점검하기 위해 크고 작은 기능들은 실험빌드에 지속적으로 릴리즈되어집니다. 결론적으로 실험빌드에서는 아무것도 보장되지 않습니다</color>
+<color_white>A: </color><color_light_gray>알파버전이나 베타버전이랑 비슷하다고 보시면 됩니다. 버그랑 기능오류가 일상이거든요. 지속적인 통합은 기술적으로 어렵기에 실험판은 항상 개발중인 상태로 있는겁니다. 컨텐츠를 추가하고 버그를 잡는 샌드박스라고 생각하시면 됩니다. 전반적인 안정성과 밸런스를 점검하기 위해 크고 작은 기능들은 실험판에 지속적으로 릴리즈되어집니다. 결론적으로 실험판에서는 아무것도 보장할 수 없습니다.</color>
 
-<color_white>Q: </color><color_yellow>실험빌드를 실행할 수 있습니까?</color>
+<color_white>Q: </color><color_yellow>그러면 실험판은 플레이가 가능하긴 한가요?</color>
 
-<color_white>A: </color><color_light_gray>네. 그러나 실험빌드는 전반적으로 안정적이지만, 부분적인 기능이 미완성 상태로 도입될 수 있고 게임을 중단시키거나 저장데이터를 손상시킬 수 있는 심각한 버그를 포함한 여러 버그를 발생시킬 수 있기 때문에 안정적인 동작은 보장되지 않습니다. 드문 경우이지만 게임데이터의 복잡성 때문에 실험빌드와 병합하기 전 초기 품질관리가 부적절할 수 있으며 언제나 사람의 실수가 발생할 수 있습니다. 이것이 실험 빌드의 애초 존재 이유입니다.</color>
+<color_white>A: </color><color_light_gray>네. 그러나 실험판는 전반적으로 안정적이지만, 부분적인 기능이 미완성 상태로 도입될 수 있고 게임을 중단시키거나 저장데이터를 손상시킬 수 있는 심각한 오류를 포함한 여러 버그를 발생시킬 수 있기 때문에 안정적인 플레이는 보장되지 않습니다. 드문 경우이지만 게임데이터의 복잡성 때문에 실험판와 병합하기 전 초기 품질관리가 부적절할 수 있으며 언제나 사람의 실수가 발생할 수 있습니다. 이것이 실험판이 존재하는 이유입니다.</color>
 
-<color_white>Q: </color><color_yellow>그렇다면 실험빌드와 안정버전빌드 중 어느 쪽을 플레이해야 합니까?</color>
+<color_white>Q: </color><color_yellow>그렇다면 실험판와 안정판 중 어느 쪽을 플레이해야 할까요?</color>
 
-<color_white>A: </color><color_light_gray>실험빌드의 이점은 최신 콘텐츠에 빠르게 접근할 수 있다는 것이나, 악성 버그 발생으로 인해 게임 진행 상황이 손실될 위험이 존재합니다. 실험버전과 안정버전 중 어느쪽을 플레이할지는 사용자의 선택입니다. 플레이 중 문제가 발생하면 본인의 책임이니 주의하시고, 예방조치로 백업을 해두십시오. 또는 대규모 기능이 안정화되거나 심각한 버그가 수정될 때까지 며칠동안 업데이트를 하지 않는것도 좋습니다.</color>
+<color_white>A: </color><color_light_gray>실험판의 이점은 최신 콘텐츠에 빠르게 접근할 수 있다는 것이나, 버그로 인해 게임 진행 상황이 손실될 위험이 존재합니다. 실험버전과 안정버전 중 어느쪽을 플레이할지는 여러분의 선택입니다. 플레이 중 문제가 발생하면 본인의 책임이니 주의하시고, 예방조치로 백업을 해두십시오. 또는 대규모 기능이 안정화되거나 심각한 버그가 수정될 때까지 오랫동안 업데이트를 하지 않는것도 좋습니다.</color>
 
-<color_white>Q: </color><color_yellow>또 알아야 할 것이 있습니까?</color>
+<color_white>Q: </color><color_yellow>또 알아야 할 것이 있을까요?</color>
 
-<color_white>A: </color><color_light_gray>네. 이미 확인했거나 혹은 향후 확인할 게임의 모든 것은 장래에 변경될 가능성이 있다는 것을 기억하십시오. 새 기능을 포함한 모든 기능은 현재 진행중인 작업이며 추후 개발과정에서 변경될 수 있습니다. 그리고 앞서 말한바와 같이 안정성과 밸런스를 포함해 아무것도 보장되지 않습니다.</color>
+<color_white>A: </color><color_light_gray>네. 여러분이 보신 게임의 모든 것은 장래에 변경될 수 있다는 것을 기억해두세요. 새 기능을 포함한 모든 기능은 현재 진행중인 작업이며 추후 개발과정에서 변경될 수 있습니다. 그리고 앞서 말한바와 같이 안정성과 밸런스를 포함해 아무것도 보장되지 않습니다.</color>
 
-<color_white>Q: </color><color_yellow>실험빌드를 플레이 하는 위험을 받아들일 수 없는 경우에는 어떻게 해야합니까?</color>
+<color_white>Q: </color><color_yellow>실험판을 플레이하면서 위험을 감수할 수 없다면 어떻게 해야하나요?</color>
 
-<color_white>A: </color><color_light_gray>위험을 받아들일 수 없는 경우 - 안정된 버전을 플레이하십시오. 하지만 리스크를 받아들여 실험빌드의 최신 추가 콘텐츠를 즐기고, 개발에 참여한다면 - 버그를 보고하고 기능을 제안하는 등 게임에 다양한 방법으로 기여할 수 있습니다. 행운을 빕니다.</color>
+<color_white>A: </color><color_light_gray>위험을 감수할 수 없다면 안정판을 플레이하세요. 하지만 위험을 감수한다면 실험판의 최신 컨텐츠를 즐기고, 버그를 보고하고 기능을 제안하는 등 게임에 다양한 방법으로 기여할 수 있습니다. 행운을 빕니다.</color>

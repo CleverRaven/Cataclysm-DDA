@@ -16,7 +16,7 @@
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 2 ],
-        [ "condom", 2 ],
+        [ "any_condom", 2, "LIST" ],
         [ "gloves_medical", 2 ],
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],
@@ -44,7 +44,7 @@
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 2 ],
-        [ "condom", 2 ],
+        [ "any_condom", 2, "LIST" ],
         [ "gloves_medical", 2 ],
         [ "chunk_rubber", 1 ],
         [ "latex", 2 ],
@@ -52,6 +52,32 @@
         [ "sheet_neoprene", 11 ],
         [ "scrap_neoprene", 16 ],
         [ "neoprene", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "super_glue",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "bone_any", 20, "LIST" ],
+        [ "skewer_bone", 1000 ],
+        [ "cured_hide", 2 ],
+        [ "pine_bough", 10 ],
+        [ "raw_dandelion", 20 ],
+        [ "biollante_bud", 1 ],
+        [ "ant_egg", 1 ],
+        [ "slime_scrap", 1 ]
       ]
     ]
   }

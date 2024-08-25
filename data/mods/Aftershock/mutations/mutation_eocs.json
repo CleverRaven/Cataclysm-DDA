@@ -4,7 +4,7 @@
     "id": "EOC_RAD_ADAP_activated",
     "condition": { "math": [ "u_val('sleep_deprivation')", "<=", "14400" ] },
     "effect": [
-      { "math": [ "u_val('sleep_deprivation')", "+=", "900" ] },
+      { "math": [ "u_val('sleep_deprivation')", "+=", "time('15 minutes')" ] },
       {
         "u_message": "You think about activating your immune system and your body warms with exertion.",
         "type": "good"
@@ -18,7 +18,7 @@
     "id": "EOC_RAD_FLUSH_activated",
     "condition": { "math": [ "u_val('sleep_deprivation')", "<=", "14400" ] },
     "effect": [
-      { "math": [ "u_val('sleep_deprivation')", "+=", "2100" ] },
+      { "math": [ "u_val('sleep_deprivation')", "+=", "time('35 minutes')" ] },
       {
         "u_message": "You think quite pointedly about activating your immune system and your body hums with exertion.",
         "type": "good"

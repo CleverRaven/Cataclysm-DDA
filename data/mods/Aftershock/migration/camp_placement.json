@@ -1,0 +1,11 @@
+[
+  {
+    "//": "Remove all entries after 0.I",
+    "type": "camp_migration",
+    "camp_migrations": { "name": "PrepNet", "overmap_terrain": "prepnet_orchard", "faction": "Prepnet_Phyle" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Port Augustmoon", "overmap_terrain": "augustmoon_main_concourse1", "faction": "UICA" }
+  }
+]

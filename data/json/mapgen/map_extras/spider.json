@@ -3,6 +3,12 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "spider_webs",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0, "intensity": [ 1, 3 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spider_webs_weak",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0 } ] }
   },
   {
@@ -14,38 +20,50 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "spider_nest",
+    "object": {
+      "mapgensize": [ 17, 17 ],
+      "rows": [
+        "      .....      ",
+        "    .........    ",
+        "   ...,,,,,...   ",
+        "  ...,,,,,,,...  ",
+        " ...,,,ooo,,,... ",
+        " ..,,,ooooo,,,.. ",
+        "..,,,oooxooo,,,..",
+        "..,,oooxxxooo,,..",
+        "..,,ooxxXxxoo,,..",
+        "..,,oooxxxooo,,..",
+        "..,,,oooxooo,,,..",
+        " ..,,,ooooo,,,.. ",
+        " ...,,,ooo,,,... ",
+        "  ...,,,,,,,...  ",
+        "   ...,,,,,...   ",
+        "    .........    ",
+        "      .....      "
+      ],
+      "//": "Null terrain definitions to avoid error",
+      "terrain": { "x": "t_null", "o": "t_null", ",": "t_null", ".": "t_null" },
+      "furniture": { "X": "f_egg_sackws" },
+      "monsters": { "X": { "monster": "GROUP_SPIDER", "chance": 1, "density": 0.5 } },
+      "nested": {
+        "X": { "chunks": [ "spider_webs" ] },
+        "x": { "chunks": [ "spider_webs" ] },
+        "o": { "chunks": [ [ "spider_webs", 2 ], [ "spider_webs_weak", 2 ], [ "null", 1 ] ] },
+        ",": { "chunks": [ "spider_webs", "spider_webs_weak", "null" ] },
+        ".": { "chunks": [ [ "spider_webs_weak", 1 ], [ "null", 2 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "mx_spider",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "           X            ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+      "place_nested": [
+        { "chunks": [ "spider_nest" ], "x": [ 0, 6 ], "y": [ 0, 6 ] },
+        { "chunks": [ "spider_nest", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ] }
       ],
-      "terrain": { "X": "t_dirt" },
-      "furniture": { "X": "f_egg_sackws" },
-      "monsters": { "X": { "monster": "GROUP_SPIDER", "chance": 1, "density": 1 } },
-      "nested": { " ": { "chunks": [ [ "spider_webs", 10 ], [ "null", 1 ] ] } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

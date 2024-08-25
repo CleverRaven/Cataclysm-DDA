@@ -6,7 +6,7 @@
     "recurrence": [ "5 h", "120 h" ],
     "condition": {
       "and": [
-        { "compare_num": [ "moon", "==", { "const": 3 } ] },
+        { "math": [ "moon_phase() == 3" ] },
         { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
       ]
     },
@@ -15,8 +15,8 @@
       "run_eocs": {
         "id": "eoc_eggsac_mantain_or_remove_switch",
         "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" },
-        "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 10 ], [ "eggsac_remove", { "u_val": "strength" } ] ] },
-        "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 25 ], [ "eggsac_remove", { "u_val": "strength" } ] ] }
+        "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 10 ], [ "eggsac_remove", { "math": [ "u_val('strength')" ] } ] ] },
+        "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 25 ], [ "eggsac_remove", { "math": [ "u_val('strength')" ] } ] ] }
       }
     }
   },

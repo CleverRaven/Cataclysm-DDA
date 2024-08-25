@@ -237,13 +237,13 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
-        "text": "Allow exodii.",
+        "text": "Allow Exodii.",
         "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "0" ] } ] },
         "effect": { "math": [ "exodii_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
-        "text": "Disable exodii.",
+        "text": "Disable Exodii.",
         "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "1" ] } ] },
         "effect": { "math": [ "exodii_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
@@ -357,7 +357,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "<color_yellow>The Call of Cthulu</color>: (Fend off hordes of eldritch horrors.)",
+        "text": "<color_yellow>The Call of Cthulhu</color>: (Fend off hordes of eldritch horrors.)",
         "effect": [
           { "math": [ "regular_zombies_allowed", "=", "0" ] },
           { "math": [ "special_zombies_allowed", "=", "0" ] },

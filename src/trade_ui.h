@@ -12,9 +12,9 @@
 
 #include "character.h"
 #include "cursesdef.h"
+#include "input_context.h"
 #include "inventory_ui.h"
 #include "item_location.h"
-#include "memory_fast.h"
 #include "translations.h"
 #include "ui_manager.h"
 

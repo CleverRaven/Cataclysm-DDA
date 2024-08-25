@@ -32,7 +32,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "fabric_store_pallete" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "fabric_store_pallete" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }

@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "NC_ANCILLA_BARKEEP_wield",
     "subtype": "collection",
-    "items": [ { "item": "rag" } ]
+    "items": [ { "item": "sheet_cotton" } ]
   },
   {
     "type": "item_group",
@@ -76,7 +76,7 @@
     "text": [
       "Ahh but if you want suggestions and are one for craft beers, I certainly suggest having some old world brew before it all goes flat or sour.",
       "Speaking off, Cranberry here brought me a whole cask of Cabernet a few days ago.  So if red wines are your thing I can offer that by the gallon.",
-      "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  Its vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
+      "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  It's vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
       "The water I boiled from a pool by the rails, so I don't suggest you get some.",
       "And you can also try chatting with some of the other patrons if networking is your thing.",
       "Also have some old world sodas if alcohol isn't your kind of thing.",
@@ -97,9 +97,7 @@
         "Oh, what can I do for you today?"
       ],
       "no": {
-        "u_has_var": "first_meet",
-        "type": "dialogue",
-        "context": "ancilla_barkeep",
+        "u_has_var": "dialogue_ancilla_barkeep_first_meet",
         "value": "yes",
         "yes": "Feel free to lounge around, and ask if there's anything you need.",
         "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
@@ -107,8 +105,8 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" },
-        { "npc_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" }
+        { "u_add_var": "dialogue_ancilla_barkeep_first_meet", "value": "yes" },
+        { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" }
       ],
       "sentinel": "bar_meet"
     },
@@ -117,23 +115,23 @@
       { "text": "What do you have on tap?", "topic": "TALK_ANCILLA_BARKEEP_TAP" },
       {
         "text": "There should be a package for me here.",
-        "condition": { "u_compare_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "op": ">=", "value": 1 },
+        "condition": { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", ">=", "1" ] },
         "topic": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD"
       },
-      { "text": "Any good rumours?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
+      { "text": "Any good rumors?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
       { "text": "I'll be going…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_BARKEEP_INFORMATION",
-    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, im sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
+    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, I'm sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
     "responses": [ { "text": "I'll ask around, thank you.", "topic": "TALK_ANCILLA_BARKEEP" } ]
   },
   {
     "id": "TALK_ANCILLA_BARKEEP_TAP",
     "type": "talk_topic",
-    "dynamic_line": "Just the best spirits the whole of New England has to offer.  Well the best we have managed to loot so far at least.\n\n <ANCILLA_barkeep_suggestion>",
+    "dynamic_line": "Just the best spirits the whole of New England has to offer.  Well the best we've managed to loot so far at least.\n\n <ANCILLA_barkeep_suggestion>",
     "responses": [
       {
         "//": "It is FREE? well just for regulars",
@@ -171,7 +169,7 @@
     "dynamic_line": "Oh yes of course, think this should be all, well that's all there is anyhow.",
     "speaker_effect": {
       "effect": [
-        { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": -1 },
+        { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", "--" ] },
         { "u_add_faction_trust": 1 },
         { "u_spawn_item": "RobofacCoin", "count": 2 }
       ]

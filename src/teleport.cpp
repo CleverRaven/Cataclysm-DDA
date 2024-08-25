@@ -10,6 +10,7 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -71,7 +72,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         return false;
     }
     if( p && p->in_vehicle ) {
-        here.unboard_vehicle( p->pos() );
+        here.unboard_vehicle( p->pos_bub() );
     }
     map tm;
     map *dest = &here;

@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_longshoreman",
+    "class": "NC_UICA_PORT_CREW",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_LONGSHOREMAN",
+    "faction": "UICA"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_AUGUSTMOON_LONGSHOREMAN",
+    "dynamic_line": {
+      "u_has_var": "dialogue_augustmoon_longshoreman_first_meet",
+      "value": "yes",
+      "yes": [ "Please retrieve your belongings and move along.  We have a schedule to keep" ],
+      "no": "Yes yes, welcome to Port Augustmoon.  Please collect your belongings and head down the docking arm.  Port authority wont be liable for any missing items."
+    },
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "dialogue_augustmoon_longshoreman_first_meet", "value": "yes" } ],
+      "sentinel": "longshoreman_meet"
+    },
+    "responses": [
+      { "text": "Could you help me with directions?", "topic": "TALK_AUGUSTMOON_INTRO_LOCATIONS" },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_AUGUSTMOON_INTRO_LOCATIONS",
+    "dynamic_line": "The main concourse is down the docking arm.  You can't miss it.  Links up to the mess hall and the commercial wing is right beyond that.  You can arrange planetary transport with the portmaster, found where the commercial wing starts.",
+    "responses": [ { "text": "Thank you", "topic": "TALK_DONE" } ]
+  }
+]

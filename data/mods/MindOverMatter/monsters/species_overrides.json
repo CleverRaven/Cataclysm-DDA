@@ -40,6 +40,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "ROBOT_FLYING",
+    "description": "a flying robot",
+    "footsteps": "WHIRR",
+    "flags": [ "LOUDMOVES", "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "FUNGUS",
     "description": "a fungus",
     "fear_triggers": [ "HURT", "FIRE" ],

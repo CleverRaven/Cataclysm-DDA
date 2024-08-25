@@ -8,7 +8,7 @@
     "deactivate_condition": { "u_has_flag": "CHANGING" },
     "effect": [
       {
-        "weighted_list_eocs": [ [ "changing_failed", 2500 ], [ "changing_successful", { "u_val": "vitamin", "name": "mutagen" } ] ]
+        "weighted_list_eocs": [ [ "changing_failed", 2500 ], [ "changing_successful", { "math": [ "u_vitamin('mutagen')" ] } ] ]
       }
     ]
   },

@@ -8,15 +8,15 @@
 TEST_CASE( "submap_rotation", "[submap]" )
 {
     // Corners are labelled starting from the upper-left one, clockwise.
-    constexpr point corner_1{};
-    constexpr point corner_2 = point{ SEEX - 1, 0 };
-    constexpr point corner_3 = point{ SEEX - 1, SEEY - 1 };
-    constexpr point corner_4 = point{ 0, SEEY - 1 };
+    constexpr point_sm_ms corner_1{};
+    constexpr point_sm_ms corner_2 = { SEEX - 1, 0 };
+    constexpr point_sm_ms corner_3 = { SEEX - 1, SEEY - 1 };
+    constexpr point_sm_ms corner_4 = { 0, SEEY - 1 };
 
-    constexpr point center_1 = point{ SEEX / 2 - 1, SEEY / 2 - 1 };
-    constexpr point center_2 = point{ SEEX / 2, SEEY / 2 - 1 };
-    constexpr point center_3 = point{ SEEX / 2, SEEY / 2 };
-    constexpr point center_4 = point{ SEEX / 2 - 1, SEEY / 2 };
+    constexpr point_sm_ms center_1 = { SEEX / 2 - 1, SEEY / 2 - 1 };
+    constexpr point_sm_ms center_2 = { SEEX / 2, SEEY / 2 - 1 };
+    constexpr point_sm_ms center_3 = { SEEX / 2, SEEY / 2 };
+    constexpr point_sm_ms center_4 = { SEEX / 2 - 1, SEEY / 2 };
 
     GIVEN( "a submap with marks" ) {
         submap sm;
@@ -107,8 +107,8 @@ TEST_CASE( "submap_rotation2", "[submap]" )
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            point p( x, y );
-            point p_after_rotation = p.rotate( rotation_turns, {SEEX, SEEY} );
+            point_sm_ms p( x, y );
+            point_sm_ms p_after_rotation = point_sm_ms( p.raw().rotate( rotation_turns, {SEEX, SEEY} ) );
 
             CAPTURE( p, p_after_rotation );
             CHECK( sm.get_radiation( p_after_rotation ) == sm_copy.get_radiation( p ) );

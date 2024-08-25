@@ -29,7 +29,7 @@
     "description": "Internal tank for vampire blood power generator bionic.",
     "volume": "251 ml",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -72,7 +72,7 @@
     "name": { "str": "Crypt Spore Enhancement System" },
     "description": "There are fungi that grow in the corpse dirt that vampires rest in.  In unexposed humans these fungal spores can cause crippling coughing fits and even death.  But when treated with a solution made of vampire blood or harvested straight from the still-warm lungs of a previous recipient they can be migrated into a living host body where they will speed up reactions and increase strength slightly.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "stat_bonus": [ [ "STR", 1 ], [ "DEX", 1 ] ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 }, { "value": "DEXTERITY", "add": 1 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   }
 ]

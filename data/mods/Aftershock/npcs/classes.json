@@ -63,6 +63,7 @@
     "common": false,
     "traits": [
       { "trait": "hair_long", "variant": "red" },
+      { "trait": "natural_hair_color_red" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "WARM_NATURED" },
       { "trait": "INT_UP_3" },
@@ -267,11 +268,11 @@
       { "id": "bio_weight", "chance": 50 },
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_power_storage_mkII", "chance": 70 },
-      { "id": "bio_trickle", "chance": 100 },
-      { "id": "bio_trickle", "chance": 75 },
-      { "id": "bio_trickle", "chance": 50 },
-      { "id": "bio_trickle", "chance": 25 },
-      { "id": "bio_trickle", "chance": 10 },
+      { "id": "bio_microgen", "chance": 100 },
+      { "id": "bio_microgen", "chance": 75 },
+      { "id": "bio_microgen", "chance": 50 },
+      { "id": "bio_microgen", "chance": 25 },
+      { "id": "bio_microgen", "chance": 10 },
       { "id": "bio_torsionratchet", "chance": 20 }
     ]
   }

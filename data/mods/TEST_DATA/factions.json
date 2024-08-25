@@ -8,7 +8,7 @@
     "known_by_u": true,
     "size": 5,
     "power": 9001,
-    "food_supply": 1,
+    "fac_food_supply": { "calories": 1, "vitamins": {  } },
     "wealth": 0,
     "currency": "FMCNote",
     "price_rules": [
@@ -17,7 +17,7 @@
         "item": "test_nuclear_carafe",
         "markup": 2.0,
         "fixed_adj": 0.1,
-        "condition": { "npc_has_var": "thirsty", "type": "bool", "context": "allnighter", "value": "yes" }
+        "condition": { "npc_has_var": "bool_allnighter_thirsty", "value": "yes" }
       },
       { "item": "test_multitool", "premium": 25, "markup": 1.1 },
       { "item": "log", "price": 10000000 },

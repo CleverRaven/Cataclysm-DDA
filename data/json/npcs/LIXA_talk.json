@@ -1,0 +1,325 @@
+[
+  {
+    "id": "EOC_LIXA_presentation_computer",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "LIXA_presentation_computer_main" } }
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_presentation_computer_main",
+    "dynamic_line": "This computer is somehow still powered; an alarming buzz emanates from its wall plug.  The desktop is cluttered with dozens of unsorted powerpoint files.  After some investigation, you find one labeled \"LAYMAN BRIEFING\".",
+    "responses": [ { "text": "Open LAYMAN BRIEFING.", "topic": "LIXA_LAYMAN_BRIEFING" }, { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_LAYMAN_BRIEFING",
+    "dynamic_line": "The screen bears the letters LIXA in big bold font.  Underneath it, in smaller letters, are the words \"Laser Interferometer eXospatial resonance Array\".  The slides are neatly tabulated under grouped headers down the side.",
+    "responses": [
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_1",
+    "dynamic_line": "\"LIXA, or 'Liza' as we like to call her, is the forefront of exospatial research.  It has been confirmed that matter from our local n-space (the 4d coordinates in which we exist) can transit through exodimensions.  But it cannot do it safely!  To understand the behavior of exospace, we must first learn about how it works.\"",
+    "responses": [
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_2",
+    "dynamic_line": "\"LIXA is based off a proposition for a device called LIGO (Laser Interferometer Gravitational wave Observatory).  It was originally designed to confirm the existence of Gravitational Waves, a spreading distortion in spacetime caused by ultramassive events.  The design has been repurposed for the exciting field of exospatial research, where we already know we can find spatial distortions!\"",
+    "responses": [
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_3a",
+    "dynamic_line": "\"Laser interferometry is the technique LIXA uses to measure changes in local exospace.  The principle is simple!  A laser is directed down a long, vacuum-sealed chamber for an exact multiple of its wavelength.  It strikes a mirror and returns down another chamber.  If the spacetime through which the laser moved has not changed, the waveforms will be IN PHASE, and the signal will be at full amplitude!\"  Here there is a diagram of two waves, with peaks at the same places, and a third wave beneath them.",
+    "responses": [
+      { "text": "The next slide is titled \"But what if?\"", "topic": "LIXA_briefing_3b" },
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_3b",
+    "dynamic_line": "\"BUT, if the spacetime through which the laser has distorted with effects parallel to the beam, the waveforms will be OUT OF PHASE, and the signal amplitude will be lower than normal!\"  There is a diagram of two waves which do not synch up, and a third wave underneath it that is smaller than either of them.",
+    "responses": [
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_4",
+    "dynamic_line": "\"LIXA works using the principle of LOCAL EXODIMENSIONAL FLUX, the phenomenon in which ambient spacetime around exospatial breaches moves through the \"portal\".  LIXA is equipped with several LOCAL DIMENSIONAL COMPRESSORS.  These devices turn 'portals' on and off hundreds of times a second, which results in the FLUX repeatedly drawing tiny segments of our local n-space into exospace.  This creates a compression effect, 'storing' an enormous amount of 4d-space in those segments in the neighboring exospace.\"",
+    "responses": [
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_5",
+    "dynamic_line": "\"The compressed n-space 'stored' in local exospace is in segments too small for any exospace flux, but is still IN exospace.  Through repeated frequency alterations, we can 'rotate' the n-space through the infinite n-planes of exospace, and detect the way in which they shift relative to each other.  This is the first step towards countermeasures, and may one day lead to actual safe transit!!!\"",
+    "responses": [
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"LIXA funding.\"", "topic": "LIXA_briefing_6" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_briefing_6",
+    "dynamic_line": "This is a series of several slides.  All of them contain financial data so full of references to other projects and definitions that it is basically incomprehensible.  It all adds up to a very large amount of money.",
+    "responses": [
+      { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
+      { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
+      { "text": "\"LIGO and spatial compression.\"", "topic": "LIXA_briefing_2" },
+      { "text": "\"What is laser interferometry?\"", "topic": "LIXA_briefing_3a" },
+      { "text": "\"How does LIXA work?\"", "topic": "LIXA_briefing_4" },
+      { "text": "\"But what are we measuring???\"", "topic": "LIXA_briefing_5" },
+      { "text": "Close the presentation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "EOC_LIXA_personal_computer",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "LIXA_personal_computer_main" } }
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_computer_main",
+    "dynamic_line": "This is a personal computer, the frame around the screen decorated with whale stickers.  It has undergone a severe fault, and its file structure is completely scrambled.",
+    "responses": [
+      {
+        "text": "Attempt to open a file.",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "computer" },
+        "success": { "topic": "LIXA_personal_success_1" },
+        "failure": { "topic": "LIXA_personal_failure" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_success_1",
+    "dynamic_line": "<LIXA_personal_snip_1>",
+    "responses": [
+      {
+        "text": "Attempt to open a file.",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "computer" },
+        "success": { "topic": "LIXA_personal_success_2" },
+        "failure": { "topic": "LIXA_personal_failure" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_success_2",
+    "dynamic_line": "<LIXA_personal_snip_2>",
+    "responses": [
+      {
+        "text": "Attempt to open a file.",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "computer" },
+        "success": { "topic": "LIXA_personal_success_3" },
+        "failure": { "topic": "LIXA_personal_failure" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_success_3",
+    "dynamic_line": "<LIXA_personal_snip_3>",
+    "responses": [
+      {
+        "text": "Attempt to open a file.",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "computer" },
+        "success": { "topic": "LIXA_personal_success_4" },
+        "failure": { "topic": "LIXA_personal_failure" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_success_4",
+    "dynamic_line": "<LIXA_personal_snip_4>",
+    "responses": [
+      {
+        "text": "Attempt to open a file.",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "computer" },
+        "success": { "topic": "LIXA_personal_success_1" },
+        "failure": { "topic": "LIXA_personal_failure" }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_personal_failure",
+    "dynamic_line": "\"ERROR: file path corrupted.  Please contact your sysadmin.\"  The computer then freezes, and reboots.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "EOC_LIXA_experiment_computer",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_computer_main",
+    "dynamic_line": "WARNING:  multiple system faults detected!  SHUT DOWN IMMEDIATELY.",
+    "responses": [
+      { "text": "ERROR: Flux Limiters", "topic": "LIXA_experiment_flux_limiters" },
+      { "text": "ERROR: Power Draw", "topic": "LIXA_experiment_power_draw" },
+      { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data_need_id",
+        "condition": {
+          "and": [
+            { "not": { "u_has_item": "id_LIXA_najma" } },
+            { "not": { "u_has_item": "id_LIXA_jason" } },
+            { "not": { "u_has_item": "id_LIXA_kai_mei" } },
+            { "not": { "u_has_item": "id_LIXA_rich" } }
+          ]
+        }
+      },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data_no_drive",
+        "condition": {
+          "and": [
+            { "not": { "u_has_item": "usb_drive_nano" } },
+            {
+              "or": [
+                { "u_has_item": "id_LIXA_najma" },
+                { "u_has_item": "id_LIXA_jason" },
+                { "u_has_item": "id_LIXA_kai_mei" },
+                { "u_has_item": "id_LIXA_rich" }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data",
+        "condition": {
+          "and": [
+            { "u_has_item": "usb_drive_nano" },
+            {
+              "or": [
+                { "u_has_item": "id_LIXA_najma" },
+                { "u_has_item": "id_LIXA_jason" },
+                { "u_has_item": "id_LIXA_kai_mei" },
+                { "u_has_item": "id_LIXA_rich" }
+              ]
+            }
+          ]
+        }
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data_need_id",
+    "dynamic_line": "ERROR:  access denied!  Reason: insufficient clearance level.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data_no_drive",
+    "dynamic_line": "ERROR:  no external drive detected.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data",
+    "dynamic_line": "Backup complete!",
+    "responses": [
+      {
+        "text": "Leave.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "lixa_data" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_flux_limiters",
+    "dynamic_line": "Safe exodimensional flux threshold exceeded!  Current flux compression:  ERROR STACK OVERFLOW m/s",
+    "responses": [
+      { "text": "ERROR: Power Draw", "topic": "LIXA_experiment_power_draw" },
+      { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_power_draw",
+    "dynamic_line": "Power draw experiencing instability.  Current power input:  negative ERROR STACK OVERFLOW kJ/s.",
+    "responses": [
+      { "text": "ERROR: Flux Limiters", "topic": "LIXA_experiment_flux_limiters" },
+      { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_system_shutdown",
+    "dynamic_line": "Emergency shutdown halted:  ERROR unsafe power discharge, ERROR active compressors",
+    "responses": [
+      { "text": "ERROR: Flux Limiters", "topic": "LIXA_experiment_flux_limiters" },
+      { "text": "ERROR: Power Draw", "topic": "LIXA_experiment_power_draw" },
+      { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  }
+]

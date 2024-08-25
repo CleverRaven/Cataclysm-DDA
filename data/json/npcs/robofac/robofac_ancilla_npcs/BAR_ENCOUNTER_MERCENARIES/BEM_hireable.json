@@ -12,7 +12,10 @@
   {
     "id": "BEM_HIREABLE_2",
     "type": "talk_topic",
-    "dynamic_line": "The mercenary's demeanor changes completely when they realize you aren't here to waste time.  \"Alright, tell you what.  Get me twelve coins and that's giving my skills away, just anything to be done with that voice on a box.\"",
+    "dynamic_line": {
+      "gendered_line": "The mercenary's demeanor changes completely when they realize you aren't here to waste time.  \"Alright, tell you what.  Get me twelve coins and that's giving my skills away, just anything to be done with that voice on a box.\"",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "I might be back.", "topic": "TALK_DONE" },
       {

@@ -1,12 +1,11 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdlib>
-#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -14,23 +13,23 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
-#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
-#include "item.h"
-#include "item_group.h"
-#include "json.h"
+#include "input_context.h"
+#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "memory_fast.h"
+#include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -38,11 +37,11 @@
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
-#include "text_snippets.h"
 #include "string_formatter.h"
-#include "talker.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -61,7 +60,7 @@ faction_template::faction_template()
     respects_u = 0;
     trusts_u = 0;
     known_by_u = true;
-    food_supply = 0;
+    food_supply.calories = 0;
     wealth = 0;
     size = 0;
     power = 0;
@@ -85,9 +84,9 @@ void faction_template::load( const JsonObject &jsobj )
 void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
-        for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<2>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+        for( const faction_epilogue_data &epi : fac.epilogue_data ) {
+            if( !epi.epilogue.is_valid() ) {
+                debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
         }
     }
@@ -129,11 +128,13 @@ faction_template::faction_template( const JsonObject &jsobj )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
-    , food_supply( jsobj.get_int( "food_supply" ) )
+    , food_supply()
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "consumes_food", consumes_food, false );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
+    jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
         price_rules.emplace_back( currency, 1, 0 );
@@ -143,11 +144,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
-    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
+    optional( jsobj, false, "epilogues", epilogue_data );
 }
 
 std::string faction::describe() const
@@ -156,12 +153,56 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction_power_spec::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "faction", faction );
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "Must have either a power_min or a power_max" );
+    }
+}
+
+void faction_epilogue_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+    optional( jo, false, "dynamic", dynamic_conditions );
+    mandatory( jo, false, "id", epilogue );
+}
+
+
+bool faction::check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const
+{
+    if( faction_power_specs.empty() ) {
+        return true;
+    }
+    for( const faction_power_spec &spec : faction_power_specs ) {
+        if( spec.power_min.has_value() ) {
+            if( spec.faction->power < spec.power_min.value() ) {
+                return false;
+            }
+        }
+        if( spec.power_max.has_value() ) {
+            if( spec.faction->power >= spec.power_max.value() ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
-        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+    for( const faction_epilogue_data &epi : epilogue_data ) {
+        if( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() ||
+                power < epi.power_max ) ) {
+            if( check_relations( epi.dynamic_conditions ) ) {
+                ret.emplace_back( epi.epilogue->translated() );
+            }
         }
     }
     return ret;
@@ -323,7 +364,7 @@ std::string fac_wealth_text( int val, int size )
 std::string faction::food_supply_text()
 {
     //Convert to how many days you can support the population
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return pgettext( "Faction food", "Overflowing" );
     }
@@ -341,7 +382,7 @@ std::string faction::food_supply_text()
 
 nc_color faction::food_supply_color()
 {
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return c_green;
     } else if( val >= 14 ) {
@@ -353,6 +394,55 @@ nc_color faction::food_supply_color()
     } else {
         return c_red;
     }
+}
+
+std::pair<nc_color, std::string> faction::vitamin_stores( vitamin_type vit_type )
+{
+    bool is_toxin = vit_type == vitamin_type::TOXIN;
+    const double days_of_food = food_supply.kcal() / 3000.0;
+    std::map<vitamin_id, int> stored_vits = food_supply.vitamins();
+    // First, pare down our search to only the relevant type
+    for( auto it = stored_vits.cbegin(); it != stored_vits.cend(); ) {
+        if( it->first->type() != vit_type ) {
+            it = stored_vits.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    if( stored_vits.empty() ) {
+        return std::pair<nc_color, std::string>( !is_toxin ? c_red : c_green, _( "None present (NONE)" ) );
+    }
+    std::vector<std::pair<vitamin_id, double>> vitamins;
+    // Iterate the map's content into a sortable container...
+    for( auto &vit : stored_vits ) {
+        int units_per_day = vit.first.obj().units_absorption_per_day();
+        double relative_intake = static_cast<double>( vit.second ) / static_cast<double>
+                                 ( units_per_day ) / days_of_food;
+        // We use the inverse value for toxins, since they are bad.
+        if( is_toxin ) {
+            relative_intake = 1 / relative_intake;
+        }
+        vitamins.emplace_back( vit.first, relative_intake );
+    }
+    // Sort to find the worst-case scenario, lowest relative_intake is first
+    std::sort( vitamins.begin(), vitamins.end(), []( const auto & x, const auto & y ) {
+        return x.second > y.second;
+    } );
+    const double worst_intake = vitamins.at( 0 ).second;
+    std::string vit_name = vitamins.at( 0 ).first.obj().name();
+    std::string msg = is_toxin ? _( "(TRACE)" ) : _( "(PLENTY)" );
+    if( worst_intake <= 0.3 ) {
+        msg = is_toxin ? _( "(POISON)" ) : _( "(LACK)" );
+        return std::pair<nc_color, std::string>( c_red, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    if( worst_intake <= 1.0 ) {
+        msg = is_toxin ? _( "(DANGER)" ) : _( "(MEAGER)" );
+        return std::pair<nc_color, std::string>( c_yellow, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    return std::pair<nc_color, std::string>( c_green, string_format( _( "%1$s %2$s" ), vit_name,
+            msg ) );
 }
 
 faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
@@ -522,10 +612,14 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     }
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
     faction *yours = player_character.get_faction();
-    std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
-                                           yours->food_supply_text(), yours->food_supply );
+    std::string food_text = string_format( _( "Food Supply: %s %d kilocalories" ),
+                                           yours->food_supply_text(), yours->food_supply.kcal() );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
+    std::pair<nc_color, std::string> vitamins = yours->vitamin_stores( vitamin_type::VITAMIN );
+    mvwprintz( fac_w, point( width, ++y ), vitamins.first, _( "Worst vitamin:" ) + vitamins.second );
+    std::pair<nc_color, std::string> toxins = yours->vitamin_stores( vitamin_type::TOXIN );
+    mvwprintz( fac_w, point( width, ++y ), toxins.first, _( "Worst toxin:" ) + toxins.second );
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
@@ -723,14 +817,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
     const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
     const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
-    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
+    const std::pair <std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
-    mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+    mvwprintz( fac_w, point( width, ++y ), sleepiness_pair.second,
+               _( "Sleepiness: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding: " ) + weapname_simple() );
     y += lines;
@@ -999,6 +1093,10 @@ void faction_manager::display() const
                 continue;
             }
             basecamp *temp_camp = *p;
+            if( temp_camp->get_owner() != player_character.get_faction()->id ) {
+                // Don't display NPC camps as ours
+                continue;
+            }
             camps.push_back( temp_camp );
         }
         lore.clear();

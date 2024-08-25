@@ -92,9 +92,9 @@
     ]
   },
   {
-    "name": "GROUP_MANSION",
+    "name": "GROUP_MANSION_START",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_utilibot_butler", "weight": 20, "cost_multiplier": 2 } ]
+    "monsters": [ { "monster": "mon_utilibot_butler", "weight": 80 } ]
   },
   {
     "type": "monstergroup",

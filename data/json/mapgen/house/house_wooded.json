@@ -44,7 +44,6 @@
         "_": "t_concrete",
         "/": "t_screened_porch_wall",
         "=": "t_screen_door_c",
-        "#": "t_wall_wood",
         "-": "t_linoleum_white",
         "Q": "t_linoleum_white",
         "8": "t_linoleum_white",
@@ -54,7 +53,7 @@
         ")": "t_wall_glass",
         "]": "t_door_glass_c"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 1, "y": 0 } ],
       "furniture": { "!": "f_region_flower", "}": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "television", "x": 3, "y": 18 }, { "item": "stereo", "x": 5, "y": 15 } ]
     }

@@ -12,13 +12,14 @@
 
 #include "color.h"
 #include "cursesdef.h"
+#include "condition.h"
 
 class input_context;
 class scrolling_text_view;
 class ui_adaptor;
 class utf8_wrapper;
 struct point;
-
+class JsonObject;
 /**
  * Shows a window querying the user for input.
  *
@@ -292,4 +293,12 @@ class string_input_popup // NOLINT(cata-xy)
         std::vector<std::pair<std::string, translation>> custom_actions;
 };
 
+struct string_input_params {
+    str_translation_or_var title;
+    str_translation_or_var description;
+    int width = 20;
+    std::string identifier;
+    bool only_digits = false;
+    static string_input_params parse_string_input_params( const JsonObject &jo );
+};
 #endif // CATA_SRC_STRING_INPUT_POPUP_H

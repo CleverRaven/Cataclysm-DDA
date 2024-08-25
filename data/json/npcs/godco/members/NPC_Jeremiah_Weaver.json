@@ -20,9 +20,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_1",
     "dynamic_line": {
-      "u_has_var": "u_met_godco_jeremiah",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_godco_jeremiah",
       "value": "yes",
       "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
       "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
@@ -30,10 +28,10 @@
     "responses": [
       {
         "text": "I'm just a traveler, kid.  I won't be staying here for long.",
-        "effect": { "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
             { "not": { "u_has_effect": "godco_joinee" } }
           ]
         },
@@ -41,10 +39,10 @@
       },
       {
         "text": "I'm not exactly new here, kid.",
-        "effect": { "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
             { "u_has_effect": "godco_joinee" }
           ]
         },
@@ -53,7 +51,7 @@
       {
         "text": "Hey, Jerry.  What's up?",
         "topic": "TALK_GODCO_Jeremiah_2",
-        "condition": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
       },
       { "text": "Hey, kid.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -70,14 +68,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_2",
-    "dynamic_line": [
-      "I thought asking about each other's emotions went out of style after <the_cataclysm>.  Uhm, okay then.  I'm fine, I guess."
-    ],
+    "dynamic_line": "I thought asking about each other's emotions went out of style after <the_cataclysm>.  Uhm, okay then.  I'm fine, I guess.",
     "responses": [
       { "text": "I noticed you're holding a D&D handbook.  Do you play much?", "topic": "TALK_GODCO_Jeremiah_Dnd" },
       {
         "text": "I've convinced Kostas to take you on.",
-        "condition": { "u_has_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" },
+        "condition": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" },
         "topic": "TALK_GODCO_Jeremiah_Kostas_Convinced"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -125,9 +121,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Plans",
     "dynamic_line": {
-      "npc_has_var": "jeremiah_apprentice",
-      "type": "general",
-      "context": "mission",
+      "npc_has_var": "general_mission_jeremiah_apprentice",
       "value": "yes",
       "yes": "I don't know, exactly.  I think I'll stay here and do what I can for the community.",
       "no": "I'd like to study herbology with Kostas, it seems like a useful skill these days.  I do feel bad for Jane though, she's a skilled doctor and nobody here cares, they all just think any illness can be prayed away."
@@ -137,13 +131,9 @@
         "text": "When do you plan on starting that apprenticeship?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" } },
-            {
-              "not": { "u_has_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" }
-            },
-            {
-              "not": { "npc_has_var": "jeremiah_apprentice", "type": "general", "context": "mission", "value": "yes" }
-            }
+            { "not": { "u_has_var": "general_mission_convince_kostas", "value": "yes" } },
+            { "not": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" } },
+            { "not": { "npc_has_var": "general_mission_jeremiah_apprentice", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Jeremiah_Apprenticeship"
@@ -160,7 +150,7 @@
       { "text": "No thanks.  Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
       {
         "text": "I'll see what I can do for you.",
-        "effect": [ { "u_add_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" } ],
+        "effect": [ { "u_add_var": "general_mission_convince_kostas", "value": "yes" } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -174,8 +164,8 @@
         "text": "You're welcome.",
         "effect": [
           { "u_spawn_item": "icon", "count": 4 },
-          { "u_lose_var": "kostas_teach_jeremiah", "type": "general", "context": "mission" },
-          { "npc_add_var": "jeremiah_apprentice", "type": "general", "context": "mission", "value": "yes" }
+          { "u_lose_var": "general_mission_kostas_teach_jeremiah" },
+          { "npc_add_var": "general_mission_jeremiah_apprentice", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       }

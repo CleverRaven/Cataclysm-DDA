@@ -1132,7 +1132,13 @@
           { "item": "hat_chef", "prob": 70, "damage": [ 1, 4 ] },
           { "group": "shirts_unisex", "prob": 75, "damage": [ 1, 4 ] },
           { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "knife_butcher", "container-item": "sheath", "prob": 60, "damage": [ 1, 4 ] },
+          {
+            "item": "knife_huge",
+            "variant": "knife_butcher",
+            "container-item": "sheath",
+            "prob": 60,
+            "damage": [ 1, 4 ]
+          },
           { "group": "socks_unisex", "damage": [ 1, 4 ] },
           {
             "distribution": [

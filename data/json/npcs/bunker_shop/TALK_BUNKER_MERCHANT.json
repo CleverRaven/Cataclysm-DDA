@@ -16,13 +16,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_BUNKER_MERCHANT_HERE",
-    "dynamic_line": "No, no… well, maybe a little.  It was just as wrecked down here as it is up top when I found it, wasn't too hard to fix up.  You're welcome to stay in the spare room awhile, just don't hog it.  You're not the only scav out there.",
+    "dynamic_line": {
+      "gendered_line": "No, no… well, maybe a little.  It was just as wrecked down here as it is up top when I found it, wasn't too hard to fix up.  You're welcome to stay in the spare room awhile, just don't hog it.  You're not the only scav out there.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Interesting…", "topic": "TALK_BUNKER_MERCHANT" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_BUNKER_MERCHANT_WHO",
-    "dynamic_line": "Just a scav who got lucky.  Now I'm content to sit around here on my pile of treasure.  I'm more than willing to trade if you've got the cash.",
+    "dynamic_line": {
+      "gendered_line": "Just a scav who got lucky.  Now I'm content to sit around here on my pile of treasure.  I'm more than willing to trade if you've got the cash.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "I see…", "topic": "TALK_BUNKER_MERCHANT" } ]
   },
   {

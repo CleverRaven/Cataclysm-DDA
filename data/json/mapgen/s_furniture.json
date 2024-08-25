@@ -32,6 +32,7 @@
         " |...fg.ECHH<m&|S|sssss ",
         " |---------------|sssss "
       ],
+      "palettes": [ "commercial" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "s": "t_concrete",
@@ -50,7 +51,8 @@
       "furniture": {
         "#": "f_table",
         "&": "f_fridge",
-        "é": "f_freezer",
+        "(": { "param": "coolers_to_sell", "fallback": "f_fridge" },
+        "é": { "param": "freezer_to_sell", "fallback": "f_freezer" },
         "B": "f_rack",
         "C": "f_cupboard",
         "E": "f_bookcase",

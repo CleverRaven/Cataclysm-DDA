@@ -7,6 +7,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
   },
   {
@@ -20,21 +21,24 @@
     "coverage": 100,
     "looks_like": "t_concrete_wall",
     "roof": "t_nm_floor_bone",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
     "type": "terrain",
     "id": "t_nm_wall_teeth",
     "name": "monster teeth",
-    "//": "TODO: use construction menu to extract extremely sharp tooth for use in crafting later",
-    "//2": "TODO2: perhaps make player unable to bash these",
-    "description": "A fractal array of uncountable, bristling teeth that seem impossibly sharp, even at a conceptual level.  An iridescent haze surrounds it, as if light itself cannot help but be separated in their presence.  With proper protective equipment, you surmise you could extract some for your own use.",
+    "//": "TODO: perhaps make player unable to bash these",
+    "description": "A fractal array of uncountable, bristling teeth that seem impossibly sharp, even at a conceptual level.  An iridescent haze surrounds it, as if light itself cannot help but be separated in their presence.  You surmise you could extract some for your own use, if you had an appropriate tool to remove them from the wall they're imbedded in.",
     "symbol": "^",
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_concrete_wall",
     "roof": "t_nm_floor_bone",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -45,6 +49,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "looks_like": "t_thconc_floor_flesh"
   },
@@ -58,6 +63,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -79,6 +86,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_nm_wall_flesh",
     "bash": { "str_min": 15, "str_max": 25, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_nm_floor_flesh" }
@@ -94,6 +103,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -126,6 +137,7 @@
     "color": "white",
     "move_cost": 0,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "BLOCK_WIND", "NOITEM" ],
     "looks_like": "fd_web",
     "bash": { "sound": "Riiiiip!", "ter_set": "t_nm_floor_flesh", "str_min": 5, "str_max": 10 }
@@ -140,6 +152,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {

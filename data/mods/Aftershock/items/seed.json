@@ -46,7 +46,7 @@
     "id": "seed_coconut",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": { "str": "subterraenean coconut" },
+    "name": { "str": "subterranean coconut" },
     "description": "Proof that man went too far before the Cataclysm.",
     "seed_data": { "plant_name": "coconut", "fruit": "coconut", "byproducts": [ "withered" ], "grow": "120 days" }
   }

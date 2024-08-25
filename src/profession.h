@@ -176,7 +176,7 @@ struct profession_blacklist {
     static void load_profession_blacklist( const JsonObject &jo, std::string_view src );
     static void reset();
     void load( const JsonObject &jo, std::string_view );
-    void finalize();
+    void check_consistency() const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

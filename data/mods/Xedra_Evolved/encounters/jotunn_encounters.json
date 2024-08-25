@@ -9,17 +9,15 @@
         { "u_near_om_location": "s_gas_rural", "range": 30 },
         "is_day",
         { "one_in_chance": 10 },
-        { "days_since_cataclysm": 7 },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "jotunn", "op": "<", "time": "1 d" }
-        },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
+        { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">=", "time('1 d')" ] },
         { "not": { "u_near_om_location": "s_gas_rural", "range": 2 } },
         { "not": { "is_season": "winter" } }
       ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_ruralgas_jotunn", "om_terrain": "s_gas_rural" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "jotunn", "time": true },
+      { "math": [ "u_timer_jotunn_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_jotunn_loc" },
         "target_params": { "om_terrain": "roadstop_a" }
@@ -34,7 +32,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "jotunn", "op": ">", "time": "3 h" },
+        { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">", "time('3 h')" ] },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
         { "math": [ "RandEnc_Jotunn", "==", "1" ] }
       ]

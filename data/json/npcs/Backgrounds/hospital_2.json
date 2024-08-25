@@ -7,8 +7,14 @@
       "yes": "I just can't talk about that right now.  I can't.",
       "no": {
         "npc_has_effect": "player_BGSS_SAIDYES",
-        "yes": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.",
-        "no": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.  I'd seen such horrible injuries, and then I… <swear!>, I can't even talk about it."
+        "yes": {
+          "gendered_line": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.",
+          "relevant_genders": [ "npc" ]
+        },
+        "no": {
+          "gendered_line": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.  I'd seen such horrible injuries, and then I… <swear!>, I can't even talk about it.",
+          "relevant_genders": [ "npc" ]
+        }
       }
     },
     "responses": [
@@ -35,7 +41,7 @@
         "condition": { "npc_has_effect": "player_BGSS_SAIDYES" },
         "topic": "BGSS_HOSPITAL_2_STORY2"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -54,7 +60,10 @@
   {
     "id": "BGSS_HOSPITAL_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "A young mother.  I know she was a mother, because I delivered her baby.  Sweet girl, she… she had a good sense of humor.  She came in, spitting that black goo, fighting the orderlies, dead from a bullet wound through the chest.  That's when I… I don't know if I woke up, finally, or if I finally went crazy.  Either way, I broke.  I broke a lot earlier than my colleagues, and that's the only reason I lived.  I skipped out, went to a dead corner of the hospital I used to hide in when I was a resident.  An old stairwell leading to a closed-off unit the maintenance staff were using to store old equipment.  I hid there for hours, while I listened to the world crumbling outside and inside.",
+    "dynamic_line": {
+      "gendered_line": "A young mother.  I know she was a mother, because I delivered her baby.  Sweet girl, she… she had a good sense of humor.  She came in, spitting that black goo, fighting the orderlies, dead from a bullet wound through the chest.  That's when I… I don't know if I woke up, finally, or if I finally went crazy.  Either way, I broke.  I broke a lot earlier than my colleagues, and that's the only reason I lived.  I skipped out, went to a dead corner of the hospital I used to hide in when I was a resident.  An old stairwell leading to a closed-off unit the maintenance staff were using to store old equipment.  I hid there for hours, while I listened to the world crumbling outside and inside.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "How did you get out of there?",
@@ -64,7 +73,7 @@
       {
         "text": "<done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "<end_talking>",
@@ -76,10 +85,13 @@
   {
     "id": "BGSS_HOSPITAL_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there.  I think it might have started with me hyperventilating and passing out.  When I woke up it was night, I was starving and parched, and… and the screaming had died down.  At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up.  Her name was Becky.  She wasn't Becky anymore.  So, I went back up and somehow made it into the storage area.  From there, the roof.  I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn.",
+    "dynamic_line": {
+      "gendered_line": "Somehow, I don't know how, I managed to fall asleep in there.  I think it might have started with me hyperventilating and passing out.  When I woke up it was night, I was starving and parched, and… and the screaming had died down.  At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up.  Her name was Becky.  She wasn't Becky anymore.  So, I went back up and somehow made it into the storage area.  From there, the roof.  I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What finally brought you down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -87,12 +99,16 @@
     "id": "BGSS_HOSPITAL_2_STORY4",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "hospital_2_started_quest",
-      "type": "mission",
-      "context": "BGSS",
+      "u_has_var": "mission_BGSS_hospital_2_started_quest",
       "value": "yes",
-      "no": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
-      "yes": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle."
+      "no": {
+        "gendered_line": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
+        "relevant_genders": [ "npc" ]
+      },
+      "yes": {
+        "gendered_line": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.",
+        "relevant_genders": [ "npc" ]
+      }
     },
     "responses": [
       { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF" },
@@ -100,18 +116,12 @@
         "text": "Any chance you could point the way to that cabin for me?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            { "not": { "u_has_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "hospital_2_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "u_has_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" },
+                  { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }
@@ -129,22 +139,25 @@
           "topic": "BGSS_HOSPITAL_2_CABINFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
-            { "u_add_var": "hospital_2_asked_about_quest", "type": "timer", "context": "timers", "time": true },
-            { "u_add_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+            { "math": [ "u_timer_timers_hospital_2_asked_about_quest", "=", "time('now')" ] },
+            { "u_add_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" }
           ]
         }
       },
-      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_HOSPITAL_2_ROOF",
     "type": "talk_topic",
-    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, traveling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
+    "dynamic_line": {
+      "gendered_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, traveling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "How did you get down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -176,7 +189,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

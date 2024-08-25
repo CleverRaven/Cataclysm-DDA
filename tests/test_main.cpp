@@ -64,6 +64,7 @@ static std::string error_fmt = "human-readable";
 static std::chrono::system_clock::time_point start;
 static std::chrono::system_clock::time_point end;
 static bool error_during_initialization{ false };
+static bool fail_to_init_game_state{ false };
 
 static bool needs_game{ false };
 
@@ -203,7 +204,14 @@ struct CataListener : Catch::TestEventListenerBase {
 
     void testRunStarting( Catch::TestRunInfo const & ) override {
         if( needs_game ) {
-            init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+            try {
+                init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+            } catch( ... ) {
+                DebugLog( D_INFO, DC_ALL ) << "Fail to initialize global game state" << std::endl;
+                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                fail_to_init_game_state = true;
+                throw;
+            }
             // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
             error_during_initialization = debug_has_error_been_observed();
 
@@ -419,7 +427,7 @@ int main( int argc, const char *argv[] )
 
     if( world_generator ) {
         std::string world_name = world_generator->active_world->world_name;
-        if( result == 0 || dont_save ) {
+        if( result == 0 || dont_save || fail_to_init_game_state ) {
             world_generator->delete_world( world_name, true );
         } else {
             if( g->save() ) {

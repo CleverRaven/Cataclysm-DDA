@@ -22,8 +22,6 @@
       { "item": "katana_fake", "prob": 1 },
       { "item": "longsword_fake", "prob": 1 },
       { "item": "clownshoes", "prob": 15 },
-      { "item": "santa_boots", "prob": 10 },
-      { "item": "santa_shoes", "prob": 10 },
       { "group": "costume_weapons", "prob": 5 }
     ]
   },
@@ -56,10 +54,6 @@
     "entries": [
       { "item": "vampire_fangs", "prob": 40 },
       { "item": "santa_belt", "prob": 30 },
-      { "item": "santa_wristwatch", "prob": 20 },
-      { "item": "santa_ear", "prob": 15 },
-      { "item": "santa_necklace", "prob": 15 },
-      { "item": "stockings", "variant": "santa_stockings", "prob": 15 },
       { "item": "apron_leather", "prob": 25 },
       { "item": "apron_cotton", "prob": 5 },
       { "item": "waist_apron_long", "prob": 5 },
@@ -76,7 +70,7 @@
       { "item": "clown_nose", "prob": 20 },
       { "item": "plastic_mandible_guard", "prob": 5 },
       { "item": "leg_sheath6", "prob": 20 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
@@ -212,26 +206,6 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "ushanka", "prob": 8 },
-      { "item": "fushanka", "prob": 8 },
-      { "item": "deerstalker", "prob": 10 },
-      { "item": "fascinator", "prob": 10 },
-      { "item": "trilby_hat", "prob": 10 },
-      { "item": "hat_cloche", "prob": 5 },
-      { "item": "hat_floppy", "prob": 10 },
-      { "item": "coonskin", "prob": 5 },
-      { "item": "fcoonskin", "prob": 5 },
-      { "item": "conical_hat", "prob": 10 },
-      { "item": "homburg_hat", "prob": 10 },
-      { "item": "fez", "prob": 5 },
-      { "item": "hat_cart", "prob": 10 },
-      { "item": "tyrolean_hat", "prob": 5 },
-      { "item": "astrakhan", "prob": 5 },
-      { "item": "fastrakhan", "prob": 5 },
-      { "item": "propeller_hat", "prob": 10 },
-      { "item": "plumber_cap", "prob": 15 },
-      { "item": "panama_hat", "prob": 8 },
-      { "item": "boater_hat", "prob": 8 },
       { "item": "nun_wimple", "prob": 12 }
     ]
   },
@@ -248,9 +222,6 @@
     "//": "jewelry for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "santa_ear", "prob": 3 },
-      { "item": "santa_necklace", "prob": 3 },
-      { "item": "santa_wristwatch", "prob": 1 },
       { "item": "onyx_silver_cufflinks", "variant": "dark_cufflinks", "prob": 10 },
       { "item": "onyx_silver_earring", "variant": "dark_earring", "prob": 25 },
       { "item": "onyx_silver_ring", "variant": "dark_ring", "prob": 25 },
@@ -293,7 +264,6 @@
       { "item": "face_veil", "prob": 10 },
       { "item": "mask_plague", "prob": 15 },
       { "item": "pumpkin_mask", "prob": 10 },
-      { "item": "neckwarmer", "prob": 5 },
       { "item": "zombie_mask", "prob": 10 }
     ]
   },
@@ -346,7 +316,7 @@
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "gothic_rashguard_shirt", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
-      { "item": "flag_shirt", "prob": 15 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
       { "item": "longshirt", "prob": 10 },
       { "item": "striped_shirt", "prob": 15 }
@@ -381,10 +351,6 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "bikini_top", "prob": 20 },
-      { "item": "bikini_bottom", "prob": 20 },
-      { "item": "bikini_top_short", "prob": 10 },
-      { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 15 },
       { "item": "wetsuit_spring", "prob": 5 },
       { "item": "wetsuit_spring_sleeveless", "prob": 5 },
@@ -395,12 +361,18 @@
       { "item": "tights", "prob": 25 },
       { "item": "stockings", "prob": 25 },
       { "item": "garter_belt", "prob": 25 },
-      { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "bikini_top_leather", "prob": 10 },
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
-      { "item": "bikini_top", "variant": "skull_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "skull_bikini_bottom", "prob": 5 },
+      { "group": "bikini", "prob": 35 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "skull_bikini_top" },
+          { "item": "bikini_bottom", "variant": "skull_bikini_bottom" }
+        ],
+        "prob": 5
+      },
       { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit", "prob": 10 }
     ]
   },
@@ -411,11 +383,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
-      { "item": "flag_shirt", "prob": 25 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "pants", "variant": "pants_flag", "prob": 25 },
-      { "item": "hat_ball", "variant": "america_hatball", "prob": 25 },
-      { "item": "trucker_hat", "variant": "american_truckball", "prob": 25 },
-      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 15 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },
@@ -423,6 +392,121 @@
       { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 10 },
       { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ],
+        "prob": 30,
+        "event": "independence_day"
+      },
+      { "group": "bikini_matching", "prob": 10 },
+      { "group": "bikini_unmatching", "prob": 1 },
+      { "group": "bikini_fur", "prob": 1 },
+      { "group": "bikini_leather", "prob": 1 },
+      { "group": "bikini_short", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_matching",
+    "//": "Uses same weights as the variant weights",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "generic_bikini_top" },
+          { "item": "bikini_bottom", "variant": "generic_bikini_bottom" }
+        ],
+        "prob": 30
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "black_bikini_top" },
+          { "item": "bikini_bottom", "variant": "black_bikini_bottom" }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "white_bikini_top" },
+          { "item": "bikini_bottom", "variant": "white_bikini_bottom" }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "red_bikini_top" }, { "item": "bikini_bottom", "variant": "red_bikini_bottom" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "blue_bikini_top" }, { "item": "bikini_bottom", "variant": "blue_bikini_bottom" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ],
+        "prob": 7
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "pink_bikini_top" }, { "item": "bikini_bottom", "variant": "pink_bikini_bottom" } ],
+        "prob": 6
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "floral_bikini_top" },
+          { "item": "bikini_bottom", "variant": "floral_bikini_bottom" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "camo_bikini_top" }, { "item": "bikini_bottom", "variant": "camo_bikini_bottom" } ],
+        "prob": 4
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "skull_bikini_top" },
+          { "item": "bikini_bottom", "variant": "skull_bikini_bottom" }
+        ],
+        "prob": 2
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_unmatching",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_fur",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_fur" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_leather",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_leather" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_short",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_short" }, { "item": "bikini_bottom_short" } ]
   },
   {
     "type": "item_group",
@@ -465,7 +549,6 @@
     "id": "costume_weapons",
     "type": "item_group",
     "items": [
-      [ "santa_staff", 1 ],
       [ "cutlass_inferior", 1 ],
       [ "broadsword_inferior", 1 ],
       [ "nodachi_inferior", 1 ],

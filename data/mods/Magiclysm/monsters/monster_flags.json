@@ -1,0 +1,22 @@
+[
+  {
+    "id": "POISONPROOF",
+    "type": "monster_flag",
+    "//": "poison immunity"
+  },
+  {
+    "id": "TIMELESS",
+    "type": "monster_flag",
+    "//": "necrotic immunity"
+  },
+  {
+    "id": "PSIONICPROOF",
+    "type": "monster_flag",
+    "//": "psionic immunity"
+  },
+  {
+    "id": "NETHERPROOF",
+    "type": "monster_flag",
+    "//": "nether immunity"
+  }
+]

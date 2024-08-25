@@ -119,9 +119,6 @@ std::string vehicle_part::name( bool with_prefix ) const
             res += " "; // aligns names when printing degrading and non-degrading parts with prefixes
         }
     }
-    if( base.engine_displacement() ) {
-        res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
-    }
     if( base.is_wheel() ) {
         res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
@@ -278,6 +275,26 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
     return 0;
 }
 
+int vehicle_part::item_capacity( const itype_id &stuffing_id ) const
+{
+    const itype *stuffing = item::find_type( stuffing_id );
+    if( stuffing->ammo ) {
+        return ammo_capacity( stuffing->ammo->type );
+    }
+
+    int max_amount_volume = 0;
+    int max_amount_weight = stuffing->weight == 0_gram ? INT_MAX :
+                            static_cast<int>( base.get_total_weight_capacity() / stuffing->weight );
+
+    if( stuffing->count_by_charges() ) {
+        max_amount_volume = stuffing->charges_per_volume( base.get_total_capacity() );
+    } else {
+        max_amount_volume = base.get_total_capacity() / stuffing->volume;
+    }
+
+    return std::min( max_amount_volume, max_amount_weight );
+}
+
 int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
@@ -300,9 +317,9 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && qty != 0 ) {
         const itype *ammo_itype = item::find_type( ammo );
-        if( ammo_itype && ammo_itype->ammo && ammo_itype->phase >= phase_id::LIQUID ) {
+        if( ammo_itype && ammo_itype->phase >= phase_id::LIQUID ) {
             base.clear_items();
-            const int limit = ammo_capacity( ammo_itype->ammo->type );
+            const int limit = item_capacity( ammo );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
             const int amount = qty > 0 ? std::min( qty, limit ) : limit;
             base.put_in( item( ammo, calendar::turn, amount ), pocket_type::CONTAINER );

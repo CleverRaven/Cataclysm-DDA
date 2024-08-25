@@ -173,12 +173,13 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "STUMBLES",
       "NO_BREED",
       "CANPLAY",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ],
     "harvest": "bird_tiny"
   },
@@ -197,12 +198,13 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {
@@ -232,13 +234,21 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
+  },
+  {
+    "id": "mon_falcarius_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 35, "into": "mon_falcarius_juvenile" }
   },
   {
     "id": "mon_therizinosaurus_hatchling",
@@ -525,6 +535,13 @@
     "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" }
   },
   {
+    "id": "mon_iguanodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_camptosaurus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_iguanodon_juvenile" }
+  },
+  {
     "id": "mon_hadrosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_camptosaurus_hatchling",
@@ -713,12 +730,13 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {

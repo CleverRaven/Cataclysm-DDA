@@ -1,5 +1,61 @@
 [
   {
+    "type": "body_part",
+    "id": "mouth",
+    "copy-from": "mouth",
+    "name": "mouth",
+    "similar_bodyparts": [ "test_corvid_beak" ],
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 1.0 ] ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "mouth_lips",
+    "copy-from": "mouth_lips",
+    "similar_bodyparts": [ "sub_limb_test_corvid_beak" ],
+    "opposite": "mouth_lips",
+    "side": 0,
+    "name": "lips",
+    "name_multiple": "lips"
+  },
+  {
+    "type": "body_part",
+    "id": "test_arm_l",
+    "name": "left arm",
+    "copy-from": "arm_l",
+    "similar_bodyparts": [ "test_bird_wing_l" ],
+    "opposite_part": "test_arm_r"
+  },
+  {
+    "type": "body_part",
+    "id": "test_arm_r",
+    "name": "right arm",
+    "copy-from": "arm_r",
+    "similar_bodyparts": [ "test_bird_wing_r" ],
+    "opposite_part": "test_arm_l"
+  },
+  {
+    "id": "test_foot_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "foot_l",
+    "side": 0,
+    "opposite": "test_foot_r",
+    "name_multiple": "feet",
+    "name": "left foot"
+  },
+  {
+    "id": "test_foot_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "foot_r",
+    "side": 0,
+    "opposite": "test_foot_l",
+    "name_multiple": "feet",
+    "similar_bodyparts": [ "sub_limb_test_bird_foot_r", "sub_limb_test_bird_foot_l" ],
+    "name": "right foot"
+  },
+  {
     "type": "limb_score",
     "id": "test",
     "name": "Testing",
@@ -65,7 +121,7 @@
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
     "limb_types": [ [ "mouth", 1.0 ], [ "hand", 0.1 ] ],
-    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ] ],
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 0.5 ], [ "consume_solid", 2.0 ] ],
     "side": "both",
     "stylish_bonus": 2,
     "hot_morale_mod": 2,
@@ -111,11 +167,12 @@
     "side": "left",
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
+    "drying_rate": 2,
     "fire_warmth_bonus": 600,
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
     "ugliness": 30,
@@ -123,7 +180,27 @@
     "health_limit": 50,
     "encumbrance_limit": 99,
     "conditional_flags": [ "WALL_CLING" ],
-    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+    "sub_parts": [ "sub_test_wing_l" ]
+  },
+  {
+    "id": "sub_test_wing_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_wing_l",
+    "side": 1,
+    "opposite": "sub_test_wing_r",
+    "name_multiple": "wings",
+    "name": "left bird wing"
+  },
+  {
+    "id": "sub_test_wing_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_wing_r",
+    "side": 1,
+    "opposite": "sub_test_wing_l",
+    "name_multiple": "wings",
+    "name": "right bird wing"
   },
   {
     "id": "test_bird_wing_r",
@@ -151,7 +228,8 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
+    "drying_rate": 0.5,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
     "ugliness": 30,
@@ -159,7 +237,7 @@
     "health_limit": 50,
     "encumbrance_limit": 99,
     "conditional_flags": [ "WALL_CLING" ],
-    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
+    "sub_parts": [ "sub_test_wing_r" ]
   },
   {
     "id": "test_bird_foot_l",

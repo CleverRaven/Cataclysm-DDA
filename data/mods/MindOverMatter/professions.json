@@ -82,7 +82,7 @@
       { "id": "clair_night_vision", "level": 4 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 9 },
-      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_spot_weakness", "level": 5 },
       { "id": "clair_voyance", "level": 6 }
     ],
@@ -169,19 +169,23 @@
     "id": "psi_photokinetic_magician",
     "name": "Magician",
     "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
-    "points": 4,
+    "points": 8,
     "skills": [
       { "level": 2, "name": "cooking" },
       { "level": 1, "name": "driving" },
-      { "level": 2, "name": "metaphysics" },
-      { "level": 4, "name": "speech" }
+      { "level": 3, "name": "swimming" },
+      { "level": 3, "name": "metaphysics" },
+      { "level": 5, "name": "speech" }
     ],
     "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],
     "spells": [
-      { "id": "photokinetic_snuff_light", "level": 4 },
-      { "id": "photokinetic_light_dodge", "level": 3 },
-      { "id": "photokinetic_light_beam", "level": 4 },
-      { "id": "photokinetic_light_arms", "level": 2 }
+      { "id": "photokinetic_light_local", "level": 6 },
+      { "id": "photokinetic_create_light", "level": 9 },
+      { "id": "photokinetic_snuff_light", "level": 9 },
+      { "id": "photokinetic_camouflage", "level": 6 },
+      { "id": "photokinetic_light_dodge", "level": 8 },
+      { "id": "photokinetic_light_beam", "level": 6 },
+      { "id": "photokinetic_light_arms", "level": 7 }
     ],
     "items": {
       "both": {
@@ -189,8 +193,9 @@
           { "item": "socks" },
           { "item": "jeans" },
           { "item": "sneakers" },
+          { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "deck_of_cards" },
+          { "item": "deck_of_cards", "variant": "generic_deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
@@ -244,7 +249,7 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
     "spells": [
       { "id": "telekinetic_push", "level": 5 },
       { "id": "telekinetic_pull", "level": 6 },
@@ -265,7 +270,7 @@
         "entries": [
           { "item": "pants_army" },
           { "item": "gloves_tactical" },
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -280,18 +285,28 @@
   {
     "type": "profession",
     "id": "psi_telepath_interrogater",
-    "name": "Government Interrogater (DECEASED)",
+    "name": "Government Interrogator (DECEASED)",
     "description": "You did not die in the Cataclysm because on paper, you are already dead.  You assumed a new identity as part of an experimental program designed to produce psychic interrogators.  They told you that you were serving your country, that your gifts would be the key to winning the new Cold War that was surely developing, but they didn't consider the ramifications of having a telepath on the base.  You knew right away that things were much worse than the brass was telling you, and your gifts let you \"persuade\" the guards to let you out even in the face of the lockdown.  You had thought to go somewhere else, to get away from New England, but the end came much faster than even you thought it would.",
     "points": 3,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
     "spells": [
-      { "id": "telepathic_concentration", "level": 4 },
-      { "id": "telepathic_shield", "level": 2 },
-      { "id": "telepathic_morale", "level": 4 },
-      { "id": "telepathic_confusion", "level": 2 }
+      { "id": "telepathic_concentration", "level": 6 },
+      { "id": "telepathic_mind_sense", "level": 11 },
+      { "id": "telepathic_shield", "level": 8 },
+      { "id": "telepathic_morale", "level": 7 },
+      { "id": "telepathic_confusion", "level": 8 },
+      { "id": "telepathic_invisibility", "level": 6 }
     ],
     "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_telepathic_concentration",
+      "practice_telepathic_shield",
+      "practice_telepathic_mind_sense",
+      "practice_telepathic_morale",
+      "practice_telepathic_confusion",
+      "practice_telepathic_invisibility"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -299,6 +314,7 @@
           { "item": "dress_shirt" },
           { "item": "socks" },
           { "item": "dress_shoes" },
+          { "item": "matrix_crystal_drained" },
           { "item": "water_clean", "container-item": "canteen" },
           { "group": "charged_smart_phone" },
           { "item": "lighter", "charges": 100 }
@@ -312,7 +328,7 @@
     "type": "profession",
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
-    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
+    "description": "The last thing you remember was inputting the jump coordinates into the tliltilhuicaātl drive and reaching out to initiate the transfer when there was a power surge and it felt like the entire ship was turning inside out.  Now, you have no idea where you are.",
     "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
@@ -352,32 +368,31 @@
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
           { "item": "matrix_crystal_teleportation" },
-          {
-            "item": "mom_fusion_pistol",
-            "ammo-item": "mom_fusion_ammo",
-            "charges": 40,
-            "contents-item": [ "mom_fusion_mag" ]
-          },
+          { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
     "id": "psi_vitakinetic_healer",
     "name": "Faith Healer",
     "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
-    "points": 4,
+    "points": 8,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
-      { "id": "vita_stop_bleeding", "level": 2 },
-      { "id": "vita_health_power", "level": 5 },
-      { "id": "vita_hurt_touch", "level": 2 },
-      { "id": "vita_sleeping_trance", "level": 1 }
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_slow_bleeding", "level": 6 },
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_cure_disease", "level": 4 },
+      { "id": "vita_sleeping_trance", "level": 4 }
     ],
     "items": {
       "both": {
@@ -391,6 +406,7 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "holy_symbol" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -410,7 +426,7 @@
     "id": "guru",
     "copy-from": "guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
+    "extend": { "skills": [ { "level": 5, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",

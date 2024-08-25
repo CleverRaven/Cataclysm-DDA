@@ -22,12 +22,10 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } }
           ]
         },
-        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_BARKEEP_JOB" },
       { "text": "I'm looking for information.", "topic": "TALK_RANCH_BARKEEP_INFORMATION" },
@@ -219,7 +217,10 @@
     "id": "RANCH_BARTENDER_ASK_TOKEN",
     "dynamic_line": [
       "Bring the token back with your glass and I'll exchange it for a merch.",
-      "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+      {
+        "gendered_line": "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+        "relevant_genders": [ "npc" ]
+      },
       "Some people like to hang on to them thinking they'll have value someday, but I'd prefer it if you brought it back with your glass and I'll give you a merch back from your purchase."
     ],
     "responses": [ { "text": "I see.", "topic": "TALK_RANCH_BARKEEP" } ]

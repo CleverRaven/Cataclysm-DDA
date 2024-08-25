@@ -128,7 +128,8 @@
           { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
           { "item": "games", "chance": 20, "repeat": [ 1, 2 ] }
         ]
-      }
+      },
+      "place_monster": [ { "group": "GROUP_FERAL_WIZARDS", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 33, "repeat": [ 1, 2 ] } ]
     }
   },
   {

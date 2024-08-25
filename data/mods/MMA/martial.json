@@ -107,7 +107,7 @@
     "type": "TOOL",
     "name": { "str": "dragon hand scroll" },
     "description": "Focus your ki into magical attacks.",
-    "price_postapoc": 12000,
+    "price_postapoc": "120 USD",
     "use_action": {
       "target": "ki_strike_scroll",
       "msg": "You unroll the dragon scroll…",

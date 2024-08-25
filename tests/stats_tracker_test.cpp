@@ -135,23 +135,22 @@ TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
     b.subscribe( &s );
 
     const mtype_id no_monster;
-    const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
 
     CHECK( s.get_events( am ).minimum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 0 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 0 );
     CHECK( s.get_events( am ).minimum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, -1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, -1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, -3 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, -3 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, -1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, -1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, -5 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, -5 );
     CHECK( s.get_events( am ).minimum( "z" ) == -5 );
 }
 
@@ -162,23 +161,22 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     b.subscribe( &s );
 
     const mtype_id no_monster;
-    const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
 
     CHECK( s.get_events( am ).maximum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 0 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 0 );
     CHECK( s.get_events( am ).maximum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 3 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 3 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 5 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 5 );
     CHECK( s.get_events( am ).maximum( "z" ) == 5 );
 }
 
@@ -219,17 +217,20 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
 
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,  false, 0 );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse, t_null,
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,
                                  false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
-        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster,
+                                   ter_str_id::NULL_ID(),
                                    move_mode_crouch, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
                                  move_mode_walk, false, 0 );
@@ -419,17 +420,20 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
 
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk, false, 0 );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse, t_null,
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,
                                  false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
-        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster,
+                                   ter_str_id::NULL_ID(),
                                    move_mode_crouch, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
                                  move_mode_walk, false, 0 );
@@ -790,12 +794,13 @@ TEST_CASE( "achievements_tracker", "[stats]" )
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
         const ter_id t_shrub_raspberry( "t_shrub_raspberry" );
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk, false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
         const cata::event sharp_move = cata::event::make<event_type::avatar_moves>( no_monster,
                                        t_shrub_raspberry, move_mode_walk, false, 0 );
@@ -805,9 +810,11 @@ TEST_CASE( "achievements_tracker", "[stats]" )
                                             t_water_dp, move_mode_walk, true, 0 );
         const cata::event swim_underwater_deep = cata::event::make<event_type::avatar_moves>( no_monster,
                 t_water_dp, move_mode_walk, true, -5 );
-        const cata::event walk_max_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk_max_z = cata::event::make<event_type::avatar_moves>( no_monster,
+                                       ter_str_id::NULL_ID(),
                                        move_mode_walk, false, OVERMAP_HEIGHT );
-        const cata::event walk_min_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk_min_z = cata::event::make<event_type::avatar_moves>( no_monster,
+                                       ter_str_id::NULL_ID(),
                                        move_mode_walk, false, -OVERMAP_DEPTH );
 
         SECTION( "achievement_marathon" ) {
@@ -932,8 +939,15 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     const character_id u_id = get_player_character().getID();
     send_game_start( get_event_bus(), u_id );
 
+    std::vector<std::string> args{ std::to_string( u_id.get_value() ), mon_zombie.c_str(), "0" };
+
+    bool dynamic_event = GENERATE( false, true );
+    CAPTURE( dynamic_event );
+
     const cata::event avatar_zombie_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
+        dynamic_event
+        ? cata::event::make_dyn( event_type::character_kills_monster, args )
+        : cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );

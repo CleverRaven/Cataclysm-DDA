@@ -75,9 +75,7 @@
     "id": "BGSS_HOSPITAL_2_STORY4",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "hospital_2_started_quest",
-      "type": "mission",
-      "context": "BGSS",
+      "u_has_var": "mission_BGSS_hospital_2_started_quest",
       "value": "yes",
       "no": "Well, I still didn't have any food.  Eventually I had to climb down… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the giant bugs don't, because I was able to slip right past them and get away.  I'd kind of scouted out my route from above…  I avoided the major spiked blockades, and headed out towards a friend's place.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the where I was going, but that's not important now.",
       "yes": "Well, I still didn't have any food.  Eventually I had to climb down… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the giant bugs don't, because I was able to slip right past them and get away.  I'd kind of scouted out my route from above…  I avoided the major spiked blockades, and headed out towards a friend's place.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle."

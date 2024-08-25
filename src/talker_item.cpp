@@ -10,6 +10,10 @@
 #include "talker_item.h"
 #include "vehicle.h"
 
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_battery( "battery" );
+
 talker_item::talker_item( item_location *new_me )
 {
     me_it = new_me;
@@ -56,9 +60,9 @@ tripoint_abs_omt talker_item_const::global_omt_location() const
     return get_player_character().global_omt_location();
 }
 
-std::string talker_item_const::get_value( const std::string &var_name ) const
+std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
 {
-    return me_it_const->get_item()->get_var( var_name );
+    return me_it_const->get_item()->maybe_get_var( var_name );
 }
 
 bool talker_item_const::has_flag( const flag_id &f ) const
@@ -87,6 +91,21 @@ int talker_item_const::get_cur_hp( const bodypart_id & ) const
 int talker_item_const::get_hp_max( const bodypart_id & ) const
 {
     return me_it_const->get_item()->max_damage();
+}
+
+units::energy talker_item_const::power_cur() const
+{
+    return 1_mJ * me_it_const->get_item()->ammo_remaining();
+}
+
+units::energy talker_item_const::power_max() const
+{
+    return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
+}
+
+int talker_item_const::get_count() const
+{
+    return me_it_const->get_item()->count();
 }
 
 int talker_item_const::coverage_at( bodypart_id &id ) const
@@ -119,6 +138,12 @@ void talker_item::set_value( const std::string &var_name, const std::string &val
 void talker_item::remove_value( const std::string &var_name )
 {
     me_it->get_item()->erase_var( var_name );
+}
+
+void talker_item::set_power_cur( units::energy value )
+{
+    me_it->get_item()->ammo_set( itype_battery, clamp( static_cast<int>( value.value() ), 0,
+                                 me_it_const->get_item()->ammo_capacity( ammo_battery ) ) );
 }
 
 void talker_item::set_all_parts_hp_cur( int set ) const

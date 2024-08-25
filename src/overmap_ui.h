@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "regional_settings.h"
 #include "string_id.h"
 
@@ -31,6 +31,11 @@ namespace omap
  * Display overmap centered at the player's position.
  */
 void display();
+/**
+ * Display overmap centered at the given NPC's position and visually move across their intended OMT path.
+ */
+void display_npc_path( tripoint_abs_omt starting_pos,
+                       const std::vector<tripoint_abs_omt> &display_path );
 /**
  * Display overmap like with @ref display() and display hordes.
  */

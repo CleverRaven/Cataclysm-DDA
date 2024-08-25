@@ -80,9 +80,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -97,7 +95,7 @@
     "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Stan_Borichenko", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Stan_1a" }
       ]
     },
@@ -154,9 +152,7 @@
       "concatenate": [
         "Mostly my family and I have just been mourning.  This isn't the best place to do it.  ",
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_1",
           "value": "yes",
           "yes": "Still, now that we've found ways to make this community a bit of our own, I feel like maybe there's a chance things will get better.  Sometimes, when he's working, Boris seems like himself again and I have some hope.",
           "no": "I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again."
@@ -176,17 +172,13 @@
       "concatenate": [
         "He's a strong man.  The things we've been through… that he's been through, before any of this.  If anyone can survive the loss we've seen, it's him.  But he pushes it all down, ",
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_1",
           "value": "yes",
           "yes": "if he's left with it too long.  Having work has been helping him.  Cleaning up that back room might seem small, but it was a big deal for him.",
           "no": "and if he keeps it up, I don't know how much of him will be left.  He needs something to *do*.  We can't just sit here, trapped like rats in a cage forever."
         },
         {
-          "u_has_var": "Boris_mission_3",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_3",
           "value": "yes",
           "yes": "  Even more, though, having a little memory of Ash has been more than we could ever have asked.  I thought it might hurt him, dwelling on those memories, but instead it's given both of us some strength back.",
           "no": ""
@@ -205,11 +197,7 @@
       "concatenate": [
         "*smiles thinly.  \"Best little brother a guy could ask for.  He's been with me through everything, literally everything.",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 6,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
           "yes": "\u00A0 I wouldn't wish this world we find ourselves in on anyone, but I'm glad Garry made it through with me.\"  Stan sighs, touching his neck.",
           "no": "\"  He seems to realize where he is suddenly, and the faint smile melts.  \"He's lost too much, too.\""
         }

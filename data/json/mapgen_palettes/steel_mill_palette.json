@@ -42,7 +42,7 @@
       "G": "t_grate",
       "2": "t_sai_box",
       "5": "t_switchgear_l",
-      "`": "t_thconc_y"
+      "`": "t_thconc_floor_no_roof"
     },
     "furniture": {
       "c": "f_console_broken",

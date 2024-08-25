@@ -1,6 +1,6 @@
 [
   {
-    "result": "right_arm_prosthetic_wood",
+    "result": "right_arm_prosthetic_wood_old",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -22,7 +22,7 @@
     ]
   },
   {
-    "result": "left_arm_prosthetic_wood",
+    "result": "left_arm_prosthetic_wood_old",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -45,7 +45,7 @@
   },
   {
     "//": "1.71 time and material increase, based on light plate arm guards.",
-    "result": "right_arm_prosthetic_steel",
+    "result": "right_arm_prosthetic_steel_old",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
@@ -68,7 +68,7 @@
   },
   {
     "//": "1.71 time and material increase, based on light plate arm guards.",
-    "result": "left_arm_prosthetic_steel",
+    "result": "left_arm_prosthetic_steel_old",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
@@ -98,7 +98,12 @@
     "name": "prosthetic arms",
     "description": "Recipes related to constructing prosthetic arms of varying materials and designs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "right_arm_prosthetic_wood", "left_arm_prosthetic_wood", "right_arm_prosthetic_steel", "left_arm_prosthetic_steel" ],
+    "nested_category_data": [
+      "right_arm_prosthetic_wood_old",
+      "left_arm_prosthetic_wood_old",
+      "right_arm_prosthetic_steel_old",
+      "left_arm_prosthetic_steel_old"
+    ],
     "difficulty": 4
   },
   {
@@ -110,11 +115,11 @@
     "name": "prosthetic legs",
     "description": "Recipes related to constructing prosthetic legs of varying materials and designs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "right_peg_leg", "left_peg_leg", "right_leg_prosthetic_steel", "left_leg_prosthetic_steel" ],
+    "nested_category_data": [ "right_peg_leg_old", "left_peg_leg_old", "right_leg_prosthetic_steel_old", "left_leg_prosthetic_steel_old" ],
     "difficulty": 4
   },
   {
-    "result": "right_peg_leg",
+    "result": "right_peg_leg_old",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -136,7 +141,7 @@
     ]
   },
   {
-    "result": "left_peg_leg",
+    "result": "left_peg_leg_old",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -159,7 +164,7 @@
   },
   {
     "//": "1.71 times increase in material and time, based on steel legguards.",
-    "result": "right_leg_prosthetic_steel",
+    "result": "right_leg_prosthetic_steel_old",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
@@ -185,7 +190,7 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "left_leg_prosthetic_steel",
+    "result": "left_leg_prosthetic_steel_old",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",

@@ -1,0 +1,177 @@
+[
+  {
+    "id": "secure_container_1",
+    "type": "TOOL",
+    "name": { "str": "Alpha Secure Container" },
+    "description": "The most secure storage possible, even if it is tiny.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "2000 cm",
+        "watertight": true,
+        "moves": 10,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_secure_container_1",
+    "name": { "str": "Security Alpha" },
+    "points": 0,
+    "description": "You have come into possession of a tiny, ethereal storage container that cannot be removed or destroyed.  It can hold 500 mL and will bring items back to the island with you, even when you die.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "secure_container_1" ]
+  },
+  {
+    "id": "secure_container_2",
+    "type": "TOOL",
+    "name": { "str": "Beta Secure Container" },
+    "description": "A small secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "2000 cm",
+        "watertight": true,
+        "moves": 10,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_secure_container_2",
+    "name": { "str": "Security Beta" },
+    "points": 0,
+    "description": "You have come into possession of a small, ethereal storage container that cannot be removed or destroyed.  It can hold 750 mL and will bring items back to the island with you, even when you die.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "secure_container_2" ]
+  },
+  {
+    "id": "secure_container_3",
+    "type": "TOOL",
+    "name": { "str": "Gamma Secure Container" },
+    "description": "A medium-sized secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "2000 cm",
+        "watertight": true,
+        "moves": 10,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_secure_container_3",
+    "name": { "str": "Security Gamma" },
+    "points": 0,
+    "description": "You have come into possession of a medium-sized, ethereal storage container that cannot be removed or destroyed.  It can hold 1 liter and will bring items back to the island with you, even when you die.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "secure_container_3" ]
+  },
+  {
+    "id": "secure_container_4",
+    "type": "TOOL",
+    "name": { "str": "Epsilon Secure Container" },
+    "description": "A large secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "2000 cm",
+        "watertight": true,
+        "moves": 10,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_secure_container_4",
+    "name": { "str": "Security Epsilon" },
+    "points": 0,
+    "description": "You have come into possession of a large, ethereal storage container that cannot be removed or destroyed.  It can hold 1500 mL and will bring items back to the island with you, even when you die.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "secure_container_4" ]
+  },
+  {
+    "id": "secure_container_5",
+    "type": "TOOL",
+    "name": { "str": "Kappa Secure Container" },
+    "description": "The perfect secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "2000 cm",
+        "watertight": true,
+        "moves": 10,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_secure_container_5",
+    "name": { "str": "Security Kappa" },
+    "points": 0,
+    "description": "You have come into possession of a very large, ethereal storage container that cannot be removed or destroyed.  It can hold 2 liters and will bring items back to the island with you, even when you die.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "secure_container_5" ]
+  }
+]

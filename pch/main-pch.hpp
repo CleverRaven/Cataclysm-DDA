@@ -10,17 +10,23 @@
 #endif
 #endif
 
+// Common to all build targets
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <cassert>
 #include <cctype>
+#include <cerrno>
+#include <cfenv>
 #include <cfloat>
 #include <chrono>
+#include <cinttypes>
 #include <climits>
 #include <clocale>
 #include <cmath>
+#include <codecvt>
 #include <complex>
+#include <csetjmp>
 #include <csignal>
 #include <cstdarg>
 #include <cstddef>
@@ -29,6 +35,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <cuchar>
+#include <cwchar>
 #include <cwctype>
 #include <deque>
 #include <exception>
@@ -38,6 +46,7 @@
 #include <functional>
 #include <initializer_list>
 #include <iomanip>
+#include <ios>
 #include <iosfwd>
 #include <iostream>
 #include <istream>
@@ -56,20 +65,30 @@
 #include <random>
 #include <ratio>
 #include <regex>
+#include <scoped_allocator>
 #include <set>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
+#include <streambuf>
 #include <string>
 #include <string_view>
 #include <system_error>
 #include <thread>
 #include <tuple>
 #include <type_traits>
+#include <typeindex>
 #include <typeinfo>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
 #include <flatbuffers/flexbuffers.h>
+
+#if defined(_MSC_VER)
+#   include "platform_win.h"
+#endif
+
+#if defined(TILES)
+#   include <sdl_wrappers.h>
+#endif

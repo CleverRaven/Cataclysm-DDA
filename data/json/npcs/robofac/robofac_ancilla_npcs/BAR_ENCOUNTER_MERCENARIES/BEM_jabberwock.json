@@ -20,7 +20,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "effect": { "u_add_var": "completed_bem_jabberwock", "type": "dialogue", "context": "bem", "value": "yes" } },
+    "end": { "effect": { "u_add_var": "dialogue_bem_completed_bem_jabberwock", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
@@ -42,12 +42,13 @@
       "u_has_mission": "BEM_jabberwock_mission",
       "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
       "no": {
-        "u_has_var": "completed_bem_jabberwock",
-        "type": "dialogue",
-        "context": "bem",
+        "u_has_var": "dialogue_bem_completed_bem_jabberwock",
         "value": "yes",
         "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
-        "no": "&The mercenary stares intently at a stain in the ceiling, firmly clutching a now cold cup of soup.  No one else seems to be very concerned about this."
+        "no": {
+          "gendered_line": "&The mercenary stares intently at a stain in the ceiling, firmly clutching a now cold cup of soup.  No one else seems to be very concerned about this.",
+          "relevant_genders": [ "npc" ]
+        }
       }
     },
     "responses": [
@@ -58,7 +59,7 @@
           "not": {
             "or": [
               { "u_has_mission": "BEM_jabberwock_mission" },
-              { "u_has_var": "completed_bem_jabberwock", "type": "dialogue", "context": "bem", "value": "yes" }
+              { "u_has_var": "dialogue_bem_completed_bem_jabberwock", "value": "yes" }
             ]
           }
         }
@@ -78,7 +79,10 @@
   {
     "id": "BEM_JABBERWOCK_3",
     "type": "talk_topic",
-    "dynamic_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I-ve seen it, the god of our new world, a god of flesh and bone.\" <mypronoun> says with a maddened glare, as though this were some sort of shocking revelation.",
+    "dynamic_line": {
+      "gendered_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I've seen it, the god of our new world, a god of flesh and bone.\" <mypronoun> says with a maddened glare, as though this were some sort of shocking revelation.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Show your map to the mercenary, and have them mark where they saw this \"god\".",

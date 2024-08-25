@@ -10,16 +10,14 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
-            {
-              "not": { "npc_has_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "general_trade_u_talked_about_records", "value": "yes" } }
           ]
         },
         "topic": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP"
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "u_owe_20", "type": "general", "context": "trade", "value": "yes" },
+        "condition": { "npc_has_var": "general_trade_u_owe_20", "value": "yes" },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 2000,
@@ -30,7 +28,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "u_owe_50", "type": "general", "context": "trade", "value": "yes" },
+        "condition": { "npc_has_var": "general_trade_u_owe_50", "value": "yes" },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 5000,
@@ -41,7 +39,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "u_owe_150", "type": "general", "context": "trade", "value": "yes" },
+        "condition": { "npc_has_var": "general_trade_u_owe_150", "value": "yes" },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 15000,
@@ -52,11 +50,8 @@
       },
       {
         "text": "I'm back for your records.",
-        "condition": { "npc_compare_time_since_var": "fixing_records", "type": "timer", "context": "trade", "op": ">=", "time": "2 d" },
-        "effect": [
-          { "u_spawn_item": "godcotrader_accounting_records_clean" },
-          { "npc_lose_var": "fixing_records", "type": "timer", "context": "trade" }
-        ],
+        "condition": { "math": [ "time_since(n_timer_trade_fixing_records)", ">=", "time('2 d')" ] },
+        "effect": [ { "u_spawn_item": "godcotrader_accounting_records_clean" }, { "npc_lose_var": "timer_trade_fixing_records" } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -64,7 +59,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP",
-    "dynamic_line": "Really, I haven't heard anything about it.  What's it you need?",
+    "dynamic_line": { "gendered_line": "Really, I haven't heard anything about it.  What's it you need?", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "The boss wants your accounting papers, I need them.", "topic": "TALK_CARAVAN_GUARD_PREDATORY_ACCRECORDS" },
       { "text": "Oh nothing, I must have the wrong person.", "topic": "TALK_DONE" }
@@ -93,7 +88,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_NOW",
-    "dynamic_line": "I told you already, I'm not finished with them, come back later.",
+    "dynamic_line": { "gendered_line": "I told you already, I'm not finished with them, come back later.", "relevant_genders": [ "npc" ] },
     "responses": [
       {
         "text": "We both know that's a lie.  Hand them over, or else.",
@@ -114,8 +109,8 @@
       {
         "text": "Alright, I'll be back then.",
         "effect": [
-          { "npc_add_var": "fixing_records", "type": "timer", "context": "trade", "time": true },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "math": [ "n_timer_trade_fixing_records", "=", "time('now')" ] },
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       },
@@ -132,7 +127,7 @@
         "text": "Thanks, <name_b>.",
         "effect": [
           { "u_spawn_item": "godcotrader_accounting_records_dirty" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       }
@@ -167,7 +162,7 @@
         "text": "Alright, here it is.",
         "effect": [
           { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       },
@@ -188,7 +183,7 @@
         "text": "Pleasure doing business.",
         "effect": [
           { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 2000, "false_eocs": "EOC_BRIBE_20_FALSE_EFFECT" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       }
@@ -203,7 +198,7 @@
         "text": "Alright, here it is.",
         "effect": [
           { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       },
@@ -218,13 +213,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_WIN",
-    "dynamic_line": "Ah, a rich man I see.  I think you have yourself a deal.",
+    "dynamic_line": { "gendered_line": "Ah, a rich man I see.  I think you have yourself a deal.", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Sounds great to me.",
         "effect": [
           { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 5000, "false_eocs": "EOC_BRIBE_50_FALSE_EFFECT" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       }
@@ -239,7 +234,7 @@
         "text": "Sounds great to me.",
         "effect": [
           { "u_buy_item": "godcotrader_accounting_records_dirty", "cost": 15000, "false_eocs": "EOC_BRIBE_150_FALSE_EFFECT" },
-          { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
+          { "npc_add_var": "general_trade_u_talked_about_records", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       },
@@ -256,7 +251,7 @@
     "id": "EOC_BRIBE_20_FALSE_EFFECT",
     "global": false,
     "effect": [
-      { "npc_add_var": "u_owe_20", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_add_var": "general_trade_u_owe_20", "value": "yes" },
       { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
     ]
   },
@@ -265,7 +260,7 @@
     "id": "EOC_BRIBE_50_FALSE_EFFECT",
     "global": false,
     "effect": [
-      { "npc_add_var": "u_owe_50", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_add_var": "general_trade_u_owe_50", "value": "yes" },
       { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
     ]
   },
@@ -274,7 +269,7 @@
     "id": "EOC_BRIBE_150_FALSE_EFFECT",
     "global": false,
     "effect": [
-      { "npc_add_var": "u_owe_150", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_add_var": "general_trade_u_owe_150", "value": "yes" },
       { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
     ]
   },
@@ -283,9 +278,9 @@
     "id": "EOC_BRIBE_LATER_TRUE_EFFECT",
     "global": false,
     "effect": [
-      { "npc_lose_var": "u_owe_20", "type": "general", "context": "trade" },
-      { "npc_lose_var": "u_owe_50", "type": "general", "context": "trade" },
-      { "npc_lose_var": "u_owe_150", "type": "general", "context": "trade" },
+      { "npc_lose_var": "general_trade_u_owe_20" },
+      { "npc_lose_var": "general_trade_u_owe_50" },
+      { "npc_lose_var": "general_trade_u_owe_150" },
       { "npc_make_sound": "A pleasure doin' business with you.", "volume": 1, "type": "speech" }
     ]
   }

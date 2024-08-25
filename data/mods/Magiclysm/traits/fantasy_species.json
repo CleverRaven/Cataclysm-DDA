@@ -19,9 +19,7 @@
       "LIGHTSTEP",
       "WILDWALKER",
       "ANTIJUNK",
-      "FLIMSY",
       "WEAKSTOMACH",
-      "PALE",
       "DISIMMUNE",
       "PICKYEATER"
     ]
@@ -66,7 +64,7 @@
       "DARKSIGHT",
       "GOBLIN_BUILD",
       "GOBLIN_TEETH",
-      "NIGHTVISION3",
+      "GOBLIN_EYES",
       "SAPROVORE",
       "SNOUT",
       "NAILS",
@@ -76,7 +74,6 @@
       "EATPOISON",
       "TUNNEL_FIGHTER",
       "NOCTURNAL",
-      "NOCTURNAL_DAY",
       "MOODSWINGS",
       "TROGLO2"
     ]
@@ -104,7 +101,7 @@
       "RESISTWARM",
       "LIZ_EYE",
       "REGEN_LIZ",
-      "MUZZLE_LONG",
+      "MUZZLE_LONG_LIZ",
       "WEBBED_LIZ_FEET",
       "TALONS",
       "SLIT_NOSTRILS",

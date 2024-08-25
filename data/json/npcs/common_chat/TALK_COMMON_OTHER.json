@@ -56,14 +56,14 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_hint",
                 "no": "I have some reason for not telling you.",
                 "yes": "Nothing comes to my mind now.  Ask me later perhaps?"
               },
-              "yes": "I'm too tired, let me rest first."
+              "yes": { "gendered_line": "I'm too tired, let me rest first.", "relevant_genders": [ "npc" ] }
             },
             "yes": "I'm too hungry, give me something to eat."
           },
@@ -81,7 +81,7 @@
       "no": {
         "npc_has_effect": "asked_to_follow",
         "no": "Why should I travel with you?",
-        "yes": "You asked me recently; ask again later."
+        "yes": { "gendered_line": "You asked me recently; ask again later.", "relevant_genders": [ "u" ] }
       },
       "yes": "Not until I get some antibiotics…"
     },
@@ -306,14 +306,14 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_train",
                 "no": "I have some reason for denying you training.",
                 "yes": "Give it some time, I'll show you something new later…"
               },
-              "yes": "I'm too tired, let me rest first."
+              "yes": { "gendered_line": "I'm too tired, let me rest first.", "relevant_genders": [ "npc" ] }
             },
             "yes": "I'm too hungry, give me something to eat."
           },
@@ -337,14 +337,14 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_train",
                 "no": "I have some reason to refuse hosting a training seminar.",
                 "yes": "Give it some time, we'll talk about a training seminar later…"
               },
-              "yes": "I'm too tired, let me rest first."
+              "yes": { "gendered_line": "I'm too tired, let me rest first.", "relevant_genders": [ "npc" ] }
             },
             "yes": "I'm too hungry, give me something to eat."
           },
@@ -404,7 +404,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect": "asked_for_item",
-      "yes": "You just asked me for stuff; ask later.",
+      "yes": { "gendered_line": "You just asked me for stuff; ask later.", "relevant_genders": [ "u" ] },
       "no": "Why should I share my equipment with you?"
     },
     "responses": [

@@ -55,23 +55,25 @@
     "type": "talk_topic",
     "id": [ "TALK_meteorologist_1" ],
     "dynamic_line": {
-      "npc_has_var": "u_helped_meteorologist",
-      "type": "flag",
-      "context": "mission",
+      "npc_has_var": "flag_mission_u_helped_meteorologist",
       "value": "yes",
       "yes": "Run, I need to run, where to run…",
       "no": {
-        "npc_has_var": "u_met_meteorologist",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_meteorologist",
         "value": "yes",
-        "yes": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
-        "no": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>."
+        "yes": {
+          "gendered_line": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
+          "relevant_genders": [ "npc" ]
+        },
+        "no": {
+          "gendered_line": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>.",
+          "relevant_genders": [ "npc" ]
+        }
       }
     },
     "speaker_effect": {
       "sentinel": "u_met_meteorologist",
-      "effect": [ { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } ]
+      "effect": [ { "npc_add_var": "general_meeting_u_met_meteorologist", "value": "yes" } ]
     },
     "responses": [
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
@@ -79,7 +81,7 @@
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
-        "condition": { "npc_has_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" },
+        "condition": { "npc_has_var": "flag_mission_u_helped_meteorologist", "value": "yes" },
         "switch": true
       },
       {
@@ -87,20 +89,9 @@
         "switch": true,
         "trial": {
           "type": "CONDITION",
-          "condition": {
-            "not": {
-              "npc_compare_time_since_var": "meteorologist_wait",
-              "type": "time",
-              "context": "mission",
-              "op": "<",
-              "time": "2 days"
-            }
-          }
+          "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait)", ">=", "time('2 d')" ] }
         },
-        "success": {
-          "effect": [ { "npc_lose_var": "meteorologist_wait", "type": "time", "context": "mission" } ],
-          "topic": "TALK_MISSION_LIST"
-        },
+        "success": { "effect": [ { "npc_lose_var": "time_mission_meteorologist_wait" } ], "topic": "TALK_MISSION_LIST" },
         "failure": { "topic": "TALK_meteorologist_wait" }
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
@@ -115,7 +106,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safety",
-    "dynamic_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
+    "dynamic_line": {
+      "gendered_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's go.",
@@ -160,13 +154,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safe",
-    "dynamic_line": "I'm glad you still alive.",
+    "dynamic_line": { "gendered_line": "I'm glad you still alive.", "relevant_genders": [ "npc" ] },
     "responses": [ { "text": "Me too.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_Background",
-    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "dynamic_line": {
+      "gendered_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
@@ -255,10 +252,7 @@
     "difficulty": 0,
     "value": 100,
     "end": {
-      "effect": [
-        { "npc_add_var": "meteorologist_wait", "type": "time", "context": "mission", "time": true },
-        { "u_spawn_item": "textbook_electronics" }
-      ]
+      "effect": [ { "math": [ "n_time_mission_meteorologist_wait", "=", "time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_5",
@@ -297,10 +291,7 @@
         "place_monster": [ { "monster": "mon_mi_go", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 2, 5 ] } ]
       }
     },
-    "end": {
-      "effect": [ { "npc_add_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" } ],
-      "opinion": { "trust": 4 }
-    },
+    "end": { "effect": [ { "npc_add_var": "flag_mission_u_helped_meteorologist", "value": "yes" } ], "opinion": { "trust": 4 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I've lost the drone, we should find out what happened…",

@@ -6,8 +6,8 @@
     "category": "veh_parts",
     "weight": "40000 g",
     "volume": "20 L",
-    "price": 40000,
-    "price_postapoc": 2000,
+    "price": "400 USD",
+    "price_postapoc": "20 USD",
     "material": [ "steel" ],
     "symbol": "&",
     "color": "light_cyan"
@@ -104,7 +104,6 @@
       "angle_grinder",
       "atomic_coffeepot",
       "coffeemaker",
-      "con_mix",
       "copper_pan",
       "cordless_drill",
       "corded_powerdrill",

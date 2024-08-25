@@ -30,6 +30,26 @@
     "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
   },
   {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
     "id": "bullet_forming",
     "type": "requirement",
     "tools": [

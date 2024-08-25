@@ -106,7 +106,7 @@
         " R   R    R  R    R   R ",
         " ---------------------- ",
         " -....................- ",
-        " -........U........M..- ",
+        " -........U........K..- ",
         " -....................- ",
         " -....ooo..oo..ooo....- ",
         " -....ooo..oo..ooo....- ",
@@ -132,7 +132,7 @@
       "terrain": { "R": "t_column" },
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "K": { "chunks": [ "roof_2x2_infrastructure_1" ] },
         "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
       },
       "place_nested": [

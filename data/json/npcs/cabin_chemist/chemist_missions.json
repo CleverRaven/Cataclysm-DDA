@@ -36,7 +36,7 @@
     "difficulty": 7,
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": [ { "npc_add_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
+    "end": { "effect": [ { "npc_add_var": "dialogue_trade_mass_chem_tradeable", "value": "yes" } ] },
     "followup": "MISSION_CABIN_CHEMIST_GET_500_GAS",
     "has_generic_rewards": true,
     "dialogue": {

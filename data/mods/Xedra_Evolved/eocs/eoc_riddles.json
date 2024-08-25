@@ -153,8 +153,8 @@
       { "math": [ "xe_riddle_14", "--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
-        "title": "Opressed or Opressor?",
-        "names": [ "Opressed", "Opressor" ]
+        "title": "Oppressed or Oppressor?",
+        "names": [ "Oppressed", "Oppressor" ]
       }
     ]
   },

@@ -44,9 +44,7 @@
     "type": "talk_topic",
     "id": "TALK_Yoshimi_1",
     "dynamic_line": {
-      "u_has_var": "u_met_yoshimi",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_yoshimi",
       "value": "yes",
       "yes": [
         "How can I help you, survivor?",
@@ -59,29 +57,29 @@
     "responses": [
       {
         "text": "You are dressed like a scientist.  Are you a scientist?  You look like a dinosaur.  Are you a dinosaur?  Are you a scientist dinosaur?",
-        "effect": { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_yoshimi", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } },
         "topic": "TALK_yoshimi_firstmeet"
       },
       {
         "text": "Die demon mutant!",
-        "effect": [ { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
-        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": [ { "u_add_var": "general_meeting_u_met_yoshimi", "value": "yes" }, "insult_combat" ],
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "How did you get here?",
-        "condition": { "and": [ { "u_has_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" } ] },
+        "condition": { "and": [ { "u_has_var": "mission_flag_Yos_chemistry", "value": "yes" } ] },
         "topic": "TALK_yoshimi_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "condition": { "and": [ { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } ] },
         "topic": "TALK_yoshimi_ask_mood"
       },
       {
         "text": "You look like you need help.  Can I do something for you?",
-        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "condition": { "and": [ { "u_has_var": "general_meeting_u_met_yoshimi", "value": "yes" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
@@ -144,12 +142,12 @@
           "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
         }
       ],
-      "effect": { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "in_progress" }
+      "effect": { "u_add_var": "mission_flag_Yos_chemistry", "value": "in_progress" }
     },
     "end": {
       "effect": [
-        { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+        { "u_add_var": "mission_flag_Yos_chemistry", "value": "yes" },
+        { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -190,12 +188,7 @@
         }
       ]
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "kiernans_notes" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
-      ]
-    },
+    "end": { "effect": [ { "u_spawn_item": "kiernans_notes" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_DinoLab_Yos_3",
     "dialogue": {
@@ -222,12 +215,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "mutagen_raptor" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
-      ]
-    },
+    "end": { "effect": [ { "u_spawn_item": "mutagen_raptor" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Time for a nice relaxing trip…",

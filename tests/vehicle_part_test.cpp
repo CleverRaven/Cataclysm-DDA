@@ -183,7 +183,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE( character.activity );
         REQUIRE( character.activity.id() == ACT_CRAFT );
         while( character.activity.id() == ACT_CRAFT ) {
-            character.moves = 100;
+            character.set_moves( 100 );
             character.activity.do_turn( character );
         }
 
@@ -234,7 +234,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         }
     }
     REQUIRE( faucet.has_value() );
-    get_map().board_vehicle( faucet->pos() + tripoint_east, &character );
+    get_map().board_vehicle( faucet->pos_bub() + tripoint_east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );

@@ -9,7 +9,9 @@
       [ "techno_basic", 30 ],
       [ "enchantment_basic", 30 ],
       [ "book_mythological", 10 ],
-      [ "history_botanical_enchantment", 15 ],
+      [ "history_botanical_enchantment", 20 ],
+      [ "journeyman_enchanting", 20 ],
+      [ "arcane_archer_companion", 15 ],
       [ "cooking_poison", 15 ],
       [ "metal_legends", 5 ]
     ]

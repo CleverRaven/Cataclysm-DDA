@@ -58,6 +58,58 @@
           "f_whiskflower": 10
         }
       }
+    },
+    "forest_mapgen_settings": {
+      "forest_thick": {
+        "terrains": [
+          "anthill",
+          "bandit_cabin",
+          "bandit_garage_1",
+          "bandit_garage_2",
+          "campsite",
+          "campsite_a",
+          "campsite_cabin_incomplete",
+          "campsite_field_biker",
+          "campsite_field_biker_destroyed",
+          "cave",
+          "central_lab_entrance",
+          "corpse_tentacle_surface_entry",
+          "derelict_property",
+          "desolatebarn",
+          "druid_ritual_home_z0",
+          "forest_thick",
+          "forest_trail",
+          "forest_trail_intersection",
+          "homelesscamp",
+          "island_forest",
+          "island_forest_thick",
+          "lake_shore",
+          "moonshine_still",
+          "moonshine_still_1",
+          "moonshine_still_2",
+          "natural_spring",
+          "river",
+          "river_c_not_ne",
+          "river_c_not_nw",
+          "river_c_not_se",
+          "river_c_not_sw",
+          "river_center",
+          "river_ne",
+          "river_nw",
+          "river_se",
+          "river_sw",
+          "slimepit_top",
+          "special_forest_thick",
+          "spider_pit",
+          "standing_stones",
+          "stream",
+          "stream_corner",
+          "stream_end",
+          "survivor_forest_camp",
+          "ws_giant_sinkhole_1",
+          "ws_survivor_bunker_f0"
+        ]
+      }
     }
   }
 ]

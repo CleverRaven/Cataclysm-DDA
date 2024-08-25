@@ -22,12 +22,12 @@
         "topic": "TALK_GODCO_Kostas_Tea_2",
         "condition": {
           "and": [
-            { "npc_has_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" },
+            { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" },
             { "u_has_items": { "item": "pine_bough", "count": 12 } }
           ]
         },
         "effect": [
-          { "npc_add_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "yes" },
+          { "npc_add_var": "knowledge_completed_godco_kostas_tea", "value": "yes" },
           { "u_learn_recipe": "pine_tea" },
           { "u_message": "You learn how to craft pine tea.", "popup": true },
           { "u_spawn_item": "pine_tea", "container": "bottle_plastic" }
@@ -43,28 +43,27 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
-        "npc_has_var": "u_met_godco_kostas",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_kostas",
         "value": "yes",
         "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
-        "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
+        "no": {
+          "gendered_line": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist.",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "responses": [
       {
         "text": "Nice to meet you too, Kostas.",
-        "effect": { "npc_add_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -73,8 +72,8 @@
         "text": "Hey, good to see you again.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -84,8 +83,8 @@
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "failed_persuade" } },
-            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
-            { "u_has_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" }
+            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "u_has_var": "general_mission_convince_kostas", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Kostas_Jeremiah"
@@ -94,8 +93,8 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
-            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
         },
@@ -105,17 +104,17 @@
       { "text": "Hey Kostas, find something interesting lately?", "topic": "TALK_GODCO_Kostas_Interval" },
       {
         "text": "Hey, Kostas.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What the hell are you talking about?",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Kostas_You_Mutant"
       },
       {
         "text": "Alright then.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -173,16 +172,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_Herbalism",
     "dynamic_line": {
-      "npc_has_var": "godco_kostas_tea",
-      "type": "knowledge",
-      "context": "completed",
+      "npc_has_var": "knowledge_completed_godco_kostas_tea",
       "value": "yes",
       "yes": [
         "Nature can provide.  You can live off the land if you learn how.",
-        "Foraging is about recognising the abundance that is around us all the time, not seeking out rare species.",
+        "Foraging is about recognizing the abundance that is around us all the time, not seeking out rare species.",
         "You'll need a good book to confidently identify edible and poisonous wild foods.  I'd recommend the book 'Autobiography of a Mountain Man' for detailed descriptions.",
         "Never eat any wild food without first being sure of its identity.  It only takes one mistake.",
-        "The huge diversity of wild plants and fungi can be very daunting to the novice forager.  Don’t be too ambitious.  Try to enjoy the learning process without getting frustrated or taking risks around uncertain identifications."
+        "The huge diversity of wild plants and fungi can be very daunting to the novice forager.  Don't be too ambitious.  Try to enjoy the learning process without getting frustrated or taking risks around uncertain identifications."
       ],
       "no": "I can tell you this: pine needles make the best tea.  Perhaps I'll make you one someday."
     },
@@ -190,8 +187,8 @@
       {
         "text": "Can I try your pine needle tea?",
         "topic": "TALK_GODCO_Kostas_Tea",
-        "condition": { "not": { "npc_has_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "yes" } },
-        "effect": { "npc_add_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" }
+        "condition": { "not": { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "yes" } },
+        "effect": { "npc_add_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -245,13 +242,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_Jeremiah_Persuade",
-    "dynamic_line": "Alright, you've convinced me.  I'll take Jeremiah on and show him the ropes.",
+    "dynamic_line": {
+      "gendered_line": "Alright, you've convinced me.  I'll take Jeremiah on and show him the ropes.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "Thank you.  See you around, Kostas.",
         "effect": [
-          { "u_add_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" },
-          { "u_lose_var": "convince_kostas", "type": "general", "context": "mission" }
+          { "u_add_var": "general_mission_kostas_teach_jeremiah", "value": "yes" },
+          { "u_lose_var": "general_mission_convince_kostas" }
         ],
         "topic": "TALK_DONE"
       }

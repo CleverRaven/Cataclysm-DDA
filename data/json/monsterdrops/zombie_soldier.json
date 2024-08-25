@@ -14,33 +14,14 @@
       },
       {
         "distribution": [
+          { "group": "military_standard_assault_rifles", "prob": 65, "damage": [ 0, 4 ], "dirt": [ 0, 6000 ] },
           {
-            "group": "military_standard_assault_rifles",
-            "contents-item": "shoulder_strap",
-            "prob": 25,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_standard_assault_rifles_sighted",
-            "contents-item": "shoulder_strap",
-            "prob": 40,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_grenadier_assault_rifles",
-            "contents-item": "shoulder_strap",
-            "prob": 4,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_grenadier_assault_rifles",
-            "contents-item": [ "shoulder_strap", "acog_scope" ],
-            "prob": 6,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
+            "collection": [
+              {
+                "distribution": [ { "group": "military_grenadier_assault_rifles", "prob": 4, "damage": [ 0, 4 ], "dirt": [ 0, 6000 ] } ]
+              },
+              { "item": "40x46mm_m433", "charges": [ 1, 3 ], "prob": 50 }
+            ]
           },
           {
             "group": "military_standard_lmgs",
@@ -67,13 +48,7 @@
         "prob": 10
       },
       { "group": "infantry_common_gear" },
-      {
-        "distribution": [
-          { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 80 },
-          { "item": "40x46mm_m433", "charges": [ 1, 3 ], "prob": 20 }
-        ],
-        "prob": 20
-      },
+      { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       { "group": "wallets", "prob": 10 },
@@ -99,25 +74,27 @@
             "dirt": [ 0, 6000 ]
           },
           {
-            "group": "military_standard_assault_rifles_sighted",
-            "contents-item": [ "shoulder_strap", "acog_scope" ],
-            "prob": 40,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_grenadier_assault_rifles",
-            "contents-item": "shoulder_strap",
-            "prob": 4,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
-          },
-          {
-            "group": "military_grenadier_assault_rifles",
-            "contents-item": [ "shoulder_strap", "acog_scope" ],
-            "prob": 6,
-            "damage": [ 0, 4 ],
-            "dirt": [ 0, 6000 ]
+            "collection": [
+              {
+                "distribution": [
+                  {
+                    "group": "military_grenadier_assault_rifles",
+                    "contents-item": "shoulder_strap",
+                    "prob": 4,
+                    "damage": [ 0, 4 ],
+                    "dirt": [ 0, 6000 ]
+                  },
+                  {
+                    "group": "military_grenadier_assault_rifles",
+                    "contents-item": [ "shoulder_strap", "acog_scope" ],
+                    "prob": 6,
+                    "damage": [ 0, 4 ],
+                    "dirt": [ 0, 6000 ]
+                  }
+                ]
+              },
+              { "item": "40x46mm_m433", "charges": [ 1, 3 ], "prob": 50 }
+            ]
           },
           {
             "group": "military_standard_lmgs",

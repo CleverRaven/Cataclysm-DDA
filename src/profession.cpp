@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -41,7 +42,7 @@ static class json_item_substitution
     public:
         void reset();
         void load( const JsonObject &jo );
-        void check_consistency();
+        void check_consistency() const;
 
     private:
         struct trait_requirements {
@@ -110,7 +111,7 @@ void profession_blacklist::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, false, "professions", professions );
 }
 
-void profession_blacklist::finalize()
+void profession_blacklist::check_consistency() const
 {
     for( const string_id<profession> &p : professions ) {
         if( !p.is_valid() ) {
@@ -369,7 +370,7 @@ void profession::check_definitions()
     for( const profession &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
-    prof_blacklist.finalize();
+    prof_blacklist.check_consistency();
 }
 
 void profession::check_item_definitions( const itypedecvec &items ) const
@@ -671,19 +672,15 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 ret_val<void> profession::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
-        const achievement_completion_info *other_games = get_past_games().achievement(
-                    _requirement.value()->id );
-        if( !other_games ) {
-            return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                       _requirement.value()->name() );
-        } else if( other_games->games_completed.empty() ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        if( !has_req ) {
             return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this profession." ),
                        _requirement.value()->name() );
@@ -788,7 +785,7 @@ void json_item_substitution::load( const JsonObject &jo )
             itype_id old_it;
             sub.read( "item", old_it, true );
             if( check_duplicate_item( old_it ) ) {
-                sub.throw_error( "Duplicate definition of item" );
+                sub.throw_error( "Item substitutions can only be defined once.  Items with multiple substition traits should use arrays." );
             }
             s.trait_reqs.present.emplace_back( jo.get_string( "trait" ) );
             for( const JsonValue info : sub.get_array( "new" ) ) {
@@ -804,7 +801,7 @@ void json_item_substitution::load( const JsonObject &jo )
     }
 }
 
-void json_item_substitution::check_consistency()
+void json_item_substitution::check_consistency() const
 {
     auto check_if_trait = []( const trait_id & t ) {
         if( !t.is_valid() ) {

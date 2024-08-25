@@ -8,6 +8,9 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 55,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "BURROWABLE" ],
     "bash": {
       "str_min": 24,
@@ -26,7 +29,9 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_WITH_WALL", "BURROWABLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "BURROWABLE" ],
     "bash": {
       "str_min": 6,
       "str_max": 150,
@@ -44,7 +49,9 @@
     "symbol": "&",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "MINEABLE", "BURROWABLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "MINEABLE", "BURROWABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -79,13 +86,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -95,7 +102,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
     }
   },
   {
@@ -106,20 +113,21 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "open": "t_chaingate_o",
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -130,7 +138,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -151,13 +159,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 5,
@@ -166,7 +174,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -220,6 +228,7 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE" ],
     "connect_groups": "WALL",
     "connects_to": "WALL",
@@ -284,6 +293,7 @@
     "color": "brown",
     "move_cost": 3,
     "coverage": 60,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE", "BURROWABLE" ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
@@ -357,7 +367,10 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
     "open": "t_screen_door_o",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -392,7 +405,9 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "PERMEABLE", "BURROWABLE" ],
     "close": "t_screen_door_c",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -427,6 +442,7 @@
     "color": "brown",
     "looks_like": "t_chaingate_c",
     "move_cost": 0,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
@@ -435,7 +451,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": 5 },
-        { "item": "wire", "count": 10 },
+        { "item": "lc_wire", "count": 10 },
         { "item": "nail", "charges": 20 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -448,7 +464,11 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [
+        { "item": "lc_wire", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -468,7 +488,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": 5 },
-        { "item": "wire", "count": 10 },
+        { "item": "lc_wire", "count": 10 },
         { "item": "nail", "charges": 20 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -479,7 +499,11 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [
+        { "item": "lc_wire", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -590,7 +614,7 @@
       "result": "t_chainfence_posts",
       "duration": "5 seconds",
       "sound": "Snick, snick, gachunk!",
-      "byproducts": [ { "item": "wire", "count": 20 } ]
+      "byproducts": [ { "item": "lc_wire", "count": 20 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
@@ -599,13 +623,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -613,7 +637,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_chainfence_posts",
-      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 8, 15 ] } ]
     }
   },
   {
@@ -747,12 +771,12 @@
     "color": "blue",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "lc_wire", "count": 2 } ] },
     "boltcut": {
       "result": "t_fence_post",
       "duration": "10 seconds",
       "sound": "Snick, snick, gachunk!",
-      "byproducts": [ { "item": "wire", "count": 2 } ]
+      "byproducts": [ { "item": "lc_wire", "count": 2 } ]
     },
     "bash": {
       "str_min": 8,
@@ -760,7 +784,7 @@
       "sound": "crack.",
       "sound_fail": "whump.",
       "ter_set": "t_null",
-      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "lc_wire", "count": [ 0, 2 ] } ]
     }
   },
   {
@@ -854,6 +878,7 @@
     "looks_like": "t_fencegate_c",
     "move_cost": 0,
     "coverage": 60,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
@@ -967,6 +992,7 @@
     "looks_like": "t_fencegate_c",
     "move_cost": 0,
     "coverage": 60,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE" ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
@@ -1071,6 +1097,7 @@
     "looks_like": "t_fencegate_c",
     "move_cost": 0,
     "coverage": 60,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
@@ -1147,7 +1174,7 @@
     "symbol": "LINE_OXOX",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {

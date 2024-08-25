@@ -47,6 +47,10 @@
   },
   {
     "type": "connect_group",
+    "id": "LIXATUBE"
+  },
+  {
+    "type": "connect_group",
     "id": "CANVAS_WALL"
   },
   {

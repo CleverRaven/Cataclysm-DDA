@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mortuary" ],
+    "om_terrain": "mortuary",
+    "//": "Adds CBMs",
     "weight": 10000,
     "object": {
       "fill_ter": "t_floor",

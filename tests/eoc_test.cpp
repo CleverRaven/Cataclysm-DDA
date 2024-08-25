@@ -4,6 +4,7 @@
 #include "character_martial_arts.h"
 #include "effect_on_condition.h"
 #include "game.h"
+#include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
 #include "timed_event.h"
@@ -14,6 +15,10 @@ static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" 
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
+static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
+static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE( "EOC_TEST_PURIFIABILITY_TRUE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
@@ -38,6 +43,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_loc_relative_test( "EOC_loc_relative_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
@@ -72,8 +79,6 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_inline_condition( "EOC_math_test_inline_condition" );
-static const effect_on_condition_id
-effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id
@@ -110,6 +115,8 @@ effect_on_condition_EOC_string_test_nest( "EOC_string_test_nest" );
 static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_test_weapon_damage( "EOC_test_weapon_damage" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
@@ -119,6 +126,7 @@ static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
+static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const matype_id style_aikido( "style_aikido" );
@@ -135,8 +143,13 @@ static const skill_id skill_survival( "survival" );
 
 static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass( "t_grass" );
+
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
+static const trait_id trait_purifiability_first( "purifiability_first" );
+static const trait_id trait_purifiability_second( "purifiability_second" );
 
 namespace
 {
@@ -208,7 +221,6 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     globvars.clear_global_values();
     REQUIRE( globvars.get_global_value( "npctalk_var_math_test" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_math_test_result" ).empty() );
-    CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
     calendar::turn = calendar::start_of_cataclysm;
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_greater_increment->test_condition( d ) );
@@ -217,9 +229,7 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     effect_on_condition_EOC_math_switch_math->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test_result" ) ) == Approx( 1 ) );
     CHECK( effect_on_condition_EOC_math_duration->recurrence.evaluate( d ) == 1_turns );
-    CHECK_FALSE( effect_on_condition_EOC_math_var->test_condition( d ) );
     calendar::turn += 1_days;
-    CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
     CHECK_FALSE( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
@@ -285,19 +295,19 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     clear_map();
     tripoint_abs_ms const start = get_avatar().get_location();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-    check_ter_in_radius( start, eoc_range, t_grass );
+    check_ter_in_radius( start, eoc_range, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_RADIUS->activate( newDialog );
-    check_ter_in_radius( start, eoc_range, t_dirt );
+    check_ter_in_radius( start, eoc_range, ter_t_dirt );
 
     g->place_player_overmap( project_to<coords::omt>( start ) + point{ 60, 60 } );
     REQUIRE( !get_map().inbounds( start ) );
 
     calendar::turn += delay - 1_seconds;
     get_timed_events().process();
-    check_ter_in_radius( start, eoc_range, t_dirt );
+    check_ter_in_radius( start, eoc_range, ter_t_dirt );
     calendar::turn += 2_seconds;
     get_timed_events().process();
-    check_ter_in_radius( start, eoc_range, t_grass );
+    check_ter_in_radius( start, eoc_range, ter_t_grass );
 }
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
@@ -314,9 +324,9 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     tripoint_abs_ms const start = get_avatar().get_location();
     tripoint_abs_ms const end = npc.get_location();
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( npc ) );
-    check_ter_in_line( start, end, t_grass );
+    check_ter_in_line( start, end, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_LINE->activate( newDialog );
-    check_ter_in_line( start, end, t_dirt );
+    check_ter_in_line( start, end, ter_t_dirt );
 }
 
 TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
@@ -502,7 +512,7 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "300" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "66" );
 }
 
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
@@ -600,6 +610,33 @@ TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
     CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation" );
 }
 
+TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &me = get_avatar();
+
+    // Gain both traits
+    me.toggle_trait( trait_purifiability_first );
+    me.toggle_trait( trait_purifiability_second );
+    // Check assumptions
+    REQUIRE( me.purifiable( trait_purifiability_first ) );
+    REQUIRE( !me.purifiable( trait_purifiability_second ) );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    // Try to set both traits to non-purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE->activate( d ) );
+    // Neither are purifiable
+    CHECK( !me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
+
+    // Try to set both traits purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE->activate( d ) );
+    // The by default non-purifiable trait stays non-purifiable, the other resets
+    CHECK( me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
+}
+
 TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -609,7 +646,7 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     globvars.clear_global_values();
 
     g->place_critter_at( mon_zombie, a.pos() + tripoint_east );
-    g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
+    monster *friendo = g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
     g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint_north );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
@@ -625,9 +662,17 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_triffs" ) ) == 1 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_group" ) ) == 4 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 0 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust" ) ) == 5 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust_adj" ) ) == 2 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_smoks" ) ) == 1 );
+
+    friendo->make_friendly();
+    REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
@@ -688,7 +733,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     CHECK( d_copy.actor( true )->get_character() != nullptr );
 
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
@@ -712,7 +757,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     standard_npc dude;
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
@@ -804,17 +849,21 @@ TEST_CASE( "EOC_string_var_var", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-
-    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    standard_npc dude;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
 
     CHECK( effect_on_condition_EOC_string_var_var->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works_global" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works_context" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "Works_u" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "Works_npc" );
 }
 
 TEST_CASE( "EOC_run_with_test", "[eoc]" )
@@ -853,7 +902,7 @@ TEST_CASE( "EOC_run_until_test", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
 
     CHECK( effect_on_condition_EOC_run_until_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10000 ) );
 }
 
 TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
@@ -1033,6 +1082,33 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
     CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );
     CHECK( std::stod( check_item.get_var( "npctalk_var_key2" ) ) == Approx( 2 ) );
+}
+
+TEST_CASE( "math_weapon_damage", "[eoc]" )
+{
+    clear_avatar();
+    item myweapon( GENERATE( true, false ) ? itype_test_knife_combat : itype_test_glock );
+    get_avatar().set_wielded_item( myweapon );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( effect_on_condition_EOC_test_weapon_damage->activate( d ) );
+
+    int total_damage{};
+    for( damage_type const &dt : damage_type::get_all() ) {
+        total_damage += myweapon.damage_melee( dt.id );
+    }
+    int const bash_damage = myweapon.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+    int const gun_damage = myweapon.gun_damage().total_damage();
+    int const bullet_damage = myweapon.gun_damage().type_damage( STATIC( damage_type_id( "bullet" ) ) );
+
+    CAPTURE( myweapon.typeId().c_str() );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee" ) ) ==  total_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee_bash" ) ) == bash_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun" ) ) == gun_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun_bullet" ) ) == bullet_damage );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
@@ -1237,6 +1313,38 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
+}
+
+TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    g->place_player( tripoint_zero );
+
+    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint tgt = m.getlocal( start + tripoint_north );
+    m.furn_set( tgt, furn_test_f_eoc );
+    m.furn( tgt )->examine( get_avatar(), tgt );
+
+    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
+
+    CHECK( effect_on_condition_EOC_loc_relative_test->activate( d ) );
+    tripoint_abs_ms tmp_abs_a = tripoint_abs_ms( tripoint::from_string(
+                                    globvars.get_global_value( "npctalk_var_map_test_loc_a" ) ) );
+    tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
+                                    globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
+    CHECK( m.getlocal( tmp_abs_a ) == tripoint( 70, 70, 0 ) );
+    CHECK( m.getlocal( tmp_abs_b ) == tripoint( 70, 60, 0 ) );
+
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

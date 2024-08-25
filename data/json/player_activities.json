@@ -423,6 +423,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "heating",
+    "rooted": true,
     "based_on": "time"
   },
   {
@@ -731,6 +732,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_OUTFIT_SWAP",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "changing clothes",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_WASH",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -902,15 +911,6 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "communing with the trees",
-    "rooted": true,
-    "based_on": "time",
-    "can_resume": false
-  },
-  {
-    "id": "ACT_MUTANT_TREE_COMMUNION",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "communing with the mutant tree",
     "rooted": true,
     "based_on": "time",
     "can_resume": false

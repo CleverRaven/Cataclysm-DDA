@@ -2,19 +2,17 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
-#include <iosfwd>
 #include <memory>
+#include <string>
 #include <unordered_map>
 
 #include "activity_type.h"
 #include "clone_ptr.h"
-#include "point.h"
 #include "type_id.h"
 
 class Character;
 class JsonOut;
 class JsonValue;
-class monster;
 class player_activity;
 
 class activity_actor

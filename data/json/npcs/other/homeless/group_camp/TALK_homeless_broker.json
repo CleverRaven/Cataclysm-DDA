@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER",
     "dynamic_line": {
-      "npc_has_var": "talked_to_homeless",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_talked_to_homeless",
       "value": "yes",
       "yes": "Hello there.  Nice to see you again.",
       "no": "Who are you?  Would you like to trade?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_HOMELESS_BROKER_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } }
       },
       {
         "text": "Hands up!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_HOMELESS_BROKER_INTRO",
-        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -39,14 +37,19 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
+      },
+      {
         "text": "Where might your friends be?",
         "topic": "TALK_NPC_HOMELESS_BROKER_FRIENDS",
-        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" }
       },
       {
         "text": "Can I stay here?",
         "topic": "TALK_NPC_HOMELESS_BROKER_STAY",
-        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" }
       },
       {
         "text": "Can I purchase some of your wares?",
@@ -56,7 +59,7 @@
       {
         "text": "How's that smoker coming along?",
         "topic": "TALK_NPC_HOMELESS_BROKER_SMOKERACK",
-        "condition": { "npc_has_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_trade_smoked_meat_tradeable", "value": "yes" }
       },
       {
         "text": "Any jobs you need done?",
@@ -70,11 +73,14 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER_STORY",
     "dynamic_line": [
-      "I was homeless for a while before <the_cataclysm>.  I met some buddies out on the road and we were camping out here.  Now we're just scraping by on what we can find, mostly.  We're willing to trade, though.  Who knows, you might find yourself a good deal.",
+      {
+        "gendered_line": "I was homeless for a while before <the_cataclysm>.  I met some buddies out on the road and we were camping out here.  Now we're just scraping by on what we can find, mostly.  We're willing to trade, though.  Who knows, you might find yourself a good deal.",
+        "relevant_genders": [ "npc" ]
+      },
       "Making ends meet, even in the worst circumstances.  We've been camping out here now, trading with whoever passes by.  If something catches your eye, let me know.",
       "We got tired of being out on the road and decided to stay here for a bit.  We've found a lot of useful stuff out and about, so if you see anything you need I'll make you a deal."
     ],
-    "speaker_effect": { "effect": { "npc_add_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" } },
     "responses": [ { "text": "Hm.", "topic": "TALK_NONE" } ]
   },
   {

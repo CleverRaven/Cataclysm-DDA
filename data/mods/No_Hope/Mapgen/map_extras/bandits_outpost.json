@@ -1,0 +1,115 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "bandits_outpost",
+    "//": "TODO: Add more variations",
+    "object": { "place_nested": [ { "chunks": [ "bandits_outpost" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bandits_outpost",
+    "//": "TODO: Remove autoroofs once alternative exists",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": 0,
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        bbbbbbbb        ",
+        "       bbBBBBBBbb       ",
+        "       bWWssssWWb       ",
+        "      bbWC.@.@cWbb      ",
+        "      bBs......sBb      ",
+        "      bBs..WW.@sBb      ",
+        "      bBs@.WW..sBb      ",
+        "      bBs......sBb      ",
+        "      bBWC.@.@cWBb      ",
+        "      bbWWssssWWbb      ",
+        "       bbBBBBBBbb       ",
+        "        bbbbbbbb        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_dirtfloor_thatchroof",
+        "@": "t_dirtfloor_thatchroof",
+        "b": "t_fence_barbed",
+        "B": "t_dirt",
+        "c": "t_dirtfloor_thatchroof",
+        "C": "t_dirtfloor_thatchroof",
+        "s": "t_dirtfloor_thatchroof",
+        "W": "t_scrap_wall"
+      },
+      "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
+      "items": {
+        "c": { "item": "ammo_rifle_common", "chance": 75, "repeat": [ 1, 4 ] },
+        "C": { "item": "ammo_pistol_common", "chance": 75, "repeat": [ 1, 4 ] }
+      },
+      "npcs": { "@": { "class": "raider" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bandits_outpost",
+    "//": "TODO: Remove autoroofs once alternative exists",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": 0,
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "b                      b",
+        "b                      b",
+        "b        WWsWWW        b",
+        "b        Wc@..W        b",
+        "b        W.WW@s        b",
+        "b        s@WW.W        b",
+        "b        W..@CW        b",
+        "b        WWWsWW        b",
+        "b                      b",
+        "b                      b",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_dirtfloor_thatchroof",
+        "@": "t_dirtfloor_thatchroof",
+        "b": "t_fence_barbed",
+        "B": "t_dirt",
+        "c": "t_dirtfloor_thatchroof",
+        "C": "t_dirtfloor_thatchroof",
+        "s": "t_dirtfloor_thatchroof",
+        "W": "t_scrap_wall"
+      },
+      "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
+      "items": {
+        "c": { "item": "ammo_rifle_common", "chance": 75, "repeat": [ 1, 4 ] },
+        "C": { "item": "ammo_pistol_common", "chance": 75, "repeat": [ 1, 4 ] }
+      },
+      "npcs": { "@": { "class": "raider" } }
+    }
+  }
+]

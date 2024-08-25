@@ -2,14 +2,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_metamagic_toggle_careful",
-    "condition": { "u_has_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "condition": { "u_has_var": "perk_metamagic_careful_deactivated", "value": "yes" },
     "effect": [
       { "u_message": "You activate your careful metamagic" },
-      { "u_add_var": "careful_deactivated", "context": "perk_metamagic", "value": "no" }
+      { "u_add_var": "perk_metamagic_careful_deactivated", "value": "no" }
     ],
     "false_effect": [
       { "u_message": "You deactivate your careful metamagic" },
-      { "u_add_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" }
+      { "u_add_var": "perk_metamagic_careful_deactivated", "value": "yes" }
     ]
   },
   {
@@ -20,7 +20,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "perk_metamagic_careful" },
-        { "not": { "u_has_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" } }
+        { "not": { "u_has_var": "perk_metamagic_careful_deactivated", "value": "yes" } }
       ]
     },
     "effect": [

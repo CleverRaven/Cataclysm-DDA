@@ -92,33 +92,30 @@
     "id": "TALK_REFUGEE_BEGGAR_3",
     "dynamic_line": {
       "npc_has_effect": "insulted_luo",
-      "yes": "Fuck off, dickwaddle.",
+      "yes": { "gendered_line": "Fuck off, dickwaddle.", "relevant_genders": [ "u" ] },
       "no": {
-        "u_has_var": "luo_recruited",
-        "type": "general",
-        "context": "recruit",
+        "u_has_var": "general_recruit_luo_recruited",
         "value": "yes",
         "yes": "Yo.  Anyone else keen on moving from this bus stop to your tent city?",
         "no": {
-          "npc_has_var": "dont_insult_luo",
-          "type": "general",
-          "context": "conversation",
+          "npc_has_var": "general_conversation_dont_insult_luo",
           "value": "yes",
           "yes": {
-            "npc_has_var": "apology_luo",
-            "type": "general",
-            "context": "conversation",
+            "npc_has_var": "general_conversation_apology_luo",
             "value": "yes",
             "yes": {
               "npc_has_effect": "beggar_has_eaten",
               "yes": "Hey there.  Good to see you again.",
               "no": "Careful, I'm getting hangry again and am not totally responsible for my own actions."
             },
-            "no": "Look, I'm sorry for freaking out earlier.  You might be an asshole but I'm sure you didn't mean it like that.  My blood sugar is hella low, I get a bit cranky.  We cool?"
+            "no": {
+              "gendered_line": "Look, I'm sorry for freaking out earlier.  You might be an asshole but I'm sure you didn't mean it like that.  My blood sugar is hella low, I get a bit cranky.  We cool?",
+              "relevant_genders": [ "u" ]
+            }
           },
           "no": {
             "npc_has_effect": "beggar_has_eaten",
-            "yes": "Hey there, not-asshole.  Good to see you again.",
+            "yes": { "gendered_line": "Hey there, not-asshole.  Good to see you again.", "relevant_genders": [ "u" ] },
             "no": "Don't bother with these assholes."
           }
         }
@@ -126,7 +123,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED2"
       },
@@ -148,20 +145,20 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
-            { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
+            { "not": { "npc_has_var": "general_conversation_apology_luo", "value": "yes" } },
+            { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
         "text": "We're cool.  Sorry for insulting you earlier.",
-        "effect": { "npc_add_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" },
+        "effect": { "npc_add_var": "general_conversation_apology_luo", "value": "yes" },
         "topic": "TALK_REFUGEE_BEGGAR_3_APOLOGY"
       },
       {
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" },
+            { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -172,15 +169,13 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            {
-              "not": { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
-            },
+            { "not": { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
         "text": "I found a sample of alien fungus for you.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
-        "effect": { "npc_add_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "npc_add_var": "general_recruit_luo_owed", "value": "yes" }
       },
       { "text": "Ok… see ya.", "topic": "TALK_DONE" }
     ]
@@ -249,36 +244,34 @@
     "responses": [
       { "text": "You think you were treated like that because of your race?", "topic": "TALK_REFUGEE_BEGGAR_3_RACISM" },
       {
-        "condition": { "u_has_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" },
+        "condition": { "u_has_var": "general_conversation_told_about_FM_evacuation", "value": "yes" },
         "text": "Does that mean you were part of that back room evacuation I heard about?",
         "topic": "TALK_REFUGEE_BEGGAR_3_EVACUATION"
       },
       { "text": "Why stay out here then?", "topic": "TALK_REFUGEE_BEGGAR_3_WHYSTAY" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  No paperwork required.  Want to come?",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
-            { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
+            { "not": { "npc_has_var": "general_conversation_apology_luo", "value": "yes" } },
+            { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
         "text": "We're cool.  Sorry for insulting you earlier.",
-        "effect": { "npc_add_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" },
+        "effect": { "npc_add_var": "general_conversation_apology_luo", "value": "yes" },
         "topic": "TALK_REFUGEE_BEGGAR_3_APOLOGY"
       },
       {
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" },
+            { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -301,7 +294,7 @@
     "dynamic_line": "Sure.  My grandparents were from China.  That means I'm obviously personally responsible for all this.  Do you think there's some other reason they let hundreds of other educated people in and I'm sitting out here?",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } },
         "text": "I don't care if you're Chinese.  You can travel with me if you want.",
         "topic": "TALK_REFUGEE_BEGGAR_3_JOIN"
       },
@@ -309,10 +302,8 @@
         "condition": {
           "and": [
             { "u_has_perception": 9 },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } },
-            {
-              "not": { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" }
-            }
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } },
+            { "not": { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" } }
           ]
         },
         "text": "I mean, racism could definitely be a part of it… but you are visibly in poor shape.  They need strong survivor material.",
@@ -329,9 +320,7 @@
       { "text": "Why stay out here then?", "topic": "TALK_REFUGEE_BEGGAR_3_WHYSTAY" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } } ] },
         "text": "It'd be temporary.  I have a base set up.  There are only a few of us survivors left, we need to work together",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
@@ -347,17 +336,15 @@
       { "text": "You sound more optimistic than usual.", "topic": "TALK_REFUGEE_BEGGAR_3_WHYSTAY2" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } } ] },
         "text": "It'd be temporary.  I have a base set up.  There are only a few of us survivors left, we need to work together",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
       {
         "condition": {
           "and": [
-            { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "So, about that doctorate of yours…",
@@ -374,9 +361,7 @@
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } } ] },
         "text": "It'd be temporary.  I have a base set up.  There are only a few of us survivors left, we need to work together",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
@@ -387,12 +372,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_INSULTED",
-    "dynamic_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now… no, you know what?  Screw it.  You're not worth my time.",
+    "dynamic_line": {
+      "gendered_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now… no, you know what?  Screw it.  You're not worth my time.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": [
       {
         "effect": [
           { "npc_add_effect": "insulted_luo", "duration": 28800 },
-          { "npc_add_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" }
+          { "npc_add_var": "general_conversation_dont_insult_luo", "value": "yes" }
         ]
       }
     ],
@@ -425,23 +413,23 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_RECRUIT1",
     "dynamic_line": "Tempting offer, but I don't know how much I trust a random stranger offering me a place to live.  Call me crazy.",
-    "speaker_effect": [ { "effect": { "npc_add_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "speaker_effect": [ { "effect": { "npc_add_var": "general_recruit_luo_attempt_recruit", "value": "yes" } } ],
     "responses": [
       {
-        "condition": { "npc_has_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": { "npc_has_var": "general_recruit_luo_owed", "value": "yes" },
         "text": "Oh, come on.  I'm not a random stranger anymore, I brought you that crazy mushroom didn't I?",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED1"
       },
       {
-        "condition": { "not": { "npc_has_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_recruit_luo_owed", "value": "yes" } },
         "text": "What better choice do you have?  It's not like it would be just you and me, the others out here can come too.",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT2"
       },
       {
         "condition": {
           "and": [
-            { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "So, about that doctorate of yours…",
@@ -460,8 +448,8 @@
       {
         "condition": {
           "and": [
-            { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "So, about that doctorate of yours…",
@@ -476,13 +464,13 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED1",
     "dynamic_line": "Aw damn, I was worried you'd say that.  Okay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
-    "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "speaker_effect": [ { "effect": { "u_add_var": "general_recruit_luo_recruited", "value": "yes" } } ],
     "responses": [
       {
         "condition": {
           "and": [
-            { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "So, about that doctorate of yours…",
@@ -502,19 +490,19 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_perception": 9 }, { "u_has_intelligence": 9 } ] },
-            { "not": { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" } },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "not": { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" } },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "What had you working at the university bookstore in the first place?  Are you an academic yourself?",
-        "effect": { "u_add_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
+        "effect": { "u_add_var": "general_conversation_luo_doctorate", "value": "yes" },
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE"
       },
       {
         "condition": {
           "and": [
-            { "u_has_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" },
-            { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
+            { "u_has_var": "general_conversation_luo_doctorate", "value": "yes" },
+            { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } }
           ]
         },
         "text": "What's this I hear about you having a doctorate?",
@@ -574,21 +562,16 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS3",
     "dynamic_line": {
-      "npc_has_var": "luo_attempt_recruit",
-      "type": "general",
-      "context": "recruit",
+      "npc_has_var": "general_recruit_luo_attempt_recruit",
       "value": "yes",
       "yes": "If you get me a sample, I'll join your crazy camp expedition.  Hell, if you bring me a sample maybe I'll help you set up a lab to study this stuff.  Almost anything could work, but if this stuff is as dangerous as you make it sound, maybe make sure it's not a sporulating body.",
       "no": "I dunno, scientific interest?  If you don't bring me anything, no worries.  I'm positively swimming in entertainment here, as you can see."
     },
-    "speaker_effect": [ { "effect": { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" } } ],
+    "speaker_effect": [ { "effect": { "npc_add_var": "general_mission_luo_mycus_mission", "value": "yes" } } ],
     "responses": [
       {
         "condition": {
-          "and": [
-            { "u_has_item": "veggy_tainted" },
-            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
-          ]
+          "and": [ { "u_has_item": "veggy_tainted" }, { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } ]
         },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
@@ -597,14 +580,12 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            {
-              "not": { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } }
           ]
         },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
-        "effect": { "npc_add_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "npc_add_var": "general_recruit_luo_owed", "value": "yes" }
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Sure, I'd better get going.  I'll see if I can find you something.", "topic": "TALK_DONE" }
@@ -614,7 +595,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT",
     "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp… but look at this, these fibers are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
-    "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "speaker_effect": [ { "effect": { "u_add_var": "general_recruit_luo_recruited", "value": "yes" } } ],
     "responses": [ { "text": "Great!  I'll go see what I can do about that.", "topic": "TALK_DONE" } ]
   },
   {

@@ -15,7 +15,7 @@
       { "item": "cream_prot_cold", "count": 3 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "water_purifier" },
-      { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+      { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "multi_cooker" },
       { "item": "rope_6" },
       { "item": "emer_blanket", "count": 2 },
       { "item": "afs_radiobeacon" },

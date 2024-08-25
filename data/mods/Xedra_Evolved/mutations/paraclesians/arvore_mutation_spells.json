@@ -9,8 +9,48 @@
   {
     "type": "enchantment",
     "id": "arvore_forest_detect_enemies",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies_and_overmap",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [
+      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": { "math": [ "(u_has_trait('ARVORE_FOREST_DETECT_AND_OVERMAP') * 2) + (u_has_trait('THRESH_ARVORE') * 2)" ] }
+      }
+    ]
   },
   {
     "type": "enchantment",
@@ -40,8 +80,88 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_arvore_forest_stealth",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + ( u_has_trait('THRESH_ARVORE') * 20)" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_sense_sun",
+    "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] },
+    "ench_effects": [ { "effect": "effect_arvore_sense_sun", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_wilds_super_mending",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "values": [ { "value": "MENDING_MODIFIER", "multiply": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_arvore_sun_foods_on",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "is_day",
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_sand" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_grave" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_moss" }
+          ]
+        }
+      ]
+    },
     "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
     "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
@@ -97,9 +217,16 @@
     "base_energy_cost": 500,
     "final_energy_cost": 250,
     "energy_increment": -12,
-    "min_duration": 30000,
-    "max_duration": 1080000,
-    "duration_increment": 16500,
+    "min_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000 ) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
     "learn_spells": { "arvore_summon_preservation_container": 6 }
   },
   {
@@ -144,7 +271,8 @@
     "base_casting_time": 100,
     "base_energy_cost": 800,
     "final_energy_cost": 500,
-    "energy_increment": -40
+    "energy_increment": -40,
+    "learn_spells": { "arvore_create_living_tent_spell": 4 }
   },
   {
     "id": "arvore_verdant_infusion",
@@ -174,7 +302,7 @@
     "min_duration": 30000,
     "max_duration": 1080000,
     "duration_increment": 16500,
-    "learn_spells": { "arvore_summon_preservation_container": 9 }
+    "learn_spells": { "arvore_summon_preservation_container": 9, "arvore_turn_into_tree": 18 }
   },
   {
     "id": "arvore_roots_crack_the_foundation",
@@ -209,7 +337,7 @@
   {
     "id": "arvore_summon_wood_spirit",
     "type": "SPELL",
-    "name": "Call the Children of the Boughs",
+    "name": "Call the Children of the Roots",
     "description": "A lesser wood spirit is summoned to support you.",
     "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
@@ -219,7 +347,7 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_ARVORE",
+    "effect_str": "GROUP_GENIUS_ARVORE_LESSER",
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 8,
@@ -244,6 +372,7 @@
     "difficulty": 4,
     "spell_class": "ARVORE",
     "valid_targets": [ "self" ],
+    "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
     "shape": "blast",
@@ -378,7 +507,8 @@
     "energy_increment": -10,
     "base_casting_time": 200,
     "final_casting_time": 100,
-    "casting_time_increment": -5
+    "casting_time_increment": -5,
+    "learn_spells": { "arvore_turn_into_tree": 15 }
   },
   {
     "id": "arvore_anti_plant_spell_fungicide",
@@ -438,8 +568,32 @@
     "base_casting_time": 6000,
     "final_casting_time": 1500,
     "casting_time_increment": -225,
-    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth.  They need to go stand in the sun for that.",
-    "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10 }
+    "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10, "arvore_nurture_the_green_aoe": 14 }
+  },
+  {
+    "id": "arvore_nurture_the_green_aoe",
+    "type": "SPELL",
+    "name": "Spreading the Viridian Mantle",
+    "description": "Rather than fostering the growth of a single plant, you can cause a wave of growth all around you, affecting an entire field and bringing it towards ripeness.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_plant_growth",
+    "min_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 2500,
+    "energy_increment": -50,
+    "base_casting_time": 720000,
+    "final_casting_time": 360000,
+    "casting_time_increment": -15000
   },
   {
     "id": "arvore_growing_wood_walls",
@@ -463,7 +617,7 @@
     "base_energy_cost": 600,
     "final_energy_cost": 350,
     "energy_increment": -15,
-    "learn_spells": { "arvore_tree_singing_spell": 6 }
+    "learn_spells": { "arvore_tree_singing_spell": 6, "arvore_create_living_tent_spell": 8, "arvore_turn_into_tree": 12 }
   },
   {
     "id": "arvore_growing_wood_walls_wall",
@@ -554,14 +708,38 @@
     "energy_increment": -25,
     "base_casting_time": 150,
     "final_casting_time": 75,
-    "casting_time_increment": -5
+    "casting_time_increment": -5,
+    "learn_spells": { "arvore_create_living_tent_spell": 10 }
+  },
+  {
+    "type": "SPELL",
+    "id": "arvore_create_living_tent_spell",
+    "name": "Den of Brambles",
+    "description": "When outside on diggable ground, create a small structure of wood near the Arvore, offering shelter against the elements.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 5,
+    "teachable": false,
+    "spell_class": "ARVORE",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_living_tent",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "final_energy_cost": 250,
+    "energy_increment": -20,
+    "base_casting_time": 12000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -150
   },
   {
     "id": "arvore_roots_spell",
     "type": "SPELL",
-    "name": "Hungry Thirsty Roots",
-    "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.",
-    "//": "Experience with the druid spell Vegetative Grasp shows that at high levels it's a horde-killer with a single cast, so this is a greatly toned-down version with less predictability.",
+    "name": { "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.", "str": "Hungry Thirsty Roots" },
     "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -633,7 +811,7 @@
     "base_casting_time": 500,
     "final_casting_time": 250,
     "casting_time_increment": -8,
-    "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_damage_zombies_heal_living": 8 }
+    "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_turn_into_tree": 9, "arvore_damage_zombies_heal_living": 12 }
   },
   {
     "id": "arvore_overgrowth_spell_real",
@@ -727,7 +905,7 @@
     "id": "arvore_traverse_the_wilds_real",
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
-    "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
+    "description": "This is the actual spell that teleports you when you use Traverse the Wilds.  It's a bug if you have it directly",
     "valid_targets": [ "ground", "ally", "hostile" ],
     "skill": "deduction",
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
@@ -737,12 +915,8 @@
     "min_aoe": 4,
     "max_aoe": 1,
     "aoe_increment": -0.25,
-    "min_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )" ]
-    }
+    "min_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] }
   },
   {
     "id": "arvore_forest_translocate",
@@ -764,25 +938,10 @@
     "base_casting_time": 30000
   },
   {
-    "id": "arvore_forest_translocate_real",
-    "type": "SPELL",
-    "name": "From Root to Root the Forest Is Joined Real",
-    "description": "The actual spell that transports you for From Root to Root the Forest Is Joined.  It's a bug if you have it.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "ARVORE",
-    "skill": "deduction",
-    "flags": [ "VERBAL", "SOMATIC" ],
-    "difficulty": 9,
-    "max_level": { "math": [ "per_to_level(1)" ] },
-    "effect": "translocate",
-    "shape": "blast"
-  },
-  {
     "id": "arvore_forest_translocate_attune",
     "type": "SPELL",
     "name": "Root to Root Attunement",
-    "description": "Attune to a location for later traveling.  YOu must attune within the depths of a forest.",
+    "description": "Attune to a location for later traveling.  You must attune within the depths of a forest.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ARVORE",
@@ -813,6 +972,50 @@
     "effect_str": "ter_arvore_translocate_location_attune",
     "shape": "blast",
     "min_range": 1
+  },
+  {
+    "id": "arvore_turn_into_tree",
+    "type": "SPELL",
+    "name": "Verdant Imprisonment",
+    "description": "The ultimate expression of nature's power, you can turn your target into a tree that might have stood for a century or more.  It works best on an already-weakened target, and does not work at all on non-organic targets.",
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "shape": "blast",
+    "difficulty": 10,
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": { "math": [ "(3 + (u_spell_level('arvore_turn_into_tree') * 1.2) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": 70,
+    "energy_source": "MANA",
+    "base_energy_cost": 1750,
+    "energy_increment": -50,
+    "final_energy_cost": 850,
+    "base_casting_time": 200,
+    "casting_time_increment": -5,
+    "final_casting_time": 100,
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
+  },
+  {
+    "id": "arvore_turn_into_tree_banish",
+    "type": "SPELL",
+    "name": "Verdant Imprisonment Self",
+    "description": "This is the banishment that the target casts on themselves.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "min_damage": { "math": [ "(25 + (u_arvore_turn_into_tree_spell_level * 5)) * u_arvore_turn_into_tree_intelligence" ] },
+    "max_damage": { "math": [ "(100 + (u_arvore_turn_into_tree_spell_level * 15)) * u_arvore_turn_into_tree_intelligence" ] },
+    "min_range": 0,
+    "max_range": 0,
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
   },
   {
     "id": "arvore_reduce_thirst_spell",
@@ -939,6 +1142,7 @@
       "ZOMBIE",
       "FERAL",
       "ROBOT",
+      "ROBOT_FLYING",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",

@@ -59,28 +59,23 @@
       {
         "text": "How are you doing?",
         "topic": "TALK_lighthouse_man_hay",
-        "condition": { "npc_has_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" }
+        "condition": { "npc_has_var": "flag_help_helped_lighthouse_man", "value": "yes" }
       },
       { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Care to trade?",
         "topic": "TALK_lighthouse_man_1",
-        "condition": { "npc_has_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" },
+        "condition": { "npc_has_var": "flag_help_helped_lighthouse_man", "value": "yes" },
         "effect": "start_trade"
       },
       {
         "text": "Has anyone come recently?",
-        "condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" },
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "not": { "npc_compare_time_since_var": "wait", "type": "time", "context": "survivors", "op": "<", "time": "14 days" }
-          }
-        },
+        "condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "yes" },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
-            { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+            { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
             { "mapgen_update": "lighthouse_man_survivor", "om_terrain": "lighthouse_ground" }
           ]
         },
@@ -134,83 +129,83 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "0" },
+            { "math": [ "n_count_cleaning_lighthouse_man", "==", "0" ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  First floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "1" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "1" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z1" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Second floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "2" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "2" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z2" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Third floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "3" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "3" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z3" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Fourth floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "4" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "4" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z4" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "5" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "5" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z5" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
       },
       {
         "text": "Looks like that's over.",
         "condition": {
           "and": [
-            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "6" },
+            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "6" },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -231,7 +226,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_family",
-    "dynamic_line": "Did you find them, <name_g>?",
+    "dynamic_line": { "gendered_line": "Did you find them, <name_g>?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "We did it.  All safe.",
@@ -240,8 +235,8 @@
           "and": [
             { "u_has_mission": "MISSION_lighthouse_man_3" },
             { "not": "mission_complete" },
-            { "u_has_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" },
-            { "u_has_var": "lighthouse_girl", "type": "flag", "context": "safe", "value": "yes" }
+            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
+            { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" }
           ]
         },
         "effect": [ "mission_success", { "npc_first_topic": "TALK_lighthouse_man_1" } ]
@@ -252,15 +247,15 @@
         "condition": {
           "and": [
             "mission_complete",
-            { "not": { "u_has_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" } },
-            { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
+            { "not": { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" } },
+            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
           ]
         }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your wife alive…",
         "topic": "TALK_lighthouse_man_fail",
-        "condition": { "and": [ "mission_complete", { "u_has_var": "lighthouse_girl", "type": "flag", "context": "safe", "value": "yes" } ] }
+        "condition": { "and": [ "mission_complete", { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" } ] }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your daughter alive…",
@@ -268,8 +263,8 @@
         "condition": {
           "and": [
             { "not": "mission_complete" },
-            { "u_has_var": "lighthouse_woman", "type": "flag", "context": "safe", "value": "yes" },
-            { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
+            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
+            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
           ]
         }
       },
@@ -351,14 +346,14 @@
     "name": { "str": "House cleaning" },
     "description": "Clean lighthouse from <zombies> with Mikhail.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "7" },
+    "goal_condition": { "npc_has_var": "count_cleaning_lighthouse_man", "value": "7" },
     "difficulty": 0,
     "value": 5000,
     "start": {
       "effect": [
         "follow_only",
         { "npc_first_topic": "TALK_lighthouse_man_cleaning" },
-        { "npc_add_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "0" }
+        { "math": [ "n_count_cleaning_lighthouse_man", "=", "0" ] }
       ]
     },
     "end": {
@@ -371,7 +366,7 @@
       "effect": [
         "stop_following",
         { "npc_first_topic": "TALK_lighthouse_man_1" },
-        { "npc_lose_var": "lighthouse_man", "type": "count", "context": "cleaning" }
+        { "npc_lose_var": "count_cleaning_lighthouse_man" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -406,10 +401,7 @@
         ]
       }
     },
-    "end": {
-      "opinion": { "trust": 6, "value": 6 },
-      "effect": { "u_add_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" }
-    },
+    "end": { "opinion": { "trust": 6, "value": 6 }, "effect": { "u_add_var": "flag_help_lighthouse_family_safe", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_lighthouse_man_4",
     "dialogue": {
@@ -440,7 +432,7 @@
         "om_terrain": "lighthouse_ground",
         "place_vehicles": [ { "vehicle": "canoe", "x": 3, "y": 3, "rotation": 0, "status": 0, "chance": 100 } ]
       },
-      "effect": [ { "npc_add_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" } ]
+      "effect": [ { "npc_add_var": "flag_help_helped_lighthouse_man", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_lighthouse_man_5",
@@ -462,7 +454,7 @@
     "name": { "str": "Fixing lighthouse" },
     "description": "Mikhail asked you to find someone, who have enough expertise to fix the mechanism of lighthouse.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "ready" },
+    "goal_condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "ready" },
     "difficulty": 0,
     "value": 100000,
     "end": {
@@ -472,8 +464,8 @@
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
       },
       "effect": [
-        { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
-        { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" }
+        { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
+        { "u_add_var": "global_safe_space_lighthouse_fixed", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

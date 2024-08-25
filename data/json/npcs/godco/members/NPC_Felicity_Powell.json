@@ -15,15 +15,15 @@
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "How's the manuscript coming?",
-        "condition": { "npc_compare_time_since_var": "writing_manuscript", "type": "timer", "context": "trade", "op": "<", "time": "30 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_writing_manuscript)", "<", "time('30 d')" ] },
         "topic": "TALK_GODCO_Felicity_Manuscript_InProgress"
       },
       {
         "text": "How's the manuscript coming?",
         "condition": {
           "and": [
-            { "npc_compare_time_since_var": "writing_manuscript", "type": "timer", "context": "trade", "op": ">=", "time": "30 d" },
-            { "not": { "npc_has_var": "gave_u_manuscript", "type": "general", "context": "trade", "value": "yes" } }
+            { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
+            { "not": { "npc_has_var": "general_trade_gave_u_manuscript", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Manuscript"
@@ -35,9 +35,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_felicity",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_felicity",
       "value": "yes",
       "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
       "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
@@ -45,29 +43,29 @@
     "responses": [
       {
         "text": "Felicity?  Nice to meet you.  How are things here?",
-        "effect": { "npc_add_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet"
       },
       {
         "text": "Felicity?  Nice to meet you.  How are things here?",
-        "effect": { "npc_add_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet2"
       },
       {
         "text": "Hi Felicity.  Got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "topic": "TALK_GODCO_Felicity_2"
       },
       { "text": "Hi Felicity.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -174,10 +172,7 @@
     "responses": [
       {
         "text": "Thank you, I'm sure it's lovely.",
-        "effect": [
-          { "npc_add_var": "gave_u_manuscript", "type": "general", "context": "trade", "value": "yes" },
-          { "u_spawn_item": "book_fict_soft_docu_AWT" }
-        ],
+        "effect": [ { "npc_add_var": "general_trade_gave_u_manuscript", "value": "yes" }, { "u_spawn_item": "book_fict_soft_docu_AWT" } ],
         "topic": "TALK_GODCO_Felicity_3"
       }
     ]

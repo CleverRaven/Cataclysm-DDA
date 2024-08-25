@@ -37,6 +37,6 @@
     "apply_message": "You feel strong!",
     "remove_message": "Your strength deflates.",
     "rating": "good",
-    "base_mods": { "str_mod": [ 2 ] }
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   }
 ]

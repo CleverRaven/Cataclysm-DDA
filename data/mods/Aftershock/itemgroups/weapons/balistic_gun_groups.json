@@ -3,11 +3,13 @@
     "id": "afs_any_ballistic_gun",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "group": "afs_any_ballistic_s_gun", "prob": 10 },
-      { "group": "afs_any_ballistic_m_gun", "prob": 10 },
-      { "group": "afs_any_ballistic_h_gun", "prob": 3 }
-    ]
+    "items": [ { "group": "afs_any_ballistic_s_gun", "prob": 10 }, { "group": "afs_any_ballistic_m_gun", "prob": 10 } ]
+  },
+  {
+    "id": "afs_civilian_ballistic_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_ballistic_s_gun", "prob": 10 }, { "group": "afs_civilian_ballistic_m_gun", "prob": 10 } ]
   },
   {
     "id": "afs_any_ballistic_s_gun",
@@ -27,7 +29,9 @@
       [ "afs_Accipitermg", 20 ],
       [ "afs_gibrifle", 40 ],
       [ "afs_shotgun", 15 ],
+      [ "afs_sr77", 10 ],
       [ "afs_25mm_goa", 5 ],
+      [ "afs_marsec_t72", 2 ],
       [ "afs_drotik_shotpistol", 5 ],
       [ "afs_shotgun_magnastorm", 5 ]
     ]
@@ -85,6 +89,16 @@
     ]
   },
   {
+    "id": "afs_any_civilian_ballistic_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_civilian_ballistic_s_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_m_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_h_ammo", "prob": 2 }
+    ]
+  },
+  {
     "id": "afs_any_ballistic_s_ammo",
     "type": "item_group",
     "subtype": "distribution",
@@ -120,5 +134,45 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "afs_magnetic_choke", 10 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_s_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_seyfert_84K", 40 ], [ "afs_marsec_4", 10 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_m_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_shotgun", 15 ], [ "afs_25mm_goa", 5 ], [ "afs_drotik_shotpistol", 5 ], [ "afs_shotgun_magnastorm", 5 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_s_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_10mm_caseless_FMJ", 20 ], [ "afs_10mm_caseless_JHP", 40 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_m_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_7.50mm_caseless", 10 ], [ "afs_7.50mm_rp", 40 ], [ "shot_00", 5 ], [ "shot_slug", 5 ], [ "shot_beanbag", 5 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_h_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_25mm_shot", 40 ] ]
   }
 ]

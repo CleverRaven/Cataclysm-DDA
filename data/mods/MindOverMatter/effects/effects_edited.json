@@ -30,7 +30,7 @@
   {
     "id": "tindrift",
     "type": "effect_type",
-    "immune_flags": [ "TEEPSHIELD", "TELESTOP" ]
+    "immune_flags": [ "TEEPSHIELD" ]
   },
   {
     "id": "attention",

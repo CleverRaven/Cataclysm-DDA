@@ -1,0 +1,203 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_exodii_mission_wh_directions_chance",
+    "//": "to be called by NPCs as a way to assess if they have the right directions to the exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
+    "condition": { "one_in_chance": { "global_val": "exodii_mission_wh_chance" } },
+    "effect": [ { "npc_add_var": "exodii_mission_wh_correct", "value": "yes" } ],
+    "false_effect": [
+      {
+        "if": { "one_in_chance": 4 },
+        "then": { "npc_add_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "else": { "npc_add_var": "exodii_mission_wh_correct", "value": "no" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "Common topic responses for anyone who can give directions.  Also serves as a list of what NPCs can give these directions.",
+    "id": [
+      "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+      "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+      "TALK_JOHN_BAILEY_EXODII_MISSION_WAREHOUSE",
+      "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+      "TALK_CARAVAN_REFUGEES_EXODII_MISSION_WAREHOUSE",
+      "TALK_NPC_CAMPER_VAN_TRAVELER_EXODII_MISSION_WAREHOUSE",
+      "TALK_NPC_LUMBERMILL_LOGGER_MISSION_WAREHOUSE"
+    ],
+    "responses": [
+      {
+        "text": "Can you give me directions?",
+        "topic": "TALK_Directions_exodii_true",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "yes" }
+      },
+      {
+        "text": "Can you give me directions?",
+        "topic": "TALK_Directions_exodii_false",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Directions_exodii_true",
+    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "dynamic_line": [
+      {
+        "concatenate": [
+          "&You listen to the directions, and jot them down in your map",
+          {
+            "follower_present": "NC_STARTINGNPC_LIAM",
+            "yes": ".  Liam looks over your shoulder, and nods.  \"I've got a good feeling about this one.\"",
+            "no": "."
+          }
+        ]
+      },
+      "&You listen to the directions, and jot them down in your map."
+    ],
+    "speaker_effect": { "effect": { "assign_mission": "mission_exodii_wh_directions" } },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Directions_exodii_false",
+    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "dynamic_line": [
+      {
+        "concatenate": [
+          "&You listen to the directions, and jot them down in your map",
+          {
+            "follower_present": "NC_SCAVENGER_MERC",
+            "yes": ".  The Merc looks at the map with an eyeroll.  \"This ain't it, chief.\"",
+            "no": {
+              "follower_present": "NC_BEGGAR_5",
+              "yes": ".  Yusuke studies the drawing for a moment, then raises an eyebrow.  \"I've been out that way scavenging before, and I don't remember seeing anything like the warehouse we're looking for.\"",
+              "no": {
+                "follower_present": "NC_ISHERWOOD_CHRIS",
+                "yes": ".  Chris watches over your shoulder, frowning slightly.  \"I think I know that area, and I'm not quite sure that's what we're looking for.\"",
+                "no": "."
+              }
+            }
+          }
+        ]
+      },
+      "&You listen to the directions, and jot them down in your map."
+    ],
+    "speaker_effect": {
+      "effect": {
+        "switch": { "math": [ "rng(1, 3)" ] },
+        "cases": [
+          { "case": 1, "effect": { "assign_mission": "mission_exodii_wh_bad_directions1" } },
+          { "case": 2, "effect": { "assign_mission": "mission_exodii_wh_bad_directions2" } },
+          { "case": 3, "effect": { "assign_mission": "mission_exodii_wh_bad_directions3" } }
+        ]
+      }
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "mission_exodii_wh_directions",
+    "type": "mission_definition",
+    "name": { "str": "Possible directions to Exodii warehouse" },
+    "description": "You've gotten directions to what might be the warehouse Rubik asked you to find.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2, "search_range": 1000 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "mission_exodii_wh_bad_directions1",
+    "type": "mission_definition",
+    "name": { "str": "Possible directions to Exodii warehouse" },
+    "description": "You've gotten directions to what might be the warehouse Rubik asked you to find.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_special": "Out-of-place Stone Barn",
+        "om_terrain": "exo_safehouse_stone_0",
+        "reveal_radius": 2,
+        "search_range": 1000
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "mission_exodii_wh_bad_directions2",
+    "type": "mission_definition",
+    "name": { "str": "Possible directions to Exodii warehouse" },
+    "description": "You've gotten directions to what might be the warehouse Rubik asked you to find.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Mi-Go Scout Tower", "om_terrain": "mi-go_scout_tower_3", "reveal_radius": 2, "search_range": 1000 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "mission_exodii_wh_bad_directions3",
+    "type": "mission_definition",
+    "name": { "str": "Possible directions to Exodii warehouse" },
+    "description": "You've gotten directions to what might be the warehouse Rubik asked you to find.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "desolate barn", "om_terrain": "desolatebarn", "reveal_radius": 2, "search_range": 1000 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  }
+]

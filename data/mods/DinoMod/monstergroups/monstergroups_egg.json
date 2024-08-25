@@ -93,6 +93,7 @@
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
       { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
       { "monster": "mon_ornithomimus_hatchling", "weight": 20 },
+      { "monster": "mon_falcarius_hatchling", "weight": 10 },
       { "monster": "mon_nothronychus_hatchling", "weight": 10 },
       { "monster": "mon_anzu_hatchling", "weight": 10 },
       { "monster": "mon_deinonychus_hatchling", "weight": 10 },
@@ -231,6 +232,11 @@
     "name": "GROUP_EGG_albertonykus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_albertonykus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_falcarius",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_falcarius_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_therizinosaurus",
@@ -426,6 +432,11 @@
     "name": "GROUP_EGG_camptosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_camptosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_iguanodon",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_iguanodon_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_hadrosaurus",

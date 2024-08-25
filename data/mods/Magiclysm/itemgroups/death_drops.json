@@ -44,13 +44,48 @@
           { "group": "potions_uncommon", "prob": 20 },
           { "group": "enchanted_rings_common", "prob": 20 },
           { "group": "enchanted_wands_lesser", "prob": 20 },
-          { "group": "magical_reagents", "prob": 80, "count-min": 1, "count-max": 5 },
+          { "group": "magical_reagents", "prob": 80, "count": [ 1, 5 ] },
           { "group": "textbooks", "prob": 25 },
           { "group": "lab_files_generic", "prob": 15 },
           { "item": "crystallized_mana", "prob": 35, "charges": [ 1, 5 ] }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_feral_druid_death_drops",
+    "entries": [
+      {
+        "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
+        "prob": 4
+      },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "item": "crystallized_mana", "prob": 20, "charges": [ 1, 5 ] },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "magical_reagents", "prob": 33, "count": [ 1, 5 ] },
+      { "group": "group_potion_fruits", "prob": 20 },
+      { "group": "enchanted_combat_items", "prob": 25 },
+      { "group": "druid_items", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_feral_earthshaper_death_drops",
+    "entries": [
+      {
+        "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
+        "prob": 4
+      },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "item": "crystallized_mana", "prob": 20, "charges": [ 1, 5 ] },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "magical_reagents", "prob": 33, "count": [ 1, 5 ] },
+      { "group": "enchanted_combat_items", "prob": 25 },
+      { "group": "earthshaper_items", "prob": 10 }
     ]
   },
   {

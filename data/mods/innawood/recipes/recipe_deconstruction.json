@@ -13,7 +13,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {

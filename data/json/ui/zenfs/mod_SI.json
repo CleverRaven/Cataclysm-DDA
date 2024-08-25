@@ -1,0 +1,127 @@
+[
+  {
+    "id": "zenfs_sky_island_expedition_timer_46",
+    "type": "widget",
+    "style": "layout",
+    "width": 46,
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_blank_line_10", "zenfs_sky_island_expedition_timer", "zenfs_blank_line" ]
+  },
+  {
+    "id": "zenfs_sky_island_expedition_timer_50",
+    "type": "widget",
+    "style": "layout",
+    "width": 50,
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_blank_line_12", "zenfs_sky_island_expedition_timer", "zenfs_blank_line" ]
+  },
+  {
+    "id": "zenfs_sky_island_expedition_timer",
+    "type": "widget",
+    "style": "text",
+    "width": 20,
+    "clauses": [
+      {
+        "id": "safe_at_home",
+        "text": "     HOME SAFE",
+        "color": "light_blue",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_at_om_location": "sky_island_core" },
+                { "u_at_om_location": "sky_island_edge" },
+                { "u_at_om_location": "sky_island_corner" }
+              ]
+            },
+            { "not": { "u_has_trait": "awayfromhome" } }
+          ]
+        }
+      },
+      {
+        "id": "nine_left",
+        "text": " +-+-+-+-+-+-+-+-+",
+        "color": "light_blue",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "0" ] } ] }
+      },
+      {
+        "id": "eight_left",
+        "text": "  +-+-+-+-+-+-+-+",
+        "color": "green",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", ">=", "8" ] } ] }
+      },
+      {
+        "id": "seven_left",
+        "text": "   +-+-+-+-+-+-+",
+        "color": "light_green",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "7" ] } ] }
+      },
+      {
+        "id": "six_left",
+        "text": "    +-+-+-+-+-+",
+        "color": "light_green",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "6" ] } ] }
+      },
+      {
+        "id": "five_left",
+        "text": "     +-+-+-+-+",
+        "color": "yellow",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "5" ] } ] }
+      },
+      {
+        "id": "four_left",
+        "text": "      +-+-+-+",
+        "color": "yellow",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "4" ] } ] }
+      },
+      {
+        "id": "three_left",
+        "text": "       +-+-+",
+        "color": "yellow",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "3" ] } ] }
+      },
+      {
+        "id": "two_left",
+        "text": "        +-+",
+        "color": "light_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "2" ] } ] }
+      },
+      {
+        "id": "one_left",
+        "text": "         +",
+        "color": "light_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "1" ] } ] }
+      },
+      {
+        "id": "over_deadline",
+        "text": "       DANGER",
+        "color": "i_light_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "9" ] } ] }
+      },
+      {
+        "id": "over_deadline_one",
+        "text": "   SEVERE DANGER",
+        "color": "i_light_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "10" ] } ] }
+      },
+      {
+        "id": "over_deadline_two",
+        "text": "   EXTREME DANGER",
+        "color": "i_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "11" ] } ] }
+      },
+      {
+        "id": "over_deadline_three",
+        "text": "CATASTROPHIC DANGER",
+        "color": "i_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "12" ] } ] }
+      },
+      {
+        "id": "over_deadline_four",
+        "text": "   IMMINENT DEATH",
+        "color": "i_red",
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "u_has_effect": "warpdisintegration" } ] }
+      }
+    ]
+  }
+]

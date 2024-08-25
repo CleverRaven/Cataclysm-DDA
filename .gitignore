@@ -10,6 +10,7 @@
 *.apk
 *.log
 /WinDepend/
+/achievements/
 /bindist/
 /build/
 /build-start-time
@@ -76,6 +77,7 @@ Directory.Build.targets
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
+CMakeFiles/git-data
 CMakeUserPresets.json
 out/
 
@@ -232,6 +234,7 @@ Xcode/
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
+cities.output
 weather.output
 
 # bundler local directories and files for jekyll site

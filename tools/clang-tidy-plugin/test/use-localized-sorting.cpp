@@ -65,7 +65,7 @@ void sort1( NonString *start, NonString *end )
 void sortit0( std::vector<std::string>::iterator start, std::vector<std::string>::iterator end )
 {
     std::sort( start, end );
-    // CHECK-MESSAGES: warning: Raw sort of 'typename __traits_type::value_type' (aka 'std::basic_string<char>').  For UI purposes please use localized_compare from translations.h. [cata-use-localized-sorting]
+    // CHECK-MESSAGES: warning: Raw sort of 'typename {{.*}}' (aka 'std::{{.*string.*}}').  For UI purposes please use localized_compare from translations.h. [cata-use-localized-sorting]
 }
 
 void sortit1( std::vector<NonString>::iterator start, std::vector<NonString>::iterator end )

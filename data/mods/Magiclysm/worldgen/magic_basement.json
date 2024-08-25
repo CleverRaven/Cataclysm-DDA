@@ -62,7 +62,11 @@
       },
       "furniture": { "&": "f_magiclysm_translocator_gate", "!": "f_rack_coat", "?": "f_bookcase", "=": "f_bookcase" },
       "items": {
-        "?": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
+        "?": [
+          { "item": "magic_shop_books", "chance": 40 },
+          { "item": "spellbook_mana_upgrades", "chance": 2 },
+          { "item": "magic_shop_potions", "chance": 60 }
+        ],
         "=": [ { "item": "novels", "chance": 30 }, { "item": "homebooks", "chance": 10 } ],
         "~": [ { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] } ],
         "I": [

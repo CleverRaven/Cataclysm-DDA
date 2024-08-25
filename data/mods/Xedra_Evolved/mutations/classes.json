@@ -58,5 +58,15 @@
     "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
     "vitamin_rates": [ [ "creative_spark", -64800 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HEDGE_MAGIC",
+    "name": "Hedgecraft",
+    "points": 0,
+    "description": "The craft of the wise, provenance of cunning men, wise women, soothsayers, knowers, herb-witches, and curse-lifters throughout history.  With the proper components, and at the proper times and places, they can perform miracles.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

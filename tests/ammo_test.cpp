@@ -123,7 +123,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "m1911" ) ) );
         CHECK( has_ammo_types( item( "usp_9mm" ) ) );
         CHECK( has_ammo_types( item( "tommygun" ) ) );
-        CHECK( has_ammo_types( item( "ak74" ) ) );
+        CHECK( has_ammo_types( item( "ak74_semi" ) ) );
         CHECK( has_ammo_types( item( "ak47" ) ) );
     }
 
@@ -192,11 +192,9 @@ TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
         // GUN type items with integral magazine
         item slingshot( "slingshot" );
         item colt( "colt_army" );
-        item lemat( "lemat_revolver" );
         CHECK( slingshot.ammo_default() == itype_pebble );
         // Revolver ammo is "44paper" but default ammunition type is "44army"
         CHECK( colt.ammo_default() == itype_44army );
-        CHECK( lemat.ammo_default() == itype_44army );
     }
 }
 

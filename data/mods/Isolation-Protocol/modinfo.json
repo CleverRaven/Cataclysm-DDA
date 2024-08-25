@@ -5,7 +5,7 @@
     "name": "Isolation Protocol",
     "authors": [ "Candlebury" ],
     "maintainers": [ "Candlebury" ],
-    "description": "A total conversion mod inspired by traditional dungeon crawler roguelikes.  Reach the bottom of an altered lab and prevent the cataclysm from spreading to the surface!",
+    "description": "A total conversion mod inspired by traditional dungeon crawler roguelikes.  Reach the bottom of an altered lab and prevent the Cataclysm from spreading to the surface!",
     "category": "total_conversion",
     "dependencies": [ "dda" ]
   }

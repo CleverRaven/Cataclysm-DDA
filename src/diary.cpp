@@ -1,26 +1,40 @@
 #include "diary.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
-#include <iostream>
-#include <list>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "filesystem.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "json.h"
+#include "json_error.h"
+#include "kill_tracker.h"
+#include "magic.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "path_info.h"
+#include "pimpl.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
+#include "weather.h"
 
 diary_page::diary_page() = default;
 

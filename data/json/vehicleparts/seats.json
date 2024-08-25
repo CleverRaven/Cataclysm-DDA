@@ -38,7 +38,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "reclining_seat",
-    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6 cm cost per quadrant",
     "name": { "str": "bucket seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -126,7 +126,7 @@
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
-    "//": "weld repairs would mostly be the frame, so low 4cm cost per quadrant",
+    "//": "weld repairs would mostly be the frame, so low 4 cm cost per quadrant",
     "comfort": 1,
     "item": "saddle",
     "requirements": {
@@ -175,7 +175,7 @@
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
     "durability": 450,
     "item": "steel_plate",
-    "//": "more metal here so bigger weld cost - 20cm weld per damage quadrant",
+    "//": "more metal here so bigger weld cost - 20 cm weld per damage quadrant",
     "name": { "str": "steel bench" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },

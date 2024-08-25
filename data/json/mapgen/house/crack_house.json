@@ -58,7 +58,7 @@
         "_": "t_region_soil",
         ";": "t_chainfence_posts"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 50, "status": -1 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
       "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
       "place_items": [
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },

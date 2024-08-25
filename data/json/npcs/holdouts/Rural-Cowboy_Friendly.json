@@ -14,52 +14,56 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_MAIN",
     "dynamic_line": {
-      "u_has_var": "talked_to_cowboyfr",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr",
       "value": "yes",
       "yes": "Hello again.",
       "no": "Ayuh, I was thinkin' it's just another monstah skulkin' about.  Who are you?"
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" } },
     "responses": [
       {
         "text": "Just a survivor, looking around.  What are you doing here?",
         "topic": "TALK_COWBOYFR_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" } }
       },
       {
         "text": "What did you before all this?",
         "topic": "TALK_COWBOYFR_BACKGROUND",
-        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
       },
       {
         "text": "Is there something I can do for you?",
         "topic": "TALK_COWBOYFR_HELP",
-        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
       },
       {
         "text": "How about we travel together?",
         "topic": "TALK_COWBOYFR_FOLLOW",
-        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
       },
       {
         "text": "What's with the accent?",
         "topic": "TALK_COWBOYFR_ACCENT",
-        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
       }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_BACKGROUND",
-    "dynamic_line": "I worked on a ranch not too fah from here 'fore it all went down.  I'd love ta get back ta what I did - taking care of horses, cows, all sorts of animals, makin' sure the fields stay safe an' all that.  But now?  I dunno, man.  Just tryin' ta survive, I suppose.  Hopefully, tha world will get back togetha' one day and I can put mah skills ta use doin' what I like.",
+    "dynamic_line": {
+      "gendered_line": "I worked on a ranch not too fah from here 'fore it all went down.  I'd love ta get back ta what I did - taking care of horses, cows, all sorts of animals, makin' sure the fields stay safe an' all that.  But now?  I dunno, man.  Just tryin' ta survive, I suppose.  Hopefully, tha world will get back togetha' one day and I can put mah skills ta use doin' what I like.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Let's hope it will.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_INTRODUCTION",
-    "dynamic_line": "I was just sort of wanderin' around, hoping ta maybe find some bettah gear.  Decided ta rest up, 'eard someone walkin', and, well, here we are.",
+    "dynamic_line": {
+      "gendered_line": "I was just sort of wanderin' around, hoping ta maybe find some bettah gear.  Decided ta rest up, 'eard someone walkin', and, well, here we are.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {

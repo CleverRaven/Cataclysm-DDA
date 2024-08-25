@@ -227,6 +227,7 @@
         "4|:  H  3     B6B =|A'|.",
         ".||00|||||0||||||||||||."
       ],
+      "palettes": [ "commercial" ],
       "terrain": {
         "A": "t_linoleum_gray",
         "R": "t_linoleum_gray",
@@ -255,7 +256,7 @@
         "Á": "f_sink",
         "B": "f_chair",
         "C": "f_desk",
-        "F": "f_glass_fridge",
+        "F": { "param": "display_fridge", "fallback": "f_glass_fridge" },
         "f": "f_fridge",
         "H": "f_armchair",
         "S": "f_stool",
@@ -287,9 +288,9 @@
         { "item": "road", "x": [ 20, 20 ], "y": [ 13, 14 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "camping", "x": [ 9, 9 ], "y": [ 15, 15 ], "chance": 90, "repeat": [ 1, 10 ] },
         { "item": "magazines", "x": [ 9, 9 ], "y": [ 13, 15 ], "chance": 90, "repeat": [ 1, 25 ] },
-        { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 8 ] }
+        { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "nested_shotgun_s", "x": 3, "y": 20, "chance": 10 }
       ],
-      "place_item": [ { "item": "shotgun_s", "x": 3, "y": 20 }, { "item": "shot_00", "x": 7, "y": 19, "chance": 50 } ],
       "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },

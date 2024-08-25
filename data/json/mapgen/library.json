@@ -32,7 +32,7 @@
         ".....4..................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "library_palette" ],
       "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
   },
@@ -70,9 +70,8 @@
         ".....4..................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
-      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
       "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
   },
@@ -164,7 +163,7 @@
         ".5.....5..#[[[y| | [#...",
         "..........######o####..."
       ],
-      "palettes": [ "standard_building_palette", "library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "library_palette" ],
       "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
     }
@@ -203,9 +202,8 @@
         ".5.....5..#[[[y| | [#...",
         "..........######o####..."
       ],
-      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
-      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
       "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
     }
@@ -301,7 +299,7 @@
         "...........#y CC  + t#..",
         "...........###########.."
       ],
-      "palettes": [ "standard_building_palette", "library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "library_palette" ],
       "nested": { "G": { "chunks": [ "roof_6x6_garden_1" ] } },
       "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
       "terrain": { "G": "t_grass" },
@@ -342,12 +340,9 @@
         "...........#y CC  + t#..",
         "...........###########.."
       ],
-      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
-      "nested": {
-        "G": { "chunks": [ "roof_6x6_garden_1" ] },
-        "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] }
-      },
+      "nested": { "G": { "chunks": [ "roof_6x6_garden_1" ] } },
       "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
       "terrain": { "G": "t_grass" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
@@ -444,7 +439,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "library_palette" ],
+      "palettes": [ "standard_building_shared_palette", "library_palette" ],
       "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
   },
@@ -482,8 +477,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
-      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
+      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
   },

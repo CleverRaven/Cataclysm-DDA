@@ -188,6 +188,7 @@
         { "item": "homebooks", "chance": 45, "repeat": [ 1, 5 ] },
         { "item": "spellbook_loot_1", "chance": 35, "repeat": [ 0, 2 ] },
         { "item": "spellbook_loot_2", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "spellbook_mana_upgrades", "chance": 1 },
         { "item": "dragon_books", "chance": 10 }
       ]
     },

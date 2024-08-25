@@ -30,9 +30,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_GUARD_Boris_Mission_1"
@@ -47,7 +45,10 @@
     "dynamic_line": [
       "Nothing too fancy.  We have a rota of anyone able bodied that can handle themselves.",
       "None of your business really, is it.",
-      "I've seen my share of zombies, I'm one of the ones that's ready to take em on.  Nothing more.",
+      {
+        "gendered_line": "I've seen my share of zombies, I'm one of the ones that's ready to take em on.  Nothing more.",
+        "relevant_genders": [ "npc" ]
+      },
       "Gotta earn my keep.",
       "It's honest work, and now and then I get to take a zombie down."
     ],
@@ -63,7 +64,7 @@
       "I'd rather stand around looking threatening than scrub gore out of the tiles.",
       "Not unless you pay me.  Try the shopkeep, they can sell our services just like anything else."
     ],
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_DONE" } ]
   }
 ]

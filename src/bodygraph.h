@@ -2,13 +2,20 @@
 #ifndef CATA_SRC_BODYGRAPH_H
 #define CATA_SRC_BODYGRAPH_H
 
+#include <functional>
+#include <map>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
-#include "type_id.h"
 #include "damage.h"
+#include "effect.h"
+#include "type_id.h"
 
-class effect;
+class Character;
 class JsonObject;
 
 struct bodygraph_part {

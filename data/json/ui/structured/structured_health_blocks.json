@@ -210,7 +210,7 @@
       "pain_desc_no_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
-      "fatigue_desc_no_label",
+      "sleepiness_desc_no_label",
       "body_temp_desc_no_label",
       "structured_temp_radiation_layout",
       "structured_focus_mood_layout"
@@ -238,7 +238,7 @@
       "pain_num_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
-      "fatigue_desc_no_label",
+      "sleepiness_desc_no_label",
       "body_temp_desc_no_label",
       "structured_temp_radiation_layout",
       "structured_focus_mood_layout"

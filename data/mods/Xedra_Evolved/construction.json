@@ -1,0 +1,14 @@
+[
+  {
+    "type": "construction",
+    "id": "place_dreamforged_bed_of_restful_repose",
+    "group": "bed_upgrades",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "120 m",
+    "components": [ [ [ "dreamforged_bed_of_restful_repose", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_dreamforged_bed_of_restful_repose",
+    "activity_level": "LIGHT_EXERCISE"
+  }
+]

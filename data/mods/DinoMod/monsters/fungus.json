@@ -15,7 +15,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -34,7 +34,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
   },
   {
@@ -53,7 +53,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
   },
   {
@@ -72,7 +72,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -91,7 +91,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -111,7 +111,7 @@
     "vision_night": 5,
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -131,7 +131,7 @@
     "vision_night": 5,
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -156,7 +156,7 @@
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -176,7 +176,7 @@
     "vision_night": 5,
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -196,7 +196,7 @@
     "vision_night": 5,
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -216,7 +216,7 @@
     "vision_night": 5,
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -236,7 +236,7 @@
     "vision_night": 5,
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 5 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -255,7 +255,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 5 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -274,7 +274,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 10 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -293,7 +293,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 5 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -312,7 +312,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -331,7 +331,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -350,7 +350,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -369,8 +369,27 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zalcarius_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal falcarius zombie" },
+    "description": "Once a feathered bipedal plant eating dinosaur with long claws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zalcarius",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 20 } ],
+    "upgrades": false,
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zerizinosaurus_fungus",
@@ -387,8 +406,8 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 20 ] ],
-    "upgrades": {  },
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 20 } ],
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "DESTROYS" ]
   },
   {
@@ -406,8 +425,8 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
-    "upgrades": {  },
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -425,8 +444,8 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
-    "upgrades": {  },
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -450,7 +469,7 @@
       [ "scratch", 10 ],
       { "type": "bite", "cooldown": 5 }
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -474,7 +493,7 @@
       [ "scratch", 10 ],
       { "type": "bite", "cooldown": 5 }
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
@@ -493,7 +512,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -512,7 +531,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -531,7 +550,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -550,7 +569,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -573,7 +592,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -596,7 +615,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
@@ -605,7 +624,7 @@
     "name": { "str": "fungal brontosaurus zombie" },
     "description": "This was once a massive, long-necked, four-legged dinosaur herbivore with a bulky torso and a long, whip-like tail.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_ziplodocus_fungus",
@@ -613,7 +632,7 @@
     "name": { "str": "fungal diplodocus zombie" },
     "description": "Once a huge, long-necked, four-legged plant eating dinosaur with a tiny head and long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zarosaurus_fungus",
@@ -621,7 +640,7 @@
     "name": { "str": "fungal barosaurus zombie" },
     "description": "Once a huge, long-necked, four-legged plant eating dinosaur with a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zamarasaurus_fungus",
@@ -629,7 +648,7 @@
     "name": { "str": "fungal camarasaurus zombie" },
     "description": "Once a huge, long-necked, four-legged plant eating dinosaur with a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zrachiosaurus_fungus",
@@ -638,7 +657,7 @@
     "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with longer forelegs and a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
     "proportional": { "hp": 2, "speed": 0.65 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zalamosaurus_fungus",
@@ -647,7 +666,7 @@
     "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with longer forelegs and spiked tail protected by natural bone armor, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zapatosaurus_fungus",
     "proportional": { "hp": 1.5, "speed": 0.8, "armor": { "bash": 2, "cut": 2 } },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_ztegosaurus_fungus",
@@ -669,7 +688,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -692,7 +711,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -702,7 +721,7 @@
     "description": "Once a heavily armored four legged dinosaur with a long tail, a beak, and large shoulder spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zodosaurus_fungus",
     "proportional": { "hp": 0.7 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zargoyleosaurus_fungus",
@@ -711,7 +730,7 @@
     "description": "Once a lightly armored four legged dinosaur with a rigid spiked tail, a beak, and sturdy spikes along the sides, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zodosaurus_fungus",
     "proportional": { "hp": 0.8 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zauropelta_fungus",
@@ -719,7 +738,7 @@
     "name": { "str": "fungal sauropelta zombie" },
     "description": "Once a heavily armored four legged dinosaur with a beak, a long tail, and long wicked-looking spikes jutting out of the neck, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zodosaurus_fungus",
-    "upgrades": {  },
+    "upgrades": false,
     "armor": { "bash": 16, "bullet": 7, "cut": 30 }
   },
   {
@@ -730,7 +749,7 @@
     "copy-from": "mon_zankylosaurus_fungus",
     "proportional": { "hp": 0.6 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zanoplosaurus_fungus",
@@ -740,7 +759,7 @@
     "copy-from": "mon_zankylosaurus_fungus",
     "proportional": { "hp": 0.6 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zedmontonia_fungus",
@@ -751,7 +770,7 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "proportional": { "hp": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zzuul_fungus",
@@ -760,7 +779,7 @@
     "description": "Once a four-legged armored dinosaur covered with spikes with a wicked club tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus_fungus",
     "proportional": { "hp": 0.4, "speed": 1.2 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zyoplosaurus_fungus",
@@ -769,7 +788,7 @@
     "description": "Once a heavily armored four legged dinosaur with a beak and a long tail ending in a spiked club of bone, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zankylosaurus_fungus",
     "proportional": { "hp": 0.35, "speed": 1.2 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zankylosaurus_fungus",
@@ -793,7 +812,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -818,7 +837,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -843,7 +862,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -862,7 +881,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -881,7 +900,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
@@ -900,8 +919,17 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+  },
+  {
+    "id": "mon_ziguanodon_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal iguanodon zombie" },
+    "description": "Once a bulky, beaked four-legged dinosaur herbivore with spiky thumbs, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 3.5 },
+    "upgrades": false
   },
   {
     "id": "mon_zadrosaurus_fungus",
@@ -910,7 +938,7 @@
     "description": "Once a bulky, beaked four-legged dinosaur herbivore, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 3 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zaiasaura_fungus",
@@ -919,7 +947,7 @@
     "description": "This was once a huge, four-legged dinosaur herbivore with hooves, a heavy tail, and a flat beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 3 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zryposaurus_fungus",
@@ -928,7 +956,7 @@
     "description": "Once a huge, four-legged dinosaur herbivore with a toothless beak and a narrow arching nasal hump, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zrosaurolophus_fungus",
@@ -937,7 +965,7 @@
     "description": "Once a huge, four-legged dinosaur herbivore with hooves and a broad beak and a small nasal crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zaurolophus_fungus",
@@ -946,7 +974,7 @@
     "description": "Once a huge, four-legged dinosaur herbivore with hooves and a broad beak and a spiky head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zedmontosaurus_fungus",
@@ -955,7 +983,7 @@
     "description": "Once a huge, four-legged dinosaur herbivore with a broad, toothless beak, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 5 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zarasaurolophus_fungus",
@@ -964,7 +992,7 @@
     "description": "Once a huge, four-legged dinosaur herbivore with a blunt head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zambeosaurus_fungus",
@@ -974,7 +1002,7 @@
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zorythosaurus_fungus",
@@ -984,7 +1012,7 @@
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zypacrosaurus_fungus",
@@ -994,7 +1022,7 @@
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zachycephalosaurus_fungus",
@@ -1012,7 +1040,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1031,7 +1059,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1050,7 +1078,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1069,7 +1097,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1088,7 +1116,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1107,7 +1135,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
@@ -1122,7 +1150,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zachyrhinosaurus_fungus",
@@ -1136,7 +1164,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zasmosaurus_fungus",
@@ -1145,16 +1173,16 @@
     "description": "This was once a four-legged dinosaur with a tall bony crest from which three short horns emerge above the eyes and beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "armor": { "bash": 2 } },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zentaceratops_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal pentacerops zombie" },
+    "name": { "str": "fungal pentaceratops zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which four long horns and a short nose horn emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "armor": { "bash": 2 } },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zosmoceratops_fungus",
@@ -1164,7 +1192,7 @@
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 10 ] ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zorosaurus_fungus",
@@ -1174,7 +1202,7 @@
     "copy-from": "mon_zriceratops_fungus",
     "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ],
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zriceratops_fungus",
@@ -1192,7 +1220,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE", "BASHES" ]
   },
   {
@@ -1211,7 +1239,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ] ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "PET_MOUNTABLE", "BASHES" ]
   },
   {
@@ -1230,7 +1258,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "FLIES" ]
   },
   {
@@ -1243,7 +1271,7 @@
     "hp": 249,
     "description": "This was once a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
     "copy-from": "mon_zteranodon_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "id": "mon_zosasaurus_fungus",
@@ -1261,7 +1289,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY" ]
   },
   {
@@ -1280,7 +1308,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY" ]
   }
 ]

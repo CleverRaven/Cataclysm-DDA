@@ -3,7 +3,10 @@
     "type": "item_group",
     "id": "debug_template_item",
     "subtype": "distribution",
-    "entries": [ { "item": "standard_template_construct", "prob": 10 } ]
+    "entries": [
+      { "item": "standard_template_construct", "prob": 10 },
+      { "item": "standard_template_construct_combat_exoskeleton", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -28,18 +31,33 @@
       { "item": "plasma_rifle", "prob": 10 },
       { "item": "portal", "prob": 10 },
       { "item": "atomic_coffeepot", "prob": 10 },
-      { "item": "power_armor_basic", "prob": 10 },
-      { "item": "power_armor_frame", "prob": 10 },
-      { "item": "power_armor_heavy", "prob": 10 },
-      { "item": "power_armor_helmet_basic", "prob": 10 },
-      { "item": "power_armor_helmet_heavy", "prob": 10 },
-      { "item": "power_armor_helmet_light", "prob": 10 },
+      { "item": "rm13_armor", "prob": 10 },
       { "item": "high_density_capacitor", "prob": 10 },
       { "item": "beam_scatterer", "prob": 10 },
-      { "item": "power_armor_light", "prob": 10 },
       { "item": "rm11b_sniper_rifle", "prob": 10 },
-      { "item": "rm13_armor", "prob": 10 },
       { "item": "v29", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes_combat_exoskeletons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "combat_exoskeleton_heavy", "prob": 10 },
+      { "item": "combat_exoskeleton_medium", "prob": 10 },
+      { "item": "combat_exoskeleton_light", "prob": 10 },
+      { "item": "combat_exoskeleton_armor_head_heavy", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_torso_heavy", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_arm_heavy", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_leg_heavy", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_head_medium", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_torso_medium", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_arm_medium", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_leg_medium", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_head_light", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_torso_light", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_arm_light", "prob": 1 },
+      { "item": "combat_exoskeleton_armor_leg_light", "prob": 1 }
     ]
   },
   {
@@ -76,7 +94,6 @@
     "entries": [
       { "item": "pistol_flintlock", "prob": 60 },
       { "item": "carbine_flintlock", "prob": 40 },
-      { "item": "lemat_revolver", "prob": 30 },
       { "item": "rifle_flintlock", "prob": 75 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 }
@@ -91,7 +108,6 @@
     "entries": [
       { "item": "pistol_flintlock", "prob": 60 },
       { "item": "carbine_flintlock", "prob": 40 },
-      { "item": "lemat_revolver", "prob": 30 },
       { "item": "rifle_flintlock", "prob": 75 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 }

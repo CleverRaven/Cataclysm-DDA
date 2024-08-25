@@ -134,6 +134,8 @@ struct weakpoint {
     std::unordered_map<damage_type_id, float> crit_mult;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
+    // A list of effects that will disable this weakpoint.
+    std::vector<efftype_id> disabled_by;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
     // Constant coverage multipliers, depending on the attack type.

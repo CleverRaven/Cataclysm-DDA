@@ -88,7 +88,7 @@ class scenario
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each scenario */
-        static void check_definitions();
+        static void finalize();
         /** Check that item definitions are valid */
         void check_definition() const;
 

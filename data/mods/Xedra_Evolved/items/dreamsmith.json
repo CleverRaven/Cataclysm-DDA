@@ -1,0 +1,21 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_bed_of_restful_repose",
+    "name": {
+      "str": "dreamforged bed of restful repose, folded for travel",
+      "str_pl": "dreamforged beds of restful repose, folded for travel"
+    },
+    "description": "A large object folded up into a box for itself, the size of a keyboard.",
+    "symbol": "H",
+    "color": "cyan",
+    "flags": [ "NO_SALVAGE" ],
+    "price": "250 USD",
+    "price_postapoc": "15 USD",
+    "longest_side": "213 cm",
+    "volume": "570 L",
+    "weight": "57 kg",
+    "material": [ { "type": "dreamstuff", "portion": 75 }, { "type": "wood", "portion": 25 } ],
+    "to_hit": -8
+  }
+]

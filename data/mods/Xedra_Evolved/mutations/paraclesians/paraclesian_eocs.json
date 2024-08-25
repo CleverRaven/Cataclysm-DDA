@@ -1,6 +1,44 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_FAE_SIGHT_ON",
+    "effect": [ { "u_add_effect": "effect_paraclesian_see_fae", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING",
+    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING_2",
+          "condition": { "x_in_y_chance": { "x": 1, "y": 8 } },
+          "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ]
+        }
+      ]
+    },
+    "false_effect": [
+      { "u_message": "You do not have enough mana to fuel your fae sight!", "type": "bad" },
+      { "u_lose_effect": "effect_paraclesian_see_fae" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_FAE_SIGHT_OFF",
+    "effect": [ { "u_lose_effect": "effect_paraclesian_see_fae" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_WYRD_SIGHT_ON",
+    "effect": [ { "u_add_effect": "effect_paraclesian_see_fae", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_WYRD_SIGHT_OFF",
+    "effect": [ { "u_lose_effect": "effect_paraclesian_see_fae" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_COMPLETED_ROLL_REMAINDER_GOSSAMER_RECIPE",
     "effect": { "u_message": "These are all the ways you can weave gossamer into garb now." }
   },
@@ -63,5 +101,20 @@
       }
     ],
     "false_effect": { "u_message": "You must be outdoors under the moonlight to turn cotton into gossamer." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WANTS_TO_TALK",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "and": [ "u_is_npc", { "compare_string": [ "effect_wants_to_talk", { "context_val": "effect" } ] } ] },
+    "effect": [
+      { "u_lose_effect": "effect_wants_to_talk" },
+      {
+        "if": { "not": { "u_has_trait": "FINAL_DISCUSSION" } },
+        "then": [ { "u_add_trait": "FINAL_DISCUSSION" }, "u_wants_to_talk" ],
+        "else": [ { "u_lose_effect": "effect_wants_to_talk" }, { "message": "You cannot lead this person to talk to you anymore." } ]
+      }
+    ]
   }
 ]

@@ -40,7 +40,7 @@
     "id": "SHOW_DESCRIPTION",
     "category": "MELEE_STYLE_PICKER",
     "name": "Show description of melee style",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
     "type": "keybinding",
@@ -742,6 +742,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_CRAFTER",
+    "category": "CRAFTING",
+    "name": "Choose crafter",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -1215,6 +1222,13 @@
   },
   {
     "type": "keybinding",
+    "id": "LONG_TELEPORT",
+    "category": "OVERMAP",
+    "name": "Teleport to cursor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
@@ -1376,6 +1390,13 @@
     "category": "TARGET",
     "name": "Toggle turret lines",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_UNLOAD_RAS_WEAPON",
+    "category": "TARGET",
+    "name": "Whether to unload your bow etc after canceling a shot",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -1746,10 +1767,10 @@
   },
   {
     "type": "keybinding",
-    "id": "MERGE",
+    "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
-    "name": "Merge power grids",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Separate from power grid",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
@@ -2565,6 +2586,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Select default ammo for wielded weapon which do not use a magazine",
+    "category": "DEFAULTMODE",
+    "id": "select_default_ammo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Drop item",
     "category": "DEFAULTMODE",
     "id": "drop",
@@ -3134,8 +3162,9 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "name": "Supernatural Abilities",
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -3346,6 +3375,17 @@
   },
   {
     "type": "keybinding",
+    "id": "RESET",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Reset keybinding",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_LOCAL",
     "category": "HELP_KEYBINDINGS",
     "name": "Add local keybinding",
@@ -3429,6 +3469,17 @@
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
       { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_ZONE_DISPLAY",
+    "category": "ZONES_MANAGER",
+    "name": "Toggle display of zone markers",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "t" },
+      { "input_method": "keyboard_char", "key": "T" },
+      { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] }
     ]
   },
   {
@@ -4395,7 +4446,7 @@
     "type": "keybinding",
     "id": "CHANGE_ARMOR_SPRITE",
     "category": "PLAYER_INFO",
-    "name": "Change sprite of armor.",
+    "name": "Change armor sprite",
     "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
   },
   {

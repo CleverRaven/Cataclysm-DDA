@@ -42,31 +42,31 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
     "id": "FMCNote",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
     "name": { "str": "merch" }, 
-    "price_postapoc": 250
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "RobofacCoin",
     "name": { "str": "Hub 01 Gold Coin" },
     "description": "This is a small but surprisingly heavy gold coin.  One side is etched with circuitry and the other side reads 'Hub 01 exchange currency'.",
-    "price_postapoc": 5000
+    "price_postapoc": "50 USD"
   },
 	{
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
     "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
-    "price_postapoc": 250
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "signed_chit",
     "name": { "str": "chit" },
     "description": "This is a slip of paper signed by the issuer.",
-    "price_postapoc": 250
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "icon",
     "name": { "str": "icon" },
     "description": "This is a small picture, about the same size as an ID card, symbolizing a religious figure.  On the back, there is a text that faintly reads 'New England Church Community'.",
-    "price_postapoc": 250
+    "price_postapoc": "2 USD 50 cent"
   }
 ```
 	
@@ -77,7 +77,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
     "id": "antibiotics",
     "name": { "str_sp": "antibiotics" },
     "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
-    "price_postapoc": 40000,
+    "price_postapoc": "400 USD",
     "charges": 15,
     "stack_size": 200,
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
@@ -87,19 +87,19 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
     "type": "TOOL",
     "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
-    "price_postapoc": 250,
+    "price_postapoc": "2 USD 50 cent",
   },
   {
     "id": "armor_lightplate",
     "name": { "str": "plate armor" },
     "description": "A suit of Gothic plate armor.",
-    "price_postapoc": 12000,
+    "price_postapoc": "120 USD",
   },
   {
     "id": "bat_metal",
     "name": { "str": "aluminum bat" },
     "description": "An aluminum baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
-    "price_postapoc": 1250,
+    "price_postapoc": "12 USD 50 cent",
   },
 ```
 
