@@ -639,7 +639,7 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You have chosen the path of humnan mutation and further Homullus mutation is closed off to you.  You should not see this in-game.",
+    "description": "You have chosen the path of human mutation and further Homullus mutation is closed off to you.  You should not see this in-game.",
     "vitamin_rates": [ [ "mutagen_dollkin", 1 ] ],
     "allowed_category": [
       "ALPHA",
