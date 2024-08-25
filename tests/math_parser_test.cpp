@@ -8,6 +8,7 @@
 #include "global_vars.h"
 #include "math_parser.h"
 #include "math_parser_func.h"
+#include "npc.h"
 
 static const skill_id skill_survival( "survival" );
 
