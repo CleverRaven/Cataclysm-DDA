@@ -27,7 +27,7 @@
     "type": "terrain",
     "id": "t_alien_meadow_grass_tall",
     "name": "tall alien grass",
-    "description": "An area of something that vaguely resembles grass.  Head high and such a dark read as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
+    "description": "An area of something that vaguely resembles grass.  Head high and such a dark red as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
     "transforms_into": "t_alien_meadow_grass_long",
     "symbol": "'",
     "color": "red",
@@ -35,5 +35,29 @@
     "coverage": 50,
     "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_1",
+    "name": "alien bush",
+    "description": "An alien plant, dark blue-green in color.  The leaves are all interwoven, forming a sphere except for spots where the leaves have been eaten away by some predator or pathogen.  It glows faintly in the dark.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "light_emitted": 5,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
   }
 ]
