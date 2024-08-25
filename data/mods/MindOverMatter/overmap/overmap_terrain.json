@@ -288,9 +288,9 @@
     "type": "overmap_terrain",
     "abstract": "alien_meadow",
     "copy-from": "generic_open_land",
-    "name": "meadow",
+    "name": "alien meadow",
     "sym": ",",
-    "color": "brown",
+    "color": "red",
     "travel_cost_type": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "REQUIRES_PREDECESSOR" ]

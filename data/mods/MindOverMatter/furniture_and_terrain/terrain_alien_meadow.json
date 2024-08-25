@@ -1,0 +1,39 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass",
+    "name": "alien grass",
+    "description": "An area of something that vaguely resembles grass, except it's a light reddish color and the stalks are much broader.  Some kind of waxy residue seems to rub off onto your clothes when you walk through it.",
+    "symbol": ".",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass_long",
+    "name": "long alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "'",
+    "color": "red",
+    "move_cost": 4,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass_tall",
+    "name": "tall alien grass",
+    "description": "An area of something that vaguely resembles grass.  Head high and such a dark read as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
+    "transforms_into": "t_alien_meadow_grass_long",
+    "symbol": "'",
+    "color": "red",
+    "move_cost": 6,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  }
+]
