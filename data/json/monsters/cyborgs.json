@@ -6,7 +6,7 @@
     "description": "A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  The remaining patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.  Any personality or humanity it once had is clearly gone for good.",
     "default_faction": "science",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "CYBORG" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 60,

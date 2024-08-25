@@ -148,6 +148,7 @@ static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_CYBORG( "CYBORG" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -1007,7 +1008,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     }
 
     if( proj_effects.count( ammo_effect_ROBOT_DAZZLE ) ) {
-        if( critical && target.in_species( species_ROBOT ) ) {
+        if( critical && (target.in_species( species_ROBOT ) || target.in_species( species_CYBORG ) ) ) {
             time_duration duration = rng( 6_turns, 8_turns );
             target.add_effect( effect_source( source ), effect_stunned, duration );
             target.add_effect( effect_source( source ), effect_sensor_stun, duration );
