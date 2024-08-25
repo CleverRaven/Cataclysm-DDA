@@ -492,7 +492,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 1 }, { "item": "wooden_post", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": 1 },
+        { "item": "wooden_post", "count": 1 },
+        { "item": "nail", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal", "count": 1 }
+      ]
     },
     "max_volume": "10 L",
     "bash": {
