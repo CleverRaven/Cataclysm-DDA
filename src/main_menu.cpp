@@ -944,7 +944,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !world->world_saves.empty() ) {
                     if( !query_yn(
-                            _( "Many game features will not work correctly with multiple characters in the same world. Create a new character anyway?" ) ) ) {
+                            _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
                         return false;
                     }
                 }
@@ -989,7 +989,7 @@ bool main_menu::new_character_tab()
         }
         if( !world->world_saves.empty() ) {
             if( !query_yn(
-                    _( "Many game features will not work correctly with multiple characters in the same world. Create a new character anyway?" ) ) ) {
+                    _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
                 return false;
             }
         }
