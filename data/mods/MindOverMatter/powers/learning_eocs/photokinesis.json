@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKIN_LEARNING_SNUFF_LIGHT",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_UP_ENEMY",
     "recurrence": [
       { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
       { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }

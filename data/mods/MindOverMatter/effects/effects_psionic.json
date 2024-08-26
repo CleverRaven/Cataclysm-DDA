@@ -1142,7 +1142,7 @@
             "value": "LUMINATION",
             "add": {
               "math": [
-                "min( (( 2 + ( u_spell_level('photokinetic_light_up_enemy') * 3 ) ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60 )"
+                "min( (( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
               ]
             }
           }

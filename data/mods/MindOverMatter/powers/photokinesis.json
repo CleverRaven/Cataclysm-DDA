@@ -170,8 +170,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_photokin_enemy_light",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_UP_ENEMY_TARGET",
     "shape": "blast",
     "min_duration": {
       "math": [
