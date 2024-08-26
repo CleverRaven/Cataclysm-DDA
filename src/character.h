@@ -50,6 +50,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "safe_reference.h"
+#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
@@ -558,15 +559,6 @@ class Character : public Creature, public visitable
         /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
-        enum class comfort_level : int {
-            impossible = -999,
-            uncomfortable = -7,
-            neutral = 0,
-            slightly_comfortable = 3,
-            comfortable = 5,
-            very_comfortable = 10
-        };
-
         /// @brief Character stats
         /// @todo Make those protected
         int str_max;
@@ -962,13 +954,6 @@ class Character : public Creature, public visitable
                                const std::map<bodypart_id, int> &warmth_per_bp );
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
-
-        struct comfort_response_t {
-            comfort_level level = comfort_level::neutral;
-            const item *aid = nullptr;
-        };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not sleepiness nor stimulants. */
-        comfort_response_t base_comfort_value( const tripoint_bub_ms &p ) const;
 
         /** Returns focus equilibrium cap due to sleepiness **/
         int focus_equilibrium_sleepiness_cap( int equilibrium ) const;
@@ -3818,8 +3803,6 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Rate point's ability to serve as a bed. Takes all mutations, sleepiness and stimulants into account. */
-        int sleep_spot( const tripoint_bub_ms &p ) const;
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
@@ -3857,6 +3840,28 @@ class Character : public Creature, public visitable
         std::pair<int, int> kcal_range(
             const itype_id &id,
             const std::function<bool( const item & )> &filter, Character &player_character ) const;
+
+        // --------------- Sleep Stuff ---------------
+        /**
+         * Searches mutations for comfort data and returns the least comfortable valid one.
+         *
+         * @details
+         * For mutations with multiple comfort data, the first data with passing conditions is
+         * selected. Out of each mutation with selected comfort data, the comfort data with the
+         * lowest `base_comfort` is selected and returned.
+         */
+        const comfort_data &get_comfort_data_for( const tripoint &p ) const;
+        const comfort_data &get_comfort_data_for( const tripoint_bub_ms &p ) const;
+        /**
+         * Calculates and caches the comfort of a location. Returns cached comfort if valid.
+         *
+         * @details
+         * Comfort is considered valid until any time has passed or a new location is evaluated.
+         * Gaining or losing mutations does not currently invalidate cached comfort.
+         */
+        const comfort_data::response &get_comfort_at( const tripoint &p );
+        const comfort_data::response &get_comfort_at( const tripoint_bub_ms &p );
+        comfort_data::response comfort_cache;
 
     protected:
         Character();

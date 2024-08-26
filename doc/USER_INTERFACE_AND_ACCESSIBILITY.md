@@ -23,7 +23,7 @@ creating the ImGui window itself, but any widgets (i.e. text boxes, tables, inpu
 fields) must be created using the correct function under the `ImGui` namespace.
 Examples of creating any ImGui widget can be found in `src/third-party/imgui_demo.cpp`
 
-Good examples of implementing an ImGui-based UI in cataclysm:
+Good examples of implementing an ImGui-based UI in Cataclysm:
 
 - `demo_ui` a minimal example (about 80 lines) in `main_menu.cpp` added in
 [PR#72171](https://github.com/CleverRaven/Cataclysm-DDA/pull/72171)

@@ -255,20 +255,27 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    const std::vector<std::string> &typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        std::vector<std::string> typefaces;
-        ensure_unifont_loaded( typefaces );
+        std::vector<std::string> io_typefaces{ typefaces };
+        ensure_unifont_loaded( io_typefaces );
 
         for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
             SDL_Color sdlCol = windowsPalette[index];
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), fontheight, nullptr,
+        auto it = std::find_if( io_typefaces.begin(),
+        io_typefaces.end(), []( const std::string & io_typeface ) {
+            std::filesystem::path path( io_typeface );
+            return std::filesystem::exists( path );
+        } );
+        std::string existing_typeface = *it;
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
                          io.Fonts->GetGlyphRangesDefault() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
@@ -587,7 +594,7 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;
