@@ -864,7 +864,7 @@
     "type": "profession",
     "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
     "points": 4,
     "proficiencies": [ "prof_alchemy" ],
     "spells": [
