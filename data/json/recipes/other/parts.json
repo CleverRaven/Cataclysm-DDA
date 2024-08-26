@@ -891,13 +891,7 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [
-        [ "light_minus_battery_cell", 1 ],
-        [ "light_minus_disposable_cell", 1 ],
-        [ "light_battery_cell", 1 ],
-        [ "light_disposable_cell", 1 ],
-        [ "light_plus_battery_cell", 1 ]
-      ],
+      [ [ "light_minus_battery_cell", 1 ], [ "light_minus_disposable_cell", 1 ], [ "light_battery_cell", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]
