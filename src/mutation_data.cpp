@@ -441,6 +441,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
+    optional( jo, was_loaded, "comfort", comfort );
+
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( s );
     }

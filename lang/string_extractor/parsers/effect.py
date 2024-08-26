@@ -87,6 +87,13 @@ def parse_effect(effects, origin, comment=""):
                         comment="String input window's description in {}"
                         .format(comment)
                     )
+                if "default_text" in string_input:
+                    write_translation_or_var(
+                        string_input["default_text"],
+                        origin,
+                        comment="String input window's default_text in {}"
+                        .format(comment)
+                    )
             if ("u_spawn_monster" in eff or "npc_spawn_monster" in eff or
                     "u_spawn_npc" in eff or "npc_spawn_npc" in eff):
                 if "u_spawn_monster" in eff or "npc_spawn_monster" in eff:
