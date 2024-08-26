@@ -2008,7 +2008,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "SWAT badge" },
-    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
+    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the cops just aren't enough."
   },
   {
     "id": "badge_doctor",
