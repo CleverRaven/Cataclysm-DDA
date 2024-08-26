@@ -289,6 +289,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
+        std::optional<tripoint> find_stairs( const map &mp, int z_after, const tripoint &pos );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
         /*
