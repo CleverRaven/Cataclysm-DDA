@@ -7,6 +7,12 @@
   },
   {
     "type": "enchantment",
+    "id": "iso_pain_adjust",
+    "condition": "ALWAYS",
+    "values": [ { "value": "PAIN", "multiply": { "math": [ "u_pain() > 40 ? -1 : -0.4" ] } } ]
+  },
+  {
+    "type": "enchantment",
     "id": "iso_ench_deliverator",
     "condition": "ALWAYS",
     "name": { "str": "The Deliverator" },

@@ -48,7 +48,7 @@
   {
     "id": "real_hooks",
     "type": "requirement",
-    "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
+    "//": "Any quality weapon designed to hook your opponents and their gear in a fight.  Reserved for the good stuff.",
     "extend": {
       "tools": [
         [
@@ -71,7 +71,7 @@
   {
     "id": "real_maces",
     "type": "requirement",
-    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independantly swing (those are flails).",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
     "extend": {
       "tools": [ [ [ "redcap_club", -1 ], [ "dreamdross_club", -1 ], [ "dreamforged_mace", -1 ], [ "dreamforged_morningstar", -1 ] ] ]
     }

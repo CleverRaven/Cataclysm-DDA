@@ -170,6 +170,7 @@
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_heavy"
@@ -275,6 +276,7 @@
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_medium"
@@ -380,6 +382,7 @@
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_light"

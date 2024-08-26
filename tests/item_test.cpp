@@ -859,11 +859,11 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
 
     clear_avatar();
-    item miner_hat( "miner_hat" );
+    item hat_hard( "hat_hard" );
     item ear_muffs( "attachable_ear_muffs" );
-    REQUIRE( miner_hat.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
-    REQUIRE( !miner_hat.has_flag( json_flag_DEAF ) );
-    guy.wear_item( miner_hat );
+    REQUIRE( hat_hard.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
+    REQUIRE( !hat_hard.has_flag( json_flag_DEAF ) );
+    guy.wear_item( hat_hard );
     item_location worn_hat = guy.worn.top_items_loc( guy ).front();
     item_location worn_muffs( worn_hat, &worn_hat->only_item() );
     avatar_action::use_item( guy, worn_muffs, "transform" );

@@ -8,7 +8,7 @@
   {
     "id": "basic_shivs",
     "type": "requirement",
-    "//": "Any basic shivs not explicity designed for combat, or low-quality things.",
+    "//": "Any basic shivs not explicitly designed for combat, or low-quality things.",
     "tools": [
       [
         [ "glass_shiv", -1 ],
@@ -64,7 +64,7 @@
   {
     "id": "real_hooks",
     "type": "requirement",
-    "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
+    "//": "Any quality weapon designed to hook your opponents and their gear in a fight.  Reserved for the good stuff.",
     "tools": [
       [
         [ "scythe_war", -1 ],
@@ -86,7 +86,7 @@
   {
     "id": "basic_knives",
     "type": "requirement",
-    "//": "Any small close-range stabbing weapons.  Not explicity designed for combat.",
+    "//": "Any small close-range stabbing weapons.  Not explicitly designed for combat.",
     "tools": [
       [
         [ "knife_hunting", -1 ],
@@ -216,7 +216,7 @@
   {
     "id": "basic_short_swords",
     "type": "requirement",
-    "//": "Any basic thing you could use as a short sword, exlcudes high-quality things.",
+    "//": "Any basic thing you could use as a short sword, excludes high-quality things.",
     "tools": [ [ [ "makeshift_machete", -1 ], [ "machete_gimmick", -1 ], [ "machete", -1 ] ] ]
   },
   {
@@ -379,7 +379,7 @@
   {
     "id": "basic_great_swords",
     "type": "requirement",
-    "//": "Basic or makeshift weapons that can be used like a greatsword.  Exlcudes real or good things.",
+    "//": "Basic or makeshift weapons that can be used like a greatsword.  Excludes real or good things.",
     "tools": [
       [
         [ "sword_wood_large", -1 ],
@@ -577,7 +577,7 @@
   {
     "id": "real_maces",
     "type": "requirement",
-    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independantly swing (those are flails).",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
     "tools": [
       [
         [ "mace", -1 ],

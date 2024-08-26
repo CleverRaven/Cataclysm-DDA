@@ -276,6 +276,7 @@
     "use_action": {
       "target": "geiger_off",
       "msg": "The geiger counter's SCANNING LED turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
     },
@@ -507,7 +508,7 @@
     "use_action": {
       "target": "noise_emitter_on",
       "msg": "You turn the noise emitter on.",
-      "menu_text": "Turn off",
+      "menu_text": "Turn on",
       "active": true,
       "type": "transform"
     },
@@ -533,6 +534,7 @@
     "use_action": {
       "target": "noise_emitter",
       "msg": "The infernal racket dies as the noise emitter turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "active": false,
       "type": "transform"
@@ -587,6 +589,7 @@
       "type": "transform",
       "target": "emf_detector",
       "msg": "The noise of your EMF detector slows to a halt.",
+      "ammo_scale": 0,
       "menu_text": "Turn off"
     },
     "tick_action": [ "EMF_PASSIVE_ON" ],
@@ -933,7 +936,7 @@
     "use_action": {
       "target": "noise_emitter_super_on",
       "msg": "You turn the super noise emitter on.",
-      "menu_text": "Turn off",
+      "menu_text": "Turn on",
       "active": true,
       "type": "transform"
     },
@@ -959,6 +962,7 @@
     "use_action": {
       "target": "noise_emitter_super",
       "msg": "The infernal racket dies as the super noise emitter turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "active": false,
       "type": "transform"

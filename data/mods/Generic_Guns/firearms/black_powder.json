@@ -25,7 +25,7 @@
     "type": "GUN",
     "name": { "str": "antique musket" },
     "ammo": [ "ammo_black_powder" ],
-    "description": "An antique design, this smoothbore long arm would look more at home on a pre-1850's battlefield than in your hands in the cataclysm.  Its loading may be slow, but it does not require brass casings to fire, and is theoretically sustainable to fire.  Range and accuracy are hampered by lack of rifling, but this time-tested design is plenty lethal.",
+    "description": "An antique design, this smoothbore long arm would look more at home on a pre-1850's battlefield than in your hands in the Cataclysm.  Its loading may be slow, but it does not require brass casings to fire, and is theoretically sustainable to fire.  Range and accuracy are hampered by lack of rifling, but this time-tested design is plenty lethal.",
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_black_powder": 1 }, "rigid": true } ]
   }

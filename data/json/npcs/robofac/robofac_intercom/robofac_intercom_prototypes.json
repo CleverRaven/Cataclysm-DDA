@@ -1117,7 +1117,7 @@
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_2",
-    "//": "this is a lie. if the hub has done any kind of surveillance at all, they'd know that the exodii would consider melchior a heavy threat, and they are unwilling to approach until they're certain that they could effectively conceal its presence.",
+    "//": "this is a lie. if the hub has done any kind of surveillance at all, they'd know that the Exodii would consider melchior a heavy threat, and they are unwilling to approach until they're certain that they could effectively conceal its presence.",
     "type": "talk_topic",
     "dynamic_line": "Have you, now?  We are pleased to hear.  However, we still believe that approaching with an excess of wariness is a wise choice.  We feel that it would behoove us to understand more about this group before we approach directly, and so for the time being, understanding more about their general-use technology is our preferred course of action."
   },
@@ -1143,7 +1143,7 @@
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED_1",
-    "//": "this is a half-truth. while the Hub does have an interest in understanding or reversing the cataclysm, their primary intent here is specifically to understand the Exodii better.",
+    "//": "this is a half-truth. while the Hub does have an interest in understanding or reversing the Cataclysm, their primary intent here is specifically to understand the Exodii better.",
     "type": "talk_topic",
     "dynamic_line": "The Cataclysm has illuminated hitherto unknown facts about our universe.  The opportunity to research - and perhaps understand - technology from not only another world, but another dimension entirely, is an exceptionally promising field of study.  Now more than ever is our continued delving into this field of study paramount; while our focus has shifted rather abruptly, we believe that if there is ever any chance of understanding or even reversing <the_cataclysm>, it would come from studies like this."
   },
