@@ -30,7 +30,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "A roar fills your mind and you stagger!",
@@ -51,7 +51,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed_zap",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "Your body twitches under the electrical assault!",

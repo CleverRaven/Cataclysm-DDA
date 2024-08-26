@@ -28,7 +28,7 @@
     "id": "EOC_ARVORE_FAE_BAN_CUT_TREE",
     "eoc_type": "EVENT",
     "required_event": "cuts_tree",
-    "condition": { "u_has_trait": "THRESH_ARVORE" },
+    "condition": { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_NURTURING_THE_GREEN" } ] },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
@@ -73,7 +73,7 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_ARVORE" },
+        { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_MOSS" } ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
@@ -91,6 +91,25 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_GAIN_ANTI_JUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance trait when gaining the Solar Rejuvenation or Verdant Blood traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "ARVORE_SUN_NUTRIENTS", { "context_val": "trait" } ] },
+            { "compare_string": [ "ARVORE_BLOOD", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "ARVORE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
   },
   {
     "type": "effect_on_condition",
@@ -157,6 +176,44 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the The Soil Knows Those Who Treat Upon It or the In the Earthmother's Embrace traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "IERDE_DETECT_NEARBY_MONSTERS_EARTH", { "context_val": "trait" } ] },
+            { "compare_string": [ "IERDE_SINK_INTO_EARTH", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "IERDE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_GAIN_HEAVY_SLEEPER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Very Heavy Sleeper traits when gaining the Unceasing Strength of the Earth or the Blood of the Earth trait",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "IERDE_CARDIO2", { "context_val": "trait" } ] },
+            { "compare_string": [ "IERDE_SLOW_BLEEDING", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "IERDE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HEAVYSLEEPER2" } ]
   },
   {
     "type": "effect_on_condition",
@@ -254,8 +311,7 @@
     "required_event": "character_gains_effect",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_SALAMANDER" },
-        { "u_has_trait": "SALAMANDER_SKIN_2" },
+        { "or": [ { "u_has_trait": "THRESH_SALAMANDER" }, { "u_has_trait": "SALAMANDER_SKIN_2" } ] },
         { "compare_string": [ "wet", { "context_val": "effect" } ] }
       ]
     },
@@ -270,12 +326,31 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FAE_BAN_GAIN_PYROMANIA",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Pyromania trait when gaining the Stove's Caress and One in the Sea or the Reading the Heartfires traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SALAMANDER_COOKING_HEAT", { "context_val": "trait" } ] },
+            { "compare_string": [ "SALAMANDER_HEAT_EYES2", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SALAMANDER" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "PYROMANIA" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_SYLPH" },
+        { "or": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_trait": "SYLPH_DEX_BONUS_2" } ] },
         { "or": [ { "not": "u_is_outside" }, { "u_is_on_terrain_with_flag": "INDOORS" } ] }
       ]
     },
@@ -337,6 +412,44 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the Call the Children of the Winds or the Breathe Without Air traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "air_sprite", { "context_val": "trait" } ] },
+            { "compare_string": [ "BREATHE_WO_AIR", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SYLPH" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_GAIN_MOOD_SWINGS",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Mood Swings trait when gaining the Ice-Clear Thoughts or the Born of a Gale traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SYLPH_INT_BONUS_1", { "context_val": "trait" } ] },
+            { "compare_string": [ "SLYPH_RESIST_COLD2", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SYLPH" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "MOODSWINGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNDINE_FAE_BAN_SLEEP_ON_LAND",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
@@ -348,6 +461,44 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the Cleansing the Poison Well or the Summon Rain traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "FOUL_WATER", { "context_val": "trait" } ] },
+            { "compare_string": [ "SUMMON_RAIN", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_GAIN_LIGHTWEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Lightweight trait when gaining the One Foot in the River and One in the Sea or the Embrace of the Waters traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SALTWATER_TO_FRESHWATER", { "context_val": "trait" } ] },
+            { "compare_string": [ "UNDINE_SLEEP_WATER", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "LIGHTWEIGHT" } ]
   },
   {
     "type": "effect_on_condition",

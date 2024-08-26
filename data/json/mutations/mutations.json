@@ -2766,7 +2766,17 @@
       { "part": "torso", "ignored": 60 }
     ],
     "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5 } ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "FUNGUS" } ],
+        "comfort": "very_comfortable",
+        "msg_try": {
+          "text": "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades.",
+          "rating": "good"
+        }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5804,7 +5814,30 @@
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
     "flags": [ "WEBWALK" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web", "intensity": 3 },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "comfort": "sleep_aid",
+        "use_better_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "These thick webs support your weight, and are strangely comfortable…", "rating": "good" }
+      },
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web" },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "add_human_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "You try to sleep, but the webs get in the way.  You brush them aside.", "rating": "info" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5817,7 +5850,20 @@
     "prereqs": [ "WEB_WALKER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "changes_to": [ "WEB_WEAVER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5835,7 +5881,20 @@
     "cost": 69,
     "time": "100 s",
     "kcal": true,
-    "thirst": true
+    "thirst": true,
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8061,7 +8120,45 @@
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET", "ROOTS3" ]
+    "flags": [ "TOUGH_FEET", "ROOTS3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "vehicle" } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "It's impossible to sleep in this wheeled pot!", "rating": "bad" }
+      },
+      {
+        "conditions": [ { "type": "furniture", "id": "f_null", "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "The humans' furniture blocks your roots.  You can't get comfortable.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLOWABLE", "invert": true },
+          { "type": "terrain", "flag": "PLANTABLE", "invert": true },
+          { "type": "terrain", "id": "t_pit", "invert": true },
+          { "type": "terrain", "id": "t_pit_shallow", "invert": true }
+        ],
+        "comfort": "impossible",
+        "msg_try": { "text": "Your roots scrabble ineffectively at the unyielding surface.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLANTABLE" },
+          { "type": "terrain", "id": "t_dirt" },
+          { "type": "terrain", "id": "t_pit" },
+          { "type": "terrain", "id": "t_pit_shallow" }
+        ],
+        "conditions_any": true,
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "PLOWABLE" } ],
+        "comfort": "comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8508,7 +8605,14 @@
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell2" ]
+    "integrated_armor": [ "integrated_shell2" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL2", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8526,7 +8630,14 @@
     "category": [ "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell3" ]
+    "integrated_armor": [ "integrated_shell3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL3", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8960,7 +9071,19 @@
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
     "prereqs": [ "SEESLEEP", "FROG_EYES", "GILLS_CEPH" ],
     "category": [ "FISH", "BATRACHIAN", "CEPHALOPOD" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ]
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -10303,7 +10426,6 @@
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
     "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
-    "starting_trait": true,
     "mixed_effect": true,
     "purifiable": false,
     "flags": [ "SOCIAL2" ],
