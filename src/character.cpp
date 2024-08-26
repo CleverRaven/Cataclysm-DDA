@@ -7779,7 +7779,8 @@ ret_val<void> Character::can_wield( const item &it ) const
     }
     if( controlling_vehicle ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
-            return ret_val<void>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
+            return ret_val<void>::make_failure(
+                       _( "Something you are wearing hinders the use of both hands." ) );
         }
         if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
             return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
