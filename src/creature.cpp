@@ -1203,6 +1203,25 @@ void Creature::messaging_projectile_attack( const Creature *source,
     }
 }
 
+void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view )
+{
+    // "Avoid" rather than "dodge", because it includes removing self from the line of fire
+    //  rather than just Matrix-style bullet dodging
+    if( source != nullptr && player_view.sees( *source ) ) {
+        add_msg_player_or_npc(
+            m_warning,
+            _( "You avoid %s projectile!" ),
+            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
+            source->disp_name( true ) );
+    } else {
+        add_msg_player_or_npc(
+            m_warning,
+            _( "You avoid an incoming projectile!" ),
+            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids an incoming projectile." ) :
+            "" );
+    }
+}
+
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -1243,10 +1262,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
     }
 
-    // Supernatural dodges
-    double range_dodge_chance = enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE, 1 ) - 1.0f;
-    if ( x_in_y( range_dodge_chance, 1.0f ) ) {
-        on_try_dodge();
+    Character *guy = as_character();
+    if( guy ) {
+        double range_dodge_chance = guy->enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
+                                    1.0f ) - 1.0f;
+        if( x_in_y( range_dodge_chance, 1.0f ) ) {
+            on_try_dodge();
+            print_proj_avoid_msg( source, player_view );
+            return;
+        }
     }
 
     if( goodhit >= 1.0 && !magic ) {
@@ -1254,21 +1278,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( !print_messages ) {
             return;
         }
-        // "Avoid" rather than "dodge", because it includes removing self from the line of fire
-        //  rather than just Matrix-style bullet dodging
-        if( source != nullptr && player_view.sees( *source ) ) {
-            add_msg_player_or_npc(
-                m_warning,
-                _( "You avoid %s projectile!" ),
-                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
-                source->disp_name( true ) );
-        } else {
-            add_msg_player_or_npc(
-                m_warning,
-                _( "You avoid an incoming projectile!" ),
-                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids an incoming projectile." ) :
-                "" );
-        }
+        print_proj_avoid_msg( source, player_view );
         return;
     }
 
