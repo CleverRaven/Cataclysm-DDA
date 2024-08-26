@@ -1236,7 +1236,7 @@ You can see selected location.
   "then": {
     "if": { "u_can_see_location": { "context_val": "pos" } },
     "then": { "u_message": "You can see <context_val:pos>." },
-    "else": { "u_message": "You cant see <context_val:pos>." }
+    "else": { "u_message": "You can't see <context_val:pos>." }
   }
 }
 ```
@@ -2418,7 +2418,7 @@ Store coordinates of the closest city nearby in a variable
 | "closest_city" | **mandatory** | [variable object](#variable-object) | location variable, center of the found city |
 | "known" | optional | boolean | default true; if true, picks the closest city you know (has yellow text of the city name on your map), otherwise picks the closest city even if you didn't visit it yet |
 
-Additionaly sends context variables `city_name` (string) and `city_size` (int)
+Additionally sends context variables `city_name` (string) and `city_size` (int)
 
 ##### Examples
 
@@ -3050,8 +3050,9 @@ Store string from `set_string_var` in the variable object `target_var`
 
 | Property | Optionality | Type | Description |
 | --- | --- | --- | --- |
-| "title" | **mandatory** | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
-| "description" | **mandatory** | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "title" | optional | string, [variable object](##variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
+| "description" | optional | string, [variable object](##variable-object) | The description of the input popup window, can be localized. |
+| "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
@@ -3060,7 +3061,7 @@ Store string from `set_string_var` in the variable object `target_var`
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Replace value of variable `foo` with value `bar`
@@ -3556,7 +3557,7 @@ Consume 10 blankets. Effect allows to be consumed any item, so in this case play
     ]
   },
 ```
-Effect is order dependant, meaning first entry in json would be consumed first, then second and so on.  Having 5 `blanket`, 10 `blanket_fur` and 5 `electric_blanket` would result in 5 `blanket` and 5 `blanket_fur` being consumed
+Effect is order dependent, meaning first entry in json would be consumed first, then second and so on.  Having 5 `blanket`, 10 `blanket_fur` and 5 `electric_blanket` would result in 5 `blanket` and 5 `blanket_fur` being consumed
 
 
 Variable `amount` is also supported. In this case amount would be also treated as the weight;  In the next example, having 10 `blanket`, 10 `blanket_fur` and 10 `electric_blanket` would be treated as covering 100% of requirement, 10 `blanket` delivering 40%, 10 `blanket_fur` delivering another 40%, and 10 `electric_blanket` delivering the last 20%

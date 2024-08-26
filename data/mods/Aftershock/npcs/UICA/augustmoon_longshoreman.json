@@ -15,7 +15,7 @@
       "u_has_var": "dialogue_augustmoon_longshoreman_first_meet",
       "value": "yes",
       "yes": [ "Please retrieve your belongings and move along.  We have a schedule to keep" ],
-      "no": "Yes yes, welcome to Port Augustmoon.  Please collect your belongings and head down the docking arm.  Port authority wont be liable for any missing items."
+      "no": "Yes yes, welcome to Port Augustmoon.  Please collect your belongings and head down the docking arm.  Port authority won't be liable for any missing items."
     },
     "speaker_effect": {
       "effect": [ { "u_add_var": "dialogue_augustmoon_longshoreman_first_meet", "value": "yes" } ],

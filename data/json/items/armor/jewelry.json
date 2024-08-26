@@ -1374,7 +1374,7 @@
       {
         "id": "jewish_necklace2",
         "name": { "str": "Menorah necklace" },
-        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish holiday.",
         "color": "yellow",
         "weight": 9
       },
@@ -1472,7 +1472,7 @@
       {
         "id": "pentagram_necklace",
         "name": { "str": "Pentagram necklace" },
-        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths and emos.",
+        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths, and emos.",
         "color": "yellow",
         "weight": 15
       },
@@ -1588,7 +1588,7 @@
     "id": "pearl_collar",
     "type": "ARMOR",
     "name": { "str": "pearl collar" },
-    "description": "A collar made from round and lustrous pearls, its former owner must have been a wealthy individual.",
+    "description": "A collar made from round and lustrous pearls; its former owner must have been a wealthy individual.",
     "weight": "200 g",
     "volume": "200 ml",
     "price": "5 kUSD 900 USD",
@@ -2008,7 +2008,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "SWAT badge" },
-    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
+    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the cops just aren't enough."
   },
   {
     "id": "badge_doctor",

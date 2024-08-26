@@ -18,11 +18,12 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "description": "Your skin has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet, and you always smell of smoke and ashes.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
+    "scent_intensity": 800,
     "enchantments": [
       { "values": [ { "value": "WEAKNESS_TO_WATER", "multiply": 0.016 }, { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] }
     ],
