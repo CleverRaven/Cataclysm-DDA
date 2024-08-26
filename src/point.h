@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <optional>
 #include <ostream>
 #include <vector>
 
@@ -358,6 +359,32 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
+        PredicateFn &&fn );
+
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int max_dist,
+        PredicateFn &&fn );
+
+
+// Calculate the number of tiles in a square from min_dist to max_dist about an arbitrary centre.
+inline std::optional<int> rectangle_size( int min_dist, int max_dist )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return std::nullopt;
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 ) + ( min_dist == 0 ? 1 : 0 );
+    return n;
+};
+
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
 namespace std
@@ -441,5 +468,49 @@ inline constexpr const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint::south_east },
     }
 };
+
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
+        PredicateFn &&predicate_fn )
+{
+    std::optional<int> n = rectangle_size( min_dist, max_dist );
+
+    if( n == std::nullopt ) {
+        return {};
+    }
+
+    const bool is_center_included = min_dist == 0;
+
+    if( is_center_included ) {
+        if( predicate_fn( center ) ) {
+            return center;
+        }
+    }
+
+    int x_init = std::max( min_dist, 1 );
+    point p;
+    p.x = x_init;
+    p.y = 1 - x_init;
+
+    point d;
+    d.x += 1;
+
+    for( int i = 0; i < *n; i++ ) {
+        const Point next = Point::make_unchecked(center + p);
+        if( predicate_fn( next ) ) {
+            return next;
+        }
+
+        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
+            std::swap( d.x, d.y );
+            d.x = -d.x;
+        }
+
+        p.x += d.x;
+        p.y += d.y;
+    }
+
+    return std::nullopt;
+}
 
 #endif // CATA_SRC_POINT_H
