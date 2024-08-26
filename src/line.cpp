@@ -284,6 +284,19 @@ float octile_dist_exact( const point &loc1, const point &loc2 )
     return d.x + d.y - 2 * mind + mind * M_SQRT2;
 }
 
+float octile_dist_exact( const tripoint &from, const tripoint &to )
+{
+    const tripoint d = ( from - to ).abs();
+    const int min = std::min( d.x, std::min( d.y, d.z ) );
+    const int max = std::max( d.x, std::max( d.y, d.z ) );
+    const int mid = d.x + d.y + d.z - min - max;
+
+    constexpr int one_axis = 1;
+    constexpr float two_axis = M_SQRT2;
+    constexpr float three_axis = 1.73205f;
+    return ( three_axis - two_axis ) * min + ( two_axis - one_axis ) * mid + one_axis * max;
+}
+
 units::angle atan2( const point &p )
 {
     return units::atan2( p.y, p.x );
