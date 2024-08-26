@@ -10426,7 +10426,6 @@
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
     "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
-    "starting_trait": true,
     "mixed_effect": true,
     "purifiable": false,
     "flags": [ "SOCIAL2" ],
