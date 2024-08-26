@@ -476,11 +476,20 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Creates a large glow over an area, filling the entire area with light.<br />
 *Prerequisites*: Starting power<br />
 
+## Illuminate
+*Difficulty*: 2<br />
+*Target*: A single target within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 1 minute and 6 seconds to 3 minutes and 4 seconds, plus 18 seconds to 1 minute and 11 seconds per power level<br />
+*Stamina Cost*: 2750, minus 95 per level to a minimum of 750<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 35<br />
+*Effects*: Excite the air around a single target, causing them to be surrounded by a glow.  This illumintews the area around them and reduces their chance to dodge slightly.<br />
+*Prerequisites*: None<br />
+
 ## Blackout
 *Difficulty*: 2<br />
 *Target*: An area of 1 square plus 0.8 squares per power level to a maximum of 50 squares, out to a distance of 5 squares plus 1.2 squares per power level to a maximum of 80 squares<br />
 *Duration*: Halflife of 5 minutes<br />
-*Stamina Cost*: 2500, minus 115 per level to a minimum of 1000<br />
+*Stamina Cost*: 2500, minus 95 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 75<br />
 *Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
 *Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
