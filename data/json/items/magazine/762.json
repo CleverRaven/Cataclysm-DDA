@@ -111,6 +111,7 @@
     "color": "light_gray",
     "ammo_type": [ "762" ],
     "flags": [ "MAG_BULKY" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 75 } } ]
   },
   {
