@@ -63,7 +63,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally supressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
+    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally suppressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "guns_pistol_rare_9mm", "prob": 93 },
@@ -160,7 +160,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_collectible",
-    "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally supressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
+    "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
     "items": [ { "item": "mauser_c96", "prob": 50 }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
   },
   {

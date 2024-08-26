@@ -253,7 +253,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
-    "//": "remove the null chunks once theres enough BEM npcs.",
+    "//": "remove the null chunks once there's enough BEM npcs.",
     "object": {
       "rows": [
         "                        ",

@@ -19,6 +19,7 @@
 #include "hash_utils.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -285,6 +286,9 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
 
         struct OverrideLook {
             std::string id;
