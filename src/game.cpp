@@ -5538,7 +5538,7 @@ void game::control_vehicle()
                 return; // player not owner and refused to steal
             }
             const item_location weapon = u.get_wielded_item();
-            if(weapon) {
+            if( weapon ) {
                 if( u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
                     add_msg( m_info, _( "Something you are wearing hinders the use of both hands." ) );
                     return;
