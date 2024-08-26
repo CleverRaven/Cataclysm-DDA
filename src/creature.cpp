@@ -1243,6 +1243,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
     }
 
+    // Supernatural dodges
+    double range_dodge_chance = enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE, 1 ) - 1.0f;
+    if ( x_in_y( range_dodge_chance, 1.0f ) ) {
+        on_try_dodge();
+    }
+
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
         if( !print_messages ) {
