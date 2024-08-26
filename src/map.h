@@ -743,17 +743,6 @@ class map
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
         // TODO: fix point types (remove the first overload)
-        //std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-        //                             const pathfinding_settings &settings,
-        //const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
-        //    return false;
-        //} ) const;
-        //std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-        //                                    const pathfinding_settings &settings,
-        //const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
-        //    return false;
-        //} ) const;
-
         bool can_teleport( const tripoint_bub_ms &t, const PathfindingSettings &settings ) const;
         bool can_move( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                        const PathfindingSettings &settings ) const;
