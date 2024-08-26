@@ -373,7 +373,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_unlocks_weapons_medium",
-    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "//": "To get items from this group in the Exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [
       [ "bio_resonator", 10 ],
       [ "bio_targeting", 15 ],

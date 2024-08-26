@@ -706,7 +706,7 @@
     "id": "mon_mech_combat",
     "type": "MONSTER",
     "name": { "str": "X-02: 'Grunt' Combat Mech" },
-    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated Gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
