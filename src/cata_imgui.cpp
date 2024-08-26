@@ -269,7 +269,13 @@ void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( io_typefaces[0].c_str(), fontheight, nullptr,
+        auto it = std::find_if( io_typefaces.begin(),
+        io_typefaces.end(), []( const std::string & io_typeface ) {
+            std::filesystem::path path( io_typeface );
+            return std::filesystem::exists( path );
+        } );
+        std::string existing_typeface = *it;
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
                          io.Fonts->GetGlyphRangesDefault() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
