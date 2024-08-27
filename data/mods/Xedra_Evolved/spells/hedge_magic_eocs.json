@@ -7,7 +7,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS",
-    "effect": [ { "u_remove_item_with": "hedge_witchlight" }, { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" } ]
+    "effect": [
+      { "u_remove_item_with": "hedge_witchlight" },
+      { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+      { "u_lose_effect": "effect_invisibility_magic_square" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -20,7 +24,25 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS",
-    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_item": "hedge_witchlight" } ] },
+    "condition": {
+      "or": [
+        { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+        { "u_has_item": "hedge_witchlight" },
+        { "u_has_effect": "effect_invisibility_magic_square" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS",
+    "condition": {
+      "or": [
+        { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+        { "u_has_item": "hedge_witchlight" },
+        { "u_has_effect": "effect_invisibility_magic_square" }
+      ]
+    },
     "effect": [  ]
   },
   {
@@ -44,7 +66,7 @@
     "id": "EOC_HEDGE_MAGIC_RANGED_MONSTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_monster",
-    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS" },
     "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
@@ -52,7 +74,7 @@
     "id": "EOC_HEDGE_MAGIC_RANGED_CHARACTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_character",
-    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS" },
     "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
@@ -470,6 +492,85 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_MEAT",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_CHEESE",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_FISH",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_BREAD",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_WINE"
+        ],
+        "allow_cancel": true,
+        "names": [ "Summon meat", "Summon cheese", "Summon fish", "Summon bread", "Summon wine" ],
+        "title": "Conjure which victuals?",
+        "descriptions": [
+          "Ask the spirits to summon some meat for you to eat.",
+          "Ask the spirits to summon some cheese for you to eat.",
+          "Ask the spirits to summon some fish for you to eat.",
+          "Ask the spirits to summon some bread for you to eat.",
+          "Ask the spirits to summon a bottle of wine for you to drink."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_MEAT",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked meat appears before you."
+      },
+      { "u_spawn_item": "meat_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_CHEESE",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some hard cheese appears before you."
+      },
+      { "u_spawn_item": "cheese_hard", "count": { "math": [ "rand(11) + 4" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_FISH",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked fish appears before you."
+      },
+      { "u_spawn_item": "fish_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_BREAD",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some fresh bread appears before you."
+      },
+      { "u_spawn_item": "bread", "count": { "math": [ "rand(6) + 2" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_WINE",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and a bottle of wine appears before you."
+      },
+      {
+        "if": { "math": [ "rand(1)", "==", "1" ] },
+        "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
+        "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
       }
     ]
   }
