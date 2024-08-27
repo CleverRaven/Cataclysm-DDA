@@ -7,7 +7,14 @@
     "description": "Species XE843 is how the Xedra scientists identified your people before they learned your people could speak to them after enough time around them to develop a way to communicate.  They had little idea that communication is your peoples survival trait, coming from a much harsher environment than the humans are…were blessed with, you can make allies with almost any thinking being.  You informed the Xedra people of your races name 'Gracken' but you didn't tell them that most of your people they found were larval forms and lacking access to the shadow materials needed would never grow up into an adult form.  Now the humans world is as deadly or moreso than your home and the way back is mostly closed.  Time to try and find a route home that wouldn't be a death sentence, or see what this world has to offer.",
     "points": 4,
     "proficiencies": [ "prof_traps" ],
-    "recipes": [ "gracken_strong_arms", "gracken_long_arms", "gracken_shade_arms", "gracken_shade_hands",  "gracken_sharp_nails", "gracken_dextrous_hands" ],
+    "recipes": [
+      "gracken_strong_arms",
+      "gracken_long_arms",
+      "gracken_shade_arms",
+      "gracken_shade_hands",
+      "gracken_sharp_nails",
+      "gracken_dextrous_hands"
+    ],
     "traits": [
       "THRESH_SPECIES_GRACKEN",
       "GRACKEN_BUILD",
