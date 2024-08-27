@@ -29,6 +29,8 @@ using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 using trial_mod = std::pair<std::string, int>;
 struct dbl_or_var;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 template<class T>
 struct abstract_var_info {
     abstract_var_info( var_type in_type, std::string in_name ): type( in_type ),
@@ -40,6 +42,7 @@ struct abstract_var_info {
     std::string name;
     T default_val;
 };
+#pragma GCC diagnostic pop
 
 using var_info = abstract_var_info<std::string>;
 using translation_var_info = abstract_var_info<translation>;
