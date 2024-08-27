@@ -8,7 +8,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally supressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
+    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally suppressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
     "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
   },
   {

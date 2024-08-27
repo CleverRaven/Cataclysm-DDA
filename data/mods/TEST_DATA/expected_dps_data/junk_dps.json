@@ -15,8 +15,6 @@
     "type": "test_data",
     "//": "Just junk items",
     "expected_dps": {
-      "fishing_rod_tele": 4.79702,
-      "fishing_rod_2pc": 4.912611,
       "banjo": 5.53,
       "saxophone": 5.55,
       "pool_ball": 5.58,
@@ -51,8 +49,8 @@
       "fishing_rod_professional": 6.89,
       "ukulele": 6.92,
       "eggs_ferment": 5.25,
-      "umbrella": 7.11,
-      "teleumbrella-extended": 7.11,
+      "umbrella": 5.07,
+      "teleumbrella-extended": 5.07,
       "vortex_stone": 5.38,
       "adjustable_stock": 7.12,
       "robofac_stock": 7.12,
@@ -84,7 +82,6 @@
       "pot_makeshift_copper": 9.61,
       "bolt_ballista_steel": 7.64,
       "chain": 9.64,
-      "cow_bell": 10.1,
       "pastaextruder": 5.89
     }
   }

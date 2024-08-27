@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_exodii_mission_wh_directions_chance",
-    "//": "to be called by NPCs as a way to assess if they have the right directions to the exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
+    "//": "to be called by NPCs as a way to assess if they have the right directions to the Exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
     "condition": { "one_in_chance": { "global_val": "exodii_mission_wh_chance" } },
     "effect": [ { "npc_add_var": "exodii_mission_wh_correct", "value": "yes" } ],
     "false_effect": [
@@ -45,7 +45,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_true",
-    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "//": "For Exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": [
       {
         "concatenate": [
@@ -65,7 +65,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_false",
-    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "//": "For Exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": [
       {
         "concatenate": [

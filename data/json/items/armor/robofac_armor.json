@@ -202,7 +202,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medimedium_battery_cellum_atomic_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -308,7 +308,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -939,7 +939,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 soldier helmet",
-    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the Cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
       { "type": "qt_steel", "portion": 1 },

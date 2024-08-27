@@ -34,7 +34,7 @@
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt_install_simple", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "CARGO_PASSABLE", "FLAT_SURF" ],
     "breaks_into": "ig_vp_sheet_metal",
@@ -193,7 +193,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "2 m", "using": [ [ "repair_welding_lc_steel", 1 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
     "breaks_into": "ig_vp_frame",

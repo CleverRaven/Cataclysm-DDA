@@ -5537,6 +5537,35 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( u ) ) {
                 return; // player not owner and refused to steal
             }
+            const item_location weapon = u.get_wielded_item();
+            if( weapon ) {
+                if( u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
+                    add_msg( m_info, _( "Something you are wearing hinders the use of both hands." ) );
+                    return;
+                }
+                if( !u.has_two_arms_lifting() ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+                if( weapon->is_two_handed( u ) ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s with both hands.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
             if( veh->engine_on ) {
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );

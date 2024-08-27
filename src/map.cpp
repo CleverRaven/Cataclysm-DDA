@@ -7800,7 +7800,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 }
 
 bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int range,
-                int &bresenham_slope, bool with_fields ) const
+                int &bresenham_slope, bool with_fields, bool allow_cached ) const
 {
     bool ( map:: * f_transparent )( const tripoint & p ) const =
         with_fields ? &map::is_transparent : &map::is_transparent_wo_fields;
@@ -7812,9 +7812,11 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
         return false; // Out of range!
     }
     const point key = sees_cache_key( F, T );
-    char cached = skew_cache.get( key, -1 );
-    if( cached >= 0 ) {
-        return cached > 0;
+    if( allow_cached ) {
+        char cached = skew_cache.get( key, -1 );
+        if( cached >= 0 ) {
+            return cached > 0;
+        }
     }
     bool visible = true;
 
@@ -8061,8 +8063,9 @@ std::vector<tripoint_bub_ms> map::find_clear_path( const tripoint_bub_ms &source
     // Not totally sure of the derivation.
     const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
     for( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
-        int candidate_offset = horizontal_offset * start_sign;
-        if( sees( source, destination, rl_dist( source, destination ), candidate_offset ) ) {
+        int candidate_offset = horizontal_offset * ( start_sign == 0 ? 1 : start_sign );
+        if( sees( source, destination, rl_dist( source, destination ),
+                  candidate_offset, /*with_fields=*/true, /*allow_cached=*/false ) ) {
             return line_to( source, destination, candidate_offset, 0 );
         }
     }

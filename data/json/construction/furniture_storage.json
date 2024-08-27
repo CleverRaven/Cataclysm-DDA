@@ -151,7 +151,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "//1": "relatively small weld",
     "using": [ [ "welding_standard", 25 ] ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nails", 5, "LIST" ] ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "wooden_post", 1 ] ], [ [ "2x4", 1 ] ], [ [ "nails", 5, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_mailbox"
   },

@@ -7,6 +7,7 @@
       { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
       { "group": "GROUP_BEARS", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_COUGARS", "weight": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175, "cost_multiplier": 3 },
       { "monster": "mon_mutant_experimental", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
@@ -115,8 +116,8 @@
         "starts": "90 days"
       },
       {
-        "monster": "mon_rattlesnake",
-        "weight": 3,
+        "group": "GROUP_WILDERNESS_FOREST_REPTILE",
+        "weight": 10,
         "cost_multiplier": 5,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -217,12 +218,25 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_WILDERNESS_FOREST_REPTILE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_rattlesnake", "weight": 3 },
+      { "monster": "mon_gartersnake", "weight": 10 },
+      { "monster": "mon_wormsnake", "weight": 5 },
+      { "monster": "mon_skink_fivelined", "weight": 2, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_WILDERNESS_FOREST_INSECT_HARMLESS",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_FLY", "weight": 2, "cost_multiplier": 0 },
-      { "group": "GROUP_APHID", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 }
+      { "group": "GROUP_APHID", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 },
+      { "group": "GROUP_MOTH_FLY", "weight": 1, "pack_size": [ 1, 4 ], "cost_multiplier": 0 }
     ]
   },
   {
@@ -232,6 +246,7 @@
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_FLY", "weight": 2, "cost_multiplier": 0 },
+      { "group": "GROUP_MOTH_FLY", "weight": 1, "pack_size": [ 1, 4 ], "cost_multiplier": 0 },
       { "group": "GROUP_SPIDER_JUMPING", "weight": 1, "cost_multiplier": 0 },
       { "group": "GROUP_SPIDER_WOLF", "weight": 1, "cost_multiplier": 0 },
       { "group": "GROUP_PRAYING_MANTIS", "weight": 2, "cost_multiplier": 10 },
@@ -457,7 +472,18 @@
       { "group": "GROUP_SNAIL", "weight": 15, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "group": "GROUP_TADPOLES_SWAMP", "weight": 100, "pack_size": [ 3, 6 ] },
       { "group": "GROUP_FROGS_SWAMP", "weight": 100, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_WILDERNESS_FRESHWATER_REPTILE", "weight": 85, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "group": "GROUP_MUTAFROGS_SWAMP", "weight": 75, "starts": "7 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WILDERNESS_FRESHWATER_REPTILE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_turtle_painted", "weight": 15, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_turtle_snapping_common", "weight": 5 }
     ]
   },
   {
@@ -467,6 +493,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_firefly", "weight": 30, "pack_size": [ 1, 4 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 1, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_MOSQUITO", "weight": 50, "pack_size": [ 1, 6 ] },
       { "monster": "mon_dragonfly_giant", "weight": 35, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_CENTIPEDE", "weight": 40, "cost_multiplier": 2 },
@@ -554,7 +581,13 @@
       { "group": "GROUP_RABBIT_WILD", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel_red", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "weight": 50, "cost_multiplier": 0 },
-      { "group": "GROUP_FROGS_ALL", "weight": 100, "cost_multiplier": 0 }
+      { "group": "GROUP_FROGS_ALL", "weight": 100, "cost_multiplier": 0 },
+      {
+        "group": "GROUP_WILDERNESS_FRESHWATER_REPTILE",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   },
   {
@@ -617,7 +650,8 @@
       { "group": "GROUP_STREAM_SMALL", "weight": 30 },
       { "group": "GROUP_STREAM_BIRDS", "weight": 30 },
       { "group": "GROUP_STREAM_DOMESTIC", "weight": 2 },
-      { "group": "GROUP_FROGS_ALL", "weight": 20 }
+      { "group": "GROUP_FROGS_ALL", "weight": 20 },
+      { "group": "GROUP_WILDERNESS_FRESHWATER_REPTILE", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {

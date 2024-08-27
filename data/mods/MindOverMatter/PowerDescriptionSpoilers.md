@@ -1046,15 +1046,6 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
 *Prerequisites*: Blink 6<br />
 
-## Ephemeral Walk (C)
-*Difficulty*: 6<br />
-*Target*: Self<br />
-*Duration*: 30 seconds to 5 minutes, plus 10 to 30 seconds per power level<br />
-*Stamina Cost*: 6500, minus 200 per level to a minimum of 2000<br />
-*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
-*Prerequisites*: Phase 10, Extended Stride 5<br />
-
 ## Extended Stride (C)
 *Difficulty*: 3<br />
 *Target*: Self<br />
@@ -1100,6 +1091,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
 *Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
 
+## Ephemeral Walk (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 5 minutes, plus 10 to 30 seconds per power level<br />
+*Stamina Cost*: 6500, minus 200 per level to a minimum of 2000<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
+*Prerequisites*: Phase 10, Extended Stride 5<br />
+
 ## Oubliette 
 *Difficulty*: 7<br />
 *Target*: A single target within 2 squares plus 1.5 squares per power level<br />
@@ -1121,11 +1121,20 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Breach 
 *Difficulty*: 9<br />
 *Target*: A single target within 2 squares plus 1.3 squares per power level<br />
-*Duration*: Indefinitet<br />
+*Duration*: Indefinite<br />
 *Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
 *Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
 *Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
+
+## Reality Tear 
+*Difficulty*: 10<br />
+*Target*: A single target within 1 square<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 10000, minus 250 per level to a minimum of 5000<br />
+*Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
+*Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
+*Prerequisites*: Gateway 10, Breach 10<br />
 
 # Vitakinesis
 

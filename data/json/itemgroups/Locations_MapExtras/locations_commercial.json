@@ -269,7 +269,7 @@
       [ "silver_nose_ring_stud", 2 ],
       [ "gold_toe_ring", 1 ],
       [ "silver_toe_ring", 2 ],
-      { "group": "mags_pawnshop", "prob": 300 }
+      { "group": "mags_common", "prob": 300 }
     ]
   },
   {
@@ -652,12 +652,6 @@
       { "group": "pens", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_pawnshop",
-    "subtype": "distribution",
-    "entries": [ { "group": "mags_obscure", "prob": 10 } ]
   },
   {
     "id": "my_precious",

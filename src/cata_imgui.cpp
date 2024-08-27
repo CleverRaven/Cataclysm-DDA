@@ -9,6 +9,7 @@
 #undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
+#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -269,7 +270,12 @@ void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( io_typefaces[0].c_str(), fontheight, nullptr,
+        auto it = std::find_if( io_typefaces.begin(),
+        io_typefaces.end(), []( const std::string & io_typeface ) {
+            return file_exist( io_typeface );
+        } );
+        std::string existing_typeface = *it;
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
                          io.Fonts->GetGlyphRangesDefault() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
@@ -588,7 +594,7 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;

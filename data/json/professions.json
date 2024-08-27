@@ -96,25 +96,20 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_cell_phone",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_laptop",
-    "entries": [ { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
+    "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_soldering_iron",
     "entries": [
-      {
-        "item": "light_plus_battery_cell",
-        "ammo-item": "battery",
-        "charges": 150,
-        "container-item": "soldering_iron_portable"
-      }
+      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "soldering_iron_portable" }
     ]
   },
   {
@@ -136,25 +131,25 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_heavy_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_mp3",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "mp3" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "mp3" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_two_way_radio",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
   },
   {
     "type": "item_group",
@@ -166,7 +161,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_tazer",
-    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
+    "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
   },
   {
     "type": "item_group",
@@ -1139,7 +1134,7 @@
     "type": "profession",
     "id": "basketball_player",
     "name": "Basketball Player",
-    "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
+    "description": "Your first major game was abruptly canceled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
     "points": 2,
     "skills": [ { "level": 5, "name": "dodge" }, { "level": 5, "name": "throw" }, { "level": 4, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic" ],
@@ -1220,7 +1215,7 @@
           { "item": "chestguard_hard" },
           { "item": "boots_rubber" },
           {
-            "item": "medium_disposable_cell",
+            "item": "medium_battery_cell",
             "ammo-item": "battery",
             "charges": 1200,
             "container-item": "foodperson_mask"
@@ -2544,7 +2539,7 @@
     "id": "horse_cop",
     "name": "Mounted Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have each other.",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The Cataclysm is upon you, but at least you have each other.",
     "points": 5,
     "skills": [
       { "level": 5, "name": "survival" },
@@ -3751,12 +3746,7 @@
           { "item": "caff_gum", "count": 3 },
           { "item": "memory_card" },
           { "item": "usb_drive" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "portable_game"
-          },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
@@ -4137,7 +4127,7 @@
     "type": "profession",
     "id": "otaku",
     "name": "Otaku",
-    "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
+    "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is canceled!  At least you were ready in case your costume tore.",
     "points": 0,
     "skills": [ { "level": 2, "name": "tailor" } ],
     "items": {
@@ -4152,12 +4142,7 @@
           { "item": "cheeseburger" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "eink_tablet_pc"
-          },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "eink_tablet_pc" },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
@@ -5655,7 +5640,7 @@
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5812,7 +5797,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_rich_wallet_full" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
@@ -6063,6 +6048,7 @@
           { "item": "jeans" },
           { "item": "longshirt" },
           { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
           { "item": "mbag" },
           { "group": "full_survival_kit" },
           { "group": "starter_wallet_full" }
@@ -6607,7 +6593,7 @@
           { "item": "boots_combat" },
           { "item": "wristwatch" },
           { "item": "gloves_tactical" },
-          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
+          { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": 150 },
           { "item": "mil_flight_suit" },
           { "item": "chestrig" },
           { "group": "loaded_webbing_belt" },
@@ -7030,7 +7016,7 @@
             "container-item": "rad_monitor"
           },
           {
-            "item": "medium_atomic_battery_cell",
+            "item": "medium_battery_cell",
             "ammo-item": "battery",
             "charges": 20,
             "container-item": "broken_dimensional_anchor"
@@ -7553,13 +7539,8 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
-          {
-            "item": "light_disposable_cell",
-            "ammo-item": "battery",
-            "charges": 300,
-            "container-item": "wearable_light"
-          }
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
