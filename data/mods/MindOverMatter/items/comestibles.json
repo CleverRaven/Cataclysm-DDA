@@ -227,5 +227,25 @@
       "description": "Eat the berries.",
       "effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
     }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "alien_meadow_tree_3_fruit",
+    "name": { "str": "alien fruit" },
+    "description": "A large fruit pulled from an alien tree.  The rind is extremely hard and you'll need to cut into it to eat it.",
+    "weight": "4518 g",
+    "color": "red",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 826,
+    "calories": 1355,
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "fruit" ],
+    "volume": "7150 ml",
+    "flags": [ "FREEZERBURN", "INEDIBLE" ],
+    "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
+    "melee_damage": { "bash": 2 }
   }
 ]
