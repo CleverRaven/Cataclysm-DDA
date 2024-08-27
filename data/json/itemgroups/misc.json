@@ -225,9 +225,9 @@
       { "item": "boots_combat" },
       { "item": "socks", "count": 3 },
       { "item": "gloves_tactical" },
-      { "item": "light_plus_battery_cell", "charges": 150 },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
+      { "group": "batteries" },
+      { "item": "light_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_battery_cell", "charges": 150, "container-item": "radio" },
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
@@ -249,7 +249,7 @@
       { "item": "flint_steel" },
       { "item": "whistle_multitool" },
       { "item": "bottle_folding" },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "picklocks" },
       { "item": "lifestraw" },
       { "item": "pocket_survival" },
@@ -357,5 +357,15 @@
     "type": "item_group",
     "id": "butterfly_net_any",
     "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "egg_reptile_forest",
+    "//": "Any reptile eggs that make sense to find in random underbrush, assuming that it's a fair distance away from water.",
+    "items": [
+      { "item": "egg_turtle_painted", "prob": 5 },
+      { "item": "egg_wormsnake", "prob": 2 },
+      { "item": "egg_skink_fivelined", "prob": 2 }
+    ]
   }
 ]

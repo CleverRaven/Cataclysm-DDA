@@ -568,9 +568,16 @@
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "concentration_calculations()" ] },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
         {
-          "x_in_y_chance": { "x": { "math": [ "(u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5" ] }, "y": 100 }
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -10, 0) * -10)"
+              ]
+            },
+            "y": 100
+          }
         }
       ]
     },

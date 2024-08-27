@@ -5113,7 +5113,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil",
-    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ] ],
     "charges": 2
   },
   {
@@ -5131,7 +5131,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ]
     ],
@@ -5152,7 +5152,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "6u for the eggs, 1u for the oil, 2u for the veggy, 1u for the cheese",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [
         [ "mushroom", 1 ],
@@ -5184,7 +5184,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil.  no energy is spent cooking the bread, that's already done.",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "condiment", 2, "LIST" ] ]
@@ -5220,7 +5220,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil, 3u for the cheese and veggy.  no energy is spent cooking the bread, that's already done.",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [
         [ "mushroom", 1 ],
@@ -5254,7 +5254,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
@@ -5274,7 +5274,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
@@ -5295,7 +5295,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ] ],
@@ -5317,7 +5317,7 @@
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
     "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
     "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5333,7 +5333,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "6u for the egg, meat not needed since it's just diced up and  mixed in",
-    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ], [ [ "meat_cooked", 1, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ],
     "charges": 3
   },
   {
@@ -7510,7 +7510,7 @@
         [ "milk_powder", 1 ],
         [ "con_milk", 1 ]
       ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water_clean", 1 ] ]
@@ -8329,7 +8329,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "cinnamon", 2 ] ]
@@ -8350,7 +8350,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk, 1u for alcohol/sugar",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],

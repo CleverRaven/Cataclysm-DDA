@@ -174,23 +174,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_atomic_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "atomic batteries",
-    "description": "Recipes related to constructing complex atomic battery cells.",
-    "skill_used": "electronics",
-    "nested_category_data": [
-      "light_minus_atomic_battery_cell",
-      "light_atomic_battery_cell",
-      "medium_atomic_battery_cell",
-      "heavy_atomic_battery_cell"
-    ],
-    "difficulty": 6
-  },
-  {
     "id": "nested_standard_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -199,7 +182,7 @@
     "name": "standard batteries",
     "description": "Recipes related to constructing standard rechargeable batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
+    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
     "difficulty": 3
   },
   {
@@ -215,30 +198,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_dry_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "dry batteries",
-    "description": "Recipes related to constructing basic dry-cell batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "light_dry_cell", "medium_dry_cell", "heavy_dry_cell" ],
-    "difficulty": 3
-  },
-  {
-    "id": "nested_disposable_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "standard disposable batteries",
-    "description": "Recipes related to constructing standard disposable batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "light_minus_disposable_cell", "light_disposable_cell", "medium_disposable_cell", "heavy_disposable_cell" ],
-    "difficulty": 4
-  },
-  {
     "id": "nested_all_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -249,7 +208,6 @@
     "skill_used": "electronics",
     "nested_category_data": [
       "nested_atomic_battery",
-      "nested_disposable_battery",
       "nested_dry_battery",
       "nested_standard_battery",
       "nested_storage_battery",

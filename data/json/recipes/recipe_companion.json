@@ -25,7 +25,7 @@
     "time": "30 m",
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "forging_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "forging_standard", 24 ], [ "lc_steel_standard", 6 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_file", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },

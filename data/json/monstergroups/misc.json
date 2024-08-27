@@ -292,7 +292,6 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
       { "group": "GROUP_COWS", "weight": 10 },
       { "group": "GROUP_HORSES", "weight": 10 },
       { "group": "GROUP_PIGS", "weight": 10 },
@@ -335,8 +334,6 @@
       { "monster": "mon_black_rat", "weight": 100 },
       { "monster": "mon_opossum", "weight": 15 },
       { "monster": "mon_raccoon", "weight": 15 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
-      { "monster": "mon_rattlesnake_giant", "weight": 5, "cost_multiplier": 2 },
       { "group": "GROUP_WORM", "weight": 20 },
       { "monster": "mon_wasp_small", "weight": 10 }
     ]

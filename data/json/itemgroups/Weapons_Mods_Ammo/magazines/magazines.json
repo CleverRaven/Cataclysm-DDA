@@ -1,0 +1,256 @@
+[
+  {
+    "type": "item_group",
+    "id": "mags_milspec",
+    "//": "Current military specification magazines.",
+    "items": [
+      [ "huge_atomic_battery_cell", 2 ],
+      [ "20x66_20_mag", 10 ],
+      [ "20x66_40_mag", 5 ],
+      [ "8x40_10_mag", 5 ],
+      [ "8x40_25_mag", 5 ],
+      [ "8x40_50_mag", 10 ],
+      [ "8x40_100_mag", 10 ],
+      [ "8x40_250_mag", 5 ],
+      [ "8x40_500_mag", 5 ],
+      [ "hk46mag", 15 ],
+      [ "hk46bigmag", 5 ],
+      [ "m107a1mag", 50 ],
+      [ "tac50mag", 20 ],
+      [ "ai_338mag", 10 ],
+      [ "ai_338mag_10", 10 ],
+      [ "m2010mag", 10 ],
+      [ "scarhmag", 50 ],
+      [ "scarhbigmag", 20 ],
+      [ "stanag5", 2 ],
+      [ "stanag5ranger", 1 ],
+      [ "stanag10", 5 ],
+      [ "stanag10ranger", 2 ],
+      [ "stanag20", 10 ],
+      [ "stanag20ranger", 3 ],
+      [ "stanag30", 20 ],
+      [ "stanag30ranger", 5 ],
+      [ "stanag40", 2 ],
+      [ "stanag50", 2 ],
+      [ "stanag60", 3 ],
+      [ "stanag100", 2 ],
+      [ "hk417mag_20rd", 30 ],
+      [ "hk417mag_10rd", 20 ],
+      [ "p320mag_17rd_9x19mm", 60 ],
+      [ "p226mag_15rd_9x19mm", 5 ],
+      [ "sp2022mag_15rd_9mm", 5 ],
+      [ "btmp9mag_9x19mm_15", 1 ],
+      [ "btmp9mag_9x19mm_20", 1 ],
+      [ "btmp9mag_9x19mm_25", 1 ],
+      [ "btmp9mag_9x19mm_30", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_military",
+    "//": "_DEPRECATED_ Older military magazines still in service.",
+    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp45mag", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_surplus",
+    "//": "Obsolete military magazines no longer in common use.",
+    "items": [
+      [ "3006_clip", 5 ],
+      [ "pressurized_tank", 5 ],
+      [ "falmag", 20 ],
+      [ "g3mag", 15 ],
+      [ "m14mag", 25 ],
+      [ "m1911mag", 15 ],
+      [ "m1918mag", 5 ],
+      [ "m9mag", 25 ],
+      [ "stenmag", 40 ],
+      [ "thompson_mag", 5 ],
+      [ "m1carbinemag", 10 ],
+      [ "m1carbinebigmag", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_cop",
+    "//": "Standard issue police magazines.",
+    "items": [
+      { "item": "fn57mag", "prob": 15, "charges": [ 0, 20 ] },
+      { "item": "glockmag", "prob": 40, "charges": [ 0, 15 ] },
+      { "item": "glock40mag", "prob": 30, "charges": [ 0, 15 ] },
+      { "item": "hk46mag", "prob": 5, "charges": [ 0, 20 ] },
+      { "item": "m9mag", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "mp5mag", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "sig40mag", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "stanag30", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "ppq9mag_10rd", "prob": 1, "charges": [ 0, 10 ] },
+      { "item": "ppq9mag_15rd", "prob": 1, "charges": [ 0, 15 ] },
+      { "item": "ppq9mag_17rd", "prob": 1, "charges": [ 0, 17 ] },
+      { "item": "ppq40mag_10rd", "prob": 1, "charges": [ 0, 10 ] },
+      { "item": "ppq40mag_12rd", "prob": 1, "charges": [ 0, 12 ] },
+      { "item": "ppq40mag_14rd", "prob": 1, "charges": [ 0, 14 ] },
+      { "item": "ppq45mag", "prob": 1, "charges": [ 0, 12 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_swat",
+    "//": "Magazines issued to paramilitary forces in addition to standard police issue.",
+    "items": [
+      { "group": "mags_cop", "prob": 50 },
+      { "item": "fnp90mag", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "glockbigmag", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "glock40bigmag", "prob": 10, "charges": [ 0, 22 ] },
+      { "item": "hk46bigmag", "prob": 5, "charges": [ 0, 40 ] },
+      { "item": "m9bigmag", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "mp5bigmag", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "stanag30ranger", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 20, "charges": [ 0, 30 ] },
+      { "item": "ump45mag", "prob": 20, "charges": [ 0, 25 ] },
+      { "item": "usp45mag", "prob": 10, "charges": [ 0, 12 ] },
+      { "item": "usp9mag", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "as50mag", "prob": 2, "charges": [ 0, 10 ] },
+      { "item": "ai_338mag", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "ai_338mag_10", "prob": 10, "charges": [ 0, 10 ] },
+      { "item": "hk417mag_20rd", "prob": 20, "charges": [ 0, 20 ] }
+    ]
+  },
+  {
+    "id": "stanag_30_random",
+    "type": "item_group",
+    "//": "one of the possible 30 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag30", "prob": 80 }, { "item": "stanag30ranger", "prob": 20 } ]
+  },
+  {
+    "id": "stanag_10_random",
+    "type": "item_group",
+    "//": "one of the possible 10 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag10", "prob": 80 }, { "item": "stanag10ranger", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "uncommon_magazines",
+    "//": "Yes this is a clunky solution that I don't like.  This is to allow magazines in common_magazines a <1 probabilty to spawn.",
+    "items": [ { "item": "deaglemag_50", "prob": 100 }, { "item": "makarovmag", "prob": 65 }, { "item": "tokarevmag", "prob": 45 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "mags_common",
+    "//": "Collections of magazines for guns that are common place, can be found in houses, gunstores, anywhere where you'd expect to find magazines. Weighted by caliber.",
+    "items": [
+      { "group": "common_magazines_9mm", "prob": 209 },
+      { "group": "common_magazines_10mm", "prob": 9 },
+      { "group": "common_magazines_22lr", "prob": 204 },
+      { "group": "common_magazines_30_carbine", "prob": 1 },
+      { "group": "common_magazines_32", "prob": 44 },
+      { "group": "common_magazines_38", "prob": 34 },
+      { "group": "common_magazines_40sw", "prob": 40 },
+      { "group": "common_magazines_44", "prob": 15 },
+      { "group": "common_magazines_45", "prob": 49 },
+      { "group": "common_magazines_57", "prob": 4 },
+      { "group": "common_magazines_223", "prob": 125 },
+      { "group": "common_magazines_303", "prob": 19 },
+      { "group": "common_magazines_308", "prob": 25 },
+      { "group": "common_magazines_380", "prob": 48 },
+      { "group": "common_magazines_762", "prob": 34 },
+      { "group": "common_magazines_762R", "prob": 4 },
+      { "group": "common_magazines_3006", "prob": 8 },
+      { "group": "common_magazines_450", "prob": 1 },
+      { "group": "common_magazines_12", "prob": 8 },
+      { "group": "uncommon_magazines", "prob": 3 },
+      { "group": "magazines_ak74", "prob": 1 },
+      { "item": "500_speedloader5", "prob": 1 },
+      { "item": "ruger_pr_mag", "prob": 1 },
+      { "item": "454_speedloader5", "prob": 25 },
+      { "item": "50beowulf_ar15mag", "prob": 2 },
+      { "item": "m1911mag_10rd_38super", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "mags_collector",
+    "//": "Collections of magazines for guns that are quite rare, and should only be found in private collections.",
+    "items": [
+      { "group": "rare_magazines_9mm", "prob": 209 },
+      { "group": "rare_magazines_45", "prob": 49 },
+      { "item": "ump40mag", "prob": 3 },
+      { "item": "hk46mag", "prob": 8 },
+      { "item": "hk46bigmag", "prob": 1 },
+      { "item": "mac11mag", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_pistol_hunting",
+    "//": "Empty magazines for high-caliber pistols found within hunting supply stores and related locations.  Speed loaders have a lower chance as they're not required for the gun to operate, and I don't imagine quicker reloads being horribly important in hunting game.",
+    "items": [
+      { "group": "magazines_10mm_glock", "prob": 170 },
+      { "item": "deaglemag", "prob": 71 },
+      { "item": "deaglemag_50", "prob": 35 },
+      { "item": "deaglemag_357", "prob": 100 },
+      { "item": "500_speedloader5", "prob": 4 },
+      { "item": "38_speedloader6", "prob": 60 },
+      { "item": "38_speedloader", "prob": 20 },
+      { "item": "40_speedloader6", "prob": 5 },
+      { "item": "44_speedloader6", "prob": 35 },
+      { "item": "454_speedloader5", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_rifle_hunting",
+    "//": "Empty hunting rifle magazines found within hunting supply stores and related locations.",
+    "items": [
+      { "group": "common_magazines_223", "prob": 25 },
+      { "group": "common_magazines_308", "prob": 60 },
+      { "group": "common_magazines_762", "prob": 12 },
+      { "group": "common_magazines_762R", "prob": 8 },
+      { "group": "common_magazines_3006", "prob": 15 },
+      { "group": "common_magazines_450", "prob": 10 },
+      { "group": "magazines_22_1022", "prob": 100 },
+      { "group": "magazines_22_ar", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_shotgun_makeshift",
+    "//": "Makeshift or otherwise poor quality shotgun magazines.",
+    "items": [ [ "shotbelt_20", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_other_common",
+    "//": "Factory specification magazines commonly owned by citizens that have no better category.",
+    "items": [  ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_other_makeshift",
+    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
+    "items": [ [ "nailmag", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_flamethrower",
+    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
+    "items": [ [ "pressurized_tank_chem", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_flamethrower_xedra",
+    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
+    "items": [ [ "pressurized_tank_chem", 5 ], [ "pressurized_tank_modern", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_hunting",
+    "subtype": "distribution",
+    "//": "Empty store magazines for hunting guns.",
+    "entries": [ { "group": "mags_pistol_hunting", "prob": 10 }, { "group": "mags_rifle_hunting", "prob": 100 } ]
+  }
+]
