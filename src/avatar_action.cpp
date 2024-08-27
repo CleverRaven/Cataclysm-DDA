@@ -101,6 +101,7 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -373,7 +374,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( safe_mode ) {
                 // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
                 if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    g->safe_mode != SAFE_MODE_OFF ) {
+                    g->safe_mode != SAFE_MODE_OFF && !you.has_trait( trait_INATTENTIVE ) ) {
                     const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
                     add_msg( m_warning,
                              _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
