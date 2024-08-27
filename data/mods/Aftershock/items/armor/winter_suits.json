@@ -60,7 +60,13 @@
     "power_draw": "8170 mW",
     "warmth": 150,
     "revert_to": "afs_magellan_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_magellan_suit"
+    }
   },
   {
     "id": "afs_frontier_cryo",
@@ -119,7 +125,13 @@
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_frontier_cryo"
+    }
   },
   {
     "id": "afs_combat_cryo",
@@ -177,6 +189,12 @@
     "power_draw": "11111 mW",
     "warmth": 150,
     "revert_to": "afs_combat_cryo",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_combat_cryo" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_combat_cryo"
+    }
   }
 ]

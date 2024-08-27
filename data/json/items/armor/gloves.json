@@ -235,7 +235,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY", "DURABLE_MELEE" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
         "encumbrance": 12,

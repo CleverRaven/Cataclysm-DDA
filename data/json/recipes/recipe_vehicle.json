@@ -1030,7 +1030,7 @@
     "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10 } ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "steel_standard", 20 ] ],
+    "using": [ [ "lc_steel_standard", 20 ] ],
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
@@ -1057,7 +1057,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "using": [ [ "steel_standard", 100 ] ],
+    "using": [ [ "lc_steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [
@@ -1179,7 +1179,7 @@
         [ "oxy_torch", 20 ]
       ]
     ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 8 ] ] ]
   },
   {
     "type": "recipe",

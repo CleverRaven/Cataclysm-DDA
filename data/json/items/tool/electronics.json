@@ -20,7 +20,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 1 }
@@ -46,7 +46,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 1 }
@@ -79,7 +79,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -174,7 +174,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "EBOOK",
@@ -215,7 +215,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electrohack" },
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 5 charges of battery power per use.",
     "weight": "114 g",
     "volume": "500 ml",
     "price": "400 USD",
@@ -236,7 +236,7 @@
       }
     ],
     "melee_damage": { "bash": 5 },
-    "charges_per_use": 25,
+    "charges_per_use": 5,
     "qualities": [ [ "HACK", 2 ] ]
   },
   {
@@ -276,6 +276,7 @@
     "use_action": {
       "target": "geiger_off",
       "msg": "The geiger counter's SCANNING LED turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
     },
@@ -304,7 +305,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -507,7 +508,7 @@
     "use_action": {
       "target": "noise_emitter_on",
       "msg": "You turn the noise emitter on.",
-      "menu_text": "Turn off",
+      "menu_text": "Turn on",
       "active": true,
       "type": "transform"
     },
@@ -533,6 +534,7 @@
     "use_action": {
       "target": "noise_emitter",
       "msg": "The infernal racket dies as the noise emitter turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "active": false,
       "type": "transform"
@@ -587,6 +589,7 @@
       "type": "transform",
       "target": "emf_detector",
       "msg": "The noise of your EMF detector slows to a halt.",
+      "ammo_scale": 0,
       "menu_text": "Turn off"
     },
     "tick_action": [ "EMF_PASSIVE_ON" ],
@@ -933,7 +936,7 @@
     "use_action": {
       "target": "noise_emitter_super_on",
       "msg": "You turn the super noise emitter on.",
-      "menu_text": "Turn off",
+      "menu_text": "Turn on",
       "active": true,
       "type": "transform"
     },
@@ -959,6 +962,7 @@
     "use_action": {
       "target": "noise_emitter_super",
       "msg": "The infernal racket dies as the super noise emitter turns off.",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "active": false,
       "type": "transform"
