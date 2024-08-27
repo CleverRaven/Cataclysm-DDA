@@ -32,9 +32,9 @@ struct ui_state {
     std::string step;
 };
 
-ui_state *gLUI = nullptr;
+static ui_state *gLUI = nullptr;
 
-void redraw()
+static void redraw()
 {
 #ifdef TILES
     ImVec2 pos = { 0.5f, 0.5f };
@@ -42,7 +42,7 @@ void redraw()
     ImGui::SetNextWindowSize( gLUI->window_size );
     ImGui::PushStyleVar( ImGuiStyleVar_WindowBorderSize, 0.0f );
     ImGui::PushStyleColor( ImGuiCol_WindowBg, { 0.0f, 0.0f, 0.0f, 1.0f } );
-    if( ImGui::Begin( "Loading…", NULL,
+    if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
         ImGui::Image( static_cast<void *>( gLUI->splash.get() ), gLUI->splash_size );
@@ -71,11 +71,11 @@ void redraw()
 #endif
 }
 
-void resize()
+static void resize()
 {
 }
 
-void update_state( const std::string &context, const std::string &step )
+static void update_state( const std::string &context, const std::string &step )
 {
     if( gLUI == nullptr ) {
         gLUI = new struct ui_state;
