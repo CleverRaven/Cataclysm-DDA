@@ -1961,16 +1961,16 @@ int npc::max_willing_to_owe() const
 void npc::shop_restock()
 {
     // Shops restock once every restock_interval
-    time_duration const elapsed =
-        restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
-    if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
+    time_duration elapsed = calendar::turn - restock;
+    if( restock != calendar::turn_zero &&
+        elapsed < myclass->get_shop_restock_interval() ) {
         return;
     }
 
     if( is_player_ally() || !is_shopkeeper() ) {
         return;
     }
-    restock = calendar::turn + myclass->get_shop_restock_interval();
+    restock = calendar::turn;
 
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
@@ -2047,7 +2047,7 @@ void npc::shop_restock()
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
-        restock - calendar::turn;
+        restock + myclass->get_shop_restock_interval() - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
     return restock_rem;
 }
