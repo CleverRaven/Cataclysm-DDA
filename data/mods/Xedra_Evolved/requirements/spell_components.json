@@ -197,5 +197,48 @@
     "type": "requirement",
     "tools": [ [ [ "candle_lit", -1 ] ] ],
     "components": [ [ [ "salt", 15 ] ], [ [ "wild_herbs", 30 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_four_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_six_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 6 ], [ "blue_pen", 6 ], [ "green_pen", 6 ], [ "black_pen", 6 ], [ "red_pen", 6 ] ]
+    ],
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_eight_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 8 ], [ "pencil", 8 ], [ "blue_pen", 8 ], [ "green_pen", 8 ], [ "black_pen", 8 ], [ "red_pen", 8 ] ]
+    ],
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_twelve_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [
+        [ "pen", 12 ],
+        [ "pencil", 12 ],
+        [ "blue_pen", 12 ],
+        [ "green_pen", 12 ],
+        [ "black_pen", 12 ],
+        [ "red_pen", 12 ]
+      ]
+    ],
+    "components": [ [ [ "paper", 3 ] ] ]
   }
 ]

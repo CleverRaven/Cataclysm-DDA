@@ -223,7 +223,7 @@ more detail about the shown tile. They are as follows:
 - full, all information provided in the **overmap_terrain** is provided
 
 The information on how to display the middle three vision levels is provided in a **oter_vision**
-defintion.
+definition.
 
 ## Overmap Terrain
 
@@ -506,7 +506,7 @@ Depending on the subtype, there are further relevant fields:
 | Identifier  |                                                                                      Description                                                                                           |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `point`     | `[ x, y, z]` of the overmap terrain within the special.                                                                                                                                    |
-| `overmap`   | Id of the `overmap_terrain` to place at the location. If ommited no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
+| `overmap`   | Id of the `overmap_terrain` to place at the location. If omitted no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
 | `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. Overrides the specials overall `locations` field.                                                               |
 | `camp`      | Will make a NPC-owned camp spawn here when given a value. The entered value is the ID of the faction that owns this camp.                                                                  |
 | `camp_name` | Name that will be displayed on the overmap for the camp.                                                                                                                                   |

@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "condition.h"
 #include "damage.h"
 #include "translation.h"
 #include "type_id.h"
@@ -58,6 +59,8 @@ struct weakpoint_attack {
 struct weakpoint_effect {
     // The type of the effect.
     efftype_id effect;
+    // Effect on condition, that would be run.
+    std::vector<effect_on_condition_id> effect_on_conditions;
     // The percent chance of causing the effect.
     float chance;
     // Whether the effect is permanent.
@@ -132,10 +135,9 @@ struct weakpoint {
     std::unordered_map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::unordered_map<damage_type_id, float> crit_mult;
-    // A list of required effects.
-    std::vector<efftype_id> required_effects;
-    // A list of effects that will disable this weakpoint.
-    std::vector<efftype_id> disabled_by;
+    // Dialogue conditions of weakpoint
+    std::function<bool( dialogue & )> condition;
+    bool has_condition = false;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
     // Constant coverage multipliers, depending on the attack type.

@@ -31,10 +31,22 @@
     ]
   },
   {
+    "id": "alien_tower",
+    "//": "a tower that looks alien - for mi-go camps/scout towers",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "tall alien building", "sym": "0", "color": "pink" },
+      { "name": "alien tower", "sym": "0", "color": "pink" }
+    ]
+  },
+  {
     "id": "isolated_tower",
     "//": "a tall spire or tower outside of a city area - without other buildings around",
     "type": "oter_vision",
-    "levels": [ { "name": "tower", "sym": "0", "color": "light_gray" }, { "name": "tower", "sym": "0", "color": "light_gray" } ]
+    "levels": [
+      { "name": "tall building", "sym": "0", "color": "light_gray" },
+      { "name": "tower", "sym": "0", "color": "light_gray" }
+    ]
   },
   {
     "id": "isolated_camp",

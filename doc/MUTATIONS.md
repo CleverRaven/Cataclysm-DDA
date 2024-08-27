@@ -229,6 +229,25 @@ Note that **all new traits that can be obtained through mutation must be purifia
       }
     ]
   ],
+  "comfort": [                                // List of comfort data. The first comfort data with passing conditions will apply.
+  {                                           // If multiple mutations would apply comfort data, only the data with the worst `comfort` will apply.
+      "conditions": [                         // List of comfort conditions. See 'Comfort Conditions' below. Mandatory.
+        { "type": "terrain", "flag": "DEEP_WATER" },
+        { "type": "furniture", "id": "f_null", "invert": true },
+        { "type": "field", "id": "fd_web", "intensity": 3 },
+        { "type": "vehicle" },
+        { "type": "trait": "id": "SHELL2", "active": true }
+      ],
+      "conditions_any": true,                 // If this comfort data passes when ANY of its conditions are true (true) or when ALL of its conditions are true (false) (default: false).
+      "comfort": "very_comfortable",          // The comfort provided by this comfort data if applied. Can be an integer or any of "very_comfortable" (10), "comfortable" (5), "sleep_aid" (4), "slightly_comfortable" (3), "neutral" (0), "uncomfortable" (-7), or "impossible" (-999) (default: "neutral").
+      "add_human_comfort": false,             // If the furniture/trap/terrain's comfort value should be added to `comfort` (default: false). Not compatible with `use_better_comfort`.
+      "use_better_comfort": false,            // If the furniture/trap/terrain's comfort value should be used INSTEAD OF `comfort` if better (default: false). Not compatible with `add_human_comfort`.
+      "add_sleep_aids": false,                // If sleep aids should add their comfort value to the final result (default: false).
+      "msg_try": { "text": "You try to sleep.", "rating": "good" },                 // Message displayed when trying to sleep.
+      "msg_hint": { "text": "Maybe you should sleep on a bed?", "rating": "info" }, // Message displayed after the above message. Used to suggest better places for a mutant to sleep.
+      "msg_sleep": { "text": "You fall asleep.", "rating": "good" }                 // Message displayed when falling asleep.
+    }
+  ],
   "activated_is_setup": true,                 // If this is true the bellow activated EOC runs then the mutation turns on for processing every turn. If this is false the below "activated_eocs" will run and then the mod will turn itself off.
   "activated_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
   "processed_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate every time (defined above) units of time. Time of 0 means every turn it processes. Processed when the mutation is active for activatable mutations and always for non-activatable ones.
@@ -288,6 +307,38 @@ These fields are optional, but are very frequently used in mutations and their c
 ### Optional Fields
 
 There are many, many optional fields present for mutations to let them do all sorts of things. You can see them documented above.
+
+### Comfort Conditions
+
+Comfort data can have one or more `conditions`. Comfort data passes (is true) when **any** of its conditions pass, if `conditions_any` is `true`, or when **all** of its conditions pass, if `conditions_any` is `false`.
+
+#### Fields
+
+Conditions have the following fields. `type` is mandatory and determines which other fields are mandatory. `invert` is always optional.
+
+| Identifier  | Type    | Description
+|-------------|---------|-------------
+| `type`      | string  | One of `"terrain"`, `"furniture"`, `"trap"`, `"field"`, `"vehicle"`, `"character"`, or `"trait"`. Always mandatory.
+| `id`        | string  | The ID of a terrain, furniture, trap, field, or trait.
+| `flag`      | string  | A terrain, furniture, vehicle part, or character flag.
+| `intensity` | integer | A field's intensity.
+| `active`    | boolean | If a trait must be active.
+| `invert`    | boolean | If a condition should pass when it would fail and fail when it would pass. Always optional.
+
+#### Types
+
+A condition's `type` determines what it checks for in a location. A condition passes (is true) according to it's `type`.
+
+| Type        | Mandatory      | Optional    | Passes
+|-------------|----------------|-------------|-------------
+| `terrain`   | `id` or `flag` |             | Passes if on terrain with the given `id` or `flag`.
+| `furniture` | `id` or `flag` |             | Passes if on furniture with the given `id` or `flag`.
+| `trap`      | `id`           |             | Passes if on a trap with the given `id`.
+| `field`     | `id`           | `intensity` | Passes if in a field with the given `id`. If `intensity` is defined, the field's intensity must be greater than or equal to `intensity`.
+| `vehicle`   |                | `flag`      | Passes if in/on a part of a vehicle. If `flag` is defined, the part must have the given `flag` and cannot be broken.
+| `character` | `flag`         |             | Passes if the character has the given `flag`.
+| `trait`     | `id`           | `active`    | Passes if the character has a trait with the given `id`. If `active` is defined, the trait must be active.
+| all types   |                | `invert`    | Passes if the condition would fail. Fails if the condition would pass.
 
 ### EOC details
 

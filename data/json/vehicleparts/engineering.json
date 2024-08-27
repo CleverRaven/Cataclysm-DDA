@@ -96,11 +96,7 @@
     "durability": 300,
     "description": "A pair of forklift arms.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want to jack up the other vehicle to change its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "size": "12500 ml",
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": "ig_vp_frame",
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "//": "30 cm of weld per quadrant of damage, 60 cm of weld to install",
     "requirements": {
@@ -114,7 +110,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],

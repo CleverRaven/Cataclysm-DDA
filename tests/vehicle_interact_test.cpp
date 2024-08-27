@@ -94,7 +94,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 20, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 20, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 200, item( "welding_wire_steel" ) );
         test_repair( tools, true, true );
     }
@@ -112,7 +112,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }
@@ -123,7 +123,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, true, false );
     }
@@ -135,7 +135,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }
@@ -152,7 +152,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }

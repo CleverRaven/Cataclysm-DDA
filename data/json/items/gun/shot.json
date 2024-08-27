@@ -774,7 +774,7 @@
       {
         "id": "m2",
         "name": { "str": "Benelli M2 shotgun" },
-        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
+        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-Cataclysm survivor."
       },
       {
         "id": "sbe",
@@ -820,13 +820,13 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "6-round tactical shotgun" },
-    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
+    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the Cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m2_tac",
         "name": { "str": "Benelli M2 Tactical shotgun" },
-        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-cataclysm farming duties: seeding lead shot into fields of zombies."
+        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-Cataclysm farming duties: seeding lead shot into fields of zombies."
       },
       {
         "id": "mossberg_500_security",

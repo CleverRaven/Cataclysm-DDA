@@ -870,8 +870,8 @@
     "entries": [
       { "item": "light_battery_cell", "prob": 25, "charges": [ 0, 100 ] },
       { "item": "light_minus_battery_cell", "prob": 12, "charges": [ 0, 50 ] },
-      { "item": "light_plus_battery_cell", "prob": 9, "charges": [ 0, 150 ] },
-      { "item": "light_disposable_cell", "prob": 50, "charges": [ 0, 300 ] }
+      { "item": "light_battery_cell", "prob": 9, "charges": [ 0, 150 ] },
+      { "item": "light_battery_cell", "prob": 50, "charges": [ 0, 300 ] }
     ]
   },
   {
@@ -880,29 +880,21 @@
     "items": [
       { "item": "light_battery_cell", "prob": 25, "charges": 100 },
       { "item": "light_minus_battery_cell", "prob": 12, "charges": 50 },
-      { "item": "light_plus_battery_cell", "prob": 9, "charges": 150 },
-      { "item": "light_disposable_cell", "prob": 50, "charges": 300 }
+      { "item": "light_battery_cell", "prob": 9, "charges": 150 },
+      { "item": "light_battery_cell", "prob": 50, "charges": 300 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_medium_batteries",
     "subtype": "distribution",
-    "entries": [
-      { "item": "medium_battery_cell", "prob": 40, "charges": [ 0, 500 ] },
-      { "item": "medium_plus_battery_cell", "prob": 10, "charges": [ 0, 600 ] },
-      { "item": "medium_disposable_cell", "prob": 80, "charges": [ 0, 1200 ] }
-    ]
+    "entries": [ { "item": "medium_battery_cell", "prob": 40, "charges": [ 0, 500 ] } ]
   },
   {
     "type": "item_group",
     "id": "ammo_medium_batteries_full",
     "subtype": "distribution",
-    "entries": [
-      { "item": "medium_battery_cell", "prob": 40, "charges": 500 },
-      { "item": "medium_plus_battery_cell", "prob": 10, "charges": 600 },
-      { "item": "medium_disposable_cell", "prob": 80, "charges": 1200 }
-    ]
+    "entries": [ { "item": "medium_battery_cell", "prob": 40, "charges": 500 } ]
   },
   {
     "type": "item_group",
@@ -910,8 +902,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "heavy_battery_cell", "prob": 40, "charges": [ 0, 1000 ] },
-      { "item": "heavy_plus_battery_cell", "prob": 10, "charges": [ 0, 1250 ] },
-      { "item": "heavy_disposable_cell", "prob": 80, "charges": [ 0, 2500 ] }
+      { "item": "heavy_plus_battery_cell", "prob": 80, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -920,8 +911,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "heavy_battery_cell", "prob": 40, "charges": 1000 },
-      { "item": "heavy_plus_battery_cell", "prob": 10, "charges": 1250 },
-      { "item": "heavy_disposable_cell", "prob": 80, "charges": 2500 }
+      { "item": "heavy_plus_battery_cell", "prob": 80, "charges": 2500 }
     ]
   },
   {
