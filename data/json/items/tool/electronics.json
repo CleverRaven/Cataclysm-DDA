@@ -13,16 +13,10 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
+    "//": "swappable, but proprietary 80g Li-Ion battery",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -41,26 +35,21 @@
     "charges_per_use": 5,
     "use_action": [ "CAMERA" ],
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
+    "//": "swappable, but proprietary 160g Li-Ion battery",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "melee_damage": { "bash": 1 }
   },
   {
     "id": "cell_phone",
     "type": "TOOL",
     "name": { "str": "cellphone" },
-    "description": "A cellphone, an older cousin of the smartphone that is still popular in certain circles due to its reliability, sturdiness, and ability to run on common batteries.  Using the phone will turn it on and provide light, assuming it is sufficiently charged.  It also tells the time and has an alarm feature.",
-    "weight": "200 g",
-    "volume": "150 ml",
+    "description": "A cellphone, an older cousin of the smartphone that is still popular in certain circles due to its reliability and sturdiness.  Using the phone will turn it on and provide light, assuming it is sufficiently charged.  It also tells the time and has an alarm feature.",
+    "//": "Nokia 105 4G, 26g Li-Ion battery",
+    "weight": "95 g",
+    "volume": "88 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "price": "90 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "15 cent",
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -74,14 +63,7 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -141,12 +123,13 @@
     "type": "TOOL",
     "name": { "str": "e-ink tablet PC" },
     "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "longest_side": "25 cm",
-    "price": "200 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "//": "amazon kindle, LIONX 6300mAh battery 42 ml",
+    "weight": "158 g",
+    "volume": "137 ml",
+    "longest_side": "158 mm",
+    "price": "85 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
@@ -155,7 +138,6 @@
     "use_action": [
       "EINKTABLETPC",
       "ELECTRICSTORAGE",
-      "EBOOKSAVE",
       "EBOOKREAD",
       {
         "type": "transform",
@@ -170,12 +152,7 @@
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      },
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 85 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -195,7 +172,6 @@
     "use_action": [
       "EINKTABLETPC",
       "ELECTRICSTORAGE",
-      "EBOOKSAVE",
       "EBOOKREAD",
       {
         "ammo_scale": 0,
@@ -215,12 +191,13 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electrohack" },
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 5 charges of battery power per use.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.",
+    "//": "hackrf one, + 300 ml for cables and antenna + slot for battery because real hackrf works from usb, not something we can emulate here",
     "weight": "114 g",
-    "volume": "500 ml",
-    "price": "400 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": 1,
+    "volume": "478 ml",
+    "price": "340 USD",
+    "price_postapoc": "2 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "electrohack",
     "symbol": ",",
@@ -231,12 +208,12 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 5 },
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "qualities": [ [ "HACK", 2 ] ]
   },
   {
@@ -244,10 +221,11 @@
     "type": "TOOL",
     "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
     "description": "A tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn on continuous scan, which will provide continuous feedback on ambient radiation.  It is currently off.",
-    "weight": "225 g",
-    "volume": "500 ml",
-    "price": "150 USD",
-    "price_postapoc": "10 USD",
+    "//": "https://www.amazon.com/dp/B0B541D433 but AA instead of 14500",
+    "weight": "231 g",
+    "volume": "161 ml",
+    "price": "68 USD",
+    "price_postapoc": "20 cent",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
@@ -259,7 +237,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
     ],
@@ -300,14 +278,7 @@
     "charges_per_use": 2400,
     "use_action": [ "MEASURE_RESONANCE" ],
     "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -360,7 +331,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
     ]
@@ -370,19 +341,21 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "laptop computer" },
-    "description": "A laptop computer with replaceable batteries.",
+    "description": "A portable computer, ubiquitous tool both before and after the cataclysm.  While it is little you can do with it nowadays, mostly from lack of internet, you still can load it with books (or even scan using frontal camera)",
+    "//": "https://www.amazon.com/dp/B0D6Z664QC, battery is FRANGWAT01",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "2500 ml",
-    "longest_side": "40 cm",
-    "price": "750 USD",
+    "weight": "1319 g",
+    "volume": "703 ml",
+    "longest_side": "322 mm",
+    "price": "1049 USD",
     "price_postapoc": "2 USD 50 cent",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKSAVE",
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
@@ -405,12 +378,7 @@
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      },
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 200 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -430,6 +398,7 @@
     "revert_to": "laptop",
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKSAVE",
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
@@ -457,26 +426,20 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
     "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
-    "weight": "140 g",
-    "volume": "75 ml",
-    "price": "30 USD",
-    "price_postapoc": "1 USD",
+    "//": "Sony NWE394 Walkman",
+    "weight": "40 g",
+    "volume": "36 ml",
+    "price": "40 USD",
+    "price_postapoc": "2 cent",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": [ "MP3", { "type": "link_up", "cable_length": 4, "charge_rate": "5 W" } ],
+    "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
   },
   {
     "id": "mp3_on",
@@ -487,7 +450,7 @@
     "power_draw": "1 W",
     "revert_to": "mp3",
     "tick_action": [ "MP3_ON" ],
-    "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 4, "charge_rate": "5 W" } ],
+    "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -570,8 +533,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -583,7 +546,7 @@
     "name": { "str": "EMF detector (on)", "str_pl": "EMF detectors (on)" },
     "description": "This device detects and reads out different wave lengths.  It is currently on, humming and beeping with proximity.  It is sensitive enough you could use it to get a sense of direction.",
     "//": "lasts 12 hours with backlight off",
-    "power_draw": "6 W",
+    "power_draw": "1 W",
     "revert_to": "emf_detector",
     "use_action": {
       "type": "transform",
