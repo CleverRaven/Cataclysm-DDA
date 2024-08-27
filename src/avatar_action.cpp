@@ -370,7 +370,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                                           _( "You're too pacified to strike anything…" ) ) ) {
                 return false;
             }
-            if(!you.has_inattentive) {
+            if( !you.has_inattentive ) {
                 bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
                 if( safe_mode ) {
                     // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
