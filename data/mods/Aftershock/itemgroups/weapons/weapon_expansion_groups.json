@@ -68,26 +68,23 @@
   },
   {
     "type": "item_group",
-    "id": "mags_pistol_rare",
-    "copy-from": "mags_pistol_rare",
-    "extend": { "items": [ [ "afs_5x50_50_mag", 5 ], [ "afs_5x50_100_mag", 5 ], [ "afs_84k_20mag", 15 ] ] }
-  },
-  {
-    "type": "item_group",
-    "id": "mags_rifle_rare",
-    "copy-from": "mags_rifle_rare",
-    "extend": { "items": [ [ "afs_UICASTA30", 40 ], [ "afs_UICASTA100drum", 20 ] ] }
+    "id": "mags_common",
+    "copy-from": "mags_common",
+    "extend": {
+      "items": [
+        [ "afs_5x50_50_mag", 9 ],
+        [ "afs_5x50_100_mag", 5 ],
+        [ "afs_84k_20mag", 18 ],
+        [ "afs_UICASTA30", 28 ],
+        [ "afs_UICASTA100drum", 14 ],
+        [ "afs_25mm_mag", 12 ]
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "afs_UICASTA30",
     "items": [ [ "afs_UICASTA30", 40 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_shotgun_rare",
-    "copy-from": "mags_shotgun_rare",
-    "extend": { "items": [ [ "afs_25mm_mag", 50 ] ] }
   },
   {
     "type": "item_group",

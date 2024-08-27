@@ -996,7 +996,7 @@
         "item": {
           "//": "civilian magazines kept on racks behind the counter in the FoH",
           "subtype": "collection",
-          "entries": [ { "group": "mags_common_gunstore", "prob": 20 }, { "group": "mags_pistol_rare", "prob": 30 } ]
+          "entries": [ { "group": "mags_common", "prob": 20 }, { "group": "mags_common", "prob": 30 } ]
         },
         "chance": 65
       },

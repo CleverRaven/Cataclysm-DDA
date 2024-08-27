@@ -1210,7 +1210,7 @@
       { "x": -3, "y": 2, "chance": 20, "items": [ "armguard_hard" ] },
       { "x": -3, "y": 2, "chance": 20, "items": [ "gloves_rubber" ] },
       { "x": -3, "y": 2, "chance": 20, "items": [ "boots_rubber" ] },
-      { "x": -3, "y": 2, "chance": 20, "items": [ "medium_disposable_cell" ] }
+      { "x": -3, "y": 2, "chance": 20, "items": [ "medium_battery_cell" ] }
     ]
   },
   {
@@ -1331,7 +1331,7 @@
       { "x": -3, "y": 2, "chance": 100, "items": [ "armguard_hard" ] },
       { "x": -3, "y": 2, "chance": 100, "items": [ "gloves_rubber" ] },
       { "x": -3, "y": 2, "chance": 100, "items": [ "boots_rubber" ] },
-      { "x": -3, "y": 2, "chance": 100, "items": [ "medium_disposable_cell" ] }
+      { "x": -3, "y": 2, "chance": 100, "items": [ "medium_battery_cell" ] }
     ]
   },
   {

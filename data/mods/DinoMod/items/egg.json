@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "egg_dino",
     "name": "dinosaur egg",
-    "looks_like": "egg_reptile",
+    "looks_like": "egg_bird",
     "weight": "2 kg",
     "color": "green",
     "spoils_in": "32 days",
@@ -27,7 +27,6 @@
     "id": "egg_dino_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino",
-    "looks_like": "egg_reptile",
     "spoils_in": "16 days",
     "weight": "57 g",
     "comestible_type": "FOOD",
@@ -45,7 +44,6 @@
     "id": "egg_dino_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
-    "looks_like": "egg_reptile",
     "spoils_in": "64 days",
     "weight": "4 kg",
     "comestible_type": "FOOD",
@@ -754,21 +752,21 @@
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
   },
   {

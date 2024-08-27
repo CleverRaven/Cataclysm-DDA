@@ -57,10 +57,7 @@
         [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ],
-        [ "light_atomic_battery_cell", -1 ],
-        [ "medium_atomic_battery_cell", -1 ],
-        [ "light_minus_atomic_battery_cell", -1 ]
+        [ "huge_atomic_battery_cell", -1 ]
       ]
     ],
     "proficiencies": [
@@ -127,10 +124,7 @@
         [ "atomic_light_off", -1 ],
         [ "betavoltaic", -1 ],
         [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ],
-        [ "light_atomic_battery_cell", -1 ],
-        [ "medium_atomic_battery_cell", -1 ],
-        [ "light_minus_atomic_battery_cell", -1 ]
+        [ "huge_atomic_battery_cell", -1 ]
       ]
     ],
     "proficiencies": [
