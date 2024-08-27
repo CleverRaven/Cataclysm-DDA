@@ -1,0 +1,18 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_alien_tree_trap_roots",
+    "name": "alien roots",
+    "color": "dark_gray",
+    "symbol": "\",
+    "visibility": 2,
+    "avoidance": 10,
+    "difficulty": 99,
+    "action": "spell",
+    "flags": [ "UNDODGEABLE" ],
+    "spell_data": { "id": "alien_meadow_roots_trigger_spell" },
+    "trigger_weight": "350 g",
+    "trigger_message_u": "As you step on the roots, they twitch slightly.",
+    "trigger_message_npc": "As <npcname>' steps on the roots, they twitch slightly."
+  }
+]
