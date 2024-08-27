@@ -408,6 +408,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "lc_steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from mild steel",
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
     "id": "bronze_tiny",
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from bronze",

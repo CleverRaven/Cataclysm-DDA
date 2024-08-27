@@ -853,7 +853,7 @@ class game
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Handle shifting through terrain and walls, with distance defined by enchantment.
-        bool phasing_move_enchant( const tripoint &dest, const int phase_distance = 0 );
+        bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
         bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
         // TODO: Get rid of untyped overload

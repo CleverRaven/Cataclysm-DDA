@@ -512,7 +512,7 @@
         [ "blackberries", 1 ]
       ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ]
     ]
   },
   {

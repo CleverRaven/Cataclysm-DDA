@@ -89,19 +89,9 @@
           { "item": "caff_gum" },
           { "item": "memory_card" },
           { "item": "usb_drive" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "electrohack"
-          },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "noise_emitter"
-          },
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "electrohack" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "noise_emitter" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" }
         ]
