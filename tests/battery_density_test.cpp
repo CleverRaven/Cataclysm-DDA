@@ -13,29 +13,20 @@ struct battery_chemistry_family {
 // NOLINTBEGIN(cata-static-string_id-constants)
 static const std::map<itype_id, std::string> battery_to_chemistry = {
     {itype_id( "light_minus_battery_cell" ), "LiON"},
-    {itype_id( "light_battery_cell" ), "LiON"},
-    {itype_id( "light_plus_battery_cell" ), "LiON"},
     {itype_id( "medium_battery_cell" ), "LiON"},
-    {itype_id( "medium_plus_battery_cell" ), "LiON"},
     {itype_id( "heavy_battery_cell" ), "LiON"},
     {itype_id( "heavy_plus_battery_cell" ), "LiON"},
     {itype_id( "folding_solar_panel_deployed" ), "LiON"},
     {itype_id( "folding_solar_panel_v2_deployed" ), "LiON"},
 
-    {itype_id( "light_minus_atomic_battery_cell" ), "atomic"},
-    {itype_id( "light_atomic_battery_cell" ), "atomic"},
-    {itype_id( "medium_atomic_battery_cell" ), "atomic"},
+    {itype_id( "light_cell_rechargeable" ), "Nickel-Metal Hydride"},
+
+    {itype_id( "light_battery_cell" ), "Lithium/Iron Disulfide"},
+
     {itype_id( "heavy_atomic_battery_cell" ), "atomic"},
     {itype_id( "huge_atomic_battery_cell" ), "atomic"},
 
     {itype_id( "light_minus_disposable_cell" ), "Lithium-Manganese"},
-    {itype_id( "light_disposable_cell" ), "Lithium-Manganese"},
-    {itype_id( "medium_disposable_cell" ), "Lithium-Manganese"},
-    {itype_id( "heavy_disposable_cell" ), "Lithium-Manganese"},
-
-    {itype_id( "light_dry_cell" ), "Zinc-Carbon"},
-    {itype_id( "medium_dry_cell" ), "Zinc-Carbon"},
-    {itype_id( "heavy_dry_cell" ), "Zinc-Carbon"},
 
     {itype_id( "battery_car" ), "Lead-acid"},
     {itype_id( "battery_motorbike" ), "Lead-acid"},
@@ -74,6 +65,17 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
 // Zinc-Carbon, which I'm using for "player craftable disposable battery" based on
 // https://en.wikipedia.org/wiki/Energy_density_Extended_Reference_Table
 
+// Nickel-Metal Hydride
+// https://en.wikipedia.org/wiki/Energy_density_Extended_Reference_Table
+
+// Zinc-Manganese Dioxide
+// https://en.wikipedia.org/wiki/Energy_density_Extended_Reference_Table
+
+// Lithium/Iron Disulfide gravimetric energy density is picked from enerizer documentation
+// https://data.energizer.com/pdfs/lithiuml91l92_appman.pdf
+// Volumetric is a lower bound from this article (560 Wh/L), rounded up to 600
+// https://www.sciencedirect.com/science/article/abs/pii/S2590116819300104
+
 // Lead-acid specific Energy and specific density calculated from a typical exemplar at
 // https://www.amazon.com/ACDelco-48AGM-Professional-Automotive-Battery/dp/B008FWCLHU/
 // With primary statistics of:
@@ -87,6 +89,9 @@ static const std::map<std::string, battery_chemistry_family> chemistries = {
     {std::string( "Lithium-Manganese" ), { 1010.0, 2090.0}},
     {std::string( "Alkaline" ), { 600.0, 1430.0}},
     {std::string( "Zinc-Carbon" ), { 130.0, 331.0}},
+    {std::string( "Nickel-Metal Hydride" ), { 400.0, 1550.0}},
+    {std::string( "Zinc-Manganese Dioxide" ), { 590.0, 1430.0}},
+    {std::string( "Lithium/Iron Disulfide" ), { 1069.0, 2160.0}},
     {std::string( "Lead-acid" ), { 180, 360 }}
 };
 

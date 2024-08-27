@@ -186,7 +186,7 @@
     "items": [
       { "item": "EOD_hotstick", "prob": 50 },
       { "item": "multitool", "container-item": "sheath", "prob": 30 },
-      { "item": "light_disposable_cell", "prob": 30, "count": [ 1, 8 ] },
+      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 8 ] },
       { "item": "light_minus_disposable_cell", "prob": 20, "count": [ 1, 6 ] },
       { "item": "cordless_drill", "prob": 30 },
       { "item": "rope_30", "prob": 50 },

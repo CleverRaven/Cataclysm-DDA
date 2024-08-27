@@ -14,6 +14,7 @@
       [ "antenna", 40 ],
       [ "nuts_bolts", 15 ],
       { "group": "ammo_any_batteries_full", "prob": 100 },
+      { "group": "batteries", "prob": 60 },
       [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],
