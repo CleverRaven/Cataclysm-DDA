@@ -239,6 +239,39 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_solid_pond",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " 7 7    777 ",
+        " 777  ~  77 ",
+        "77   ~~~  7 ",
+        "77 ~~~~~~ 7 ",
+        " 7  ~~~~~ 77",
+        " 77 ~~~~~ 77",
+        "  7  ~~~~ 7 ",
+        "7 77  ~~  77",
+        "  777    77 ",
+        " 7  777777  ",
+        "       7  7 ",
+        "   7        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 500 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ],
+        ],
+        "~": "t_alien_meadow_pond_goo"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "alien_meadow_12x12_shrubs",
     "object": {
       "mapgensize": [ 12, 12 ],
