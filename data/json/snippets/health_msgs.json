@@ -7,7 +7,7 @@
   {
     "type": "snippet",
     "category": "health_great",
-    "text": "Within moments you're ready and up. You don't feel like anything could stop you today!"
+    "text": "Within moments you're ready and up.  You don't feel like anything could stop you today!"
   },
   {
     "type": "snippet",
@@ -22,7 +22,7 @@
   {
     "type": "snippet",
     "category": "health_great",
-    "text": "You're up and you feel fantastic. No sickness is going to keep you down today!"
+    "text": "You're up and you feel fantastic.  No sickness is going to keep you down today!"
   },
   {
     "type": "snippet",
@@ -102,12 +102,12 @@
   {
     "type": "snippet",
     "category": "health_good",
-    "text": "You feel good. Healthy living does seem to have some rewards."
+    "text": "You feel good.  Healthy living does seem to have some rewards."
   },
   {
     "type": "snippet",
     "category": "health_good",
-    "text": "Getting out of bed doesn't seem too hard today. You could get used to this!"
+    "text": "Getting out of bed doesn't seem too hard today.  You could get used to this!"
   },
   {
     "type": "snippet",
@@ -152,7 +152,7 @@
   {
     "type": "snippet",
     "category": "health_bad",
-    "text": "You feel cruddy. Maybe you should consider eating a bit healthier."
+    "text": "You feel cruddy.  Maybe you should consider eating a bit healthier."
   },
   {
     "type": "snippet",
@@ -167,12 +167,12 @@
   {
     "type": "snippet",
     "category": "health_bad",
-    "text": "Your stomach gurgles. It's probably nothing, but maybe you should look into eating something healthy."
+    "text": "Your stomach gurgles.  It's probably nothing, but maybe you should look into eating something healthy."
   },
   {
     "type": "snippet",
     "category": "health_bad",
-    "text": "You struggle to awareness. Being awake seems somewhat harder to reach today."
+    "text": "You struggle to awareness.  Being awake seems somewhat harder to reach today."
   },
   {
     "type": "snippet",
@@ -302,7 +302,7 @@
   {
     "type": "snippet",
     "category": "empty_starving",
-    "text": "You're too weak to be hungry anymore. Is this what starving to death feels like?"
+    "text": "You're too weak to be hungry anymore.  Is this what starving to death feels like?"
   },
   {
     "type": "snippet",
@@ -327,7 +327,7 @@
   {
     "type": "snippet",
     "category": "starving",
-    "text": "Even though you've eaten not too long ago you still feel drained of energy. It will take more than that to get you back up."
+    "text": "Even though you've eaten not too long ago you still feel drained of energy.  It will take more than that to get you back up."
   },
   {
     "type": "snippet",
@@ -352,7 +352,7 @@
   {
     "type": "snippet",
     "category": "empty_emaciated",
-    "text": "Your empty stomach gnaws at you. You really need something to eat."
+    "text": "Your empty stomach gnaws at you.  You really need something to eat."
   },
   {
     "type": "snippet",
@@ -452,7 +452,7 @@
   {
     "type": "snippet",
     "category": "empty_low_cal",
-    "text": "You've lost quite a bit of weight recently. You might want to eat more food."
+    "text": "You've lost quite a bit of weight recently.  You might want to eat more food."
   },
   {
     "type": "snippet",

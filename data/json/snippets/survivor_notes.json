@@ -715,7 +715,7 @@
       },
       {
         "id": "note_269",
-        "text": "\"Every night, I dream of the beach. The sound of waves.  The smell of salt.  Waking up is the worst part.\""
+        "text": "\"Every night, I dream of the beach.  The sound of waves.  The smell of salt.  Waking up is the worst part.\""
       },
       {
         "id": "note_270",
@@ -740,7 +740,7 @@
       },
       {
         "id": "note_276",
-        "text": "\"If you find this, head to the old mill on the outskirts.  There's a safe place there. For now.\""
+        "text": "\"If you find this, head to the old mill on the outskirts.  There's a safe place there.  For now.\""
       },
       {
         "id": "note_277",
@@ -812,7 +812,7 @@
       { "id": "note_296", "text": "\"I saw a pack of wild dogs today.  They're surviving better than we are.\"" },
       {
         "id": "note_297",
-        "text": "\"Got bit today. Not sure how much time I have left.  Just wanted to say I love you.\""
+        "text": "\"Got bit today.  Not sure how much time I have left.  Just wanted to say I love you.\""
       },
       { "id": "note_298", "text": "\"If you find this, know that I tried my best.  I hope you fare better.\"" },
       {
@@ -834,7 +834,7 @@
         "id": "note_305",
         "text": "\"I tried to cut it out, but it just keeps growing.  I can feel it under my skin, crawling.\""
       },
-      { "id": "note_306", "text": "\"The baby was stillborn.  We didn't bury it. It got up and walked away.\"" },
+      { "id": "note_306", "text": "\"The baby was stillborn.  We didn't bury it.  It got up and walked away.\"" },
       {
         "id": "note_307",
         "text": "\"I watched as they tore him apart, piece by piece.  He was still screaming when they started eating his guts.\""
@@ -869,7 +869,7 @@
         "text": "\"I saw my reflection in the mirror, but it wasn't me.  It smiled and its eyes were black.\""
       },
       { "id": "note_316", "text": "\"They don't just kill you.  They take over your body, use you like a puppet.\"" },
-      { "id": "note_317", "text": "\"I woke up covered in blood. I don't know whose blood it is.\"" },
+      { "id": "note_317", "text": "\"I woke up covered in blood.  I don't know whose blood it is.\"" },
       { "id": "note_318", "text": "\"The voices are getting louder.  They tell me to do unspeakable things.\"" },
       { "id": "note_319", "text": "\"I found a tooth embedded in my arm.  It wasn't mine.\"" },
       {
@@ -886,20 +886,20 @@
         "id": "note_324",
         "text": "\"I saw a woman gouging out her eyes.  Said she didn't want to see the monsters anymore.\""
       },
-      { "id": "note_325", "text": "\"Don't drink the water.  It makes you see things. Terrible things.\"" },
+      { "id": "note_325", "text": "\"Don't drink the water.  It makes you see things.  Terrible things.\"" },
       { "id": "note_326", "text": "\"They don't have faces anymore.  Just blank, smooth skin. And they scream.\"" },
       { "id": "note_327", "text": "\"I found a room full of dolls.  Their eyes followed me as I moved.\"" },
-      { "id": "note_328", "text": "\"Something's wrong with the sky.  It's… pulsating. Like it's alive.\"" },
+      { "id": "note_328", "text": "\"Something's wrong with the sky.  It's… pulsating.  Like it's alive.\"" },
       { "id": "note_329", "text": "\"The flies are everywhere.  They whisper secrets in your ears.\"" },
       {
         "id": "note_330",
-        "text": "\"I found a journal. It describes rituals.  Dark, horrifying rituals.  I think they worked.\""
+        "text": "\"I found a journal.  It describes rituals.  Dark, horrifying rituals.  I think they worked.\""
       },
-      { "id": "note_331", "text": "\"The birds are watching us. They're not birds anymore.\"" },
-      { "id": "note_332", "text": "\"Heard someone singing today. Followed the sound, but there was no one there.\"" },
-      { "id": "note_333", "text": "\"I saw a man turn inside out. His screams still echo in my ears.\"" },
-      { "id": "note_335", "text": "\"I found a hand nailed to a tree. It was pointing west.\"" },
-      { "id": "note_336", "text": "\"The rain burns. It's like acid. My skin is covered in blisters.\"" },
+      { "id": "note_331", "text": "\"The birds are watching us.  They're not birds anymore.\"" },
+      { "id": "note_332", "text": "\"Heard someone singing today.  Followed the sound, but there was no one there.\"" },
+      { "id": "note_333", "text": "\"I saw a man turn inside out.  His screams still echo in my ears.\"" },
+      { "id": "note_335", "text": "\"I found a hand nailed to a tree.  It was pointing west.\"" },
+      { "id": "note_336", "text": "\"The rain burns.  It's like acid. My skin is covered in blisters.\"" },
       {
         "id": "note_337",
         "text": "\"Something crawled out of the sewer today.  It wasn't human.  It wasn't anything I've ever seen.\""
@@ -914,12 +914,12 @@
         "id": "note_341",
         "text": "\"I saw a man dragging his entrails behind him.  He was still alive, begging for help.\""
       },
-      { "id": "note_342", "text": "\"Don't trust the light. It draws you in, but it's a trap. A trap set by them.\"" },
-      { "id": "note_343", "text": "\"I found a cocoon. Something inside was moving. It looked almost… human.\"" },
-      { "id": "note_344", "text": "\"I saw a face in the fog. It wasn't human. It smiled at me.\"" },
-      { "id": "note_345", "text": "\"The ground is covered in blood. It's seeping up from below.\"" },
-      { "id": "note_346", "text": "\"I hear them in the walls. Scratching, clawing. They're coming.\"" },
-      { "id": "note_347", "text": "\"I found a mirror. My reflection waved at me, but I didn't move.\"" },
+      { "id": "note_342", "text": "\"Don't trust the light.  It draws you in, but it's a trap.  A trap set by them.\"" },
+      { "id": "note_343", "text": "\"I found a cocoon.  Something inside was moving.  It looked almost… human.\"" },
+      { "id": "note_344", "text": "\"I saw a face in the fog.  It wasn't human.  It smiled at me.\"" },
+      { "id": "note_345", "text": "\"The ground is covered in blood.  It's seeping up from below.\"" },
+      { "id": "note_346", "text": "\"I hear them in the walls.  Scratching, clawing.  They're coming.\"" },
+      { "id": "note_347", "text": "\"I found a mirror.  My reflection waved at me, but I didn't move.\"" },
       {
         "id": "note_348",
         "text": "\"They've started to speak.  Their voices are garbled, but they're learning our language.\""
@@ -935,7 +935,7 @@
       },
       {
         "id": "note_352",
-        "text": "\"Sarah, I'm so sorry I couldn't keep my promise.  I tried to get back, but they were everywhere.  I hope you made it to the shelter. I love you, forever.\""
+        "text": "\"Sarah, I'm so sorry I couldn't keep my promise.  I tried to get back, but they were everywhere.  I hope you made it to the shelter.  I love you, forever.\""
       },
       {
         "id": "note_353",
@@ -943,11 +943,11 @@
       },
       {
         "id": "note_354",
-        "text": "\"Dear Lily, daddy's gone to find food.  I'll be back soon. Be brave for me, princess.  I love you to the moon and back.\""
+        "text": "\"Dear Lily, daddy's gone to find food.  I'll be back soon.  Be brave for me, princess.  I love you to the moon and back.\""
       },
       {
         "id": "note_355",
-        "text": "\"Anna, I found a safe place. Follow the trail of red ribbons.  I'll be waiting for you.  I love you, always.\""
+        "text": "\"Anna, I found a safe place.  Follow the trail of red ribbons.  I'll be waiting for you.  I love you, always.\""
       },
       {
         "id": "note_356",
@@ -955,7 +955,7 @@
       },
       {
         "id": "note_357",
-        "text": "\"Michael, I heard there's a safe zone up north.  I'm heading there. Please, if you're still alive, meet me there.  I can't do this without you.\""
+        "text": "\"Michael, I heard there's a safe zone up north.  I'm heading there.  Please, if you're still alive, meet me there.  I can't do this without you.\""
       },
       {
         "id": "note_358",
@@ -991,7 +991,7 @@
       },
       {
         "id": "note_366",
-        "text": "\"To my brave little boy, daddy had to leave to find food. Be strong and take care of mommy.  I love you more than anything.\""
+        "text": "\"To my brave little boy, daddy had to leave to find food.  Be strong and take care of mommy.  I love you more than anything.\""
       },
       {
         "id": "note_367",
@@ -999,7 +999,7 @@
       },
       {
         "id": "note_368",
-        "text": "\"Dear Sam, I found a safe place. Look for the red X on the old barn.  I'll be waiting for you.  Stay strong.\""
+        "text": "\"Dear Sam, I found a safe place.  Look for the red X on the old barn.  I'll be waiting for you.  Stay strong.\""
       },
       {
         "id": "note_369",
@@ -1007,7 +1007,7 @@
       },
       {
         "id": "note_370",
-        "text": "\"My dear Emma, I left a map in the old treehouse. Follow it to find me.  I'm sorry I couldn't be there to protect you.\""
+        "text": "\"My dear Emma, I left a map in the old treehouse.  Follow it to find me.  I'm sorry I couldn't be there to protect you.\""
       },
       {
         "id": "note_371",
@@ -1031,7 +1031,7 @@
       },
       {
         "id": "note_376",
-        "text": "\"Jessica, if you're reading this, I made it to the old cabin.  It's safe here. Please come find me.  I need you.\""
+        "text": "\"Jessica, if you're reading this, I made it to the old cabin.  It's safe here.  Please come find me.  I need you.\""
       },
       {
         "id": "note_377",
@@ -1063,7 +1063,7 @@
       },
       {
         "id": "note_384",
-        "text": "\"Anna, I found shelter in the old mill. It's safe here.  Please come find me.  I need you.\""
+        "text": "\"Anna, I found shelter in the old mill.  It's safe here.  Please come find me.  I need you.\""
       },
       {
         "id": "note_385",
