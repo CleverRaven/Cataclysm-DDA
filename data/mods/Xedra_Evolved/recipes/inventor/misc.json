@@ -284,7 +284,7 @@
     "using": [ [ "soldering_standard", 100 ], [ "welding_standard", 50 ] ],
     "components": [
       [ [ "anvil", 2 ] ],
-      [ [ "teleporter ", 2 ] ],
+      [ [ "teleporter", 2 ] ],
       [ [ "pipe", 32 ] ],
       [ [ "power_supply", 10 ] ],
       [ [ "motor_micro", 10 ] ],
