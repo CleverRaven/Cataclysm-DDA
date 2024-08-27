@@ -200,6 +200,55 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_DIDNT_SLEEP_NEAR_HUMANS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "u_has_trait": "HOMULLUS_BACKSTAGE" }, { "u_has_trait": "HOMULLUS_REGEN_STAMINA" } ] },
+            { "u_has_trait": "THRESH_HOMULLUS" }
+          ]
+        },
+        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You awaken with a start as a terrible feeling of crushing loneliness grips you.  You were meant to live in close contact with humans, not wake up to an empty home.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_PICKY_EATER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Picky Eater and Junkfood Intolerance traits when gaining the The Top of the Food Chain trait",
+    "condition": {
+      "and": [ { "compare_string": [ "HOMULLUS_EAT_DEMIHUMANS", { "context_val": "trait" } ] }, { "u_has_trait": "HOMULLUS" } ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KEEP_FOOD_TRAITS",
+    "//": "This is to prevent the Homullus from purifying those traits away as long as they have The Top of the Food Chain, or are post-threshold.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "HOMULLUS_EAT_DEMIHUMANS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+        { "or": [ { "not": { "u_has_trait": "PICKYEATER" } }, { "not": { "u_has_trait": "ANTIJUNK" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_FAE_BAN_GET_WET",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
