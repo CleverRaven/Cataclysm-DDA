@@ -12,6 +12,6 @@
   {
     "id": "tree_alien_meadow_tree_3_harv",
     "type": "harvest",
-    "entries": [ { "drop": "alien_meadow_tree_3_fruit", "base_num": [ 1, 1 ], "scale_num": [ 1, 1 ] } ]
+    "entries": [ { "drop": "alien_meadow_tree_3_fruit", "base_num": [ 1, 4 ], "scale_num": [ 1, 1 ] } ]
   }
 ]
