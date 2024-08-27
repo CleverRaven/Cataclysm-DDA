@@ -1,11 +1,11 @@
-#if !defined(TILES) && defined(_WIN32)
-#define UNICODE 1
-#ifndef CMAKE
 #pragma GCC diagnostic ignored "-Wunused-macros"
+#if !defined(TILES) && defined(_WIN32)
+#ifndef CMAKE
 #define _UNICODE 1
 #endif
+#define UNICODE 1
 #include "cursesport.h" // IWYU pragma: associated
-
+#ifndef TUI
 #include <cstdlib>
 #include <fstream>
 
@@ -809,5 +809,5 @@ void set_title( const std::string &title )
         SetWindowTextW( WindowHandle, widen( title ).c_str() );
     }
 }
-
+#endif // TUI
 #endif

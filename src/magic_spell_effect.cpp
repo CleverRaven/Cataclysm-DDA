@@ -49,7 +49,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -75,6 +74,10 @@ static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+
+static const morale_type morale_killed_monster( "morale_killed_monster" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -521,11 +524,11 @@ static void damage_targets( const spell &sp, Creature &caster,
 
             Character &player_character = get_player_character();
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                !player_character.has_morale( morale_pyromania_startfire ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flames burst out!" ) );
-                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
@@ -1586,7 +1589,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         else if( guy.has_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
-        guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
+        guy.add_morale( morale_killed_monster, moraleMalus, maxMalus, duration, decayDelay );
     }
 }
 

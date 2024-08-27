@@ -78,8 +78,8 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                         case spawn_type::map: {
                             clear_map();
                             map &here = get_map();
-                            here.spawn_item( tripoint_zero, cs_data.item, 1, cs_data.charges );
-                            for( item &it : here.i_at( tripoint_zero ) ) {
+                            here.spawn_item( tripoint_bub_ms_zero, cs_data.item, 1, cs_data.charges );
+                            for( item &it : here.i_at( tripoint_bub_ms_zero ) ) {
                                 items.push_back( it );
                             }
                             break;

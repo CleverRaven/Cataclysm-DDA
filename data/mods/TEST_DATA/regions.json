@@ -152,7 +152,7 @@
     "name": "abandoned drive-through",
     "sym": "^",
     "color": "dark_gray_magenta",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
     "mapgen": [

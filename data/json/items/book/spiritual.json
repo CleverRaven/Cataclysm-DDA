@@ -415,7 +415,7 @@
     "id": "holybook_mo",
     "type": "BOOK",
     "name": { "str": "Buluotuo", "str_pl": "copies of the Buluotuo" },
-    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituals of Moism.",
+    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, goddesses, prayers, practices and rituals of Moism.",
     "weight": "370 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"

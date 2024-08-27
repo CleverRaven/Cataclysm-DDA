@@ -44,6 +44,7 @@ std::string user_dir();
 std::string user_moddir();
 std::string world_base_save_path();
 std::string worldoptions();
+std::string world_timestamp();
 std::string crash();
 std::string tileset_conf();
 std::string langdir();

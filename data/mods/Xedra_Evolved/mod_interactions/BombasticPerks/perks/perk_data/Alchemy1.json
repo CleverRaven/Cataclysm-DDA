@@ -96,7 +96,7 @@
     "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
     "effect": [
       {
-        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion" ],
+        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion", "nether_snare" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]

@@ -47,7 +47,6 @@ void barber_beard( npc & );
 void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
-void morale_chat( npc & );
 void morale_chat_activity( npc & );
 void start_trade( npc & );
 void sort_loot( npc & );

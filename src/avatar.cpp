@@ -54,8 +54,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "morale.h"
-#include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
@@ -86,8 +84,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-class monfaction;
-
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -117,12 +113,17 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
+static const mfaction_str_id monfaction_player( "player" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_food_hot( "morale_food_hot" );
+static const morale_type morale_honey( "morale_honey" );
+static const morale_type morale_vomited( "morale_vomited" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
-
-static const string_id<monfaction> monfaction_player( "player" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -133,7 +134,6 @@ static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
@@ -224,7 +224,6 @@ void avatar::control_npc_menu( const bool debug )
         popup( _( "There's no one to take control of!" ) );
         return;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
@@ -696,13 +695,13 @@ bool avatar::read( item_location &book, item_location ereader )
     return true;
 }
 
-void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
+void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_new )
 {
     const auto update_memory =
-    [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
+    [this]( const object_type gtype, const tripoint_rel_ms & gpoint, const bool erase ) {
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
-            if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
+            if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
@@ -712,9 +711,9 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
+                memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
             }
-            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
+            m.memory_cache_dec_set_dirty( pos_bub() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
@@ -870,12 +869,12 @@ void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
         // Remove all joy from previously eaten food and apply the penalty
-        rem_morale( MORALE_FOOD_GOOD );
-        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( morale_food_good );
+        rem_morale( morale_food_hot );
         // bears must suffer too
-        rem_morale( MORALE_HONEY );
+        rem_morale( morale_honey );
         // 1.5 times longer
-        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+        add_morale( morale_vomited, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
                     45_minutes, false );
 
     } else {
@@ -938,26 +937,6 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 mfaction_id avatar::get_monster_faction() const
 {
     return monfaction_player.id();
-}
-
-void avatar::disp_morale()
-{
-    int equilibrium = calc_focus_equilibrium();
-
-    int sleepiness_penalty = 0;
-    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
-
-    if( sleepiness_cap < equilibrium ) {
-        sleepiness_penalty = equilibrium - sleepiness_cap;
-        equilibrium = sleepiness_cap;
-    }
-
-    int pain_penalty = 0;
-    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
-    }
-
-    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()
@@ -1969,10 +1948,10 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 void avatar::try_to_sleep( const time_duration &dur )
 {
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos() );
-    const trap &trap_at_pos = here.tr_at( pos() );
-    const ter_id ter_at_pos = here.ter( pos() );
-    const furn_id furn_at_pos = here.furn( pos() );
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    const trap &trap_at_pos = here.tr_at( pos_bub() );
+    const ter_id ter_at_pos = here.ter( pos_bub() );
+    const furn_id furn_at_pos = here.furn( pos_bub() );
     bool plantsleep = false;
     bool fungaloid_cosplay = false;
     bool websleep = false;
@@ -1996,7 +1975,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -2010,7 +1989,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), fd_web );
+        int web = here.get_field_intensity( pos_bub(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -2043,7 +2022,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }

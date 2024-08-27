@@ -49,7 +49,6 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -75,6 +74,29 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weakpoint.h"
+
+static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
+static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
+static const ammo_effect_str_id ammo_effect_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
+static const ammo_effect_str_id ammo_effect_EMP( "EMP" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE( "EXPLOSIVE" );
+static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
+static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_MULTI_EFFECTS( "MULTI_EFFECTS" );
+static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
+static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
+static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
+static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
+static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
+static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
 static const ammotype ammo_120mm( "120mm" );
 static const ammotype ammo_12mm( "12mm" );
@@ -131,6 +153,9 @@ static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
+
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
@@ -590,6 +615,15 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
+dispersion_sources Character::total_gun_dispersion( const item &gun, double recoil,
+        int spread ) const
+{
+    dispersion_sources dispersion = get_weapon_dispersion( gun );
+    dispersion.add_range( recoil );
+    dispersion.add_spread( spread );
+    return dispersion;
+}
+
 int Character::gun_engagement_moves( const item &gun, int target, int start,
                                      const Target_attributes &attributes ) const
 {
@@ -670,21 +704,13 @@ bool Character::handle_gun_damage( item &it )
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
         return false;
-        // Here we check for a chance for the weapon to suffer a misfire due to
-        // using player-made 'RECYCLED' bullets. Note that not all forms of
-        // player-made ammunition have this effect.
-    } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
-        return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( "LASER" ) &&
-               !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
+    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( ammo_effect_LASER ) &&
+               !curammo_effects.count( ammo_effect_PLASMA ) && !curammo_effects.count( ammo_effect_EMP ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
@@ -734,16 +760,17 @@ bool Character::handle_gun_damage( item &it )
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( "NON_FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
+        if( !curammo_effects.count( ammo_effect_NON_FOULING ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
-                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - firing.blackpowder_tolerance *
+                dirtadder = curammo_effects.count( ammo_effect_BLACKPOWDER ) * ( 200 -
+                            firing.blackpowder_tolerance *
                             2 );
                 // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
                 if( dirtadder < 0 ) {
                     dirtadder = 0;
                 }
                 // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
-                if( curammo_effects.count( "BLACKPOWDER" ) ||
+                if( curammo_effects.count( ammo_effect_BLACKPOWDER ) ||
                     dirt < 7150 ) {
                     it.set_var( "dirt", std::min( static_cast<int>( dirt_max_dbl ), dirt + dirtadder + 1 ) );
                 }
@@ -753,7 +780,7 @@ bool Character::handle_gun_damage( item &it )
             if( dirt > 0 && !it.has_fault_flag( "NO_DIRTYING" ) ) {
                 it.faults.insert( fault_gun_dirt );
             }
-            if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+            if( dirt > 0 && curammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
             }
@@ -763,7 +790,7 @@ bool Character::handle_gun_damage( item &it )
     // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
     // if you have a bullet loaded with match head powder this can happen randomly at any time. The chances are about the same as a recycled ammo jamming the gun
     if( ( dirt_dbl > 5000 && x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) ||
-        ( curammo_effects.count( "MATCHHEAD" ) && one_in( 256 ) ) ) {
+        ( curammo_effects.count( ammo_effect_MATCHHEAD ) && one_in( 256 ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
@@ -875,7 +902,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
-    if( gun.has_flag( flag_CHOKE ) && !gun.ammo_effects().count( "SHOT" ) ) {
+    if( gun.has_flag( flag_CHOKE ) && !gun.ammo_effects().count( ammo_effect_SHOT ) ) {
         add_msg_if_player( _( "A shotgun equipped with choke cannot fire slugs." ) );
         return 0;
     }
@@ -905,9 +932,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
 
     map &here = get_map();
     // usage of any attached bipod is dependent upon terrain or on being prone
-    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos() ) || is_prone();
+    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub() ) || is_prone();
     if( !bipod ) {
-        if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
         }
     }
@@ -953,7 +980,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
-                                    pos() ) ) : nullptr;
+                                    pos_bub() ) ) : nullptr;
 
         // Add gunshot noise
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -966,9 +993,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
         }
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-        dispersion.add_spread( proj.shot_spread );
+
+        dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
         bool first = true;
         bool headshot = false;
@@ -991,7 +1017,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             if( shot.missed_by <= .1 ) {
                 headshot = true;
             }
-            if( proj.count > 1 && rl_dist( pos(), shot.end_point ) == 1 ) {
+            if( proj.count > 1 && shot.proj.count == 1 ) {
                 // Point-blank shots don't act like shot, everything hits the same target.
                 multishot = false;
                 break;
@@ -1035,19 +1061,19 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
 
         const itype_id current_ammo = gun.ammo_current();
 
-        if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+        if( has_trait( trait_PYROMANIA ) && !has_morale( morale_pyromania_startfire ) ) {
             const std::set<ammotype> &at = gun.ammo_types();
             if( at.count( ammo_flammable ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                rem_morale( morale_pyromania_nofire );
             } else if( at.count( ammo_66mm ) || at.count( ammo_120mm ) || at.count( ammo_84x246mm ) ||
                        at.count( ammo_m235 ) || at.count( ammo_atgm ) || at.count( ammo_RPG_7 ) ||
                        at.count( ammo_homebrew_rocket ) ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames burst out!" ) );
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                rem_morale( morale_pyromania_nofire );
             }
         }
 
@@ -1348,7 +1374,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     add_msg_debug( debugmode::DF_RANGED, "Adjusted throw skill %g", skill_level );
     projectile proj = thrown_item_projectile( thrown );
     damage_instance &impact = proj.impact;
-    std::set<std::string> &proj_effects = proj.proj_effects;
+    std::set<ammo_effect_str_id> &proj_effects = proj.proj_effects;
 
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
@@ -1356,8 +1382,11 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
+    impact.add_damage( damage_bash,
+                       enchantment_cache->get_value_add( enchant_vals::mod::THROW_DAMAGE ) );
+    impact.mult_damage( 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::THROW_DAMAGE ) );
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
-        proj_effects.insert( "ACT_ON_RANGED_HIT" );
+        proj_effects.insert( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
     }
 
@@ -1377,37 +1406,37 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     // Add some flags to the projectile
     if( weight > 500_gram ) {
-        proj_effects.insert( "HEAVY_HIT" );
+        proj_effects.insert( ammo_effect_HEAVY_HIT );
     }
 
-    proj_effects.insert( "NO_ITEM_DAMAGE" );
+    proj_effects.insert( ammo_effect_NO_ITEM_DAMAGE );
 
     if( thrown.active ) {
         // Can't have Molotovs embed into monsters
         // Monsters don't have inventory processing
-        proj_effects.insert( "NO_EMBED" );
+        proj_effects.insert( ammo_effect_NO_EMBED );
     }
 
     if( do_railgun ) {
-        proj_effects.insert( "LIGHTNING" );
+        proj_effects.insert( ammo_effect_LIGHTNING );
 
         const units::energy trigger_cost = bio_railgun->power_trigger;
         mod_power_level( -trigger_cost );
     }
 
     if( volume > 500_ml ) {
-        proj_effects.insert( "WIDE" );
+        proj_effects.insert( ammo_effect_WIDE );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
         impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
-        proj_effects.insert( "SHATTER_SELF" );
+        proj_effects.insert( ammo_effect_SHATTER_SELF );
     }
 
     // TODO: Add wet effect if other things care about that
     if( burst ) {
-        proj_effects.insert( "BURST" );
+        proj_effects.insert( ammo_effect_BURST );
     }
 
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1417,7 +1446,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     }
     // handling for tangling thrown items
     if( thrown.has_flag( flag_TANGLE ) ) {
-        proj_effects.insert( "TANGLE" );
+        proj_effects.insert( ammo_effect_TANGLE );
     }
 
     Creature *critter = get_creature_tracker().creature_at( target, true );
@@ -2083,36 +2112,27 @@ static projectile make_gun_projectile( const item &gun )
     auto &fx = proj.proj_effects;
 
     if( ( gun.ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
-        fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
-        fx.insert( "WIDE" );
+        fx.count( ammo_effect_SHOT ) || fx.count( ammo_effect_BOUNCE ) ) {
+        fx.insert( ammo_effect_WIDE );
     }
 
     if( gun.ammo_data() ) {
-        // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string_view e ) {
-            if( !string_starts_with( e, "RECOVER_" ) ) {
-                return false;
-            }
-            ret_val<int> n = try_parse_integer<int>( e.substr( 8 ), false );
-            if( !n.success() ) {
-                debugmsg( "Error parsing ammo RECOVER_ denominator: %s", n.str() );
-                return false;
-            }
-            return !one_in( n.value() );
-        } );
+        const auto &ammo = gun.ammo_data()->ammo;
 
-        if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+        // Some projectiles have a chance of being recoverable
+        bool recover = x_in_y( ammo->recovery_chance, 100 );
+
+        if( recover && !fx.count( ammo_effect_IGNITE ) && !fx.count( ammo_effect_EXPLOSIVE ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
-            drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            drop.active = fx.count( ammo_effect_ACT_ON_RANGED_HIT );
             drop.set_favorite( gun.get_contents().first_ammo().is_favorite );
             proj.set_drop( drop );
         }
 
-        const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
         proj.multi_projectile_effects = ammo->multi_projectile_effects;
-        if( fx.count( "MULTI_EFFECTS" ) ) {
+        if( fx.count( ammo_effect_MULTI_EFFECTS ) ) {
             proj.multi_projectile_effects = true;
         }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
@@ -2124,7 +2144,7 @@ static projectile make_gun_projectile( const item &gun )
             proj.set_drop( drop );
         }
 
-        if( fx.count( "CUSTOM_EXPLOSION" ) > 0 ) {
+        if( fx.count( ammo_effect_CUSTOM_EXPLOSION ) > 0 ) {
             proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
     }
@@ -2175,7 +2195,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
-        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
+        if( ( *ammo->ammo ).ammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
             casing.set_flag( json_flag_FILTHY );
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
@@ -2231,11 +2251,12 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    for( const item *mod : gunmods() ) {
-        noise += mod->type->gunmod->loudness;
-    }
     if( ammo_data() ) {
         noise += ammo_data()->ammo->loudness;
+    }
+    for( const item *mod : gunmods() ) {
+        noise += mod->type->gunmod->loudness;
+        noise *= mod->type->gunmod->loudness_multiplier;
     }
 
     noise = std::max( noise, 0 );
@@ -2266,7 +2287,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     auto fx = ammo_effects();
 
-    if( fx.count( "LASER" ) || fx.count( "PLASMA" ) ) {
+    if( fx.count( ammo_effect_LASER ) || fx.count( ammo_effect_PLASMA ) ) {
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
         } else if( noise < 40 ) {
@@ -2277,7 +2298,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-kow!" ) };
         }
 
-    } else if( fx.count( "LIGHTNING" ) ) {
+    } else if( fx.count( ammo_effect_LIGHTNING ) ) {
         if( noise < 20 ) {
             return { noise, _( "Bzzt!" ) };
         } else if( noise < 40 ) {
@@ -2288,7 +2309,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-koom!" ) };
         }
 
-    } else if( fx.count( "WHIP" ) ) {
+    } else if( fx.count( ammo_effect_WHIP ) ) {
         return { noise, _( "Crack!" ) };
 
     } else if( noise > 0 ) {
@@ -4107,7 +4128,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    const optional_vpart_position vp = m.veh_at( you.pos() );
+    const optional_vpart_position vp = m.veh_at( you.pos_bub() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
         messages.push_back( string_format( _( "You can't fire your %s while driving." ),
@@ -4168,9 +4189,10 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     }
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
-        const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
-                                 true ) );
-        bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos() );
+        const bool v_mountable = static_cast<bool>( m.veh_at(
+                                     you.pos_bub() ).part_with_feature( "MOUNTABLE",
+                                             true ) );
+        bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos_bub() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),

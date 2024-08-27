@@ -18,7 +18,7 @@
     "material": [ "wheat" ],
     "flags": [ "EDIBLE_FROZEN", "USE_EAT_VERB" ],
     "looks_like": "cereal",
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 32 ], [ "wheat_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -122,7 +122,7 @@
     "price_postapoc": "25 cent",
     "material": [ "junk" ],
     "volume": "62 ml",
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ] ],
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ], [ "junk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -156,7 +156,7 @@
     "material": [ "junk" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 42 ] ],
+    "vitamins": [ [ "iron", 42 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   }
 ]

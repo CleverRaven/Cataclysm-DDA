@@ -99,7 +99,10 @@
           "npc_has_var": "exodii_mission_wh_correct",
           "value": "no",
           "yes": ", then frowns.  \"Nope, not ringing any bells, sorry.\"",
-          "no": ", looking thoughtful.  \"Maybe, yeah.  I saw a weird building sort of like that a while back, but we were on the move and couldn't stop to check it out.\""
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"Maybe, yeah.  I saw a weird building sort of like that a while back, but we were on the move and couldn't stop to check it out.\"",
+            "relevant_genders": [ "npc" ]
+          }
         }
       ]
     },

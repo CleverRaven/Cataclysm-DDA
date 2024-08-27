@@ -3,73 +3,79 @@
     "type": "overmap_terrain",
     "id": "special_deep_rock",
     "//": "For placing terrain lookalikes that unlike placing said terrain don't allow mapgen intended for the naturally found version",
+    "vision_levels": "always_full",
     "name": "solid rock",
     "looks_like": "deep_rock",
     "sym": "%",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "special_rock",
+    "vision_levels": "always_full",
     "name": "solid rock",
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "empty_rock",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "special_earth",
     "name": "solid earth",
+    "vision_levels": "always_full",
     "sym": "#",
     "color": "brown",
     "looks_like": "solid_earth",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "special_field",
+    "id": [ "special_field" ],
     "copy-from": "generic_open_land",
+    "vision_levels": "open_land",
     "name": "field",
     "sym": ".",
     "color": "brown",
     "looks_like": "field",
-    "see_cost": 2,
+    "see_cost": "none",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "lab_subway_vent_shaft_surface" ],
+    "id": [ "special_forest", "special_forest_isherwood", "lab_subway_vent_shaft_surface" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
     "looks_like": "forest",
-    "see_cost": 3,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "special_forest_thick",
+    "id": [ "special_forest_thick", "special_forest_thick_isherwood" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
     "looks_like": "forest_thick",
-    "see_cost": 4,
+    "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_air",
+    "vision_levels": "roof_or_air",
+    "see_cost": "all_clear",
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -134,6 +140,7 @@
       "mil_base_8j1",
       "s_gas_g0_roof"
     ],
+    "vision_levels": "roof_or_air",
     "copy-from": "generic_air"
   },
   {
@@ -144,17 +151,8 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_road",
-    "name": "road",
-    "looks_like": "road",
-    "color": "dark_gray",
-    "see_cost": 1,
-    "travel_cost_type": "road"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "evac_center_1",
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "┌"
   },
   {
@@ -170,13 +168,13 @@
       "mil_base_6j",
       "mil_base_7j"
     ],
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "─"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_5",
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "┐"
   },
   {
@@ -199,31 +197,31 @@
       "mil_base_4h",
       "mil_base_4i"
     ],
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": [ "evac_center_23", "mil_base_6f" ],
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "┬"
   },
   {
     "type": "overmap_terrain",
     "id": [ "evac_center_21", "mil_base_4j" ],
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "└"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mil_base_4a", "mil_base_4f" ],
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "├"
   },
   {
     "type": "overmap_terrain",
     "id": "evac_center_25",
-    "copy-from": "generic_road",
+    "copy-from": "road_abstract",
     "sym": "┘"
   }
 ]

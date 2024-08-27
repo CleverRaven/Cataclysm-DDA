@@ -21,7 +21,7 @@
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crackle",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -110,7 +110,7 @@
     "effect_str": "eff_storm_elemental_electric_melee",
     "shape": "blast",
     "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "spell_class": "STORM_ELEMENTAL",
     "difficulty": 4,
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(20000, 4700)" ] },

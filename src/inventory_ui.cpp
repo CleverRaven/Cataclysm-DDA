@@ -396,6 +396,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_temperature", distraction_temperature );
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
+    json.member( "distraction_withdrawal", distraction_withdrawal );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "input_history" );
@@ -468,6 +469,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_temperature", distraction_temperature );
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
+    jo.read( "distraction_withdrawal", distraction_withdrawal );
     jo.read( "numpad_navigation", numpad_navigation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
@@ -2095,6 +2097,13 @@ void inventory_selector::add_character_items( Character &character )
     }
 }
 
+void inventory_selector::add_character_ebooks( Character &character )
+{
+    for( item_location &ereader : character.all_items_loc() ) {
+        add_contained_ebooks( ereader );
+    }
+}
+
 void inventory_selector::add_map_items( const tripoint &target )
 {
     map &here = get_map();
@@ -2696,7 +2705,8 @@ int inventory_selector::query_count( char init, bool end_with_toggle )
         try {
             ret = std::stoi( query.second );
         } catch( const std::invalid_argument &e ) {
-            // TODO Tell User they did a bad
+            // Tell User they did a bad
+            popup( _( "That is not an integer." ) );
             ret = -1;
         } catch( const std::out_of_range &e ) {
             ret = INT_MAX;
@@ -3933,9 +3943,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = input.action == "INCREASE_COUNT"
-                                    ? count < max ? count + 1 : max
-                                    : count > 1 ? count - 1 : 0;
+            size_t const newcount = std::clamp<size_t>( 0,
+                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
+                                    max );
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
@@ -4441,7 +4451,7 @@ std::string unload_selector::hint_string()
 {
     std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
                ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 

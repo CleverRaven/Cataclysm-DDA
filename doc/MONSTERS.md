@@ -353,6 +353,7 @@ Field              | Description
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
 `required_effects` | list of effect names applied to the monster required to hit the weakpoint.
+`disabled_by`      | list of effect names applied to the monster which prevent you to hit the weakpoint.
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
 The `effects` field is a list of objects with the following subfields:

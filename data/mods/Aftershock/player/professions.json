@@ -392,12 +392,7 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
-          {
-            "item": "ksg",
-            "ammo-item": "shot_00",
-            "charges": 7,
-            "contents-item": [ "shoulder_strap", "ksg_aux_shotgun" ]
-          },
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] },
           { "item": "baton", "container-item": "xlpolice_belt" }
         ]
       },
@@ -635,5 +630,77 @@
     "copy-from": "afs_rating",
     "name": "Escaping Crew",
     "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmly announcing in a posh English voice 'Abandon the vessel immediately.', and then counting down from five minutes.  You've got just enough time to hit a supply locker before you need to activate the escape pod down the hall."
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_telepath",
+    "name": "Whisper",
+    "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "traits": [ "AFS_TELEPATH" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_telepathic_shield", "level": 8 },
+      { "id": "afs_telepathic_mind_sense", "level": 6 },
+      { "id": "afs_telepathic_suggestion", "level": 6 },
+      { "id": "afs_telepathic_confusion", "level": 5 },
+      { "id": "afs_telepathic_blast", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_electrokinetic",
+    "name": "Spark",
+    "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "traits": [ "AFS_ELECTROKINETIC" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_electrokinetic_see_electric", "level": 8 },
+      { "id": "afs_electrokinetic_zap_enemies", "level": 6 },
+      { "id": "afs_electrokinetic_hacking_interface", "level": 6 },
+      { "id": "afs_electrokinetic_personal_battery", "level": 5 },
+      { "id": "afs_electrokinetic_recharge_vehicle", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
   }
 ]

@@ -5,7 +5,7 @@
     "name": "lab elevator",
     "color": "light_red",
     "sym": "L",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -13,7 +13,7 @@
     "name": "lab entrance hallway",
     "sym": "L",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "RISK_EXTREME" ]
   },
   {
@@ -22,7 +22,7 @@
     "name": "lab safepoint",
     "sym": "L",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "SOURCE_SAFETY" ]
   }
 ]

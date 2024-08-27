@@ -15,6 +15,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -175,8 +176,6 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
 
     bool rotorcraft = is_flying && is_rotorcraft();
 
-    Character &player_character = get_player_character();
-
     // bail and shut down
     if( rotorcraft || c_engines.empty() || ( has_electric_engine && c_engines.size() == 1 ) ||
         c_engines.size() > 5 ) {
@@ -184,7 +183,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             vp.part().enabled = false;
         }
 
-        if( player_in_control( player_character ) ) {
+        if( player_is_driving_this_veh() ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
             } else if( c_engines.empty() ) {
@@ -302,9 +301,8 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
 
     // turn on/off combustion engines when necessary
     if( !has_electric_engine ) {
-        Character &player_character = get_player_character();
         if( !discharge_forbidden_soft && is_stationary && engine_on && !autopilot_on &&
-            !player_in_control( player_character ) ) {
+            !player_is_driving_this_veh() ) {
             stop_engines();
             sfx::do_vehicle_engine_sfx();
             // temporary solution
@@ -415,7 +413,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
             }
-            if( player_in_control( player_character ) ) {
+            if( player_is_driving_this_veh() ) {
                 add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
                 add_msg( m_bad, _( "Smart controller is shutting down." ) );
             }
@@ -434,7 +432,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             }
             smart_controller_state = cur_state;
 
-            if( player_in_control( player_character ) ) {
+            if( player_is_driving_this_veh() ) {
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Smart controller optimizes engine state." );
             }
         }
@@ -453,7 +451,7 @@ void vehicle::thrust( int thd, int z )
         turn_dir = face.dir();
         stop();
     }
-    bool pl_ctrl = player_in_control( get_player_character() );
+    bool pl_ctrl = player_is_driving_this_veh();
 
     // No need to change velocity if there are no wheels
     if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
@@ -739,6 +737,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
+    part_project_points( dp );
     for( int p = 0; p < part_count(); p++ ) {
         const vehicle_part &vp = parts.at( p );
         if( vp.removed || !vp.is_real_or_active_fake() ) {
@@ -752,7 +751,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
+        const tripoint dsp = vp.next_pos.raw();
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
@@ -835,12 +834,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
     const bool vert_coll = bash_floor || p.z != sm_pos.z;
-    Character &player_character = get_player_character();
-    const bool pl_ctrl = player_in_control( player_character );
     Creature *critter = get_creature_tracker().creature_at( p, true );
     Character *ph = dynamic_cast<Character *>( critter );
 
-    Creature *driver = pl_ctrl ? &player_character : nullptr;
+    Character *driver = get_driver();
 
     // If in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
@@ -886,16 +883,19 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
+            const std::set<tripoint_bub_ms> projected_points = get_projected_part_points();
             const units::angle angle =
-                move.dir() + 45_degrees * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+                move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
+                ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( get_creature_tracker().creature_at( end_pos, true ) ||
-                   cur_points.find( end_pos ) != cur_points.end() ) {
+                   cur_points.find( end_pos ) != cur_points.end() ||
+                   projected_points.find( tripoint_bub_ms( end_pos ) ) != projected_points.end() ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
             }
@@ -1155,7 +1155,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Apply special effects from collision.
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
-            if( pl_ctrl ) {
+            if( player_is_driving_this_veh() ) {
                 if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s and stuns it!" ),
@@ -1174,7 +1174,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
     } else {
-        if( pl_ctrl ) {
+        if( player_is_driving_this_veh() ) {
             if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
@@ -1235,6 +1235,7 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
     }
 
     Character &player_character = get_player_character();
+    const Character *driver = get_driver();
     const bool seen = player_character.sees( p );
     const bool known = tr.can_see( p, player_character );
     const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
@@ -1253,8 +1254,7 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            const Creature *source = player_in_control( player_character ) ? &player_character : nullptr;
-            explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            explosion_handler::explosion( driver, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
             // Don't damage wheels with very high durability, such as roller drums or rail wheels
         } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
@@ -1275,7 +1275,7 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
             here.trap_set( p, veh_data.set_trap.id() );
             still_has_trap = true;
         }
-        if( still_has_trap ) {
+        if( still_has_trap && player_is_driving_this_veh() ) {
             const trap &tr = here.tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
@@ -1825,8 +1825,7 @@ vehicle *vehicle::act_on_map()
     if( decrement_summon_timer() ) {
         return nullptr;
     }
-    Character &player_character = get_player_character();
-    const bool pl_ctrl = player_in_control( player_character );
+    const bool pl_ctrl = player_is_driving_this_veh();
     // TODO: Remove this hack, have vehicle sink a z-level
     if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
@@ -2007,8 +2006,10 @@ bool vehicle::level_vehicle()
                                      !here.supports_above( part_pos + tripoint_below );
         }
         if( !is_on_ramp &&
-            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( part_pos.xy(), part_pos.z - 1 ) ) ||
-              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( part_pos.xy(), part_pos.z + 1 ) ) ) ) {
+            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint_bub_ms( part_pos.x, part_pos.y,
+                             part_pos.z - 1 ) ) ||
+              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint_bub_ms( part_pos.x, part_pos.y,
+                             part_pos.z + 1 ) ) ) ) {
             is_on_ramp = true;
         }
     }
@@ -2032,7 +2033,7 @@ bool vehicle::level_vehicle()
         }
     }
     if( adjust_level ) {
-        here.displace_vehicle( *this, tripoint_below, center_drop, dropped_parts );
+        here.displace_vehicle( *this, tripoint_rel_ms_below, center_drop, dropped_parts );
         return false;
     } else {
         return true;

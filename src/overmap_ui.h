@@ -32,6 +32,11 @@ namespace omap
  */
 void display();
 /**
+ * Display overmap centered at the given NPC's position and visually move across their intended OMT path.
+ */
+void display_npc_path( tripoint_abs_omt starting_pos,
+                       const std::vector<tripoint_abs_omt> &display_path );
+/**
  * Display overmap like with @ref display() and display hordes.
  */
 void display_hordes();

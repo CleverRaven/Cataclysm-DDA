@@ -30,7 +30,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 10 }, [ "scratch", 6 ] ],
     "anger_triggers": [ "PLAYER_NEAR_BABY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "KEENNOSE", "PATH_AVOID_DANGER", "WARM", "GRABS" ],
     "zombify_into": "mon_yulecat_zombie",
     "armor": { "bash": 4, "cut": 1, "bullet": 4 }
   },
@@ -54,7 +54,7 @@
     "dissect": "dissect_feline_sample_small",
     "special_attacks": [ [ "EAT_FOOD", 71 ] ],
     "extend": { "flags": [ "NO_BREED" ], "fear_triggers": [ "PLAYER_CLOSE", "HURT" ] },
-    "delete": { "anger_triggers": "PLAYER_NEAR_BABY" },
+    "delete": { "anger_triggers": [ "PLAYER_NEAR_BABY" ] },
     "upgrades": { "age_grow": 234, "into": "mon_yulecat" }
   },
   {
@@ -83,7 +83,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 3 }
   },
   {
@@ -112,6 +112,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "HAS_MIND", "PATH_AVOID_DANGER", "KEEP_DISTANCE", "WARM" ]
   }
 ]

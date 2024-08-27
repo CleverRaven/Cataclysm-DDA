@@ -65,6 +65,7 @@ struct pathfinding_settings {
     bool allow_climb_stairs = true;
     bool avoid_rough_terrain = false;
     bool avoid_sharp = false;
+    bool avoid_dangerous_fields = false;
 
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;

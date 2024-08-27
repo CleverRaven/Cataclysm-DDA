@@ -451,5 +451,65 @@
       { "item": "bio_radleak", "prob": 1 },
       { "item": "bio_ar", "prob": 1 }
     ]
+  },
+  {
+    "id": "mon_dream_shadow_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 80, "count": [ 0, 3 ] },
+      { "item": "scrap_shadowstuff", "prob": 60, "count": [ 0, 2 ] },
+      { "item": "chunk_shadowstuff", "prob": 40, "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "id": "mon_dream_shadowbeast_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 60, "count": [ 0, 4 ] },
+      { "item": "scrap_shadowstuff", "prob": 80, "count": [ 0, 4 ] },
+      { "item": "chunk_shadowstuff", "prob": 70, "count": [ 0, 2 ] },
+      { "item": "shadow_fruit", "prob": 30, "count": [ 0, 1 ] }
+    ]
+  },
+  {
+    "id": "mon_dream_shadowman_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 100, "count": [ 0, 4 ] },
+      { "item": "scrap_shadowstuff", "prob": 100, "count": [ 0, 4 ] },
+      { "item": "chunk_shadowstuff", "prob": 100, "count": [ 0, 2 ] },
+      { "group": "xe_shadowman_spell_drops", "prob": 100, "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xe_shadowman_spell_drops",
+    "//": "Spell drops for shadow wounds",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "xe_dreamer_spell_group0", "prob": 6 },
+      { "group": "xe_dreamer_spell_group1", "prob": 12 },
+      { "group": "xe_dreamer_spell_group2", "prob": 25 },
+      { "group": "xe_dreamer_spell_group3", "prob": 100 },
+      { "group": "xe_dreamer_spell_group4", "prob": 50 },
+      { "group": "xe_eater_spell_group0", "prob": 6 },
+      { "group": "xe_eater_spell_group1", "prob": 12 },
+      { "group": "xe_eater_spell_group2", "prob": 25 },
+      { "group": "xe_eater_spell_group3", "prob": 100 },
+      { "group": "xe_eater_spell_group4", "prob": 50 }
+    ]
+  },
+  {
+    "id": "triffid_heart",
+    "type": "harvest",
+    "message": "<triffid_harvest>",
+    "entries": [
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "triffid_heart_chunk", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.3 }
+    ]
   }
 ]

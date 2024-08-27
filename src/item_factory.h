@@ -329,12 +329,14 @@ class Item_factory
         void emplace_usage( std::map<std::string, use_function> &container,
                             const std::string &iuse_id );
 
-        void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods, std::map<std::string, int> &ammo_scale );
+        void set_use_methods_from_json( const JsonObject &jo, const std::string &src,
+                                        const std::string &member, std::map<std::string, use_function> &use_methods,
+                                        std::map<std::string, int> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 
-        std::pair<std::string, use_function> usage_from_object( const JsonObject &obj );
+        std::pair<std::string, use_function> usage_from_object( const JsonObject &obj,
+                const std::string & );
 
         /**
          * Helper function for Item_group loading

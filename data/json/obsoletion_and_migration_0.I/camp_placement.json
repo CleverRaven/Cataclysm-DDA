@@ -37,10 +37,6 @@
   },
   {
     "type": "camp_migration",
-    "camp_migrations": { "name": "Cabin", "overmap_terrain": "cabin_isherwood", "faction": "isherwood_family" }
-  },
-  {
-    "type": "camp_migration",
     "camp_migrations": { "name": "Isherwood Stables", "overmap_terrain": "horse_farm_isherwood_6", "faction": "isherwood_family" }
   },
   {
@@ -50,10 +46,6 @@
   {
     "type": "camp_migration",
     "camp_migrations": { "name": "Isherwood Farms", "overmap_terrain": "dairy_farm_isherwood_SW", "faction": "isherwood_family" }
-  },
-  {
-    "type": "camp_migration",
-    "camp_migrations": { "name": "Merchant", "overmap_terrain": "bunker_shop_b", "faction": "wasteland_scavengers" }
   },
   {
     "type": "camp_migration",

@@ -177,7 +177,7 @@ void ui_adaptor::record_cursor( const catacurses::window &w )
 
 void ui_adaptor::record_term_cursor()
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     cursor_type = cursor::custom;
     cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
 #else
@@ -188,7 +188,7 @@ void ui_adaptor::record_term_cursor()
 
 void ui_adaptor::default_cursor()
 {
-#if !defined( TILES )
+#if defined( TUI )
     cursor_type = cursor::last;
 #else
     // Unimplemented
@@ -203,7 +203,7 @@ void ui_adaptor::disable_cursor()
 
 static void restore_cursor( const point &p )
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     wmove( catacurses::newscr, p );
 #else
     static_cast<void>( p );
@@ -483,14 +483,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager

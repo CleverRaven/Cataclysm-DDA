@@ -175,7 +175,7 @@
   {
     "id": "TALK_GODCO_chef_katherine",
     "type": "talk_topic",
-    "dynamic_line": "She's my wife, worked for the Church before <the_cataclysm>.  She used to organized charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife.",
+    "dynamic_line": "She's my wife, worked for the Church before <the_cataclysm>.  She used to organize charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife.",
     "responses": [
       { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
       {

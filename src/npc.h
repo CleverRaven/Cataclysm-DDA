@@ -57,8 +57,8 @@ class npc_class;
 class talker;
 class vehicle;
 
-constexpr int8_t NPC_PERSONALITY_MIN = -10;
-constexpr int8_t NPC_PERSONALITY_MAX = 10;
+constexpr int NPC_PERSONALITY_MIN = -10;
+constexpr int NPC_PERSONALITY_MAX = 10;
 constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
 constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
@@ -532,6 +532,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule clearit );
 
     void set_danger_overrides();
+    void clear_flags();
     void clear_overrides();
 };
 
@@ -1217,7 +1218,7 @@ class npc : public Character
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
 
         // Item discovery and fetching
 
@@ -1513,7 +1514,7 @@ class npc_template
         std::optional<int> per;
         std::optional<npc_personality> personality;
 
-        static void load( const JsonObject &jsobj );
+        static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
 };

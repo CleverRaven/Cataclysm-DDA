@@ -15,11 +15,8 @@
         [ "sharp_toothbrush", -1 ],
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
-        [ "sharp_toothbrush", -1 ],
-        [ "knife_steak", -1 ],
-        [ "knife_paring", -1 ],
-        [ "knife_carving", -1 ],
-        [ "knife_bread", -1 ],
+        [ "knife_small", -1 ],
+        [ "knife_large", -1 ],
         [ "screwdriver", -1 ],
         [ "scissors_child", -1 ],
         [ "scissors_medical", -1 ],
@@ -55,6 +52,8 @@
         [ "ax_sheets_bolted", -1 ],
         [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -68,7 +67,6 @@
     "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
     "tools": [
       [
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "ji", -1 ],
@@ -100,10 +98,9 @@
         [ "tanto_inferior", -1 ],
         [ "kirpan_cheap", -1 ],
         [ "enfield_bayonet", -1 ],
-        [ "knife_butcher", -1 ],
-        [ "knife_chef", -1 ],
-        [ "knife_vegetable_cleaver", -1 ],
-        [ "knife_meat_cleaver", -1 ]
+        [ "knife_huge", -1 ],
+        [ "knife_large", -1 ],
+        [ "knife_cleaver", -1 ]
       ]
     ]
   },
@@ -636,7 +633,9 @@
         [ "naginata_inferior", -1 ],
         [ "makeshift_scythe_war", -1 ],
         [ "hockey_stick", -1 ],
-        [ "lucern_hammerfake", -1 ]
+        [ "lucern_hammerfake", -1 ],
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ]
       ]
     ]
   },
@@ -655,7 +654,6 @@
         [ "halberd", -1 ],
         [ "lajatang", -1 ],
         [ "naginata", -1 ],
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "lucern_hammer", -1 ],

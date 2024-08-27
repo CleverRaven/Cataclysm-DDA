@@ -84,6 +84,10 @@ std::set<const itype *> every_possible_item_from( const item_group_id &group_id 
  */
 bool group_is_defined( const item_group_id &group_id );
 /**
+ * Return the corresponding Item_spawn_data for an item_group_id as .obj() is undefined
+ */
+Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
+/**
  * Shows an menu to debug the item groups.
  */
 void debug_spawn();
@@ -176,6 +180,7 @@ class Item_spawn_data
         virtual bool has_item( const itype_id &itemid ) const = 0;
 
         virtual std::set<const itype *> every_item() const = 0;
+        virtual std::map<const itype *, std::pair<int, int>> every_item_min_max() const = 0;
 
         const std::string &context() const {
             return context_;
@@ -343,6 +348,7 @@ class Single_item_creator : public Item_spawn_data
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 };
 
 /**
@@ -391,6 +397,7 @@ class Item_group : public Item_spawn_data
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

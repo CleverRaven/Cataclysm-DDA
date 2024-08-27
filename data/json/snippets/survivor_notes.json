@@ -682,51 +682,57 @@
       },
       {
         "id": "note_260",
-        "text": "\"It's been weeks since I've seen anyone else. The silence is deafening, almost as if the world is holding its breath.\""
+        "text": "\"It's been weeks since I've seen anyone else.  The silence is deafening, almost as if the world is holding its breath.\""
       },
       {
         "id": "note_261",
-        "text": "\"Found an old photo of my family today. God, I miss them. If only I could turn back time.\""
+        "text": "\"Found an old photo of my family today.  God, I miss them.  If only I could turn back time.\""
       },
       {
         "id": "note_262",
-        "text": "\"Saw a group of them today, huddled around something. When I got closer, I realized they were eating one of their own.\""
+        "text": "\"Saw a group of them today, huddled around something.  When I got closer, I realized they were eating one of their own.\""
       },
-      { "id": "note_263", "text": "\"Started talking to myself more often. It's scary how normal it feels now.\"" },
+      { "id": "note_263", "text": "\"Started talking to myself more often.  It's scary how normal it feels now.\"" },
       {
         "id": "note_264",
-        "text": "\"I tried to build a makeshift radio. All I get is static and an occasional eerie whisper. Maybe I'm going mad.\""
+        "text": "\"I tried to build a makeshift radio.  All I get is static and an occasional eerie whisper.  Maybe I'm going mad.\""
       },
       {
         "id": "note_265",
-        "text": "\"If you're reading this, I'm heading to the old church. It seems safer there. The walls are thick, and I need some peace.\""
+        "text": "\"If you're reading this, I'm heading to the old church.  It seems safer there.  The walls are thick, and I need some peace.\""
       },
       {
         "id": "note_266",
-        "text": "\"I heard a child laughing today. It was just in my head. Has to be. There's no way a child could survive this.\""
+        "text": "\"I heard a child laughing today.  It was just in my head.  Has to be.  There's no way a child could survive this.\""
       },
       {
         "id": "note_267",
-        "text": "\"The water smells strange. Can't remember the last time I drank something that didn't taste like chemicals.\""
+        "text": "\"The water smells strange.  Can't remember the last time I drank something that didn't taste like chemicals.\""
       },
       {
         "id": "note_268",
-        "text": "\"They found me. I can hear them scratching at the door. If anyone finds this, I'm sorry I couldn't make it.\""
+        "text": "\"They found me.  I can hear them scratching at the door.  If anyone finds this, I'm sorry I couldn't make it.\""
       },
       {
         "id": "note_269",
-        "text": "\"Every night, I dream of the beach. The sound of waves. The smell of salt. Waking up is the worst part.\""
+        "text": "\"Every night, I dream of the beach. The sound of waves.  The smell of salt.  Waking up is the worst part.\""
       },
-      { "id": "note_270", "text": "\"There are eyes in the dark. Watching. Waiting. I can't stay here any longer.\"" },
-      { "id": "note_271", "text": "\"All the lights are out. It's like the world is sleeping. Or maybe it's dead.\"" },
+      {
+        "id": "note_270",
+        "text": "\"There are eyes in the dark.  Watching.  Waiting.  I can't stay here any longer.\""
+      },
+      {
+        "id": "note_271",
+        "text": "\"All the lights are out.  It's like the world is sleeping.  Or maybe it's dead.\""
+      },
       {
         "id": "note_272",
-        "text": "\"I found a stash of old comic books. For a few moments, I was a kid again. Then reality set back in.\""
+        "text": "\"I found a stash of old comic books.  For a few moments, I was a kid again.  Then reality set back in.\""
       },
-      { "id": "note_273", "text": "\"Met a guy today. Said he's immune. Bullshit, right? No one is immune.\"" },
+      { "id": "note_273", "text": "\"Met a guy today.  Said he's immune.  Bullshit, right?  No one is immune.\"" },
       {
         "id": "note_274",
-        "text": "\"Ran out of ammo today. Guess it's back to the good old-fashioned baseball bat.\""
+        "text": "\"Ran out of ammo today.  Guess it's back to the good old-fashioned baseball bat.\""
       },
       {
         "id": "note_275",
@@ -738,33 +744,33 @@
       },
       {
         "id": "note_277",
-        "text": "\"I think the government knew about this. They were prepared. We're just the collateral damage.\""
+        "text": "\"I think the government knew about this.  They were prepared. We're just the collateral damage.\""
       },
       {
         "id": "note_278",
-        "text": "\"Saw a plane today. Low and slow. Could be a sign of hope, or just another trap.\""
+        "text": "\"Saw a plane today. Low and slow.  Could be a sign of hope, or just another trap.\""
       },
       {
         "id": "note_279",
-        "text": "\"Sometimes I forget what the world was like before. It's like a distant memory, fading away.\""
+        "text": "\"Sometimes I forget what the world was like before.  It's like a distant memory, fading away.\""
       },
       {
         "id": "note_280",
-        "text": "\"My hands are shaking so badly, I can barely write. Not sure if it's fear or the cold.\""
+        "text": "\"My hands are shaking so badly, I can barely write.  Not sure if it's fear or the cold.\""
       },
       {
         "id": "note_281",
-        "text": "\"Heard gunshots last night. Not sure if that means someone survived or someone else died.\""
+        "text": "\"Heard gunshots last night.  Not sure if that means someone survived or someone else died.\""
       },
       {
         "id": "note_282",
-        "text": "\"The nights are the worst. That's when the voices come. Whispering things I don't want to hear.\""
+        "text": "\"The nights are the worst. That's when the voices come.  Whispering things I don't want to hear.\""
       },
       {
         "id": "note_283",
-        "text": "\"Why do the zombies avoid the old cemetery? It's like something even they fear.\""
+        "text": "\"Why do the zombies avoid the old cemetery?  It's like something even they fear.\""
       },
-      { "id": "note_284", "text": "\"I miss hot showers. Hell, I miss being clean.\"" },
+      { "id": "note_284", "text": "\"I miss hot showers.  Hell, I miss being clean.\"" },
       {
         "id": "note_285",
         "text": "\"There's a weird fungus growing everywhere. I'm starting to think it's not just a plant.\""
@@ -779,16 +785,16 @@
       },
       {
         "id": "note_288",
-        "text": "\"Saw a woman today, just standing there, staring at the sky. She didn't even notice me.\""
+        "text": "\"Saw a woman today, just standing there, staring at the sky.  She didn't even notice me.\""
       },
       {
         "id": "note_289",
-        "text": "\"I found an old music box. It still works. Played it for a while, trying to remember happier times.\""
+        "text": "\"I found an old music box.  It still works.  Played it for a while, trying to remember happier times.\""
       },
       { "id": "note_290", "text": "\"Why did this happen? Who's to blame? Was it us?\"" },
       {
         "id": "note_291",
-        "text": "\"Sometimes I think it would be easier to just give up. But then I think of you, and I keep going.\""
+        "text": "\"Sometimes I think it would be easier to just give up.  But then I think of you, and I keep going.\""
       },
       {
         "id": "note_292",
@@ -796,7 +802,7 @@
       },
       {
         "id": "note_293",
-        "text": "\"Found an old map. Marked a few places I want to check out. Maybe there's hope out there.\""
+        "text": "\"Found an old map. Marked a few places I want to check out.  Maybe there's hope out there.\""
       },
       { "id": "note_294", "text": "\"The smell of death is everywhere. It's inescapable.\"" },
       {
@@ -806,9 +812,9 @@
       { "id": "note_296", "text": "\"I saw a pack of wild dogs today. They're surviving better than we are.\"" },
       {
         "id": "note_297",
-        "text": "\"Got bit today. Not sure how much time I have left. Just wanted to say I love you.\""
+        "text": "\"Got bit today. Not sure how much time I have left.  Just wanted to say I love you.\""
       },
-      { "id": "note_298", "text": "\"If you find this, know that I tried my best. I hope you fare better.\"" },
+      { "id": "note_298", "text": "\"If you find this, know that I tried my best.  I hope you fare better.\"" },
       {
         "id": "note_299",
         "text": "\"They say there's a safe zone in the north. I don't know if it's true, but I have to try.\""
@@ -818,20 +824,20 @@
         "id": "note_301",
         "text": "\"They scream when they burn. The sound haunts me. But it's the only way to be sure.\""
       },
-      { "id": "note_302", "text": "\"Found a severed hand today. It was clutching a note that read 'Kill me.'\"" },
+      { "id": "note_302", "text": "\"Found a severed hand today.  It was clutching a note that read 'Kill me.'\"" },
       {
         "id": "note_303",
-        "text": "\"I can hear the whispers in my head. They tell me to do things. Horrible things.\""
+        "text": "\"I can hear the whispers in my head.  They tell me to do things. Horrible things.\""
       },
       { "id": "note_304", "text": "\"The darkness is alive. I swear I saw it move. It's watching me.\"" },
       {
         "id": "note_305",
-        "text": "\"I tried to cut it out, but it just keeps growing. I can feel it under my skin, crawling.\""
+        "text": "\"I tried to cut it out, but it just keeps growing.  I can feel it under my skin, crawling.\""
       },
       { "id": "note_306", "text": "\"The baby was stillborn. We didn't bury it. It got up and walked away.\"" },
       {
         "id": "note_307",
-        "text": "\"I watched as they tore him apart, piece by piece. He was still screaming when they started eating his guts.\""
+        "text": "\"I watched as they tore him apart, piece by piece.  He was still screaming when they started eating his guts.\""
       },
       { "id": "note_308", "text": "\"Don't trust the shadows. They move when you're not looking.\"" },
       {
@@ -844,7 +850,7 @@
       },
       {
         "id": "note_311",
-        "text": "\"They don't just bite. They infect you with something. You start to rot from the inside out.\""
+        "text": "\"They don't just bite. They infect you with something.  You start to rot from the inside out.\""
       },
       {
         "id": "note_312",
@@ -852,7 +858,7 @@
       },
       {
         "id": "note_313",
-        "text": "\"I found a pile of bones today. They were arranged in a circle, like some kind of ritual.\""
+        "text": "\"I found a pile of bones today.  They were arranged in a circle, like some kind of ritual.\""
       },
       {
         "id": "note_314",
@@ -900,13 +906,13 @@
       },
       {
         "id": "note_338",
-        "text": "\"I watched my friend rot alive. It started with his eyes, then his skin just peeled away.\""
+        "text": "\"I watched my friend rot alive.  It started with his eyes, then his skin just peeled away.\""
       },
-      { "id": "note_339", "text": "\"I found a child's shoe. It was filled with teeth.\"" },
-      { "id": "note_340", "text": "\"The trees have faces now. They whisper my name when I pass by.\"" },
+      { "id": "note_339", "text": "\"I found a child's shoe.  It was filled with teeth.\"" },
+      { "id": "note_340", "text": "\"The trees have faces now.  They whisper my name when I pass by.\"" },
       {
         "id": "note_341",
-        "text": "\"I saw a man dragging his entrails behind him. He was still alive, begging for help.\""
+        "text": "\"I saw a man dragging his entrails behind him.  He was still alive, begging for help.\""
       },
       {
         "id": "note_342",
@@ -925,10 +931,10 @@
         "id": "note_349",
         "text": "\"I saw a man without a shadow today. He looked right through me, like I wasn't there.\""
       },
-      { "id": "note_350", "text": "\"The sun never sets anymore. It just hangs there, glaring down at us.\"" },
+      { "id": "note_350", "text": "\"The sun never sets anymore.  It just hangs there, glaring down at us.\"" },
       {
         "id": "note_351",
-        "text": "\"To my dearest Emily, if you're reading this, I want you to know that I never stopped looking for you. Please be safe. I love you more than anything.\""
+        "text": "\"To my dearest Emily, if you're reading this, I want you to know that I never stopped looking for you.  Please be safe.  I love you more than anything.\""
       },
       {
         "id": "note_352",
@@ -968,7 +974,7 @@
       },
       {
         "id": "note_361",
-        "text": "\"To my sweet daughter, I left your favorite doll in the blue house on Elm Street. I hope it gives you comfort. Stay safe, my angel.\""
+        "text": "\"To my sweet daughter, I left your favorite doll in the blue house on Elm Street.  I hope it gives you comfort.  Stay safe, my angel.\""
       },
       {
         "id": "note_362",
@@ -988,7 +994,7 @@
       },
       {
         "id": "note_366",
-        "text": "\"To my brave little boy, daddy had to leave to find food. Be strong and take care of mommy. I love you more than anything.\""
+        "text": "\"To my brave little boy, daddy had to leave to find food. Be strong and take care of mommy.  I love you more than anything.\""
       },
       {
         "id": "note_367",
@@ -1008,7 +1014,7 @@
       },
       {
         "id": "note_371",
-        "text": "\"To my beloved family, I tried my best to keep us all together. If you find this, please remember me and take care of each other.\""
+        "text": "\"To my beloved family, I tried my best to keep us all together.  If you find this, please remember me and take care of each other.\""
       },
       {
         "id": "note_372",

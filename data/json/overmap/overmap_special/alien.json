@@ -12,7 +12,7 @@
     "city_distance": [ 0, 30 ],
     "city_sizes": [ 0, 16 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "EXODII", "CBM", "UNIQUE" ]
+    "flags": [ "EXODII", "CBM", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",

@@ -2,6 +2,18 @@
   {
     "type": "ITEM_BLACKLIST",
     "whitelist": false,
-    "items": [ "m74_clip", "exodiisapramag5", "robofac_gun_40mm_10rd", "robofac_gun_40mm_5rd", "robofac_gun_40mm_3rd" ]
+    "items": [
+      "m74_clip",
+      "exodiisapramag5",
+      "robofac_gun_40mm_10rd",
+      "robofac_gun_40mm_5rd",
+      "robofac_gun_40mm_3rd",
+      "a180mag",
+      "a180mag1",
+      "a180mag2",
+      "a180mag3",
+      "a180mag4",
+      "af2011a1mag"
+    ]
   }
 ]

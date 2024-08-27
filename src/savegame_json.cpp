@@ -93,11 +93,9 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -550,13 +548,7 @@ void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "key", key );
-
-    //Remove after 0.G
-    if( data.has_int( "charge" ) ) {
-        charge = time_duration::from_turns( data.get_int( "charge" ) );
-    } else {
-        data.read( "charge", charge );
-    }
+    data.read( "charge", charge );
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
     if( data.has_member( "variant-parent" ) ) {
@@ -673,8 +665,6 @@ void Character::load( const JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "sleepiness", sleepiness );
     data.read( "cardio_acc", cardio_acc );
-    // Legacy read, remove after 0.F
-    data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
@@ -1616,25 +1606,6 @@ void avatar::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY until 0.G
-    if( !data.has_member( "location" ) ) {
-        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-    }
-
-    // TEMPORARY until 0.G
-    if( !data.has_member( "kill_xp" ) ) {
-        kill_xp = g->get_kill_tracker().legacy_kill_xp();
-    }
-
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
-
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
@@ -1658,7 +1629,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "grab_point", grab_point );
     std::string grab_typestr = "OBJECT_NONE";
-    if( grab_point.x != 0 || grab_point.y != 0 ) {
+    if( grab_point.x() != 0 || grab_point.y() != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr );
     } else {
@@ -2077,35 +2048,20 @@ void npc::load( const JsonObject &data )
     }
 
     int misstmp = 0;
-    int classtmp = 0;
     int atttmp = 0;
     std::string facID;
     std::string comp_miss_role;
     tripoint_abs_omt comp_miss_pt;
-    std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::turn_zero;
     time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
-
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
-    if( data.has_number( "myclass" ) ) {
-        data.read( "myclass", classtmp );
-        myclass = npc_class::from_legacy_int( classtmp );
-    } else if( data.has_string( "myclass" ) ) {
-        data.read( "myclass", classid );
-        myclass = npc_class_id( classid );
+    if( data.has_string( "myclass" ) ) {
+        data.read( "myclass", myclass );
     }
     if( data.has_string( "idz" ) ) {
         data.read( "idz", idz );
@@ -3127,12 +3083,6 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
-    // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() && craft_data_->batch_size <= 0 ) {
-        craft_data_->batch_size = clamp( charges, 1, charges );
-        charges = 0;
-    }
-
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
         if( possible_itype_variant( typeId().str() ) ) {
             set_itype_variant( typeId().str() );
@@ -3609,11 +3559,8 @@ void mission::deserialize( const JsonObject &jo )
         target_id = string_id<oter_type_t>( omid );
     }
 
-    if( jo.has_int( "recruit_class" ) ) {
-        recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
-    } else {
-        recruit_class = npc_class_id( jo.get_string( "recruit_class", "NC_NONE" ) );
-    }
+    recruit_class = jo.has_string( "recruit_class" ) ? npc_class_id( jo.get_string( "recruit_class" ) )
+                    : npc_class_id::NULL_ID();
 
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
@@ -3875,9 +3822,7 @@ void Creature::load( const JsonObject &jsin )
 void player_morale::morale_point::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    if( !jo.read( "type", type ) ) {
-        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
-    }
+    jo.read( "type", type );
     itype_id tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );
@@ -4676,6 +4621,31 @@ void ter_furn_migrations::check()
     }
 }
 
+static std::unordered_map<field_type_str_id, field_type_str_id> field_migrations;
+
+void field_type_migrations::load( const JsonObject &jo )
+{
+    field_type_str_id from_field;
+    field_type_str_id to_field;
+    mandatory( jo, true, "from_field", from_field );
+    mandatory( jo, true, "to_field", to_field );
+    field_migrations.insert( std::make_pair( from_field, to_field ) );
+}
+
+void field_type_migrations::reset()
+{
+    field_migrations.clear();
+}
+
+void field_type_migrations::check()
+{
+    for( const auto &migration : field_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "field_type_migration specifies invalid to_field id '%s'", migration.second.c_str() );
+        }
+    }
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -4733,7 +4703,7 @@ void submap::store( JsonOut &jsout ) const
     int count = 0;
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save radiation, re-examine this because it doesn't look like it works right
             int r = get_radiation( p );
             if( r == lastrad ) {
@@ -4755,12 +4725,12 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save furniture
             if( get_furn( p ) ) {
                 jsout.start_array();
-                jsout.write( p.x );
-                jsout.write( p.y );
+                jsout.write( p.x() );
+                jsout.write( p.y() );
                 jsout.write( get_furn( p ).obj().id );
                 jsout.end_array();
             }
@@ -4786,14 +4756,16 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // Save traps
             if( get_trap( p ) ) {
                 jsout.start_array();
-                jsout.write( p.x );
-                jsout.write( p.y );
+                jsout.write( p.x() );
+                jsout.write( p.y() );
+                const trap_id &trap_at = get_trap( p );
                 // TODO: jsout should support writing an id like jsout.write( trap_id )
-                jsout.write( get_trap( p ).id().str() );
+                jsout.write( trap_at.id().str() );
+                jsout.write( trap_at->trap_item_type );
                 jsout.end_array();
             }
         }
@@ -4826,8 +4798,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( const submap::cosmetic_t &cosm : cosmetics ) {
         jsout.start_array();
-        jsout.write( cosm.pos.x );
-        jsout.write( cosm.pos.y );
+        jsout.write( cosm.pos.x() );
+        jsout.write( cosm.pos.y() );
         jsout.write( cosm.type );
         jsout.write( cosm.str );
         jsout.end_array();
@@ -4842,8 +4814,8 @@ void submap::store( JsonOut &jsout ) const
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
         jsout.write( elem.count );
-        jsout.write( elem.pos.x );
-        jsout.write( elem.pos.y );
+        jsout.write( elem.pos.x() );
+        jsout.write( elem.pos.y() );
         jsout.write( elem.faction_id );
         jsout.write( elem.mission_id );
         jsout.write( elem.friendly );
@@ -5028,17 +5000,17 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         while( items_json.has_more() ) {
             int i = items_json.next_int();
             int j = items_json.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
 
-            if( !items_json.next_value().read( m->itm[p.x][p.y], false ) ) {
+            if( !items_json.next_value().read( m->itm[p.x()][p.y()], false ) ) {
                 debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
             }
             // some portion could've been read even if error occurred
-            for( item &it : m->itm[p.x][p.y] ) {
+            for( item &it : m->itm[p.x()][p.y()] ) {
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, p );
+                active_items.add( it, point_sm_ms( p ) );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5050,7 +5022,14 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
             m->trp[p.x][p.y] = trid.id();
-            if( trap_entry.size() > 3 ) {
+            if( trap_entry.has_more() ) {
+                std::optional<std::string> trap_item_type = std::nullopt;
+                trap_entry.read_next( trap_item_type );
+                if( trap_item_type.has_value() ) {
+                    const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_item_type.value() ) );
+                }
+            }
+            if( trap_entry.size() > 4 ) {
                 trap_entry.throw_error( "Too many values for trap entry" );
             }
         }
@@ -5062,25 +5041,23 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int j = fields_json.next_int();
             JsonArray field_json = fields_json.next_array();
             while( field_json.has_more() ) {
-                // TODO: Check enum->string migration below
-                int type_int = 0;
-                std::string type_str;
                 JsonValue type_value = field_json.next_value();
-                if( type_value.test_int() ) {
-                    type_int = type_value.get_int();
-                } else {
-                    type_str = type_value.get_string();
-                }
-                int intensity = field_json.next_int();
-                int age = field_json.next_int();
-                field_type_id ft;
-                if( !type_str.empty() ) {
-                    ft = field_type_id( type_str );
-                } else {
-                    ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
-                }
-                if( m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
-                    field_count++;
+                if( type_value.test_string() ) {
+                    field_type_str_id ft = field_type_str_id( type_value.get_string() );
+                    const int intensity = field_json.next_int();
+                    const int age = field_json.next_int();
+                    if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
+                        ft = it->second;
+                    }
+                    if( !ft.is_valid() ) {
+                        debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
+                    } else if( ft != field_type_str_id::NULL_ID() &&
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                        field_count++;
+                    }
+                } else { // Handle removed int enum method
+                    field_json.next_value(); // Skip intensity
+                    field_json.next_value(); // Skip age
                 }
             }
         }
@@ -5089,7 +5066,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray graffiti_entry : graffiti_json ) {
             int i = graffiti_entry.next_int();
             int j = graffiti_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             set_graffiti( p, graffiti_entry.next_string() );
             if( graffiti_entry.size() > 3 ) {
                 graffiti_entry.throw_error( "Too many values for graffiti" );
@@ -5102,7 +5079,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray cosmetic_entry : cosmetics_json ) {
             int i = cosmetic_entry.next_int();
             int j = cosmetic_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             std::string type;
             std::string str;
             JsonValue cosmetic_value = cosmetic_entry.next_value();
@@ -5140,7 +5117,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, point_sm_ms( p ), faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {

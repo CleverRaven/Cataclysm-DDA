@@ -234,7 +234,7 @@
     "id": "xe_sight_elec",
     "type": "effect_type",
     "name": [ "Sparks" ],
-    "desc": [ "You feel a dancing sparks in your eyes." ],
+    "desc": [ "You feel sparks dancing in your eyes." ],
     "apply_message": "Tiny electrical joints jump in your cornea.",
     "remove_message": "The sparks in your eyes are finally gone.",
     "rating": "good",

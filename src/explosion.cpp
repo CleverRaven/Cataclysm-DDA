@@ -64,6 +64,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_heat( "heat" );
@@ -399,7 +401,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     projectile proj;
     proj.speed = fragment_velocity;
     proj.range = range;
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.proj_effects.insert( ammo_effect_NULL_SOURCE );
 
     struct local_caches {
         cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;
@@ -909,7 +911,22 @@ void resonance_cascade( const tripoint &p )
 
 void process_explosions()
 {
-    for( const queued_explosion &ex : _explosions ) {
+    if( _explosions.empty() ) {
+        return;
+    }
+
+    // Need to copy and clear this vector before processing the explosions.
+    // Part of processing in `_make_explosion` is handing out shrapnel damage,
+    // which might kill monsters. That might have all sorts of consequences,
+    // such as running eocs, loading new maps (via eoc) or other explosions
+    // being added. There is therefore a chance that we might recursively
+    // enter this function again during explosion processing, and we need to
+    // guard against references becoming invalidated either by items being
+    // added to the vector, or us clearing it here.
+    std::vector<queued_explosion> explosions_copy( _explosions );
+    _explosions.clear();
+
+    for( const queued_explosion &ex : explosions_copy ) {
         const tripoint p = get_map().getlocal( ex.pos );
         if( p.x < 0 || p.x >= MAPSIZE_X || p.y < 0 || p.y >= MAPSIZE_Y ) {
             debugmsg( "Explosion origin (%d, %d, %d) is out-of-bounds", p.x, p.y, p.z );
@@ -917,7 +934,6 @@ void process_explosions()
         }
         _make_explosion( ex.source, p, ex.data );
     }
-    _explosions.clear();
 }
 
 } // namespace explosion_handler

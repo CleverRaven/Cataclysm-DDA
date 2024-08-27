@@ -54,9 +54,15 @@ static const itype_id itype_fake_burrowing( "fake_burrowing" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_ROBUST_GENETIC( "ROBUST_GENETIC" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_HUGE( "SHAPESHIFT_SIZE_HUGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_LARGE( "SHAPESHIFT_SIZE_LARGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_SMALL( "SHAPESHIFT_SIZE_SMALL" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_TINY( "SHAPESHIFT_SIZE_TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT( "TEMPORARY_SHAPESHIFT" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
@@ -79,7 +85,6 @@ static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
@@ -175,7 +180,7 @@ bool Character::has_base_trait( const trait_id &b ) const
 int Character::get_instability_per_category( const mutation_category_id &categ ) const
 {
     int mut_count = 0;
-    bool robust = has_trait( trait_ROBUST );
+    bool robust = has_flag( json_flag_ROBUST_GENETIC );
     // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
@@ -200,6 +205,8 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
             }
         }
     }
+    mut_count = enchantment_cache->modify_value( enchant_vals::mod::MUT_INSTABILITY_MOD, mut_count );
+    mut_count = std::max( mut_count, 0 );
     return mut_count;
 }
 
@@ -487,16 +494,30 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_flag( json_flag_TINY ) ) {
-        size_class = creature_size::tiny;
-    } else if( has_flag( json_flag_SMALL ) ) {
-        size_class = creature_size::small;
-    } else if( has_flag( json_flag_LARGE ) ) {
-        size_class = creature_size::large;
-    } else if( has_flag( json_flag_HUGE ) ) {
-        size_class = creature_size::huge;
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT ) ) {
+        if( has_flag( json_flag_SHAPESHIFT_SIZE_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     } else {
-        size_class = creature_size::medium;
+        if( has_flag( json_flag_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     }
 }
 
@@ -524,7 +545,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
             return true;
         }
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
@@ -564,7 +585,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
         }
         return true;
     } );
@@ -1317,7 +1338,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate_category: mutate_towards category %s", cat.c_str() );
-    if( select_mutation || mutation_selector( valid, cat, use_vitamins ) ) {
+    if( select_mutation && mutation_selector( valid, cat, use_vitamins ) ) {
         // Stop if mutation properly handled by mutation selector
         return;
     }
@@ -1970,6 +1991,10 @@ std::unordered_set<trait_id> Character::get_same_type_traits( const trait_id &fl
 
 bool Character::purifiable( const trait_id &flag ) const
 {
+    if( my_intrinsic_mutations.count( flag ) > 0 ) {
+        return false;
+    }
+    // If we haven't set the trait unpurifiable in gametime check its definition
     return flag->purifiable;
 }
 

@@ -219,7 +219,7 @@
       { "item": "flip_flops", "prob": 35 },
       { "item": "flip_flops_exp", "prob": 5 },
       { "item": "leathersandals", "prob": 40 },
-      { "item": "straw_sandals", "prob": 20 },
+      { "item": "espadrilles", "prob": 20 },
       { "item": "bastsandals", "prob": 20 },
       { "item": "sneakers_steel", "prob": 20 },
       { "item": "knee_high_boots", "prob": 20 },

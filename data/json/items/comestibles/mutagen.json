@@ -916,7 +916,7 @@
     "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60,
-    "vitamins": [ [ "mutagenic_slurry", 15 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -937,7 +937,7 @@
     "material": [ "hflesh" ],
     "volume": "4500 ml",
     "fun": -20,
-    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -958,6 +958,6 @@
     "material": [ "hflesh" ],
     "volume": "12 L",
     "fun": -20,
-    "vitamins": [ [ "mutagenic_slurry", 10 ] ]
+    "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
   }
 ]

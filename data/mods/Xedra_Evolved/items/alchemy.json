@@ -67,7 +67,8 @@
       "activation_message": "You feel better almost instantly.",
       "effects": [ { "id": "curesome" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "prophets_lsd",
@@ -111,6 +112,30 @@
       "type": "consume_drug",
       "activation_message": "You swallow a couple of the large green pills.",
       "vitamins": [ [ "cheval", 1000 ] ]
+    }
+  },
+  {
+    "id": "nether_snare",
+    "type": "TOOL",
+    "name": "snaring pentagram trap",
+    "category": "traps",
+    "properties": { "capture_species": "NETHER" },
+    "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
+    "longest_side": "60 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "lead",
+    "symbol": "*",
+    "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_nether_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the pentagram snare."
     }
   },
   {
@@ -255,7 +280,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "life extension potion" },
-    "description": "The primary means by which alchemists gain wealthy patrons these potions will add decades of healthy life to their users span.  But the ingredients are rare and even this won't prolong life forever.  You'll have to resort to other means of achieving immortality, if that's even a goal you are seeking.",
+    "description": "A source of considerable wealth for the few alchemists talented enough to distill them, these potions are capable of adding decades to the lifespan of those who can afford the price of the rare and expensive ingredients they require.  They are however not able to prolong a life indefinitely beyond its natural years, and you will need to find other means to achieve immortality, if that is your goal.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -457,7 +482,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of Parchment" },
-    "description": ".",
+    "description": "While looking in a mirror Faewild and Dreamdross were ground to dust.  With the remains of the fair, and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into what almost looks like liquid porcelain.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",

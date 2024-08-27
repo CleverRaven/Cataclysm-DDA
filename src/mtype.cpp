@@ -19,7 +19,6 @@
 #include "weakpoint.h"
 
 static const harvest_id harvest_list_human( "human" );
-static const harvest_id harvest_list_null( "null" );
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -120,8 +119,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_NO_NECRO,
             mon_flag_PACIFIST,
             mon_flag_PARALYZEVENOM,
-            mon_flag_PATH_AVOID_DANGER_1,
-            mon_flag_PATH_AVOID_DANGER_2,
+            mon_flag_PATH_AVOID_DANGER,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
@@ -246,8 +244,7 @@ void set_mon_flag_ids()
     mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
     mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
     mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
-    mon_flag_PATH_AVOID_DANGER_1 = mon_flag_id( "PATH_AVOID_DANGER_1" );
-    mon_flag_PATH_AVOID_DANGER_2 = mon_flag_id( "PATH_AVOID_DANGER_2" );
+    mon_flag_PATH_AVOID_DANGER = mon_flag_id( "PATH_AVOID_DANGER" );
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
@@ -320,7 +317,7 @@ mtype::mtype()
     sp_defense = nullptr;
     melee_training_cap = MAX_SKILL;
     harvest = harvest_list_human;
-    decay = harvest_list_null;
+    decay = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
 

@@ -438,37 +438,37 @@
     "responses": [
       { "text": "Just a sec, got something I need to do first.", "topic": "TALK_DONE" },
       {
-        "text": "[Shuffle back and forth a little]",
+        "text": "[Shuffle back and forth a little.]",
         "topic": "TALK_REFUGEE_Draco_Dance_1",
         "condition": { "math": [ "u_val('dodge')", "<", "1" ] },
         "switch": true
       },
       {
-        "text": "[Do a little dance]",
+        "text": "[Do a little dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_2",
         "condition": { "math": [ "u_val('dodge')", "<", "6" ] },
         "switch": true
       },
       {
-        "text": "[Perform a decent dance]",
+        "text": "[Perform a decent dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_3",
         "condition": { "math": [ "u_val('dodge')", "<", "10" ] },
         "switch": true
       },
       {
-        "text": "[Perform an impressive dance]",
+        "text": "[Perform an impressive dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_4",
         "condition": { "math": [ "u_val('dodge')", "<", "15" ] },
         "switch": true
       },
       {
-        "text": "[Perform a masterful dance]",
+        "text": "[Perform a masterful dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_5",
         "condition": { "math": [ "u_val('dodge')", "<", "20" ] },
         "switch": true
       },
       {
-        "text": "[Perform a legendary dance]",
+        "text": "[Perform a legendary dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_6",
         "condition": { "math": [ "u_val('dodge')", ">", "20" ] },
         "switch": true,

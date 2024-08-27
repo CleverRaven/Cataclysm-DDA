@@ -480,6 +480,19 @@
   },
   {
     "type": "snippet",
+    "category": "<schizo_weapon_drop>",
+    "//": "In the future, it would be preferable for the snippet to use the object's name, instead of \"Your weapon\"",
+    "text": [
+      "Your weapon starts burning your hands!",
+      "Your weapon feels freezing cold!",
+      "An electric shock shoots into your hand from your weapon!",
+      "Your weapon was working for… THEM",
+      "Your weapon is running away!",
+      "Your weapon is a dirty traitor!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "broken_limb",
     "text": [
       "Your limb breaks!",

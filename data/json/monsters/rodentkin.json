@@ -34,9 +34,9 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
-    "vision_day": 30,
-    "vision_night": 15,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "vision_day": 6,
+    "vision_night": 3,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_rat_sample_single",
     "path_settings": { "max_dist": 10 },
@@ -52,7 +52,7 @@
       "WARM",
       "SWIMS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "EATS",
       "SMALL_HIDER"
     ]
@@ -61,7 +61,7 @@
     "id": "mon_big_rat",
     "type": "MONSTER",
     "name": { "str": "big rat" },
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "description": "This cat-sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it, baring sizable teeth.",
     "default_faction": "ratkin",
     "bodytype": "pig",
@@ -99,8 +99,8 @@
       [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
   },
@@ -109,7 +109,7 @@
     "type": "MONSTER",
     "name": { "str": "zap rattigan" },
     "description": "This cat sized albino mouse sparks randomly, whenever anything approaches it.",
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "symbol": "R",
@@ -119,9 +119,9 @@
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
   {
@@ -129,7 +129,7 @@
     "type": "MONSTER",
     "name": { "str": "tunnel runner" },
     "description": "Prior to the Cataclysm someone might have referred to this dog-sized rat as a 'mass of claws and teeth,' but that could describe nearly everything you meet these days.  In any case, this particular mass of claws and teeth is eyeing its surroundings hungrily.",
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
@@ -162,7 +162,7 @@
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
@@ -172,7 +172,7 @@
     "name": { "str": "pack rat" },
     "description": "This humanoid rodent stands over five feet tall, it pokes and bites at anything shiny, hastily shoving anything of interest into its mouth.",
     "default_faction": "ratkin",
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
     "weight": "30 kg",
@@ -204,7 +204,7 @@
       [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "CAN_DIG", "EATS" ],
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
   {
@@ -213,7 +213,7 @@
     "name": { "str": "Mouse of NEMA", "str_pl": "Mice of NEMA" },
     "description": "This albino, humanoid mouse walks on its hind legs.  You can see eddies of wind swirl unnaturally around it as it moves, debris caught in its wake.",
     "default_faction": "ratkin",
-    "//2": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//2": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "//": "High winds surrounding it make bash and bullets less effective.  Cut and stab are almost unaffected.",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
@@ -236,7 +236,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
   },
   {
@@ -245,7 +245,7 @@
     "name": { "str": "mausketeer" },
     "description": "This humanoid rat seems to be inexplicably dressed for a renfaire in an imitation of Ancien Régime light cavalry, complete with a sword.",
     "default_faction": "ratkin",
-    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occured is nonsensical and should be reported as a bug.",
+    "//": "All monsters with faction ratkin should only appear in places that make sense for them to appear.  They are specific to a unique lab and any appearances by them outside of that lab prior to at minimum two seasons after the Cataclysm occurred is nonsensical and should be reported as a bug.",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
     "weight": "30 kg",
@@ -272,7 +272,7 @@
       [ "EAT_CARRION", 120 ]
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }

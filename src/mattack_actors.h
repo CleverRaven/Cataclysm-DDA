@@ -140,6 +140,8 @@ class melee_actor : public mattack_actor
         grab grab_data;
         bool is_grab = false;
 
+        std::vector<effect_on_condition_id> eoc;
+
         /**
          * If empty, regular melee roll body part selection is used.
          * If non-empty, a body part is selected from the map to be targeted,
