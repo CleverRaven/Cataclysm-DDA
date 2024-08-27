@@ -30,17 +30,11 @@
         "111111111111111111111111",
         "111111111111111111111111"
       ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 500 ],
-            [ "alien_meadow_12x12_pond", 20 ],
-            [ "alien_meadow_12x12_shrubs", 20 ],
-            [ "alien_meadow_12x12_trees", 20 ]
-          ],
-          "x": 8,
-          "y": 8
-        }
+      "place_fields": [ 
+        { "field": "fd_meadow_portal", "x": 11, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 11, "y": 12, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 12, "intensity": 1 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "alien_meadow_palette" ]
@@ -82,8 +76,10 @@
           "chunks": [
             [ "null", 500 ],
             [ "alien_meadow_12x12_pond", 20 ],
+            [ "alien_meadow_12x12_solid_pond", 20 ],
             [ "alien_meadow_12x12_shrubs", 20 ],
-            [ "alien_meadow_12x12_trees", 20 ]
+            [ "alien_meadow_12x12_trees", 20 ],
+            [ "alien_meadow_12x12_tree_trap", 20 ]
           ],
           "x": 8,
           "y": 8
@@ -227,7 +223,15 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         " ": "t_null",
-        "7": [ [ "t_null", 250 ], [ "t_region_tree_forest", 25 ], [ "t_region_shrub_forest", 25 ] ],
+        "7": [
+          [ "t_null", 250 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ],
+          [ "t_alien_meadow_tree_1", 10 ],
+          [ "t_alien_meadow_tree_2", 10 ],
+          [ "t_alien_meadow_tree_3", 10 ]
+        ],
         "~": "t_water_sh"
       }
     }
@@ -253,7 +257,15 @@
         "    7777    "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { " ": "t_null", "7": [ [ "t_null", 250 ], [ "t_region_shrub_forest", 25 ] ] }
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 250 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ]
+        ]
+      }
     }
   },
   {
@@ -277,7 +289,51 @@
         "    7777    "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { " ": "t_null", "7": [ [ "t_null", 500 ], [ "t_region_tree_forest", 80 ], [ "t_region_shrub_forest", 5 ] ] }
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 500 ],
+          [ "t_alien_meadow_shrub_1", 2 ],
+          [ "t_alien_meadow_shrub_2", 2 ],
+          [ "t_alien_meadow_shrub_3", 2 ],
+          [ "t_alien_meadow_tree_1", 25 ],
+          [ "t_alien_meadow_tree_2", 25 ],
+          [ "t_alien_meadow_tree_3", 25 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_tree_trap",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777RRR777 ",
+        "77777RTR7777",
+        "77777RRR7777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "T": "t_alien_meadow_tree_trap",
+        "R": "t_alien_meadow_tree_trap_roots_obvious",
+        "7": [
+          [ "t_null", 30 ],
+          [ "t_alien_meadow_tree_trap_roots_tall_grass", 15 ],
+          [ "t_alien_meadow_tree_trap_roots_obvious", 2 ]
+        ]
+      }
     }
   }
 ]
