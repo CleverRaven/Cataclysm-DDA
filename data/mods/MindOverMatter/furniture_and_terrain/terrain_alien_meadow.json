@@ -25,6 +25,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_long_grass",
+    "//": "Looks exactly the same so it's not obvious unless the player spots the trap",
+    "name": "long alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "'",
+    "color": "red",
+    "move_cost": 4,
+    "coverage": 30,
+    "trap": "tr_alien_tree_trap_roots",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_alien_meadow_grass_tall",
     "name": "tall alien grass",
     "description": "An area of something that vaguely resembles grass.  Head high and such a dark red as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
@@ -215,5 +230,36 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap",
+    "name": "alien tree",
+    "description": "An alien tree, a group of thick dark-colored trunks half-fused together.  The drooping branches have nodes of dark red leaves interspersed along their lengths.  You're not entirely sure it's moving with the wind.",
+    "//": "Description deliberately similar to t_alien_meadow_tree_1, as this is the fully mature version.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "HARVESTED" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_obvious",
+    "description": "A cluster of dark roots from an alien tree are visible here.  Did one of them just move?",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 3,
+    "trap": "tr_alien_tree_trap_roots",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]
