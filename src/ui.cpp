@@ -104,6 +104,7 @@ void uilist_impl::draw_controls()
                         ImGui::TableSetColumnIndex( 0 );
 
                         if( is_selected && parent.need_to_scroll ) {
+                            // this is the selected row, and the user just changed the selection; scroll it into view
                             ImGui::SetScrollHereY();
                             parent.need_to_scroll = false;
                         }
@@ -115,15 +116,17 @@ void uilist_impl::draw_controls()
                         if( ImGui::Selectable( "##s", is_selected, flags ) ) {
                             parent.fselected = i;
                             parent.selected = parent.hovered = parent.fentries[ parent.fselected ];
+                            // We are going to return now that the user clicked on something, so scrolling seems
+                            // unnecessary. However, the debug spawn item function reuses the same menu to let the
+                            // user spawn multiple items and it’s weird if the correct item isn’t scrolled into view
+                            // the next time around.
                             parent.need_to_scroll = true;
-                            if( parent.callback != nullptr ) {
-                                parent.callback->select( &parent );
-                            }
                             is_selected = parent.clicked = true;
                         }
                         bool mouse_moved = ImGui::GetCurrentContext()->HoveredId !=
                                            ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
                         if( ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride ) && mouse_moved ) {
+                            // this row is hovered and the hover state just changed, show context for it
                             parent.hovered = parent.fentries[ i ];
                         }
                         ImGui::SameLine( 0, 0 );
