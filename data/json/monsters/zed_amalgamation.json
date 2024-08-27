@@ -199,7 +199,7 @@
       }
     ],
     "vision_day": 18,
-    "extend": { "flags": [ "SWARMS", "CLIMBS", "HARDTOSHOOT", "HIT_AND_RUN" ], "weakpoint_sets": [ "wps_amalgamation_mandible" ] }
+    "extend": { "flags": [ "SWARMS", "CLIMBS", "HARDTOSHOOT" ], "weakpoint_sets": [ "wps_amalgamation_mandible" ] }
   },
   {
     "type": "MONSTER",
