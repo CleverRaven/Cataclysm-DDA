@@ -917,7 +917,10 @@
         "id": "note_341",
         "text": "\"I saw a man dragging his entrails behind him.  He was still alive, begging for help.\""
       },
-      { "id": "note_342", "text": "\"Don't trust the light.  It draws you in, but it's a trap.  A trap set by them.\"" },
+      {
+        "id": "note_342",
+        "text": "\"Don't trust the light.  It draws you in, but it's a trap.  A trap set by them.\""
+      },
       { "id": "note_343", "text": "\"I found a cocoon.  Something inside was moving.  It looked almost… human.\"" },
       { "id": "note_344", "text": "\"I saw a face in the fog.  It wasn't human.  It smiled at me.\"" },
       { "id": "note_345", "text": "\"The ground is covered in blood.  It's seeping up from below.\"" },
