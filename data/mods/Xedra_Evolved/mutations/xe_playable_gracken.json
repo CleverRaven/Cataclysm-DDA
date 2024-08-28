@@ -4,7 +4,7 @@
     "subtype": "hobby",
     "id": "hobby_species_gracken",
     "name": "XE843 'Gracken' (Species)",
-    "description": "Species XE843 is how the Xedra scientists identified your people before they learned your people could speak to them after enough time around them to develop a way to communicate.  They had little idea that communication is your peoples survival trait, coming from a much harsher environment than the humans are…were blessed with, you can make allies with almost any thinking being.  You informed the Xedra people of your races name 'Gracken' but you didn't tell them that most of your people they found were larval forms and lacking access to the shadow materials needed would never grow up into an adult form.  Now the humans world is as deadly or moreso than your home and the way back is mostly closed.  Time to try and find a route home that wouldn't be a death sentence, or see what this world has to offer.",
+    "description": "Species XE843 is how the Xedra scientists identified your people before they learned your people could speak to them after enough time around them to develop a way to communicate.  They had little idea that communication is your people's survival trait, coming from a much harsher environment than the humans are…were blessed with, you can make allies with almost any thinking being.  You informed the Xedra people of your race's name 'Gracken' but you didn't tell them that most of your people they found were larval forms and lacking access to the shadow materials needed would never grow up into an adult form.  Now the humans' world is as deadly or moreso than your home and the way back is mostly closed.  Time to try and find a route home that wouldn't be a death sentence, or see what this world has to offer.",
     "points": 4,
     "proficiencies": [ "prof_traps" ],
     "recipes": [
@@ -42,7 +42,7 @@
     "profession": true,
     "points": 2,
     "scent_type": "sc_gracken",
-    "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
+    "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "allowed_category": [ "GRACKEN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
@@ -239,7 +239,7 @@
   {
     "type": "mutation",
     "id": "SHADE_EVOLUTION_GLAND",
-    "name": { "str": "Evolution Gland " },
+    "name": { "str": "Evolution Gland" },
     "points": 8,
     "purifiable": false,
     "description": "You have a gland that grows a small amount of the material needed to make biological improvements to yourself.  You must gather dreamdross and components from monsters you wish to gain the abilities of and combine them with this shadowstuff into new organs and abilities.",

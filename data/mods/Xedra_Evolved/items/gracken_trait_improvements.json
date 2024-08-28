@@ -49,7 +49,7 @@
     }
   },
   {
-    "id": "gracken_strong_arms",
+    "id": "gracken_long_arms",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
     "name": { "str": "Gracken Long Arms" },
