@@ -11,8 +11,7 @@
       "value": "yes",
       "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_chef",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ],
         "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <u_name>.  How's it going for you?\"" ],
         "no": {
           "gendered_line": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon.",
@@ -26,7 +25,7 @@
         "topic": "TALK_GODCO_chef_intro",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -37,7 +36,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -48,7 +47,7 @@
         "topic": "TALK_GODCO_chef_idle_chat",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
@@ -58,7 +57,7 @@
         "topic": "TALK_GODCO_chef_get_food",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -73,13 +72,13 @@
       },
       {
         "text": "Can I do anything for you?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
       },
       {
         "text": "Okay, man.  I'll be on my way.",

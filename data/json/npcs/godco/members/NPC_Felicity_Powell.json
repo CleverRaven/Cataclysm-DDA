@@ -23,7 +23,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
-            { "not": { "npc_has_var": "general_trade_gave_u_manuscript", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_gave_u_manuscript" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Manuscript"
@@ -35,8 +35,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_godco_felicity",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ],
       "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
       "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
     },
@@ -46,7 +45,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -57,7 +56,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
             { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
@@ -65,7 +64,7 @@
       },
       {
         "text": "Hi Felicity.  Got a minute?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] },
         "topic": "TALK_GODCO_Felicity_2"
       },
       { "text": "Hi Felicity.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }

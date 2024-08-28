@@ -113,8 +113,7 @@
         "value": "yes",
         "no": [ "Did I scare you off the first time?", "Hi again, other person.", "*waves." ],
         "yes": {
-          "npc_has_var": "general_robofac_merc_1_temporal_follower",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_robofac_merc_1_temporal_follower" } ],
           "yes": [
             "Better keep our eyes on the road.",
             "*looks at you expectantly.",
@@ -180,7 +179,7 @@
         "condition": {
           "and": [
             { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_stay", "value": "yes" },
-            { "not": { "npc_has_var": "general_robofac_merc_1_temporal_follower", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_robofac_merc_1_temporal_follower" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_MAIN"
@@ -190,7 +189,7 @@
         "condition": {
           "and": [
             { "u_has_var": "general_robofac_merc_1_helped_with_missions", "value": "yes" },
-            { "not": { "npc_has_var": "general_robofac_merc_1_temporal_follower", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_robofac_merc_1_temporal_follower" } ] } },
             { "not": "has_many_assigned_mission" },
             { "not": "has_assigned_mission" }
           ]
@@ -199,7 +198,7 @@
       },
       {
         "text": "Let's set up a combat strategy.",
-        "condition": { "npc_has_var": "general_robofac_merc_1_temporal_follower", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_robofac_merc_1_temporal_follower" } ] },
         "topic": "TALK_DONE",
         "effect": "npc_rules_menu"
       },

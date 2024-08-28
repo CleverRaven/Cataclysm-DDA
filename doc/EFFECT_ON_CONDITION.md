@@ -515,6 +515,9 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 ```
 
 ### `u_has_var`, `npc_has_var`
+
+**DEPRECATED**, use `compare_string` in format `{ "compare_string": [ "yes", { "npc_val": "name_of_the_variable" } ] }`
+
 - type: string
 - checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
 - `type`, `context` and `value` of the variable is also required
@@ -2922,7 +2925,7 @@ Character forget martial art, stored in `ma_id` context value
 
 
 #### `u_add_var`, `npc_add_var`
-Save a personal variable, that you can check later using `u_has_var`, `npc_has_var` or `math` (see [Player or NPC conditions]( #Player_or_NPC_conditions) )
+Save a string as personal variable, that you can check later using `compare_string` (see [Player or NPC conditions]( #Player_or_NPC_conditions) )
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 

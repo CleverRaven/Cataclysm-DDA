@@ -26,12 +26,12 @@
       {
         "text": "Don't worry, I'm not going to hurt you.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] } },
         "topic": "TALK_GODCO_Zachary_Intro"
       },
       {
         "text": "Hey, good to see you're still around.",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       { "text": "…", "topic": "TALK_DONE" }

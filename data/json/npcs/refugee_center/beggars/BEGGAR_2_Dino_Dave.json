@@ -69,7 +69,10 @@
       { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
       {
         "condition": {
-          "and": [ { "npc_has_var": "mission_dinodave_cardboard_donor", "value": "yes" }, { "not": "has_no_available_mission" } ]
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "mission_dinodave_cardboard_donor" } ] },
+            { "not": "has_no_available_mission" }
+          ]
         },
         "text": "Is there anything else I can do for you?",
         "topic": "TALK_MISSION_OFFER"

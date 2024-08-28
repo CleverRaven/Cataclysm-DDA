@@ -13,8 +13,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_godco_olwen",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ],
       "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
       "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
     },
@@ -22,13 +21,13 @@
       {
         "text": "I'm just a traveler.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_olwen", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
       },
       {
         "text": "Hi, Olwen.  What's up?",
         "topic": "TALK_GODCO_Olwen_2",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
       },
       { "text": "Hey, Olwen.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -106,7 +105,7 @@
     "responses": [
       {
         "text": "Can you teach me anything?",
-        "condition": { "npc_has_var": "general_training_olwen_can_teach", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_training_olwen_can_teach" } ] },
         "topic": "TALK_TRAIN"
       },
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },

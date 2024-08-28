@@ -33,8 +33,7 @@
       "value": "yes",
       "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_greenwood",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ],
         "yes": {
           "u_male": true,
           "yes": [ "The Lord be with you, brother.", "Good to see you're still around, <u_name>." ],
@@ -53,7 +52,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -68,7 +67,7 @@
         "text": "I'm looking for work.  Can I do anything for your congregation?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -80,7 +79,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
@@ -90,7 +89,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] } },
             { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },

@@ -22,7 +22,7 @@
         "topic": "TALK_GODCO_Kostas_Tea_2",
         "condition": {
           "and": [
-            { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" },
+            { "compare_string": [ "in-progress", { "npc_val": "knowledge_completed_godco_kostas_tea" } ] },
             { "u_has_items": { "item": "pine_bough", "count": 12 } }
           ]
         },
@@ -47,8 +47,7 @@
       "value": "yes",
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_kostas",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ],
         "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
         "no": {
           "gendered_line": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist.",
@@ -62,7 +61,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -72,7 +71,7 @@
         "text": "Hey, good to see you again.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -83,7 +82,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "failed_persuade" } },
-            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "u_has_var": "general_mission_convince_kostas", "value": "yes" }
           ]
         },
@@ -94,7 +93,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
-            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
         },
@@ -172,8 +171,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_Herbalism",
     "dynamic_line": {
-      "npc_has_var": "knowledge_completed_godco_kostas_tea",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "knowledge_completed_godco_kostas_tea" } ],
       "yes": [
         "Nature can provide.  You can live off the land if you learn how.",
         "Foraging is about recognizing the abundance that is around us all the time, not seeking out rare species.",
@@ -187,7 +185,7 @@
       {
         "text": "Can I try your pine needle tea?",
         "topic": "TALK_GODCO_Kostas_Tea",
-        "condition": { "not": { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "knowledge_completed_godco_kostas_tea" } ] } },
         "effect": { "npc_add_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

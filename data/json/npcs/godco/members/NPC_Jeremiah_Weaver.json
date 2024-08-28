@@ -121,8 +121,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Plans",
     "dynamic_line": {
-      "npc_has_var": "general_mission_jeremiah_apprentice",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "general_mission_jeremiah_apprentice" } ],
       "yes": "I don't know, exactly.  I think I'll stay here and do what I can for the community.",
       "no": "I'd like to study herbology with Kostas, it seems like a useful skill these days.  I do feel bad for Jane though, she's a skilled doctor and nobody here cares, they all just think any illness can be prayed away."
     },
@@ -133,7 +132,7 @@
           "and": [
             { "not": { "u_has_var": "general_mission_convince_kostas", "value": "yes" } },
             { "not": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" } },
-            { "not": { "npc_has_var": "general_mission_jeremiah_apprentice", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_mission_jeremiah_apprentice" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Jeremiah_Apprenticeship"

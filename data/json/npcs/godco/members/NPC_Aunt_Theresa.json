@@ -31,8 +31,7 @@
       "value": "yes",
       "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_theresa",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ],
         "yes": "Praise the Lord.  It's good to see you're still around, <granny_name_g>.",
         "no": "Welcome, <granny_name_g>.  I don't think I recognize you, I'm Theresa."
       }
@@ -43,7 +42,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -53,7 +52,7 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -94,7 +93,7 @@
         "text": "I'm here about the scarf.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_scarf", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_scarf" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('1 d')" ] }
           ]
         },
@@ -105,7 +104,7 @@
         "text": "I'm here about the blanket.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_blanket", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_blanket" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -116,7 +115,7 @@
         "text": "I'm here about the quilt.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_quilt", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_quilt" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('7 d')" ] }
           ]
         },

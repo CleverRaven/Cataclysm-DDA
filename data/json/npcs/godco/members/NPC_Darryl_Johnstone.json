@@ -19,7 +19,7 @@
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
+        "condition": { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_darryl_mission1" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What's your story?", "topic": "TALK_GODCO_Darryl_Story" },
@@ -36,8 +36,7 @@
       "value": "yes",
       "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_darryl",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ],
         "yes": [
           "Praise the Lord.",
           "Welcome back.",
@@ -52,7 +51,7 @@
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
+        "condition": { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_darryl_mission1" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       {
@@ -60,7 +59,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -70,7 +69,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -80,7 +79,7 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -91,7 +90,7 @@
         "condition": {
           "and": [
             { "math": [ "darryl_building_coop", "==", "2" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
@@ -124,7 +123,7 @@
         "condition": {
           "and": [
             { "u_has_var": "general_trade_darryl_built_coop", "value": "yes" },
-            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"

@@ -47,8 +47,7 @@
       "value": "yes",
       "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_russell",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ],
         "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],
         "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
       }
@@ -59,7 +58,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_russell", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_russell", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -69,7 +68,7 @@
         "text": "Hi, Russell.  Got a minute?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_russell", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
