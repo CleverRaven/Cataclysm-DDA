@@ -1827,6 +1827,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleporter_attuning_to_area",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_slow_bleeding",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

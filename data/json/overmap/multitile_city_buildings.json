@@ -2424,6 +2424,7 @@
       { "point": [ 0, 0, 5 ], "overmap": "apartments_con_tower_002_south" },
       { "point": [ 1, 1, 6 ], "overmap": "apartments_con_tower_114_south" },
       { "point": [ 0, 1, 6 ], "overmap": "apartments_con_tower_014_south" },
+      { "point": [ 1, 1, 7 ], "overmap": "apartments_con_tower_115_south" },
       { "point": [ 0, 1, 7 ], "overmap": "apartments_con_tower_015_south" },
       { "point": [ 1, 0, 6 ], "overmap": "apartments_con_tower_104_south" },
       { "point": [ 0, 0, 6 ], "overmap": "apartments_con_tower_004_south" }

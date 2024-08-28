@@ -202,7 +202,7 @@
     "//": "bread: 1u, oil: 1u, egg: 3u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [ [ "bread_sandwich", 1, "LIST" ], [ "toast", 1 ], [ "buttered_toast", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]

@@ -1109,7 +1109,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS",
     "type": "talk_topic",
-    "dynamic_line": "[thanks bro this will be very interesting wheres the tower?]",
+    "dynamic_line": "[thanks bro this will be very interesting where's the tower?]",
     "responses": [
       {
         "text": "[tell them where scout tower is]",

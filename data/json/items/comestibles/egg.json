@@ -187,23 +187,39 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_reptile",
-    "name": { "str": "reptile egg" },
-    "weight": "60 g",
-    "color": "white",
+    "id": "egg_wormsnake",
+    "name": { "str": "worm snake egg" },
+    "spoils_in": "23 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
+    "rot_spawn": "GROUP_EGG_WORMSNAKE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle_painted",
+    "name": { "str": "painted turtle egg" },
+    "spoils_in": "40 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
+    "rot_spawn": "GROUP_EGG_TURTLE_PAINTED"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle_snapping_common",
+    "name": { "str": "common snapping turtle egg" },
+    "spoils_in": "51 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
+    "rot_spawn": "GROUP_EGG_TURTLE_SNAPPING_COMMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_skink_fivelined",
+    "name": { "str": "five-lined skink egg" },
     "spoils_in": "28 days",
-    "comestible_type": "FOOD",
-    "symbol": "o",
-    "quench": 3,
-    "calories": 87,
-    "description": "An egg laid by one of reptile species found in New England.",
-    "price": "62 cent",
-    "price_postapoc": "12 cent",
-    "material": [ "egg" ],
-    "volume": "62 ml",
-    "fun": -12,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
+    "rot_spawn": "GROUP_EGG_SKINK_FIVELINED"
   },
   {
     "type": "COMESTIBLE",
@@ -399,10 +415,37 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fly",
-    "name": "fly egg",
+    "name": { "str": "fly egg" },
     "description": "The egg of a fly.",
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moth_fly",
+    "name": { "str": "moth fly egg" },
+    "description": "The egg of a moth fly.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOTH_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_silverfish",
+    "name": { "str": "silverfish egg" },
+    "description": "The egg of a silverfish.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SILVERFISH",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centipede_house",
+    "name": { "str": "house centipede egg" },
+    "description": "The egg of a house centipede.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_CENTIPEDE_HOUSE",
     "rot_spawn_chance": 50
   },
   {

@@ -131,7 +131,7 @@
       [ [ "warptoken", 2 ] ],
       [ [ "cu_pipe", 5 ] ],
       [ [ "duct_tape", 20 ] ],
-      [ [ "light_plus_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_disposable_cell", 15 ] ],
+      [ [ "light_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_battery_cell", 15 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
   },
@@ -196,7 +196,7 @@
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
       [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
-      [ [ "medium_battery_cell", 2 ], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
+      [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
   },
@@ -262,7 +262,7 @@
       [ [ "microscope", 1 ] ],
       [ [ "silver_small", 20 ] ],
       [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
-      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ], [ "heavy_disposable_cell", 4 ] ],
+      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ] ],
       [ [ "rope_30", 1 ] ]
     ]
   },

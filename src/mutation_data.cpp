@@ -20,6 +20,7 @@
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -440,6 +441,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
         std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+
+    optional( jo, was_loaded, "comfort", comfort );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( s );

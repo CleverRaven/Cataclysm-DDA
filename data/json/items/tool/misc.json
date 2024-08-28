@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "red",
@@ -24,8 +23,7 @@
       "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
       "//": "Use of %s not currently supported."
-    },
-    "melee_damage": { "bash": 3 }
+    }
   },
   {
     "id": "alarmclock",
@@ -36,7 +34,7 @@
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "aluminum", "glass" ],
     "symbol": ",",
     "color": "yellow",
@@ -133,13 +131,13 @@
     "longest_side": "20 cm",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
-    "material": [ { "type": "steel", "portion": 95 }, { "type": "rubber", "portion": 5 } ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ { "type": "steel", "portion": 19 }, { "type": "rubber", "portion": 1 } ],
     "symbol": ";",
     "color": "brown",
     "use_action": [ "BELL" ],
-    "//": "Based on: https://www.amazon.com/Cheering-Football-Baseball-Basketball-Graduations/dp/B0B1DJL6XR/ref=sr_1_5?crid=3V6UY5QOC4BPD&keywords=cowbell&qid=1680867018&sprefix=cowbell%2Caps%2C280&sr=8-5&th=1",
-    "melee_damage": { "bash": 9 }
+    "//": "Based on: https://www.amazon.com/dp/B0B1DJL6XR",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "crystal_urn",
@@ -206,7 +204,6 @@
     "volume": "3 L",
     "price": "40 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": ";",
     "color": "brown",
@@ -269,7 +266,7 @@
     "techniques": [ "DEF_DISARM", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "volume": "750 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ],
@@ -288,9 +285,7 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "113 g",
     "volume": "500 ml",
-    "to_hit": -1,
-    "qualities": [ [ "PRESSURIZATION", 1 ] ],
-    "melee_damage": { "bash": 4 }
+    "qualities": [ [ "PRESSURIZATION", 1 ] ]
   },
   {
     "id": "leather_bellow",
@@ -302,7 +297,6 @@
     "price": "0 cent",
     "price_postapoc": "1 USD",
     "qualities": [ [ "WINNOW", 1 ] ],
-    "to_hit": 1,
     "material": [ "leather", "wood" ],
     "symbol": ";",
     "color": "brown"
@@ -317,7 +311,6 @@
     "volume": "500 ml",
     "price": "4 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
@@ -330,8 +323,7 @@
       "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
       "//": "Use of %s not currently supported."
-    },
-    "melee_damage": { "bash": 1 }
+    }
   },
   {
     "id": "horn_big",
@@ -343,11 +335,9 @@
     "volume": "1500 ml",
     "price": "120 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "light_gray",
-    "melee_damage": { "bash": 3 }
+    "color": "light_gray"
   },
   {
     "id": "horn_car",
@@ -359,22 +349,20 @@
     "volume": "500 ml",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "light_gray",
-    "melee_damage": { "bash": 2 }
+    "color": "light_gray"
   },
   {
     "id": "large_space_heater",
     "type": "TOOL",
     "name": { "str": "large space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius, and fills a larger volume of air than the smaller version.",
-    "weight": "12000 g",
+    "weight": "12 kg",
     "volume": "7500 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
@@ -432,7 +420,6 @@
     "volume": "592 ml",
     "price": "40 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "i",
     "looks_like": "advanced_ecig",
@@ -440,8 +427,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": [ "WATER_PURIFIER" ],
-    "melee_damage": { "bash": 1 }
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "type": "TOOL",
@@ -486,7 +472,6 @@
     "volume": "25 ml",
     "price": "250 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "gold", "glass" ],
     "symbol": ",",
     "color": "light_gray",
@@ -525,7 +510,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
@@ -554,6 +538,7 @@
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 10 }
   },
   {
@@ -565,22 +550,20 @@
     "volume": "4 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "paper" ],
     "symbol": ";",
-    "color": "white",
-    "melee_damage": { "bash": 1 }
+    "color": "white"
   },
   {
     "id": "small_space_heater",
     "type": "TOOL",
     "name": { "str": "small space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees Celsius.",
-    "weight": "6000 g",
+    "weight": "6 kg",
     "volume": "3750 ml",
     "price": "50 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
@@ -657,7 +640,7 @@
     "longest_side": "150 cm",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
@@ -691,7 +674,6 @@
     "volume": "250 ml",
     "price": "6 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "glass", "plastic" ],
     "symbol": "o",
     "color": "green",
@@ -811,7 +793,7 @@
     "longest_side": "101 cm",
     "price": "120 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "ascii_picture": "umbrella",
@@ -912,7 +894,7 @@
     "volume": "1500 ml",
     "price": "24 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "umbrella",
     "symbol": "/",
@@ -973,7 +955,6 @@
     "volume": "25 ml",
     "price": "2 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -1004,7 +985,7 @@
     "longest_side": "150 cm",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "H",
     "color": "light_gray",
@@ -1020,7 +1001,7 @@
     "volume": "500 ml",
     "price": "12 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1038,7 +1019,7 @@
     "volume": "3850 ml",
     "price": "15 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "P",
     "color": "blue",
@@ -1098,7 +1079,7 @@
       "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 12 },
     "weapon_category": [ "SHIVS" ]
   }

@@ -14,6 +14,7 @@
 #include "math_parser_diag_value.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"

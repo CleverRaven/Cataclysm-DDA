@@ -4,20 +4,9 @@
     "id": "ig_vp_frame",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ig_vp_prison_bench",
-    "subtype": "collection",
-    "entries": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "chain", "count": [ 1, 4 ] }
     ]
   },
   {
@@ -25,8 +14,8 @@
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -47,8 +36,8 @@
     "id": "ig_vp_sheet_metal",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 3, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "sheet_metal_small", "count": [ 2, 8 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
       { "item": "scrap", "count": [ 8, 10 ] }
     ]
   },
@@ -57,8 +46,8 @@
     "id": "ig_vp_steel_plate",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 5, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -336,7 +325,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
     "breaks_into": [
@@ -457,7 +446,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_sheet_metal",
@@ -487,7 +476,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_steel_plate",
@@ -772,7 +761,7 @@
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
     "breaks_into": "ig_vp_frame",
@@ -805,7 +794,7 @@
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "SIMPLE_PART", "HALF_BOARD" ],
     "breaks_into": "ig_vp_frame",
@@ -1106,7 +1095,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "FLOATS" ],
     "breaks_into": "ig_vp_sheet_metal",
@@ -2030,7 +2019,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "ARMOR" ],
     "breaks_into": "ig_vp_steel_plate",
