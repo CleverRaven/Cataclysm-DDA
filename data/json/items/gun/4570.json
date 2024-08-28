@@ -99,7 +99,7 @@
     "variants": [
       {
         "id": "sharps",
-        "name": { "str": "1874 Sharps" },
+        "name": { "str": "1874 Sharps", "str_pl": "1874 Sharpses" },
         "description": "The Sharps rifle series are antique, falling block rifles that saw service far back as the American Civil War.  The 1874 Sharps is one of the first rifles to utilize metallic cartridges, a revolutionary technology back in those days.  While they were chambered in 45-70, modern day smokeless loads would blow up older versions.  Thankfully, this reproduction from Uberti can handle modern day 45-70 loads."
       }
     ],
