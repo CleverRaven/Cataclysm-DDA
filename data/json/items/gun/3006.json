@@ -53,7 +53,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "semi-automatic battle rifle" },
+    "name": { "str": "Garand battle rifle" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "variant_type": "gun",
     "variants": [
