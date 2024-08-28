@@ -107,11 +107,7 @@
   {
     "id": "glock_19_mags",
     "type": "item_group",
-    "items": [
-      { "item": "glockmag", "prob": 50 },
-      { "item": "glock17_17", "prob": 400 },
-      { "item": "glock17_22", "prob": 70 }
-    ]
+    "items": [ { "item": "glockmag", "prob": 50 }, { "item": "glock17_17", "prob": 400 }, { "item": "glock17_22", "prob": 70 } ]
   },
   {
     "id": "nested_glock_17_no_ammo",
@@ -122,9 +118,6 @@
   {
     "id": "glock_17_mags",
     "type": "item_group",
-    "items": [
-      { "item": "glock17_17", "prob": 400 },
-      { "item": "glock17_22", "prob": 70 }
-    ]
+    "items": [ { "item": "glock17_17", "prob": 400 }, { "item": "glock17_22", "prob": 70 } ]
   }
 ]
