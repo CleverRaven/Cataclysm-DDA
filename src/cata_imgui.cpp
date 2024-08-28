@@ -9,6 +9,7 @@
 #undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
+#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -271,8 +272,7 @@ void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
         }
         auto it = std::find_if( io_typefaces.begin(),
         io_typefaces.end(), []( const std::string & io_typeface ) {
-            std::filesystem::path path( io_typeface );
-            return std::filesystem::exists( path );
+            return file_exist( io_typeface );
         } );
         std::string existing_typeface = *it;
         io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
@@ -537,8 +537,7 @@ cataimgui::window::window( int window_flags )
 
     this->window_flags = window_flags | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
                          ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus |
-                         ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar |
-                         ImGuiWindowFlags_NoScrollWithMouse;
+                         ImGuiWindowFlags_NoBringToFrontOnFocus;
 }
 
 cataimgui::window::window( const std::string &id_, int window_flags ) : window( window_flags )
