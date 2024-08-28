@@ -30,7 +30,7 @@
         "111111111111111111111111",
         "111111111111111111111111"
       ],
-      "place_fields": [ 
+      "place_fields": [
         { "field": "fd_meadow_portal", "x": 11, "y": 11, "intensity": 1 },
         { "field": "fd_meadow_portal", "x": 11, "y": 12, "intensity": 1 },
         { "field": "fd_meadow_portal", "x": 12, "y": 11, "intensity": 1 },
@@ -263,7 +263,7 @@
           [ "t_null", 500 ],
           [ "t_alien_meadow_shrub_1", 10 ],
           [ "t_alien_meadow_shrub_2", 10 ],
-          [ "t_alien_meadow_shrub_3", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ]
         ],
         "~": "t_alien_meadow_pond_goo"
       }

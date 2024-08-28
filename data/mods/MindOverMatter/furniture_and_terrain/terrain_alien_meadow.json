@@ -269,6 +269,6 @@
     "symbol": "~",
     "color": "dark_gray",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ]
   }
 ]

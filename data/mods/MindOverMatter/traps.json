@@ -33,17 +33,17 @@
     "type": "effect_on_condition",
     "id": "EOC_ALIEN_TRAP_TREE_FIND_TREE",
     "effect": [
-      { 
+      {
         "u_location_variable": { "context_val": "local_alien_tree" },
         "target_max_radius": 12,
         "terrain": "t_alien_meadow_tree_trap",
-        "true_eocs": [ 
+        "true_eocs": [
           {
             "id": "EOC_ALIEN_TRAP_TREE_FIND_TREE_2",
             "effect": [
               {
                 "u_spawn_monster": "GROUP_ALIEN_TRAP_TREE",
-                "target_var":  { "context_val": "local_alien_tree" },
+                "target_var": { "context_val": "local_alien_tree" },
                 "real_count": [ 2, 5 ],
                 "outdoor_only": true,
                 "group": true,
