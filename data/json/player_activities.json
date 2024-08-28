@@ -197,7 +197,7 @@
   {
     "id": "ACT_MULTIPLE_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
@@ -389,7 +389,7 @@
   {
     "id": "ACT_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "rooted": true,
     "based_on": "speed",

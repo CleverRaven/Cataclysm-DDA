@@ -557,10 +557,9 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "group": "feral_handgun", "prob": 30, "charges": 0, "damage": [ 1, 4 ] },
+      { "group": "guns_pistol_common", "prob": 30, "charges": [ 1, 30 ], "damage": [ 0, 2 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
-      { "group": "fired_mags_9mm", "charges": 0, "prob": 80 },
       { "group": "book_survival", "prob": 40 },
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 55, "damage": [ 1, 4 ] },
@@ -647,24 +646,8 @@
     "subtype": "distribution",
     "magazine": 100,
     "ammo": 10,
-    "id": "feral_handgun",
-    "items": [ [ "glock_19", 350 ], [ "uzi", 350 ], [ "glock_17", 350 ] ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "magazine": 100,
-    "ammo": 10,
     "id": "feral_autogun",
     "items": [ { "group": "modular_m4a1", "prob": 500 }, { "group": "modular_ar15", "prob": 500 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "magazine": 30,
-    "ammo": 15,
-    "id": "fired_mags_9mm",
-    "items": [ [ "glockmag", 350 ], [ "glock17_17", 350 ], [ "uzimag", 350 ] ]
   },
   {
     "type": "item_group",

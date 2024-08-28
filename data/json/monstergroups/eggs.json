@@ -216,6 +216,21 @@
     "monsters": [ { "monster": "mon_fly_larva" } ]
   },
   {
+    "name": "GROUP_EGG_MOTH_FLY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_moth_fly_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_SILVERFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_silverfish_nymph" } ]
+  },
+  {
+    "name": "GROUP_EGG_CENTIPEDE_HOUSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_centipede_house_larva" } ]
+  },
+  {
     "name": "GROUP_EGG_MOSQUITO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_mosquito_larva" } ]
