@@ -339,5 +339,15 @@
       { "monster": "mon_mi_go_stalking_warper", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+    "monsters": [
+      { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },
+      { "monster": "mon_hedge_armed_warrior_spear", "weight": 400 },
+      { "monster": "mon_hedge_armored_warrior_axe", "weight": 200 },
+      { "monster": "mon_hedge_armored_warrior_mace", "weight": 200 }
+    ]
   }
 ]
