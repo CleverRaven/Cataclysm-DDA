@@ -109,6 +109,17 @@
   },
   {
     "type": "mutation",
+    "id": "CANNOT_GAIN_PSIONICS",
+    "name": { "str": "Headblind" },
+    "points": -2,
+    "description": "You've seen people do some crazy things after the Cataclysm, but you've never managed to figure out how they do it.  You can never learn psionic powers.",
+    "valid": false,
+    "player_display": true,
+    "starting_trait": true,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "FIFTH_SUN_PEOPLE",
     "name": { "str": "Fifth Sun People" },
     "points": 0,
