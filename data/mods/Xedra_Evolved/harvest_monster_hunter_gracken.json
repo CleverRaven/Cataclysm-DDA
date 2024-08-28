@@ -12,7 +12,7 @@
       { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "entries": [ { "item": "grappler_sinew", "mass_ratio": 0.00035 } ] },
+      { "entries": [ { "item": "grappler_sinew", "mass_ratio": 0.00035 } ] }
     ]
   }
 ]
