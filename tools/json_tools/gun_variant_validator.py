@@ -102,9 +102,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "1895sbl",
-    "bfr",
-    "sharps",
     "fn_p90",
     "hk_mp7",
     "obrez",
