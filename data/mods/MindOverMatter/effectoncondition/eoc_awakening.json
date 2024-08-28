@@ -11,7 +11,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "BIOKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -72,7 +72,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "CLAIRSENTIENT" },
+    "condition": { "or": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -133,7 +133,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTRO_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "ELECTROKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "ELECTROKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -194,7 +194,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "PHOTOKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -257,7 +257,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "PYROKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "PYROKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -319,7 +319,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "TELEKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -380,7 +380,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "TELEPATH" },
+    "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -441,7 +441,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "TELEPORTER" },
+    "condition": { "or": [ { "u_has_trait": "TELEPORTER" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -504,7 +504,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "VITAKINETIC" },
+    "condition": { "or": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_trait": "CANNOT_GAIN_PSIONICS" } ] },
     "effect": [
       {
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
@@ -577,6 +577,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CORUSCATING_MATRIX",
+    "condition": { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } },
     "effect": [
       {
         "weighted_list_eocs": [
@@ -593,6 +594,15 @@
       },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains.",
+        "popup": true
+      },
+      { "u_add_effect": "psionic_overload", "duration": "1 hours" },
+      { "u_add_effect": "stunned", "duration": 10 },
+      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -605,7 +615,8 @@
         "u_is_outside",
         { "is_weather": "distant_portal_storm" },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "not": { "u_has_effect": "sleep" } }
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "distant_portal_storm" } },
@@ -637,7 +648,8 @@
         "u_is_outside",
         { "is_weather": "portal_storm" },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "not": { "u_has_effect": "sleep" } }
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -669,7 +681,8 @@
         "u_is_outside",
         { "is_weather": "close_portal_storm" },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "not": { "u_has_effect": "sleep" } }
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "close_portal_storm" } },
