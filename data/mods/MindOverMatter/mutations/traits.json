@@ -116,7 +116,19 @@
     "valid": false,
     "player_display": true,
     "starting_trait": true,
-    "purifiable": false
+    "purifiable": false,
+    "cancels": [ 
+      "BIOKINETIC", 
+      "CLAIRSENTIENT", 
+      "ELECTROKINETIC", 
+      "PHOTOKINETIC", 
+      "PYROKINETIC", 
+      "TELEPATH", 
+      "TELEKINETIC", 
+      "TELEPORTER", 
+      "VITAKINETIC",
+      "ALWAYS_GAIN_PSIONICS"
+    ]
   },
   {
     "type": "mutation",
@@ -127,7 +139,19 @@
     "valid": false,
     "player_display": true,
     "starting_trait": true,
-    "purifiable": false
+    "purifiable": false,
+    "cancels": [ 
+      "BIOKINETIC", 
+      "CLAIRSENTIENT", 
+      "ELECTROKINETIC", 
+      "PHOTOKINETIC", 
+      "PYROKINETIC", 
+      "TELEPATH", 
+      "TELEKINETIC", 
+      "TELEPORTER", 
+      "VITAKINETIC",
+      "CANNOT_GAIN_PSIONICS"
+    ]
   },
   {
     "type": "mutation",
@@ -138,7 +162,8 @@
     "valid": false,
     "player_display": false,
     "starting_trait": true,
-    "purifiable": false
+    "purifiable": false,
+    "cancels": [ "CANNOT_GAIN_PSIONICS", "ALWAYS_GAIN_PSIONICS" ]
   },  
   {
     "type": "mutation",
