@@ -70,7 +70,7 @@
       },
       {
         "text": "Has anyone come recently?",
-        "condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "global_safe_space_lighthouse_fixed" } ] },
         "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
@@ -235,8 +235,8 @@
           "and": [
             { "u_has_mission": "MISSION_lighthouse_man_3" },
             { "not": "mission_complete" },
-            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
-            { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] },
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_girl" } ] }
           ]
         },
         "effect": [ "mission_success", { "npc_first_topic": "TALK_lighthouse_man_1" } ]
@@ -247,15 +247,15 @@
         "condition": {
           "and": [
             "mission_complete",
-            { "not": { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" } },
-            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] } },
+            { "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ] }
           ]
         }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your wife alive…",
         "topic": "TALK_lighthouse_man_fail",
-        "condition": { "and": [ "mission_complete", { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" } ] }
+        "condition": { "and": [ "mission_complete", { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_girl" } ] } ] }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your daughter alive…",
@@ -263,8 +263,8 @@
         "condition": {
           "and": [
             { "not": "mission_complete" },
-            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
-            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] },
+            { "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ] }
           ]
         }
       },
@@ -454,7 +454,7 @@
     "name": { "str": "Fixing lighthouse" },
     "description": "Mikhail asked you to find someone, who have enough expertise to fix the mechanism of lighthouse.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "ready" },
+    "goal_condition": { "compare_string": [ "ready", { "u_val": "global_safe_space_lighthouse_fixed" } ] },
     "difficulty": 0,
     "value": 100000,
     "end": {

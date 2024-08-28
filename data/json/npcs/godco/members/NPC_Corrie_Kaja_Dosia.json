@@ -42,8 +42,8 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetA"
@@ -54,8 +54,8 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetB"
@@ -66,7 +66,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetC"
@@ -141,8 +141,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardIcon",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "icon" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "icon", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },
@@ -151,8 +151,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardRation",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "ration" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "ration", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },

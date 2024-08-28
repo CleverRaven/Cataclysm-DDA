@@ -43,8 +43,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ],
@@ -62,7 +61,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -72,7 +71,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -83,7 +82,7 @@
           "and": [
             { "not": { "npc_has_effect": "failed_persuade" } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
-            { "u_has_var": "general_mission_convince_kostas", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_mission_convince_kostas" } ] }
           ]
         },
         "topic": "TALK_GODCO_Kostas_Jeremiah"
@@ -92,7 +91,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
@@ -103,17 +102,17 @@
       { "text": "Hey Kostas, find something interesting lately?", "topic": "TALK_GODCO_Kostas_Interval" },
       {
         "text": "Hey, Kostas.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What the hell are you talking about?",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_GODCO_Kostas_You_Mutant"
       },
       {
         "text": "Alright then.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_DONE"
       }
     ]

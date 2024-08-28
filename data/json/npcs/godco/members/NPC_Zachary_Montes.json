@@ -50,8 +50,7 @@
       "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
       "yes": "I ain't leaving, <name_g>.  Not until you or someone else has checked out that nightmare for me.",
       "no": {
-        "u_has_var": "mission_meeting_zachary_willing_to_follow",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ],
         "yes": "Thanks, <name_g>.  I sure owe you one.",
         "no": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried."
       }
@@ -62,7 +61,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" } },
-            { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Zachary_Nightmare"
@@ -151,8 +150,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Zachary_Follow",
     "dynamic_line": {
-      "u_has_var": "mission_meeting_zachary_willing_to_follow",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ],
       "yes": {
         "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
         "relevant_genders": [ "u" ]
@@ -162,12 +160,12 @@
     "responses": [
       {
         "text": "That's understandable.",
-        "condition": { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] } },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       {
         "text": "Let's hit the road.",
-        "condition": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] },
         "effect": "follow",
         "topic": "TALK_DONE"
       }

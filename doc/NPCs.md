@@ -64,7 +64,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
+      "condition": { "compare_string": [ "yes", { "u_val": "general_examples_VIP" } ] }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
@@ -1134,7 +1134,7 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
+  "condition": { "not": { "compare_string": [ "yes", { "u_val": "sentinel_old_guard_rep_asked_about_vault" } ] } },
   "effect": [
     { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
@@ -1143,7 +1143,7 @@ Condition | Type | Description
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
+  "condition": { "compare_string": [ "yes", { "u_val": "trigger_learning_experience_even_more_zombies" } ] },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },

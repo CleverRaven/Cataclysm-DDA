@@ -36,11 +36,14 @@
     "shopkeeper_consumption_rates": "test_shop_rates",
     "shopkeeper_item_group": [
       { "group": "test_event_item_spawn" },
-      { "group": "test_tools_group", "condition": { "u_has_var": "bool_test_tools_access", "value": "yes" } },
+      {
+        "group": "test_tools_group",
+        "condition": { "compare_string": [ "yes", { "u_val": "bool_test_tools_access" } ] }
+      },
       {
         "group": "test_multitool_group",
         "strict": true,
-        "condition": { "u_has_var": "bool_test_multitool_access", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "bool_test_multitool_access" } ] }
       }
     ],
     "shopkeeper_blacklist": "test_blacklist",

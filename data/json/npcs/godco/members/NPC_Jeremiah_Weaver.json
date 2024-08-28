@@ -20,8 +20,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_1",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_godco_jeremiah",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ],
       "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
       "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
     },
@@ -31,7 +30,7 @@
         "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] } },
             { "not": { "u_has_effect": "godco_joinee" } }
           ]
         },
@@ -42,7 +41,7 @@
         "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] } },
             { "u_has_effect": "godco_joinee" }
           ]
         },
@@ -51,7 +50,7 @@
       {
         "text": "Hey, Jerry.  What's up?",
         "topic": "TALK_GODCO_Jeremiah_2",
-        "condition": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] }
       },
       { "text": "Hey, kid.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -73,7 +72,7 @@
       { "text": "I noticed you're holding a D&D handbook.  Do you play much?", "topic": "TALK_GODCO_Jeremiah_Dnd" },
       {
         "text": "I've convinced Kostas to take you on.",
-        "condition": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_mission_kostas_teach_jeremiah" } ] },
         "topic": "TALK_GODCO_Jeremiah_Kostas_Convinced"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -130,8 +129,8 @@
         "text": "When do you plan on starting that apprenticeship?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_mission_convince_kostas", "value": "yes" } },
-            { "not": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_convince_kostas" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_kostas_teach_jeremiah" } ] } },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_mission_jeremiah_apprentice" } ] } }
           ]
         },

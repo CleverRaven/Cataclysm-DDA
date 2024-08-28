@@ -1962,12 +1962,12 @@ Set effects to be executed when conditions are met and when conditions are not m
 Displays a different message the first time it is run and the second time onwards
 ```json
 {
-  "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
+  "if": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] },
   "then": { "u_message": "You have variable." },
   "else": [
     { "u_message": "You don't have variable." },
     {
-      "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
+      "if": { "not": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] } },
       "then": [
         { "u_add_var": "eoc_sample_if_else_test", "value": "yes" },
         { "u_message": "Vriable added." }

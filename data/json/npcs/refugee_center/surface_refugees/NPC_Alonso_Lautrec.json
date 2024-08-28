@@ -106,12 +106,12 @@
       {
         "text": "Why aren't you wearing any pants?",
         "topic": "TALK_REFUGEE_Alonso_Pants1",
-        "condition": { "not": { "u_has_var": "mission_flag_Alonso_pants", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Alonso_pants" } ] } }
       },
       {
         "text": "About those special pants a sexy clown hid in a shop for mysterious reasons…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "u_has_var": "mission_flag_Alonso_pants", "value": "in_progress" }
+        "condition": { "compare_string": [ "in_progress", { "u_val": "mission_flag_Alonso_pants" } ] }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" },
