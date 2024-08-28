@@ -176,7 +176,7 @@
       },
       {
         "id": "aksemi_zpap",
-        "name": { "str": "Zastava ZPAPM70" },
+        "name": { "str": "Zastava ZPAP M70" },
         "description": "This one is a ZPAP M70, imported by Zastava.",
         "weight": 5,
         "append": true
