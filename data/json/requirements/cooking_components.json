@@ -175,7 +175,10 @@
         [ "egg_moth", 4 ],
         [ "egg_cicada", 4 ],
         [ "egg_fly", 4 ],
-        [ "egg_mosquito", 4 ]
+        [ "egg_mosquito", 4 ],
+        [ "egg_moth_fly", 4 ],
+        [ "egg_silverfish", 4 ],
+        [ "egg_centipede_house", 4 ]
       ]
     ]
   },

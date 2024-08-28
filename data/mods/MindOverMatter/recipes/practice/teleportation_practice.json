@@ -875,7 +875,6 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_gateway')", "=", "1" ] },
-              { "math": [ "u_spell_level('teleport_area_attune')", "=", "1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
               { "u_lose_effect": "effect_psi_learning_new_power" }
             ],

@@ -1,5 +1,20 @@
 [
   {
+    "abstract": "magic_square_base",
+    "name": "Magic Square abstract",
+    "description": "SATOR AREPO TENET OPERA ROTAS.",
+    "type": "TOOL",
+    "weight": "3 g",
+    "color": "white",
+    "symbol": "`",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "TINDER", "PAPER_SHAPED", "SINGLE_USE" ],
+    "volume": "6 ml",
+    "longest_side": "297 mm"
+  },
+  {
     "id": "aura_ward_off_rain",
     "type": "ARMOR",
     "name": "Rain Ward",
@@ -261,6 +276,147 @@
       "type": "effect_on_conditions",
       "description": "Activate to remove the mantle and end the magic.",
       "effect_on_conditions": [ "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM" ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_walk_on_water_magic_square",
+    "copy-from": "magic_square_base",
+    "name": { "str": "magic square (To Walk Upon the Water)", "str_pl": "magic squares (To Walk Upon the Water)" },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_WALK_ON_WATER_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_add_effect": "effect_hedge_walk_on_water_magic_square", "duration": 1800, "intensity": 30 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_breathe_water_magic_square",
+    "copy-from": "magic_square_base",
+    "name": { "str": "magic square (To Operate Under the Water)", "str_pl": "magic squares (To Operate Under the Water)" },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_BREATHE_WATER_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_add_effect": "effect_hedge_breathe_water_magic_square", "duration": 7200, "intensity": 120 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_bash_terrain_magic_square",
+    "copy-from": "magic_square_base",
+    "name": {
+      "str": "magic square (To Demolish Buildings and Strongholds)",
+      "str_pl": "magic squares (To Demolish Buildings and Strongholds)"
+    },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_BASH_TERRAIN_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_cast_spell": { "id": "hedge_bash_terrain_magic_square_real" }, "targeted": true }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_armed_men_magic_square",
+    "copy-from": "magic_square_base",
+    "name": { "str": "magic square (To Cause Armed Men to Appear)", "str_pl": "magic squares (To Cause Armed Men to Appear)" },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_ARMED_MEN_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            {
+              "u_spawn_monster": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+              "real_count": { "math": [ "2 + rand(3)" ] },
+              "group": true,
+              "min_radius": 1,
+              "max_radius": 3,
+              "lifespan": [ "15 minutes", "45 minutes" ],
+              "spawn_message": "An armed warrior appears.",
+              "spawn_message_plural": "Several armed warriors appear."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_food_or_drink_magic_square",
+    "copy-from": "magic_square_base",
+    "name": {
+      "str": "magic square (To Cause the Spirits to Bring us Anything We May Wish to Eat or to Drink)",
+      "str_pl": "magic squares (To Cause the Spirits to Bring us Anything We May Wish to Eat or to Drink)"
+    },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_FOOR_OR_DRINK_MAGIC_SQUARE",
+          "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 }, { "run_eocs": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "item_invisibility_magic_square",
+    "copy-from": "magic_square_base",
+    "name": {
+      "str": "magic square (To Render Oneself Invisible Unto Every Person)",
+      "str_pl": "magic squares (To Render Oneself Invisible Unto Every Person)"
+    },
+    "description": "A piece of paper.  A magic square is carefully written on it.",
+    "extend": { "flags": [ "HEDGE_ENCHANTED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the charm using the magic square.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_INVISIBILITY_MAGIC_SQUARE",
+          "effect": [
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+            { "u_add_effect": "effect_invisibility_magic_square", "duration": 4620, "intensity": 77 }
+          ]
+        }
+      ]
     }
   }
 ]
