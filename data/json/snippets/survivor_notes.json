@@ -896,7 +896,10 @@
         "text": "\"I found a journal.  It describes rituals.  Dark, horrifying rituals.  I think they worked.\""
       },
       { "id": "note_331", "text": "\"The birds are watching us.  They're not birds anymore.\"" },
-      { "id": "note_332", "text": "\"Heard someone singing today.  Followed the sound, but there was no one there.\"" },
+      {
+        "id": "note_332",
+        "text": "\"Heard someone singing today.  Followed the sound, but there was no one there.\""
+      },
       { "id": "note_333", "text": "\"I saw a man turn inside out.  His screams still echo in my ears.\"" },
       { "id": "note_335", "text": "\"I found a hand nailed to a tree.  It was pointing west.\"" },
       { "id": "note_336", "text": "\"The rain burns.  It's like acid. My skin is covered in blisters.\"" },
