@@ -617,10 +617,16 @@ class spell
         // heals the critter at the location, returns amount healed (Character heals each body part)
         int heal( const tripoint &target, Creature &caster ) const;
 
+        // casts the spell effect from an item.  less functionality compared to creature casting.
+        void cast_spell_effect( const tripoint &target ) const;
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
+        void cast_all_effects( const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
