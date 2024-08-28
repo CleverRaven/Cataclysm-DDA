@@ -1,6 +1,55 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "BIOKINETIC",
+                  "CLAIRSENTIENT",
+                  "ELECTROKINETIC",
+                  "PHOTOKINETIC",
+                  "PYROKINETIC",
+                  "TELEKINETIC",
+                  "TELEPATH",
+                  "TELEPORTER",
+                  "VITAKINETIC"
+                ]
+              }
+            },
+            { "not": { "u_has_trait": "ALWAYS_GAIN_PSIONICS" } }
+          ]
+        },
+        {
+          "and": [
+            {
+              "u_has_any_trait": [
+                "BIOKINETIC",
+                "CLAIRSENTIENT",
+                "ELECTROKINETIC",
+                "PHOTOKINETIC",
+                "PYROKINETIC",
+                "TELEKINETIC",
+                "TELEPATH",
+                "TELEPORTER",
+                "VITAKINETIC"
+              ]
+            },
+            { "u_has_trait": "LIMITED_PSIONICS" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_awakening_countup", "+=", "rand(8) + 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMESTART_BIOKIN",
     "eoc_type": "EVENT",
     "required_event": "game_start",
