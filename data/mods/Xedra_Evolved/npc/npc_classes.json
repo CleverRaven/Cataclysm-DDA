@@ -230,20 +230,8 @@
     "attitude": 0,
     "mission": 0,
     "common_spawn_weight": 0.01,
-    "chat": "TALK_VAMPIRE_HUNTER_HEALER",
-    "faction": "vampire_hunter"
+    "chat": "TALK_VAMPIRE_HUNTER_HEALER"
   },
-
-
-
-
-
-
-
-
-
-
-
 
   {
     "type": "npc_class",
@@ -285,7 +273,7 @@
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "trait_group_tier1_vampire", "prob": 100 },
-      { "group": "trait_group_tier2_vampire", "prob": 90 },
+      { "group": "trait_group_tier2_vampire", "prob": 95 },
       { "group": "trait_group_tier3_vampire", "prob": 80 },
       { "trait": "VAMPIRE_HUNGRY", "prob": 100 }
     ]
