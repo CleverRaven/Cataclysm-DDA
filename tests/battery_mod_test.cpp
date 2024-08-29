@@ -210,7 +210,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 {
     const item bat_cell( "light_battery_cell" );
-    const item flashlight( "flashlight" );
+    const item flashlight( "diving_flashlight_small_hipower" );
 
     SECTION( "battery cell" ) {
         SECTION( "is a magazine" ) {
