@@ -842,6 +842,7 @@
       },
       { "item": "comb_lice", "prob": 10 },
       { "item": "eyedrops", "prob": 15, "count": 10 },
+      { "item": "steroid_eyedrops", "prob": 5, "count": 5 },
       { "item": "pepto", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "prob": 60, "group": "tums_bottle_plastic_small_1_20" },
       { "item": "inhaler", "prob": 25, "charges": [ 10, 100 ] },

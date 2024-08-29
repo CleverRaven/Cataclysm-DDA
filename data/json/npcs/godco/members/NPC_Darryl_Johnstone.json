@@ -22,7 +22,11 @@
         "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "What's your story?", "topic": "TALK_GODCO_Darryl_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Darryl_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things here?", "topic": "TALK_GODCO_Darryl_Mood" },
       { "text": "Nice farm you have here.", "topic": "TALK_GODCO_Darryl_Farm" },
       { "text": "Care to trade?", "topic": "TALK_GODCO_Darryl_Trade" }
@@ -36,23 +40,32 @@
       "value": "yes",
       "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_darryl",
-        "value": "yes",
-        "yes": [
-          "Praise the Lord.",
-          "Welcome back.",
-          { "gendered_line": "Nice to see you again, survivor.", "relevant_genders": [ "u" ] }
-        ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Shove off, we've got no good words for each other.",
         "no": {
-          "gendered_line": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you.",
-          "relevant_genders": [ "u" ]
+          "npc_has_var": "general_meeting_u_met_godco_darryl",
+          "value": "yes",
+          "yes": [
+            "Praise the Lord.",
+            "Welcome back.",
+            { "gendered_line": "Nice to see you again, survivor.", "relevant_genders": [ "u" ] }
+          ],
+          "no": {
+            "gendered_line": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you.",
+            "relevant_genders": [ "u" ]
+          }
         }
       }
     },
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" }
+          ]
+        },
         "topic": "TALK_MISSION_LIST"
       },
       {
@@ -70,6 +83,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -77,9 +91,21 @@
         "topic": "TALK_GODCO_Darryl_2"
       },
       {
+        "text": "Hey Darryl.  Got a minute?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Darryl_Angry"
+      },
+      {
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -87,9 +113,21 @@
         "topic": "TALK_GODCO_Darryl_Trade"
       },
       {
+        "text": "Hey Darryl.  Care to trade?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Darryl_Angry"
+      },
+      {
         "text": "How are the chickens?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "math": [ "darryl_building_coop", "==", "2" ] },
             { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" }
           ]
@@ -98,7 +136,12 @@
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
@@ -108,7 +151,9 @@
       },
       {
         "text": "Fuck you <name_b>, I'm outta here.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -299,5 +344,11 @@
     "id": "TALK_GODCO_Darryl_You_Mutant",
     "dynamic_line": "I've heard of unnatural monsters such as yourself causing chaos after the fall of civilization, and how men have transformed into horrors and gone mad with sin.  This is the judgement of God upon you heathens for your wicked ways, and I want nothing to do with it.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Darryl_Angry",
+    "dynamic_line": "No, I <swear> well don't, not with you at least.  I ain't interested in whatever you've got to say.",
+    "responses": [ { "text": "See you later then.", "topic": "TALK_DONE" } ]
   }
 ]

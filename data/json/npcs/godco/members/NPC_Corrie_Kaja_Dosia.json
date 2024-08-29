@@ -11,7 +11,11 @@
       "TALK_GODCO_Corrie_Mood"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Corrie_Story" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Corrie_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Corrie_Mood" },
       { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Corrie_Community" },
       {
@@ -34,7 +38,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_1",
-    "dynamic_line": "Hey there, <name_g>.  Welcome to the losers club.",
+    "dynamic_line": {
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "&Corrie briefly glances at you and shoots a glare.  \"What do you want?\"",
+      "no": "Hey there, <name_g>.  Welcome to the losers club."
+    },
     "responses": [
       {
         "text": "I'm just passing through.",
@@ -73,8 +81,17 @@
       },
       {
         "text": "Hey Corrie, you free?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_Corrie_2"
+      },
+      {
+        "text": "Hey Corrie, you free?",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } ]
+        },
+        "topic": "TALK_GODCO_Corrie_Angry"
       },
       {
         "text": "Hey Corrie.  I gotta go.",
@@ -255,5 +272,20 @@
       { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
       { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Angry",
+    "dynamic_line": "No, not really.  It's not like I've got any business with you anyways.",
+    "responses": [
+      { "text": "What's the attitude for?", "topic": "TALK_GODCO_Corrie_Angry_Pressed" },
+      { "text": "I'm outta here then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Angry_Pressed",
+    "dynamic_line": "You know <swear> well what I'm upset about <name_b>.  Now go away.",
+    "responses": [ { "text": "See you later <name_b>.", "topic": "TALK_DONE" } ]
   }
 ]

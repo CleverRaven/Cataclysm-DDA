@@ -47,10 +47,14 @@
       "value": "yes",
       "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_russell",
-        "value": "yes",
-        "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],
-        "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Get away from me <name_b>.  I'm not interested in whatever <swear> thing you have to say right now.",
+        "no": {
+          "npc_has_var": "general_meeting_u_met_godco_russell",
+          "value": "yes",
+          "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],
+          "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
+        }
       }
     },
     "responses": [
@@ -69,6 +73,7 @@
         "text": "Hi, Russell.  Got a minute?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_russell", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -77,12 +82,19 @@
       },
       {
         "text": "Hey, Russell.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Chill out man, I'll leave you alone.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+        },
         "topic": "TALK_DONE"
       }
     ]
