@@ -658,6 +658,7 @@
     "name": { "str": "LED strip" },
     "copy-from": "lightstrip_inactive",
     "color": "green",
+    "symbol": ";",
     "power_draw": "5 W",
     "revert_to": "lightstrip_inactive",
     "revert_msg": "The LED strip fades away.",
