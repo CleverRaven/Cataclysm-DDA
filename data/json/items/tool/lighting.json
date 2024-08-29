@@ -610,7 +610,7 @@
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },
-    "description": "A heavy-duty aluminum LED flashlight, often used by security guards.  It even works underwater, and it's not bad for smacking hooligans.",
+    "description": "A heavy-duty aluminum LED flashlight, often used by security guards.  It even works underwater, and it's not bad for smacking hooligans.  It also has a shoulder strap on it's handle, for easier transportation.",
     "//": "https://www.amazon.com/dp/B00Y8AHZYC, todo add low brightness mode",
     "weight": "720 g",
     "volume": "5468 ml",
@@ -622,6 +622,9 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "armor_data": {
+      "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
+    },
     "flags": [ "BELT_CLIP" ],
     "use_action": [
       {
