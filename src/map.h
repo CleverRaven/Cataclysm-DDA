@@ -102,7 +102,7 @@ template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
 
-enum pf_special : int;
+class PathfindingFlags;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -814,17 +814,17 @@ class map
         // Includes climbing, bashing and opening doors.
         int cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                           const pathfinding_settings &settings,
-                          pf_special p_special ) const;
+                          PathfindingFlags p_special ) const;
         // Pathfinding cost helper that computes the cost of moving into |p|
         // from |cur| based on perceived danger.
         // Includes moving through traps.
         int cost_to_avoid( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                            const pathfinding_settings &settings,
-                           pf_special p_special ) const;
+                           PathfindingFlags p_special ) const;
         // Sum of cost_to_pass and cost_to_avoid.
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings,
-                        pf_special p_special ) const;
+                        PathfindingFlags p_special ) const;
     public:
 
         // Vehicles: Common to 2D and 3D
