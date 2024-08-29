@@ -701,7 +701,7 @@ class map
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope,
                    bool with_fields = true ) const;
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range, int &bresenham_slope,
-                   bool with_fields = true ) const;
+                   bool with_fields = true, bool allow_cached = true ) const;
         point sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
     public:
         /**

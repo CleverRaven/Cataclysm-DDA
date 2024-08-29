@@ -235,7 +235,9 @@
           "inventor_lasmod_recuperator",
           "inventor_lasmod_mega_everything",
           "inventor_lasmod_more_capacitors",
-          "inventor_research_ai_1"
+          "inventor_research_ai_1",
+          "inventor_research_dimension_1",
+          "nre_recorder_inventor"
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
@@ -293,6 +295,43 @@
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
       { "math": [ "u_vitamin('creative_spark_research')", "+=", "4" ] },
       { "math": [ "AI_sparks", "+=", "4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_DIMENSION_1",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_3" ] },
+        { "math": [ "dimension_sparks", ">=", "dimension_difficulty_1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
+      { "math": [ "base_difficulty_3", "+=", "5" ] },
+      { "math": [ "dimension_difficulty_1", "+=", "5" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [ "rip_ticket", "inventor_warp_grenade", "inventor_portal_closer", "teleporter_inventor" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_DIMENSION_1",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_dimension_1" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "math": [ "u_vitamin('creative_spark_research')", "+=", "5" ] },
+      { "math": [ "dimension_sparks", "+=", "4" ] }
     ]
   },
   {

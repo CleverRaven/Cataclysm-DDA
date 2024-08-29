@@ -22,7 +22,7 @@ A few of the additional goals for storms are as follows:
 * Themed storms. Currently we have one eldritch themed storm with a mix of everything, having a number of themed storms with different effects and thematic voices would be great.
 
 # Portal Storm Balance
-There are a few seperate concepts dictating portal storms.
+There are a few separate concepts dictating portal storms.
 
 ## Ire
 Being outside in a portal storm should draw the attention of the malicious entities being pulled into our realm by the storm. This is referred to in the code and this document as `ire`.
@@ -38,7 +38,7 @@ With this goal in mind, portal storms are split into two categories of event.
 These events represent goal 1 in the entry above and should reflect creatures that are more disturbing than dangerous, or behave more as obstacles than active threats. They should not be able to **actively** hunt the player. Passive effects happen whether or not the portal storm is aware of the Player. These are the effects of worlds colliding together, no intent, just chaos. 
 
 Passive examples include stuff like:
-* Inexplainable shapes, immoving creatures that if you look on for too long make you go insane.
+* Inexplainable shapes, unmoving creatures that if you look on for too long make you go insane.
 * Memories of the dead, monsters with no senses that when you get near grab you and scream drawing nearby monsters.
 * Giant appendages, similarly creatures with no senses, however these ones are much more dangerous if you do get into melee with them.
 

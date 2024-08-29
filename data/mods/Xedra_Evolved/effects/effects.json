@@ -1695,6 +1695,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_deciphering_hedge_tome",
+    "//": "Hidden effect, used to check that you're still researching.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_nether_eye_paste",
     "name": [ "Blood-and-Ash Paste" ],
     "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
@@ -1778,6 +1785,45 @@
     "name": [ "Animalistic Mind" ],
     "desc": [ "Hunt.  Kill.  Feed.  Sleep." ],
     "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_walk_on_water_magic_square",
+    "name": [ "Water-Walking" ],
+    "desc": [ "NAHARIAMA\nA  Q\nH      E\nA Q\nR\nI\nA      Q\nM     QA\nA" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your water-walking charm has faded.",
+    "decay_messages": [ [ "Your water-walking charm is about to fade.", "bad" ] ],
+    "max_duration": "30 m",
+    "max_intensity": 30,
+    "int_dur_factor": "1 m",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_breathe_water_magic_square",
+    "name": [ "Water-Breathing" ],
+    "desc": [ "BURNAHEU\nULORIPTE\nROMILAPH\nNRITILIA\nAILITIRN\nHPALIMOR\nETPIROLU\nUEHANRUB" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your water-breathing charm has faded.",
+    "decay_messages": [ [ "Your water-breathing charm is about to fade.", "bad" ] ],
+    "max_duration": "2 h",
+    "max_intensity": 120,
+    "int_dur_factor": "1 m",
+    "flags": [ "ITEM_WATERPROOFING", "GILLS", "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_invisibility_magic_square",
+    "name": [ "Invisibility" ],
+    "desc": [ "TALAC\nA   A\nL   L\nA   A\nCALAT" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your invisibility charm has faded.",
+    "decay_messages": [ [ "Your invisibility charm is about to fade.", "bad" ] ],
+    "max_duration": "77 m",
+    "max_intensity": 77,
+    "int_dur_factor": "1 m",
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",

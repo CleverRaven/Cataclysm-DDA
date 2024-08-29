@@ -1,0 +1,137 @@
+[
+  {
+    "//": "Rolls below should be -u_skill('deduction') + rng(-2,8) + rng(-2,8)-.  This is an average of 6 + Deduction per research period.",
+    "id": "ACT_XE_DECIPHERING_HEDGE_TOME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "deciphering the secrets of the occult",
+    "based_on": "time",
+    "can_resume": false,
+    "auto_needs": true,
+    "do_turn_eoc": "EOC_DECIPHERING_NEW_HEDGE_TOME_TIME_TRACKER",
+    "completion_eoc": "EOC_DECIPHERING_NEW_HEDGE_TOME_PACE_SELF"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DECIPHERING_NEW_HEDGE_TOME_TIME_TRACKER",
+    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+    "effect": [ { "math": [ "u_most_recent_hedge_research_time", "+=", "1" ] } ],
+    "false_effect": [ { "run_eocs": { "u_val": "latest_completion_eoc" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DECIPHERING_NEW_HEDGE_TOME_PACE_SELF",
+    "effect": [
+      { "u_message": "You finish your study session.", "type": "neutral" },
+      { "u_lose_effect": "effect_xe_deciphering_hedge_tome" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_CANCELLING_ACTIVITY_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_XE_DECIPHERING_HEDGE_TOME_NEW_POWER", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_xe_deciphering_hedge_tome" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_xe_deciphering_hedge_tome" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+    "condition": { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+    "effect": [
+      { "if": { "math": [ "u_val('focus')", ">", "5" ] }, "then": { "math": [ "u_val('focus')", "-=", "1" ] } },
+      { "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN", "time_in_future": [ "1 minutes", "3 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+    "condition": { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE_2",
+            "condition": { "math": [ "u_most_recent_hedge_research_time_upper_limit", "<=", "302400" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE_3",
+                    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+                    "effect": [
+                      { "math": [ "u_most_recent_hedge_research_progress", "+=", "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] },
+                      {
+                        "u_run_inv_eocs": "random",
+                        "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage" } ],
+                        "true_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES",
+                            "effect": [
+                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              {
+                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "if": { "math": [ "u_val('focus')", ">", "5" ] },
+                        "then": { "math": [ "u_val('focus')", "-=", "5" ] }
+                      },
+                      {
+                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+                        "time_in_future": [
+                          { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                          { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+                        ]
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE_COMPLETION",
+                            "condition": { "math": [ "u_most_recent_hedge_research_progress", ">", "u_most_recent_hedge_research_difficulty" ] },
+                            "effect": [
+                              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+                              {
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "popup": true
+                              },
+                              { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "=", "1" ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You can't make heads of tails of this work.  You'll have to start over.", "popup": true },
+              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage" } ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES_2",
+                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -9,10 +9,22 @@
       "TALK_GODCO_Jeremiah_Dnd"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Jeremiah_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Jeremiah_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "What's your take on the situation here?", "topic": "TALK_GODCO_Jeremiah_Mood" },
-      { "text": "What are your parents like?", "topic": "TALK_GODCO_Jeremiah_Parents" },
-      { "text": "What are your plans after <the_cataclysm>?", "topic": "TALK_GODCO_Jeremiah_Plans" },
+      {
+        "text": "What are your parents like?",
+        "topic": "TALK_GODCO_Jeremiah_Parents",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "What are your plans after <the_cataclysm>?",
+        "topic": "TALK_GODCO_Jeremiah_Plans",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "Were could I find work around here?", "topic": "TALK_GODCO_Jeremiah_Work" }
     ]
   },
@@ -20,10 +32,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_1",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_godco_jeremiah",
-      "value": "yes",
-      "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
-      "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "What are you doing around here <name_b>?  Get lost.",
+      "no": {
+        "u_has_var": "general_meeting_u_met_godco_jeremiah",
+        "value": "yes",
+        "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
+        "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
+      }
     },
     "responses": [
       {
@@ -51,9 +67,22 @@
       {
         "text": "Hey, Jerry.  What's up?",
         "topic": "TALK_GODCO_Jeremiah_2",
-        "condition": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } ]
+        }
       },
-      { "text": "Hey, kid.  I can't stay to talk.", "topic": "TALK_DONE" }
+      {
+        "text": "What's with the attitude?",
+        "topic": "TALK_GODCO_Jeremiah_Angry",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "Hey, kid.  I can't stay to talk.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+      }
     ]
   },
   {
@@ -179,5 +208,11 @@
       { "text": "Is there anything you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Thanks for the info.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Angry",
+    "dynamic_line": "You know <swear> well what I'm upset about.  Now do like I said earlier and get lost.",
+    "responses": [ { "text": "Fine, whatever.", "topic": "TALK_DONE" } ]
   }
 ]

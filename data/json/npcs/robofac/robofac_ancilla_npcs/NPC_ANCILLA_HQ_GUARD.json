@@ -25,7 +25,7 @@
       "no": {
         "u_has_trait": "PROF_HUB01_ANCILLIARY",
         "yes": [
-          "Hey oh umm.  Yes, Sir?",
+          "Hey, oh, umm.  Yes, Sir?",
           { "gendered_line": "&The mercenary looks noticeably tense as you approach.", "relevant_genders": [ "npc" ] },
           "Nothing to report, Sir!",
           "Hey boss."
@@ -34,12 +34,12 @@
           "u_has_faction_trust": 15,
           "yes": [
             "Great to see you back in base.",
-            "Heres hoping I get out of guard duty soon.",
+            "Here's hoping I get out of guard duty soon.",
             "Got anything good?",
             "On an errand from the box?",
             "Up and at them again?",
             "Up for a drink when my shift ends?",
-            "Well I cant complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
+            "Well I can't complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
           ],
           "no": {
             "u_has_var": "dialogue_ancilla_hq_guard_first_meet",

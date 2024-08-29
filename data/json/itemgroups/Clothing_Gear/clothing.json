@@ -406,7 +406,7 @@
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
       { "item": "chestrig", "prob": 40 },
-      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 80 },
       { "item": "nomex_gloves" },
       { "group": "loaded_webbing_belt" },
@@ -430,7 +430,7 @@
     "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "item": "chestrig", "prob": 40 },
-      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 80 },
       { "item": "nomex_gloves" },
       { "group": "loaded_webbing_belt" },

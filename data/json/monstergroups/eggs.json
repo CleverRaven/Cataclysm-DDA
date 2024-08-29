@@ -104,6 +104,26 @@
     "monsters": [ { "monster": "mon_pheasant_chick" } ]
   },
   {
+    "name": "GROUP_EGG_WORMSNAKE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_wormsnake_baby" } ]
+  },
+  {
+    "name": "GROUP_EGG_TURTLE_PAINTED",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle_painted_baby" } ]
+  },
+  {
+    "name": "GROUP_EGG_TURTLE_SNAPPING_COMMON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle_snapping_common_baby" } ]
+  },
+  {
+    "name": "GROUP_EGG_SKINK_FIVELINED",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_skink_fivelined_baby" } ]
+  },
+  {
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_giant_cockroach_nymph" } ]
@@ -194,6 +214,21 @@
     "name": "GROUP_EGG_FLY",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fly_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_MOTH_FLY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_moth_fly_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_SILVERFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_silverfish_nymph" } ]
+  },
+  {
+    "name": "GROUP_EGG_CENTIPEDE_HOUSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_centipede_house_larva" } ]
   },
   {
     "name": "GROUP_EGG_MOSQUITO",
