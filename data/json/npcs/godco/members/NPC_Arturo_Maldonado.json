@@ -10,11 +10,23 @@
       "TALK_GODCO_Arturo_Hallucinations"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Arturo_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Arturo_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Arturo_Mood" },
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Arturo_Community" },
-      { "text": "Want to come with me?", "topic": "TALK_GODCO_Arturo_Recruit" },
-      { "text": "What do you see in your visions?", "topic": "TALK_GODCO_Arturo_Hallucinations" }
+      {
+        "text": "Want to come with me?",
+        "topic": "TALK_GODCO_Arturo_Recruit",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "What do you see in your visions?",
+        "topic": "TALK_GODCO_Arturo_Hallucinations",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      }
     ]
   },
   {
@@ -24,8 +36,31 @@
       "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "I must be seeing things again!  Stay away from me!",
-      "no": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here."
+      "no": {
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "* eyes you menacingly with a scowl on his face.  \"What do you want?\"",
+        "no": {
+          "math": [ "n_npc_value()", ">=", "3" ],
+          "yes": "Hi, <name_g>.  It's good to see you again.",
+          "no": {
+            "npc_has_effect": "Arturo_visions_timer",
+            "yes": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here.",
+            "no": {
+              "npc_has_var": "general_meeting_u_met_godco_arturo",
+              "value": "yes",
+              "yes": "Hi, <name_g>.  What's up?",
+              "no": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here."
+            }
+          }
+        }
+      }
     },
+    "speaker_effect": [
+      {
+        "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 4 } }, { "not": { "npc_has_effect": "Arturo_visions_timer" } } ] },
+        "effect": [ { "npc_add_effect": "Arturo_visions_timer", "duration": "5 hours" } ]
+      }
+    ],
     "responses": [
       {
         "text": "Are you alright?",
@@ -47,6 +82,7 @@
         "text": "Hey Arturo, how are ya?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -54,9 +90,32 @@
         "topic": "TALK_GODCO_Arturo_2"
       },
       {
+        "text": "Hey Arturo, how are ya?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Arturo_Angry"
+      },
+      {
+        "text": "Nothing, I'll see you later.",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
         "text": "Nice talking to you, but I gotta go.",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -81,10 +140,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_2",
     "dynamic_line": "What's hangin'?",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Arturo_2" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -139,5 +195,16 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [ { "text": "Chill out man, I'm leaving.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Arturo_Angry",
+    "dynamic_line": "&\"I'd be a lot better if you'd go away, I'm not up for talking right now.\"  Arturo turns back his activities, ignoring you.",
+    "responses": [ { "text": "Fine then, <name_b>, I'll see you later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "Arturo_visions_timer",
+    "//": "Arturo will occaisionall have episodes, this tracks that."
   }
 ]
