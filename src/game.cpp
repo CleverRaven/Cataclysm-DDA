@@ -12326,13 +12326,17 @@ std::optional<tripoint> game::find_stairs( const map &mp, int z_after, const tri
     int best = INT_MAX;
     std::optional<tripoint> stairs;
     const int omtilesz = SEEX * 2 - 1;
-    real_coords rc( mp.getabs( pos.xy() ) );
-    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
-    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+    const tripoint_abs_ms abs_omt_base( project_to<coords::ms>( project_to<coords::omt>( mp.getglobal(
+                                            pos ) ) ) );
 
-    if( get_map().tr_at( u.pos() ) != tr_ledge ) {
-        for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
-            if( rl_dist( u.pos(), dest ) <= best &&
+    tripoint_bub_ms omtile_align_start( mp.bub_from_abs( tripoint_abs_ms( abs_omt_base.xy(),
+                                        z_after ) ) );
+    tripoint_bub_ms omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+
+    if( get_map().tr_at( u.pos_bub() ) != tr_ledge ) {
+        for( const tripoint_bub_ms &dest : mp.points_in_rectangle( omtile_align_start,
+                omtile_align_end ) ) {
+            if( rl_dist( u.pos_bub(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
                                     mp.ter( dest ) == ter_t_manhole_cover ) ) ||
