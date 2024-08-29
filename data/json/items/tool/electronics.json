@@ -515,7 +515,7 @@
     "volume": "355 ml",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",

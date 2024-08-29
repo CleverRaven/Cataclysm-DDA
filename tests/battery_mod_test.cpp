@@ -93,7 +93,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
     }
 
     GIVEN( "tool compatible with light batteries" ) {
-        item flashlight( "flashlight" );
+        item flashlight( "diving_flashlight_small_hipower" );
         REQUIRE( flashlight.is_reloadable() );
         REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
 
@@ -111,7 +111,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
                 CHECK_FALSE( flashlight.toolmods().empty() );
                 CHECK_FALSE( flashlight.get_contents().magazine_flag_restrictions().empty() );
 
-                CHECK( flashlight.tname() == "flashlight (off)+1" );
+                CHECK( flashlight.tname() == "high-power mini diving flashlight (off)+1" );
             }
 
             THEN( "tool contents remain empty unless you count the mod" ) {

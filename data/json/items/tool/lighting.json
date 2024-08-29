@@ -683,6 +683,7 @@
     "volume": "70 ml",
     "price": "10 USD",
     "price_postapoc": "2 cent",
+    "symbol": ";",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "aluminum", "portion": 9 } ],
     "color": "white",
     "ammo": [ "battery" ],

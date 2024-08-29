@@ -74,7 +74,7 @@
     "type": "item_group",
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
-    "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 200 } ]
   },
   {
     "type": "talk_topic",
