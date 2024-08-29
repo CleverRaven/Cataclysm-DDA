@@ -213,7 +213,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_string": [ "yes", { "npc_val": "dialogue_intercom_u_pay_back_on_specimens" } ],
+      "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ],
       "yes": "Well it might be more interesting than straight gear.  Tell us when it's available for inspection.  We expect you back in 20 days or less.",
       "no": "20 days then for payment."
     },

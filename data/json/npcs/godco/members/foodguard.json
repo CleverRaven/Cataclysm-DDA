@@ -3,7 +3,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": "You better step away from me real quick, sinner.  I don't want your kind here.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ],
@@ -19,7 +20,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_who"
@@ -29,7 +30,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_DONE"
@@ -39,7 +40,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_who"
@@ -49,7 +50,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_idlechat"
@@ -59,14 +60,14 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright then, fuck you <name_b>.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

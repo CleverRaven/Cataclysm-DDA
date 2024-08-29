@@ -46,7 +46,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet"
@@ -57,7 +57,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet2"

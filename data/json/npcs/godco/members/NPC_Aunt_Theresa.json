@@ -27,7 +27,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_1",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ],
@@ -42,7 +43,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_Firstmeet"
@@ -52,24 +53,24 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_2"
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the insults for?",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Theresa_You_Mutant"
       },
       {
         "text": "Fuck you then, I'm leaving.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

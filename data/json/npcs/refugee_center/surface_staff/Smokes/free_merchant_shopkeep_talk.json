@@ -3,7 +3,8 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ],
+      "u_has_var": "general_meeting_u_met_Gavin",
+      "value": "yes",
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
       "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
     },
@@ -11,7 +12,7 @@
       {
         "text": "Who are you?  This is a refugee center, right?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
         "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
@@ -28,23 +29,23 @@
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
         "text": "Let's trade.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
         "effect": "start_trade"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
       }
     ]
   },
@@ -133,14 +134,14 @@
       { "text": "You mentioned you were selling hardware?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware" },
       {
         "text": "What's with these people in the lobby?  Are they with you?",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
+        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars"
       },
       {
         "text": "I took care of your beggar problem.",
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
+            { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
             { "compare_string": [ "yes", { "npc_val": "general_recruit_beggars_reward_agreed" } ] }
           ]
         },
@@ -230,7 +231,7 @@
       {
         "text": "I'll see what I can do.  What's merch?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_merch" } ] } }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_merch", "value": "yes" } }
       },
       { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -273,12 +274,12 @@
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] } }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } }
       },
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] }
+        "condition": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" }
       },
       { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -291,7 +292,7 @@
       {
         "text": "Wait, basement?  I didn't know this place had a basement.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       {
@@ -316,7 +317,7 @@
       {
         "text": "I don't see that many of you around.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }

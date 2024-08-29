@@ -26,7 +26,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
         }
       }
@@ -36,7 +36,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_1",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": {
         "gendered_line": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
         "relevant_genders": [ "u" ]
@@ -54,8 +55,8 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -65,8 +66,8 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -77,8 +78,8 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
-            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -90,18 +91,18 @@
       },
       {
         "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the harsh reception about?",
         "topic": "TALK_GODCO_Gemma_You_Mutant",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
       },
       {
         "text": "Fine then, screw you.",
         "topic": "TALK_DONE",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
       }
     ]
   },

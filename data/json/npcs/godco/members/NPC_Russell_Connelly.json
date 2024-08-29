@@ -43,7 +43,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Russell_1",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ],
@@ -58,7 +59,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Russell_Firstmeet"
@@ -68,19 +69,19 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Russell_2"
       },
       {
         "text": "Hey, Russell.  I can't stay to talk.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Chill out man, I'll leave you alone.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -92,12 +93,12 @@
     "responses": [
       {
         "text": "I'm just a curious traveler.  What's up with you?",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+        "condition": { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
         "topic": "TALK_GODCO_Russell_Story"
       },
       {
         "text": "I'm seeking asylum here.  What's up with you?",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
+        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
         "topic": "TALK_GODCO_Russell_Story"
       },
       { "text": "Actually I'm just heading out.", "topic": "TALK_GODCO_Russell_StoryB" }
@@ -192,7 +193,7 @@
       {
         "text": "I hate to break it to you, but I came here because I don't want to see the world.",
         "topic": "TALK_GODCO_Russell_Joinee",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
+        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'm humbled by your words.  Well, bye.", "topic": "TALK_DONE" }

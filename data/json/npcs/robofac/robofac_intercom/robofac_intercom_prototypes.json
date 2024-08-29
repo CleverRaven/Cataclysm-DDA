@@ -11,7 +11,7 @@
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", "<", "time('1 d')" ] },
             { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_armor_disk" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ONGOING"
@@ -22,7 +22,7 @@
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", ">", "time('1 d')" ] },
             { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_armor_disk" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
@@ -32,7 +32,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_buy_armor" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" }
           ]
         },
         "effect": [
@@ -50,8 +50,8 @@
         "text": "I'd like to request a Hybrid Weapons Platform.",
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST"
@@ -62,7 +62,7 @@
           "and": [
             { "math": [ "has_var(u_timer_hub_rnd_u_waiting_on_gun)" ] },
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", "<", "time('7 d')" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
@@ -72,8 +72,8 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -83,8 +83,8 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -94,8 +94,8 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -105,8 +105,8 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -116,8 +116,8 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -127,9 +127,10 @@
         "effect": { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" },
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_buy_armor" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
@@ -141,14 +142,12 @@
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             {
               "or": [
-                { "compare_string": [ "robofac_armor_pieces_rig", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_basic", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_rubber", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_nomex", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_kevlar", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                {
-                  "compare_string": [ "robofac_armor_pieces_military", { "u_val": "dialogue_hub_rnd_u_armor_type" } ]
-                }
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" }
               ]
             }
           ]
@@ -162,14 +161,12 @@
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "or": [
-                { "compare_string": [ "robofac_armor_pieces_rig", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_basic", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_rubber", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_nomex", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                { "compare_string": [ "robofac_armor_pieces_kevlar", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
-                {
-                  "compare_string": [ "robofac_armor_pieces_military", { "u_val": "dialogue_hub_rnd_u_armor_type" } ]
-                }
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" },
+                { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" }
               ]
             }
           ]
@@ -182,7 +179,7 @@
           "and": [
             { "math": [ "has_var(u_timer_hub_rnd_u_waiting_on_gun)" ] },
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", ">", "time('7 d')" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH"
@@ -192,7 +189,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "phase_immersion_suit", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR"
@@ -202,7 +199,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "rm13_armor", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR"
@@ -212,7 +209,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "combat_exoskeleton_light_salvaged", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } }
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR"
@@ -224,9 +221,9 @@
             { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", ">", "time('now')" ] },
             {
               "or": [
-                { "compare_string": [ "combat_exoskeleton_light_salvaged", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
-                { "compare_string": [ "phase_immersion_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] },
-                { "compare_string": [ "rm13_armor", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" },
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" },
+                { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
               ]
             }
           ]
@@ -238,7 +235,7 @@
         "condition": {
           "and": [
             { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
-            { "compare_string": [ "phase_immersion_suit", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
@@ -248,7 +245,7 @@
         "condition": {
           "and": [
             { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
-            { "compare_string": [ "rm13_armor", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR_COMPLETE"
@@ -258,9 +255,7 @@
         "condition": {
           "and": [
             { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
-            {
-              "compare_string": [ "combat_exoskeleton_light_salvaged", { "u_val": "dialogue_hub_rnd_u_current_project" } ]
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR_COMPLETE"
@@ -270,8 +265,8 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_completed_anchor_pt_1" } ] } }
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_completed_anchor_pt_1", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1"
@@ -281,7 +276,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('5 d')" ] },
-            { "compare_string": [ "anchor_pt_1", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_1" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
@@ -291,7 +286,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('5 d')" ] },
-            { "compare_string": [ "anchor_pt_1", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_1" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_COMPLETE"
@@ -300,8 +295,8 @@
         "text": "I would like you to upgrade my modular defense system.",
         "condition": {
           "and": [
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_completed_anchor_pt_1" } ] }
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } },
+            { "u_has_var": "dialogue_hub_rnd_u_completed_anchor_pt_1", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2"
@@ -311,7 +306,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('2 d')" ] },
-            { "compare_string": [ "anchor_pt_2", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_2" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
@@ -321,7 +316,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('2 d')" ] },
-            { "compare_string": [ "anchor_pt_2", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_2" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE"
@@ -331,8 +326,8 @@
         "condition": {
           "and": [
             { "math": [ "hub01_hwp_exotic_researched", "!=", "1" ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_project_ongoing" } ] } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } },
+            { "u_has_var": "dialogue_hub_rnd_u_has_researched_gun", "value": "yes" },
             {
               "or": [ { "u_has_items": { "item": "pamd68", "count": 1 } }, { "u_has_items": { "item": "pamd71z", "count": 1 } } ]
             }
@@ -345,7 +340,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
-            { "compare_string": [ "hwp_exodii", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "hwp_exodii" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
@@ -355,7 +350,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
-            { "compare_string": [ "hwp_exodii", { "u_val": "dialogue_hub_rnd_u_current_project" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "hwp_exodii" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE"
@@ -496,7 +491,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
-            { "compare_string": [ "robofac_armor_pieces_rig", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" }
           ]
         },
         "effect": [
@@ -513,7 +508,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
-            { "compare_string": [ "robofac_armor_pieces_basic", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" }
           ]
         },
         "effect": [
@@ -530,7 +525,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            { "compare_string": [ "robofac_armor_pieces_nomex", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" }
           ]
         },
         "effect": [
@@ -547,7 +542,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            { "compare_string": [ "robofac_armor_pieces_kevlar", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" }
           ]
         },
         "effect": [
@@ -564,7 +559,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            { "compare_string": [ "robofac_armor_pieces_rubber", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" }
           ]
         },
         "effect": [
@@ -581,7 +576,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
-            { "compare_string": [ "robofac_armor_pieces_military", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" }
           ]
         },
         "effect": [
@@ -610,7 +605,7 @@
       {
         "//": "Armor Rig response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_rig", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -622,7 +617,7 @@
       {
         "//": "Prototype Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_basic", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -637,7 +632,7 @@
       {
         "//": "Turnout Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_nomex", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -652,7 +647,7 @@
       {
         "//": "Ballistic Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_kevlar", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -667,7 +662,7 @@
       {
         "//": "Kinetic Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_rubber", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -682,7 +677,7 @@
       {
         "//": "Military Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "compare_string": [ "robofac_armor_pieces_military", { "u_val": "dialogue_hub_rnd_u_armor_type" } ] },
+        "condition": { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" },
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "none" },
@@ -1100,12 +1095,12 @@
       },
       {
         "text": "Why not contact them directly?",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_1"
       },
       {
         "text": "I've met them already.  They seem friendly; if you'd like to reach out to them yourself, I'm sure that they could help.",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_2"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },

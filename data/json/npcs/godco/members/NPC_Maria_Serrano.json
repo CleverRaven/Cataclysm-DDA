@@ -20,7 +20,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ],
@@ -35,7 +36,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Maria_Feeling"
@@ -45,19 +46,19 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Maria_2"
       },
       {
         "text": "Hey Maria.  I can't stay to talk right now.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

@@ -53,7 +53,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_1",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
+      "value": "yes",
       "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
@@ -68,7 +69,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
       },
@@ -78,19 +79,19 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Firstmeet"
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, fuck you then.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -158,7 +159,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Corrie",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
+      "u_has_var": "mission_completed_godco_corrie_machine",
+      "value": "yes",
       "yes": "She knows this and that about electronics.  The generator we have here was made by her.  Nice to have one here, even though there's not much use for it yet.",
       "no": "I hear she knows this and that about electronics.    She keeps herself occupied by doing menial tasks around the camp, looking for payment."
     }
@@ -187,7 +189,8 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Zachary",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
+      "u_has_var": "mission_completed_godco_corrie_machine",
+      "value": "yes",
       "yes": "He can keep his distance with his smug nothingness.  At least he's a bit more useful than some of the others.  He helped Corrie make that generator.",
       "no": "I'm not planning to communicate with him, that's for certain.  He can keep his distance with his smug nothingness.  At least he knows how to cut lumber."
     }
