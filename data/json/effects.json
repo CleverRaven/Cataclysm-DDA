@@ -285,6 +285,11 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_value_interaction_timer_short",
+    "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
+  },
+  {
+    "type": "effect_type",
     "id": "frenzy",
     "name": [ "Frenzied" ],
     "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
