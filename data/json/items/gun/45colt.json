@@ -48,7 +48,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "cowboy six-shooter" },
+    "name": { "str": "cowboy six-shooter" },
     "description": "A reproduction of an antique firearm, chambered in .45 Colt.  Due to the lack of a swing-out cylinder, each cartridge must be reloaded and ejected manually.",
     "variant_type": "gun",
     "variants": [
@@ -89,7 +89,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".45/.410 shotshell revolver" },
+    "name": { "str": ".45/.410 shotshell revolver" },
     "description": "A stainless steel 5 shot revolver, capable of firing .410 shells or 45 Colt cartridges.",
     "variant_type": "gun",
     "variants": [

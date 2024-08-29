@@ -4,7 +4,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "lever-action hunting rifle" },
+    "name": { "str": "lever-action hunting rifle" },
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
     "variant_type": "gun",
     "variants": [
@@ -92,7 +92,7 @@
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "breech-loading reproduction rifle" },
+    "name": { "str": "breech-loading reproduction rifle" },
     "//": "Specs from Uberti 32in barrel Special",
     "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the late 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
     "variant_type": "gun",

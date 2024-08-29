@@ -37,7 +37,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "six-shooter" },
+    "name": { "str": "six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
     "variant_type": "gun",
     "variants": [
@@ -108,7 +108,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "conceal-carry six-shooter" },
+    "name": { "str": "conceal-carry six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "variant_type": "gun",
     "variants": [

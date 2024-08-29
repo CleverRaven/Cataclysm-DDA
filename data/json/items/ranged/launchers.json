@@ -5,7 +5,7 @@
     "looks_like": "m79",
     "symbol": "(",
     "color": "green",
-    "name": { "str_sp": "disposable rocket launcher" },
+    "name": { "str": "disposable rocket launcher" },
     "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
     "variant_type": "gun",
     "variants": [
