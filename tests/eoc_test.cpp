@@ -512,7 +512,7 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "66" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "32" );
 }
 
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )

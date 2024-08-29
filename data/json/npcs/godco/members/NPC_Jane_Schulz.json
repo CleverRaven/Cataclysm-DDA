@@ -9,9 +9,17 @@
       "TALK_GODCO_Jane_Kostas_Personal"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Jane_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
-      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Jane_Community" },
+      {
+        "text": "Are the non-joinees treating you fairly?",
+        "topic": "TALK_GODCO_Jane_Community",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "Need any help?", "topic": "TALK_GODCO_Jane_Help" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" }
     ]
@@ -24,10 +32,22 @@
         "text": "I might have some medicine for the community.  Anything you're missing?",
         "topic": "TALK_GODCO_Jane_Medicine"
       },
-      { "text": "Are you taking care of Arturo?", "topic": "TALK_GODCO_Jane_Arturo" },
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story" },
+      {
+        "text": "Are you taking care of Arturo?",
+        "topic": "TALK_GODCO_Jane_Arturo",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Jane_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
-      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Jane_Community" },
+      {
+        "text": "Are the non-joinees treating you fairly?",
+        "topic": "TALK_GODCO_Jane_Community",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "Do you want to come with me?", "topic": "TALK_GODCO_Jane_Follow" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" },
       { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
@@ -38,10 +58,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_1",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_godco_jane",
-      "value": "yes",
-      "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
-      "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "&Jane glaces at you, scowls, and ignores your presence.",
+      "no": {
+        "npc_has_var": "general_meeting_u_met_godco_jane",
+        "value": "yes",
+        "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
+        "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
+      }
     },
     "responses": [
       {
@@ -52,8 +76,17 @@
       },
       {
         "text": "Hi, Jane.  Got a minute?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_Jane_2"
+      },
+      {
+        "text": "Hi, Jane.  Got a minute?",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } ]
+        },
+        "topic": "TALK_GODCO_Jane_Angry"
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
@@ -190,5 +223,11 @@
       { "text": "I don't have anything right now.  Lets talk about something else.", "topic": "TALK_GODCO_Jane_2" },
       { "text": "I don't have anything right now.  I'll come back with something later.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Angry",
+    "dynamic_line": "Fuck off <name_b>.  I've had it with your tormenting antics, I don't want anything to do with you right now.",
+    "responses": [ { "text": "Fine then, have it your way.", "topic": "TALK_DONE" } ]
   }
 ]

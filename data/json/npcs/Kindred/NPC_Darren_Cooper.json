@@ -106,7 +106,7 @@
       },
       "yes": {
         "u_has_trait": "seer_mark",
-        "no": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes", "yes": "Hello again, traveller.", "no": "Yes?" },
+        "no": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes", "yes": "Hello again, traveler.", "no": "Yes?" },
         "yes": {
           "u_has_var": "dialogue_cooper_cooper_friendly",
           "value": "yes",
@@ -166,7 +166,7 @@
         }
       },
       {
-        "text": "Just a traveller, trying to survive.  What about you?  Scavenging?",
+        "text": "Just a traveler, trying to survive.  What about you?  Scavenging?",
         "topic": "TALK_COOPER_INTRODUCTION",
         "condition": {
           "and": [

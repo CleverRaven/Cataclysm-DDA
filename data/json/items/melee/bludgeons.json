@@ -518,7 +518,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -569,7 +569,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1490,7 +1490,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "makeshift sap" },
-    "description": "An improvised sap, also known as a cosh, slapjack and slapper.  A short, flat bludgeoning weapon consisting of a weight embedded between two patches of leather.",
+    "description": "An improvised sap, also known as a cosh, slapjack, and slapper.  A short, flat bludgeoning weapon consisting of a weight embedded between two patches of leather.",
     "price": "50 USD",
     "material": [ "leather", "steel" ],
     "techniques": [ "PRECISE", "RAPID" ],

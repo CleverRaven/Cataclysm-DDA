@@ -3943,9 +3943,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = std::clamp<size_t>( 0,
-                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
-                                    max );
+            size_t const newcount = input.action == "INCREASE_COUNT"
+                                    ? count < max ? count + 1 : max
+                                    : count > 1 ? count - 1 : 0;
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {

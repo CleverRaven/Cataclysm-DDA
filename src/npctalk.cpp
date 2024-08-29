@@ -4830,19 +4830,31 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         if( input_params.has_value() ) {
             string_input_popup popup;
             popup
-            .title( input_params.value().title.evaluate( d ) )
-            .description( input_params.value().description.evaluate( d ) )
+            .title( input_params.value().title ? input_params.value().title->evaluate( d ) : "" )
+            .description( input_params.value().description ? input_params.value().description->evaluate(
+                              d ) : "" )
             .width( input_params.value().width )
-            .identifier( input_params.value().identifier );
+            .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
+                             d ) : "" );
 
             if( input_params.value().only_digits ) {
-                int num_temp;
+                int num_temp = 0;
+                try {
+                    num_temp = std::stoi( input_params.value().default_text.has_value() ?
+                                          input_params.value().default_text->evaluate(
+                                              d ) : "0" );
+                } catch( const std::out_of_range &e ) {
+                    debugmsg( "The number is too large to fit in an int." );
+                } catch( const std::invalid_argument &e ) {
+                };
                 popup.edit( num_temp );
                 if( !popup.canceled() ) {
                     str = std::to_string( num_temp );
                 }
             } else {
-                std::string str_temp;
+                std::string str_temp = input_params.value().default_text ?
+                                       input_params.value().default_text->evaluate(
+                                           d ) : "";
                 popup.edit( str_temp );
                 if( !popup.canceled() ) {
                     str = str_temp;

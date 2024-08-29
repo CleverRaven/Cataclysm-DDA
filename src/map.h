@@ -701,7 +701,7 @@ class map
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope,
                    bool with_fields = true ) const;
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range, int &bresenham_slope,
-                   bool with_fields = true ) const;
+                   bool with_fields = true, bool allow_cached = true ) const;
         point sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
     public:
         /**
@@ -1182,6 +1182,7 @@ class map
         bool can_put_items_ter_furn( const tripoint &p ) const;
         bool can_put_items_ter_furn( const tripoint_bub_ms &p ) const;
         // Checks terrain
+        bool has_flag_ter( const std::string &flag, const tripoint &p ) const;
         bool has_flag_ter( const std::string &flag, const tripoint_bub_ms &p ) const;
         bool has_flag_ter( const std::string &flag, const point_bub_ms &p ) const {
             return has_flag_ter( flag, tripoint_bub_ms( p, abs_sub.z() ) );

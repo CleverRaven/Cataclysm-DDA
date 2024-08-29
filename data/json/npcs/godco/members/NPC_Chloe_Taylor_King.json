@@ -3,10 +3,18 @@
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_chloe",
-      "value": "yes",
-      "yes": "Aw hey, it's you again, <u_name>.",
-      "no": "Oh… hi.  I don't know you.  My name's Chloe."
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "What are you doing here, go away!  I don't want to talk to you…",
+      "no": {
+        "math": [ "n_npc_value()", ">=", "3" ],
+        "yes": [ "Aw hey, it's you again, <u_name>.  How have you been?", "Aw hey, it's you again, <name_g>.  How have you been?" ],
+        "no": {
+          "npc_has_var": "general_meeting_u_met_chloe",
+          "value": "yes",
+          "yes": [ "Hey <u_name>, what's up?", "Hey <name_g>, what's up?" ],
+          "no": "Oh… hi.  I don't know you.  My name's Chloe."
+        }
+      }
     },
     "responses": [
       {
@@ -18,23 +26,55 @@
       {
         "text": "Hi.  I can't stay and chat right now.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_idle_chat",
-        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        }
       },
       {
         "text": "Do you need any help?",
-        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_chloe_help"
+      },
+      {
+        "text": "Do you wanna shoot the breeze?",
+        "topic": "TALK_GODCO_chloe_angry",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "Do you need any help?",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        },
+        "topic": "TALK_GODCO_chloe_angry"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "Okay <name_b>, I'll leave.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+        }
       }
     ]
   },
@@ -45,19 +85,32 @@
     "responses": [
       {
         "text": "Really, what's your story?",
-        "condition": { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "npc_has_var": "told_backstory_second_attempt", "value": "yes" },
+            { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } }
+          ]
+        },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_GODCO_chloe_nochat" },
         "success": { "topic": "TALK_GODCO_chloe_past_2" }
       },
       {
         "text": "How'd you and Sonia come to meet?",
-        "condition": { "not": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "not": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       {
         "text": "How'd you and Sonia come to meet again?",
-        "condition": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_value()", ">=", "3" ] }, { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       { "text": "Aren't you a bit young to be carrying a knife?", "topic": "TALK_GODCO_chloe_knife" },
@@ -87,6 +140,7 @@
       "gendered_line": "You're creepy.  I'm sorry for your lack of friends but, like, I'm literally a kid.  Everyone on Earth turned into a zombie, we're running out of toilet paper and everything, and my parents are gone.  I know they're still alive and they're looking for me.  I miss them.  Is that enough personal stuff for you?",
       "relevant_genders": [ "u" ]
     },
+    "speaker_effect": [ { "effect": { "npc_add_var": "told_backstory_second_attempt", "value": "yes" } } ],
     "responses": [
       { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
@@ -152,5 +206,11 @@
     "type": "talk_topic",
     "dynamic_line": "I don't wanna talk about it right now.",
     "responses": [ { "text": "Alright, let's change the subject.", "topic": "TALK_GODCO_chloe_idle_chat" } ]
+  },
+  {
+    "id": "TALK_GODCO_chloe_angry",
+    "type": "talk_topic",
+    "dynamic_line": "I said to get lost, <name_b>!  I can't believe you really think everything's alright, after all the shit you've done.",
+    "responses": [ { "text": "Alright <name_b>, I'll leave.", "topic": "TALK_DONE" } ]
   }
 ]

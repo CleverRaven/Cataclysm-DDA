@@ -403,7 +403,8 @@
       { "item": "spellbook_hedge_blood_book", "prob": 2 },
       { "item": "spellbook_hedge_ward_dreams", "prob": 3 },
       { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
-      { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 }
+      { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 },
+      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 }
     ]
   },
   {

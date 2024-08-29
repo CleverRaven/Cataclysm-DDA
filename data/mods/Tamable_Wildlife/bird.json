@@ -147,19 +147,17 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
-    "id": "mon_goose_canadian",
+    "id": "mon_goose_canadian_chick",
     "type": "MONSTER",
-    "copy-from": "mon_goose_canadian",
+    "copy-from": "mon_goose_canadian_chick",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
     "id": "mon_turkey",
@@ -169,8 +167,7 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
     "id": "mon_pheasant",
@@ -180,8 +177,17 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
+  },
+  {
+    "id": "mon_grouse_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_grouse_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
   },
   {
     "id": "mon_hummingbird_chick",
@@ -201,8 +207,7 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It quickly flies around you and seems friendly.",
       "pet": "The %s flies around you."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
     "id": "mon_woodpecker_chick",
@@ -215,17 +220,6 @@
     }
   },
   {
-    "id": "mon_woodpecker",
-    "type": "MONSTER",
-    "copy-from": "mon_woodpecker",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
-  },
-  {
     "id": "mon_coot_chick",
     "type": "MONSTER",
     "copy-from": "mon_coot_chick",
@@ -234,17 +228,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     }
-  },
-  {
-    "id": "mon_coot",
-    "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_cormorant_chick",
@@ -257,17 +240,6 @@
     }
   },
   {
-    "id": "mon_cormorant",
-    "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
-  },
-  {
     "id": "mon_moorhen_chick",
     "type": "MONSTER",
     "copy-from": "mon_moorhen_chick",
@@ -278,17 +250,6 @@
     }
   },
   {
-    "id": "mon_moorhen",
-    "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
-  },
-  {
     "id": "mon_grebe_chick",
     "type": "MONSTER",
     "copy-from": "mon_grebe_chick",
@@ -297,16 +258,5 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     }
-  },
-  {
-    "id": "mon_grebe",
-    "type": "MONSTER",
-    "copy-from": "mon_coot",
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
   }
 ]

@@ -68,6 +68,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "talker.h"
@@ -1631,7 +1632,7 @@ void npc::execute_action( npc_action action )
                 }
 
                 // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
-                if( best_sleepy < static_cast<int>( comfort_level::very_comfortable ) - 1 ) {
+                if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
                     const int sleepy = evaluate_sleep_spot( p );
                     if( sleepy > best_sleepy ) {
                         best_sleepy = sleepy;
@@ -2041,10 +2042,10 @@ npc_action npc::address_needs()
 int npc::evaluate_sleep_spot( tripoint_bub_ms p )
 {
     // Base evaluation is based on ability to actually fall sleep there
-    int sleep_eval = sleep_spot( p );
+    int sleep_eval = get_comfort_at( p ).comfort;
     // Only evaluate further if the possible bed isn't already considered very comfortable.
     // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
-    if( sleep_eval < static_cast<int>( comfort_level::very_comfortable ) - 1 ) {
+    if( sleep_eval < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
         const units::temperature_delta ideal_bed_value = 2_C_delta;
         const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
         if( sleep_spot_value < ideal_bed_value ) {

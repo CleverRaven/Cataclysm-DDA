@@ -781,6 +781,7 @@
       { "item": "knife_folding", "prob": 20 },
       { "item": "glasses_safety", "prob": 45 },
       { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 10, "count": [ 1, 10 ] },
       { "item": "screwdriver", "prob": 5 },
       { "item": "glasses_eye", "prob": 30 },
       { "item": "tool_belt", "prob": 20 },
@@ -961,7 +962,7 @@
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
       { "item": "solarpack", "prob": 1 },
-      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]
   },

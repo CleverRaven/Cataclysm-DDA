@@ -11,9 +11,17 @@
       "TALK_GODCO_Sonia_Godco"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Sonia_Chloe" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Sonia_Chloe",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Sonia_Feeling" },
-      { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Sonia_Godco" },
+      {
+        "text": "Is everyone treating you fairly?",
+        "topic": "TALK_GODCO_Sonia_Godco",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       {
         "text": "Now that your guitar is fixed, could you play something for me?",
         "condition": {
@@ -28,13 +36,17 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_godco_sonia",
-      "value": "yes",
-      "yes": [
-        { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
-        "Nice of you to come around <u_name>."
-      ],
-      "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "&Sonia glances at you harshly, then turns away.  \"Come back later, I'm busy right now.\"",
+      "no": {
+        "npc_has_var": "general_meeting_u_met_godco_sonia",
+        "value": "yes",
+        "yes": [
+          { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
+          "Nice of you to come around <u_name>."
+        ],
+        "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
+      }
     },
     "responses": [
       {
@@ -45,10 +57,28 @@
       },
       {
         "text": "Hey Sonia.  What's up?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_Sonia_Tunes"
       },
-      { "text": "Hey Sonia.  I can't stay to talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "Hey Sonia.  What's up?",
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } ]
+        },
+        "topic": "TALK_GODCO_Sonia_Angry"
+      },
+      {
+        "text": "Hey Sonia.  I can't stay to talk right now.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+      },
+      {
+        "text": "Alright, see you later.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
+      }
     ]
   },
   {
@@ -138,5 +168,11 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Angry",
+    "dynamic_line": "&Sonia doesn't say anything back, ignoring you.",
+    "responses": [ { "text": "&Walk away", "topic": "TALK_DONE" } ]
   }
 ]

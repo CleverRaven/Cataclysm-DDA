@@ -5537,6 +5537,35 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( u ) ) {
                 return; // player not owner and refused to steal
             }
+            const item_location weapon = u.get_wielded_item();
+            if( weapon ) {
+                if( u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
+                    add_msg( m_info, _( "Something you are wearing hinders the use of both hands." ) );
+                    return;
+                }
+                if( !u.has_two_arms_lifting() ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+                if( weapon->is_two_handed( u ) ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s with both hands.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
             if( veh->engine_on ) {
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
@@ -11152,6 +11181,66 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
     return false;
 }
 
+bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_distance )
+{
+
+    if( phase_distance < 1 ) {
+        return false;
+    }
+
+    // phasing only applies to impassible tiles such as walls
+
+    int tunneldist = 0;
+    tripoint dest = dest_loc;
+    const tripoint d( sgn( dest.x - u.posx() ), sgn( dest.y - u.posy() ), sgn( dest.z - u.posz() ) );
+    creature_tracker &creatures = get_creature_tracker();
+
+    while( m.impassable( dest ) ||
+           ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
+        // add 1 to tunnel distance for each impassable tile in the line
+        tunneldist += 1;
+        if( tunneldist > phase_distance ) {
+            return false;
+        }
+        if( tunneldist > 48 ) {
+            return false;
+        }
+
+        dest.x += d.x;
+        dest.y += d.y;
+        dest.z += d.z;
+    }
+
+    // vertical handling for adjacent tiles
+    if( d.z != 0 && !m.impassable( dest_loc ) && tunneldist == 0 ) {
+        tunneldist += 1;
+    }
+
+    if( tunneldist != 0 ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos_bub() );
+        }
+
+        if( dest.z != u.posz() ) {
+            // calling vertical_shift here doesn't actually move the character for some reason, but it does perform other necessary tasks for vertical movement
+            vertical_shift( dest.z );
+        }
+
+        u.setpos( dest );
+
+        if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
+            m.board_vehicle( u.pos_bub(), &u );
+        }
+
+        u.grab( object_type::NONE );
+        on_move_effects();
+        m.creature_on_trap( u );
+        return true;
+    }
+
+    return false;
+}
+
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
     // TODO: Fix when unary operation available
@@ -11801,8 +11890,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
         if( here.has_floor_or_support( stairs.raw() ) ) {
-            add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
-            return;
+            tripoint dest_phase = u.pos();
+            dest_phase.z += 1;
+            if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                      enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+                return;
+            } else {
+                add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+                return;
+            }
         }
 
         if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) ) {
@@ -11877,12 +11973,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
+        tripoint dest_phase = u.pos();
+        dest_phase.z -= 1;
+
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );
             u.burn_energy_all( -750 );
             move_cost += 500;
+        } else if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                         enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+            return;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
             return;
@@ -12206,34 +12308,31 @@ void game::start_hauling( const tripoint &pos )
     u.assign_activity( actor );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking, const tripoint &pos )
+std::optional<tripoint> game::find_stairs( const map &mp, int z_after, const tripoint &pos )
 {
-    const bool is_avatar = u.pos() == pos;
-    const int omtilesz = SEEX * 2;
-    real_coords rc( mp.getabs( pos.xy() ) );
-    tripoint_bub_ms omtile_align_start( point_bub_ms( mp.getlocal( rc.begin_om_pos() ) ), z_after );
-    tripoint_bub_ms omtile_align_end( omtile_align_start + point( -1 + omtilesz, -1 + omtilesz ) );
-
-    // Try to find the stairs.
-    std::optional<tripoint> stairs;
-    int best = INT_MAX;
     const int movez = z_after - pos.z;
     const bool going_down_1 = movez == -1;
     const bool going_up_1 = movez == 1;
+
     // If there are stairs on the same x and y as we currently are, use those
     if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below ) ) {
-        stairs.emplace( pos + tripoint_below );
+        return pos + tripoint_below;
     }
     if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above ) ) {
-        stairs.emplace( pos + tripoint_above );
+        return pos + tripoint_above;
     }
     // We did not find stairs directly above or below, so search the map for them
     // If there's empty space right below us, we can just go down that way.
-    if( !stairs.has_value() && get_map().tr_at( u.pos_bub() ) != tr_ledge ) {
-        for( const tripoint_bub_ms &dest : mp.points_in_rectangle( omtile_align_start,
-                omtile_align_end ) ) {
-            if( rl_dist( u.pos_bub(), dest ) <= best &&
+    int best = INT_MAX;
+    std::optional<tripoint> stairs;
+    const int omtilesz = SEEX * 2 - 1;
+    real_coords rc( mp.getabs( pos.xy() ) );
+    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
+    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+
+    if( get_map().tr_at( u.pos() ) != tr_ledge ) {
+        for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
+            if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
                                     mp.ter( dest ) == ter_t_manhole_cover ) ) ||
@@ -12243,6 +12342,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             }
         }
     }
+
+    return stairs;
+}
+
+std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking, const tripoint &pos )
+{
+    const bool is_avatar = u.pos() == pos;
+    const int movez = z_after - pos.z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, pos );
 
     creature_tracker &creatures = get_creature_tracker();
     if( stairs.has_value() ) {

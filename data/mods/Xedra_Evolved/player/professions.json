@@ -128,7 +128,7 @@
           { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "socks" } ] },
@@ -451,6 +451,55 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_hedge_mage_magic_squares",
+    "name": "XEDRA Operative, Department of Extra-Normal Capabilities, SATOR Division",
+    "description": "You joined XEDRA during the years leading up to the Cataclysm, and they told you that you fit the profile of a SATOR agent.  At the time you had no idea what they meant, and they gave you a couple days to process when you learned that magic was real, the enemies of the United States possessed it, and they wanted you to learn it too.  When they sat you down and had you practice writing letters into patterns for days on end you wondered if you had made a mistake, but when one of those squares let you summon a loaf of bread out of thin air for lunch, you changed your tune pretty quickly.",
+    "points": 4,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "deduction" }
+    ],
+    "proficiencies": [ "prof_auto_pistols_familiar" ],
+    "spells": [
+      { "id": "hedge_walk_on_water_magic_square", "level": 1 },
+      { "id": "hedge_breathe_water_magic_square", "level": 1 },
+      { "id": "hedge_bash_terrain_magic_square", "level": 1 },
+      { "id": "hedge_food_or_drink_magic_square", "level": 1 },
+      { "id": "hedge_armed_men_magic_square", "level": 1 },
+      { "id": "hedge_invisibility_magic_square", "level": 1 }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "tie_skinny" },
+          { "item": "blazer" },
+          { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "black_pen", "charges": 100 },
+          { "item": "paper", "charges": 15 },
+          { "group": "army_mags_usp9" },
+          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
+          { "item": "spellbook_hedge_abramelin_the_mage" },
+          { "item": "item_walk_on_water_magic_square", "count": 2 },
+          { "item": "item_food_or_drink_magic_square", "count": 3 },
+          { "item": "item_invisibility_magic_square", "count": 1 },
+          { "item": "item_armed_men_magic_square", "count": 1 }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {

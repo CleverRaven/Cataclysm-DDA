@@ -382,5 +382,103 @@
     "damage_type": "pure",
     "min_range": 30,
     "max_range": 30
+  },
+  {
+    "id": "rip_ticket",
+    "type": "SPELL",
+    "name": "Rip",
+    "description": "You hear an otherworldly slice.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
+    "min_damage": 80,
+    "max_damage": 100,
+    "min_range": 9,
+    "max_range": 9,
+    "damage_type": "cut"
+  },
+  {
+    "id": "netherium_warp_grenade_detonation",
+    "type": "SPELL",
+    "name": "Netherium Warp Detonation",
+    "description": "Having this spell is a bug.  And casting it is lethal",
+    "message": "The location the grenade occupied is instantly overwhelmed with sounds and colors you've never felt before as space warps in impossible ways.  Whatever used to be there is now gone.",
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "netherium_warp_grenade_detonation_terrain", "max_level": 0 },
+      { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 }
+    ],
+    "shape": "blast",
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "min_damage": 1000,
+    "max_damage": 1000,
+    "min_aoe": 2,
+    "max_aoe": 5,
+    "damage_type": "pure",
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
+  },
+  {
+    "id": "netherium_warp_grenade_detonation_terrain",
+    "type": "SPELL",
+    "name": "Netherium Warp Detonation - Terrain",
+    "description": "Having this spell is a bug.  Cast to forget about your surroundings",
+    "effect": "bash",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "IGNORE_WALLS" ],
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "min_aoe": 2,
+    "max_aoe": 5,
+    "damage_type": "bash"
+  },
+  {
+    "id": "netherium_warp_grenade_detonation_portal",
+    "type": "SPELL",
+    "name": "Netherium Warp Detonation - Portal",
+    "description": "Having this spell is a bug.  Has a 50% chance to spawn a reality tear",
+    "effect": "attack",
+    "shape": "blast",
+    "field_id": "fd_fatigue",
+    "field_chance": 2,
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "valid_targets": [ "ground", "self", "ally", "hostile", "field", "item", "none" ],
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL" ]
+  },
+  {
+    "id": "inventor_portal_closer_spell",
+    "type": "SPELL",
+    "name": "Netherium-Reality Smooth",
+    "description": "Having this spell is a bug.  Will remove tears in reality and other portals with side effects.",
+    "message": "The two halves of the smoother surge together, forcing the teleporters together with a massive clang!  Due to your precise engineering the teleporters activate at the exact moment of impact, temporarily shunting them into the nether and unleashing a massive cascade of netherium energy that ripples around you.",
+    "effect": "ter_transform",
+    "effect_str": "inventor_portal_closer_spell_furn_transform",
+    "extra_effects": [ { "id": "inventor_portal_closer_spell_portal_storm", "max_level": 0, "hit_self": true } ],
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "max_range": 1,
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+  },
+  {
+    "id": "inventor_portal_closer_spell_portal_storm",
+    "type": "SPELL",
+    "name": "Netherium-Reality Smooth - Portal Spell",
+    "description": "Having this spell is a bug.  Causes a strong portal storm.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CAUSE_PORTAL_STORM",
+    "shape": "blast",
+    "valid_targets": [ "ground", "self" ],
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "inventor_portal_closer_spell_furn_transform",
+    "field": [ { "result": [ "fd_null" ], "valid_field": [ "fd_fatigue" ], "message": "The tear in reality smoothes out." } ],
+    "trap": [ { "result": [ "tr_glass" ], "valid_trap": [ "tr_portal" ], "message": "The portal shatters into shards of glass!" } ]
   }
 ]
