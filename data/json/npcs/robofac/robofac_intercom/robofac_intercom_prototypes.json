@@ -128,7 +128,8 @@
         "condition": {
           "and": [
             { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
-            { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
             { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },

@@ -130,5 +130,113 @@
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
     }
+  },
+  {
+    "id": "spellbook_hedge_abramelin_the_mage",
+    "type": "GENERIC",
+    "name": {
+      "str": "The Book of the Sacred Magic of Abramelin the Mage",
+      "str_pl": "copies of The Book of the Sacred Magic of Abramelin the Mage"
+    },
+    "description": "Translated from the French edition by Samuel L MacGregor Mathers, this tome compiles the journeys of a man named Abraham of Worms to Egypt, where he learned occult secrets from the wizard Abramelin who lived in a small town near the Nile.  The magic contained within focuses mostly on the creation of magic squares which, when used in ceremonies by an initiate, provide magical effects.",
+    "weight": "539 g",
+    "volume": "674 ml",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE",
+          "//": "Max research time before failure is 84 hours. Average result of 504 after 84 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "!=", "1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_abramelin_the_mage", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "302400" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "720" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "800" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
+                    {
+                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_abramelin_the_mage_spell_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_ABRAMELIN_THE_MAGE",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage_spell_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_ABRAMELIN_THE_MAGE_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_abramelin_the_mage_spell_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_abramelin_the_mage_spell_stub",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage" },
+    "description": "The temporary item that teaches you spells.",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "hedge_walk_on_water_magic_square",
+        "hedge_breathe_water_magic_square",
+        "hedge_bash_terrain_magic_square",
+        "hedge_food_or_drink_magic_square",
+        "hedge_armed_men_magic_square",
+        "hedge_invisibility_magic_square"
+      ]
+    }
   }
 ]

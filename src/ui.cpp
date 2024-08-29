@@ -36,11 +36,13 @@ class uilist_impl : cataimgui::window
         uilist &parent;
     public:
         explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar ), parent( parent ) {
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+            parent( parent ) {
         }
 
         uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_None ), parent( parent ) {
+                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+            parent( parent ) {
         }
 
         cataimgui::bounds get_bounds() override {

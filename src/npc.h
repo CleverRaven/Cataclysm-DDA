@@ -39,6 +39,7 @@
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
+#include "npc_opinion.h"
 #include "pimpl.h"
 #include "point.h"
 #include "sounds.h"
@@ -228,43 +229,6 @@ struct npc_personality {
     void serialize( JsonOut &json ) const;
     void deserialize( const JsonObject &data );
 };
-
-struct npc_opinion {
-    int trust;
-    int fear;
-    int value;
-    int anger;
-    int owed; // Positive when the npc owes the player. Negative if player owes them.
-    int sold; // Total value of goods sold/donated by player to the npc. Cannot be negative.
-
-    npc_opinion() {
-        trust = 0;
-        fear  = 0;
-        value = 0;
-        anger = 0;
-        owed  = 0;
-        sold = 0;
-    }
-
-    npc_opinion &operator+=( const npc_opinion &rhs ) {
-        trust += rhs.trust;
-        fear  += rhs.fear;
-        value += rhs.value;
-        anger += rhs.anger;
-        owed  += rhs.owed;
-        sold  += rhs.sold;
-        return *this;
-    }
-
-    npc_opinion operator+( const npc_opinion &rhs ) {
-        return npc_opinion( *this ) += rhs;
-    }
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( const JsonObject &data );
-};
-
-
 
 enum class combat_engagement : int {
     NONE = 0,

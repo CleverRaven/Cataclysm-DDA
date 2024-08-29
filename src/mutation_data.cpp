@@ -20,6 +20,7 @@
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"

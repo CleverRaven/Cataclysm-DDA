@@ -35,6 +35,7 @@
       { "prob": 100, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 100, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       [ "eyedrops", 50 ],
+      [ "steroid_eyedrops", 5 ],
       { "item": "inhaler", "prob": 50, "charges": [ 10, 100 ] },
       { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },

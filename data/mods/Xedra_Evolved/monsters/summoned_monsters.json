@@ -1,0 +1,43 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armored_warrior_mace",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "armored warrior with mace", "str_pl": "armored warriors with maces" },
+    "looks_like": "mon_feral_armored_mace",
+    "description": "Clad in ancient armor and with a mace in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armored_warrior_axe",
+    "copy-from": "mon_feral_armored_battleaxe",
+    "name": { "str": "armored warrior with axe", "str_pl": "armored warriors with axes" },
+    "looks_like": "mon_feral_armored_battleaxe",
+    "description": "Clad in ancient armor and with a battleaxe in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armed_warrior_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "name": { "str": "warrior with spear", "str_pl": "warriors with spears" },
+    "looks_like": "mon_feral_sapien_spear",
+    "description": "Clad in leather armor and with a spear in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armed_warrior_sword",
+    "copy-from": "mon_feral_fancy_rapier",
+    "name": { "str": "warrior with sword", "str_pl": "warriors with sword" },
+    "looks_like": "mon_feral_fancy_rapier",
+    "description": "Clad in leather armor and with a sword in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+  }
+]

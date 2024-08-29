@@ -993,6 +993,61 @@
     "replace": "bread"
   },
   {
+    "id": "light_minus_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_minus_disposable_cell"
+  },
+  {
+    "id": "light_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_dry_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "medium_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_dry_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "heavy_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "heavy_dry_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
     "id": "scrap_cap1",
     "type": "MIGRATION",
     "replace": "hat_ball"
@@ -1842,6 +1897,11 @@
     "id": "egg_goose_golden",
     "type": "MIGRATION",
     "replace": "egg_goose"
+  },
+  {
+    "id": "egg_reptile",
+    "type": "MIGRATION",
+    "replace": "egg_turtle_painted"
   },
   {
     "id": "ar_pistol",

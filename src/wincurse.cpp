@@ -761,6 +761,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it

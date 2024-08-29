@@ -57,10 +57,7 @@
       { "item": "m9mag_10rd", "prob": 50 },
       { "item": "m9mag_17rd", "prob": 400 },
       { "item": "m9mag_18rd", "prob": 70 },
-      { "item": "m9mag_20rd", "prob": 50 },
-      { "item": "m9bigmag", "prob": 40 },
-      { "item": "m9mag_32rd", "prob": 30 },
-      { "item": "m9mag_35rd", "prob": 20 }
+      { "item": "m9mag_20rd", "prob": 50 }
     ]
   },
   {
@@ -110,15 +107,7 @@
   {
     "id": "glock_19_mags",
     "type": "item_group",
-    "items": [
-      { "item": "glockmag", "prob": 50 },
-      { "item": "glock17_17", "prob": 400 },
-      { "item": "glock17_22", "prob": 70 },
-      { "item": "glockbigmag", "prob": 50 },
-      { "item": "m9bigmag", "prob": 40 },
-      { "item": "glock_drum_50rd", "prob": 30 },
-      { "item": "glock_drum_100rd", "prob": 20 }
-    ]
+    "items": [ { "item": "glockmag", "prob": 50 }, { "item": "glock17_17", "prob": 400 }, { "item": "glock17_22", "prob": 70 } ]
   },
   {
     "id": "nested_glock_17_no_ammo",
@@ -129,12 +118,6 @@
   {
     "id": "glock_17_mags",
     "type": "item_group",
-    "items": [
-      { "item": "glock17_17", "prob": 400 },
-      { "item": "glock17_22", "prob": 70 },
-      { "item": "glockbigmag", "prob": 50 },
-      { "item": "glock_drum_50rd", "prob": 30 },
-      { "item": "glock_drum_100rd", "prob": 20 }
-    ]
+    "items": [ { "item": "glock17_17", "prob": 400 }, { "item": "glock17_22", "prob": 70 } ]
   }
 ]

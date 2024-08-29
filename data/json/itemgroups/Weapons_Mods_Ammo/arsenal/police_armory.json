@@ -38,8 +38,7 @@
       { "group": "police_armory_any_9mm_smg", "prob": 50 },
       { "group": "police_armory_ump40", "prob": 30 },
       { "group": "police_armory_ump45", "prob": 25 },
-      { "group": "police_armory_p90", "prob": 3 },
-      { "group": "police_armory_mp7", "prob": 1 }
+      { "group": "police_armory_p90", "prob": 3 }
     ]
   },
   {
@@ -626,54 +625,6 @@
     "subtype": "collection",
     "container-item": "ammo_box_2",
     "entries": [ { "item": "57mm", "charges": [ 1, 60 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "police_armory_mp7",
-    "//": "One or more MP7 'submachine guns', empty mags, full mags, 4.6mm ammo and a chance of extra ammo.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ] },
-      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 50 },
-      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 25 },
-      { "item": "hk46mag", "count": [ 1, 3 ] },
-      { "item": "hk46bigmag", "count": [ 1, 4 ] },
-      { "group": "police_armory_full_mp7mag_46mm", "count": [ 1, 4 ] },
-      { "group": "police_armory_boxes_46mm" },
-      { "group": "police_armory_boxes_46mm", "prob": 30 }
-    ]
-  },
-  {
-    "id": "police_armory_full_mp7mag_46mm",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "hk46bigmag",
-    "entries": [ { "item": "46mm", "charges": 40 } ]
-  },
-  {
-    "id": "police_armory_boxes_46mm",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "police_armory_box_some_46mm" },
-      { "group": "police_armory_box_some_46mm", "prob": 60 },
-      { "item": "ammo_box_2", "count": [ 15, 25 ] },
-      { "group": "police_armory_box_full_46mm", "count": [ 0, 8 ] }
-    ]
-  },
-  {
-    "id": "police_armory_box_full_46mm",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammo_box_2",
-    "entries": [ { "item": "46mm", "charges": 60 } ]
-  },
-  {
-    "id": "police_armory_box_some_46mm",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammo_box_2",
-    "entries": [ { "item": "46mm", "charges": [ 1, 60 ] } ]
   },
   {
     "type": "item_group",
