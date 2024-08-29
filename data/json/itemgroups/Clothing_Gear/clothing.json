@@ -685,7 +685,7 @@
     "container-item": "hat_hard",
     "items": [
       { "group": "common_nape_protectors", "prob": 50 },
-      { "group": "hat_hard_flashlight", "prob": 30 },
+      { "item": "flashlight", "charges": [ 0, -1 ], "prob": 50 },
       { "group": "common_face_shields", "prob": 15 },
       { "item": "plastic_chin_guard", "prob": 10 },
       { "item": "attachable_ear_muffs", "prob": 5 }
