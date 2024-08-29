@@ -1995,11 +1995,12 @@
     "max_duration": "3 m",
     "max_intensity": 4,
     "int_decay_tick": 40,
-    "base_mods": { "per_mod": [ -1 ] },
-    "scaling_mods": { "per_mod": [ -1 ] },
+    "resist_effects": [ "steroid_eye", "PAINRESIST" ],
+    "base_mods": { "per_mod": [ -1, 0 ], "pain_amount": [ 2, 0 ] },
+    "scaling_mods": { "per_mod": [ -1 ], "pain_amount": [ 2, 1 ] },
     "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2, "resist_scaling": -0.15 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2, "resist_scaling": -0.15 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
@@ -2046,11 +2047,12 @@
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "30 m",
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "resist_effects": [ "steroid_eye" ],
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5, -2 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.5 },
-      { "limb_score": "night_vis", "modifier": 0.5 },
-      { "limb_score": "reaction", "modifier": 0.75 },
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 0.75 },
+      { "limb_score": "night_vis", "modifier": 0.5, "resist_modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.75, "resist_modifier": 0.875 },
       { "limb_score": "breathing", "modifier": 0.3 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -2150,9 +2152,10 @@
     "decay_messages": [ [ "The irritation in your eyes stops.", "good" ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
+    "resist_effects": [ "steroid_eye" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
-    "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_max_val": [ 4 ], "pain_chance": [ 400, 1000 ] },
-    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.925 } ],
+    "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_max_val": [ 4, 2 ], "pain_chance": [ 400, 1000 ] },
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.95 } ],
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -3193,6 +3196,14 @@
     "desc": [ "You have taken an antihistamine drug recently." ],
     "rating": "good",
     "blood_analysis_description": "Antihistamines"
+  },
+  {
+    "type": "effect_type",
+    "id": "steroid_eye",
+    "name": [ "Used Steroid Eye Drops" ],
+    "desc": [ "You have used steroid eye drops recently." ],
+    "rating": "good",
+    "max_duration": 10800
   },
   {
     "type": "effect_type",
