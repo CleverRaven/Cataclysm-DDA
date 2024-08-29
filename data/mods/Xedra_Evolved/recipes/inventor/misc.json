@@ -238,5 +238,95 @@
     "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_TOOLS"
+  },
+  {
+    "result": "nre_recorder",
+    "id_suffix": "inventor",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 h",
+    "tools": [ [ [ "laptop", 30 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "using": [ [ "soldering_standard", 60 ], [ "welding_standard", 30 ] ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "scrap", 20 ] ],
+      [ [ "scrap_aluminum", 10 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "magnetron", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
+    "skill_used": "deduction",
+    "difficulty": 6,
+    "skills_required": [ [ "electronics", 6 ], [ "computer", 2 ] ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS"
+  },
+  {
+    "result": "inventor_portal_closer",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "laptop", 100 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "AI_TOOL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "using": [ [ "soldering_standard", 100 ], [ "welding_standard", 50 ] ],
+    "components": [
+      [ [ "anvil", 2 ] ],
+      [ [ "teleporter", 2 ] ],
+      [ [ "pipe", 32 ] ],
+      [ [ "power_supply", 10 ] ],
+      [ [ "motor_micro", 10 ] ],
+      [ [ "scrap", 100 ] ],
+      [ [ "cable", 400 ] ],
+      [ [ "magnetron", 2 ] ],
+      [ [ "processor", 2 ] ]
+    ],
+    "skill_used": "deduction",
+    "difficulty": 10,
+    "skills_required": [ [ "electronics", 6 ], [ "fabrication", 6 ], [ "computer", 4 ] ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS"
+  },
+  {
+    "result": "teleporter",
+    "id_suffix": "inventor",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "time": "8 h",
+    "tools": [ [ [ "laptop", 50 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "AI_TOOL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "using": [ [ "soldering_standard", 50 ], [ "welding_standard", 25 ] ],
+    "components": [
+      [ [ "power_supply", 1 ] ],
+      [ [ "diamond", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "lens_small", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "inventor_medium_cell", 1 ] ]
+    ],
+    "skill_used": "deduction",
+    "difficulty": 8,
+    "skills_required": [ [ "electronics", 4 ], [ "computer", 4 ] ],
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_TOOLS"
   }
 ]

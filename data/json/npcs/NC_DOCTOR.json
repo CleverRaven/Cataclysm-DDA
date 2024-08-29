@@ -102,6 +102,7 @@
       { "item": "oxygen_tank", "prob": 20 },
       { "item": "smoxygen_tank", "prob": 5 },
       { "item": "eyedrops", "prob": 35, "count": 10 },
+      { "item": "steroid_eyedrops", "prob": 35, "count": 10 },
       { "item": "nic_gum", "prob": 25, "count": 10 },
       { "item": "inhaler", "prob": 20, "charges": [ 10, 100 ] },
       { "prob": 25, "group": "codeine_bottle_plastic_pill_painkiller_10" },
