@@ -24,7 +24,7 @@ static const itype_id itype_candycigarette( "candycigarette" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_corpse( "corpse" );
-static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_diving_flashlight_small_hipower( "itype_diving_flashlight_small_hipower" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_meat_canned( "meat_canned" );
