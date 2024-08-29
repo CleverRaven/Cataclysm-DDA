@@ -60,7 +60,7 @@
       {
         "group": "SCRAPPER_Shop_Specialty_Metals",
         "rigid": true,
-        "condition": { "npc_has_var": "dialogue_trade_specific_metal_tradeable", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_trade_specific_metal_tradeable" } ] }
       },
       {
         "group": "no_sell",
@@ -198,7 +198,10 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_npc_trust()", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
         }
       },
       { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
@@ -213,8 +216,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER",
     "dynamic_line": {
-      "npc_has_var": "dialogue_first_meeting_knows_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"
     },
@@ -223,19 +225,19 @@
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Pleasure to see you again, <name_g>.",
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -253,7 +255,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -308,8 +310,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  The scrap trader nods along, listening",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then shrugs.  \"No, sorry, not ringing any bells.\"",
           "no": ", then raises one eyebrow.  \"Not making any promises, but I did catch just a glimpse of a weird building one time that might be what you're looking for.\""
         }
@@ -321,7 +322,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

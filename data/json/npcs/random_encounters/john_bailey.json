@@ -172,7 +172,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -228,8 +228,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  John listens intently",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then shakes his head.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
           "no": ", looking thoughtful.  \"I can't guarantee it, but I'm pretty sure I've seen something like that.  It was far away, and the weather was bad.  Could've been a church or something, but it didn't look right for that.\""
         }
@@ -241,7 +240,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well, thanks John.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

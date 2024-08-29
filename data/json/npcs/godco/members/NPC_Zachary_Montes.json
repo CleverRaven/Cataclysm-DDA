@@ -12,16 +12,8 @@
     ],
     "type": "talk_topic",
     "responses": [
-      {
-        "text": "How did you get here?",
-        "topic": "TALK_GODCO_Zachary_Story0",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
-      {
-        "text": "Why don't you blow this joint and come with me?",
-        "topic": "TALK_GODCO_Zachary_Follow",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Zachary_Story0" },
+      { "text": "Why don't you blow this joint and come with me?", "topic": "TALK_GODCO_Zachary_Follow" },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Zachary_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Zachary_Godco" }
     ]
@@ -29,23 +21,17 @@
   {
     "id": "TALK_GODCO_Zachary",
     "type": "talk_topic",
-    "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
-      "yes": "You're back?  Shove off <name_b>!",
-      "no": { "gendered_line": "I got my rights to be here, chum.  Squatter's rights!", "relevant_genders": [ "u" ] }
-    },
+    "dynamic_line": { "gendered_line": "I got my rights to be here, chum.  Squatter's rights!", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Don't worry, I'm not going to hurt you.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] } },
         "topic": "TALK_GODCO_Zachary_Intro"
       },
       {
         "text": "Hey, good to see you're still around.",
-        "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } ]
-        },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       { "text": "…", "topic": "TALK_DONE" }

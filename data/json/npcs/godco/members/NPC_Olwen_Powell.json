@@ -3,17 +3,9 @@
     "type": "talk_topic",
     "id": [ "TALK_GODCO_Olwen_2", "TALK_GODCO_Olwen_Mood", "TALK_GODCO_Olwen_Story", "TALK_GODCO_Olwen_Skills" ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Olwen_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Olwen_Story" },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Olwen_Mood" },
-      {
-        "text": "How's your family?",
-        "topic": "TALK_GODCO_Olwen_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "How's your family?", "topic": "TALK_GODCO_Olwen_Family" },
       { "text": "I heard you were handy with computers.", "topic": "TALK_GODCO_Olwen_Skills" }
     ]
   },
@@ -21,46 +13,23 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
-      "yes": "What in the world are you still doing around here, come back to screw me over?",
-      "no": {
-        "npc_has_var": "general_meeting_u_met_godco_olwen",
-        "value": "yes",
-        "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
-        "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
-      }
+      "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ],
+      "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
+      "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
     },
     "responses": [
       {
         "text": "I'm just a traveler.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_olwen", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
       },
       {
         "text": "Hi, Olwen.  What's up?",
         "topic": "TALK_GODCO_Olwen_2",
-        "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } ]
-        }
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
       },
-      {
-        "text": "Hey, Olwen.  I can't stay to talk.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
-      },
-      {
-        "text": "What's with the attitude?",
-        "topic": "TALK_GODCO_Olwen_Angry",
-        "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } ]
-        }
-      },
-      {
-        "text": "No, I'll be on my way.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
-      }
+      { "text": "Hey, Olwen.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,7 +105,7 @@
     "responses": [
       {
         "text": "Can you teach me anything?",
-        "condition": { "npc_has_var": "general_training_olwen_can_teach", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_training_olwen_can_teach" } ] },
         "topic": "TALK_TRAIN"
       },
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
@@ -199,11 +168,5 @@
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "In that case, I'd better get going.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_GODCO_Olwen_Angry",
-    "dynamic_line": "You've been quite the <name_b> as of late, and I'm sick of it.  Now go away.",
-    "responses": [ { "text": "Alright, I'll leave.", "topic": "TALK_DONE" } ]
   }
 ]
