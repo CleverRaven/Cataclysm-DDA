@@ -17,7 +17,7 @@
     "id": "gracken_shade_arms",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Shade Arms" },
+    "name": { "str_sp": "Gracken Shade Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms back to a base state.",
     "use_action": {
@@ -35,7 +35,7 @@
     "id": "gracken_strong_arms",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Strong Arms" },
+    "name": { "str_sp": "Gracken Strong Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
     "use_action": {
@@ -53,7 +53,7 @@
     "id": "gracken_long_arms",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Long Arms" },
+    "name": { "str_sp": "Gracken Long Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a longer form.",
     "use_action": {
@@ -71,7 +71,7 @@
     "id": "gracken_shade_hands",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Shade Hands" },
+    "name": { "str_sp": "Gracken Shade Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands back to a base state.",
     "use_action": {
@@ -89,7 +89,7 @@
     "id": "gracken_sharp_nails",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Sharp Nails" },
+    "name": { "str_sp": "Gracken Sharp Nails" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a sharper form.",
     "use_action": {
@@ -107,7 +107,7 @@
     "id": "gracken_dextrous_hands",
     "copy-from": "gracken_improvement_general",
     "type": "COMESTIBLE",
-    "name": { "str": "Gracken Dextrous Hands" },
+    "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a more agile form.",
     "use_action": {
