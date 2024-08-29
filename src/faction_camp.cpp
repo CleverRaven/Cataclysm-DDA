@@ -5739,6 +5739,9 @@ bool basecamp::distribute_food()
         return false;
     }
 
+    bool distribute_vitamins = query_yn(
+                                   _( "Do you also wish to distribute comestibles without any calorie value (i.e. multivitamins, mutagens)?" ) );
+
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
@@ -5797,11 +5800,12 @@ bool basecamp::distribute_food()
         nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
         // Do this multiplication separately to make sure we're using the *= operator with double argument..
         from_it *= rot_multip( it, container );
-        nutrients_to_add += from_it;
-        if( from_it.kcal() <= 0 ) {
+        // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so
+        if( from_it.kcal() <= 0 && ( !distribute_vitamins  || from_it.vitamins().empty() ) ) {
             // can happen if calories is low and rot is high.
             return false;
         }
+        nutrients_to_add += from_it;
         return true;
     };
 
@@ -5840,12 +5844,20 @@ bool basecamp::distribute_food()
         }
     }
 
-    if( nutrients_to_add.kcal() <= 0 ) {
+    if( nutrients_to_add.kcal() <= 0 && nutrients_to_add.vitamins().empty() ) {
         popup( _( "No suitable items are located at the drop points…" ) );
         return false;
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
+    std::string popup_msg;
+    if( nutrients_to_add.kcal() > 0 ) {
+        popup_msg = string_format( _( "You distribute %d kcal worth of food to your companions." ),
+                                   nutrients_to_add.kcal() );
+    } else {
+        popup_msg = _( "You distribute vitamins and medicine to your companions." );
+    }
+
+    popup( popup_msg );
     camp_food_supply( nutrients_to_add );
     return true;
 }
