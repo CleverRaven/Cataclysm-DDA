@@ -1,0 +1,46 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_chef",
+      "TALK_GODCO_guard_food",
+      "TALK_GODCO_Arturo_1",
+      "TALK_GODCO_Theresa_1",
+      "TALK_GODCO_chloe",
+      "TALK_GODCO_Corrie_1",
+      "TALK_GODCO_Darryl_1",
+      "TALK_GODCO_Greenwood_1",
+      "TALK_GODCO_Felicity_1",
+      "TALK_GODCO_Gemma_1",
+      "TALK_GODCO_Helena_1",
+      "TALK_GODCO_Jane_1",
+      "TALK_GODCO_Jeremiah_1",
+      "TALK_GODCO_Julian_1",
+      "TALK_GODCO_Katherine_1",
+      "TALK_GODCO_Kostas_1",
+      "TALK_GODCO_Maria",
+      "TALK_GODCO_Olwen_1",
+      "TALK_GODCO_Russell_1",
+      "TALK_GODCO_Sonia",
+      "TALK_GODCO_Tom_1",
+      "TALK_GODCO_Zachary"
+    ],
+    "speaker_effect": [
+      {
+        "//": "Just coming and saying hi regularly will give you a small boost to value.",
+        "condition": { "not": { "npc_has_effect": "npc_value_interaction_timer_short" } },
+        "effect": [
+          { "npc_add_effect": "npc_value_interaction_timer_short", "duration": "30 hours" },
+          { "math": [ "n_npc_value()", "++" ] }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "This is a fake response to prevent errors.  Please dont give the player the variable below.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "this_is_fake_shared_godco_value_display", "value": "yes" }
+      }
+    ]
+  }
+]

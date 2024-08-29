@@ -285,6 +285,11 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_value_interaction_timer_short",
+    "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
+  },
+  {
+    "type": "effect_type",
     "id": "frenzy",
     "name": [ "Frenzied" ],
     "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
@@ -1990,11 +1995,12 @@
     "max_duration": "3 m",
     "max_intensity": 4,
     "int_decay_tick": 40,
-    "base_mods": { "per_mod": [ -1 ] },
-    "scaling_mods": { "per_mod": [ -1 ] },
+    "resist_effects": [ "steroid_eye", "PAINRESIST" ],
+    "base_mods": { "per_mod": [ -1, 0 ], "pain_amount": [ 2, 0 ] },
+    "scaling_mods": { "per_mod": [ -1 ], "pain_amount": [ 2, 1 ] },
     "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2, "resist_scaling": -0.15 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2, "resist_scaling": -0.15 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
@@ -2041,11 +2047,12 @@
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "30 m",
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "resist_effects": [ "steroid_eye" ],
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5, -2 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.5 },
-      { "limb_score": "night_vis", "modifier": 0.5 },
-      { "limb_score": "reaction", "modifier": 0.75 },
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 0.75 },
+      { "limb_score": "night_vis", "modifier": 0.5, "resist_modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.75, "resist_modifier": 0.875 },
       { "limb_score": "breathing", "modifier": 0.3 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
@@ -2145,9 +2152,10 @@
     "decay_messages": [ [ "The irritation in your eyes stops.", "good" ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
+    "resist_effects": [ "steroid_eye" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
-    "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_max_val": [ 4 ], "pain_chance": [ 400, 1000 ] },
-    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.925 } ],
+    "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_max_val": [ 4, 2 ], "pain_chance": [ 400, 1000 ] },
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.95 } ],
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -2967,7 +2975,42 @@
     "type": "effect_type",
     "id": "dermatik",
     "immune_bp_flags": [ "BIONIC_LIMB" ],
-    "blood_analysis_description": "Insect Parasite"
+    "blood_analysis_description": "Insect Parasite",
+    "vitamins": [
+      { "vitamin": "dermatik_larva_size", "rate": [ [ 1, 1 ] ], "tick": [ "1 m" ] },
+      { "vitamin": "vitC", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "iron", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "calcium", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "mutant_toxin", "rate": [ [ 1, 1 ] ], "tick": [ "5 m" ] }
+    ],
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_tick": [ 20 ],
+      "thirst_min": [ 1 ],
+      "thirst_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_tick": [ 300 ],
+      "healing_rate": [ 0.05 ]
+    },
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 3.0 } ] } ],
+    "immune_flags": [ "ACIDBLOOD", "PARAIMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dermatik_visible",
+    "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
+    "desc": [
+      "You can feel something wriggling beneath the skin…",
+      "There's a small lump under your skin, it shifts and writhes with a life of its own…",
+      "An area of your flesh bulges unnaturally, stretched by the presence of something inside.  It feels like it's desperately trying to push its way out…"
+    ],
+    "rating": "bad",
+    "max_intensity": 3,
+    "show_in_info": true,
+    "base_mods": { "vomit_chance": [ 25200 ], "pain_amount": [ 3 ] },
+    "scaling_mods": { "vomit_chance": [ -7200 ], "pain_amount": [ 6 ] }
   },
   {
     "type": "effect_type",
@@ -2978,6 +3021,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
+    "show_in_info": true,
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
@@ -3152,6 +3196,14 @@
     "desc": [ "You have taken an antihistamine drug recently." ],
     "rating": "good",
     "blood_analysis_description": "Antihistamines"
+  },
+  {
+    "type": "effect_type",
+    "id": "steroid_eye",
+    "name": [ "Used Steroid Eye Drops" ],
+    "desc": [ "You have used steroid eye drops recently." ],
+    "rating": "good",
+    "max_duration": 10800
   },
   {
     "type": "effect_type",
@@ -4725,26 +4777,21 @@
   {
     "id": "photophobia",
     "type": "effect_type",
+    "//": "max_duration doesn't seem to work here, the effect stays forever",
     "max_duration": "5 s",
     "name": [ "photophobia" ],
-    "base_mods": { "speed_mod": [ -100 ] },
     "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
     "enchantments": [
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "SPEED", "multiply": -0.5 },
           { "value": "ARMOR_BASH", "add": 15 },
           { "value": "ARMOR_STAB", "add": 15 },
           { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_HEAT", "add": 15 },
-          { "value": "ARMOR_COLD", "add": 15 },
-          { "value": "ARMOR_ELEC", "add": 15 },
-          { "value": "ARMOR_ACID", "add": 15 },
           { "value": "ARMOR_BULLET", "add": 50 }
         ]
       }
