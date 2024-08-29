@@ -118,7 +118,6 @@ NAME_CHECK_BLACKLIST = {
     "mr73",
     "ruger_lcr_38",
     "sw_619",
-    "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
     "bond_410",
