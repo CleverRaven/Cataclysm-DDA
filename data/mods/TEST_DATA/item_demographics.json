@@ -875,7 +875,7 @@
         {
           "type": "300blk",
           "weight": 2,
-          "items": { "acr_300blk": 1, "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 }
+          "items": { "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 }
         },
         { "type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
         {
@@ -1079,7 +1079,6 @@
           "weight": 357,
           "items": {
             "1895sbl": 1,
-            "acr_300blk": 1,
             "ak308": 1,
             "ak47": 1,
             "ak556": 1,
