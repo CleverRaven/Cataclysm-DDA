@@ -616,7 +616,7 @@
     "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
-    "description": "You are imbued with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
+    "description": "You are imbued with the ancient magic powers of dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_SPELLS" ],
@@ -647,7 +647,7 @@
     "ugliness": 6,
     "mixed_effect": true,
     "description": "Your scales have grown up and around your mouth, digging into your gums and retracting your lips.  On the down side, it makes speaking difficult.  On the positive side, it makes it very easy to bite things, though what's driving you to do that?",
-    "prereqs": [ "SCALES" ],
+    "prereqs": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_MAW_BLACK" ],
     "encumbrance_always": [ [ "mouth", 10 ] ],
@@ -856,5 +856,18 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "DRAGON_ACID_PROOF",
+    "name": { "str": "Draconic Acid Immunity" },
+    "points": 3,
+    "description": "Like your scale and hide, your remaining fresh has transmuted by black dragon's essence. You are invulnerable to acid now.",
+    "purifiable": false,
+    "prereqs": [ "DRAGON_SCALES_BLACK" ],
+    "prereqs2": [ "DRAGON_SPELLS" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
+    "flags": [ "ACID_IMMUNE" ]
   }
 ]
