@@ -158,6 +158,46 @@
     "field_chance": 3
   },
   {
+    "id": "photokinetic_light_up_enemy",
+    "type": "SPELL",
+    "name": "[Ψ]Illuminate",
+    "description": "Create photons to illuminate an entire area.",
+    "message": "Your target is outlined in light.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_UP_ENEMY_TARGET",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_light_up_enemy') * 1800) + 6600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('photokinetic_light_up_enemy') * 7100) + 18400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_light_up_enemy') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2750,
+    "final_energy_cost": 750,
+    "energy_increment": -95,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -5
+  },
+  {
     "id": "photokinetic_snuff_light",
     "type": "SPELL",
     "name": "[Ψ]Blackout",

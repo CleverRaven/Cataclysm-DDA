@@ -617,10 +617,16 @@ class spell
         // heals the critter at the location, returns amount healed (Character heals each body part)
         int heal( const tripoint &target, Creature &caster ) const;
 
+        // casts the spell effect from an item.  less functionality compared to creature casting.
+        void cast_spell_effect( const tripoint &target ) const;
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
+        void cast_all_effects( const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
@@ -719,13 +725,15 @@ class known_magic
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+        // returns which invlets are already in use
+        void update_used_invlets( std::set<int> &used_invlets );
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
-        // gets invlet if assigned, or -1 if not
+        // gets invlet if assigned, or 0 if not
         int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
 

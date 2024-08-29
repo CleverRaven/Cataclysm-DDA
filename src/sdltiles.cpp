@@ -3771,6 +3771,7 @@ void catacurses::endwin()
     font.reset();
     map_font.reset();
     overmap_font.reset();
+    ui_manager::reset();
     WinDestroy();
 }
 

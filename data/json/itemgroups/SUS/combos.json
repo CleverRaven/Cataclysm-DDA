@@ -17,6 +17,7 @@
     "items": [
       { "item": "inhaler", "prob": 8, "charges": [ 10, 100 ] },
       [ "eyedrops", 20 ],
+      [ "steroid_eyedrops", 5 ],
       { "prob": 4, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       { "group": "wallets_science", "prob": 15 },
       [ "badge_doctor", 2 ],

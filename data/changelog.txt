@@ -312,6 +312,7 @@ Superglue Overhaul
 Added a way to fix cyborgs at rubic's castle
 Added mashed potatoes.
 Allow cephalopods to gain the ability to eat, sleep underwater
+Alpha Social trait
 
 
 ## Interface:
@@ -393,6 +394,9 @@ Removes XS/XXXL traits from the player display
 Fix message 'There is nothing to pickup'
 migrate uilist implementation to use ImGui
 Allow ebooks in read command
+format `uilist` menu entries with a table
+Prevent automatically assigning keys to passive mutations
+Fix ImGui Demo in curses
 
 
 ## Mods:
@@ -615,6 +619,15 @@ Add a new psychic animal, the Direhound.
 [MoM] Nether-void edits
 [Sky Island] Add Warped Pond craft
 XE Dreamwounds: Locations for spell item drops
+Isolation Protocol: New lab shapes.
+[Sky Island] Update Warped Pond recipe with man-made terrain
+Add Teleportation Ephemeral Walk Power
+MOM: Add Reality Tear Teleporter Power
+[Xedra Evolved] Add werewolf start scenario
+[MoM] Add QD944-P 'Mindsight' glasses
+[Xedra Evolved] Add Homullus must wake up near humans fae ban + eating restrictions
+[Sky Island] Make Beta security containers and better ones obtainable.
+[Xedra Evolved] More Paraclesian restrictions
 
 
 ## Balance:
@@ -930,6 +943,12 @@ Allow operand number formats on g++14
 Prevent segfault when refitting item in spillable container
 Treat hostile NPCs as unsafe even if your safe mode rules don't match.
 Genetic chaos no longer mutates Perks
+Prevent crash from -1 array idx when searching zones
+[Xedra Evolved] Wolves Can't Talk
+ImGui doesn't respect font settings #73019
+Superglue isn't super dense anymore
+Adds jack-o'-lantern recipe byproducts
+Reach attack around corners
 
 
 ## Performance:
@@ -1027,6 +1046,7 @@ Specify see_cost for overmap terrain with an enum instead of an integer
 Add Flathub download button and Flatpak manifest
 [EOC] Support user-input text in EOC (similar to num_input in `math`)
 Added support for multiple randomized field sprite variants
+JSON-ify sleep-affecting mutations
 
 
 ## Build:

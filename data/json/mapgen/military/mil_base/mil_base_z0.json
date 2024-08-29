@@ -1223,6 +1223,7 @@
         { "item": "medical_tape", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "mil_base_iv", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
         { "item": "eyedrops", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
+        { "item": "steroid_eyedrops", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "anesthetic_kit", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ], "ammo": 100 },
         { "item": "disinfectant", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "quikclot_bag_plastic_6", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
