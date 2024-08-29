@@ -117,15 +117,15 @@
     "player_display": true,
     "starting_trait": true,
     "purifiable": false,
-    "cancels": [ 
-      "BIOKINETIC", 
-      "CLAIRSENTIENT", 
-      "ELECTROKINETIC", 
-      "PHOTOKINETIC", 
-      "PYROKINETIC", 
-      "TELEPATH", 
-      "TELEKINETIC", 
-      "TELEPORTER", 
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
       "VITAKINETIC",
       "ALWAYS_GAIN_PSIONICS"
     ]
@@ -140,15 +140,15 @@
     "player_display": true,
     "starting_trait": true,
     "purifiable": false,
-    "cancels": [ 
-      "BIOKINETIC", 
-      "CLAIRSENTIENT", 
-      "ELECTROKINETIC", 
-      "PHOTOKINETIC", 
-      "PYROKINETIC", 
-      "TELEPATH", 
-      "TELEKINETIC", 
-      "TELEPORTER", 
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
       "VITAKINETIC",
       "CANNOT_GAIN_PSIONICS"
     ]
@@ -164,7 +164,7 @@
     "starting_trait": true,
     "purifiable": false,
     "cancels": [ "CANNOT_GAIN_PSIONICS", "ALWAYS_GAIN_PSIONICS" ]
-  },  
+  },
   {
     "type": "mutation",
     "id": "FIFTH_SUN_PEOPLE",

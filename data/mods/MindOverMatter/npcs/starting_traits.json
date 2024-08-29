@@ -43,54 +43,90 @@
     "type": "trait_group",
     "id": "trait_group_BIOKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "BIOKINETIC", "prob": 100 }, { "trait": "BIOKIN_NEEDS", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "BIOKINETIC", "prob": 100 },
+      { "trait": "BIOKIN_NEEDS", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_CLAIRSENTIENT",
     "subtype": "collection",
-    "traits": [ { "trait": "CLAIRSENTIENT", "prob": 100 }, { "trait": "CLAIR_SENSES", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "CLAIRSENTIENT", "prob": 100 },
+      { "trait": "CLAIR_SENSES", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_ELECTROKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "ELECTROKINETIC", "prob": 100 }, { "trait": "ELECTRO_SHIELD", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "ELECTROKINETIC", "prob": 100 },
+      { "trait": "ELECTRO_SHIELD", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PHOTOKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "PHOTOKINETIC", "prob": 100 }, { "trait": "PHOTO_EYES", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "PHOTOKINETIC", "prob": 100 },
+      { "trait": "PHOTO_EYES", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PYROKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "PYROKINETIC", "prob": 100 }, { "trait": "PYROKIN_ADAPTATION", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "PYROKINETIC", "prob": 100 },
+      { "trait": "PYROKIN_ADAPTATION", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_TELEKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "TELEKINETIC", "prob": 100 }, { "trait": "TELEKINETIC_GRAB_POCKETS", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "TELEKINETIC", "prob": 100 },
+      { "trait": "TELEKINETIC_GRAB_POCKETS", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_TELEPATH",
     "subtype": "collection",
-    "traits": [ { "trait": "TELEPATH", "prob": 100 }, { "trait": "TELEPATHIC_SUGGESTION", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "TELEPATH", "prob": 100 },
+      { "trait": "TELEPATHIC_SUGGESTION", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_TELEPORTER",
     "subtype": "collection",
-    "traits": [ { "trait": "TELEPORTER", "prob": 100 }, { "trait": "TELEPORTER_PROTECT", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "TELEPORTER", "prob": 100 },
+      { "trait": "TELEPORTER_PROTECT", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_VITAKINETIC",
     "subtype": "collection",
-    "traits": [ { "trait": "VITAKINETIC", "prob": 100 }, { "trait": "VITAKINETIC_HEALTH", "prob": 100 }, { "trait": "LIMITED_PSIONICS", "prob": 95 } ]
+    "traits": [
+      { "trait": "VITAKINETIC", "prob": 100 },
+      { "trait": "VITAKINETIC_HEALTH", "prob": 100 },
+      { "trait": "LIMITED_PSIONICS", "prob": 95 }
+    ]
   }
 ]

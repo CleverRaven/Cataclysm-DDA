@@ -5,10 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "math": [ "u_has_headblind_pr_set", "!=", "1" ] },
-    "effect": [
-      { "math": [ "u_has_headblind_pr_set", "=", "1" ] },
-      { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] }
-    ]
+    "effect": [ { "math": [ "u_has_headblind_pr_set", "=", "1" ] }, { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
