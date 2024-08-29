@@ -15,6 +15,7 @@
     "name": "Vampire Mentor",
     "job_description": "An ancient vampire, willing to assist those who want to further their curse",
     "common": false,
+    "sells_belongings": false,
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ 2, 3 ] } },
