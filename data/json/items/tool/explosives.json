@@ -608,7 +608,7 @@
       {
         "id": "LAW_Packed",
         "name": { "str": "M72 LAW (packed)", "str_pl": "M72 LAWs (packed)" },
-        "description": "The M72 LAW (Light Anti-armor Weapon) is a one-time use lightweight rocket launcher, meant to take out tanks and other armored vehicles.  Designed to replace the earlier Bazookas, it features a shaped-charge warhead to pierce armor.  Though weaker than the more modern and heavier AT4, it's still in service to this day.  Due to it's design, you must unpack it to use it, and it cannot be reloaded.  Activate to unpack."
+        "description": "The M72 LAW (Light Anti-armor Weapon) is a one-time use lightweight rocket launcher, meant to take out tanks and other armored vehicles.  Designed to replace the earlier Bazookas, it features a shaped-charge warhead to pierce armor.  Though weaker than the more modern and heavier AT4, it's still in service to this day.  Due to its design, you must unpack it to use it, and it cannot be reloaded.  Activate to unpack."
       }
     ],
     "weight": "2500 g",

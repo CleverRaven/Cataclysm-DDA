@@ -60,7 +60,7 @@
       {
         "id": "garand",
         "name": { "str": "M1 Garand" },
-        "description": "The M1 Garand is a widely celebrated battle rifle, being one of the most mass-produced battle rifles in the world.  It saw widespread use in the US military, being used extensively in WW2 and the Korean War.  While it's military use has dwindled down, being out of US service for more than 50 years, some of it's mechanical influence still remains through rifles such as AKs, or M14s.  It still sees widespread use in civilian spaces as an accurate competition or hunting rifle."
+        "description": "The M1 Garand is a widely celebrated battle rifle, being one of the most mass-produced battle rifles in the world.  It saw widespread use in the US military, being used extensively in WW2 and the Korean War.  While its military use has dwindled down, being out of US service for more than 50 years, some of its mechanical influence still remains through rifles such as AKs or M14s.  It still sees widespread use in civilian spaces as an accurate competition or hunting rifle."
       }
     ],
     "ascii_picture": "m1_garand",
@@ -110,7 +110,7 @@
       {
         "id": "m1903",
         "name": { "str": "M1903 Springfield" },
-        "description": "A powerful military rifle originally chambered in .30-03 Springfield, developed to replace the US Army's older Krag rifle.  It was quickly rechambered into the .30-06 caliber with it's spitzer bullet.  While an American rifle produced and developed around WW1, manufacturing couldn't keep up with demand, and saw service alongside the M1917 Enfield, a British rifle rechambered for the American 30-06.  It saw service as a sniper rifle up to the Vietnam War, but nowadays is mainly used by civilians, either as hunting rifles or in collections."
+        "description": "A powerful military rifle originally chambered in .30-03 Springfield, developed to replace the US Army's older Krag rifle.  It was quickly rechambered into the .30-06 caliber with its spitzer bullet.  While an American rifle produced and developed around WW1, manufacturing couldn't keep up with demand, and saw service alongside the M1917 Enfield, a British rifle rechambered for the American 30-06.  It saw service as a sniper rifle up to the Vietnam War, but nowadays is mainly used by civilians, either as hunting rifles or in collections."
       }
     ],
     "weight": "3910 g",
@@ -160,7 +160,7 @@
       {
         "id": "m1918",
         "name": { "str": "Browning Automatic Rifle" },
-        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Originally developed to fill a now outdated role as an \"automatic rifle\", it was pushed into service for use as a light machine gun.  Despite being heavy and cumbersome, without filling it's designed role, it saw service for over 50 years.  While newer models have a slow and fast fully automatic setting, this one is an older one, with just semi and full auto."
+        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Originally developed to fill a now outdated role as an \"automatic rifle\", it was pushed into service for use as a light machine gun.  Despite being heavy and cumbersome, without filling its designed role, it saw service for over 50 years.  While newer models have a slow and fast fully automatic setting, this one is an older one, with just semi and full auto."
       }
     ],
     "weight": "8820 g",
