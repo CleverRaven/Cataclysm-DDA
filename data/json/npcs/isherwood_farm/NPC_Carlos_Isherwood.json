@@ -280,7 +280,7 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE1",
-        "condition": { "not": { "npc_has_var": "carlos_has_anvil", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] } }
       },
       {
         "text": "Is your forge operational?",

@@ -264,7 +264,7 @@
             { "math": [ "u_skill('survival')", ">=", "4" ] },
             { "math": [ "u_skill('fabrication')", ">=", "4" ] },
             { "u_has_var": "rootcellar_tacoma_bakery", "value": "known" },
-            { "not": { "npc_has_var": "rootcellar_tacoma_bakery", "value": "helped" } }
+            { "not": { "compare_string": [ "helped", { "npc_val": "rootcellar_tacoma_bakery" } ] } }
           ]
         }
       }

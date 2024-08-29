@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -113,7 +113,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
@@ -142,7 +142,7 @@
         "condition": {
           "and": [
             { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
-            { "npc_has_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_beggars_reward_agreed" } ] }
           ]
         },
         "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
@@ -354,8 +354,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  Smokes listens",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
           "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
         }
@@ -367,7 +366,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

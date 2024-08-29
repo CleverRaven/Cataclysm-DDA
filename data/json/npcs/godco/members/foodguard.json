@@ -10,8 +10,7 @@
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "What brings you around here <name_b>?  I don't want to see your face for a while.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_food_guard",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ],
           "yes": [ "Hey there.", "You're back.", "So…?" ],
           "no": "Hello.  What brings you around here?"
         }
@@ -24,7 +23,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_food_guard", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -35,7 +34,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_food_guard", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -46,7 +45,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -57,7 +56,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -68,7 +67,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },

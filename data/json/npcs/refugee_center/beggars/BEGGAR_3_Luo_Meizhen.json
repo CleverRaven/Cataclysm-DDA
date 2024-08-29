@@ -98,11 +98,9 @@
         "value": "yes",
         "yes": "Yo.  Anyone else keen on moving from this bus stop to your tent city?",
         "no": {
-          "npc_has_var": "general_conversation_dont_insult_luo",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_conversation_dont_insult_luo" } ],
           "yes": {
-            "npc_has_var": "general_conversation_apology_luo",
-            "value": "yes",
+            "compare_string": [ "yes", { "npc_val": "general_conversation_apology_luo" } ],
             "yes": {
               "npc_has_effect": "beggar_has_eaten",
               "yes": "Hey there.  Good to see you again.",
@@ -145,8 +143,8 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_conversation_apology_luo", "value": "yes" } },
-            { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_conversation_apology_luo" } ] } },
+            { "compare_string": [ "yes", { "npc_val": "general_conversation_dont_insult_luo" } ] },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -158,7 +156,7 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ] },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -169,7 +167,7 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "not": { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ] } },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -258,8 +256,8 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_conversation_apology_luo", "value": "yes" } },
-            { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_conversation_apology_luo" } ] } },
+            { "compare_string": [ "yes", { "npc_val": "general_conversation_dont_insult_luo" } ] },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -271,7 +269,7 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ] },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
@@ -303,7 +301,7 @@
           "and": [
             { "u_has_perception": 9 },
             { "not": { "u_has_var": "general_recruit_luo_recruited", "value": "yes" } },
-            { "not": { "npc_has_var": "general_conversation_dont_insult_luo", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_conversation_dont_insult_luo" } ] } }
           ]
         },
         "text": "I mean, racism could definitely be a part of it… but you are visibly in poor shape.  They need strong survivor material.",
@@ -416,12 +414,12 @@
     "speaker_effect": [ { "effect": { "npc_add_var": "general_recruit_luo_attempt_recruit", "value": "yes" } } ],
     "responses": [
       {
-        "condition": { "npc_has_var": "general_recruit_luo_owed", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_owed" } ] },
         "text": "Oh, come on.  I'm not a random stranger anymore, I brought you that crazy mushroom didn't I?",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED1"
       },
       {
-        "condition": { "not": { "npc_has_var": "general_recruit_luo_owed", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_owed" } ] } },
         "text": "What better choice do you have?  It's not like it would be just you and me, the others out here can come too.",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT2"
       },
@@ -562,8 +560,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS3",
     "dynamic_line": {
-      "npc_has_var": "general_recruit_luo_attempt_recruit",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ],
       "yes": "If you get me a sample, I'll join your crazy camp expedition.  Hell, if you bring me a sample maybe I'll help you set up a lab to study this stuff.  Almost anything could work, but if this stuff is as dangerous as you make it sound, maybe make sure it's not a sporulating body.",
       "no": "I dunno, scientific interest?  If you don't bring me anything, no worries.  I'm positively swimming in entertainment here, as you can see."
     },
@@ -571,7 +568,10 @@
     "responses": [
       {
         "condition": {
-          "and": [ { "u_has_item": "veggy_tainted" }, { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } ]
+          "and": [
+            { "u_has_item": "veggy_tainted" },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ] }
+          ]
         },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
@@ -580,7 +580,7 @@
         "condition": {
           "and": [
             { "u_has_item": "veggy_tainted" },
-            { "not": { "npc_has_var": "general_recruit_luo_attempt_recruit", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_recruit_luo_attempt_recruit" } ] } }
           ]
         },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",

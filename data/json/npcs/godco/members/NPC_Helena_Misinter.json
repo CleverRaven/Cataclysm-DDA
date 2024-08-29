@@ -18,7 +18,7 @@
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       {
@@ -27,7 +27,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_value()", ">=", "3" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
         }
@@ -45,8 +45,7 @@
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "What brings you here <name_b>?  You know we don't want anything to do with you.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_helena",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ],
           "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
           "no": "Stranger, what brings you to our holy home?"
         }
@@ -58,7 +57,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_helena", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -69,7 +68,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },

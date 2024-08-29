@@ -100,7 +100,7 @@
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" } },
             { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" } },
-            { "npc_has_var": "dialogue_intercom_told_about_portal_storms", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_portal_storms" } ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"

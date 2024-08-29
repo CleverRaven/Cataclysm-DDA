@@ -43,7 +43,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1"
@@ -75,7 +75,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -248,8 +248,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  The teamster considers for a moment",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": {
             "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
             "relevant_genders": [ "npc" ]
@@ -267,7 +266,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

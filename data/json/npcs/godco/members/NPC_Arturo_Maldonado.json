@@ -46,8 +46,7 @@
             "npc_has_effect": "Arturo_visions_timer",
             "yes": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here.",
             "no": {
-              "npc_has_var": "general_meeting_u_met_godco_arturo",
-              "value": "yes",
+              "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ],
               "yes": "Hi, <name_g>.  What's up?",
               "no": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here."
             }
@@ -67,7 +66,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -83,7 +82,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -94,7 +93,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -105,7 +104,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
@@ -116,7 +115,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },

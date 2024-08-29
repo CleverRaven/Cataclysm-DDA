@@ -97,8 +97,7 @@
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "Please go away, I'm not in the mood to talk right now.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_katherine",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
           "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
           "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
         }
@@ -111,7 +110,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
@@ -121,7 +120,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },

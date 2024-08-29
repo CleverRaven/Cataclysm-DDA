@@ -21,7 +21,7 @@
       { "text": "What does a dorm leader do exactly?", "topic": "TALK_GODCO_Gemma_Leader" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
         "topic": "TALK_GODCO_Gemma_Help"
       },
       {
@@ -30,7 +30,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_value()", ">=", "3" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
         }
@@ -51,8 +51,7 @@
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "I'm rather busy at the moment, I don't have the time to talk right now.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_gemma",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ],
           "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
           "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
         }
@@ -64,7 +63,7 @@
         "topic": "TALK_GODCO_Gemma_Leave",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -87,7 +86,7 @@
         "topic": "TALK_GODCO_Gemma_Firstmeet",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
             { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -98,7 +97,10 @@
         "text": "Hi, Gemma.  How're you doing?",
         "topic": "TALK_GODCO_Gemma_Mood",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
+          ]
         }
       },
       {
@@ -115,7 +117,10 @@
         "text": "Are you sure?  I've got all the time in the world.",
         "topic": "TALK_GODCO_Gemma_Angry",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
+          ]
         }
       },
       {
@@ -197,8 +202,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Mood",
     "dynamic_line": {
-      "npc_has_var": "mission_meeting_gemma_got_supplements",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ],
       "yes": "I'm feeling great!  Even if the world's over, I always have myself and God above.",
       "no": "I'm feeling alright, just working away."
     },
@@ -206,12 +210,12 @@
       {
         "text": "I'm happy to hear that, Gemma.  I'd best be going.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ] }
       },
       {
         "text": "I'll see you around.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ] } }
       }
     ]
   },
