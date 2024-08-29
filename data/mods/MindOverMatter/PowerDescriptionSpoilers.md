@@ -341,7 +341,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 10 minutes to 30 minutes, plus 45 seconds to 90 seconds per power level<br />
 *Stamina Cost*: 6500, minus 150 per level to a minimum of 3500<br />
 *Channeling Time*: 350 moves, minus 9 moves per level to a minimum of 150<br />
-*Effects*: Passively recharge any UPS-compatible devices on the psion's person.<br /> 
+*Effects*: Passively recharge any batteries and electrical devices on the psion's person.<br /> 
 *Prerequisites*: Spark Sight 5, Electrical Discharge 8<br />
 
 ## Neural Spasms
@@ -793,7 +793,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Manipulate local momentum to the psion's advantage, speeding their own movements and slowing incoming dangerous objects. Reduces move cost by 0.5% per power level to a maximum of 15%, increases attack speed by 1% per power level, reduces incoming cutting and piercing damage by 0.5% per power level, reduces incoming bashing damage by 1% per power level, and reduces incoming ballistic damage by 2% per power level.<br />
 *Prerequisites*: Far Hand 5, Force Shove 5<br />
 
-## Slowfall (C)
+## Slowfall
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: From 3 to 15 seconds, plus 1 to 4 seconds per power level<br />
@@ -829,7 +829,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Use telekinesis to enhance the psion's strength by 15 plus 3 per power level. This enhanced strength requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Force Shove 6 *or* Far Hand 6, Momentum Alteration 5<br />
 
-## Mindhammer (C)
+## Mindhammer
 *Difficulty*: 5<br />
 *Target*: One target within 3 squares plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
@@ -872,7 +872,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
 *Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
+*Prerequisites*: Slowfall 9, Force Shove 12 *or* Lift Vehicle 5<br />
 
 # Megakinesis
 *Difficulty*: 8<br />
@@ -1194,7 +1194,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Cause decay in the target's tissues causing 1 point of biological damage per second for the power's duration. As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
-## Detoxification (C)
+## Detoxification
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 2 minutes and 36 seconds to 6 minutes and 58 seconds, plus 4 seconds to 32 seconds per power level<br />
@@ -1284,7 +1284,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
 *Prerequisites*: Allay Infection 12, Damage Balancing 8 *or* Immunostimulus 12<br />
 
-## Anabolic Rejuvenation
+## Anabolic Rejuvenation (C)
 *Difficulty*: 9<br />
 *Target*: Self<br />
 *Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
@@ -1293,7 +1293,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
 *Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
 
-## Accelerated Resuscitation
+## Accelerated Resuscitation (C)
 *Difficulty*: 10<br />
 *Target*: Self<br />
 *Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />
