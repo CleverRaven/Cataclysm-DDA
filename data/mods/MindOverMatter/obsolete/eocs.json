@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_MOM_GAMELOAD_POWER_LEARNING_VARIABLES_UPDATER",
+    "id": "EOC_MOM_GAMELOAD_HEADBLIND_UPDATER",
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "math": [ "u_has_headblind_pr_set", "!=", "1" ] },
