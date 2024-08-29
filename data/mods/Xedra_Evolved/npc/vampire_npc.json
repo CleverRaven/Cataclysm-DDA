@@ -1469,10 +1469,10 @@
                   {
                     "type": "talk_topic",
                     "id": "TALK_VAMPIRE_HUNTER_HEALER_ASK_NO_RETURN",
-                    "dynamic_line": "There's a point of no return?  What does it entails?" ,
+                    "dynamic_line": "There's a point of no return to vampirism?  What does it entails?" ,
                     "responses": [
                       {
-                        "text": "I'm not sure of the whole thing, but I had to make someone love me more than anything else in the world before killing them in cold blood.",
+                        "text": "I don't know all about it, but I had to make someone love me more than anything else in the world before killing them with my hands.",
                         "topic": "TALK_VAMPIRE_HUNTER_HEALER_KILL_INNOCENT"
                       },
                       {
@@ -1517,6 +1517,4 @@
                       }
                     ]
                   }
-
-
 ]
