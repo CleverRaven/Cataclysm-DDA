@@ -4730,26 +4730,21 @@
   {
     "id": "photophobia",
     "type": "effect_type",
+    "//": "max_duration doesn't seem to work here, the effect stays forever",
     "max_duration": "5 s",
     "name": [ "photophobia" ],
-    "base_mods": { "speed_mod": [ -100 ] },
     "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
     "enchantments": [
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "SPEED", "multiply": -0.5 },
           { "value": "ARMOR_BASH", "add": 15 },
           { "value": "ARMOR_STAB", "add": 15 },
           { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_HEAT", "add": 15 },
-          { "value": "ARMOR_COLD", "add": 15 },
-          { "value": "ARMOR_ELEC", "add": 15 },
-          { "value": "ARMOR_ACID", "add": 15 },
           { "value": "ARMOR_BULLET", "add": 50 }
         ]
       }
