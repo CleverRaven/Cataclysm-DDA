@@ -1203,7 +1203,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
     }
 }
 
-void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view )
+void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view ) const
 {
     // "Avoid" rather than "dodge", because it includes removing self from the line of fire
     //  rather than just Matrix-style bullet dodging
