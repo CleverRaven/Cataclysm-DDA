@@ -74,6 +74,7 @@
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
     "reload_time": 60,
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 250 } } ]
   },
   {
@@ -124,6 +125,7 @@
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 500 } } ]
   },
   {

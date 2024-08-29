@@ -316,6 +316,26 @@
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "shape": "blast",
     "effect": "attack",
+    "effect_str": "effect_photokinetic_illuminate_enemy",
+    "damage_type": "psi_photokinetic_damage",
+    "max_level": 30,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 25,
+    "range_increment": 1,
+    "min_duration": 2300,
+    "max_duration": 19500
+  },
+  {
+    "id": "photokinetic_illumination_migo",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Illumination Migo" },
+    "valid_targets": [ "hostile" ],
+    "description": "Applies an effect that makes the target glow, reducing dodge.  It's a bug if you have it.",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
     "effect_str": "effect_photokinetic_illumination",
     "damage_type": "psi_photokinetic_damage",
     "max_level": 30,
@@ -324,8 +344,8 @@
     "min_range": 5,
     "max_range": 25,
     "range_increment": 1,
-    "min_duration": 500,
-    "max_duration": 6000
+    "min_duration": 6300,
+    "max_duration": 28100
   },
   {
     "id": "photokinetic_light_beam_monster",
