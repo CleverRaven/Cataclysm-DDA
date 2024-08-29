@@ -2325,12 +2325,12 @@
     "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
-    "special_attacks": [ [ "DERMATIK", 25 ] ],
+    "special_attacks": [ { "id": "dermatik_impale" }, { "id": "grab" } ],
     "vision_day": 13,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY", "GRABS" ],
     "armor": { "bash": 2, "cut": 5 }
   },
   {

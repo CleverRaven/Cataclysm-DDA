@@ -29,21 +29,25 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
-      "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
+      "math": [ "n_npc_anger()", ">=", "8" ],
+      "yes": "What brings you back here?  Come to exploit me again?",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_greenwood",
+        "u_has_var": "dialogue_godco_godco_notalk_to_u",
         "value": "yes",
-        "yes": {
-          "u_male": true,
-          "yes": [ "The Lord be with you, brother.", "Good to see you're still around, <u_name>." ],
-          "no": [ "The Lord be with you, sister.", "Good to see you're still around, <u_name>." ]
-        },
+        "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
         "no": {
-          "u_male": true,
-          "yes": "The Lord be with you, brother.  You seem new, nice to meet you.  Welcome, and welcome aboard!",
-          "no": "The Lord be with you, sister.  You seem new, nice to meet you.  Welcome, and welcome aboard!"
+          "npc_has_var": "general_meeting_u_met_godco_greenwood",
+          "value": "yes",
+          "yes": {
+            "u_male": true,
+            "yes": [ "The Lord be with you, brother.", "Good to see you're still around, <u_name>." ],
+            "no": [ "The Lord be with you, sister.", "Good to see you're still around, <u_name>." ]
+          },
+          "no": {
+            "u_male": true,
+            "yes": "The Lord be with you, brother.  You seem new, nice to meet you.  Welcome, and welcome aboard!",
+            "no": "The Lord be with you, sister.  You seem new, nice to meet you.  Welcome, and welcome aboard!"
+          }
         }
       }
     },
@@ -61,13 +65,16 @@
       },
       {
         "text": "Good to see you again, Reverend.  I wanted to talk.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "and": [ { "math": [ "n_npc_anger()", "<", "8" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+        },
         "topic": "TALK_GODCO_Greenwood_2"
       },
       {
         "text": "I'm looking for work.  Can I do anything for your congregation?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "8" ] },
             { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -80,6 +87,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "8" ] },
             { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -95,6 +103,11 @@
           ]
         },
         "topic": "TALK_GODCO_Greenwood_You_Mutant"
+      },
+      {
+        "text": "What are you talking about?",
+        "topic": "TALK_GODCO_Greenwood_Angry",
+        "condition": { "math": [ "n_npc_anger()", ">=", "8" ] }
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
@@ -114,7 +127,11 @@
     "dynamic_line": { "u_male": true, "yes": "How may I help you, brother?", "no": "How may I help you, sister?" },
     "responses": [
       { "text": "Where am I again?", "topic": "TALK_GODCO_Greenwood_Where" },
-      { "text": "What's your story?", "topic": "TALK_GODCO_Greenwood_Past" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Greenwood_Past",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "Could you tell me a bit about this church?", "topic": "TALK_GODCO_Greenwood_NECC" },
       { "text": "I'm looking for work.  Can I do anything for your congregation?", "topic": "TALK_MISSION_LIST" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -180,5 +197,11 @@
       { "text": "Alright.  Let's talk about something else.", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "Thanks for the info, I'd best be going then.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Greenwood_Angry",
+    "dynamic_line": "I've already given you a second chance, and yet you kept right on abusing me.  I can't stand it any longer, and I want nothing to do with you.  I hope that God will show you the light soon enough.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

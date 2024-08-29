@@ -1,0 +1,61 @@
+[
+  {
+    "id": "rip_ticket",
+    "name": { "str": "vancian bill" },
+    "description": "A small bill covered in odd symbols.  Tearing it will in turn cause a small dimensional tear located within a nearby entity.  Despite only lasting a few milliseconds, an internal tear in reality should be enough to kill anything.  Hopefully.",
+    "type": "TOOL",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "paper" ],
+    "symbol": "|",
+    "color": "brown",
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true }
+  },
+  {
+    "id": "inventor_warp_grenade",
+    "type": "TOOL",
+    "category": "weapons",
+    "looks_like": "grenade",
+    "name": { "str": "netherium warp grenade" },
+    "description": "A homemade general purpose reality implosion device.  Use this item to pull the pin and start the fuse.  After 5 seconds, everything nearby will be violently sliced, warped, aged, and partially teleported straight into many different sections of the nether.  After a short moment of instant death, the dimensional gap will probably heal.  Probably.",
+    "weight": "397 g",
+    "volume": "540 ml",
+    "price": "10000 USD",
+    "price_postapoc": "200 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "green",
+    "use_action": {
+      "need_wielding": true,
+      "target": "inventor_warp_grenade_act",
+      "msg": "You pull the pin on the grenade.",
+      "target_timer": "5 seconds",
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "INVENTOR_CRAFTED" ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "inventor_warp_grenade_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active netherium warp grenade" },
+    "description": "This netherium warp grenade is active, and will explode any second now.  Continue holding it to die in the messiest and most violent of ways imaginable",
+    "weight": "397 g",
+    "volume": "270 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "green",
+    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
+    "countdown_action": { "type": "cast_spell", "spell_id": "netherium_warp_grenade_detonation", "no_fail": true, "level": 0 },
+    "countdown_interval": "5 seconds",
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
+    "melee_damage": { "bash": 6 }
+  }
+]
