@@ -55,16 +55,6 @@
   {
     "id": "stanag_mags",
     "type": "item_group",
-    "items": [
-      { "item": "stanag30", "prob": 1000 },
-      { "item": "stanag40", "prob": 100 },
-      { "item": "stanag50", "prob": 80 },
-      { "item": "stanag60", "prob": 60 },
-      { "item": "stanag60drum", "prob": 40 },
-      { "item": "stanag90", "prob": 20 },
-      { "item": "stanag100", "prob": 10 },
-      { "item": "stanag100drum", "prob": 5 },
-      { "item": "stanag150", "prob": 3 }
-    ]
+    "items": [ { "item": "stanag30", "prob": 100 }, { "item": "stanag30ranger", "prob": 10 } ]
   }
 ]
