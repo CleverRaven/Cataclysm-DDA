@@ -2,6 +2,7 @@
   {
     "abstract": "gracken_improvement_general",
     "type": "COMESTIBLE",
+    "comestible_type": "INVALID",
     "category": "MED",
     "name": { "str": "abstract gracken improvement" },
     "weight": "2041 g",
