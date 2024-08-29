@@ -55,7 +55,7 @@
         "|": "t_wall_w",
         "<": "t_ladder_up",
         "%": "t_door_c",
-        "(": "t_linoleum_white",
+        "(": "t_linoleum_white"
       },
       "toilets": { "U": {  } },
       "furniture": {
