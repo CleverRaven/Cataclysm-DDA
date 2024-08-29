@@ -153,8 +153,7 @@
           "no": ".  I have these things, but I do not have peace.  No one here does"
         },
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
           "yes": ".  Still, we have so much work to do to make a home here.",
           "no": ".  We are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
         }

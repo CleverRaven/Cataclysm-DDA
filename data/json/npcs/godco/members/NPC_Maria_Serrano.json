@@ -28,8 +28,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
@@ -48,7 +47,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Maria_Feeling"
@@ -59,7 +58,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Maria_2"
@@ -70,7 +69,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Maria_Angry"
@@ -80,7 +79,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
@@ -88,7 +87,10 @@
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
         "condition": {
-          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_DONE"
       }

@@ -77,8 +77,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Traveler"
@@ -87,8 +87,8 @@
         "text": "I'm seeking asylum here.",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Joinee"
@@ -97,8 +97,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Mutant_Traveler"

@@ -33,8 +33,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "I must be seeing things again!  Stay away from me!",
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
@@ -67,14 +66,14 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Arturo_Firstmeet"
       },
       {
         "text": "Are you alright?",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_GODCO_Arturo_U_Mutant"
       },
       {
@@ -83,7 +82,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Arturo_2"
@@ -94,7 +93,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Arturo_Angry"
@@ -105,7 +104,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
@@ -116,7 +115,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"

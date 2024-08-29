@@ -76,7 +76,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_2",
-    "condition": { "u_has_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
+    "condition": { "compare_string": [ "yes", { "u_val": "eoc_sample_item_transporter_set_coordinates" } ] },
     "effect": [
       {
         "u_run_inv_eocs": "manual_mult",
@@ -128,12 +128,12 @@
     "id": "EOC_if_else_test",
     "effect": [
       {
-        "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
+        "if": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] },
         "then": { "u_message": "You have variable." },
         "else": [
           { "u_message": "You don't have variable." },
           {
-            "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
+            "if": { "not": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] } },
             "then": [ { "u_add_var": "eoc_sample_if_else_test", "value": "yes" }, { "u_message": "Variable added." } ]
           }
         ]

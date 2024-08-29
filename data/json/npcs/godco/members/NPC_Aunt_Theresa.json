@@ -33,8 +33,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
@@ -57,7 +56,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_Firstmeet"
@@ -68,7 +67,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_2"
@@ -79,7 +78,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_Anger"
@@ -89,20 +88,23 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the insults for?",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_GODCO_Theresa_You_Mutant"
       },
       {
         "text": "Fuck you then, I'm leaving.",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_DONE"
       }

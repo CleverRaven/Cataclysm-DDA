@@ -47,8 +47,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
@@ -70,7 +69,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -81,7 +80,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_2"
@@ -92,7 +91,7 @@
           "and": [
             { "not": { "npc_has_effect": "failed_persuade" } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
-            { "u_has_var": "general_mission_convince_kostas", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_mission_convince_kostas" } ] }
           ]
         },
         "topic": "TALK_GODCO_Kostas_Jeremiah"
@@ -102,7 +101,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
@@ -116,7 +115,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Kostas_Angry"
@@ -126,7 +125,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_kostas" } ] },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
@@ -143,20 +142,23 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
         "text": "What the hell are you talking about?",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_GODCO_Kostas_You_Mutant"
       },
       {
         "text": "Alright then.",
         "condition": {
-          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_DONE"
       }

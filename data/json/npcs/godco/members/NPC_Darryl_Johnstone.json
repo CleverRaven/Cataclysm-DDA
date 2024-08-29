@@ -36,8 +36,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
@@ -73,7 +72,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Farm"
@@ -84,7 +83,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_2"
@@ -95,7 +94,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Angry"
@@ -106,7 +105,7 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade"
@@ -117,7 +116,7 @@
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Angry"
@@ -138,20 +137,23 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the poor attitude about?",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_GODCO_Darryl_You_Mutant"
       },
       {
         "text": "Fuck you <name_b>, I'm outta here.",
         "condition": {
-          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_DONE"
       }
@@ -167,7 +169,7 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "u_has_var": "general_trade_darryl_built_coop", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_trade_darryl_built_coop" } ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },

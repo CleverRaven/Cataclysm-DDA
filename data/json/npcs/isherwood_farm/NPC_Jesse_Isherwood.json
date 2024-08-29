@@ -81,7 +81,9 @@
       {
         "text": "Hi, Jack and Claire suggested I come down here and meet you.",
         "topic": "TALK_MET_JACK_CLAIRE",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
+        "condition": {
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
+        }
       },
       {
         "text": "Can I do anything for you?",

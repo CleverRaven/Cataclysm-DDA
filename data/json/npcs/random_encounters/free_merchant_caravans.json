@@ -130,7 +130,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -156,7 +156,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -224,7 +224,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -243,7 +243,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -261,7 +261,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },

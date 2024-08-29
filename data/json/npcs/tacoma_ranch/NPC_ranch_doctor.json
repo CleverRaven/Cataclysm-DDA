@@ -57,7 +57,7 @@
       {
         "text": "Could you help me with some bionics?",
         "topic": "TALK_RANCH_DOCTOR_BIONICS",
-        "condition": { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodization_u_knows_exodiilore" } ] }
       },
       { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_DOCTOR_AID" },
       { "text": "…", "topic": "TALK_DONE" }
@@ -279,8 +279,8 @@
     "goal_condition": {
       "and": [
         { "u_has_items": { "item": "anesthetic", "count": 3000 } },
-        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
-        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] },
+        { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
       ]
     },
     "difficulty": 5,
