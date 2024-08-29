@@ -725,13 +725,15 @@ class known_magic
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+        // returns which invlets are already in use
+        void update_used_invlets( std::set<int> &used_invlets );
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
-        // gets invlet if assigned, or -1 if not
+        // gets invlet if assigned, or 0 if not
         int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
 
