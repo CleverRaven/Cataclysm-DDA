@@ -143,7 +143,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
-        "magazine_well": "250 ml",
+        "magazine_well": "34 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "ruger1022mag",
@@ -427,7 +427,7 @@
     "built_in_mods": [ "bipod" ],
     "pocket_data": [
       {
-        "magazine_well": "250 ml",
+        "magazine_well": "34 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "ruger1022mag",
