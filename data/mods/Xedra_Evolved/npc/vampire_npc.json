@@ -1,215 +1,1522 @@
 [
   {
-    "type": "npc_class",
-    "id": "NC_NPC_XE_VAMPIRE",
-    "name": "Vampire",
-    "job_description": "Someone who needs to drink blood to live.",
-    "common": false,
-    "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
-    ],
-    "bonus_int": { "rng": [ 1, 2 ] },
-    "bonus_per": { "rng": [ 1, 2 ] },
-    "bonus_str": { "rng": [ 1, 2 ] },
-    "bonus_dex": { "rng": [ 1, 2 ] },
-    "traits": [
-      { "group": "Appearance_demographics" },
-      { "group": "BG_survival_story_UNIVERSAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "trait_group_tier1_vampire", "prob": 100 },
-      { "group": "trait_group_tier2_vampire", "prob": 90 },
-      { "group": "trait_group_tier3_vampire", "prob": 80 }
-    ]
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_NPC_XE_VAMPIRE",
-    "name": "Vampire",
-    "job_description": "Someone who needs to drink blood to live.",
-    "common": false,
-    "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
-    ],
-    "bonus_int": { "rng": [ 1, 2 ] },
-    "bonus_per": { "rng": [ 1, 2 ] },
-    "bonus_str": { "rng": [ 1, 2 ] },
-    "bonus_dex": { "rng": [ 1, 2 ] },
-    "traits": [
-      { "group": "Appearance_demographics" },
-      { "group": "BG_survival_story_UNIVERSAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "trait_group_tier1_vampire", "prob": 100 },
-      { "group": "trait_group_tier2_vampire", "prob": 90 },
-      { "group": "trait_group_tier3_vampire", "prob": 80 },
-      { "trait": "VAMPIRE_HUNGRY", "prob": 100 }
-    ]
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_NPC_XE_VAMPIRE_COMPLETE",
-    "name": "Vampire",
-    "job_description": "A very old vampire that reached the full potential of their curse.",
-    "common": false,
-    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 2, 4 ] } ] } } ],
-    "bonus_int": { "rng": [ 2, 4 ] },
-    "bonus_per": { "rng": [ 2, 4 ] },
-    "bonus_str": { "rng": [ 2, 4 ] },
-    "bonus_dex": { "rng": [ 2, 4 ] },
-    "traits": [
-      { "group": "Appearance_demographics" },
-      { "group": "BG_survival_story_UNIVERSAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "trait_group_complete_vampire" }
-    ]
-  },
-
-
-
-  {
-    "type": "npc",
-    "id": "xe_vampire_mugger",
-    "//": "Asks for two liters of blood from your veins.  If you can't or won't give it, acts as a regular mugger.",
-    "name_suffix": "vampire",
-    "class": "NC_NPC_XE_VAMPIRE",
-    "common_spawn_weight": 0.1,
-    "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_VAMPIRE_MUGGER",
-    "faction": "vampire"
-  },
-  {
-    "type": "npc",
-    "id": "xe_vampire_regular",
-    "//": "A regular person if not for the vampirism.",
-    "name_suffix": "vampire",
-    "class": "NC_NPC_XE_VAMPIRE",
-    "common_spawn_weight": 0.1,
-    "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_STRANGER_NEUTRAL",
-    "faction": "vampire"
-  },
-  {
-    "type": "npc",
-    "id": "xe_vampire_hungry",
-    "//": "A regular person if not for the vampirism and the gnawing thirst for blood.  Needs a custom class so they can receive the trait that checks if they're hungry.",
-    "name_suffix": "vampire",
-    "class": "NC_NPC_XE_VAMPIRE_HUNGRY",
-    "common_spawn_weight": 0.1,
-    "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_STRANGER_NEUTRAL",
-    "faction": "vampire"
-  },
-  {
-    "type": "npc",
-    "id": "xe_vampire_unwilling",
-    "//": "They never wanted to be a vampire, and are looking for anything to help them get rid of that curse.",
-    "name_suffix": "vampire",
-    "class": "NC_NPC_XE_VAMPIRE",
-    "common_spawn_weight": 0.1,
-    "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_VAMPIRE_UNWILLING",
-    "faction": "vampire"
-  },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  {
     "id": "TALK_VAMPIRE_MUGGER",
     "type": "talk_topic",
-    "dynamic_line": {
-      "u_has_var": "",
-      "value": "yes",
-      "yes": "",
-      "no": ""
-    },
-    "responses": [
-      {
-        "text": "I want to talk.",
-        "topic": "TALK_VAMPIRE_MENTOR_TALK",
-        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
-      },
-      {
-        "text": "I want a mentor.",
-        "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
-        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
-      },
-      {
-        "text": "I want to kill vampires.",
-        "topic": "TALK_VAMPIRE_MENTOR_KILLING",
-        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
-      },
-      {
-        "text": "I've done it.  I am now a true vampire.",
-        "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
-        "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_var": "told_about_trueness", "value": "yes" } } ] },
-        "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
-      },
-      {
-        "text": "Before, you said there was more that I needed to learn?",
-        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
-        "condition": {
-          "and": [
-            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
-            { "u_has_var": "told_about_trueness", "value": "yes" }
-          ]
-        }
-      },
-      {
-        "text": "I've lost the book you gave me.  Do you have another?",
-        "topic": "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW",
-        "condition": {
-          "and": [ { "u_has_var": "received_mentor_book", "value": "yes" }, { "not": { "u_has_item": "vampire_mentor_book" } } ]
-        }
-      },
-      {
-        "text": "I have brought back the components you need for the ritual.",
-        "topic": "TALK_VAMPIRE_MENTOR_MAKE_TIER_5",
-        "condition": {
-          "and": [
-            { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" },
-            { "u_has_item": "stormwrought_blood_charged" },
-            { "u_has_items": { "item": "concentrated_underhill_essence", "count": 400 } },
-            { "u_has_item": "dream_drainer_heart" },
-            { "u_has_item": "moonstruck_pearl" },
-            { "u_has_item": "abyssal_hunger_shard" }
-          ]
+    "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "<hands_up>" },
+      "responses": [
+        {
+          "text": "Calm down.  I'm not going to hurt you.",
+          "trial": {
+            "type": "PERSUADE",
+            "difficulty": 35,
+            "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "success": { "topic": "TALK_STRANGER_WARY", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
+          "failure": { "topic": "TALK_DONE", "effect": "hostile" }
         },
-        "effect": [
-          { "u_sell_item": "stormwrought_blood_charged", "count": 1 },
-          { "u_sell_item": "concentrated_underhill_essence", "count": 400 },
-          { "u_sell_item": "dream_drainer_heart", "count": 1 },
-          { "u_sell_item": "moonstruck_pearl", "count": 1 },
-          { "u_sell_item": "abyssal_hunger_shard", "count": 1 }
+        {
+          "text": "Screw you, no.",
+          "trial": {
+            "type": "INTIMIDATE",
+            "difficulty": 30,
+            "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+          "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+        },
+        {
+          "text": "Drop weapon.",
+          "topic": "TALK_VAMPIRE_MUGGER",
+          "condition": "u_can_drop_weapon",
+          "effect": "player_weapon_drop"
+        },
+        {
+          "text": "Put hands up.",
+          "topic": "TALK_VAMPIRE_MUG_BLOOD",
+          "condition": { "not": "u_has_weapon" }
+        }
+      ]
+    },
+    {
+      "id": "TALK_VAMPIRE_MUG_BLOOD",
+      "type": "talk_topic",
+      "dynamic_line": "I want your blood, and you'll give it to me.  Of course I won't kill you, I can't drink you again if you die.",
+        "responses": [
+          {
+            "text": "Screw you, no.",
+            "trial": {
+              "type": "INTIMIDATE",
+              "difficulty": 30,
+              "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+            },
+            "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+            "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+          },
+          {
+            "text": "I carry some spare blood with me.  Would you prefer it instead?",
+            "topic": "TALK_VAMPIRE_MUGGER_VEIN_ONLY_BLOOD",
+            "condition": {
+            "or": [ { "u_has_item": "blood" }, { "u_has_item": "demihuman_blood" }, { "u_has_item": "mutant_human_blood" }, { "u_has_item": "fae_blood" } ]
+            }
+          },
+          {
+            "text": "Fine, drink my blood.",
+            "topic": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD",
+            "condition": {
+              "and": [
+                { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                { "not": { "u_has_trait": "ACIDBLOOD" } },
+                { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                { "not": { "u_has_trait": "THRESH_INSECT" } },
+                { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                { "not": { "u_has_trait": "VAMPIRE" } },
+                { "math": [ "u_vitamin('blood')", ">=", "-15000" ] },
+                { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] }
+              ]
+            }
+          },
+          {
+            "text": "Fine, drink my blood.",
+            "topic": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD",
+            "condition": {
+              "and": [
+                { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                { "not": { "u_has_trait": "ACIDBLOOD" } },
+                { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                { "not": { "u_has_trait": "THRESH_INSECT" } },
+                { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                { "not": { "u_has_trait": "VAMPIRE" } },
+                {
+                  "or": [
+                    { "math": [ "u_vitamin('blood')", "<", "-15000" ] },
+                    { "math": [ "u_vitamin('redcells')", "<", "-15000" ] }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "text": "Fine, drink my blood.",
+            "topic": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD",
+            "condition": {
+              "or": [
+                { "u_has_flag": "BLEED_IMMUNE" },
+                { "u_has_trait": "ACIDBLOOD" },
+                { "u_has_trait": "THRESH_CRUSTACEAN" },
+                { "u_has_trait": "THRESH_INSECT" },
+                { "u_has_trait": "THRESH_CEPHALOPOD" },
+                { "u_has_trait": "THRESH_GASTROPOD" },
+                { "u_has_trait": "BLOOD_OF_SAINTS" },
+                { "u_has_trait": "VAMPIRE" }
+              ]
+            }
+          }
         ]
       },
       {
-        "text": "Just passing through, don't mind me.",
+        "id": "TALK_VAMPIRE_MUGGER_VEIN_ONLY_BLOOD",
+        "type": "talk_topic",
+        "dynamic_line": "Nope.  I want warm, delicious blood from your veins, not cold, half-clotted, disgusting blood.",
+          "responses": [
+            {
+              "text": "Then you won't have any.",
+              "trial": {
+                "type": "INTIMIDATE",
+                "difficulty": 30,
+                "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+              },
+              "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+              "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+            },
+            {
+              "text": "Fine, drink my blood.",
+              "topic": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD",
+              "condition": {
+                "and": [
+                  { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                  { "not": { "u_has_trait": "ACIDBLOOD" } },
+                  { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                  { "not": { "u_has_trait": "THRESH_INSECT" } },
+                  { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                  { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                  { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                  { "not": { "u_has_trait": "VAMPIRE" } },
+                  { "math": [ "u_vitamin('blood')", ">=", "-15000" ] },
+                  { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] }
+                ]
+              }
+            },
+            {
+              "text": "I don't have enough blood left for that.",
+              "topic": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD",
+              "condition": {
+                "and": [
+                  { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                  { "not": { "u_has_trait": "ACIDBLOOD" } },
+                  { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                  { "not": { "u_has_trait": "THRESH_INSECT" } },
+                  { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                  { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                  { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                  { "not": { "u_has_trait": "VAMPIRE" } },
+                  {
+                    "or": [
+                      { "math": [ "u_vitamin('blood')", "<", "-15000" ] },
+                      { "math": [ "u_vitamin('redcells')", "<", "-15000" ] }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "text": "Fine, drink my blood.",
+              "topic": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD",
+              "condition": {
+                "or": [
+                  { "u_has_flag": "BLEED_IMMUNE" },
+                  { "u_has_trait": "ACIDBLOOD" },
+                  { "u_has_trait": "THRESH_CRUSTACEAN" },
+                  { "u_has_trait": "THRESH_INSECT" },
+                  { "u_has_trait": "THRESH_CEPHALOPOD" },
+                  { "u_has_trait": "THRESH_GASTROPOD" },
+                  { "u_has_trait": "BLOOD_OF_SAINTS" },
+                  { "u_has_trait": "VAMPIRE" }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD",
+          "type": "talk_topic",
+          "//": "Make it give blood to the NPC if enabling their needs becomes the default some day.",
+          "dynamic_line": "[The vampire bites you and drinks until you begin to show visible symptoms of bloodloss] <done_mugging_blood>",
+            "responses": [
+              {
+                "text": "(Leave)",
+                "topic": "TALK_DONE",
+                "effect": [
+                  { "math": [ "u_vitamin('blood')", "-=", "20000" ] },
+                  { "math": [ "u_vitamin('redcells')", "-=", "20000" ] }
+                ]
+          }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD",
+    "type": "talk_topic",
+    "//": "The NPC won't try to mug you if you flat out refused to let them drink your blood.",
+    "dynamic_line": "Not a problem, just give me all the stuff you carry and you can leave.",
+      "responses": [
+        {
+          "text": "Fine, you can take my stuff.",
+          "topic": "TALK_DONE",
+          "effect": "start_mugging"
+        },
+        {
+          "text": "I won't let you have that.",
+          "trial": {
+            "type": "INTIMIDATE",
+            "difficulty": 30,
+            "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+          "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+        }
+]
+},
+{
+  "id": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD",
+  "type": "talk_topic",
+  "//": "The NPC won't try to mug you if you flat out refused to let them drink your blood.",
+  "dynamic_line": "[The vampire gets closer to your neck, then visibly gags] I am *NOT* drinking that.  Give me your stuff instead.",
+    "responses": [
+      {
+        "text": "You can take my stuff.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+        "effect": "start_mugging"
+      },
+      {
+        "text": "You won't have it",
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 30,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+]
+},
+{
+  "id": "TALK_VAMPIRE_MUGGER_COMPLETE",
+  "type": "talk_topic",
+  "//": "Duplicate of vampire mugger with much higher difficulties and different dialogue to reflect the ancient's experience without needing to massively boost their opinion.",
+  "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "<hands_up>" },
+    "responses": [
+      {
+        "text": "Calm down.  I'm not going to hurt you.",
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": -55,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_WARY", "effect": "stranger_neutral", "opinion": { "trust": 1, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Screw you, no.",
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": -50,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      {
+        "text": "Drop weapon.",
+        "topic": "TALK_VAMPIRE_MUGGER_COMPLETE",
+        "condition": "u_can_drop_weapon",
+        "effect": "player_weapon_drop"
+      },
+      {
+        "text": "Put hands up.",
+        "topic": "TALK_VAMPIRE_MUG_BLOOD_COMPLETE",
+        "condition": { "not": "u_has_weapon" }
       }
     ]
   },
+  {
+    "id": "TALK_VAMPIRE_MUG_BLOOD_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "I will take your blood.  I'll leave you with enough of it so you'll recover and perhaps even give me some more in the future.",
+      "responses": [
+        {
+          "text": "Screw you, no.",
+          "trial": {
+            "type": "INTIMIDATE",
+            "difficulty": -50,
+            "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+          "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+        },
+        {
+          "text": "I carry some spare blood with me.  Would you prefer it instead?",
+          "topic": "TALK_VAMPIRE_MUGGER_VEIN_ONLY_BLOOD_COMPLETE",
+          "condition": {
+          "or": [ { "u_has_item": "blood" }, { "u_has_item": "demihuman_blood" }, { "u_has_item": "mutant_human_blood" }, { "u_has_item": "fae_blood" } ]
+          }
+        },
+        {
+          "text": "Fine, drink my blood.",
+          "topic": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD_COMPLETE",
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+              { "not": { "u_has_trait": "ACIDBLOOD" } },
+              { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+              { "not": { "u_has_trait": "THRESH_INSECT" } },
+              { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+              { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+              { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+              { "not": { "u_has_trait": "VAMPIRE" } },
+              { "math": [ "u_vitamin('blood')", ">=", "-15000" ] },
+              { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] }
+            ]
+          }
+        },
+        {
+          "text": "Fine, drink my blood.",
+          "topic": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD_COMPLETE",
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+              { "not": { "u_has_trait": "ACIDBLOOD" } },
+              { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+              { "not": { "u_has_trait": "THRESH_INSECT" } },
+              { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+              { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+              { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+              { "not": { "u_has_trait": "VAMPIRE" } },
+              {
+                "or": [
+                  { "math": [ "u_vitamin('blood')", "<", "-15000" ] },
+                  { "math": [ "u_vitamin('redcells')", "<", "-15000" ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "Fine, drink my blood.",
+          "topic": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD_COMPLETE",
+          "condition": {
+            "or": [
+              { "u_has_flag": "BLEED_IMMUNE" },
+              { "u_has_trait": "ACIDBLOOD" },
+              { "u_has_trait": "THRESH_CRUSTACEAN" },
+              { "u_has_trait": "THRESH_INSECT" },
+              { "u_has_trait": "THRESH_CEPHALOPOD" },
+              { "u_has_trait": "THRESH_GASTROPOD" },
+              { "u_has_trait": "BLOOD_OF_SAINTS" },
+              { "u_has_trait": "VAMPIRE" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "TALK_VAMPIRE_MUGGER_VEIN_ONLY_BLOOD_COMPLETE",
+      "type": "talk_topic",
+      "dynamic_line": "I have long ago ceased to fight for scraps.  I'll only have the best blood, right from your veins.",
+        "responses": [
+          {
+            "text": "Then you won't have any.",
+            "trial": {
+              "type": "INTIMIDATE",
+              "difficulty": -50,
+              "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+            },
+            "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+            "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+          },
+          {
+            "text": "Fine, drink my blood.",
+            "topic": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD_COMPLETE",
+            "condition": {
+              "and": [
+                { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                { "not": { "u_has_trait": "ACIDBLOOD" } },
+                { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                { "not": { "u_has_trait": "THRESH_INSECT" } },
+                { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                { "not": { "u_has_trait": "VAMPIRE" } },
+                { "math": [ "u_vitamin('blood')", ">=", "-15000" ] },
+                { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] }
+              ]
+            }
+          },
+          {
+            "text": "I don't have enough blood left for that.",
+            "topic": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD_COMPLETE",
+            "condition": {
+              "and": [
+                { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+                { "not": { "u_has_trait": "ACIDBLOOD" } },
+                { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+                { "not": { "u_has_trait": "THRESH_INSECT" } },
+                { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+                { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+                { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+                { "not": { "u_has_trait": "VAMPIRE" } },
+                {
+                  "or": [
+                    { "math": [ "u_vitamin('blood')", "<", "-15000" ] },
+                    { "math": [ "u_vitamin('redcells')", "<", "-15000" ] }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "text": "Fine, drink my blood.",
+            "topic": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD_COMPLETE",
+            "condition": {
+              "or": [
+                { "u_has_flag": "BLEED_IMMUNE" },
+                { "u_has_trait": "ACIDBLOOD" },
+                { "u_has_trait": "THRESH_CRUSTACEAN" },
+                { "u_has_trait": "THRESH_INSECT" },
+                { "u_has_trait": "THRESH_CEPHALOPOD" },
+                { "u_has_trait": "THRESH_GASTROPOD" },
+                { "u_has_trait": "BLOOD_OF_SAINTS" },
+                { "u_has_trait": "VAMPIRE" }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "TALK_VAMPIRE_MUGGER_ENOUGH_BLOOD_COMPLETE",
+        "type": "talk_topic",
+        "//": "Make it give blood to the NPC if enabling their needs becomes the default some day.",
+        "dynamic_line": "[The vampire bites you and drinks until they sense that you are suffering from acute bloodloss] <done_mugging_blood>",
+          "responses": [
+            {
+              "text": "(Leave)",
+              "topic": "TALK_DONE",
+              "effect": [
+                { "math": [ "u_vitamin('blood')", "-=", "20000" ] },
+                { "math": [ "u_vitamin('redcells')", "-=", "20000" ] }
+              ]
+        }
+  ]
+},
+{
+  "id": "TALK_VAMPIRE_MUGGER_NOT_ENOUGH_BLOOD_COMPLETE",
+  "type": "talk_topic",
+  "//": "The NPC won't try to mug you if you flat out refused to let them drink your blood.",
+  "dynamic_line": "Not a problem.  You have the right mindset and you can always make more blood.  Just give me all what is on your person so it's not a waste of our time.",
+    "responses": [
+      {
+        "text": "Fine, you can take my stuff.",
+        "topic": "TALK_DONE",
+        "effect": "start_mugging"
+      },
+      {
+        "text": "I won't let you have that.",
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": -50,
+          "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+        },
+        "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+]
+},
+{
+"id": "TALK_VAMPIRE_MUGGER_NOT_THAT_BLOOD_COMPLETE",
+"type": "talk_topic",
+"//": "The NPC won't try to mug you if you flat out refused to let them drink your blood.",
+"dynamic_line": "Whatever your veins contain cannot feed me.  Just give me all what is on your person so it's not a waste of our time.",
+  "responses": [
+    {
+      "text": "You can take my stuff.",
+      "topic": "TALK_DONE",
+      "effect": "start_mugging"
+    },
+    {
+      "text": "You won't have it",
+      "trial": {
+        "type": "INTIMIDATE",
+        "difficulty": -50,
+        "mod": [ [ "BRAVERY", 1 ], [ "AGGRESSION", -3 ], [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+      },
+      "success": { "topic": "TALK_STRANGER_SCARED", "effect": "stranger_neutral", "opinion": { "trust": -2, "fear": 1, "anger": 1 } },
+      "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+    }
+]
+},
+
+{
+  "id": [ "TALK_STRANGER_NEUTRAL" ],
+  "type": "talk_topic",
+  "responses": [
+    {
+      "text": "You look hungry.  Would you like some blood?",
+      "topic": "TALK_VAMPIRE_HUNGRY",
+      "condition": { "npc_has_trait": "VAMPIRE_HUNGRY" }
+    }
+  ]
+},
+{
+  "id": [ "TALK_VAMPIRE_HUNGRY" ],
+  "type": "talk_topic",
+  "dynamic_line": "Really?  I'm so hungry right now it would be great if I could get some blood.  Any blood from something ressembling a living human will do.",
+  "responses": [
+    {
+      "text": "Drink a little of my blood.",
+      "topic": "TALK_VAMPIRE_HUNGRY_DRANK_YOU",
+      "condition": {
+        "and": [
+          { "not": { "u_has_flag": "BLEED_IMMUNE" } },
+          { "not": { "u_has_trait": "ACIDBLOOD" } },
+          { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+          { "not": { "u_has_trait": "THRESH_INSECT" } },
+          { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+          { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+          { "not": { "u_has_trait": "BLOOD_OF_SAINTS" } },
+          { "not": { "u_has_trait": "VAMPIRE" } },
+          { "math": [ "u_vitamin('blood')", ">=", "-15000" ] },
+          { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] }
+        ]
+      },
+      "effect": [
+        { "math": [ "u_vitamin('blood')", "-=", "2500" ] },
+        { "math": [ "u_vitamin('redcells')", "-=", "2500" ] }
+      ]
+    },
+    {
+      "text": "Here's some human blood.",
+      "topic": "TALK_VAMPIRE_HUNGRY_DRANK_BLOOD",
+      "condition": { "u_has_item": "blood" },
+      "effect": [  { "u_sell_item": "blood" } ]
+    },
+    {
+      "text": "Here's some humanlike blood.",
+      "topic": "TALK_VAMPIRE_HUNGRY_DRANK_BLOOD",
+      "condition": { "u_has_item": "demihuman_blood" },
+      "effect": [  { "u_sell_item": "demihuman_blood" } ]
+    },
+    {
+      "text": "Here's some humanlike blood.",
+      "topic": "TALK_VAMPIRE_HUNGRY_DRANK_BLOOD",
+      "condition": { "u_has_item": "mutant_human_blood" },
+      "effect": [  { "u_sell_item": "mutant_human_blood" } ]
+    },
+    {
+      "text": "Here's some Fae blood.",
+      "topic": "TALK_VAMPIRE_HUNGRY_DRANK_BLOOD",
+      "condition": { "u_has_item": "fae_blood" },
+      "effect": [  { "u_sell_item": "fae_blood" } ]
+    },
+    {
+      "text": "It will have to wait.  I don't have enough blood for now.",
+      "topic": "TALK_NONE"
+    }
+  ]
+},
+{
+  "id": [ "TALK_VAMPIRE_HUNGRY_DRANK_YOU" ],
+  "type": "talk_topic",
+  "dynamic_line": "[The vampire bites you and drink a small amount of your blood] I feel better already.  Thank you.",
+  "responses": [
+    {
+      "text": "You're welcome.",
+      "topic": "TALK_STRANGER_NEUTRAL",
+      "opinion": { "trust": 2, "value": 2, "fear": -2 },
+      "effect": [ { "npc_lose_trait": "VAMPIRE_HUNGRY" } ]
+    }
+  ]
+},
+{
+  "id": [ "TALK_VAMPIRE_HUNGRY_DRANK_BLOOD" ],
+  "type": "talk_topic",
+  "dynamic_line": "[The vampire drinks the blood you gave them] I feel better already.  Thank you.",
+  "responses": [
+    {
+      "text": "You're welcome.",
+      "topic": "TALK_STRANGER_NEUTRAL",
+      "opinion": { "trust": 2, "value": 2, "fear": -2 },
+      "effect": [ { "npc_lose_trait": "VAMPIRE_HUNGRY" } ]
+    }
+  ]
+},
 
 
 
+
+
+
+
+{
+  "id": "TALK_VAMPIRE_UNWILLING",
+  "type": "talk_topic",
+  "dynamic_line": "Please help me.  I have a big problem.",
+    "responses": [
+      {
+        "text": "How can I help?",
+        "topic": "TALK_VAMPIRE_UNWILLING_HELP"
+      },
+      {
+        "text": "I don't think I can help.  Bye.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't care.  Bye.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_UNWILLING_HELP",
+    "type": "talk_topic",
+    "dynamic_line": "I've been bitten, and now if I don't drink human blood I feel so ill.  I don't want to be a vampire!  I don't want to drink blood!  There has to be a way to be cured from that, right?",
+      "responses": [
+        {
+          "text": "I can try to find a cure.",
+          "topic": "TALK_VAMPIRE_UNWILLING_FIND_CURE",
+          "speaker_effect": { "effect": { "npc_first_topic": "TALK_VAMPIRE_UNWILLING_ASK_CURE" } }
+        },
+        {
+          "text": "I found this formula that claims to be the recipe for a cure.  I can try to make it.",
+          "topic": "TALK_VAMPIRE_UNWILLING_FIND_CURE",
+          "condition": { "u_has_item": "grimy_recipe" },
+          "speaker_effect": { "effect": { "npc_first_topic": "TALK_VAMPIRE_UNWILLING_ASK_CURE" } }
+},
+        {
+          "text": "I have something that is supposed to cure that.  Here, take it.",
+          "topic": "TALK_VAMPIRE_UNWILLING_CURED",
+          "condition": { "u_has_item": "blood_treatment" },
+          "effect": [  { "u_sell_item": "blood_treatment" } ]
+        },
+
+        {
+          "text": "Why would you want a cure?  Being a vampire is awesome!  Since I became a vampire, my life significantly improved.",
+          "trial": {
+            "type": "PERSUADE",
+            "difficulty": 15,
+            "mod": [ [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "condition": { "u_has_trait": "VAMPIRE" },
+          "success": { "topic": "TALK_UNWILLING_CONVINCED", "opinion": { "trust": 1, "fear": -1 } },
+          "failure": { "topic": "TALK_UNWILLING_UNCONVINCED" }
+        },
+
+        {
+          "text": "Why would you want a cure?  Being a vampire is awesome!  Since I became a vampire, my life significantly improved.",
+          "trial": {
+            "type": "LIE",
+            "difficulty": 15,
+            "mod": [ [ "ALTRUISM", 2 ], [ "FEAR", -2 ], [ "TRUST", 3 ] ]
+          },
+          "condition": { "u_has_trait": "VAMPIRE" },
+          "success": { "topic": "TALK_UNWILLING_CONVINCED", "opinion": { "trust": 1, "fear": -1 } },
+          "failure": { "topic": "TALK_UNWILLING_UNCONVINCED" }
+        },
+        {
+          "text": "I have more important things to do.  Bye.",
+          "topic": "TALK_DONE"
+        }
+      ]
+    },
+    {
+      "id": "TALK_VAMPIRE_UNWILLING_FIND_CURE",
+      "type": "talk_topic",
+      "dynamic_line": "Yes, please bring some to me.  I'll wait here because I don't feel that great these times.",
+        "responses": [
+          {
+            "text": "I'll be back with the cure.  Bye.",
+            "topic": "TALK_DONE"
+          }
+        ]
+      },
+      {
+        "id": "TALK_VAMPIRE_UNWILLING_ASK_CURE",
+        "type": "talk_topic",
+        "dynamic_line": "Do you have the cure?  I can't wait to not need to drink blood to live.",
+          "responses": [
+
+            {
+              "text": "I have something that is supposed to cure that.  Here, take it.",
+              "topic": "TALK_VAMPIRE_UNWILLING_CURED",
+              "condition": { "u_has_item": "blood_treatment" },
+              "effect": [  { "u_sell_item": "blood_treatment" } ]
+            },
+
+            {
+              "text": "Not yet.  Bye.",
+              "topic": "TALK_DONE"
+            }
+          ]
+        },
+        {
+          "id": "TALK_VAMPIRE_UNWILLING_CURED",
+          "type": "talk_topic",
+          "dynamic_line": "[The vampire takes the cure] Thank you so much for saving me from that.  Can I stay with you?  You look more experienced than me at surviving all this.",
+          "//": "For simplicity's sake, the cure effect will be instant.  If it wasn't, the npc would need to be able to constantly inform the player that they need more treatment.",
+            "responses": [
+              {
+                "text": "Of course you can.",
+                "topic": "TALK_DONE",
+                "effect": [
+                  "follow",
+                  { "npc_lose_trait": "VAMPIRE" },
+                  { "npc_lose_trait": "EYEGLEAM" },
+                  { "npc_lose_trait": "BLOOD_FUN" },
+                  { "npc_lose_trait": "VAMPIRIC_STRENGTH" },
+                  { "npc_lose_trait": "VAMPIRIC_RESILIENCE" },
+                  { "npc_lose_trait": "VAMPIRE_HEIGHTENED_SENSES" },
+                  { "npc_lose_trait": "VAMPIRE_SILENT_MOVE" },
+                  { "npc_lose_trait": "STAMINAFORBLOOD" },
+                  { "npc_lose_trait": "COMMUNE_NIGHT" },
+                  { "npc_lose_trait": "VAMPIRE2" },
+                  { "npc_lose_trait": "BLOODHEAL" },
+                  { "npc_lose_trait": "COAGULANTWEAVE" },
+                  { "npc_lose_trait": "VAMPIRIC_DODGE" },
+                  { "npc_lose_trait": "VAMPIRE_FEAR_GAZE" },
+                  { "npc_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
+                  { "npc_lose_trait": "VAMPIRE_BEAST_CLAWS" },
+                  { "npc_lose_trait": "VAMPIRE_SEE_HEAT" },
+                  { "npc_lose_trait": "VAMPIRE3" },
+                  { "npc_lose_trait": "BLOODHASTE" },
+                  { "npc_lose_trait": "MAGICFORBLOOD" },
+                  { "npc_lose_trait": "HYPNOTIC_GAZE" },
+                  { "npc_lose_trait": "BLOODBANK" },
+                  { "npc_lose_trait": "VAMPIRE_COMMAND_BEAST" },
+                  { "npc_lose_trait": "VAMPIRE_EARTH_SLUMBER" }
+                ]
+              },
+              {
+                "text": "We'll have to part ways.  Goodbye.",
+                "topic": "TALK_DONE",
+                "effect": [
+                  { "npc_lose_trait": "VAMPIRE" },
+                  { "npc_lose_trait": "EYEGLEAM" },
+                  { "npc_lose_trait": "BLOOD_FUN" },
+                  { "npc_lose_trait": "VAMPIRIC_STRENGTH" },
+                  { "npc_lose_trait": "VAMPIRIC_RESILIENCE" },
+                  { "npc_lose_trait": "VAMPIRE_HEIGHTENED_SENSES" },
+                  { "npc_lose_trait": "VAMPIRE_SILENT_MOVE" },
+                  { "npc_lose_trait": "STAMINAFORBLOOD" },
+                  { "npc_lose_trait": "COMMUNE_NIGHT" },
+                  { "npc_lose_trait": "VAMPIRE2" },
+                  { "npc_lose_trait": "BLOODHEAL" },
+                  { "npc_lose_trait": "COAGULANTWEAVE" },
+                  { "npc_lose_trait": "VAMPIRIC_DODGE" },
+                  { "npc_lose_trait": "VAMPIRE_FEAR_GAZE" },
+                  { "npc_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
+                  { "npc_lose_trait": "VAMPIRE_BEAST_CLAWS" },
+                  { "npc_lose_trait": "VAMPIRE_SEE_HEAT" },
+                  { "npc_lose_trait": "VAMPIRE3" },
+                  { "npc_lose_trait": "BLOODHASTE" },
+                  { "npc_lose_trait": "MAGICFORBLOOD" },
+                  { "npc_lose_trait": "HYPNOTIC_GAZE" },
+                  { "npc_lose_trait": "BLOODBANK" },
+                  { "npc_lose_trait": "VAMPIRE_COMMAND_BEAST" },
+                  { "npc_lose_trait": "VAMPIRE_EARTH_SLUMBER" }
+                ]
+              }
+            ]
+          },
+
+          {
+            "id": "TALK_UNWILLING_CONVINCED",
+            "type": "talk_topic",
+            "dynamic_line": "Maybe I could wait a bit to see if the good parts are worth the bad parts.  Can I stay with you?  You seen much better at being a vampire than I do and I don't know much about that.",
+              "responses": [
+                {
+                  "text": "Of course you can.",
+                  "topic": "TALK_DONE",
+                  "effect": [ "follow" ]
+                },
+                {
+                  "text": "Vampirism is best enjoyed alone.  Goodbye.",
+                  "topic": "TALK_DONE"
+                },
+                {
+                  "text": "I trust you'll do fine without me.  Goodbye.",
+                  "topic": "TALK_DONE"
+                }
+              ]
+            },
+
+
+            {
+              "id": "TALK_UNWILLING_UNCONVINCED",
+              "type": "talk_topic",
+              "dynamic_line": "I don't believe you.  I am sick!  You are sick!  I DON'T WANT TO BE A VAMPIRE!",
+                "responses": [
+                  {
+                    "text": "Your mistake.  Goodbye.",
+                    "speaker_effect": { "effect": { "npc_first_topic": "TALK_VAMPIRE_UNWILLING_REFUSE_TO_SPEAK" } },
+                    "topic": "TALK_DONE"
+                  },
+                  {
+                    "text": "Maybe you're right.  Goodbye.",
+                    "speaker_effect": { "effect": { "npc_first_topic": "TALK_VAMPIRE_UNWILLING_REFUSE_TO_SPEAK" } },
+                    "topic": "TALK_DONE"
+                  }
+                ]
+              },
+
+              {
+                "id": "TALK_VAMPIRE_UNWILLING_REFUSE_TO_SPEAK",
+                "type": "talk_topic",
+                "dynamic_line": "If you don't have a cure, don't bother trying to talk with me.",
+                  "responses": [
+                    {
+                      "text": "I have something that is supposed to cure that.  Here, take it.",
+                      "topic": "TALK_VAMPIRE_UNWILLING_CURED",
+                      "condition": { "u_has_item": "blood_treatment" },
+                      "effect": [  { "u_sell_item": "blood_treatment" } ]
+                    },
+                    {
+                      "text": "Goodbye.",
+                      "topic": "TALK_DONE"
+                    }
+                  ]
+                },
+
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_ON_SIGHT",
+                    "//": "Checks the trait so very recent infected can pass unnoticed",
+                    "//2": "Will need more hostility declaration snippets for variety",
+                    "//3": "Checks vampire-related every time they talk to the player so they can adapt if the player ends on the vampires' side",
+                    "//4": "No vampire-related dialogue as they won't tell the character about their intent if they aren't vampires. For the player, they are random non-recruitable NPCs",
+                    "dynamic_line": {
+                      "u_has_trait": "VAMPIRE",
+                      "yes": "Time to die, bloodsucker!",
+                      "no": {
+                        "u_has_effect": "effect_you_ally_with_vampires",
+                        "yes": "I know that you serve the vampires.  Time for you to die.",
+                        "no": "Hi, what do you want?"
+                      }
+                    },
+                    "responses": [
+                      {
+                        "text": "I'd like to see you try.",
+                        "topic": "TALK_DONE",
+                        "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "effect_you_ally_with_vampires" } ] },
+                        "effect": "hostile" 
+                      },
+                      { 
+                        
+                        "text": "Let's trade items.", 
+                      "topic": "TALK_VAMPIRE_HUNTER_ON_SIGHT", 
+                      "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ]} ,
+                      "effect": "start_trade" 
+                    },
+                      {
+                        "text": "Bye.",
+                        "topic": "TALK_DONE",
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] }
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_RECRUITER",
+                    "//": "Checks the trait so very recent infected can pass unnoticed",
+                    "//2": "Will need more hostility declaration snippets for variety",
+                    "dynamic_line": {
+                      "u_has_trait": "VAMPIRE",
+                      "yes": "Time to die, bloodsucker!",
+                      "no": {
+                        "u_has_effect": "effect_you_ally_with_vampires",
+                        "yes": "I know that you serve the vampires.  Time for you to die.",
+                        "no": "Don't mind me, I'm just hunting vampires."
+                      }
+                    },
+                    "responses": [
+                      {
+                        "text": "I'd like to see you try.",
+                        "topic": "TALK_DONE",
+                        "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "effect_you_ally_with_vampires" } ] },
+                        "effect": "hostile" 
+                      },
+
+                      { 
+                        "text": "You're really hunting vampires?", 
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] },
+                      "topic": "TALK_VAMPIRE_HUNTER_RECRUITER_ABOUT_VAMPIRES" 
+                    },
+                      { 
+                        "text": "Can I do anything for you?", 
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] },
+                      "topic": "TALK_MISSION_LIST" 
+                    },
+                      { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+                      {
+                        "text": "Bye.",
+                        "topic": "TALK_DONE",
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_RECRUITER_ABOUT_VAMPIRES",
+                    "dynamic_line": "Yes I do.  It's been years since the vampires appeared.  I've been trying to kill them all, but there's always more and more.  Won't stop me from hunting, though." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_NONE"
+                      }
+                    ]
+                  },
+
+
+                  {
+                    "id": "MISSION_KILL_10_VAMPIRES",
+                    "type": "mission_definition",
+                    "name": "Kill 10  Vampires",
+                    "goal": "MGOAL_KILL_MONSTER_SPEC",
+                    "monster_species": "VAMPIRE",
+                    "monster_kill_goal": 10,
+                    "difficulty": 5,
+                    "value": 2500,
+                    "start": { "effect": "follow_only" },
+                    "end": { "effect": "follow" },
+                    "origins": [ "ORIGIN_SECONDARY" ],
+                    "dialogue": {
+                      "describe": "I'm looking for someone ready to hunt vampires.  Interested?",
+                      "offer": "The vampires are still numerous despite the end while most hunters are now part of the living dead.  If you can prove your skills by killing ten vampires, then I'll stay at your side, ready to slay more of them.",
+                      "accepted": "Splendid.  I'll stay close and see how well you kill vampires.",
+                      "rejected": "If you won't hunt, then at least stay out of my way and don't become a vampire.",
+                      "advice": "The bloodsuckers tend to hide in temples and churches.  If you find a renfield, then their master is nearby.",
+                      "inquire": "Have you found more vampires to slay?",
+                      "success": "Wonderful.  You have proven yourself a capable hunter and ally.  I'll stay at your side, for hunts are much safer with other competent hunters.",
+                      "success_lie": "I highly doubt of it.",
+                      "failure": "Maybe you'll kill a vampire, eventually."
+                    }
+                  },
+
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL",
+                    "//": "Uses the NECC variable as it allows to track having a threshold without needing to write duplicate EoCs",
+                    "dynamic_line": {
+                      "u_has_trait": "VAMPIRE",
+                      "yes": "Time to die, bloodsucker!",
+                      "no": {
+                        "u_has_effect": "effect_you_ally_with_vampires",
+                        "yes": "I know that you serve the vampires.  Time for you to die.",
+                        "no": {
+                          "u_has_var": "dialogue_godco_godco_notalk_to_u",
+                          "yes": "Die, agent of the vampires!",
+                          "no": "Don't mind me, I'm just hunting vampires."
+                        }
+                      }
+                    },
+                    "responses": [
+                      {
+                        "text": "I'd like to see you try.",
+                        "topic": "TALK_DONE",
+                        "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "effect_you_ally_with_vampires" }, { "u_has_var": "dialogue_godco_godco_notalk_to_u" } ] },
+                        "effect": "hostile" 
+                      },
+
+                      { 
+                        "text": "You're really hunting vampires?", 
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } },{ "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u" } } ] },
+                      "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_ABOUT_VAMPIRES" 
+                    },
+                      {
+                        "text": "Bye.",
+                        "topic": "TALK_DONE",
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } },{ "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u" } } ] }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_ABOUT_VAMPIRES",
+                    "dynamic_line": "Yes I do.  It's been years since the vampires appeared.  But now they have set their big plan in motion, and I'm afraid they could end up winning." ,
+                    "responses": [
+                      {
+                        "text": "Are you saying that their plan was causing the apocalypse?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_CATACLYSM"
+                      }, 
+                      {
+                        "text": "That doesn't make sense.  Why would the vampires risk losing their only source of food?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_KILL_FOOD"
+                      },  
+                      {
+                        "text": "I'm looking to kill vampires too.  Want to join me?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_FOLLOW"
+                      },  
+                      {
+                        "text": "…",
+                        "topic": "TALK_NONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_CATACLYSM",
+                    "dynamic_line": "Exactly.  It caused the collapse of civilisation, leaving us vulnerable to any vampire looking for thralls." ,
+                    "responses": [
+                      {
+                        "text": "That doesn't make sense.  Why would the vampires risk losing their only source of food?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_KILL_FOOD"
+                      },  
+                      {
+                        "text": "I'm looking to kill vampires too.  Want to join me?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_FOLLOW"
+                      },  
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_KILL_FOOD",
+                    "dynamic_line": "It makes perfect sense when you think about it.  By doing that they make us want safety, a safety that will come with a cost of servitude and blood." ,
+                    "responses": [
+                      {
+                        "text": "But why risk it all when they could have ruled from the shadows with most of the benefits and without that huge risk?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_SECRET_ORDER"
+                      }, 
+                      {
+                        "text": "I'm looking to kill vampires too.  Want to join me?",
+                        "topic": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_FOLLOW"
+                      },  
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_FOLLOW",
+                    "dynamic_line": "I can't accept, it's too risky.  I can't even be sure if you're not on the vampires' side but I'm not planning to attack you as long as there's a chance you're not to blame.  By being alone my security is better, or at least it feels like it is." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL_SECRET_ORDER",
+                    "dynamic_line": "I'm sure it's because the hunters became such a pain for them that they decided to risk it all to get rid of them.  No more hunters, regular mortals in thrall, far fewer vampires to oppose them, definitely something I would attempt if I was a vampire." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR",
+                    "//": "The vampire cure isn't well-known, this is why this hunter will at best leave you on what they consider a wild goose chase.",
+                    "//2": "Same for tier 4 being a point of no return.",
+                    "dynamic_line": {
+                      "u_has_trait": "VAMPIRE",
+                      "yes": "Have you anything to say for your defense, vampire?",
+                      "no": {
+                        "u_has_effect": "effect_you_ally_with_vampires",
+                        "yes": "Have you anything to say for your defense, vampire thrall?",
+                        "no": "Don't mind me, I'm just hunting vampires."
+                      }
+                    },
+                    "responses": [
+                      {
+                        "text": "One word: die!",
+                        "topic": "TALK_DONE",
+                        "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "effect_you_ally_with_vampires" } ] },
+                        "effect": "hostile" 
+                      },
+
+                      {
+                        "text": "I hate being a vampire and I'm looking to find a cure.",
+                        "condition": { "u_has_trait": "VAMPIRE" },
+                        "trial": { "type": "PERSUADE", "difficulty": 0 },
+                        "success": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_VAMPIRE" },
+                        "failure": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_VAMPIRE" }
+                      },
+                      {
+                        "text": "I hate being a vampire and I'm looking to find a cure.",
+                        "condition": { "u_has_trait": "VAMPIRE" },
+                        "trial": { "type": "LIE", "difficulty": 0 },
+                        "success": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_VAMPIRE" },
+                        "failure": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_VAMPIRE" }
+                      },
+
+                      {
+                        "text": "It's the apocalypse, I can't afford to pass on a potential ally.",
+                        "condition": { "u_has_effect": "effect_you_ally_with_vampires" },
+                        "trial": { "type": "PERSUADE", "difficulty": 0 },
+                        "success": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_THRALL" },
+                        "failure": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_THRALL" }
+                      },
+
+                      {
+                        "text": "I wasn't aware that they were a vampire.",
+                        "condition": { "u_has_effect": "effect_you_ally_with_vampires" },
+                        "trial": { "type": "LIE", "difficulty": 0 },
+                        "success": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_THRALL" },
+                        "failure": { "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_THRALL" }
+                      },
+
+                      { 
+                        
+                      "text": "Let's trade items.", 
+                    "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR", 
+                    "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ]} ,
+                    "effect": "start_trade" 
+                  },
+                      { 
+                        "text": "You're really hunting vampires?", 
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] },
+                      "topic": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_ABOUT_VAMPIRES" 
+                    },
+
+                      {
+                        "text": "Bye.",
+                        "topic": "TALK_DONE",
+                        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "effect_you_ally_with_vampires" } } ] }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_ABOUT_VAMPIRES",
+                    "dynamic_line": "Yes I do.  It's been years since the vampires appeared.  Some are victims of circumstances, this is why I tend to let them plead for their life first before attacking.  I want to verify that they're the bad vampires before killing them, you know?" ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_NONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_VAMPIRE",
+                    "dynamic_line": "You seem to be one of the good vampires, so I won't try to kill you.  I hope you'll manage to cure yourself.  Goodbye." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_VAMPIRE",
+                    "dynamic_line": "Don't even try to fool me.  I know you're one of the evil vampires.  You'll end here and now!" ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE",
+                        "effect": "hostile" 
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_CONVINCED_THRALL",
+                    "dynamic_line": "[The hunter looks visibly conflicted] Fine, I won't try to kill you.  However, try to better chose you stand with.  Most vampires will treat you as food or as a slave, not as an equal." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_NEGOTIATOR_UNCONVINCED_THRALL",
+                    "dynamic_line": "I don't know if you're a mind-controlled thrall or just someone hoping to get a treatment of favor by supporting the evil vampires, but I know that you must die." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE",
+                        "effect": "hostile" 
+                      }
+                    ]
+                  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER",
+                    "//": "This hunter is very knowledgeable, having been a vampire themselves before being cured.  This is also why their first reaction is trying to convince you to take the cure.  They also don't care if you're interacting with vampires.",
+                    "dynamic_line": {
+                      "u_has_trait": "VAMPIRE",
+                      "yes": "Are you looking for a cure, vampire?",
+                      "no": "Don't mind me, I'm just seeking vampires."
+                      },
+                    "responses": [
+                      {
+                        "text": "A cure?  I'd rather kill you!",
+                        "topic": "TALK_DONE",
+                        "condition": { "u_has_trait": "VAMPIRE"  },
+                        "effect": "hostile" 
+                      },
+                      {
+                        "text": "A cure?  I'd rather die!",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_REFUSE_CURE",
+                        "condition": { "u_has_trait": "VAMPIRE"  }
+                      },
+                      {
+                        "text": "A cure?  You really have something able to cure me?",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ABOUT_CURE",
+                        "condition": { "and": [     { "u_has_trait": "VAMPIRE" },  { "not": { "u_has_var": "poisoned_by_cure", "value": "yes" } }  ] }
+
+
+
+
+                      },
+
+
+
+                      { 
+                        
+                      "text": "Let's trade items.", 
+                    "topic": "TALK_VAMPIRE_HUNTER_HEALER", 
+                    "effect": "start_trade" 
+                  },
+                      { 
+                        "text": "You're really seeking vampires?", 
+                      "topic": "TALK_VAMPIRE_HUNTER_HEALER_ABOUT_VAMPIRES" 
+                    },
+
+                      {
+                        "text": "Bye.",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_ABOUT_VAMPIRES",
+                    "dynamic_line": "Yes I do.  I myself has been a vampire before finding a cure to my condition.  I now wander the world, seeking to cure more vampires.  Most accept without hesitation, and the rest prove themselves beyond redemption so the other hunters eventually kill them." ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_NONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_ABOUT_CURE",
+                    "dynamic_line": "It cured me, so I know it works.  It might take more than one dose so don't hesitate to come back for more.  [They tend you a cup with some weird liquid in it, suggesting that you consume the cure]" ,
+                    "responses": [
+                      {
+                        "text": "[Take the cure.]",
+                        "condition": { "not": { "u_has_trait": "VAMPIRE4" } },
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_CURE_TAKEN",
+                        "effect": [ { "run_eocs": [ "EOC_CONSUMED_BLOOD_TREATMENT" ] } ]
+                      },
+                      {
+                        "text": "[Take the cure but pretend it poisoned you.]",
+                        "condition": { "not": { "u_has_trait": "VAMPIRE4" } },
+                        "trial": { "type": "LIE", "difficulty": -10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ] ] },
+                        "success": { "topic": "TALK_VAMPIRE_HUNTER_HEALER_FAKE_POISON" },
+                        "failure": { "topic": "TALK_VAMPIRE_HUNTER_HEALER_FAKE_POISON_LIED", "opinion": { "trust": -5, "value": -5 } },
+                        "effect": [ { "run_eocs": [ "EOC_CONSUMED_BLOOD_TREATMENT" ] }, { "u_add_var": "poisoned_by_cure", "value": "yes" } ]
+                      },
+                      {
+                        "text": "[Take the cure.]",
+                        "condition": { "u_has_trait": "VAMPIRE4" },
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_CURE_NO_RETURN"
+                      },
+                      {
+                        "text": "Maybe later, but not now.  Thanks anyway.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_REFUSE_CURE"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_CURE_TAKEN",
+                    "dynamic_line": "You should see an improvement to your condition in a day.  If you are still a vampire by then, come back here and I'll give you more of the cure." ,
+                    "responses": [
+                      {
+                        "text": " Thanks you so much.  It's great to not be a vampire.",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_REFUSE_CURE",
+                    "dynamic_line": "I heavily advise you to take the cure.  The other hunters aren't as considerate as I am and will try to kill you the second they notice you're a vampire.  I'll be there if you change your mind" ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_CURE_NO_RETURN",
+                    "dynamic_line": "[You remember what your mentor said about a potential cure and how they put the emphasis on you being past the point of no return.  You feel that taking this cure would be a potentially fatal mistake.]" ,
+                    "responses": [
+                      {
+                        "text": " I'll have to refuse, unfortunately.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_REFUSE_CURE"
+                      },
+                      {
+                        "text": "[Take the cure despite being past the point of no return.]",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_CURE_POISON",
+                        "effect": [ { "run_eocs": [ "EOC_CONSUMED_BLOOD_TREATMENT" ] }, { "u_add_var": "poisoned_by_cure", "value": "yes" } ]
+                      }
+                    ]
+                  },
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_FAKE_POISON",
+                    "dynamic_line": "[You take the cure and pretend that a severe pain fills your body as you fall on the floor, writhing in false agony.  The healer panics as they do not understand why you seem to react that badly to something that saved them and many more people from vampirism.]" ,
+                    "responses": [
+                      {
+                        "text": "Liar!  You said it would cure me!",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FORGIVE"
+                      },
+                      {
+                        "text": "It seems I've been a vampire for too long for it to work.  I barely remember becoming one, centuries ago.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FOLLOW"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_FAKE_POISON_LIED",
+                    "dynamic_line": "[You take the cure and pretend that a severe pain fills your body as you fall on the floor, writhing in false agony.  The healer doesn't react as they saw through your lie.] They warned me against those like you, but only now I realise that they were right.  I hope that our paths never cross again." ,
+                    "responses": [
+                      {
+                        "text": "They can't cross again if I kill you.",
+                        "topic": "TALK_DONE",
+                        "effect": "hostile" 
+                      },
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE",
+                        "effect": "flee"
+                      }
+                    ]
+                  },
+                  
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_CURE_POISON",
+                    "dynamic_line": "[You take the cure and a severe pain fills your body as you fall on the floor, writhing in agony.  The healer panics as they do not understand why you are reacting that badly to something that saved them and many more people from vampirism.]" ,
+                    "responses": [
+                      {
+                        "text": "Liar!  You said it would cure me!",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FORGIVE"
+                      },
+                      {
+                        "text": "Don't worry, I wanted to see if I truly passed the point of no return.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ASK_NO_RETURN"
+                      }
+                    ]
+                  },
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FORGIVE",
+                    "dynamic_line": "I don't understand!  It's a cure, it isn't supposed to do that!  Is there something I can do to help you?" ,
+                    "responses": [
+                      {
+                        "text": "How many of those you claim to have cured died from your poison while you weren't with them?  If you truly care about saving people you'll stop trying to kill them by lying about a cure!",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_RUN_AWAY"
+                      },
+                      {
+                        "text": "Give me some of your stuff and I'll forget you tried to dupe me into poisoning myself.",
+                        "topic": "TALK_DONE",
+                        "effect": [ { "u_spend_cash": -15000 }, "start_trade" ]
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_RUN_AWAY",
+                    "dynamic_line": "I'm so sorry so sorry so sorry so sorry everyone I thought I did the good thing so sorry forgive me so sorry please forgive me I'm so so sorry…" ,
+                    "responses": [
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE",
+                        "effect": "flee"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_ASK_NO_RETURN",
+                    "dynamic_line": "There's a point of no return?  What does it entails?" ,
+                    "responses": [
+                      {
+                        "text": "I'm not sure of the whole thing, but I had to make someone love me more than anything else in the world before killing them in cold blood.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_KILL_INNOCENT"
+                      },
+                      {
+                        "text": "I suppose that centuries of being a vampire will do that.  I've heard a rumor about that but wanted to try it regardless.",
+                        "topic": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FOLLOW"
+                      }
+                    ]
+                  },
+
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_KILL_INNOCENT",
+                    "dynamic_line": "[The hunter look at you with an expression of absolute disgust] I can't believe you did that.  I hope the other hunters will take their time as they kill you, you monster." ,
+                    "responses": [
+                      {
+                        "text": "For now, it is me that will take my time to kill you.",
+                        "topic": "TALK_DONE",
+                        "effect": "hostile" 
+                      },
+                      {
+                        "text": "…",
+                        "topic": "TALK_DONE",
+                        "effect": "flee"
+                      }
+                    ]
+                  },
+
+                  {
+                    "type": "talk_topic",
+                    "id": "TALK_VAMPIRE_HUNTER_HEALER_ASK_FOLLOW",
+                    "dynamic_line": "Is that true?  After centuries you still looked for a cure?  I admire you and your resolve.  I wish to travel at your side so we can help others and maybe find a way to cure you one day." ,
+                    "responses": [
+                      {
+                        "text": "Sure you can.  Let's heal those that can be healed.",
+                        "topic": "TALK_DONE",
+                        "effect": "follow" 
+                      },
+                      {
+                        "text": "Continue to cure others, the help you bring them is too valuable for me to keep it all for myself.",
+                        "topic": "TALK_DONE"
+                      }
+                    ]
+                  }
 
 
 ]
