@@ -2972,7 +2972,42 @@
     "type": "effect_type",
     "id": "dermatik",
     "immune_bp_flags": [ "BIONIC_LIMB" ],
-    "blood_analysis_description": "Insect Parasite"
+    "blood_analysis_description": "Insect Parasite",
+    "vitamins": [
+      { "vitamin": "dermatik_larva_size", "rate": [ [ 1, 1 ] ], "tick": [ "1 m" ] },
+      { "vitamin": "vitC", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "iron", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "calcium", "rate": [ [ -1, -1 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "mutant_toxin", "rate": [ [ 1, 1 ] ], "tick": [ "5 m" ] }
+    ],
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_tick": [ 20 ],
+      "thirst_min": [ 1 ],
+      "thirst_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_tick": [ 300 ],
+      "healing_rate": [ 0.05 ]
+    },
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 3.0 } ] } ],
+    "immune_flags": [ "ACIDBLOOD", "PARAIMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dermatik_visible",
+    "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
+    "desc": [
+      "You can feel something wriggling beneath the skin…",
+      "There's a small lump under your skin, it shifts and writhes with a life of its own…",
+      "An area of your flesh bulges unnaturally, stretched by the presence of something inside.  It feels like it's desperately trying to push its way out…"
+    ],
+    "rating": "bad",
+    "max_intensity": 3,
+    "show_in_info": true,
+    "base_mods": { "vomit_chance": [ 25200 ], "pain_amount": [ 3 ] },
+    "scaling_mods": { "vomit_chance": [ -7200 ], "pain_amount": [ 6 ] }
   },
   {
     "type": "effect_type",
@@ -2983,6 +3018,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
+    "show_in_info": true,
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
