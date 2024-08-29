@@ -305,7 +305,7 @@ TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
     item bat_cell( "light_battery_cell" );
-    item flashlight( "flashlight" );
+    item flashlight( "diving_flashlight_small_hipower" );
 
     const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
     REQUIRE( bat_charges > 0 );
