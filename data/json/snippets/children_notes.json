@@ -273,7 +273,10 @@
         "id": "note_child_86",
         "text": "\"I found an old photo album in the attic.  It has pictures of our family trips.  I wish we could go on another trip.\""
       },
-      { "id": "note_child_87", "text": "\"I heard mommy and daddy talking about leaving.  I don't want them to go.\"" },
+      {
+        "id": "note_child_87",
+        "text": "\"I heard mommy and daddy talking about leaving.  I don't want them to go.\""
+      },
       {
         "id": "note_child_88",
         "text": "\"I miss mommy's hugs and daddy's bedtime stories.  I hope they come home soon.\""
