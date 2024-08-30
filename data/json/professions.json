@@ -7758,9 +7758,9 @@
           { "item": "pants_tactical", "variant": "tactical_pants_black" }
           { "item": "t-shirt" },
           { "item": "fbi_armor_vest" },
-          
-          
-          UNFINISHED
+          { "item": "jacket_fbi" },
+          { "item": "fbi_hatball" },
+            UNFINISHED
           { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
           { "group": "army_mags_usp9" },
