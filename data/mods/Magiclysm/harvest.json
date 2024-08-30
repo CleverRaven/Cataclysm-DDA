@@ -28,7 +28,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.02},
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.02 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
