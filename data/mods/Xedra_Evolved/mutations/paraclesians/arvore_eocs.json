@@ -10,21 +10,7 @@
         "run_eocs": [
           {
             "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
-            "condition": {
-              "and": [
-                { "not": { "u_near_om_location": "road_curved", "range": 2 } },
-                { "not": { "u_near_om_location": "road_four_way", "range": 2 } },
-                { "not": { "u_near_om_location": "road_tee", "range": 2 } },
-                { "not": { "u_near_om_location": "road_straight", "range": 2 } },
-                { "not": { "u_near_om_location": "road_end", "range": 2 } },
-                { "not": { "u_near_om_location": "road_sw", "range": 2 } },
-                { "not": { "u_near_om_location": "road_ne", "range": 2 } },
-                { "not": { "u_near_om_location": "road_ew", "range": 2 } },
-                { "not": { "u_near_om_location": "road_ns", "range": 2 } },
-                { "not": { "u_near_om_location": "road_nesw", "range": 2 } },
-                { "not": { "u_near_om_location": "road", "range": 2 } }
-              ]
-            },
+            "condition": { "not": { "u_near_om_location": "road", "range": 2 } },
             "effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "1" ] } ],
             "false_effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "0" ] } ]
           }
