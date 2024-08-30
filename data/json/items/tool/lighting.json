@@ -625,7 +625,7 @@
     "armor_data": {
       "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
-    "flags": [ "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP", "BELTED" ],
     "use_action": [
       {
         "type": "transform",
@@ -654,7 +654,7 @@
       "msg": "You turn the heavy-duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
   },
   {
     "id": "lightstrip",
