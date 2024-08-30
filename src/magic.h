@@ -432,6 +432,7 @@ class spell
 
         // Temporary adjustments caused by EoC's
         int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_damage_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
