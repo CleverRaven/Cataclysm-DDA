@@ -58,10 +58,10 @@
       "R": "t_linoleum_white",
       "w": "t_linoleum_white",
       "<": "t_stairs_up",
-      "$": "t_atm",
       "?": "t_railing"
     },
     "furniture": {
+      "$": "f_atm_off",
       "x": "f_console_broken",
       "V": "f_vending_c",
       "h": "f_chair",
