@@ -1050,7 +1050,6 @@
     "color": "pink",
     "spoils_in": "1 day",
     "price_postapoc": "6 cent",
-    "quench": 0,
     "fun": -10,
     "calories": 50,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
