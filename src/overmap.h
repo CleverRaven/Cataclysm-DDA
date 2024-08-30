@@ -700,6 +700,11 @@ om_special_sectors get_sectors( int sector_width );
 std::string_view oter_no_dir( const oter_id &oter );
 
 /**
+* Returns the string of oter without any directional, connection, or line suffix
+*/
+std::string_view oter_no_dir_or_connections( const oter_id &oter );
+
+/**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
 * Return 0 if there's no suffix
 */
