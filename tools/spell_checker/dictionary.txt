@@ -2388,7 +2388,6 @@ prigs
 primeside
 privet
 prizefights
-proc
 procedurally
 procompsignathids
 proficiencies
