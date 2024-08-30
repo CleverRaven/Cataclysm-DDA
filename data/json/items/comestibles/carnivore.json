@@ -1106,7 +1106,14 @@
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 3 ],
+      [ "iron", 14 ],
+      [ "mutant_toxin", 10 ],
+      [ "meat_allergen", 1 ],
+      [ "human_flesh_vitamin", 1 ]
+    ]
   },
   {
     "id": "mutant_heart_cooked",
