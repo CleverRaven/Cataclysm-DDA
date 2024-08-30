@@ -33,7 +33,11 @@
           { "u_spawn_item": "pine_tea", "container": "bottle_plastic" }
         ]
       },
-      { "text": "What's your story?", "topic": "TALK_GODCO_Kostas_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Kostas_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things here?", "topic": "TALK_GODCO_Kostas_Mood" },
       { "text": "What do you do around here?", "topic": "TALK_GODCO_Kostas_Task" },
       { "text": "Care to trade?", "topic": "TALK_GODCO_Kostas_2", "effect": "start_trade" }
@@ -47,12 +51,16 @@
       "value": "yes",
       "yes": "A sin against God, did you know that's what you are?  Get away from me.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_kostas",
-        "value": "yes",
-        "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "&Kostas looks up at you and scorns.  \"I'm rather busy right now with an important project, go away please.\"",
         "no": {
-          "gendered_line": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist.",
-          "relevant_genders": [ "u" ]
+          "npc_has_var": "general_meeting_u_met_godco_kostas",
+          "value": "yes",
+          "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
+          "no": {
+            "gendered_line": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist.",
+            "relevant_genders": [ "u" ]
+          }
         }
       }
     },
@@ -72,6 +80,7 @@
         "text": "Hey, good to see you again.",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -93,6 +102,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
             { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
             { "npc_has_effect": "godco_kostas_trade" }
@@ -101,10 +111,42 @@
         "effect": "start_trade",
         "topic": "TALK_GODCO_Kostas_2"
       },
-      { "text": "Hey Kostas, find something interesting lately?", "topic": "TALK_GODCO_Kostas_Interval" },
+      {
+        "text": "Hey, I think we've got some time to chat, don't you?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Kostas_Angry"
+      },
+      {
+        "text": "Hi, Kostas.  Care to trade?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "npc_has_var": "general_meeting_u_met_godco_kostas", "value": "yes" },
+            { "npc_has_effect": "godco_kostas_trade" }
+          ]
+        },
+        "topic": "TALK_GODCO_Kostas_Angry"
+      },
+      {
+        "text": "Hey Kostas, find something interesting lately?",
+        "topic": "TALK_GODCO_Kostas_Interval",
+        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+      },
       {
         "text": "Hey, Kostas.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
@@ -114,7 +156,9 @@
       },
       {
         "text": "Alright then.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -219,21 +263,21 @@
     "responses": [
       {
         "text": "Jeremiah's a bright kid.  I'll just tell him to not wander as a stipulation.",
-        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "trust", 2 ], [ "value", 2 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "trust", 2 ], [ "value", 2 ], [ "anger", -1 ] ] },
         "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": 0, "fear": 0 } }
       },
       {
         "text": "I know him pretty well, I'm sure he'll learn as he goes along.",
-        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "value", 3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "value", 3 ], [ "anger", -2 ] ] },
         "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": 0, "fear": 0 } }
       },
       {
         "text": "If you don't take him under your wings, I'll rip them off for you.  Capiche?",
-        "trial": { "type": "INTIMIDATE", "difficulty": -5, "mod": [ [ "fear", 2 ], [ "trust", -2 ], [ "value", -2 ] ] },
-        "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": -5, "value": -5 } },
-        "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade", "opinion": { "trust": -10, "value": -10 } }
+        "trial": { "type": "INTIMIDATE", "difficulty": -5, "mod": [ [ "fear", 2 ], [ "trust", -2 ], [ "value", -2 ], [ "anger", -1 ] ] },
+        "success": { "topic": "TALK_GODCO_Kostas_Jeremiah_Persuade", "opinion": { "trust": -5, "value": -5, "anger": 5, "fear": 10 } },
+        "failure": { "topic": "TALK_GODCO_Kostas_Jeremiah_FailPersuade_Violent", "opinion": { "trust": -10, "value": -10, "anger": 10 } }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Thank you.  See you around, Kostas.", "topic": "TALK_DONE" }
@@ -271,8 +315,26 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Jeremiah_FailPersuade_Violent",
+    "dynamic_line": "You think you're so tough <name_b>?  I'm not taking Jeremiah on, certainly not when his representitive is so barbaric.  I don't know how he got such a violent individual like yourself to do this, but I hope he can find someone else in the future.",
+    "responses": [
+      {
+        "text": "Fuck you then, you judgemental <name_b>.",
+        "effect": { "npc_add_effect": "failed_persuade", "duration": "PERMANENT" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_You_Mutant",
     "dynamic_line": "I'm talking about you and your filthy, unnatural appearance.  I don't like your kind, and neither does anyone else.  Go repent before the Lord for your many sins, if he'll even listen to you.",
     "responses": [ { "text": "Fuck you, I'm blowing this joint.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_Angry",
+    "dynamic_line": "&Kostas becomes visibly angry now, glaring at you.  \"Feeling pushy today, are we?  If you want to hear it plain, we're not on good terms at the moment and I would appreciate it if you didn't bother me for a while.  Understand?\"",
+    "responses": [ { "text": "Okay, see you later.", "topic": "TALK_DONE" } ]
   }
 ]

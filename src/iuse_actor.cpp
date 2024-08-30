@@ -2435,7 +2435,7 @@ std::string cast_spell_actor::get_name() const
     return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
-std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint & ) const
+std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -2447,6 +2447,12 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
     }
 
     spell casting = spell( spell_id( item_spell ) );
+
+    // Spell is being cast from a non-held item
+    if( p == nullptr ) {
+        casting.cast_all_effects( pos );
+        return 0;
+    }
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( *p ) );
     // [0] this is used as a spell level override for items casting spells

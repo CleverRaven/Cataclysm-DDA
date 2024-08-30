@@ -114,5 +114,40 @@
     "description": "A USB thumb drive with a simple intelligent agent to provide support in parsing big layers of information.",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "qualities": [ [ "AI_TOOL", 1 ] ]
+  },
+  {
+    "id": "inventor_portal_closer",
+    "type": "TOOL",
+    "name": { "str": "Netherium-Reality Smoothing Device" },
+    "looks_like": "box_large_metal",
+    "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
+    "longest_side": "1495 mm",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "volume": "601475 ml",
+    "weight": "226 kg",
+    "price": "100000 USD",
+    "price_postapoc": "1000 USD",
+    "charges_per_use": 3125,
+    "ammo": "battery",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY", "BATTERY_MEDIUM" ],
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "inventor_heavy_cell"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 10,
+        "charge_rate": "500 W"
+      }
+    ],
+    "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
   }
 ]

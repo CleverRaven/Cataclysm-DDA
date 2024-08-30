@@ -1870,6 +1870,7 @@
     "items": [
       { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
       [ "eyedrops", 20 ],
+      [ "steroid_eyedrops", 10 ],
       [ "clock", 10 ],
       { "group": "tobacco_products", "prob": 151 },
       { "group": "cigar_box_opened", "prob": 15 },
@@ -2159,6 +2160,7 @@
       { "item": "chemistry_set", "prob": 8 },
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       { "item": "eyedrops", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 3, "count": [ 1, 10 ] },
       { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
       { "item": "magnesium", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "tin", "prob": 10, "charges": [ 1, 100 ] },

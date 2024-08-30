@@ -691,6 +691,14 @@
         "cooldown": { "math": [ "10 + rand(20)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
+      },
+      {
+        "id": "psi_photokin1_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 5 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [
@@ -775,6 +783,14 @@
         "cooldown": { "math": [ "12 + rand(24)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and %3$s is enveloped in an eerie glow!"
+      },
+      {
+        "id": "psi_photokin2_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 10 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [
@@ -865,6 +881,14 @@
         "cooldown": { "math": [ "10 + rand(20)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
+      },
+      {
+        "id": "psi_photokin3_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 15 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [

@@ -10,8 +10,16 @@
       "TALK_GODCO_Maria_Theresa"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Maria_Story" },
-      { "text": "Could you tell me about yourself?", "topic": "TALK_GODCO_Maria_Past" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Maria_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Could you tell me about yourself?",
+        "topic": "TALK_GODCO_Maria_Past",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Maria_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Maria_Godco" }
     ]
@@ -24,10 +32,14 @@
       "value": "yes",
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_maria",
-        "value": "yes",
-        "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
-        "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Buzz off <name_b>, I'm not interested in  <swear> chatting with you.",
+        "no": {
+          "npc_has_var": "general_meeting_u_met_godco_maria",
+          "value": "yes",
+          "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
+          "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+        }
       }
     },
     "responses": [
@@ -46,6 +58,7 @@
         "text": "Hey Maria.  What's up?",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -53,13 +66,31 @@
         "topic": "TALK_GODCO_Maria_2"
       },
       {
+        "text": "Maria, why the sudden hostility?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Maria_Angry"
+      },
+      {
         "text": "Hey Maria.  I can't stay to talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -400,5 +431,11 @@
     "id": "TALK_GODCO_Maria_Tailor_Done",
     "dynamic_line": "Here it is, I hope you enjoy it.  If you want something else, just come to me.",
     "responses": [ { "text": "Thank you.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Maria_Angry",
+    "dynamic_line": "'Cause your a <swear> <name_b> is why!  You think you can just do what <swear> ever you want with no consequence!  I'm sick of this, I'm not talking to you anymore.",
+    "responses": [ { "text": "Okay, <name_b>, piss on it.", "topic": "TALK_DONE" } ]
   }
 ]

@@ -1110,6 +1110,26 @@
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
+    "id": "steroid_eyedrops",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "steroid eyedrops" },
+    "description": "A topical corticosteroid in the form of eye drops.  Can be used to treat irritation and inflammation of the eyes.",
+    "volume": "1 ml",
+    "weight": "3 g",
+    "price": "7 USD 50 cent",
+    "price_postapoc": "15 USD",
+    "symbol": "!",
+    "color": "light_blue",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You put the anti-inflammatory eyedrops into your eyes.",
+      "effects": [ { "id": "steroid_eye", "duration": "3 h" } ],
+      "moves": 300
+    },
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
+  },
+  {
     "id": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1773,7 +1793,10 @@
       "type": "consume_drug",
       "activation_message": "You take the %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
-    }
+    },
+    "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
+    "//2": "TODO: Fix this...",
+    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
   },
   {
     "id": "calcium_tablet",
