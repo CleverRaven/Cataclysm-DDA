@@ -498,7 +498,9 @@
   {
     "id": "meat_heart",
     "type": "requirement",
-    "components": [ [ [ "heart", 1 ], [ "human_heart", 1 ], [ "demihuman_heart", 1 ], [ "mutant_heart", 1 ], [ "mutant_human_heart", 1 ] ] ]
+    "components": [
+      [ [ "heart", 1 ], [ "human_heart", 1 ], [ "demihuman_heart", 1 ], [ "mutant_heart", 1 ], [ "mutant_human_heart", 1 ] ]
+    ]
   },
   {
     "id": "meat_liver",
