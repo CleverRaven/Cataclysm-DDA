@@ -2,6 +2,7 @@
   {
     "type": "furniture",
     "id": "f_atm",
+    "looks_like": "t_atm",
     "name": "ATM",
     "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  This thing has seen better days; there's been a run on the bank, and this machine has the dents and cracks to prove it.",
     "symbol": "&",
@@ -37,7 +38,6 @@
       "str_max": 800,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "lc_steel_lump", "count": 77 },
@@ -62,6 +62,7 @@
   {
     "type": "furniture",
     "id": "f_atm_off",
+    "looks_like": "t_atm",
     "//": "www.testlinkusa.com/ncr-5870",
     "name": "ATM",
     "description": "Designed to withdraw money from your bank account, this machine is completely dead now, both from having no more power, and having no internet connection to do any withdraws.  While you can deconstruct it, it's effectively just a big pile of metal.",
@@ -97,7 +98,6 @@
       "str_max": 800,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
       "items": [
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "lc_steel_lump", "count": 77 },
