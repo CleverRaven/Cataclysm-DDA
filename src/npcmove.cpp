@@ -1363,14 +1363,13 @@ void npc::move()
      * something nasty is going to happen.
      */
 
-    if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) > 0 ) {
-        // TODO: Think about how this actually needs to work, for now assume flee from player
-        ai_cache.target = g->shared_from( player_character );
-    }
-
     map &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
+    } else if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) >= 0 ) {
+        // TODO: Think about how this actually needs to work, for now assume flee from player
+        ai_cache.target = g->shared_from( player_character );
+        action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
