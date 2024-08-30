@@ -1,5 +1,6 @@
 [
   {
+    "type": "effect_on_condition",
     "id": "EOC_GRACKEN_CONVERT_RADS_TO_CALORIES",
     "recurrence": [ "5 seconds", "15 seconds" ],
     "condition": { "u_has_trait": "RADIOTROPHIC" },
