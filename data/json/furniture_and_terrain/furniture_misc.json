@@ -63,7 +63,7 @@
     "id": "f_atm_off",
     "//": "www.testlinkusa.com/ncr-5870",
     "name": "ATM",
-    "description": "Design to withdraw money from your bank accoun, this this is completely dead now, both from having no more power, and having no internet connection to do any withdraws.  While you can deconstruct it, it's effectively just a big pile of metal.",
+    "description": "Designed to withdraw money from your bank account, this machine is completely dead now, both from having no more power, and having no internet connection to do any withdraws.  While you can deconstruct it, it's effectively just a big pile of metal.",
     "symbol": "&",
     "bgcolor": "yellow",
     "move_cost_mod": -1,
