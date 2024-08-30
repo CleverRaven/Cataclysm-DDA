@@ -101,7 +101,6 @@
     "name": { "str_sp": "stuffed heart" },
     "symbol": "%",
     "looks_like": "offal_cooked",
-    "quench": 0,
     "fun": 7,
     "description": "Chunks of heart filled with vegetables and spices.",
     "price_postapoc": "41 cent",
