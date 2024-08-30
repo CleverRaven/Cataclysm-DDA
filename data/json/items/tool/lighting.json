@@ -612,9 +612,10 @@
     "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },
     "description": "A heavy-duty aluminum LED flashlight, often used by security guards.  It even works underwater, and it's not bad for smacking hooligans.  It also has a shoulder strap on it's handle, for easier transportation.",
     "//": "https://www.amazon.com/dp/B00Y8AHZYC, todo add low brightness mode",
+    "//2": "volume is average between cylinder volume (without handle) and entire unit as rectangular. Should be fine since handle is big and hollow, and it can be strapped anyway.",
     "weight": "720 g",
-    "volume": "5468 ml",
-    "longest_side": "37 cm",
+    "volume": "4267 ml",
+    "longest_side": "25 cm",
     "price": "46 USD",
     "price_postapoc": "15 cent",
     "material": [ "aluminum" ],
@@ -647,13 +648,16 @@
     "name": { "str": "heavy-duty flashlight (on)", "str_pl": "heavy-duty flashlights (on)" },
     "power_draw": "6 W",
     "revert_to": "heavy_flashlight",
-    "use_action": {
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn the heavy-duty flashlight off.",
-      "target": "heavy_flashlight"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "type": "transform",
+        "msg": "You turn the heavy-duty flashlight off.",
+        "target": "heavy_flashlight"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
     "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
   },
   {
