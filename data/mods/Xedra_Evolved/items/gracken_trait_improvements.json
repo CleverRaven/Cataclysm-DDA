@@ -115,7 +115,7 @@
       "description": "Exchanged the limb back for a longer form factor.",
       "effect_on_conditions": [
         {
-          "id": "long_arms",
+          "id": "dextrous_hands",
           "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ]
         }
       ]
