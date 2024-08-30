@@ -1099,6 +1099,17 @@
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
+    "id": "mutant_human_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "name": { "str": "piece of raw mutant humanoid heart", "str_pl": "pieces of raw mutant humanoid heart" },
+    "snippet_category": "mutant_heart_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+  },
+  {
     "id": "mutant_heart_cooked",
     "type": "COMESTIBLE",
     "copy-from": "heart_cooked",
