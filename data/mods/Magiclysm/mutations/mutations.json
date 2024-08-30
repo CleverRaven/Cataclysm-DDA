@@ -862,7 +862,7 @@
     "id": "DRAGON_ACID_PROOF",
     "name": { "str": "Draconic Acid Immunity" },
     "points": 3,
-    "description": "Like your scale and hide, your remaining fresh has transmuted by black dragon's essence.  You are invulnerable to acid now.",
+    "description": "Like your scale and hide, your remaining flesh has been transmuted by black dragon's essence.  You are invulnerable to acid now.",
     "purifiable": false,
     "prereqs": [ "DRAGON_SCALES_BLACK" ],
     "prereqs2": [ "DRAGON_SPELLS" ],
