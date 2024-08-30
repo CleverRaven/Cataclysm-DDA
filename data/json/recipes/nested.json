@@ -500,9 +500,15 @@
     "description": "Recipes related to constructing durable helmets from chitin.",
     "skill_used": "tailor",
     "nested_category_data": [
+      "helmet_acidchitin_full",
+      "helmet_acidchitin_full_xs",
+      "xl_helmet_acidchitin_full",
       "helmet_acidchitin",
       "helmet_acidchitin_xs",
       "xl_helmet_acidchitin",
+      "helmet_chitin_full",
+      "helmet_chitin_full_xs",
+      "xl_helmet_chitin_full",
       "helmet_chitin",
       "helmet_chitin_xs",
       "xl_helmet_chitin"
