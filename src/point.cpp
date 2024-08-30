@@ -117,6 +117,22 @@ std::istream &operator>>( std::istream &is, tripoint &pos )
     return is;
 }
 
+std::optional<int> rectangle_size( int min_dist, int max_dist )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return std::nullopt;
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 ) + ( min_dist == 0 ? 1 : 0 );
+    return n;
+}
+
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
 {
     return closest_points_first( center, 0, max_dist );

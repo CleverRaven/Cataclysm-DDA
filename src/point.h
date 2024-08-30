@@ -369,21 +369,7 @@ std::optional<Point> find_point_closest_first( const Point &center, int max_dist
 
 
 // Calculate the number of tiles in a square from min_dist to max_dist about an arbitrary centre.
-inline std::optional<int> rectangle_size( int min_dist, int max_dist )
-{
-    min_dist = std::max( min_dist, 0 );
-    max_dist = std::max( max_dist, 0 );
-
-    if( min_dist > max_dist ) {
-        return std::nullopt;
-    }
-
-    const int min_edge = min_dist * 2 + 1;
-    const int max_edge = max_dist * 2 + 1;
-
-    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 ) + ( min_dist == 0 ? 1 : 0 );
-    return n;
-};
+std::optional<int> rectangle_size( int min_dist, int max_dist );
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
