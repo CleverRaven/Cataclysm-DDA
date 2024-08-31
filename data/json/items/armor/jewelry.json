@@ -2015,7 +2015,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "FBI badge" },
-    "description": "A gold-filled brass shield with an eagle perched atop and Lady Justice emblazoned on its center.  In large, engraved lettering it reads, \"FEDERAL BUREAU OF INVESTIGATION-US DEPARTMENT OF JUSTICE\".  It identifies the wearer as an agent who posseses federal authority throughout all the United States and her territories; that is, whatever is left of them."
+    "description": "A gold-filled brass shield with an eagle perched atop and Lady Justice emblazoned on its center.  In large, engraved lettering it reads, \"FEDERAL BUREAU OF INVESTIGATION-US DEPARTMENT OF JUSTICE\".  It identifies the wearer as an agent who posseses federal authority throughout all the United States and her territories; that is, whatever is left of them.",
   },
   {
     "id": "badge_doctor",
