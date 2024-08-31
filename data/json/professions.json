@@ -7727,7 +7727,7 @@
     "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   },
   {
-   "type": "profession",
+    "type": "profession",
     "id": "FBI",
     "name": "FBI Special Agent",
     "description": "As a member of the FBI, you dealt with crime that crossed state lines.  You had gotten the go-ahead to make the biggest bust of your career; before you kicked down the door, you yelled \"FBI, open up!\" and then the sky broke open.",
