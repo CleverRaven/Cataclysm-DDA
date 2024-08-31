@@ -9,7 +9,11 @@
       "TALK_GODCO_Helena_Community"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Helena_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Helena_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Helena_Mood" },
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
       {
@@ -22,6 +26,7 @@
         "topic": "TALK_GODCO_Helena_Join",
         "condition": {
           "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
             { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
             { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
@@ -37,10 +42,14 @@
       "value": "yes",
       "yes": { "gendered_line": "Get away from here, sinner, we don't want your kind here.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_helena",
-        "value": "yes",
-        "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
-        "no": "Stranger, what brings you to our holy home?"
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "What brings you here <name_b>?  You know we don't want anything to do with you.",
+        "no": {
+          "npc_has_var": "general_meeting_u_met_godco_helena",
+          "value": "yes",
+          "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
+          "no": "Stranger, what brings you to our holy home?"
+        }
       }
     },
     "responses": [
@@ -59,6 +68,7 @@
         "text": "Good to see you again.",
         "condition": {
           "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
             { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
             { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
@@ -66,13 +76,30 @@
         "topic": "TALK_GODCO_Helena_2"
       },
       {
+        "text": "Why might that be?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "math": [ "n_npc_anger()", ">=", "5" ] }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_Angry"
+      },
+      {
         "text": "I can't talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "math": [ "n_npc_anger()", "<", "5" ] }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Fine then.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [ { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }, { "math": [ "n_npc_anger()", ">=", "5" ] } ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -298,5 +325,11 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Angry",
+    "dynamic_line": "You've been nothing but a leech and a stain on us, we don't want you here anymore nor your \"services\" you might provide.  Now get out.",
+    "responses": [ { "text": "Fine then.", "topic": "TALK_DONE" } ]
   }
 ]

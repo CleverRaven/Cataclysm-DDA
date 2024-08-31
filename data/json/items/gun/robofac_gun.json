@@ -464,6 +464,7 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "reload_time": 160,
+    "mag_jam_mult": 3,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 60 } } ]
   },
@@ -510,6 +511,7 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "reload_time": 130,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 30 } } ]
   },
@@ -547,6 +549,7 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "flags": [ "MAG_BULKY" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 50 } } ]
   },
   {
@@ -565,6 +568,7 @@
     "color": "light_gray",
     "ammo_type": [ "223" ],
     "flags": [ "MAG_BULKY" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
   {

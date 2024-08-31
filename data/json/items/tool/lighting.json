@@ -173,7 +173,13 @@
     "power_draw": "1 W",
     "revert_to": "electric_lantern",
     "use_action": [
-      { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
+      {
+        "menu_text": "Turn off",
+        "ammo_scale": 0,
+        "type": "transform",
+        "target": "electric_lantern",
+        "msg": "You turn the lamp off."
+      },
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -207,7 +213,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -258,7 +264,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -310,7 +316,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -642,7 +648,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 8 }

@@ -12,9 +12,10 @@
 #include <vector>
 
 #include "cata_lazy.h"
+#include "dialogue_helpers.h"
 #include "dialogue_win.h"
 #include "global_vars.h"
-#include "npc.h"
+#include "npc_opinion.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
@@ -23,6 +24,7 @@ class JsonArray;
 class JsonObject;
 class martialart;
 class mission;
+class npc;
 struct dialogue;
 struct input_event;
 

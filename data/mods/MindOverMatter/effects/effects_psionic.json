@@ -1128,6 +1128,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_enemy_light",
+    "name": [ "Illuminated" ],
+    "desc": [ "The air around you is glowing." ],
+    "apply_message": "You are outlined in light.",
+    "remove_message": "The glow around you fades.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": {
+              "math": [
+                "min( (( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_dodge",
     "name": [ "Trick of the Light" ],
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
@@ -1824,6 +1848,13 @@
       }
     ],
     "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporter_attuning_to_area",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",

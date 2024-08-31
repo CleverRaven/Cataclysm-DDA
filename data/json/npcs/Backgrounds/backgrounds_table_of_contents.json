@@ -2,7 +2,7 @@
   {
     "id": "TALK_FRIEND_CONVERSATION",
     "type": "talk_topic",
-    "//": "the 'CWH' prefix stands for 'Cataclysm: what happened', and refers to stories where NPCs answer your questions about what they think happened in the cataclysm.",
+    "//": "the 'CWH' prefix stands for 'Cataclysm: what happened', and refers to stories where NPCs answer your questions about what they think happened in the Cataclysm.",
     "responses": [
       {
         "text": "<BGSS_intro_question>",

@@ -141,6 +141,7 @@
       { "item": "m9", "prob": 10, "charges": [ 0, 15 ] },
       { "item": "water_clean", "prob": 10 },
       { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 10, "count": [ 1, 10 ] },
       { "item": "screwdriver", "prob": 10 },
       { "group": "wallets_science", "prob": 5 },
       { "item": "cleansuit", "prob": 10 },

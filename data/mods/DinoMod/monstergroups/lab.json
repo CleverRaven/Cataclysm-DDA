@@ -22,7 +22,7 @@
     "type": "monstergroup",
     "name": "GROUP_BIO_DINO_PRED",
     "monsters": [
-      { "monster": "mon_spinosaurus", "weight": 100, "cost_multiplier": 20, "starts": "3 days", "ends": "28 days" },
+      { "monster": "mon_spinosaurus_bio_op", "weight": 100, "cost_multiplier": 20, "starts": "3 days", "ends": "28 days" },
       { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "7 days" },
       { "monster": "mon_zpinosaurus", "weight": 25, "cost_multiplier": 30, "starts": "28 days" },

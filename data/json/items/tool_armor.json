@@ -588,7 +588,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_atomic_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 25,
     "warmth": 10,
@@ -718,7 +718,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -772,7 +772,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
@@ -826,7 +826,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "head", "mouth" ] } ]
@@ -901,7 +901,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
@@ -929,7 +929,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
@@ -957,7 +957,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
@@ -1027,7 +1027,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
@@ -1107,7 +1107,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
@@ -1138,7 +1138,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "EBOOK",
@@ -1452,7 +1452,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -1480,6 +1480,7 @@
     "revert_to": "dimensional_anchor",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
@@ -1630,7 +1631,13 @@
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  It is turned on, and continually draining power.  Use it to turn it off.",
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Suit shutting down.",
+      "target": "phase_immersion_suit"
+    },
     "environmental_protection": 80,
     "flags": [
       "RAD_PROOF",
@@ -1817,7 +1824,13 @@
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "UNDERSIZE", "PREFIX_XS", "TRADER_AVOID" ],
     "turns_per_charge": 60,
     "revert_to": "rebreather_xs",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "rebreather_xs"
+    },
     "covers": [ "mouth" ],
     "environmental_protection": 15,
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
@@ -2398,7 +2411,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_bad" } ] },
@@ -2452,7 +2465,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
@@ -3074,7 +3087,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
@@ -3112,7 +3125,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
@@ -3756,7 +3769,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 10 }
@@ -3789,13 +3802,19 @@
     "ammo": "battery",
     "power_draw": "60 mW",
     "revert_to": "flight_helmet",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "flight_helmet" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "flight_helmet"
+    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "melee_damage": { "bash": 10 }
@@ -3883,7 +3902,13 @@
     "power_draw": "972216 mW",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
     "revert_to": "utility_exoskeleton_off",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "utility_exoskeleton_off"
+    }
   },
   {
     "id": "ice_utility_exoskeleton_off",
@@ -3935,6 +3960,12 @@
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes). Has less carry bonus than the battery one since the weight of the fuel will drop over time.",
     "revert_to": "ice_utility_exoskeleton_off",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "ice_utility_exoskeleton_off"
+    }
   }
 ]

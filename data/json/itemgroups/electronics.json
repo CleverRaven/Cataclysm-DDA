@@ -151,23 +151,16 @@
   {
     "id": "batteries",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
     "items": [
-      { "item": "light_minus_battery_cell", "prob": 30, "count": [ 2, 6 ] },
-      { "item": "light_minus_atomic_battery_cell", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "light_minus_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 3 ] },
-      { "item": "light_plus_battery_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "light_atomic_battery_cell", "prob": 3, "count": [ 1, 3 ] },
-      { "item": "light_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "medium_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "medium_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "medium_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "medium_disposable_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "heavy_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "heavy_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "heavy_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "heavy_disposable_cell", "prob": 15, "count": [ 1, 3 ] }
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 3, "count": [ 2, 8 ] },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": [ 2, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": [ 0, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 16, "count": [ 0, 16 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": [ 0, 8 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": [ 0, 16 ] },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 4 ] }
     ]
   }
 ]

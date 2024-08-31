@@ -29,14 +29,19 @@
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
     "name": { "str_sp": "raw black dragon hide" },
-    "weight": "2500 g",
+    "weight": "10100 g",
+    "//": "Tanning 1 raw hide can get 20 scales as byproduct, those scales should be on the hide before tanning",
     "color": "black_white",
     "spoils_in": "3 day",
     "comestible_type": "FOOD",
     "symbol": ",",
     "description": "A carefully folded raw hide harvested from a black dragon.  It is a large enough piece that it is workable to make armor, and with enough scales you could make scale mail.",
     "price": "500 USD",
-    "material": [ "black_dragon_hide", "flesh" ],
+    "material": [
+      { "type": "black_dragon_hide", "portion": 25 },
+      { "type": "black_dragon_scales", "portion": 50 },
+      { "type": "flesh", "portion": 25 }
+    ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "volume": "4 L"
@@ -85,7 +90,7 @@
     "symbol": ",",
     "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },
     "//": "inspiration from bundle of leather",
-    "proportional": { "price": 10, "weight": 10, "volume": 4 },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
     "description": "Hides from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
