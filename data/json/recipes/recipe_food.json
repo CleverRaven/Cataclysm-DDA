@@ -1897,6 +1897,7 @@
     "result": "dogfood_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
@@ -1952,6 +1953,7 @@
     "result": "catfood_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
@@ -8538,6 +8540,7 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "survival",
     "time": "1 s",
     "autolearn": true,
     "components": [
@@ -8572,6 +8575,7 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "survival",
     "time": "1 s",
     "autolearn": true,
     "components": [
@@ -8607,6 +8611,7 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "survival",
     "time": "1 s",
     "autolearn": true,
     "components": [
@@ -8642,6 +8647,7 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "survival",
     "time": "1 s",
     "autolearn": true,
     "components": [
