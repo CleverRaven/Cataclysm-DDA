@@ -139,10 +139,10 @@ void uilist_impl::draw_controls()
                                            ( entry.enabled || entry.force_color ?
                                              entry.text_color :
                                              parent.disabled_color ) );
-                        cataimgui::draw_colored_text( entry.txt.c_str(), color );
+                        cataimgui::draw_colored_text( entry.txt, color );
 
                         ImGui::TableSetColumnIndex( 2 );
-                        cataimgui::draw_colored_text( entry.ctxt.c_str(), color );
+                        cataimgui::draw_colored_text( entry.ctxt, color );
 
                         ImGui::PopID();
                     }
