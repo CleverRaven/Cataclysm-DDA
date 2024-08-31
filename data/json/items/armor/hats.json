@@ -465,7 +465,7 @@
       {
         "id": "hat_fbi",
         "name": { "str": "FBI cap" },
-        "description": "A deep blue snapback baseball cap with \"FBI\" embroidered across the front in blocky, yet imposing yellow lettering.  Although very much ilegal to impersonate a government official, most zombies tend to let it slide.  It shades your eyes from the sun, provides a little warmth, and makes you feel like an operator.",
+        "description": "A deep blue snapback baseball cap with \"FBI\" embroidered across the front in blocky, yet imposing yellow lettering.  Although very much illegal to impersonate a government official, most zombies tend to let it slide.  It shades your eyes from the sun, provides a little warmth, and makes you feel like an operator.",
         "weight": 1
       }
     ]
