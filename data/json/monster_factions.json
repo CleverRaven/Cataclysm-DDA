@@ -194,7 +194,7 @@
     "name": "turtle_small_predator",
     "base_faction": "turtle_small",
     "neutral": [ "bird_tiny_flying" ],
-    "hate": [ "tiny_animal" ]
+    "hate": [ "tiny_animal", "fish_tiny", "fish_small" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -258,7 +258,7 @@
     "base_faction": "reptile_tiny_aquatic",
     "neutral": [ "bird_tiny_flying" ],
     "by_mood": [ "bird_small_waterfowl_predator" ],
-    "hate": [ "tiny_animal" ]
+    "hate": [ "tiny_animal", "fish_tiny" ]
   },
   {
     "type": "MONSTER_FACTION",
