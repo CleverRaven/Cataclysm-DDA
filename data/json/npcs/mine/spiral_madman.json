@@ -69,17 +69,17 @@
       {
         "text": "Hello there!",
         "topic": "TALK_SPIRAL_MADMAN_GENERIC",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] } }
       },
       {
         "text": "I'm outta here.  Bye.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] } }
       },
       {
         "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] }
       }
     ]
   },

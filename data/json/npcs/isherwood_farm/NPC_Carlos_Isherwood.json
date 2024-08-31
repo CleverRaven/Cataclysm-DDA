@@ -65,7 +65,12 @@
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
         "topic": "TALK_CARLOS_FORGE",
         "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" } ],
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_about_jesse" } ] }
+          ]
+        }
       },
       {
         "text": "Can I do anything for you?",
@@ -126,7 +131,10 @@
         "text": "Look, I took it off to show I'm not here as a marshal.  I'm just here as a traveler, someone who can maybe help you out.  I know you've got problems bigger than you can handle right now.",
         "topic": "TALK_ISHERWOOD_CARLOS_MarshalSaveBarry",
         "condition": {
-          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
         }
       },
       { "text": "…(Leave)", "topic": "TALK_DONE" }
@@ -167,7 +175,10 @@
         "text": "Fine.  Thanks.  Tell me more about what happened to Barry.",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -184,7 +195,10 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -274,13 +288,16 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
         }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE1",
-        "condition": { "not": { "npc_has_var": "carlos_has_anvil", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] } }
       },
       {
         "text": "Is your forge operational?",
@@ -295,12 +312,12 @@
       {
         "text": "Where can I find Chris?",
         "topic": "TALK_CARLOS_CHRIS1",
-        "condition": { "not": { "u_has_var": "u_found_chris_for_carlos", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] } }
       },
       {
         "text": "Where can I find Chris?",
         "topic": "TALK_CARLOS_CHRIS2",
-        "condition": { "u_has_var": "u_found_chris_for_carlos", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] }
       },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

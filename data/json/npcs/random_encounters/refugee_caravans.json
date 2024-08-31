@@ -54,7 +54,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -96,8 +96,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  The refugee nods along",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then frowns.  \"Nope, not ringing any bells, sorry.\"",
           "no": {
             "gendered_line": ", looking thoughtful.  \"Maybe, yeah.  I saw a weird building sort of like that a while back, but we were on the move and couldn't stop to check it out.\"",
@@ -112,7 +111,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
@@ -135,7 +134,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -154,7 +153,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -244,7 +243,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -268,7 +267,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -293,7 +292,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },

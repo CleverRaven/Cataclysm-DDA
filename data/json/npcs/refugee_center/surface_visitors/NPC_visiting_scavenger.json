@@ -81,7 +81,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "lapin" } }
+            { "not": { "compare_string": [ "lapin", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_lapin" },
@@ -93,7 +93,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "isherwood" } }
+            { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_isherwood" },
@@ -105,7 +105,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "exodii" } }
+            { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_exodii" },

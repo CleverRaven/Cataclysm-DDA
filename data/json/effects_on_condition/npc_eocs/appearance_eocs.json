@@ -232,22 +232,22 @@
     "effect": [
       { "run_eocs": "assign_random_natural_hair_color" },
       {
-        "if": { "u_has_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" },
+        "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_black" } ] },
         "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "black" } ],
         "else": {
-          "if": { "u_has_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" },
+          "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_blond" } ] },
           "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "blond" } ],
           "else": {
-            "if": { "u_has_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" },
+            "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_brown" } ] },
             "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "brown" } ],
             "else": {
-              "if": { "u_has_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" },
+              "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_gray" } ] },
               "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "gray" } ],
               "else": {
-                "if": { "u_has_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" },
+                "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_red" } ] },
                 "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "red" } ],
                 "else": {
-                  "if": { "u_has_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" },
+                  "if": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_white" } ] },
                   "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "white" } ]
                 }
               }
@@ -393,12 +393,12 @@
     "id": "assign_random_natural_hair_color",
     "condition": {
       "and": [
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" } },
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" } },
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" } },
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" } },
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" } },
-        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" } }
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_black" } ] } },
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_blond" } ] } },
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_brown" } ] } },
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_gray" } ] } },
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_red" } ] } },
+        { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_natural_hair_color_white" } ] } }
       ]
     },
     "effect": [
@@ -417,7 +417,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_black",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
@@ -426,7 +426,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_blond",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
@@ -435,7 +435,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_brown",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
@@ -444,7 +444,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_gray",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
@@ -453,7 +453,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_white",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
@@ -462,7 +462,7 @@
   {
     "type": "effect_on_condition",
     "id": "natural_hair_color_red",
-    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "mutation_hair_color_picked_hair_color" } ] } },
     "effect": [
       { "u_add_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" },
       { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }

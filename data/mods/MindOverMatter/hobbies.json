@@ -444,8 +444,7 @@
       { "id": "teleport_collapse", "level": 7 },
       { "id": "teleport_farstep", "level": 10 },
       { "id": "teleport_banish", "level": 6 },
-      { "id": "teleport_gateway", "level": 4 },
-      { "id": "teleport_area_attune", "level": 1 }
+      { "id": "teleport_gateway", "level": 4 }
     ]
   },
   {
@@ -457,7 +456,7 @@
     "points": 5,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
     "skills": [ { "level": 2, "name": "metaphysics" } ],
-    "spells": [ { "id": "teleport_gateway", "level": 3 }, { "id": "teleport_area_attune", "level": 1 } ]
+    "spells": [ { "id": "teleport_gateway", "level": 3 } ]
   },
   {
     "type": "profession",
