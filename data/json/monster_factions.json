@@ -193,8 +193,8 @@
     "name": "tiny_animal",
     "base_faction": "small_animal",
     "//": "Base faction for animals roughly the size of a rat or a squirrel. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
-    "neutral": [ "small_animal" ],
-    "by_mood": [ "mammal_small_predator", "weasel", "reptile_tiny_aquatic" ]
+    "neutral": [ "small_animal", "bear", "big_cat" ],
+    "by_mood": [ "mammal_small_predator", "weasel", "reptile_tiny_aquatic", "turtle_small_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -210,7 +210,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "bird_tiny_flying",
-    "base_faction": "tiny_animal"
+    "base_faction": "tiny_animal",
+    "neutral": [ "reptile_tiny_aquatic", "turtle_small_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
