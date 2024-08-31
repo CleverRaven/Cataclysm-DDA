@@ -95,7 +95,7 @@
     "base_faction": "animal",
     "//": "Base faction for animals roughly the size of a rabbit. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
     "neutral": [ "zombie", "exodii", "isolated_artisans", "nether", "animal", "yrax" ],
-    "by_mood": [ "bear", "fox", "big_cat", "dog", "coyote", "wolf" ]
+    "by_mood": [ "bear", "fox", "big_cat", "dog", "coyote", "wolf", "snake_small" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -143,7 +143,7 @@
     "type": "MONSTER_FACTION",
     "name": "otter",
     "base_faction": "mammal_small",
-    "hate": [ "fish" ]
+    "hate": [ "fish", "amphibian_tiny", "reptile_tiny_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -162,11 +162,39 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "reptile_small",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "snake_small",
+    "base_faction": "reptile_small",
+    "neutral": [ "bird_tiny_flying", "otter" ],
+    "hate": [ "tiny_animal", "mammal_small" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_small_aquatic",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "turtle_small",
+    "base_faction": "reptile_small_aquatic"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "turtle_small_predator",
+    "base_faction": "turtle_small",
+    "hate": [ "amphibian_tiny", "bird_tiny_waterfowl", "bird_tiny_flightless", "lizard_tiny", "mammal_tiny", "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "tiny_animal",
     "base_faction": "small_animal",
     "//": "Base faction for animals roughly the size of a rat or a squirrel. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
     "neutral": [ "small_animal" ],
-    "by_mood": [ "mammal_small_predator", "weasel" ]
+    "by_mood": [ "mammal_small_predator", "weasel", "reptile_tiny_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -193,6 +221,32 @@
     "type": "MONSTER_FACTION",
     "name": "bird_tiny_waterfowl",
     "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "amphibian_tiny",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_tiny",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizard_tiny",
+    "base_faction": "reptile_tiny"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_tiny_aquatic",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "snake_tiny_aquatic",
+    "base_faction": "reptile_tiny_aquatic",
+    "hate": [ "amphibian_tiny", "bird_tiny_waterfowl", "bird_tiny_flightless", "lizard_tiny", "mammal_tiny" ]
   },
   {
     "type": "MONSTER_FACTION",
