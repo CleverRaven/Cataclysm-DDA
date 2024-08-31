@@ -1704,7 +1704,7 @@
     "copy-from": "jacket_windbreaker",
     "type": "ARMOR",
     "name": { "str": "FBI raid jacket" },
-    "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and the across back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification."
+    "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification."
   },
   {
     "id": "jacket_varsity",
