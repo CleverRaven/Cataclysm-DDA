@@ -20,7 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -36,7 +36,7 @@
         "condition": {
           "or": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "u_has_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" }
+            { "compare_string": [ "encountered_base", { "u_val": "factional_questline_mission_oldguard-exodii" } ] }
           ]
         }
       },
@@ -44,7 +44,10 @@
         "text": "I think I can already tell you what you want to know about those 'robots'.",
         "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_3" }, { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } ]
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
@@ -119,7 +122,7 @@
       {
         "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
     ]
@@ -240,7 +243,7 @@
     "name": { "str": "Find Source of Robots" },
     "description": "Go to the supposed source of the weird robots marked on your map and report back to the Old Guard representative what you've seen.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "missions_old_guard_u_scouted_exodii", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "missions_old_guard_u_scouted_exodii" } ] },
     "difficulty": 2,
     "value": 10000,
     "start": {

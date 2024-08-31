@@ -14,7 +14,7 @@
     "id": "ambient_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
+    "condition": { "u_at_om_location": "subway" },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -22,7 +22,7 @@
     "id": "ambient_lab_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
+    "condition": { "u_at_om_location": "lab_subway" },
     "effect": [ { "u_message": "<AMBIENT_LAB_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -30,7 +30,7 @@
     "id": "ambient_sewer",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [ { "u_message": "<AMBIENT_SEWER>", "snippet": true, "sound": true } ]
   },
   {
@@ -133,7 +133,7 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {

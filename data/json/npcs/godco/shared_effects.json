@@ -39,7 +39,7 @@
       {
         "text": "This is a fake response to prevent errors.  Please dont give the player the variable below.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "this_is_fake_shared_godco_value_display", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "this_is_fake_shared_godco_value_display" } ] }
       }
     ]
   }

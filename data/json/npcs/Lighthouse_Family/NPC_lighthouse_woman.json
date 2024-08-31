@@ -43,17 +43,20 @@
     "dynamic_line": {
       "u_has_mission": "MISSION_lighthouse_man_3",
       "yes": {
-        "u_has_var": "flag_death_lighthouse_girl_dead",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ],
         "yes": "Thank you for saving me.  It's a shame my Angelina didn't make it… you did everything you could, and I don't blame you for it…",
         "no": "Thank you!"
       },
-      "no": { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes", "yes": "Poor, poor Angelina…", "no": "Hello." }
+      "no": {
+        "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ],
+        "yes": "Poor, poor Angelina…",
+        "no": "Hello."
+      }
     },
     "responses": [
       {
         "text": "Hi.",
-        "condition": { "u_has_var": "flag_help_lighthouse_family_safe", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "flag_help_lighthouse_family_safe" } ] },
         "topic": "TALK_lighthouse_woman_1",
         "effect": { "npc_first_topic": "TALK_lighthouse_woman_1" },
         "switch": true
@@ -62,7 +65,7 @@
         "truefalsetext": {
           "true": "I'm sorry…",
           "false": "…",
-          "condition": { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
+          "condition": { "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ] }
         },
         "topic": "TALK_DONE",
         "switch": true
