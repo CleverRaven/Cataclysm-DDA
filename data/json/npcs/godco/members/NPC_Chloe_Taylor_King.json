@@ -9,8 +9,7 @@
         "math": [ "n_npc_value()", ">=", "3" ],
         "yes": [ "Aw hey, it's you again, <u_name>.  How have you been?", "Aw hey, it's you again, <name_g>.  How have you been?" ],
         "no": {
-          "npc_has_var": "general_meeting_u_met_chloe",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ],
           "yes": [ "Hey <u_name>, what's up?", "Hey <name_g>, what's up?" ],
           "no": "Oh… hi.  I don't know you.  My name's Chloe."
         }
@@ -20,7 +19,7 @@
       {
         "text": "Nice to meet you, Chloe.  What's up?",
         "topic": "TALK_GODCO_chloe_2",
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } },
         "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
@@ -29,7 +28,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
@@ -38,13 +37,19 @@
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_idle_chat",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         }
       },
       {
         "text": "Do you need any help?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         },
         "topic": "TALK_GODCO_chloe_help"
       },
@@ -52,13 +57,19 @@
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_angry",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         }
       },
       {
         "text": "Do you need any help?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         },
         "topic": "TALK_GODCO_chloe_angry"
       },
@@ -66,14 +77,20 @@
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         }
       },
       {
         "text": "Okay <name_b>, I'll leave.",
         "topic": "TALK_DONE",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
+          ]
         }
       }
     ]
@@ -88,8 +105,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_value()", ">=", "3" ] },
-            { "npc_has_var": "told_backstory_second_attempt", "value": "yes" },
-            { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "told_backstory_second_attempt" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_told_backstory" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
@@ -101,7 +118,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_value()", ">=", "3" ] },
-            { "not": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_told_about_sonia" } ] } }
           ]
         },
         "topic": "TALK_GODCO_chloe_sonia"
@@ -109,7 +126,10 @@
       {
         "text": "How'd you and Sonia come to meet again?",
         "condition": {
-          "and": [ { "math": [ "n_npc_value()", ">=", "3" ] }, { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_told_about_sonia" } ] }
+          ]
         },
         "topic": "TALK_GODCO_chloe_sonia"
       },

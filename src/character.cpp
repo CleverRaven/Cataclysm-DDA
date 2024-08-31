@@ -1836,7 +1836,7 @@ void Character::forced_dismount()
         set_movement_mode( move_mode_walk );
         if( player_character.is_auto_moving() || player_character.has_destination() ||
             player_character.has_destination_activity() ) {
-            player_character.clear_destination();
+            player_character.abort_automove();
         }
         g->update_map( player_character );
     }
@@ -8071,7 +8071,12 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
-    get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    if( source ) {
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
@@ -8286,7 +8291,14 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+
+        if( source ) {
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
+        } else {
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        }
+
     }
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
@@ -11278,6 +11290,14 @@ void Character::clear_destination()
     clear_destination_activity();
     destination_point = std::nullopt;
     next_expected_position = std::nullopt;
+}
+
+void Character::abort_automove()
+{
+    clear_destination();
+    if( g->overmap_data.fast_traveling && is_avatar() ) {
+        ui::omap::force_quit();
+    }
 }
 
 bool Character::has_distant_destination() const

@@ -42,8 +42,7 @@
             "Well I can't complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
           ],
           "no": {
-            "u_has_var": "dialogue_ancilla_hq_guard_first_meet",
-            "value": "yes",
+            "compare_string": [ "yes", { "u_val": "dialogue_ancilla_hq_guard_first_meet" } ],
             "yes": [
               "If you don't have any business here, you better get going.",
               "Terminal is down there, please move along.",

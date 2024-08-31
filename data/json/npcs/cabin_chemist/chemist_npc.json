@@ -42,8 +42,8 @@
         "topic": "TALK_NPC_CABIN_CHEMIST_STORY",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_story_told_u_backstory", "value": "yes" } },
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_story_told_u_backstory" } ] } },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
       },
@@ -52,8 +52,8 @@
         "topic": "TALK_NPC_CABIN_CHEMIST_STORY",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_story_told_u_backstory", "value": "yes" },
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_story_told_u_backstory" } ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
       },
@@ -61,32 +61,35 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_npc_trust()", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
         }
       },
       {
         "text": "What is this place?",
         "topic": "TALK_NPC_CABIN_CHEMIST_HOME",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "Brewed anything new lately?",
         "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "Care to trade?",
         "topic": "TALK_NPC_CABIN_CHEMIST_INTRO",
         "effect": "start_trade",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       {
         "text": "I'd like to buy in bulk.",
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
-            { "npc_has_var": "dialogue_trade_mass_chem_tradeable", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_trade_mass_chem_tradeable" } ] }
           ]
         }
       },
@@ -94,7 +97,7 @@
         "text": "Any jobs you need done?",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] },
             { "not": "has_assigned_mission" },
             { "not": "has_many_assigned_missions" }
           ]
@@ -107,8 +110,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST",
     "dynamic_line": {
-      "npc_has_var": "dialogue_first_meeting_knows_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
       "yes": "It's nice to see you again <u_name>.  What can I do for you?",
       "no": {
         "gendered_line": "It's nice to see a new face around here.  I'm <npc_name>, it's a pleasure meeting you.",
@@ -119,12 +121,12 @@
     "responses": [
       {
         "text": "Nice to meet you too, I'm <u_name>.",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } },
         "topic": "TALK_NPC_CABIN_CHEMIST_INTRO"
       },
       {
         "text": "Hands up!  Hand over everything you've got, and nobody gets hurt!",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } },
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
@@ -149,8 +151,7 @@
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
     "speaker_effect": { "effect": { "npc_add_var": "dialogue_story_told_u_backstory", "value": "yes" } },
     "dynamic_line": {
-      "npc_has_var": "dialogue_story_told_u_backstory",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_story_told_u_backstory" } ],
       "yes": {
         "gendered_line": "Like I said before, I'm a chemist.  I've been living out here for a while, decided to set up shop in this old cabin.  I even found some good equipment out here, and a couple useful things here in the cupboards.  I decided to stay right here.",
         "relevant_genders": [ "npc" ]

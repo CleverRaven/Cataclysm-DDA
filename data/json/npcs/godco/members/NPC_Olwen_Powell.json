@@ -24,8 +24,7 @@
       "math": [ "n_npc_anger()", ">=", "5" ],
       "yes": "What in the world are you still doing around here, come back to screw me over?",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_olwen",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ],
         "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
         "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
       }
@@ -34,14 +33,17 @@
       {
         "text": "I'm just a traveler.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_olwen", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
       },
       {
         "text": "Hi, Olwen.  What's up?",
         "topic": "TALK_GODCO_Olwen_2",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
+          ]
         }
       },
       {
@@ -53,7 +55,10 @@
         "text": "What's with the attitude?",
         "topic": "TALK_GODCO_Olwen_Angry",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
+          ]
         }
       },
       {
@@ -72,8 +77,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Traveler"
@@ -82,8 +87,8 @@
         "text": "I'm seeking asylum here.",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Joinee"
@@ -92,8 +97,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Mutant_Traveler"
@@ -136,7 +141,7 @@
     "responses": [
       {
         "text": "Can you teach me anything?",
-        "condition": { "npc_has_var": "general_training_olwen_can_teach", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_training_olwen_can_teach" } ] },
         "topic": "TALK_TRAIN"
       },
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },

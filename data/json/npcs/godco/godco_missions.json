@@ -1341,7 +1341,7 @@
     "description": "Go to the location Helena told you about and see who's there.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {

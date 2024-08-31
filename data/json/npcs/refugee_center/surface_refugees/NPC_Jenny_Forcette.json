@@ -96,19 +96,19 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       {
         "text": "What are you working on?",
-        "condition": { "not": { "u_has_var": "mission_completed_Jenny_mission_3", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Jenny_mission_3" } ] } },
         "topic": "TALK_REFUGEE_JENNY_Project1"
       },
       {
         "text": "How's everything going with that defense system?",
-        "condition": { "u_has_var": "mission_completed_Jenny_mission_3", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_completed_Jenny_mission_3" } ] },
         "topic": "TALK_REFUGEE_JENNY_Project3"
       },
       { "text": "Tell me a bit about your background.", "topic": "TALK_REFUGEE_JENNY_Background1" },
@@ -119,7 +119,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
-            { "u_has_var": "knowledge_flag_Jenny_teach", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] }
           ]
         }
       },
@@ -179,13 +179,13 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
-            { "not": { "u_has_var": "knowledge_flag_Jenny_teach", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] } }
           ]
         }
       },
       {
         "text": "So, did anyone tell you there are actual no-kidding talking cyborg-robot people out there now?",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
         "topic": "TALK_REFUGEE_JENNY_Exodii"
       },
       { "text": "Sorry about your luck.  What were you saying before?", "topic": "TALK_NONE" },
@@ -227,7 +227,7 @@
     "responses": [
       {
         "text": "Well, I know they're cyborgs, from some other dimension.  I think they're humans underneath the machines though.  Some of them kinda speak English.",
-        "condition": { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodization_u_knows_exodiilore" } ] },
         "topic": "TALK_REFUGEE_JENNY_Exodii2"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -363,8 +363,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1",
     "dynamic_line": {
-      "u_has_var": "Jenny_pneumatics",
-      "value": "mission_complete",
+      "compare_string": [ "mission_complete", { "u_val": "Jenny_pneumatics" } ],
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
         "no": "I recently came into possession of this mold for making high-caliber air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.  If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
@@ -380,7 +379,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" } },
-            { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
+            { "not": { "compare_string": [ "mission_complete", { "u_val": "Jenny_pneumatics" } ] } },
             { "math": [ "time_since('cataclysm', 'unit':'days') < 60" ] }
           ]
         }

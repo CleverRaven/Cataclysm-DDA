@@ -11,7 +11,17 @@
     "weight": "13000 g",
     "environmental_protection": 20,
     "warmth": 40,
-    "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
+    "flags": [
+      "STURDY",
+      "PADDED",
+      "WATERPROOF",
+      "RAINPROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "SUN_GLASSES",
+      "COMBAT_TOGGLEABLE",
+      "MODULE_HOLDER"
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "pocket_data": [
       {

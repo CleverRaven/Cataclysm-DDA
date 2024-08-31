@@ -35,8 +35,7 @@
       "math": [ "n_npc_anger()", ">=", "5" ],
       "yes": "What are you doing around here <name_b>?  Get lost.",
       "no": {
-        "u_has_var": "general_meeting_u_met_godco_jeremiah",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ],
         "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
         "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
       }
@@ -47,7 +46,7 @@
         "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] } },
             { "not": { "u_has_effect": "godco_joinee" } }
           ]
         },
@@ -58,7 +57,7 @@
         "effect": { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] } },
             { "u_has_effect": "godco_joinee" }
           ]
         },
@@ -68,14 +67,20 @@
         "text": "Hey, Jerry.  What's up?",
         "topic": "TALK_GODCO_Jeremiah_2",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] }
+          ]
         }
       },
       {
         "text": "What's with the attitude?",
         "topic": "TALK_GODCO_Jeremiah_Angry",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_godco_jeremiah" } ] }
+          ]
         }
       },
       {
@@ -102,7 +107,7 @@
       { "text": "I noticed you're holding a D&D handbook.  Do you play much?", "topic": "TALK_GODCO_Jeremiah_Dnd" },
       {
         "text": "I've convinced Kostas to take you on.",
-        "condition": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_mission_kostas_teach_jeremiah" } ] },
         "topic": "TALK_GODCO_Jeremiah_Kostas_Convinced"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -150,8 +155,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Plans",
     "dynamic_line": {
-      "npc_has_var": "general_mission_jeremiah_apprentice",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "general_mission_jeremiah_apprentice" } ],
       "yes": "I don't know, exactly.  I think I'll stay here and do what I can for the community.",
       "no": "I'd like to study herbology with Kostas, it seems like a useful skill these days.  I do feel bad for Jane though, she's a skilled doctor and nobody here cares, they all just think any illness can be prayed away."
     },
@@ -160,9 +164,9 @@
         "text": "When do you plan on starting that apprenticeship?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_mission_convince_kostas", "value": "yes" } },
-            { "not": { "u_has_var": "general_mission_kostas_teach_jeremiah", "value": "yes" } },
-            { "not": { "npc_has_var": "general_mission_jeremiah_apprentice", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_convince_kostas" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_kostas_teach_jeremiah" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_mission_jeremiah_apprentice" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Jeremiah_Apprenticeship"

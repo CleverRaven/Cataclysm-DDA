@@ -64,7 +64,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
+      "condition": { "compare_string": [ "yes", { "u_val": "general_examples_VIP" } ] }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
@@ -108,7 +108,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     {
       "item": "hammer",
       "rate": 10,
-      "condition": { "npc_has_var": "bool_dinner_hammer_eater", "value": "yes" }
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_dinner_hammer_eater" } ] }
     },
     { "category": "ammo", "rate": 10 },
     { "group": "EXODII_basic_trade", "rate": 100 }
@@ -126,7 +126,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "entries": [
     {
       "item": "hammer",
-      "condition": { "npc_has_var": "bool_test_hammer_hater", "value": "yes" },
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
     },
     { "category": "ammo" },
@@ -1041,7 +1041,7 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "general_examples_has_met_PC", "value": "yes"
+      "compare_string": [ "yes", { "npc_val": "general_examples_has_met_PC" } ]
     }
   },
   "effect": {
@@ -1134,7 +1134,7 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
+  "condition": { "not": { "compare_string": [ "yes", { "u_val": "sentinel_old_guard_rep_asked_about_vault" } ] } },
   "effect": [
     { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
@@ -1143,7 +1143,7 @@ Condition | Type | Description
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
+  "condition": { "compare_string": [ "yes", { "u_val": "trigger_learning_experience_even_more_zombies" } ] },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },

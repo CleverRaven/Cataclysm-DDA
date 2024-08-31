@@ -44,7 +44,7 @@
         "condition": {
           "and": [
             { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
-            { "not": { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_buy_armor" } ] } }
           ]
         }
       },
@@ -52,19 +52,19 @@
         "group": "robofac_robots",
         "rigid": true,
         "strict": true,
-        "condition": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_portal_sm_1" } ] }
       },
       {
         "group": "robofac_gun_mags",
         "rigid": true,
-        "condition": { "u_has_var": "dialogue_hub_rnd_u_has_researched_gun", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
         "refusal": "You need to earn an HWP first"
       },
       {
         "group": "robofac_gun_kit",
         "rigid": true,
         "strict": true,
-        "condition": { "u_has_var": "dialogue_hub_rnd_u_has_researched_gun", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] }
       },
       {
         "group": "robofac_gun_exodii",
@@ -72,7 +72,7 @@
         "strict": true,
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_hub_rnd_u_has_researched_gun", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
             { "math": [ "hub01_hwp_exotic_researched", "==", "1" ] }
           ]
         }
@@ -81,15 +81,15 @@
         "group": "NC_ROBOFAC_INTERCOM_trade_hm12",
         "rigid": true,
         "strict": true,
-        "condition": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
       },
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
         "rigid": true,
         "condition": {
           "or": [
-            { "npc_has_var": "dialogue_intercom_npc_bought_protective_gear", "value": "yes" },
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_bought_protective_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
           ]
         },
         "refusal": "You're not yet qualified to buy this"
@@ -151,8 +151,7 @@
     "id": "TALK_ROBOFAC_INTERCOM",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_intercom_npc_intercom_trade",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ],
       "yes": [
         "&The intercom is silent.",
         "&The intercom crackles on.",
@@ -160,8 +159,7 @@
         "&The intercom says something unintelligible."
       ],
       "no": {
-        "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_discovered_robofac_intercom" } ],
         "yes": "&The intercom is silent.",
         "no": "&An intercom is embedded into the wall here, just next to the card reader.  It's a metal box about as big as a dinner plate, with a speaker shaped like a downwards curve and a large camera prominently featured in the center.  You see a single metal button with a dark LED next to it.  The intercom is silent."
       }
@@ -173,7 +171,7 @@
     "responses": [
       {
         "text": "[Identify yourself before the intercom.]",
-        "condition": { "npc_has_var": "dialogue_intercom_npc_intercom_trade", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
         "effect": {
           "run_eocs": [
@@ -195,7 +193,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_intercom_npc_intercom_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
           ]
         }
@@ -205,7 +203,7 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_1_INQUIRE",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_intercom_npc_intercom_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
             { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
           ]
         }
@@ -213,7 +211,7 @@
       {
         "text": "[Bang on the metal door.]",
         "topic": "TALK_ROBOFAC_INTERCOM",
-        "condition": { "not": { "u_has_var": "dialogue_intercom_u_met_robofac_intercom", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_met_robofac_intercom" } ] } }
       },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ],
@@ -275,14 +273,14 @@
       { "text": "Is there anything fancier you can sell?", "topic": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL" },
       {
         "text": "Let's discuss prototypes.",
-        "condition": { "u_has_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_hub_prototypes" } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
       },
       {
         "text": "The traders at the refugee center asked me to deliver this drive of FEMA data…",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] } },
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
@@ -292,9 +290,9 @@
         "text": "You mentioned portal storms.  What are those?",
         "condition": {
           "and": [
-            { "u_has_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" },
-            { "not": { "u_has_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_intercom_told_about_portal_storms", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "global_portal_storms_u_heard_of_portal_storms" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "global_portal_storms_u_witnessed_portal_storm" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_portal_storms" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
@@ -303,8 +301,8 @@
         "text": "Listen, something happened earlier.  The world got… bad.  Things felt very wrong.  Do you know anything about what that was?",
         "condition": {
           "and": [
-            { "u_has_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_intercom_told_about_portal_storms", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "global_portal_storms_u_witnessed_portal_storm" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_portal_storms" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
@@ -325,8 +323,8 @@
         "text": "What the hell were you testing out there?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_intercom_told_about_prototype", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_prototype" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
@@ -335,8 +333,8 @@
         "text": "Your scientist was wearing some kind of armor.  What is it?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_intercom_told_about_armor", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_armor" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK"
@@ -345,7 +343,7 @@
         "text": "I found this in the collapsed tower with the other data.  Is it useful to your people?  [Hand over the UHMWPE nanofabricator template.]",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] },
             { "u_has_items": { "item": "template_armor", "count": 1 } }
           ]
         },
@@ -355,9 +353,9 @@
         "text": "I saw that your mercs have specialty rifles.  Would I be able to get one of those?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_hub_rnd_u_can_research_rifle", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_research_rifle" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_hub_prototypes" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_NO"
@@ -366,9 +364,9 @@
         "text": "I think one of your operatives has vouched for my competency.  I'd like one of those rifles.",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
-            { "u_has_var": "dialogue_hub_rnd_u_can_research_rifle", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_research_rifle" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_hub_prototypes" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_GUN_YES"
@@ -378,7 +376,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" },
-            { "not": { "npc_has_var": "dialogue_intercom_npc_bought_protective_gear", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_bought_protective_gear" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR"
@@ -387,8 +385,8 @@
         "text": "You mentioned you had a map of the area?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_intercom_sold_local_map", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_2" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_sold_local_map" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP"
@@ -400,9 +398,7 @@
             { "u_has_faction_trust": 5 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             { "math": [ "isherwood_gear_status", "<", "1" ] },
-            {
-              "not": { "npc_has_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR"
@@ -411,7 +407,7 @@
         "text": "I'm here and I've got the goods.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_pay_back_on_cash", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_cash" } ] },
             { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
             { "u_has_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" }
           ]
@@ -422,7 +418,7 @@
         "text": "Cost of the armor plus everything left in the tower.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_pay_back_on_specimens", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ] },
             { "math": [ "isherwood_barry_rescued", "==", "1" ] },
             { "u_has_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" }
           ]
@@ -436,8 +432,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_INTRO",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_intercom_u_met_robofac_intercom",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_met_robofac_intercom" } ],
       "yes": "&The intercom is silent.",
       "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirrs as it focuses on you.  There is no immediate response."
     },
@@ -453,9 +448,11 @@
         "text": "The merchant at the refugee center sent me.  You were looking for a hard drive from them?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_u_started_robofac_hdd_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
+            },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ] } },
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
@@ -465,9 +462,11 @@
         "text": "About that hard drive…",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" } },
-            { "u_has_var": "dialogue_intercom_u_started_robofac_hdd_trade", "value": "yes" },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ] },
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
@@ -477,8 +476,8 @@
         "text": "The traders mentioned you were looking for help.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" } },
-            { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
           ]
         },
         "trial": { "type": "LIE", "difficulty": 1 },
@@ -497,9 +496,11 @@
         "text": "I have a delivery from the Free Merchants.  You requested a hard drive from them.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_u_started_robofac_hdd_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
+            },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ] } },
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
@@ -605,8 +606,7 @@
     ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_intercom_u_started_robofac_hdd_trade",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ],
       "yes": "&The intercom's tray wordlessly slides open.",
       "no": "&The intercom erupts into static.  Then, it resolves into a voice.  It clears its throat, then speaks slowly and carefully.  \"Understood.  There is a tray embedded beneath the intercom.  Please place the drive into it.\"  On cue, a small portion of the wall beneath the intercom slides out along rails, revealing a large tray several inches deep.  \"You are welcome to leave afterwards.\""
     },

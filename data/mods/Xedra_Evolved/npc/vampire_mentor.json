@@ -46,8 +46,7 @@
     "id": "TALK_VAMPIRE_MENTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_mentor",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_mentor" } ],
       "yes": [ "Welcome back.", "Hello again." ],
       "no": "Welcome.  What do you seek here?  Fortune?  Safety?  A friend?  A mentor?  What brought you here?"
     },
@@ -70,7 +69,9 @@
       {
         "text": "I've done it.  I am now a true vampire.",
         "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
-        "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_var": "told_about_trueness", "value": "yes" } } ] },
+        "condition": {
+          "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] } } ]
+        },
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
       },
       {
@@ -79,7 +80,7 @@
         "condition": {
           "and": [
             { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
-            { "u_has_var": "told_about_trueness", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
         }
       },
@@ -87,7 +88,10 @@
         "text": "I've lost the book you gave me.  Do you have another?",
         "topic": "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW",
         "condition": {
-          "and": [ { "u_has_var": "received_mentor_book", "value": "yes" }, { "not": { "u_has_item": "vampire_mentor_book" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "received_mentor_book" } ] },
+            { "not": { "u_has_item": "vampire_mentor_book" } }
+          ]
         }
       },
       {
@@ -519,7 +523,7 @@
     "type": "mission_definition",
     "name": { "str": "Kill your best friend" },
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "goal_condition": { "math": [ "0 == 1" ] },
     "difficulty": 2,
     "value": 240,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -541,7 +545,7 @@
     "type": "mission_definition",
     "name": { "str": "Find the components for the vampiric ritual" },
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "goal_condition": { "math": [ "0 == 1" ] },
     "difficulty": 2,
     "value": 240,
     "origins": [ "ORIGIN_SECONDARY" ],
