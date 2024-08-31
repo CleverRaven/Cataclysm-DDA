@@ -1034,7 +1034,7 @@
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
     "points": 0,
-    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+    "description": "You have an exceptional memory, and find it easy to remember things. However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
     "types": [ "MEMORY" ],
     "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ],
