@@ -147,6 +147,21 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "bird_small_flying",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_flightless",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_waterfowl",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "tiny_animal",
     "base_faction": "small_animal",
     "//": "Base faction for animals roughly the size of a rat or a squirrel. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
@@ -163,6 +178,21 @@
     "name": "weasel",
     "base_faction": "mammal_tiny",
     "hate": [ "tiny_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_flying",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_flightless",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_waterfowl",
+    "base_faction": "tiny_animal"
   },
   {
     "type": "MONSTER_FACTION",
