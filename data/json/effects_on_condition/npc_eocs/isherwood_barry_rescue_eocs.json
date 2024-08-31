@@ -148,7 +148,7 @@
       "and": [
         { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
         { "math": [ "isherwood_family_coming", "!=", "1" ] },
-        { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
+        { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] },
         { "u_near_om_location": "horse_farm_isherwood_13", "range": 30 }
       ]
     },
@@ -307,7 +307,7 @@
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-        { "not": { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } },
+        { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] } },
         {
           "and": [
             { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
@@ -494,7 +494,7 @@
         { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 3 }
       ]
     },
-    "deactivate_condition": { "u_has_var": "u_been_to_migos", "value": "yes" },
+    "deactivate_condition": { "compare_string": [ "yes", { "u_val": "u_been_to_migos" } ] },
     "effect": [ { "u_add_var": "u_been_to_migos", "value": "yes" } ]
   }
 ]

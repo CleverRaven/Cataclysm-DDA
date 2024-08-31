@@ -15,8 +15,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYT_MAIN",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_talked_to_cowboyt",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ],
       "yes": "Hey there.",
       "no": "Hey!  Who goes there?"
     },
@@ -25,37 +24,37 @@
       {
         "text": "Just another survivor.  What are you doing here?",
         "topic": "TALK_COWBOYT_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] } }
       },
       {
         "text": "I'm you, from the future.  I've come to warn you.",
         "topic": "TALK_COWBOYT_JOKE",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] } }
       },
       {
         "text": "I am a ghost.  I died here 37 years ago, yet I cannot depart this mortal realm.",
         "topic": "TALK_COWBOYT_JOKE",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] } }
       },
       {
         "text": "What did you before all this?",
         "topic": "TALK_COWBOYT_BACKGROUND",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] }
       },
       {
         "text": "Is there something I can help you with?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] }
       },
       {
         "text": "How about we travel together?",
         "topic": "TALK_COWBOYT_FOLLOW",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] }
       },
       {
         "text": "See you around.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyt" } ] }
       }
     ]
   },

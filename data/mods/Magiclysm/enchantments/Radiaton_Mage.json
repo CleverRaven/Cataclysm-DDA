@@ -26,7 +26,9 @@
     "condition": {
       "and": [
         { "u_has_trait": "RADIATION_MAGE" },
-        { "not": { "u_has_var": "attunement_attunement_u_got_radiation_mage_attunement", "value": "yes" } }
+        {
+          "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_radiation_mage_attunement" } ] }
+        }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "RADIATION_MAGE" } },

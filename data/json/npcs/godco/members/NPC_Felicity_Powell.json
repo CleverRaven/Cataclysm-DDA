@@ -31,7 +31,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
-            { "not": { "npc_has_var": "general_trade_gave_u_manuscript", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_gave_u_manuscript" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Manuscript"
@@ -46,8 +46,7 @@
       "math": [ "n_npc_anger()", ">=", "5" ],
       "yes": "Please, go away.  I don't want to talk to you right now.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_felicity",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ],
         "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
         "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
       }
@@ -58,8 +57,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet"
@@ -69,8 +68,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet2"
@@ -78,7 +77,10 @@
       {
         "text": "Hi Felicity.  Got a minute?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Felicity_2"
       },
@@ -87,7 +89,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
           ]
         },
         "topic": "TALK_GODCO_Felicity_2"

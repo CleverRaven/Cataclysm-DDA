@@ -33,10 +33,7 @@
     "type": "talk_topic",
     "id": "TALK_MILITIA_Guard1",
     "dynamic_line": {
-      "u_has_var": "talked_to_LODGEMAIN",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_LODGEMAIN" } ],
       "yes": "Hello again.",
       "no": "I'm busy on watch duty.  Talk to the Boss upstairs."
     },
