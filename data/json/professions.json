@@ -7746,6 +7746,7 @@
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_FBI" ],
+    "vehicle": "car_fbi",
     "items": {
       "both": {
         "entries": [
