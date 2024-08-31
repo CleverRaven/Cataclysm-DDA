@@ -7760,7 +7760,7 @@
           { "item": "t-shirt" },
           { "item": "fbi_armor_vest" },
           { "item": "jacket_fbi" },
-          { "item": "fbi_hatball" },
+          { "item": "hat_fbi" },
           { "item": "glock40bigmag", "ammo-item": "40sw", "charges": 22 },
           { "item": "glock40bigmag", "ammo-item": "40sw", "charges": 22 },
           { "group": "charged_two_way_radio" },
