@@ -54,14 +54,13 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator", "kraken" ],
-    "by_mood": [ "fish" ]
+    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "kraken",
     "hate": [ "aquatic_predator", "zombie_aquatic" ],
-    "by_mood": [ "fish" ]
+    "by_mood": [ "fish_medium", "fish_large", "fish_mutant_passive" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -143,7 +142,7 @@
     "type": "MONSTER_FACTION",
     "name": "otter",
     "base_faction": "mammal_small",
-    "hate": [ "fish", "amphibian_tiny", "reptile_tiny_aquatic" ]
+    "hate": [ "fish_tiny", "fish_small", "fish_medium", "amphibian_tiny", "reptile_tiny_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -186,7 +185,15 @@
     "type": "MONSTER_FACTION",
     "name": "turtle_small_predator",
     "base_faction": "turtle_small",
-    "hate": [ "amphibian_tiny", "bird_tiny_waterfowl", "bird_tiny_flightless", "lizard_tiny", "mammal_tiny", "fish" ]
+    "hate": [
+      "amphibian_tiny",
+      "bird_tiny_waterfowl",
+      "bird_tiny_flightless",
+      "lizard_tiny",
+      "mammal_tiny",
+      "fish_tiny",
+      "fish_small"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -247,7 +254,7 @@
     "type": "MONSTER_FACTION",
     "name": "snake_tiny_aquatic",
     "base_faction": "reptile_tiny_aquatic",
-    "hate": [ "amphibian_tiny", "bird_tiny_waterfowl", "bird_tiny_flightless", "lizard_tiny", "mammal_tiny" ]
+    "hate": [ "amphibian_tiny", "bird_tiny_waterfowl", "bird_tiny_flightless", "lizard_tiny", "mammal_tiny", "fish_tiny" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -319,8 +326,19 @@
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
-    "by_mood": [ "bear", "big_cat", "kraken", "fish_mutant_passive", "otter" ],
+    "by_mood": [
+      "bear",
+      "big_cat",
+      "kraken",
+      "fish_mutant_passive",
+      "aquatic_predator",
+      "zombie_aquatic",
+      "mutant_piscivores",
+      "crayfish",
+      "strider",
+      "beetle_diving",
+      "water_scorpion"
+    ],
     "neutral": [
       "zombie",
       "bot",
@@ -340,19 +358,32 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "fish_mutant_passive",
-    "//": "This is for fish mutants that are either herbivores or carnivores but not aggressive enough to where they'd attack fish of similar size as them. They don't hate anyone because I don't want them all to blindly flail around the rivers murdering things if they're not predators.",
+    "name": "fish_tiny",
     "base_faction": "fish",
-    "by_mood": [
-      "fish",
-      "strider",
-      "aquatic_predator",
-      "zombie_aquatic",
-      "mutant_piscivores",
-      "crayfish",
-      "beetle_diving",
-      "water_scorpion"
-    ]
+    "by_mood": [ "otter", "turtle_small_predator", "snake_tiny_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_small",
+    "base_faction": "fish",
+    "by_mood": [ "otter", "turtle_small_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_medium",
+    "base_faction": "fish",
+    "by_mood": [ "otter" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_large",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_mutant_passive",
+    "//": "This is for fish mutants that are either herbivores or carnivores not aggressive enough to attack fish of similar size as them.",
+    "base_faction": "fish"
   },
   {
     "type": "MONSTER_FACTION",
@@ -451,11 +482,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "molerat",
-    "base_faction": "mutant"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "amigara",
     "base_faction": "mutant",
     "neutral": [ "amigara" ]
@@ -541,7 +567,6 @@
       "frog",
       "slug",
       "mutant_piscivores",
-      "molerat",
       "amigara",
       "mutant_with_vortex",
       "corvid",

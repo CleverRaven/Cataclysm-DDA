@@ -5,7 +5,7 @@
     "name": { "str": "freshwater snail" },
     "description": "A tiny and shelled aquatic gastropod of either native or introduced stock.  Dangerous to eat raw but properly cooked and cleaned it may serve as a fine dish.",
     "//": "this creature should be harvestable using crap pots or fish traps but requires extra work to convert from monster to item",
-    "default_faction": "fish",
+    "default_faction": "fish_tiny",
     "categories": [ "WILDLIFE" ],
     "species": [ "MOLLUSK" ],
     "volume": "300 ml",
