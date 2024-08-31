@@ -42,13 +42,16 @@
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } }
+        "condition": { "not": { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -72,17 +75,14 @@
     "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ],
       "no": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
         "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
       },
       "yes": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
         "yes": "I'm afraid I don't have anything to offer."
       }
@@ -93,8 +93,10 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
+            }
           ]
         }
       },
@@ -103,8 +105,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "and": [
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
           ]
         }
       },

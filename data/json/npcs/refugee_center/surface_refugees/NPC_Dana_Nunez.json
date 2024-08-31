@@ -108,7 +108,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -117,7 +117,10 @@
         "text": "I spoke to the foreman over at Tacoma Ranch.  If you're willing to put in the work, they'll find some work for you over there.",
         "topic": "TALK_REFUGEE_Dana_Tacoma2",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_2" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_2", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         },
         "effect": { "u_add_var": "recruit_general_Nunez_Tacoma", "value": "phase_3" }
       },
@@ -131,15 +134,15 @@
       {
         "text": "Your husband said to ask you what you'd think about getting out of this place and coming to work for me at my own camp.",
         "topic": "TALK_REFUGEE_Dana_Recruit",
-        "condition": { "u_has_var": "recruit_general_Pablo_ask_recruit", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "recruit_general_Pablo_ask_recruit" } ] }
       },
       {
         "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
         "topic": "TALK_DANA_Sourdough",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } },
-            { "u_has_var": "knowledge_Dana_Sourdough", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } },
+            { "compare_string": [ "yes", { "u_val": "knowledge_Dana_Sourdough" } ] }
           ]
         }
       },
@@ -153,7 +156,7 @@
         "topic": "TALK_REFUGEE_Dana_Background_baking",
         "condition": {
           "and": [
-            { "u_has_var": "knowledge_trade_Dana_Bread_Sales", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "knowledge_trade_Dana_Bread_Sales" } ] },
             { "not": { "npc_has_effect": "dana_sourdough_revival" } }
           ]
         }
@@ -221,7 +224,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "flour", "count": 8 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
           ]
         },
         "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "sourdough_bread" } ]
@@ -235,7 +238,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "FMCNote", "count": 2 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 2 }, { "u_spawn_item": "sourdough_bread" } ]
@@ -249,7 +252,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "flour", "count": 6 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
           ]
         },
         "effect": [ { "u_sell_item": "flour", "count": 6 }, { "u_spawn_item": "sourdough_bread" } ]
@@ -263,7 +266,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "FMCNote", "count": 1 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 1 }, { "u_spawn_item": "sourdough_bread" } ]
@@ -277,7 +280,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "flour", "count": 8 } },
-            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
@@ -291,7 +294,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "FMCNote", "count": 2 } },
-            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 2 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
@@ -305,7 +308,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "flour", "count": 6 } },
-            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "flour", "count": 6 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
@@ -319,7 +322,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "FMCNote", "count": 1 } },
-            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 1 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
@@ -332,8 +335,7 @@
     "dynamic_line": {
       "npc_has_effect": "dana_baking_sold",
       "no": {
-        "u_has_var": "knowledge_trade_Dana_Bread_Sales",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "knowledge_trade_Dana_Bread_Sales" } ],
         "yes": "I sure do, if you've got the flour or the merch for me, I'd be happy to trade you another loaf.",
         "no": "I do a bit.  I got a sourdough starter going almost as soon as I arrived, and it's making passable bread already.  I cooked some up yesterday actually, I could probably trade a loaf of fresh bread for, say, about eight cups of flour, or two merch."
       },
@@ -348,7 +350,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_fail" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 20 },
@@ -368,7 +370,7 @@
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_fail" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
-            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 5 },
@@ -420,8 +422,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking2",
     "dynamic_line": {
-      "u_has_var": "mission_flag_Dana_Sourdough",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ],
       "yes": [
         "Great, here's a loaf of the best damn sourdough bread in the world.  I used to make that claim as a joke, but I feel like now there's a fighting chance nobody else can beat me.",
         "Nice.  Enjoy the mighty bounty of Landough Calrisean.",
@@ -440,7 +441,7 @@
       {
         "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
         "topic": "TALK_DANA_Sourdough",
-        "condition": { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
       },
       { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
     ]
@@ -507,8 +508,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Tacoma",
     "dynamic_line": {
-      "u_has_var": "recruit_general_Nunez_Tacoma",
-      "value": "phase_1",
+      "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ],
       "no": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
       "yes": { "gendered_line": "Have you heard anything back from the ranch about jobs yet?", "relevant_genders": [ "u" ] }
     },

@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER",
     "dynamic_line": {
-      "npc_has_var": "dialogue_first_meeting_talked_to_logger",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ],
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "A stranger out here?  Who are you?"
     },
@@ -13,19 +12,19 @@
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -42,7 +41,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_trust()", ">=", "2" ] },
-            { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] }
           ]
         }
       },
@@ -52,7 +51,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -73,8 +72,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  The logger considers for a moment",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": {
             "gendered_line": ", then frowns.  \"I think I'd remember something like that, no.  Sorry.\"",
             "relevant_genders": [ "npc" ]
@@ -92,7 +90,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

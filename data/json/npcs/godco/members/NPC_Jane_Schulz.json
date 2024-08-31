@@ -61,8 +61,7 @@
       "math": [ "n_npc_anger()", ">=", "5" ],
       "yes": "&Jane glaces at you, scowls, and ignores your presence.",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_jane",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ],
         "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
         "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
       }
@@ -71,20 +70,26 @@
       {
         "text": "Nice to meet you too, Jane.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_jane", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] } },
         "topic": "TALK_GODCO_Jane_Firstmeet"
       },
       {
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Jane_2"
       },
       {
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Jane_Angry"
       },
@@ -192,20 +197,19 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Follow",
     "dynamic_line": {
-      "npc_has_var": "mission_meeting_jane_willing_to_follow",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "mission_meeting_jane_willing_to_follow" } ],
       "yes": "I'm up for it, Arturo's got enough medicine for two-and-half months.  It's thankless work around here, so let's blow this joint.",
       "no": "I'd like to leave, but I've got to take care of Arturo.  He's always low or nearly out of antipsychotics, so I do what I can."
     },
     "responses": [
       {
         "text": "Alright.  Wanna chat?",
-        "condition": { "not": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "mission_meeting_jane_willing_to_follow" } ] } },
         "topic": "TALK_GODCO_Jane_2"
       },
       {
         "text": "Let's go.",
-        "condition": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_meeting_jane_willing_to_follow" } ] },
         "effect": "follow",
         "topic": "TALK_DONE"
       }
