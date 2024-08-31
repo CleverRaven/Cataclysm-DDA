@@ -7758,7 +7758,7 @@
           { "item": "diving_watch" },
           { "item": "pants_tactical", "variant": "tactical_pants_black" },
           { "item": "t-shirt" },
-          { "item": "soft_3a_vest", "variant": "fbi_armor_vest" },
+          { "item": "fbi_armor_vest" },
           { "item": "jacket_fbi" },
           { "item": "hat_ball", "variant": "hat_fbi" },
           { "item": "glock40bigmag", "ammo-item": "40sw", "charges": 22 },
