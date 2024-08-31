@@ -362,7 +362,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
-                you.clear_destination();
+                you.abort_automove();
                 return false;
             }
             if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
@@ -406,7 +406,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
-            you.clear_destination();
+            you.abort_automove();
             return false;
         }
 
@@ -460,7 +460,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc.raw() ) ) {
             if( you.is_auto_moving() ) {
-                you.clear_destination();
+                you.abort_automove();
             }
             you.mod_moves( -you.get_speed() * 0.2 );
             return false;
