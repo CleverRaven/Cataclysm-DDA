@@ -913,8 +913,8 @@
     "looks_like": "helmet_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers most of the head but leaves some space around the eyes and mouth open for breathability.  Acid-resistant but brittle.",
-    "price_postapoc": "14 USD 50 cent",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the whole head.  Acid-resistant but brittle.",
+    "price_postapoc": "17 USD 50 cent",
     "material": [ "acidchitin" ],
     "relative": { "melee_damage": { "bash": 1 } }
   },
@@ -942,8 +942,8 @@
     "looks_like": "helmet_chitin_light",
     "type": "ARMOR",
     "name": { "str": "biosilicified light chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the whole head.  Acid-resistant but brittle.",
-    "price_postapoc": "17 USD 50 cent",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers most of the head but leaves some space around the eyes and mouth open for breathability.  Acid-resistant but brittle.",
+    "price_postapoc": "14 USD 50 cent",
     "material": [ "acidchitin" ],
     "relative": { "melee_damage": { "bash": 1 } }
   },
