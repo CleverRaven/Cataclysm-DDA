@@ -251,6 +251,7 @@
     "type": "MONSTER_FACTION",
     "name": "reptile_tiny_aquatic",
     "base_faction": "tiny_animal",
+    "neutral": [ "snake_tiny_aquatic" ],
     "by_mood": [ "otter" ]
   },
   {
