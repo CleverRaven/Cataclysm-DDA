@@ -151,5 +151,11 @@
       { "item": "dance_shoes", "prob": 100 },
       { "item": "glove_jackson", "prob": 100 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "shia_stuff",
+    "subtype": "distribution",
+    "entries": [ { "item": "knife_small", "variant": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
   }
 ]
