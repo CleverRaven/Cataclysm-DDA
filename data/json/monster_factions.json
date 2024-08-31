@@ -219,7 +219,7 @@
     "type": "MONSTER_FACTION",
     "name": "bird_tiny_flying",
     "base_faction": "tiny_animal",
-    "neutral": [ "reptile_tiny_aquatic", "snake_small", "turtle_small_predator" ]
+    "neutral": [ "snake_tiny_aquatic", "snake_small", "turtle_small_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -250,13 +250,14 @@
   {
     "type": "MONSTER_FACTION",
     "name": "reptile_tiny_aquatic",
-    "base_faction": "tiny_animal"
+    "base_faction": "tiny_animal",
+    "by_mood": [ "otter" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "snake_tiny_aquatic",
     "base_faction": "reptile_tiny_aquatic",
-    "neutral": [ "bird_tiny_flying" ],
+    "neutral": [ "bird_tiny_flying", "reptile_tiny_aquatic" ],
     "by_mood": [ "bird_small_waterfowl_predator" ],
     "hate": [ "tiny_animal", "fish_tiny" ]
   },
