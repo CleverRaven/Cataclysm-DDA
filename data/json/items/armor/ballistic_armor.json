@@ -1226,6 +1226,8 @@
   },
   {
     "id": "fbi_armor_vest",
+    "type": "ARMOR",
+    "category": "armor",
     "copy-from": "soft_3a_vest",
     "name": { "str": "FBI ballistic vest" },
     "//": "Based on the exact model; https://www.tyrtactical.com/shop/tyr-tactical-male-epic-federal-outer-carrier/",
