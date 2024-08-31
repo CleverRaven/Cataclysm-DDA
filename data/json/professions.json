@@ -7756,7 +7756,7 @@
           { "item": "gloves_tactical" },
           { "item": "badge_fbi" },
           { "item": "diving_watch" },
-          { "item": "pants_tactical", "variant": "tactical_pants_black" }
+          { "item": "pants_tactical", "variant": "tactical_pants_black" },
           { "item": "t-shirt" },
           { "item": "fbi_armor_vest" },
           { "item": "jacket_fbi" },
