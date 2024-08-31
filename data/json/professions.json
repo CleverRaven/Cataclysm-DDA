@@ -7731,7 +7731,7 @@
     "id": "FBI",
     "name": "FBI Special Agent",
     "description": "As a member of the FBI, you dealt with crime that crossed state lines.  You had gotten the go-ahead to make the biggest bust of your career; before you kicked down the door,you yelled \"FBI, open up!\" and then the sky broke open.",
-    "points": 6,
+    "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning", "prof_auto_pistols_familiar", "prof_batons_familiar" ],
     "skills": [
       { "level": 5, "name": "gun" },
