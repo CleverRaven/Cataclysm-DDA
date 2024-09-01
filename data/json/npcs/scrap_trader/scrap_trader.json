@@ -239,7 +239,7 @@
         "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
         "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
-      { "text": "See ya.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -336,7 +336,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Sure thing.  I've got a few things on hand.  What'll ya have?" ],
     "responses": [
-      { "text": "Nevermind.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
       {
         "text": "Let's take a look at your stock.",
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END",

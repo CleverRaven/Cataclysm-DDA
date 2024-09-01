@@ -46,7 +46,7 @@
     "speaker_effect": { "opinion": { "fear": -1 } },
     "responses": [
       {
-        "text": "Fine, then.  Let's talk about something else.",
+        "text": "Fine, then.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
         "topic": "TALK_FRIEND_CONVERSATION"
       },
@@ -63,7 +63,7 @@
     "dynamic_line": "I respect where you're coming from, but no.  Not interested.  If you don't like it, I can find another boss easy enough.",
     "responses": [
       {
-        "text": "Fine, then.  Let's talk about something else.",
+        "text": "Fine, then.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
         "topic": "TALK_FRIEND_CONVERSATION"
       },
@@ -80,7 +80,7 @@
     "dynamic_line": "<swear!>, you're just gonna keep badgering me about this forever, aintcha.  Fine.  Bring me a bottle of single malt, we share a drink, I tell you the story.",
     "responses": [
       {
-        "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
+        "text": "I'll get looking for that.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_FRIEND_CONVERSATION"
       },
@@ -97,7 +97,7 @@
     "dynamic_line": "Yeah, okay.  I can respect that.  How about this: bring me a bottle of single malt, we share a drink, I tell you the story.",
     "responses": [
       {
-        "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
+        "text": "I'll get looking for that.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
         "topic": "TALK_FRIEND_CONVERSATION"
       },
@@ -137,7 +137,7 @@
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
-      { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -149,9 +149,9 @@
     },
     "//": "UPCOMING: this merc will offer a mission for you to explore the warehouse in question.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
-      { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -166,7 +166,7 @@
       },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
-      { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -184,7 +184,7 @@
       },
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
-      { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {

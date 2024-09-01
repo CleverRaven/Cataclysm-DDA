@@ -44,7 +44,6 @@
       "relevant_genders": [ "npc" ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
