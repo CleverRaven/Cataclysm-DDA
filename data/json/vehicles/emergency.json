@@ -134,7 +134,68 @@
       { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
     ],
     "items": [
-      { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
+      { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "longguns_cop_loaded" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
+    ]
+  }, 
+  {
+    "id": "car_fbi_p",
+    "//": "player variant without the extra guns.",
+    "type": "vehicle",
+    "name": "FBI, Emergency",
+    "blueprint": [
+      [ "-o++o-" ],
+      [ "+=##'|" ],
+      [ "+=##'|" ],
+      [ "-o++o-" ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "roof", "light_blue" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#cover_left" ] },
+      { "x": 2, "y": 0, "parts": [ "engine_v8", "alternator_truck", "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "halfboard#cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", "seat_back#left", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "seat_back#right", "seatbelt", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "door#se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "halfboard#wheel_left" ] },
+      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -2, "y": 0, "parts": [ "frame#cross", "trunk", "muffler", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#cross", "trunk", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "halfboard#wheel_right" ] },
+      { "x": -3, "y": -1, "parts": [ "frame#sw", "halfboard#sw" ] },
+      { "x": -3, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
+    ],
+    "items": [
       { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
