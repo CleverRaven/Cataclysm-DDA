@@ -139,6 +139,108 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_vita_concentrated_healing" } },
+    "effect": [
+      { "u_message": "Your injuries itch.", "type": "good" },
+      { "u_add_effect": "effect_vita_concentrated_healing", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_CONCENTRATED_HEALING_SELECTOR" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 73) + 463) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 284) + 1034) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_ARM",
+          "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_ARM",
+          "EOC_VITAKIN_CONCENTRATED_HEALING_HEAD",
+          "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_LEG",
+          "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
+          "EOC_VITAKIN_CONCENTRATED_HEALING_BODY"
+        ],
+        "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso", "Nevermind." ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
+        "descriptions": [
+          "Cauterize wounds on the left arm.",
+          "Cauterize wounds on the right arm.",
+          "Cauterize wounds on the head.",
+          "Cauterize wounds on the left leg.",
+          "Cauterize wounds on the right leg.",
+          "Cauterize wounds on the torso.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_lose_effect": "effect_vita_concentrated_healing" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "head" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "torso" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "arm_r" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "arm_l" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "leg_r" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_bonus", "target_part": "leg_l" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_lose_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 73) + 463) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 284) + 1034) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_vita_cure_disease" } },
     "effect": [
