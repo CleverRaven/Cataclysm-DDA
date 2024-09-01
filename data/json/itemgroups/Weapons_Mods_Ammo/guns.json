@@ -123,8 +123,8 @@
     "//": "US military specification pistols only ever found at military sites. These weapons must be pistols that are still in current inventory, and are still being issued in some capacity to American personnel.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_glock_18c", "prob": 40 },
-      { "group": "nested_glock_19", "prob": 30 },
+      { "group": "nested__18c", "prob": 40 },
+      { "group": "nested__19", "prob": 30 },
       { "group": "nested_m17", "prob": 100 },
       { "group": "nested_m18", "prob": 100 },
       { "group": "nested_usp_45_mk23", "prob": 5 },
@@ -1214,12 +1214,12 @@
     "type": "item_group",
     "id": "sidearms_cop",
     "items": [
-      { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "_19", "prob": 15, "charges": [ 0, 15 ] },
       {
         "item": "glock_19",
         "variant": "glock_19_cop",
         "prob": 2,
-        "contents-item": [ "sights_mount", "red_dot_sight" ],
+        "contents-item": [ "sights", "red_dot_sight" ],
         "charges": [ 0, 15 ]
       },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
