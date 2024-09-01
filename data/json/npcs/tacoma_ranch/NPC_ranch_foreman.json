@@ -53,7 +53,7 @@
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
         "condition": { "not": { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] } }
       },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -110,7 +110,7 @@
           ]
         }
       },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

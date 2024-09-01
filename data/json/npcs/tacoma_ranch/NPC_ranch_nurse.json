@@ -31,7 +31,7 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_NURSE_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_NURSE_HIRE" },
       { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_NURSE_AID" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
