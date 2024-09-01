@@ -1702,7 +1702,7 @@
     "variants": [
       {
         "id": "windbreaker_fbi",
-        "name": { "str": "FBI raid jacket"},
+        "name": { "str": "FBI raid jacket" },
         "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification.",
         "color": "dark_blue",
         "weight": 0
