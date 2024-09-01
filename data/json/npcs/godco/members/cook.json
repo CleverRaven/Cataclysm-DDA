@@ -95,7 +95,7 @@
         "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
       },
       {
-        "text": "Okay, man.  I'll be on my way.",
+        "text": "Okay, man.  <end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
       }
@@ -138,7 +138,7 @@
         "topic": "TALK_GODCO_chef_jeremiah"
       },
       { "text": "I've changed my mind, forget about it.", "topic": "TALK_NONE" },
-      { "text": "On second thought, I gotta go.  See ya, <name_g>.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  See ya, <name_g>.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -167,7 +167,7 @@
     "responses": [
       { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_chef" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef" },
       { "text": "I'll do that.", "topic": "TALK_DONE" }
     ]
   },
@@ -209,10 +209,7 @@
     "dynamic_line": "She's my wife, worked for the Church before <the_cataclysm>.  She used to organize charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife.",
     "responses": [
       { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      {
-        "text": "That's good to hear.  I'd like to ask you about something else.",
-        "topic": "TALK_GODCO_chef_idle_chat"
-      },
+      { "text": "That's good to hear.  <done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
       { "text": "That's good to hear, but I gotta go.", "topic": "TALK_DONE" }
     ]
   },
@@ -223,8 +220,8 @@
     "responses": [
       { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Why would they have an issue with each other?", "topic": "TALK_GODCO_chef_k&j_conflict" },
-      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
-      { "text": "I gotta go, see you later.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -234,8 +231,8 @@
     "responses": [
       { "text": "Could you tell me more about Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Could you tell me more about Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
