@@ -126,7 +126,6 @@
       { "item": "santa_jacket", "prob": 50 },
       { "item": "santa_jacket_short", "prob": 25 },
       { "item": "jacket_chef", "prob": 25 },
-      { "item": "jacket_windbreaker", "variant": "windbreaker_fbi", "prob": 1 },
       { "item": "jacket_leather", "prob": 40 },
       { "item": "jacket_army", "prob": 25 },
       { "item": "jacket_ninja", "prob": 25 }
@@ -193,7 +192,6 @@
       { "item": "hat_hard_hooded", "variant": "skull_hat_hard", "prob": 1 },
       { "item": "hat_hard", "variant": "steampunk_hat_hard", "prob": 10 },
       { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 },
-      { "item": "hat_ball", "variant": "hat_fbi", "prob": 1 },
       { "item": "clown_wig", "prob": 15 },
       { "item": "bostonchan_wig", "prob": 20 },
       { "item": "tricorne", "prob": 5 },
