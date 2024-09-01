@@ -181,7 +181,9 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 80)), 1350)" ]
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 80)), 1350)"
+      ]
     },
     "base_casting_time": {
       "math": [
