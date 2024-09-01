@@ -195,9 +195,7 @@
       { "x": -3, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
     ],
-    "items": [
-      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
-    ]
+    "items": [ { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] } ]
   },
   {
     "id": "fire_engine",
