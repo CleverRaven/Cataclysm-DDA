@@ -334,5 +334,25 @@
       "sound_vol": 16,
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_indoor_flagpole",
+    "name": "indoor flagpole",
+    "description": "A 2.5-meter tall flagpole on a weighted stand.  You could hoist up a flag here.",
+    "symbol": "F",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 20,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "max_volume": "2 L",
+    "bash": {
+      "str_min": 10,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "material_aluminium_ingot", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ]
+    }
   }
 ]
