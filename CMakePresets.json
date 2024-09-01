@@ -71,6 +71,9 @@
       "description": "Target Windows (64-bit) with the ClangCL development environment.",
       "inherits": "windows-tiles-sounds-x64-msvc",
       "toolset": "CLangCL",
+      "environment": {
+        "CXXFLAGS": "-ftime-trace"
+      },
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_TOOLCHAIN_FILE": null,
