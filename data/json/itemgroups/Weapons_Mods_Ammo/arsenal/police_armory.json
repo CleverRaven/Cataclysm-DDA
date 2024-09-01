@@ -125,7 +125,7 @@
       {
         "item": "glock_19",
         "variant": "glock_19_cop",
-        "contents-item": [ "sights_mount", "red_dot_sight" ],
+        "contents-item": [ "sights", "red_dot_sight" ],
         "prob": 15
       },
       { "item": "glockmag", "count": [ 1, 4 ] },
