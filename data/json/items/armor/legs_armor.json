@@ -348,7 +348,7 @@
     "copy-from": "base_chainmail_legs",
     "type": "ARMOR",
     "name": { "str_sp": "base chainmail half-leggings" },
-    "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzagging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "3159 g",
     "volume": "1125 ml",
     "longest_side": "10 cm",

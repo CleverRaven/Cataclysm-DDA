@@ -3,10 +3,13 @@
 #include <stack>
 #include <type_traits>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
+#include "filesystem.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -253,24 +256,32 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
     return fontwidth * mk_wcwidth( c ) * scale;
 }
 
-void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                                    const std::vector<std::string> &typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        std::vector<std::string> typefaces;
-        ensure_unifont_loaded( typefaces );
+        std::vector<std::string> io_typefaces{ typefaces };
+        ensure_unifont_loaded( io_typefaces );
 
         for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
             SDL_Color sdlCol = windowsPalette[index];
             ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
             sdlColorsToCata[rgb] = index;
         }
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), fontheight, nullptr,
+        auto it = std::find_if( io_typefaces.begin(),
+        io_typefaces.end(), []( const std::string & io_typeface ) {
+            return file_exist( io_typeface );
+        } );
+        std::string existing_typeface = *it;
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, nullptr,
                          io.Fonts->GetGlyphRangesDefault() );
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        io.Fonts->Build();
+        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
@@ -411,8 +422,8 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
     }
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
@@ -420,20 +431,26 @@ void cataimgui::window::draw_colored_text( std::string const &text, const nc_col
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
     draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
+    if( text.empty() ) {
+        ImGui::NewLine();
+        return;
+    }
+
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
+
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
@@ -578,7 +595,7 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;
@@ -618,8 +635,11 @@ void cataimgui::window::draw()
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
-    if( cached_bounds.h > 0 || cached_bounds.w > 0 ) {
+    if( cached_bounds.h > 1.0 || cached_bounds.w > 1.0 ) {
         ImGui::SetNextWindowSize( { cached_bounds.w, cached_bounds.h } );
+    } else if( cached_bounds.h > 0.0 && cached_bounds.w > 0.0 && cached_bounds.h <= 1.0 &&
+               cached_bounds.w <= 1.0 ) {
+        ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size * ImVec2 { cached_bounds.w, cached_bounds.h } );
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();

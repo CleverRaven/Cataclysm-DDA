@@ -367,7 +367,8 @@
         "d": [
           { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "electronics", "chance": 15 },
-          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 },
+          { "item": "collection_mindsight_and_note", "chance": 10 }
         ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },

@@ -2097,6 +2097,13 @@ void inventory_selector::add_character_items( Character &character )
     }
 }
 
+void inventory_selector::add_character_ebooks( Character &character )
+{
+    for( item_location &ereader : character.all_items_loc() ) {
+        add_contained_ebooks( ereader );
+    }
+}
+
 void inventory_selector::add_map_items( const tripoint &target )
 {
     map &here = get_map();
@@ -2917,7 +2924,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->chosen_count ) };
         }
     }
 
@@ -3936,9 +3943,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = std::clamp<size_t>( 0,
-                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
-                                    max );
+            size_t const newcount = input.action == "INCREASE_COUNT"
+                                    ? count < max ? count + 1 : max
+                                    : count > 1 ? count - 1 : 0;
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {

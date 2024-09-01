@@ -310,7 +310,7 @@
     "id": "telekinetic_momentum",
     "type": "SPELL",
     "name": "[Ψ]Momentum Alteration (C)",
-    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -448,6 +448,44 @@
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
+    "id": "telekinetic_lifting_field",
+    "type": "SPELL",
+    "name": "[Ψ]Lifting Field (C)",
+    "description": "Hover a single object next to you, freeing your hands for other tasks and making it easy to access.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_LIFTING_FIELD_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_lifting_field') * 9300) + 49400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_lifting_field') * 25900) + 167400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 0 : max((4500 - (u_spell_level('telekinetic_lifting_field') * 100)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 10 : max((200 - (u_spell_level('telekinetic_lifting_field') * 6.5)), 55)"
+      ]
+    }
+  },
+  {
     "id": "telekinetic_strength",
     "type": "SPELL",
     "name": "[Ψ]Enhance Strength (C)",
@@ -530,6 +568,7 @@
     "type": "SPELL",
     "name": "Mindhammer Ground damage",
     "description": "Damages ground when you use Mindhammer.  If you have this you debugged it in.",
+    "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "RANDOM_DAMAGE", "IGNORE_WALLS", "NO_PROJECTILE" ],
@@ -696,6 +735,7 @@
     "name": "Wrecking Ball Enemy damage",
     "description": "Damages enemies when you use Wrecking Ball on the ground.  If you have this you debugged it in.",
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "teachable": false,
     "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "LOUD", "RANDOM_DAMAGE", "IGNORE_WALLS" ],
     "effect": "attack",
@@ -909,6 +949,7 @@
     "name": "[Ψ]Earthshaker Bash Terrain",
     "description": "Destroy furniture and terrain nearby.",
     "valid_targets": [ "hostile", "ground" ],
+    "teachable": false,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
     "shape": "blast",

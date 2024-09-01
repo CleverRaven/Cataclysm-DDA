@@ -105,7 +105,18 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" },
-      "nested": { "1": { "chunks": [ [ "residential_1x2_solar", 6 ], [ "residential_2x2_solar", 4 ], [ "null", 88 ] ] } }
+      "nested": {
+        "1": {
+          "//": "11% chance for solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 2 ],
+            [ "null", 220 ]
+          ]
+        }
+      }
     }
   },
   {

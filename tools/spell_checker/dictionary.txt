@@ -455,7 +455,8 @@ Bahá
 Baha'i
 Bahá'í
 Baha'is
-Bahamanain
+Bahamanian
+Bahamian
 Baha'u'llah
 Bahá'u'lláh
 Bahman
@@ -1178,6 +1179,7 @@ coipo
 coipos
 Col
 colada
+Colombian
 Colrain
 Columbia
 Columbian
@@ -1494,6 +1496,8 @@ Didascalia
 Diego
 Diemaco
 dieselpunk
+direhound
+direhounds
 diggable
 Dighton
 DigiMart
@@ -2674,6 +2678,8 @@ Horayot
 horchata
 horks
 Hornblower
+hornero
+horneros
 Horrorpelta
 Horrorpeltas
 hosomaki
@@ -3156,6 +3162,8 @@ kippahs
 Kippur
 kirpan
 kirpans
+kiskadee
+kiskadees
 Kitáb
 KITT
 kittel
@@ -3861,7 +3869,7 @@ Milinda
 milkfat
 Milkor
 Millbury
-millenia
+millennia
 Millie
 Millis
 Millville
@@ -5030,6 +5038,7 @@ Remington
 remodulator
 Remy
 rended
+René
 renfaire
 renfaires
 renfield
@@ -6236,6 +6245,7 @@ tlatoani
 TNT
 Toby
 tock
+toco
 TODO
 Toffer
 toggleable

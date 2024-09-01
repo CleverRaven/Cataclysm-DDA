@@ -175,7 +175,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "ammo_restriction": { "357mag": 6, "38": 6 },
-        "allowed_speedloaders": [ "38_speedloader" ]
+        "allowed_speedloaders": [ "38_speedloader6" ]
       }
     ],
     "variant_type": "gun",

@@ -32,8 +32,7 @@
     "id": "BGSS_RURAL_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_BGSS_rural_1_started_quest",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_BGSS_rural_1_started_quest" } ],
       "no": {
         "gendered_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
         "relevant_genders": [ "npc" ]
@@ -48,11 +47,11 @@
         "text": "I could help you clear out your farm if you wanted.  You just have to show me the way…",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_BGSS_rural_1_started_quest", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_rural_1_started_quest" } ] } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "general_BGSS_rural_1_asked_about_quest", "value": "yes" },
+                  { "compare_string": [ "yes", { "u_val": "general_BGSS_rural_1_asked_about_quest" } ] },
                   { "math": [ "time_since(u_timer_timers_rural_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }

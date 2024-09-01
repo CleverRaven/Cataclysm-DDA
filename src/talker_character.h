@@ -88,6 +88,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
+        bool is_trait_purifiable( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool has_species( const species_id &species ) const override;
@@ -245,6 +246,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
                              const bool &use_vitamins ) override;
+        void set_trait_purifiability( const trait_id &trait, const bool &purifiable ) override;
         void set_mutation( const trait_id &new_trait, const mutation_variant * = nullptr ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void activate_mutation( const trait_id &trait ) override;

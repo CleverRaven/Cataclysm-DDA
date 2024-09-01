@@ -29,6 +29,7 @@
 #include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "overmap_ui.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -289,6 +290,7 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
+        std::optional<tripoint> find_stairs( const map &mp, int z_after, const tripoint &pos );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
         /*
@@ -852,6 +854,8 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        // Handle shifting through terrain and walls, with distance defined by enchantment.
+        bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
         bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
         // TODO: Get rid of untyped overload
@@ -1134,6 +1138,9 @@ class game
         catacurses::window w_minimap; // NOLINT(cata-serialize)
         catacurses::window w_pixel_minimap; // NOLINT(cata-serialize)
         //only a pointer, can refer to w_messages_short or w_messages_long
+
+        //overmap UI singleton
+        overmap_ui::overmap_draw_data_t overmap_data; // NOLINT(cata-serialize)
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

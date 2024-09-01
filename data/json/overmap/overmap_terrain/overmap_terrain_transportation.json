@@ -5,7 +5,7 @@
     "name": "road",
     "copy-from": "generic_transportation",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "none",
     "travel_cost_type": "road",
     "looks_like": "road",
     "vision_levels": "blends_till_outlines"
@@ -34,7 +34,7 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "BRIDGE" ]
   },
   {
@@ -81,6 +81,7 @@
     "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
     "vision_levels": "isolated_building",
+    "see_cost": "high",
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
@@ -90,6 +91,7 @@
     "type": "overmap_terrain",
     "id": [ "roadstop_a", "roadstop_a_roof" ],
     "vision_levels": "isolated_building",
+    "see_cost": "spaced_high",
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
@@ -99,6 +101,7 @@
     "type": "overmap_terrain",
     "id": [ "roadstop_b", "roadstop_b_roof" ],
     "vision_levels": "isolated_building",
+    "see_cost": "high",
     "name": "roadside foodcart",
     "sym": "^",
     "color": "magenta",
@@ -110,6 +113,7 @@
     "name": "forest trail",
     "color": "green",
     "vision_levels": "forested",
+    "see_cost": "spaced_high",
     "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ],
     "land_use_code": "forest"
   },
@@ -118,6 +122,7 @@
     "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
     "name": "trailhead",
     "vision_levels": "blends_till_details",
+    "see_cost": "none",
     "sym": "T",
     "color": "brown"
   },
@@ -134,7 +139,7 @@
     "vision_levels": "city_building",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
@@ -146,7 +151,7 @@
     "vision_levels": "roof_or_air",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
@@ -158,7 +163,7 @@
     "vision_levels": "underground_dirt",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -169,7 +174,7 @@
     "vision_levels": "underground_stone",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
@@ -179,7 +184,7 @@
     "name": "subway",
     "vision_levels": "underground_stone",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
@@ -196,7 +201,7 @@
     "name": "subway",
     "vision_levels": "underground_stone",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "lab_subway",
     "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
@@ -214,7 +219,7 @@
     "vision_levels": "underground_stone",
     "sym": "S",
     "color": "dark_gray",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -250,7 +255,7 @@
     "name": "control tower",
     "sym": "X",
     "color": "i_light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build"
   },
   {
@@ -260,7 +265,7 @@
     "vision_levels": "roof_or_air",
     "sym": "X",
     "color": "i_light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -284,7 +289,7 @@
     "vision_levels": "blends_till_outlines",
     "sym": "─",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -294,7 +299,7 @@
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "road",
     "flags": [ "SOURCE_FUEL" ]
   },
@@ -305,7 +310,7 @@
     "name": "fuel station",
     "sym": ".",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "extras": "build",
     "flags": [ "SOURCE_FUEL" ]
   },
@@ -316,7 +321,7 @@
     "name": "fuel station roof",
     "sym": ".",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -326,7 +331,7 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -336,7 +341,7 @@
     "name": "small hangar",
     "sym": "O",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build"
   },
   {
@@ -346,7 +351,7 @@
     "name": "small hangar roof",
     "sym": "O",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -356,7 +361,7 @@
     "name": "private airport terminal",
     "sym": "A",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2
   },
@@ -367,7 +372,7 @@
     "name": "private airport terminal roof",
     "sym": "A",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2
   },
@@ -390,7 +395,7 @@
     "name": "helicopter pad",
     "sym": "H",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2
   },
@@ -401,7 +406,7 @@
     "vision_levels": "large_pavement",
     "sym": "B",
     "color": "i_light_cyan",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "build",
     "flags": [ "SIDEWALK" ]
   },
@@ -412,7 +417,7 @@
     "name": "bus station roof",
     "sym": "B",
     "color": "i_light_cyan",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -450,7 +455,7 @@
     "vision_levels": "city_building",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "build",
     "flags": [ "SIDEWALK" ]
   },

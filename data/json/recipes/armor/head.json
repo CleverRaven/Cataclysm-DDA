@@ -10,7 +10,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
@@ -21,7 +21,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -33,7 +33,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -47,7 +47,7 @@
     "difficulty": 2,
     "time": "90 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "using": [ [ "tailoring_felt_small", 6 ] ]
   },
   {
@@ -157,7 +157,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_felt_patchwork", 11 ] ]
   },
   {
@@ -317,7 +317,7 @@
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "glasses_safety", 1 ] ],
       [ [ "duct_tape", 120 ], [ "medical_tape", 120 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "super_glue", 1 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
@@ -1868,16 +1868,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [
-        [ "tshirt", 1 ],
-        [ "flag_shirt", 1 ],
-        [ "linuxtshirt", 1 ],
-        [ "tshirt_tour", 1 ],
-        [ "technician_shirt_gray", 1 ],
-        [ "tshirt_text", 1 ]
-      ]
-    ],
+    "components": [ [ [ "tshirt", 1 ], [ "technician_shirt_gray", 1 ] ] ],
     "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
@@ -1945,28 +1936,6 @@
       [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
-    ]
-  },
-  {
-    "result": "miner_hat",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "reversible": true,
-    "components": [
-      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
-      [ [ "flashlight", 1 ] ],
-      [
-        [ "cotton_patchwork", 2 ],
-        [ "leather", 2 ],
-        [ "cordage", 1, "LIST" ],
-        [ "duct_tape", 10 ],
-        [ "medical_tape", 20 ]
-      ]
     ]
   },
   {
@@ -2239,7 +2208,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork_simple", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]

@@ -56,9 +56,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "light_battery_cell" ) ) );
         CHECK( has_ammo_types( item( "medium_battery_cell" ) ) );
         CHECK( has_ammo_types( item( "heavy_battery_cell" ) ) );
-        CHECK( has_ammo_types( item( "light_disposable_cell" ) ) );
-        CHECK( has_ammo_types( item( "medium_disposable_cell" ) ) );
-        CHECK( has_ammo_types( item( "heavy_disposable_cell" ) ) );
+        CHECK( has_ammo_types( item( "heavy_plus_battery_cell" ) ) );
         // Vehicle batteries
         CHECK( has_ammo_types( item( "battery_car" ) ) );
         CHECK( has_ammo_types( item( "battery_motorbike" ) ) );
@@ -222,42 +220,42 @@ TEST_CASE( "barrel_test", "[ammo][weapon]" )
 TEST_CASE( "battery_energy_test", "[ammo][energy][item]" )
 {
     item test_battery( "medium_battery_cell" );
-    test_battery.ammo_set( test_battery.ammo_default(), 300 );
+    test_battery.ammo_set( test_battery.ammo_default(), 56 );
 
     SECTION( "Integer drain from battery" ) {
-        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
-        units::energy consumed = test_battery.energy_consume( 200_kJ, tripoint_zero, nullptr );
-        CHECK( test_battery.energy_remaining( nullptr ) == 100_kJ );
-        CHECK( consumed == 200_kJ );
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 56_kJ );
+        units::energy consumed = test_battery.energy_consume( 40_kJ, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 16_kJ );
+        CHECK( consumed == 40_kJ );
     }
 
     SECTION( "Integer over-drain from battery" ) {
-        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 56_kJ );
         units::energy consumed = test_battery.energy_consume( 400_kJ, tripoint_zero, nullptr );
         CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
-        CHECK( consumed == 300_kJ );
+        CHECK( consumed == 56_kJ );
     }
 
     SECTION( "Non-integer drain from battery" ) {
         // Battery charge is in chunks of kj. Non integer kj drain is rounded up.
         // 4.5 kJ drain becomes 5 kJ drain
-        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 56_kJ );
         units::energy consumed = test_battery.energy_consume( 4500_J, tripoint_zero, nullptr );
-        CHECK( test_battery.energy_remaining( nullptr ) == 295_kJ );
+        CHECK( test_battery.energy_remaining( nullptr ) == 51_kJ );
         CHECK( consumed == 5_kJ );
     }
 
     SECTION( "Non-integer over-drain from battery" ) {
-        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 56_kJ );
         units::energy consumed = test_battery.energy_consume( 500500_J, tripoint_zero, nullptr );
         CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
-        CHECK( consumed == 300_kJ );
+        CHECK( consumed == 56_kJ );
     }
 
     SECTION( "zero drain from battery" ) {
-        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 56_kJ );
         units::energy consumed = test_battery.energy_consume( 0_J, tripoint_zero, nullptr );
-        CHECK( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        CHECK( test_battery.energy_remaining( nullptr ) == 56_kJ );
         CHECK( consumed == 0_kJ );
     }
 

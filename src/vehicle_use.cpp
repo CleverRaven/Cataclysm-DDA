@@ -776,7 +776,7 @@ void vehicle::stop_engines()
     refresh();
 }
 
-void vehicle::start_engines( const bool take_control, const bool autodrive )
+void vehicle::start_engines( Character *driver, const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
@@ -814,16 +814,14 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         return;
     }
 
-    Character &player_character = get_player_character();
-    if( take_control && !player_character.controlling_vehicle ) {
-        player_character.controlling_vehicle = true;
-        add_msg( _( "You take control of the %s." ), name );
+    if( take_control && driver && !driver->controlling_vehicle ) {
+        driver->controlling_vehicle = true;
+        driver->add_msg_if_player( _( "You take control of the %s." ), name );
     }
-    if( !autodrive ) {
-        player_character.assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
-        player_character.activity.relative_placement =
-            starting_engine_position - player_character.pos_bub();
-        player_character.activity.values.push_back( take_control );
+    if( !autodrive && driver ) {
+        driver->assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
+        driver->activity.relative_placement = starting_engine_position - driver->pos_bub();
+        driver->activity.values.push_back( take_control );
     }
     refresh();
 }
