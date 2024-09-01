@@ -153,6 +153,44 @@
     "min_duration": 200,
     "max_duration": 200
   },
+  
+  {
+    "id": "vita_concentrated_healing",
+    "type": "SPELL",
+    "name": "[Ψ]Leukocyte Accumulation (C)",
+    "description": "By rerouting blood and stem cells from undamaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_CONCENTRATED_HEALING_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 7300) + 46300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [ "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 80)), 1350)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_health_power') * 9.5)), 35)"
+      ]
+    }
+  },
+      
   {
     "id": "vita_hurt_touch",
     "type": "SPELL",
