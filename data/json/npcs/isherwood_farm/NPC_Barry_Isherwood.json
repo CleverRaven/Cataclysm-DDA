@@ -67,7 +67,7 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }
       },
       {
-        "text": "I'll get you out of here, just stay calm.  Let's hit the road.",
+        "text": "I'll get you out of here, just stay calm.  <lets_go>",
         "topic": "TALK_ISHERWOOD_BARRY_Escaping",
         "condition": { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } }
       },
@@ -239,7 +239,7 @@
     "dynamic_line": "\"Oh, so my family didn't send you then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first, I'll tell you about it later.\"",
     "responses": [
       {
-        "text": "Okay, sounds good to me.  Let's go.",
+        "text": "Okay, sounds good to me.  <lets_go>",
         "topic": "TALK_DONE",
         "effect": [
           "follow_only",
@@ -359,7 +359,7 @@
         }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -371,7 +371,7 @@
         }
       },
       {
-        "text": "Alright, let's get going.",
+        "text": "<lets_go>",
         "topic": "TALK_DONE",
         "condition": {
           "or": [
@@ -440,7 +440,7 @@
     "dynamic_line": "*laughs.  \"It was terrible timing, but I have to admit, you don't see many situations that perfect for that reference.  Sorry I didn't get it at the time.\"",
     "responses": [
       { "text": "Can I ask you some questions?", "topic": "TALK_ISHERWOOD_BARRY_askback" },
-      { "text": "Well, I should head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -506,7 +506,7 @@
         "text": "Thanks for taking the time to talk to me.  I had some other questions.",
         "topic": "TALK_ISHERWOOD_BARRY_askback"
       },
-      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -519,7 +519,7 @@
         "text": "Thanks for taking the time to talk to me.  I had some other questions.",
         "topic": "TALK_ISHERWOOD_BARRY_askback"
       },
-      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -533,12 +533,12 @@
     "responses": [
       { "text": "Can you give me some directions to it?", "topic": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions" },
       {
-        "text": "That's pretty cool.  I'd like to ask you about something else.",
+        "text": "That's pretty cool.  <done_conversation_section>",
         "topic": "TALK_ISHERWOOD_BARRY_askback",
         "effect": { "u_add_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
       },
       {
-        "text": "I'm going to head out.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "effect": { "u_add_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
       }
