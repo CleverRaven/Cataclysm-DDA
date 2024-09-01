@@ -393,6 +393,10 @@ void suffer::from_addictions( Character &you )
     for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            if( uistate.distraction_withdrawal && !you.is_npc() ) {
+                g->cancel_activity_or_ignore_query( distraction_type::withdrawal,
+                                                    _( "You start having withdrawals!" ) );
+            }
             cur_addiction.run_effect( you );
         }
         cur_addiction.sated -= 1_turns;
@@ -1933,8 +1937,9 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
 
     if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
-    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
-        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 &&
+               one_in( 300 ) ) {
+        add_msg_if_player( m_good, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect

@@ -1,7 +1,7 @@
 [
   {
     "type": "snippet",
-    "category": "home_pictures",
+    "category": "<home_pictures>",
     "//": "These are meant to be personal pictures with family or friends. The sort of things you would have in a picture frame around the house. Nothing anomalous or Cataclysm-related should show up in these pictures; however, they could be linked to game lore, locations, or events. Feel free to contribute more, as this gives more variety to houses and people from before the Cataclysm.",
     "text": [
       {
@@ -38,7 +38,7 @@
       },
       {
         "id": "home_picture_9",
-        "text": "A smiling young woman wearing a band t-shirt is in the driver seat of a car, with an older man sitting in the passenger seat next to her, sweating profusely.  Written in colorful sharpie at the bottom of the frame is, 'Dad teaching me how to drive a manual for my drivers licence'."
+        "text": "A smiling young woman wearing a band t-shirt is in the driver seat of a car, with an older man sitting in the passenger seat next to her, sweating profusely.  Written in colorful Sharpie at the bottom of the frame is, 'Dad teaching me how to drive a manual for my drivers license'."
       },
       {
         "id": "home_picture_10",
@@ -58,7 +58,7 @@
       },
       {
         "id": "home_picture_14",
-        "text": "A framed clipping of a newspaper article.  'Annual Chilli Cook-off Winner'.  Enclosed is a small article about the winner and the secret recipe."
+        "text": "A framed clipping of a newspaper article.  'Annual Chili Cook-off Winner'.  Enclosed is a small article about the winner and the secret recipe."
       },
       {
         "id": "home_picture_15",
@@ -74,7 +74,7 @@
       },
       {
         "id": "home_picture_18",
-        "text": "A picture of a Renaissance Fair.  A petite woman in ornate mediaeval clothing is holding a gigantic turkey leg and dramatically biting into it with exaggerated force."
+        "text": "A picture of a Renaissance Fair.  A petite woman in ornate medieval clothing is holding a gigantic turkey leg and dramatically biting into it with exaggerated force."
       },
       {
         "id": "home_picture_19",
@@ -144,6 +144,158 @@
         "id": "home_picture_35",
         "text": "A gloomy painting of a man in a boat during a storm.  The man is rowing towards a lighthouse in the distance."
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Snippets for Pictures, I split them from the home_pictures list because these include nesting of other snippets and I thought it might get confusing.",
+    "category": "<hp_nested>",
+    "text": [
+      {
+        "id": "hp_nested_01",
+        "//": "Movie posters of various genres.",
+        "text": "A scaled-down image of a famous movie poster!  <movie_poster>"
+      },
+      {
+        "id": "hp_nested_02",
+        "//": "High School Graduation Photos, graduation snippets defined below, colors in snippets.json as of the time of me writing this.",
+        "text": "A framed photo from a graduation ceremony.  It features <grad_base>, wearing a <color> gown.  <grad_details>"
+      },
+      {
+        "id": "hp_nested_03",
+        "//": "Framed puzzles",
+        "text": "Someone took the time to frame this small puzzle.  It depicts <puzzle_desc>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "These snippets are for movie posters in hp_nested, look at hp_nested_1 for formatting around them.",
+    "category": "<movie_poster>",
+    "text": [
+      {
+        "id": "movie_poster_01",
+        "text": "An imposing figure stands in an old-fashioned diving suit, the mask radiating faint, electric blue light!  The poster is signed by a few members of the cast."
+      },
+      {
+        "id": "movie_poster_02",
+        "text": "It shows an overlap of two faces: on the left is a small boy, and on the right, a dead-eyed killer!"
+      },
+      {
+        "id": "movie_poster_03",
+        "text": "It features a horrifically mutated but vaguely humanoid reptile, cowering in a dark corner.  Across the bottom, oozing text reads \"Prehistoric Pandemonium, February 14, 2021.\""
+      },
+      {
+        "id": "movie_poster_04",
+        "text": "Harsh light spills across a woman's face.  In the shadows behind her, a masked figure lurks with a sickle in hand!"
+      },
+      {
+        "id": "movie_poster_05",
+        "text": "A man is dressed in horrible green makeup, arms outstretched, broken teeth bared in an attempt to scare the viewer.  It looks like a cheesy zombie movie from the '80s."
+      },
+      {
+        "id": "movie_poster_06",
+        "text": "It features two attractive people, arms crossed.  All these movie posters look the same…"
+      },
+      {
+        "id": "movie_poster_07",
+        "text": "Two men are in a diner, one a waiter and the other a customer.  Both are smiling coyly, their eyes locked, fingertips barely touching beside a mug of coffee."
+      },
+      {
+        "id": "movie_poster_08",
+        "text": "Two women stand on opposite sides of the poster, one with a little girl and one with a little boy.  Both of the children are pouting, but the women smile placidly.  Across the middle is text that reads \"Your Mom Can't Date My Mom!\""
+      },
+      {
+        "id": "movie_poster_09",
+        "text": "A short, petite woman with frizzy blonde hair is pointing her finger angrily at the face of the man next to her.  By comparison, he's tall, with dark, tanned skin and a huge beard, his muscles bulging beneath a flannel shirt.  The title across the poster reads \"Coed vs Lumberjack\" with text that promises hijinks."
+      },
+      {
+        "id": "movie_poster_10",
+        "text": "A nerdy, dark-skinned teenager peers down from the balcony of his college dorm.  On the ground, a strikingly beautiful young woman is tending to the flowers in her garden.  The title reads \"The Goddess Next Door.\""
+      },
+      {
+        "id": "movie_poster_11",
+        "text": "It features a bald, angry man holding a gun in one hand and a cellphone in the other.  Text across the poster reads \"Hope Dies… THIS SUMMER.\""
+      },
+      {
+        "id": "movie_poster_12",
+        "text": "A black woman stands in an action pose, a katana held in a two-handed grip.  Around her are men in suits holding a variety of weapons.  The title simply reads \"Grace.\""
+      },
+      {
+        "id": "movie_poster_13",
+        "text": "There's horror movie lettering in green and red that reads \"The Christmas Ghoul.\"  The main imagery is a rotten, decaying cartoon monstrosity wearing a Santa hat."
+      },
+      {
+        "id": "movie_poster_14",
+        "text": "It features a young man with a chiseled jaw, dressed in a World War II-era uniform.  He's struggling to raise a tattered American flag."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "These snippets are for graduation photos in hp_nested_2, featuring basic descriptions of a person, potentially useable elsewhere.",
+    "category": "<grad_base>",
+    "text": [
+      { "id": "grad_base_01", "text": "a grinning, excited <character_gender_adjective>" },
+      { "id": "grad_base_02", "text": "a serious-looking <character_gender_adjective>" },
+      { "id": "grad_base_03", "text": "a gently smiling but still reserved <character_gender_adjective>" },
+      { "id": "grad_base_04", "text": "a nervous <character_gender_adjective>" },
+      { "id": "grad_base_05", "text": "a vaguely sleepy-looking <character_gender_adjective>" },
+      { "id": "grad_base_06", "text": "a bespectacled <character_gender_adjective>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "These snippets are for graduation photos in hp_nested_2.  They are meant to add a little fluff/additional information.",
+    "category": "<grad_details>",
+    "text": [
+      { "id": "grad_details_01", "text": "Nearby friends are waving at the camera." },
+      { "id": "grad_details_02", "text": "An older woman stands with a hand on the new graduate, smiling." },
+      {
+        "id": "grad_details_03",
+        "text": "A young woman stands beside the graduate, love and adoration etched on her face."
+      },
+      { "id": "grad_details_04", "text": "A proud father stands with a hand on the shoulder of the recent graduate." },
+      {
+        "id": "grad_details_05",
+        "text": "Someone in the background holds a sign that reads \"No More Teachers' Dirty Looks!\""
+      },
+      { "id": "grad_details_06", "text": "A cap and tassel lie discarded in the grass." },
+      {
+        "id": "grad_details_07",
+        "text": "The recent graduate isn't alone; a much younger sibling stands with their face buried in the folds of the gown."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Snippets for puzzle descriptions.",
+    "category": "<puzzle_desc>",
+    "text": [
+      { "id": "puzzle_desc_01", "text": "a serene park scene with a family having a picnic." },
+      { "id": "puzzle_desc_02", "text": "two little <dog_breed> puppies.  They look adorable, as expected." },
+      {
+        "id": "puzzle_desc_03",
+        "text": "the sky at sunset, ablaze with subtle differences in color, not a cloud in sight.  It must have been difficult to put together."
+      },
+      { "id": "puzzle_desc_04", "text": "a beautiful bouquet of flowers, mostly <flowers>, in a glass vase." },
+      {
+        "id": "puzzle_desc_05",
+        "text": "a detailed and ornate railyard, showing a multitude of trains.  The pieces are very small, truly a difficult puzzle."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "//": "Dog breeds, just grabbed a handful from our monster list.",
+    "category": "<dog_breed>",
+    "text": [
+      { "id": "dog_breed_01", "text": "beagle" },
+      { "id": "dog_breed_02", "text": "bulldog" },
+      { "id": "dog_breed_03", "text": "chihuahua" },
+      { "id": "dog_breed_04", "text": "corgi" },
+      { "id": "dog_breed_05", "text": "labrador" },
+      { "id": "dog_breed_06", "text": "pitbull" }
     ]
   }
 ]

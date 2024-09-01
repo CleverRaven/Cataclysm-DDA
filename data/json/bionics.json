@@ -899,6 +899,7 @@
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
+      "MESOPIC",
       "URSINE_EYE",
       "FROG_EYES",
       "NIGHTVISION3",

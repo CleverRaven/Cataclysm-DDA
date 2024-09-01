@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "broth",
     "looks_like": "water",
-    "name": { "str_sp": "broth" },
+    "name": { "str_sp": "vegetable broth" },
     "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -11,7 +11,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 30,
-    "calories": 13,
+    "calories": 16,
     "description": "Vegetable stock.  Tasty and fairly nutritious.",
     "price": "3 USD 50 cent",
     "price_postapoc": "25 cent",
@@ -21,7 +21,35 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "broth_meat",
+    "looks_like": "water",
+    "name": { "str_sp": "meat broth" },
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
+    ],
+    "weight": "253 g",
+    "color": "yellow",
+    "spoils_in": "6 days 16 hours",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 30,
+    "calories": 17,
+    "description": "Meat stock.  Tasty and fairly nutritious.",
+    "price": "3 USD 50 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "flesh" ],
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 1,
+    "vitamins": [ [ "vitC", "1 mg" ], [ "iron", "1 mg" ], [ "calcium", "19 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -32,14 +60,14 @@
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
     ],
-    "weight": "267 g",
+    "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
     "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 30,
-    "calories": 43,
+    "calories": 41,
     "description": "A tasty and nutritious broth made from bones, with added vinegar to extract more calcium.",
     "price": "3 USD 50 cent",
     "price_postapoc": "25 cent",
@@ -50,7 +78,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", "200 μg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

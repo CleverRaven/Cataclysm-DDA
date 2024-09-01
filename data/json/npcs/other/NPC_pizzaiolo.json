@@ -27,7 +27,7 @@
       {
         "text": "If you still want to travel with me, let's go.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "dialogue_pizzaiolo_u_helped_pizzaiolo", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ] },
         "effect": [ "follow", { "npc_lose_var": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ]
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }

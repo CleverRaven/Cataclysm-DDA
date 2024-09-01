@@ -66,6 +66,7 @@
 #include "music.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -1184,7 +1185,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1221,7 +1222,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
-        if( !overmap_buffer.seen( place ) ) {
+        if( overmap_buffer.seen( place ) != om_vision_level::full ) {
             // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
             get_avatar().map_revealed_omts.emplace( place );
         }
@@ -2350,11 +2351,9 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint 
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height_setup = 24;
-    spellbook_uilist.w_width_setup = 80;
+    spellbook_uilist.desired_bounds = { -1.0, -1.0, 80 * ImGui::CalcTextSize( "X" ).x, 24 * ImGui::GetTextLineHeightWithSpacing() };
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -2436,7 +2435,7 @@ std::string cast_spell_actor::get_name() const
     return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
-std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint & ) const
+std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -2448,6 +2447,12 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
     }
 
     spell casting = spell( spell_id( item_spell ) );
+
+    // Spell is being cast from a non-held item
+    if( p == nullptr ) {
+        casting.cast_all_effects( pos );
+        return 0;
+    }
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( *p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -5429,7 +5434,6 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
-    tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
     tmenu.query();
     const int choice = tmenu.ret;

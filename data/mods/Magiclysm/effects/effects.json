@@ -1057,16 +1057,22 @@
     "type": "effect_type",
     "name": [ "Increased Stability" ],
     "desc": [
-      "You are overcoming the aftereffects of XE037 overexposure.",
-      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+      "You are defended against the possible effects of XE037 overexposure.",
+      "You are still defended against the effects of XE037 overexposure but now you feel awful!"
     ],
     "apply_message": "You feel…strange.",
     "remove_message": "The strange feeling passes and you feel more like yourself.",
     "rating": "good",
     "max_intensity": 2,
     "show_intensity": false,
-    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "30 m" ] } ],
     "scaling_mods": { "speed_mod": [ -25 ], "str_mod": [ -5 ], "dex_mod": [ -5 ], "int_mod": [ -5 ], "per_mod": [ -5 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MUT_INSTABILITY_MOD", "add": { "math": [ "-1 - ( u_spell_level('biomancer_remove_instability') / 5)" ] } }
+        ]
+      }
+    ],
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1, "scaling": -0.3 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
@@ -1279,7 +1285,16 @@
     "rating": "good",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
-    "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+    "flags": [
+      "ETHEREAL",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "INVISIBLE",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "WATERWALKING",
+      "ITEM_WATERPROOFING"
+    ]
   },
   {
     "type": "effect_type",
@@ -1322,7 +1337,7 @@
     "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",

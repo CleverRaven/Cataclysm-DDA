@@ -307,7 +307,7 @@
         "armor_mult": { "physical": 0.2 },
         "difficulty": { "ranged": 7, "melee": 2 },
         "coverage_mult": { "point": 0.75 },
-        "required_effects": [ "staggered" ],
+        "condition": { "npc_has_any_effect": [ "staggered" ] },
         "effects": [
           { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 1, 100 ] },
           {
@@ -356,7 +356,7 @@
         "armor_mult": { "all": 0.33 },
         "crit_mult": { "all": 1.2 },
         "coverage": 15,
-        "required_effects": [ "maimed_armor" ]
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] }
       },
       {
         "id": "abdomen",

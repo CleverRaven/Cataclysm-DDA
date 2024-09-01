@@ -33,6 +33,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -173,6 +174,8 @@ static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
@@ -615,6 +618,15 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
+dispersion_sources Character::total_gun_dispersion( const item &gun, double recoil,
+        int spread ) const
+{
+    dispersion_sources dispersion = get_weapon_dispersion( gun );
+    dispersion.add_range( recoil );
+    dispersion.add_spread( spread );
+    return dispersion;
+}
+
 int Character::gun_engagement_moves( const item &gun, int target, int start,
                                      const Target_attributes &attributes ) const
 {
@@ -645,14 +657,6 @@ bool Character::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.has_fault_flag( "JAMMED_GUN" ) ) {
-        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
-        return false;
-    }
-    if( it.has_fault_flag( "RUINED_GUN" ) ) {
-        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
-        return false;
-    }
 
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
@@ -675,6 +679,57 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
+
+    // i am bad at math, so we will use vibes instead
+    double gun_jam_chance;
+    int gun_damage = it.damage() / 1000.0;
+    switch( gun_damage ) {
+        case 0:
+            gun_jam_chance = 0.0005 * firing.gun_jam_mult;
+            break;
+        case 1:
+            gun_jam_chance = 0.03 * firing.gun_jam_mult;
+            break;
+        case 2:
+            gun_jam_chance = 0.15 * firing.gun_jam_mult;
+            break;
+        case 3:
+            gun_jam_chance = 0.45 * firing.gun_jam_mult;
+            break;
+        case 4:
+            gun_jam_chance = 0.8 * firing.gun_jam_mult;
+            break;
+    }
+
+    int mag_damage;
+    double mag_jam_chance = 0;
+    if( it.magazine_current() ) {
+        mag_damage = it.magazine_current()->damage() / 1000.0;
+        switch( mag_damage ) {
+            case 0:
+                mag_jam_chance = 0.00027 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 1:
+                mag_jam_chance = 0.05 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 2:
+                mag_jam_chance = 0.24 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 3:
+                mag_jam_chance = 0.96 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 4:
+                mag_jam_chance = 2.5 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+        }
+    }
+
+    const double jam_chance = gun_jam_chance + mag_jam_chance;
+
+    add_msg_debug( debugmode::DF_RANGED,
+                   "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
+                   gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance );
+
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -695,6 +750,16 @@ bool Character::handle_gun_damage( item &it )
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
         return false;
+
+        // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
+               faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
+                               _( "<npcname>'s %s malfunctions!" ),
+                               it.tname() );
+        it.faults.insert( faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) );
+        return false;
+
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
@@ -788,6 +853,11 @@ bool Character::handle_gun_damage( item &it )
         // Don't increment until after the message
         it.inc_damage();
     }
+
+    if( it.has_var( "u_know_round_in_chamber" ) ) {
+        it.erase_var( "u_know_round_in_chamber" );
+    }
+
     return true;
 }
 
@@ -956,11 +1026,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
                                   get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
         }
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            mod_moves( -get_speed() * 0.5 );
-            gun.faults.erase( fault_gun_chamber_spent );
-            add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
-        }
 
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -984,9 +1049,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
         }
-        dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
-        dispersion.add_spread( proj.shot_spread );
+
+        dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
         bool first = true;
         bool headshot = false;
@@ -1374,6 +1438,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
+    impact.add_damage( damage_bash,
+                       enchantment_cache->get_value_add( enchant_vals::mod::THROW_DAMAGE ) );
+    impact.mult_damage( 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::THROW_DAMAGE ) );
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
@@ -2240,11 +2307,12 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    for( const item *mod : gunmods() ) {
-        noise += mod->type->gunmod->loudness;
-    }
     if( ammo_data() ) {
         noise += ammo_data()->ammo->loudness;
+    }
+    for( const item *mod : gunmods() ) {
+        noise += mod->type->gunmod->loudness;
+        noise *= mod->type->gunmod->loudness_multiplier;
     }
 
     noise = std::max( noise, 0 );

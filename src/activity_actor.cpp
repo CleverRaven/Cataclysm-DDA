@@ -46,6 +46,7 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field_type.h"
+#include "fault.h"
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
@@ -252,6 +253,7 @@ static const quality_id qual_SHEAR( "SHEAR" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
@@ -282,6 +284,8 @@ static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
+
+static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -317,11 +321,58 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
     return act;
 }
 
-void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+void aim_activity_actor::start( player_activity &act, Character &who )
 {
+    item_location weapon = get_weapon();
+    item &it = *weapon.get_item();
+
+    if( !check_gun_ability_to_shoot( who, it ) ) {
+        aborted = true; // why doesn't interrupt?
+        act.set_to_null();
+    }
+
     // Time spent on aiming is determined on the go by the player
     act.moves_total = 1;
     act.moves_left = 1;
+}
+
+bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
+{
+
+    if( it.has_fault_flag( "RUINED_GUN" ) ) {
+        who.add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
+        return false;
+    }
+
+    // if it's a simple fault, character can try to fix it on the fly
+    if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+        // fixing fault should cost more than 1 second
+        // but until game running the next activity actor without ever verifying
+        // was the previous one successful or not will be resolved,
+        // it would be safer to limit it somewhat
+        who.mod_moves( -who.get_speed() );
+        who.recoil = MAX_RECOIL;
+        if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+            who.add_msg_if_player( m_good,
+                                   _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
+                                   it.tname() );
+            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+            it.set_var( "u_know_round_in_chamber", true );
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
+                                   it.tname() );
+            return false;
+        }
+    }
+
+    if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "Your %s is too hot, and little screen signalizes the gun is inoperable." ), it.tname() );
+        return false;
+    }
+
+    return true;
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -602,6 +653,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
+    ui::omap::force_quit();
     act.set_to_null();
 }
 
@@ -609,6 +661,7 @@ void autodrive_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
     player_vehicle->stop_autodriving( false );
+    ui::omap::force_quit();
     act.set_to_null();
 }
 
@@ -3496,6 +3549,12 @@ void unload_activity_actor::unload( Character &who, item_location &target )
                 it.on_contents_changed();
                 who.invalidate_weight_carried_cache();
                 handler.handle_by( who );
+                // Warning: the above call to `contents_change_handler::handle_by` will
+                // call `Character::handle_contents_changed`, which might invalidate items
+                // and item_locations. See description for `::handle_contents_changed`
+                // in character.h .
+                // Therefore, it is important that we don't use `target` or `it` after here.
+                break;
             }
         }
 
@@ -6642,6 +6701,11 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
+    if( !it ) {
+        debugmsg( "Lost tool used for healing" );
+        act.set_to_null();
+        return;
+    }
     item *used_tool = it->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
@@ -6977,7 +7041,7 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
         // Check first and only if possible attempt it with player char
         // This suppresses warnings unless it is an item the player wears
         if( actor->valid_to_cut_up( nullptr, it ) ) {
-            item_location item_loc( map_cursor( who.pos_bub() ), &it );
+            item_location item_loc( map_cursor( who.get_location() ), &it );
             actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }

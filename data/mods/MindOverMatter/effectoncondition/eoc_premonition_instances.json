@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
     "recurrence": [ "4 hours", "4 hours" ],
-    "//": "Copy EoC: original in json/monsters/zed_lieutenant.json",
+    "//": "Copy EoC: original in json/monsters/singularities.json",
     "condition": {
       "and": [
         { "one_in_chance": 6 },

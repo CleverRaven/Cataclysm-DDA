@@ -436,6 +436,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
 
     you.recoil = MAX_RECOIL;
+    you.invalidate_weight_carried_cache();
+
     return items_dropped;
 }
 
@@ -1195,7 +1197,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             // make sure nobody else is working on that corpse right now
             if( i.is_corpse() && !i.has_var( "activity_var" ) ) {
                 const mtype corpse = *i.get_mtype();
-                if( corpse.size >= creature_size::medium ) {
+                if( corpse.size > creature_size::medium ) {
                     big_count += 1;
                 } else {
                     small_count += 1;
@@ -1211,7 +1213,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
-                if( !b_rack_present || !here.has_nearby_table( src_loc, 2 ) ) {
+                if( !b_rack_present ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
                 }
                 if( you.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( you.has_quality( qual_SAW_W ) ||
@@ -1951,7 +1953,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
     for( item &elem : items ) {
         if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             const mtype corpse = *elem.get_mtype();
-            if( corpse.size >= creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size > creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem.set_var( "activity_var", you.name );
@@ -3532,7 +3534,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             }
         } else {
             for( item &it : here.i_at( here.bub_from_abs( loc ) ) ) {
-                item_location i_loc( map_cursor( here.bub_from_abs( loc ) ), &it );
+                item_location i_loc( map_cursor( loc ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

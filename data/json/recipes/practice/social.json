@@ -40,7 +40,8 @@
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "result_eocs": [ "EOC_UNMUTE_BIRD" ]
+    "result_eocs": [ "EOC_UNMUTE_BIRD" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "practice",
@@ -53,7 +54,8 @@
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "result_eocs": [ "EOC_UNMUTE_CEPH" ]
+    "result_eocs": [ "EOC_UNMUTE_CEPH" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "practice",
@@ -66,7 +68,8 @@
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "result_eocs": [ "EOC_UNMUTE_GASTROPOD" ]
+    "result_eocs": [ "EOC_UNMUTE_GASTROPOD" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "practice",
@@ -79,7 +82,8 @@
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "result_eocs": [ "EOC_UNMUTE_INSECT" ]
+    "result_eocs": [ "EOC_UNMUTE_INSECT" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "practice",
@@ -92,6 +96,7 @@
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "result_eocs": [ "EOC_UNMUTE_SLIME" ]
+    "result_eocs": [ "EOC_UNMUTE_SLIME" ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

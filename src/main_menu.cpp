@@ -1006,6 +1006,13 @@ bool main_menu::new_character_tab()
                 if( world == nullptr ) {
                     continue;
                 }
+                if( !world->world_saves.empty() ) {
+                    if( !query_yn(
+                            _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                        return false;
+                    }
+                }
+
                 world_generator->set_active_world( world );
                 try {
                     g->setup();
@@ -1043,6 +1050,12 @@ bool main_menu::new_character_tab()
         WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
         if( world == nullptr ) {
             return false;
+        }
+        if( !world->world_saves.empty() ) {
+            if( !query_yn(
+                    _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                return false;
+            }
         }
         world_generator->set_active_world( world );
         try {
@@ -1149,7 +1162,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
+    uilist mmenu;
+    mmenu.title = string_format( _( "Load character from \"%s\"" ), worldname );
     mmenu.border_color = c_white;
     int opt_val = 0;
     for( const save_t &s : savegames ) {

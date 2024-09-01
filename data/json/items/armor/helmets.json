@@ -295,7 +295,7 @@
       {
         "id": "helmet_m1",
         "name": { "str": "M1 helmet" },
-        "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Inferior to modern helmets, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
+        "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Inferior to modern helmets, but it still remains popular among guerrilla fighters, collectors and war re-enactors.",
         "color": "green",
         "weight": 10
       },
@@ -313,7 +313,7 @@
     "id": "helmet_soviet_tanker",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "soviet tanker helmet" },
+    "name": { "str": "Soviet tanker helmet" },
     "description": "A Soviet era tanker helmet.  It's distinctive foam pads are meant to protect a tank driver from bumps against the cramped interior.",
     "price": "100 USD",
     "price_postapoc": "12 USD",

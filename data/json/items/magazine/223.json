@@ -304,6 +304,7 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [
       {
@@ -358,6 +359,7 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [
       {
@@ -386,6 +388,7 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [
       {
@@ -440,6 +443,7 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [
       {
@@ -466,6 +470,7 @@
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
     "reload_time": 200,
+    "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [
       {
@@ -535,6 +540,7 @@
     "description": "A bulky 100-round double drum magazine for use with the Steyr AUG assault rifle.",
     "material": [ "steel", "plastic" ],
     "ammo_type": [ "223" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
   {

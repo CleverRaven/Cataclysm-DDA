@@ -818,8 +818,8 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     effects.apply( d );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_has_var, u_remove_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_has_var, npc_remove_var test response." );
+    CHECK( d.responses[1].text == "This is a compare_string, u_remove_var test response." );
+    CHECK( d.responses[2].text == "This is a compare_string, npc_remove_var test response." );
     effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;

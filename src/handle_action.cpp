@@ -80,6 +80,7 @@
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -154,9 +155,6 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
-static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -1257,18 +1255,23 @@ static void sleep()
         return;
     }
 
-    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos_bub() ) );
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos_bub() ) &&
-        !player_character.has_trait( trait_WATERSLEEPER ) &&
-        !player_character.has_trait( trait_WATERSLEEP ) &&
-        !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
-        boat == nullptr ) {
-        add_msg( m_info, _( "You cannot sleep while swimming." ) );
-        return;
+    const map &here = get_map();
+    const tripoint_bub_ms &p = player_character.pos_bub();
+    const optional_vpart_position vp = here.veh_at( p );
+    const comfort_data::response &comfort = player_character.get_comfort_at( p );
+    if( !vp && comfort.data->human_or_impossible() ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+            add_msg( m_info, _( "You cannot sleep while swimming." ) );
+            return;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+            add_msg( m_info, _( "You cannot sleep while airborne." ) );
+            return;
+        }
     }
 
     uilist as_m;
-    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
+    as_m.title = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
     as_m.entries.emplace_back( 0, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
@@ -1326,9 +1329,7 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         as_m.selected = 2;
-        data << as_m.text << std::endl;
         data << _( "You may want to extinguish or turn off:" ) << std::endl;
-        data << " " << std::endl;
         for( auto &a : active ) {
             data << "<color_red>" << a << "</color>" << std::endl;
         }
@@ -2256,13 +2257,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_zero ) {
-                        player_character.clear_destination();
+                        player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
                 if( !avatar_action::move( player_character, m, dest_delta ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
-                    player_character.clear_destination();
+                    player_character.abort_automove();
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
@@ -2714,9 +2715,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WORKOUT:
-            if( query_yn( _( "Start workout?" ) ) ) {
-                player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
-            }
+            player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
             break;
 
         case ACTION_SUICIDE:
@@ -3003,7 +3002,7 @@ bool game::handle_action()
         act = player_character.get_next_auto_move_direction();
         if( act == ACTION_NULL ) {
             add_msg( m_info, _( "Auto-move canceled" ) );
-            player_character.clear_destination();
+            player_character.abort_automove();
             return false;
         }
         handle_key_blocking_activity();

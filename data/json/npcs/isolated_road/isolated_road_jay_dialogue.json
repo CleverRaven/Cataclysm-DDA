@@ -14,7 +14,7 @@
       { "text": "What's your deal?", "topic": "TALK_GUNSMITH_ABOUT" },
       {
         "text": "Munitions?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_gunsmith_knows_about_conversion", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_knows_about_conversion" } ] } },
         "topic": "TALK_GUNSMITH_SHOP_ABOUT"
       },
       {
@@ -22,7 +22,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "broken_kord", "count": 1 } },
-            { "not": { "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } }
           ]
         },
         "topic": "TALK_GUNSMITH_KORD"
@@ -31,8 +31,8 @@
         "text": "I'm interested in helping with that thing for Cody.",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_artisans_gunsmith_accepted_quest", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_accepted_quest" } ] } }
           ]
         },
         "effect": [
@@ -47,7 +47,7 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('1 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
-            { "u_has_var": "dialogue_artisans_gunsmith_has_rounds_ordered", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
         "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
@@ -58,7 +58,7 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('5 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
-            { "u_has_var": "dialogue_artisans_gunsmith_has_rounds_ordered", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
         "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
@@ -69,7 +69,7 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('1 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
-            { "u_has_var": "dialogue_artisans_gunsmith_has_rounds_ordered", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
         "topic": "TALK_GUNSMITH_BULLET_PICKUP"
@@ -80,7 +80,7 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('5 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
-            { "u_has_var": "dialogue_artisans_gunsmith_has_rounds_ordered", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
         "topic": "TALK_GUNSMITH_BULLET_PICKUP"
@@ -89,8 +89,8 @@
         "text": "I'd like to exchange some rounds.",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_gunsmith_knows_about_conversion", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_artisans_gunsmith_has_rounds_ordered", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_knows_about_conversion" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] } }
           ]
         },
         "topic": "TALK_BULLET_EXCHANGE"
@@ -99,8 +99,8 @@
         "text": "Are you and Cody close?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_gunsmith_mentioned_cody", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_artisans_gunsmith_accepted_quest", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_cody" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_accepted_quest" } ] } }
           ]
         },
         "topic": "TALK_GUNSMITH_CODY"
@@ -115,7 +115,7 @@
         "text": "Any jobs you need done?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_artisans_made_up", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_artisans_made_up" } ] },
             { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] }
           ]
         },
