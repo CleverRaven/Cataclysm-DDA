@@ -5357,8 +5357,7 @@ bool basecamp::validate_sort_points()
 
 bool basecamp::set_sort_points()
 {
-    popup( _( "Sorting zones have changed.  Please create some sorting zones.  "
-              "You must create a camp food zone, and a camp storage zone." ) );
+    popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
     g->zones_manager();
     return validate_sort_points();
 }
