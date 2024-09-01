@@ -2458,8 +2458,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
-                    display_spell_info( menu->selected );
+                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
+                    display_spell_info( menu->hovered );
                 }
             }
             ImGui::EndChild();
@@ -2897,7 +2897,7 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells_sorted );
 
-    spell_menu.query( true, -1, true );
+    spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
