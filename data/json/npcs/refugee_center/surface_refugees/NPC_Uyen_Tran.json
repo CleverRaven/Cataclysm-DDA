@@ -115,7 +115,7 @@
     },
     "responses": [
       { "text": "Nice to meet you too, Uyen.", "topic": "TALK_REFUGEE_Uyen_1_firstmeet" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
     },
     "responses": [
       { "text": "Hi, Uyen.  Got a minute?", "topic": "TALK_REFUGEE_Uyen_2" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,7 +143,7 @@
     "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
       { "text": "Just a traveler.  Can I ask you a few things?", "topic": "TALK_REFUGEE_Uyen_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
