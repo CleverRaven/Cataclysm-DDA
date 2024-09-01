@@ -23,7 +23,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
-        "text": "Hi.  I can't stay and chat right now.",
+        "text": "Hi.  <end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -135,14 +135,17 @@
       },
       { "text": "Aren't you a bit young to be carrying a knife?", "topic": "TALK_GODCO_chloe_knife" },
       { "text": "On second though, let's talk about something else.", "topic": "TALK_GODCO_chloe" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_GODCO_chloe_2",
     "type": "talk_topic",
     "dynamic_line": "Things suck right now, but you know that anyway.  I don't even know why you bother asking these stupid questions.",
-    "responses": [ { "text": "What's your story?", "topic": "TALK_GODCO_chloe_past" }, { "text": "I gotta go.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_chloe_past" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_GODCO_chloe_help",
@@ -162,7 +165,7 @@
     },
     "speaker_effect": [ { "effect": { "npc_add_var": "told_backstory_second_attempt", "value": "yes" } } ],
     "responses": [
-      { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
+      { "text": "I'm sorry for your loss.  <done_conversation_section>", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
     ]
   },

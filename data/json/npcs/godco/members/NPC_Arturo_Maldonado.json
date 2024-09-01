@@ -110,7 +110,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Nice talking to you, but I gotta go.",
+        "text": "<end_talking_leave>",
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
@@ -131,7 +131,7 @@
     },
     "responses": [
       { "text": "It's alright, just take your time.", "topic": "TALK_DONE" },
-      { "text": "Sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
