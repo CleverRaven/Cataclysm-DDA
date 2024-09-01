@@ -72,7 +72,7 @@
         "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
       },
       { "text": "What were you saying before that?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye!", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -105,8 +105,8 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -118,8 +118,8 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

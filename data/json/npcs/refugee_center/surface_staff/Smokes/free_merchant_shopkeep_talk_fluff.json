@@ -24,7 +24,7 @@
     "dynamic_line": "*bristles.  \"I know, alright?  I do.  I hate it too.  But we are packed to the gills right now, and the only way we're going to stay alive is if we keep our gates closed fast.  I don't know what made the scavengers out there so ruthless, but some of us have had to kill our own kids.  Please show some consideration.\"",
     "responses": [
       { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
-      { "text": "I should probably go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -40,7 +40,7 @@
         }
       },
       {
-        "text": "Nevermind.  Don't know where I was going with that.",
+        "text": "<end_talking_nevermind>  Don't know where I was going with that.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End"
       }
     ]
