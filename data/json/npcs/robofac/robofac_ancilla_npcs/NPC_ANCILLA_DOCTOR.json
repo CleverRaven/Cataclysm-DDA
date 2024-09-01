@@ -156,7 +156,7 @@
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
       { "text": "Oh no, I was wondering if you knew where to get some.", "topic": "TALK_ANCILLA_DOCTOR_FIND_BIONICS" },
-      { "text": "Never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {

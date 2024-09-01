@@ -81,7 +81,7 @@
     "dynamic_line": "Wicked.  Been around the old road long enough ta know how ta handle myself in a pinch.  Knew my way around a gun ever since my da taught me when I was a kid, so ya don't have ta worry about me doing my part.",
     "responses": [
       { "text": "On a second thought, let me think about it a bit more", "topic": "TALK_DONE" },
-      { "text": "Great!  Let's go.", "topic": "TALK_DONE", "effect": "follow" }
+      { "text": "Great!  <lets_go>", "topic": "TALK_DONE", "effect": "follow" }
     ]
   },
   {
@@ -90,7 +90,7 @@
     "dynamic_line": "Don't have much of a choice, do I?  On my own, a monstah will get lucky sooner or later, and even if I kill it, bleedin' out in some alley is not summin' I fancy.  Plus, we just had a nice, civil chat where no one tried ta kill the otha', so I reckon we're off to ah' good start, all things considered.",
     "responses": [
       { "text": "Fair enough.  Want to travel with me, then?", "topic": "TALK_COWBOYFR_FOLLOW" },
-      { "text": "Can't say I really agree.  I'll be going now.", "topic": "TALK_DONE" }
+      { "text": "Can't say I really agree.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
