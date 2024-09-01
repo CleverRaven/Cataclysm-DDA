@@ -1214,7 +1214,7 @@
     "type": "item_group",
     "id": "sidearms_cop",
     "items": [
-      { "item": "_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
       {
         "item": "glock_19",
         "variant": "glock_19_cop",
