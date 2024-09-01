@@ -1045,7 +1045,7 @@
     "looks_like": "offal",
     "name": { "str": "piece of raw heart", "str_pl": "pieces of raw heart" },
     "description": "A portion of an animal's heart.  It's tough but not that chewy, and it spoils very quickly.",
-    "weight": "45 g",
+    "weight": "55 g",
     "volume": "50 ml",
     "color": "pink",
     "spoils_in": "1 day",
