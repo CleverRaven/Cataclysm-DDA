@@ -202,7 +202,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medimedium_battery_cellum_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "ammo": "battery",
