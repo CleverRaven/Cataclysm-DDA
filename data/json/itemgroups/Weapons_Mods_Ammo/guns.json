@@ -1219,7 +1219,7 @@
         "item": "glock_19",
         "variant": "glock_19_cop",
         "prob": 2,
-        "contents-item": [ "sights", "red_dot_sight" ],
+        "contents-item": [ "red_dot_sight" ],
         "charges": [ 0, 15 ]
       },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
