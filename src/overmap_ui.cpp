@@ -1317,7 +1317,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     std::vector<point_abs_omt> locations;
     std::vector<point_abs_om> overmap_checked;
 
-    const int radius = OMAPX; // arbitrary
+    const int radius = OMAPX * 5; // arbitrary
     for( const tripoint_abs_omt &p : points_in_radius( curs, radius ) ) {
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
@@ -1342,7 +1342,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
     if( locations.empty() ) {
         sfx::play_variant_sound( "menu_error", "default", 100 );
-        popup( _( "No results found." ) );
+        popup( _( "No results found within %d tiles." ), radius );
         return false;
     }
 
