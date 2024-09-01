@@ -15,7 +15,18 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_glock19_fed",
-    "entries": [ { "item": "glock_19", "variant": "glock_19_cop","ammo_item": "9mm", "charges": 17, "contents-item": [ "red_dot_sight" ] } ]
+    "entries": [ { "item": "glock_19", "variant": "glock_19_cop","ammo_item": "9mm", "charges": 15, "contents-item": [ "red_dot_sight" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "glock17_mags",
+    "entries": [ 
+      { "item": "glockmag", ammo-item: "9mm", "charges": 15 },
+      { "item": "glockmag", ammo-item: "9mm", "charges": 15 },
+      { "item": "glockmag", ammo-item: "9mm", "charges": 15 },
+      { "item": "glockmag", ammo-item: "9mm", "charges": 15 } 
+    ]
   },
   {
     "type": "item_group",
@@ -7765,12 +7776,10 @@
           { "item": "fbi_armor_vest" },
           { "item": "jacket_windbreaker", "variant": "windbreaker_fbi" },
           { "item": "hat_ball", "variant": "hat_fbi" },
-          { "item": "glock17_17", "ammo-item": "9mm", "charges": 17 },
-          { "item": "glock17_17", "ammo-item": "9mm", "charges": 17 },
           { "group": "charged_two_way_radio" },
           { "group": "starter_wallet_full" },
-          { "item": "powered_earplugs", "ammo-item": "battery", "charges": 10, "custom-flags": [ "no_auto_equip" ] },
-          { "group": "holster_glock19_fed", "container-item": "holster"}
+          { "group": "holster_glock19_fed", "container-item": "holster"},
+          { "group": "glock17_mags" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
