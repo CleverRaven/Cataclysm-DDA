@@ -23,7 +23,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
@@ -53,7 +53,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "inherits": "windows-tiles-sounds-x64",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
@@ -70,7 +70,6 @@
       "displayName": "Windows Tiles Sounds x64 ClangCL",
       "description": "Target Windows (64-bit) with the ClangCL development environment.",
       "inherits": "windows-tiles-sounds-x64-msvc",
-      "generator": "Visual Studio 17 2022",
       "toolset": "CLangCL",
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
