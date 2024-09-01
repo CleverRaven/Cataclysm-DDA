@@ -23,7 +23,7 @@
         "//2": "This is a stand-in for some kind of better system to add a random trait."
       },
       { "text": "Good point, let's find a more appropriate place.", "topic": "TALK_NONE" },
-      { "text": "You're right.  Forget I said anything, let's get moving.", "topic": "TALK_DONE" }
+      { "text": "You're right.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -31,8 +31,8 @@
     "type": "talk_topic",
     "dynamic_line": "What did you want to talk about?",
     "responses": [
-      { "text": "Actually, never mind.", "condition": "npc_following", "topic": "TALK_FRIEND" },
-      { "text": "Actually, never mind.", "condition": { "not": "npc_following" }, "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "condition": "npc_following", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_nevermind>", "condition": { "not": "npc_following" }, "topic": "TALK_DONE" }
     ]
   },
   {
