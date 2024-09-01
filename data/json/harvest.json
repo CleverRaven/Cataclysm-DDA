@@ -2889,6 +2889,7 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
   {
     "id": "rabbit_with_skull",
     "//": "mammal_small_fur + skull_rabbit",
