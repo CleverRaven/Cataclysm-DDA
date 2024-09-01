@@ -91,7 +91,7 @@
           { "item": "usb_drive" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "electrohack" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "noise_emitter" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
+          { "item": "camera", "charges": 150 },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" }
         ]
