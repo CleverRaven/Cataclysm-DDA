@@ -157,7 +157,7 @@
     "id": "vita_concentrated_healing",
     "type": "SPELL",
     "name": "[Ψ]Leukocyte Accumulation (C)",
-    "description": "By rerouting blood and stem cells from undamaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "By rerouting blood and stem cells from more lightly damaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
