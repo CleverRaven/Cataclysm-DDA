@@ -133,9 +133,10 @@
         "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_military" },
         "condition": {
           "and": [
-            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
-            { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+            { "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_HWP", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
