@@ -57,6 +57,69 @@
           ],
           "fg": 285
         },
+        { "id": "isolated_building$vague", "fg": 368, "bg": 53 },
+        { "id": "isolated_building$outlines", "fg": 367, "bg": 53 },
+        { "id": "isolated_building$details", "fg": 366, "bg": 53 },
+        { "id": "city_building$vague", "fg": 368, "bg": 159 },
+        { "id": "city_building$outlines", "fg": 367, "bg": 159 },
+        { "id": "city_building$details", "fg": 366, "bg": 159 },
+        { "id": "isolated_tower$vague", "fg": 368, "bg": 379 },
+        { "id": "isolated_tower$outlines", "fg": 367, "bg": 379 },
+        { "id": "isolated_tower$details", "fg": 366, "bg": 379 },
+        { "id": [ "forested$vague", "first_glance_forest$vague" ], "fg": 368, "bg": 290 },
+        { "id": [ "forested$outlines", "first_glance_forest$outlines" ], "fg": 367, "bg": 290 },
+        { "id": [ "forested$details", "first_glance_forest$details" ], "fg": 366, "bg": 290 },
+        { "id": "forested_swampy$vague", "fg": 368, "bg": 290 },
+        { "id": "forested_swampy$outlines", "fg": 367, "bg": 335 },
+        { "id": "forested_swampy$details", "fg": 366, "bg": 335 },
+        { "id": "open_land$vague", "fg": 368, "bg": 194 },
+        { "id": "open_land$outlines", "fg": 367, "bg": 194 },
+        { "id": "open_land$details", "fg": 366, "bg": 194 },
+        { "id": "farm_field$vague", "fg": 368, "bg": 354 },
+        { "id": "farm_field$outlines", "fg": 367, "bg": 354 },
+        { "id": "farm_field$details", "fg": 366, "bg": 354 },
+        { "id": "large_pavement$vague", "fg": 368, "bg": 329 },
+        { "id": "large_pavement$outlines", "fg": 367, "bg": 329 },
+        { "id": "large_pavement$details", "fg": 366, "bg": 329 },
+        { "id": "single_water$vague", "fg": 368, "bg": 221 },
+        { "id": "single_water$outlines", "fg": 367, "bg": 221 },
+        { "id": "single_water$details", "fg": 366, "bg": 221 },
+        { "id": "water_body$vague", "fg": 368, "bg": 383 },
+        { "id": "water_body$outlines", "fg": 367, "bg": 383 },
+        { "id": "water_body$details", "fg": 366, "bg": 383 },
+        { "id": "roof_or_air$vague", "fg": 364 },
+        { "id": "roof_or_air$outlines", "fg": 363 },
+        { "id": "roof_or_air$details", "fg": 362 },
+        { "id": "underground_dirt$vague", "fg": 368, "bg": 256 },
+        { "id": "underground_dirt$outlines", "fg": 367, "bg": 256 },
+        { "id": "underground_dirt$details", "fg": 366, "bg": 256 },
+        { "id": "underground_stone$vague", "fg": 368, "bg": 259 },
+        { "id": "underground_stone$outlines", "fg": 367, "bg": 259 },
+        { "id": "underground_stone$details", "fg": 366, "bg": 259 },
+        { "id": "large_building$vague", "fg": 368, "bg": 13 },
+        { "id": "large_building$outlines", "fg": 367, "bg": 13 },
+        { "id": "large_building$details", "fg": 366, "bg": 13 },
+        { "id": "large_city_building$vague", "fg": 368, "bg": 19 },
+        { "id": "large_city_building$outlines", "fg": 367, "bg": 19 },
+        { "id": "large_city_building$details", "fg": 366, "bg": 19 },
+        { "id": "large_structure$vague", "fg": 368, "bg": 36 },
+        { "id": "large_structure$outlines", "fg": 367, "bg": 36 },
+        { "id": "large_structure$details", "fg": 366, "bg": 36 },
+        { "id": "large_ship$vague", "fg": 368, "bg": 3 },
+        { "id": "large_ship$outlines", "fg": 367, "bg": 3 },
+        { "id": "large_ship$details", "fg": 366, "bg": 3 },
+        { "id": "large_outcropping$vague", "fg": 368, "bg": 147 },
+        { "id": "large_outcropping$outlines", "fg": 367, "bg": 147 },
+        { "id": "large_outcropping$details", "fg": 366, "bg": 147 },
+        { "id": "natural_outcropping$vague", "fg": 368, "bg": 146 },
+        { "id": "natural_outcropping$outlines", "fg": 367, "bg": 146 },
+        { "id": "natural_outcropping$details", "fg": 366, "bg": 146 },
+        { "id": "natural_depression$vague", "fg": 368, "bg": 154 },
+        { "id": "natural_depression$outlines", "fg": 367, "bg": 154 },
+        { "id": "natural_depression$details", "fg": 366, "bg": 154 },
+        { "id": "unusual_structure$vague", "fg": 368, "bg": 346 },
+        { "id": "unusual_structure$outlines", "fg": 367, "bg": 346 },
+        { "id": "unusual_structure$details", "fg": 366, "bg": 346 },
         { "id": "generic_city_building_no_sidewalk", "fg": 359 },
         { "id": [ "park", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7" ], "fg": 207 },
         { "id": "s_garage", "fg": 131 },
@@ -80,7 +143,7 @@
             "sealab_small_-4",
             "sealab_small_-5"
           ],
-          "fg": 372
+          "fg": 378
         },
         {
           "id": [
@@ -92,7 +155,7 @@
             "lighthouse_z5",
             "lighthouse_roof"
           ],
-          "fg": 376
+          "fg": 382
         },
         { "id": "island_sand", "fg": 205 },
         { "id": "island_forest", "fg": 290 },
@@ -114,7 +177,7 @@
         },
         { "id": "lake_cabin_boathouse", "fg": 290 },
         { "id": "lake_cabin_boathouse_roof", "fg": 290 },
-        { "id": "lake_cabin_water", "fg": 377 },
+        { "id": "lake_cabin_water", "fg": 383 },
         {
           "id": [
             "cabin",
@@ -175,7 +238,7 @@
             "wasp_tower_odd_2",
             "wasp_tower_top"
           ],
-          "fg": 373
+          "fg": 379
         },
         { "id": "wasp_tower_roof", "fg": 196 },
         {
@@ -1080,7 +1143,7 @@
             "station_radio_1_tower_odd",
             "station_radio_1_tower_top"
           ],
-          "fg": 373
+          "fg": 379
         },
         { "id": "cs_gardening_allotment", "fg": 287 },
         { "id": "cs_gardening_allotment_roof", "fg": 287 },
@@ -1139,10 +1202,10 @@
         { "id": "strip_mall_roof_5", "fg": 196 },
         { "id": [ "s_camping", "s_camping_roof" ], "fg": 264 },
         { "id": [ "s_dive_shop", "s_dive_shop_roof" ], "fg": 263 },
-        { "id": "refctr_fence_h", "fg": [ 140, 370, 140, 370 ], "rotates": true },
-        { "id": "refctr_fence_v", "fg": [ 370, 140, 370, 140 ], "rotates": true },
-        { "id": "refctr_fence_entrance_L", "fg": [ 139, 368, 138, 369 ], "rotates": true },
-        { "id": "refctr_fence_entrance_R", "fg": [ 138, 369, 139, 368 ], "rotates": true },
+        { "id": "refctr_fence_h", "fg": [ 140, 376, 140, 376 ], "rotates": true },
+        { "id": "refctr_fence_v", "fg": [ 376, 140, 376, 140 ], "rotates": true },
+        { "id": "refctr_fence_entrance_L", "fg": [ 139, 374, 138, 375 ], "rotates": true },
+        { "id": "refctr_fence_entrance_R", "fg": [ 138, 375, 139, 374 ], "rotates": true },
         { "id": "refctr_fence_NW", "fg": [ 68, 66, 67, 69 ], "rotates": true },
         { "id": "refctr_fence_NE", "fg": [ 69, 68, 66, 67 ], "rotates": true },
         { "id": "refctr_fence_SE", "fg": [ 67, 69, 68, 66 ], "rotates": true },
@@ -1343,6 +1406,7 @@
         { "id": "open_air", "fg": 196 },
         { "id": "crater", "fg": 157 },
         { "id": "field", "fg": 194 },
+        { "id": [ "meadow_end", "meadow_core" ], "fg": 354 },
         { "id": "forest", "fg": 290 },
         { "id": "forest_thick", "fg": 24 },
         { "id": "forest_water", "fg": 335 },
@@ -1390,7 +1454,7 @@
           "//": "i dont believe this is actually hardcoded terrain now"
         },
         { "id": "spider_pit", "fg": 294 },
-        { "id": "spider_pit_under", "fg": 391 },
+        { "id": "spider_pit_under", "fg": 397 },
         { "id": [ "slimepit", "slimepit_down", "slimepit_top", "slimepit_bottom" ], "fg": 223 },
         {
           "id": [ "triffid_grove", "triffid_grove_z2", "triffid_grove_z3", "triffid_grove_trunk", "triffid_grove_roof" ],
@@ -2154,9 +2218,9 @@
         { "id": "ice_lab_stairs", "fg": 19 },
         { "id": "ice_lab_core", "fg": 19 },
         { "id": "ice_lab_finale", "fg": 19 },
-        { "id": "tower_lab", "fg": 373 },
-        { "id": "tower_lab_stairs", "fg": 373 },
-        { "id": "tower_lab_finale", "fg": 373 },
+        { "id": "tower_lab", "fg": 379 },
+        { "id": "tower_lab_stairs", "fg": 379 },
+        { "id": "tower_lab_finale", "fg": 379 },
         { "id": "lab_train_depot", "fg": 100 },
         { "id": "central_lab_train_depot", "fg": 100 },
         { "id": "central_lab_entrance", "fg": 290 },
@@ -2756,7 +2820,7 @@
           ],
           "fg": 50
         },
-        { "id": "outpost", "fg": 375 },
+        { "id": "outpost", "fg": 381 },
         { "id": "silo", "fg": 352 },
         { "id": "silo_1", "fg": 352 },
         { "id": "silo_2", "fg": 352 },
@@ -2772,7 +2836,7 @@
             "ws_fire_lookout_tower_f4",
             "ws_fire_lookout_tower_f5"
           ],
-          "fg": 374
+          "fg": 380
         },
         { "id": "ws_survivor_bunker_f0", "fg": 42 },
         { "id": "ws_survivor_bunker_f-1", "fg": 42 },
@@ -2907,7 +2971,7 @@
             "mil_base_4k",
             "mil_base_8k"
           ],
-          "fg": 374
+          "fg": 380
         },
         {
           "id": [
@@ -2921,7 +2985,7 @@
             "mil_base_4k1",
             "mil_base_8k1"
           ],
-          "fg": 374
+          "fg": 380
         },
         {
           "id": [
@@ -2942,7 +3006,7 @@
           "fg": [ 245, 246, 245, 246 ],
           "rotates": true
         },
-        { "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ], "fg": 373 },
+        { "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ], "fg": 379 },
         { "id": "mil_base_7i", "fg": 144 },
         {
           "id": [
@@ -3304,7 +3368,7 @@
         { "id": "school_4_7", "fg": 13 },
         { "id": "school_4_8", "fg": 13 },
         { "id": "school_4_9", "fg": 13 },
-        { "id": [ "prison_1_1", "prison_1_3", "prison_1_2f_1", "prison_1_2f_3" ], "fg": 372 },
+        { "id": [ "prison_1_1", "prison_1_3", "prison_1_2f_1", "prison_1_2f_3" ], "fg": 378 },
         { "id": "prison_1_2", "fg": 212 },
         {
           "id": [
@@ -3436,7 +3500,7 @@
             "prison_island_1_2f_11",
             "prison_island_1_2f_15"
           ],
-          "fg": 373
+          "fg": 379
         },
         { "id": "post_office", "fg": 358 },
         { "id": "two_story_light_blue_roof", "fg": 358 },
@@ -3536,7 +3600,7 @@
             "ranch_camp_79",
             "ranch_camp_80"
           ],
-          "fg": [ 397, 398, 397, 398 ],
+          "fg": [ 403, 404, 403, 404 ],
           "rotates": true
         },
         {
@@ -3556,14 +3620,14 @@
             "ranch_camp_64",
             "ranch_camp_72"
           ],
-          "fg": [ 398, 397, 398, 397 ],
+          "fg": [ 404, 403, 404, 403 ],
           "rotates": true
         },
         { "id": "ranch_camp_77", "fg": [ 246, 245, 246, 245 ], "rotates": true },
-        { "id": "ranch_camp_1", "fg": [ 394, 396, 395, 393 ], "rotates": true },
-        { "id": [ "ranch_camp_9", "ranch_camp_69" ], "fg": [ 393, 394, 396, 395 ], "rotates": true },
-        { "id": [ "ranch_camp_73", "ranch_camp_78" ], "fg": [ 396, 395, 393, 394 ], "rotates": true },
-        { "id": [ "ranch_camp_75", "ranch_camp_81" ], "fg": [ 395, 393, 394, 396 ], "rotates": true },
+        { "id": "ranch_camp_1", "fg": [ 400, 402, 401, 399 ], "rotates": true },
+        { "id": [ "ranch_camp_9", "ranch_camp_69" ], "fg": [ 399, 400, 402, 401 ], "rotates": true },
+        { "id": [ "ranch_camp_73", "ranch_camp_78" ], "fg": [ 402, 401, 399, 400 ], "rotates": true },
+        { "id": [ "ranch_camp_75", "ranch_camp_81" ], "fg": [ 401, 399, 400, 402 ], "rotates": true },
         { "id": "pool", "fg": 226 },
         { "id": "pool_roof", "fg": 226 },
         { "id": "pool_1", "fg": 226 },
@@ -4763,22 +4827,22 @@
           ],
           "fg": 120
         },
-        { "id": "generic_river", "fg": 378 },
-        { "id": "generic_river_bank", "fg": 378 },
-        { "id": "river_center", "fg": 377 },
-        { "id": "river", "fg": 378 },
-        { "id": "river_c_not_ne", "fg": 378 },
-        { "id": "river_c_not_nw", "fg": 378 },
-        { "id": "river_c_not_se", "fg": 378 },
-        { "id": "river_c_not_sw", "fg": 378 },
-        { "id": "river_ne", "fg": 378 },
-        { "id": "river_se", "fg": 378 },
-        { "id": "river_sw", "fg": 378 },
-        { "id": "river_nw", "fg": 378 },
-        { "id": "bridge_road", "fg": [ 370, 140, 370, 140 ], "rotates": true },
-        { "id": "bridge", "fg": [ 366, 136, 366, 136 ], "rotates": true },
-        { "id": "bridgehead_ground", "fg": [ 367, 135, 365, 137 ], "rotates": true },
-        { "id": "bridgehead_ramp", "fg": [ 368, 139, 369, 138 ], "rotates": true },
+        { "id": "generic_river", "fg": 384 },
+        { "id": "generic_river_bank", "fg": 384 },
+        { "id": "river_center", "fg": 383 },
+        { "id": "river", "fg": 384 },
+        { "id": "river_c_not_ne", "fg": 384 },
+        { "id": "river_c_not_nw", "fg": 384 },
+        { "id": "river_c_not_se", "fg": 384 },
+        { "id": "river_c_not_sw", "fg": 384 },
+        { "id": "river_ne", "fg": 384 },
+        { "id": "river_se", "fg": 384 },
+        { "id": "river_sw", "fg": 384 },
+        { "id": "river_nw", "fg": 384 },
+        { "id": "bridge_road", "fg": [ 376, 140, 376, 140 ], "rotates": true },
+        { "id": "bridge", "fg": [ 372, 136, 372, 136 ], "rotates": true },
+        { "id": "bridgehead_ground", "fg": [ 373, 135, 371, 137 ], "rotates": true },
+        { "id": "bridgehead_ramp", "fg": [ 374, 139, 375, 138 ], "rotates": true },
         {
           "id": [
             "robofachq_surface_entrance",
@@ -4853,8 +4917,8 @@
           "fg": 52
         },
         { "id": "s_restaurant_deserted_test", "fg": 179 },
-        { "id": "hiway_ns", "fg": 364 },
-        { "id": "hiway_ew", "fg": 363 },
+        { "id": "hiway_ns", "fg": 370 },
+        { "id": "hiway_ew", "fg": 369 },
         { "id": "road_nesw_manhole", "fg": 173 },
         { "id": "roadstop", "fg": 277 },
         { "id": "roadstop_roof", "fg": 277 },
@@ -4891,7 +4955,7 @@
         { "id": "s_reststop_2_roof", "fg": 237 },
         { "id": "s_restparking_1", "fg": 212 },
         { "id": "s_restparking_2", "fg": 212 },
-        { "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "control_tower_roof" ], "fg": 373 },
+        { "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "control_tower_roof" ], "fg": 379 },
         { "id": [ "fuel_station", "fuel_station_roof" ], "fg": 133 },
         { "id": [ "airport_lot_0", "airport_lot_1" ], "fg": 212 },
         { "id": [ "hangar", "hangar_roof" ], "fg": 142 },
@@ -4912,7 +4976,7 @@
           "fg": 261
         },
         { "id": "s_air_parking", "fg": 212 },
-        { "id": [ "s_air_atc", "s_air_atc_2", "s_air_atc_3" ], "fg": 371 },
+        { "id": [ "s_air_atc", "s_air_atc_2", "s_air_atc_3" ], "fg": 377 },
         { "id": [ "s_air_hangars", "s_air_hangars_roof" ], "fg": 141 },
         { "id": [ "s_air_term", "s_air_term_roof" ], "fg": 233 },
         { "id": "s_air_helicopter_pad", "fg": 143 },
@@ -5043,10 +5107,10 @@
         { "id": "ws_biker_dump_1_3", "fg": 146 },
         { "id": "ws_biker_dump_2_3", "fg": 146 },
         { "id": "ws_biker_dump_3_3", "fg": 146 },
-        { "id": "lake_shore", "fg": 378 },
-        { "id": "lake_surface", "fg": 377 },
-        { "id": "lake_water_cube", "fg": 377 },
-        { "id": "lake_bed", "fg": 377 },
+        { "id": "lake_shore", "fg": 384 },
+        { "id": "lake_surface", "fg": 383 },
+        { "id": "lake_water_cube", "fg": 383 },
+        { "id": "lake_bed", "fg": 383 },
         { "id": "backfloorchamber", "fg": 200 },
         { "id": "clear", "fg": 331 },
         { "id": [ "portal_storm", "close_portal_storm" ], "fg": 229 },
@@ -5122,15 +5186,15 @@
         },
         {
           "id": "wood_fence",
-          "fg": 407,
+          "fg": 413,
           "multitile": true,
           "additional_tiles": [
-            { "id": "center", "fg": 392 },
-            { "id": "corner", "fg": [ 394, 396, 395, 393 ] },
-            { "id": "t_connection", "fg": [ 404, 406, 405, 403 ] },
-            { "id": "edge", "fg": [ 398, 397 ] },
-            { "id": "end_piece", "fg": [ 400, 402, 401, 399 ] },
-            { "id": "unconnected", "fg": [ 407, 407 ] }
+            { "id": "center", "fg": 398 },
+            { "id": "corner", "fg": [ 400, 402, 401, 399 ] },
+            { "id": "t_connection", "fg": [ 410, 412, 411, 409 ] },
+            { "id": "edge", "fg": [ 404, 403 ] },
+            { "id": "end_piece", "fg": [ 406, 408, 407, 405 ] },
+            { "id": "unconnected", "fg": [ 413, 413 ] }
           ]
         },
         { "id": "anchor_brown", "fg": 1 },
@@ -5155,19 +5219,19 @@
         { "id": "pond_brown", "fg": 220 },
         { "id": "v_runway", "fg": 262 },
         { "id": "two_story_light_green", "fg": 360 },
-        { "id": "unknown_terrain", "fg": 362 },
-        { "id": "drizzle", "fg": 379 },
-        { "id": "flurries", "fg": 380 },
-        { "id": "fog", "fg": 381 },
-        { "id": "light_drizzle", "fg": 382 },
-        { "id": "lightning", "fg": 383 },
-        { "id": "mist", "fg": 384 },
-        { "id": "rain", "fg": 385 },
-        { "id": "snowing", "fg": 386 },
-        { "id": "snowstorm", "fg": 387 },
-        { "id": "sunny", "fg": 388 },
-        { "id": "thunder", "fg": 389 },
-        { "id": "cloudy", "fg": 390 }
+        { "id": "unknown_terrain", "fg": 365 },
+        { "id": "drizzle", "fg": 385 },
+        { "id": "flurries", "fg": 386 },
+        { "id": "fog", "fg": 387 },
+        { "id": "light_drizzle", "fg": 388 },
+        { "id": "lightning", "fg": 389 },
+        { "id": "mist", "fg": 390 },
+        { "id": "rain", "fg": 391 },
+        { "id": "snowing", "fg": 392 },
+        { "id": "snowstorm", "fg": 393 },
+        { "id": "sunny", "fg": 394 },
+        { "id": "thunder", "fg": 395 },
+        { "id": "cloudy", "fg": 396 }
       ]
     },
     {

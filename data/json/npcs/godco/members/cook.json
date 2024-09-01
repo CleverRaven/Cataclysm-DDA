@@ -7,15 +7,13 @@
     "id": "TALK_GODCO_chef",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "Could you be on your way, please?  I'm rather busy.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_chef",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ],
           "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <u_name>.  How's it going for you?\"" ],
           "no": {
             "gendered_line": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon.",
@@ -30,8 +28,8 @@
         "topic": "TALK_GODCO_chef_intro",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_chef", "value": "yes" }
@@ -41,8 +39,8 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_chef", "value": "yes" }
@@ -53,8 +51,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -64,9 +62,9 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -77,26 +75,29 @@
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
             { "not": { "npc_has_effect": "u_got_meal" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
         }
       },
       {
         "text": "Can I do anything for you?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
+          ]
         },
         "topic": "TALK_MISSION_LIST"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_chef", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
       },
       {
         "text": "Okay, man.  I'll be on my way.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
       }
     ]
   },
@@ -119,14 +120,20 @@
       {
         "text": "Could you tell me about Katherine?",
         "condition": {
-          "and": [ { "math": [ "n_npc_value()", ">=", "3" ] }, { "u_has_var": "dialogue_godco_u_know_about_family", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_u_know_about_family" } ] }
+          ]
         },
         "topic": "TALK_GODCO_chef_katherine"
       },
       {
         "text": "Could you tell me about Jeremiah?",
         "condition": {
-          "and": [ { "math": [ "n_npc_value()", ">=", "3" ] }, { "u_has_var": "dialogue_godco_u_know_about_family", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_u_know_about_family" } ] }
+          ]
         },
         "topic": "TALK_GODCO_chef_jeremiah"
       },

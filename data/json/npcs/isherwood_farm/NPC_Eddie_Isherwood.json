@@ -132,7 +132,7 @@
         "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
         "condition": {
           "and": [
-            { "u_has_var": "isherwood_luke_marshal_questions", "value": "known" },
+            { "compare_string": [ "known", { "u_val": "isherwood_luke_marshal_questions" } ] },
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
@@ -245,7 +245,10 @@
         "text": "I heard about Barry, such a tragedy.  Can you tell me more about what happened?",
         "topic": "TALK_ISHERWOOD_EDDIE2",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },

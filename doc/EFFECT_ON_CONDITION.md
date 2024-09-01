@@ -517,6 +517,9 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 ```
 
 ### `u_has_var`, `npc_has_var`
+
+**DEPRECATED**, use `compare_string` in format `{ "compare_string": [ "yes", { "npc_val": "name_of_the_variable" } ] }`
+
 - type: string
 - checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
 - `type`, `context` and `value` of the variable is also required
@@ -532,7 +535,7 @@ Note: Not to be confused with the global `has_var` **(no prefix)**, used as [dia
 #### Examples
 Checks do alpha talker has `u_met_sadie` variable
 ```json
-{ "u_has_var": "general_meeting_u_met_sadie", "value": "yes" }
+{ "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] }
 ```
 
 ### `expects_vars`
@@ -1318,7 +1321,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
-| character_takes_damage | | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
+| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` }, | character / attackerm if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
 | character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
 | character_attempt_to_fall_asleep | triggers in the moment character tries to fall asleep, after confirming and setting an alarm, but before "you lie down" | { "character", `character_id` }, | character / NONE |
@@ -1963,12 +1966,12 @@ Set effects to be executed when conditions are met and when conditions are not m
 Displays a different message the first time it is run and the second time onwards
 ```json
 {
-  "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
+  "if": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] },
   "then": { "u_message": "You have variable." },
   "else": [
     { "u_message": "You don't have variable." },
     {
-      "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
+      "if": { "not": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] } },
       "then": [
         { "u_add_var": "eoc_sample_if_else_test", "value": "yes" },
         { "u_message": "Vriable added." }
@@ -2926,7 +2929,7 @@ Character forget martial art, stored in `ma_id` context value
 
 
 #### `u_add_var`, `npc_add_var`
-Save a personal variable, that you can check later using `u_has_var`, `npc_has_var` or `math` (see [Player or NPC conditions]( #Player_or_NPC_conditions) )
+Save a string as personal variable, that you can check later using `compare_string` (see [Player or NPC conditions](#Player_or_NPC_conditions) )
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 

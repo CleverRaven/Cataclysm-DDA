@@ -25,7 +25,7 @@ An NPC faction looks like this:
         "group": "test_item_group",
         "markup": 2.0,
         "fixed_adj": 0.1,
-        "condition": { "npc_has_var": "bool_allnighter_thirsty", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "bool_allnighter_thirsty" } ] }
       }
     ],
     "relations": {

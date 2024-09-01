@@ -2,18 +2,22 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR",
-    "dynamic_line": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes", "yes": "<greet>.", "no": "Don't come any closer!" },
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
+      "yes": "<greet>.",
+      "no": "Don't come any closer!"
+    },
     "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "What's wrong?",
         "topic": "TALK_NPC_EVAC_SURVIVOR_CALM",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "<greet>.",
         "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -40,7 +44,10 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_npc_trust()", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
         }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", "effect": "start_trade" },
