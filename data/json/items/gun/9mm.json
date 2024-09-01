@@ -119,8 +119,9 @@
       },
       {
         "id": "glock_19_cop",
-        "name"> { "str": Glock 19M MOS" },
-        "description": "A close relative to the stock Glock 19, this all-black pistol features a specialized mount for a red dot sight, extended mag release, and a 4.02" Marksman barrel.  It is most commonly used by law enforcement, and is the current standard-issue sidearm of the FBI."
+        "name": { "str": Glock 19M MOS" },
+        "description": "A close relative to the stock Glock 19, this all-black pistol features a specialized mount for a red dot sight, extended mag release, and a 4.02" Marksman barrel.  It is most commonly used by law enforcement, and is the current standard-issue sidearm of the FBI.",
+        "weight": 0
       }
     ],
     "ascii_picture": "glock_19",
