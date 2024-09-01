@@ -166,6 +166,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_SELECTOR",
+    "//": "Hopefully there's eventually some way to get a dynamic list of body parts for this",
     "effect": [
       {
         "run_eoc_selector": [
@@ -176,18 +177,132 @@
           "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
           "EOC_VITAKIN_CONCENTRATED_HEALING_BODY"
         ],
-        "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso", "Nevermind." ],
-        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
+        "title": "Choose body part.",
+        "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
         "descriptions": [
-          "Cauterize wounds on the left arm.",
-          "Cauterize wounds on the right arm.",
-          "Cauterize wounds on the head.",
-          "Cauterize wounds on the left leg.",
-          "Cauterize wounds on the right leg.",
-          "Cauterize wounds on the torso.",
-          "Do nothing for now."
+          "Concentrate healing wounds on the left arm.",
+          "Concentrate healing wounds on the right arm.",
+          "Concentrate healing wounds on the head.",
+          "Concentrate healing wounds on the left leg.",
+          "Concentrate healing wounds on the right leg.",
+          "Concentrate healing wounds on the torso."
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_ARM",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "arm_l", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "leg_r", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_ARM",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "arm_r", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_TORSO",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "torso", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_HEAD",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "head", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_LEG",
+    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
+    "effect": [
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r" },
+      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l" },
+      { "u_add_effect": "effect_vita_concentrated_healing_bonus", "target_part": "leg_l", "duration": "PERMANENT", "intensity": {
+            "math": [
+              "( (u_spell_level('vita_concentrated_healing') * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+      },
     ]
   },
   {
