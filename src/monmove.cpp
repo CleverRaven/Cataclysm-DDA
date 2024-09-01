@@ -34,6 +34,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "mongroup.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -415,7 +416,14 @@ void monster::anger_cub_threatened( monster_plan &mon_plan )
     }
 
     for( monster &tmp : g->all_monsters() ) {
+        bool is_baby = false;
         if( type->baby_monster == tmp.type->id ) {
+            is_baby = true;
+        }
+        if( MonsterGroupManager::IsMonsterInGroup( type->baby_monster_group, tmp.type->id ) ) {
+            is_baby = true;
+        }
+        if( is_baby ) {
             // baby nearby; is the player too close?
             mon_plan.dist = tmp.rate_target( *mon_plan.target, mon_plan.dist, mon_plan.smart_planning );
             if( mon_plan.dist <= 3 ) {

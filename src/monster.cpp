@@ -607,6 +607,13 @@ void monster::try_reproduce()
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
                 here.add_spawn( type->baby_monster, spawn_cnt, pos_bub(), friendly );
+            } else if( type->baby_monster_group ) {
+                std::vector<MonsterGroupResult> babies = MonsterGroupManager::GetResultFromGroup(
+                            type->baby_monster_group, &spawn_cnt,
+                            nullptr, false, nullptr, true );
+                for( const MonsterGroupResult &mgr : babies ) {
+                    here.add_spawn( mgr.name, spawn_cnt * mgr.pack_size, pos_bub(), friendly );
+                }
             } else {
                 const item egg( type->baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
