@@ -85,8 +85,8 @@
       { "text": "What's \"the ol' Scythy\"?", "topic": "TALK_EXODII_MERCHANT_Scythean" },
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
       { "text": "Tell me more about this job that you can't do.", "topic": "TALK_EXODII_MERCHANT_mission_1_intro1" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -107,8 +107,8 @@
         "text": "OK, fine.  Tell me more about this job that you can't do.",
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro1"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,8 +129,8 @@
         "text": "What exactly do you want me to do?  Scout out this bunker and contact the people in it?",
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro2"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,7 +153,7 @@
         "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
         "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -170,7 +170,7 @@
         "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
         "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -186,7 +186,7 @@
         "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
         "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -245,7 +245,7 @@
         "topic": "TALK_DONE"
       },
       { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Not right now, I have to go.", "topic": "TALK_DONE" }
+      { "text": "Not right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -318,8 +318,8 @@
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
       },
       { "text": "What?  A jut?  Fig and a fiddle?", "topic": "TALK_EXODII_MERCHANT_mission_2_clarify" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -334,8 +334,8 @@
         "text": "OK, got it.  A metal and concrete building with some kind of metal pole on top that you want me to fix",
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -370,8 +370,8 @@
         "topic": "TALK_EXODII_MERCHANT_jaryi",
         "effect": [ { "math": [ "know_jaryi", "=", "1" ] } ]
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -387,7 +387,7 @@
         "topic": "TALK_EXODII_MERCHANT_jaryi2"
       },
       { "text": "What were you talking about before?", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -400,8 +400,8 @@
     "speaker_effect": { "effect": { "u_add_var": "knowledge_rubik_jaryi_u_knows_exodiilore", "value": "yes" } },
     "responses": [
       { "text": "Yeah, let's talk about business again.", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -415,7 +415,7 @@
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Any clues on how to find it?", "topic": "TALK_EXODII_MERCHANT_mission_2_find" },
       { "text": "What's in this for me?", "topic": "TALK_EXODII_MERCHANT_mission_2_reward" },
-      { "text": "I need a moment.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I need a moment.  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -430,7 +430,7 @@
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
       { "text": "What's in this for me?", "topic": "TALK_EXODII_MERCHANT_mission_2_reward" },
-      { "text": "I need a moment.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I need a moment.  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
@@ -445,7 +445,7 @@
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
       { "text": "Any clues on how to find it?", "topic": "TALK_EXODII_MERCHANT_mission_2_find" },
-      { "text": "I need a moment.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I need a moment.  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   },
