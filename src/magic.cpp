@@ -2906,10 +2906,10 @@ spell &known_magic::select_spell( Character &guy )
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
     if( spell_menu.ret < 0 ) {
-        static spell null_spell_reference(spell_id::NULL_ID());
+        static spell null_spell_reference( spell_id::NULL_ID() );
         return null_spell_reference;
     }
-    spell* selected_spell = known_spells_sorted[spell_menu.ret];
+    spell *selected_spell = known_spells_sorted[spell_menu.ret];
     return *selected_spell;
 }
 
@@ -2967,7 +2967,6 @@ static std::string color_number( const float num )
         return colorize( "0", c_white );
     }
 }
- 
 static void draw_spellbook_info( const spell_type &sp )
 {
     const spell fake_spell( sp.id );
