@@ -2239,12 +2239,12 @@ std::vector<spell *> known_magic::get_spells()
     return spells;
 }
 
-int known_magic::get_spell_index( const spell_id& sp )
+int known_magic::get_spell_index( const spell_id &sp )
 {
     int current_index = -1, result_index = -1;
-    for (auto& spell_pair : spellbook) {
+    for( auto &spell_pair : spellbook ) {
         current_index++;
-        if (spell_pair.first == sp) {
+        if( spell_pair.first == sp ) {
             result_index = current_index;
             break;
         }
@@ -2920,8 +2920,8 @@ int known_magic::select_spell( Character &guy )
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
-    spell* selected_spell = known_spells_sorted[spell_menu.ret];
-    int original_spell_index = get_spell_index(selected_spell->id());
+    spell *selected_spell = known_spells_sorted[spell_menu.ret];
+    int original_spell_index = get_spell_index( selected_spell->id() );
     return original_spell_index;
 }
 
