@@ -2543,7 +2543,7 @@ void spellcasting_callback::display_spell_info( size_t index )
                         sp.spell_class()->name().c_str() );
     ImGui::TextWrapped( "%s", sp.description().c_str() );
     ImGui::NewLine();
-    ImGui::TextWrapped( "%s", sp.enumerate_spell_data( pc ).c_str() );
+    ImGui::TextWrapped( "%s", remove_color_tags(sp.enumerate_spell_data( pc )).c_str() );
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
@@ -2742,13 +2742,15 @@ void spellcasting_callback::display_spell_info( size_t index )
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
                      width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
-                info_txt.emplace_back( line );
+                ImGui::TextWrapped("%s", remove_color_tags(line).c_str());
+                ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
                      width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
-                info_txt.emplace_back( line );
+                ImGui::TextWrapped("%s", remove_color_tags(line).c_str());
+                ImGui::NewLine();
             }
         }
     }
