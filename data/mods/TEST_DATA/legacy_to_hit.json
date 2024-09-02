@@ -722,7 +722,6 @@
       "nomex_suit",
       "number4_mki",
       "nun_habit",
-      "nun_wimple",
       "ny_hook",
       "obi_gi",
       "office_letter_opener",
@@ -765,8 +764,6 @@
       "plunger_toilet",
       "pockknife",
       "police_breeches",
-      "poncho",
-      "poncho_makeshift",
       "pool_ball",
       "portal",
       "postman_shorts",
@@ -902,7 +899,6 @@
       "smle_mk3",
       "smoxygen_tank",
       "sneakers_steel",
-      "snuggie",
       "solar_panel",
       "solarpack",
       "spearsling",
@@ -939,7 +935,6 @@
       "tac_fullhelmet",
       "tac_helmet",
       "talking_doll",
-      "tallit_gadol",
       "tarp",
       "tavor_12",
       "tearer",
@@ -1218,7 +1213,7 @@
   {
     "type": "test_data",
     "//": "Generic Guns",
-    "legacy_to_hit": [ "ammo_pouch", "bot_antimateriel", "bot_rifleturret", "bot_secubot", "bot_talon_m202a1", "bot_turret" ]
+    "legacy_to_hit": [ "bot_antimateriel", "bot_rifleturret", "bot_secubot", "bot_talon_m202a1", "bot_turret" ]
   },
   {
     "type": "test_data",
