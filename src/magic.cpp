@@ -1,5 +1,4 @@
 #include "magic.h"
-#include "magic.h"
 
 #include <algorithm>
 #include <cmath>
@@ -2239,19 +2238,6 @@ std::vector<spell *> known_magic::get_spells()
     return spells;
 }
 
-int known_magic::get_spell_index( const spell_id& sp )
-{
-    int current_index = -1, result_index = -1;
-    for (auto& spell_pair : spellbook) {
-        current_index++;
-        if (spell_pair.first == sp) {
-            result_index = current_index;
-            break;
-        }
-    }
-    return result_index;
-}
-
 int known_magic::available_mana() const
 {
     return mana;
@@ -2826,7 +2812,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( Character &guy )
+spell &known_magic::select_spell( Character &guy )
 {
     std::vector<spell *> known_spells_sorted = get_spells();
 
@@ -2919,10 +2905,12 @@ int known_magic::select_spell( Character &guy )
     spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
-
+    if( spell_menu.ret < 0 ) {
+        static spell null_spell_reference(spell_id::NULL_ID());
+        return null_spell_reference;
+    }
     spell* selected_spell = known_spells_sorted[spell_menu.ret];
-    int original_spell_index = get_spell_index(selected_spell->id());
-    return original_spell_index;
+    return *selected_spell;
 }
 
 void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
@@ -2979,7 +2967,7 @@ static std::string color_number( const float num )
         return colorize( "0", c_white );
     }
 }
-
+ 
 static void draw_spellbook_info( const spell_type &sp )
 {
     const spell fake_spell( sp.id );

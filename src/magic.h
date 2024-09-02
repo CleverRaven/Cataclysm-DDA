@@ -688,11 +688,9 @@ class known_magic
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
-        // gets the index of a spell in the get_spells vector
-        int get_spell_index(const spell_id& sp);
         // opens up a ui that the Character can choose a spell from
-        // returns the index of the spell in the vector of spells
-        int select_spell( Character &guy );
+        // returns the selected spell
+        spell &select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // directly get the character known spells
