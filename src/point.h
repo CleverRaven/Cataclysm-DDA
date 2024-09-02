@@ -303,11 +303,7 @@ namespace std
 template <>
 struct hash<point> {
     std::size_t operator()( const point &k ) const noexcept {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.y;
-        result *= a;
-        result += k.x;
-        return result;
+        return hash<uint64_t> {}( static_cast<uint64_t>( k.x ) << 32 | k.y );
     }
 };
 } // namespace std
