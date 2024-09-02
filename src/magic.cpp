@@ -2541,9 +2541,12 @@ void spellcasting_callback::display_spell_info( size_t index )
 
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    ImGui::TextWrapped( "%s", sp.description().c_str() );
+    // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
+    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as other imgui menus
+    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 6 );
+    cataimgui::draw_colored_text( sp.description().c_str(), spell_info_width );
     ImGui::NewLine();
-    ImGui::TextWrapped( "%s", remove_color_tags(sp.enumerate_spell_data( pc )).c_str() );
+    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ).c_str(), spell_info_width );
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
@@ -2598,10 +2601,11 @@ void spellcasting_callback::display_spell_info( size_t index )
                                       sp.energy_cost_string( pc ).c_str(),
                                       sp.energy_string().c_str(), energy_cur.c_str() ) );
     } else {
-        ImGui::TextColored( c_red, "%s", _( "Not Enough Stamina" ) );
+        ImGui::TextColored( c_red, "%s %s", _( "Not Enough" ), sp.energy_string().c_str() );
         ImGui::SameLine( 0, 0 );
-        ImGui::Text( ": %s %s", sp.energy_cost_string( pc ).c_str(),
-                     sp.energy_string().c_str() );
+        cataimgui::draw_colored_text( string_format( ": %s %s",
+                                      sp.energy_cost_string( pc ).c_str(),
+                                      sp.energy_string().c_str() ) );
     }
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
     std::string psi_cast_time = c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" );
@@ -2737,19 +2741,20 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
+    // TODO(thePotatomancer): once we do rewrite it make sure to pass wrapping info to draw_colored_text or skip it entirely
     float width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
-                ImGui::TextWrapped("%s", remove_color_tags(line).c_str());
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
+                cataimgui::draw_colored_text( line );
                 ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
-                ImGui::TextWrapped("%s", remove_color_tags(line).c_str());
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
+                cataimgui::draw_colored_text( line );
                 ImGui::NewLine();
             }
         }
