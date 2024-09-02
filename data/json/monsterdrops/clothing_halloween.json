@@ -1082,7 +1082,7 @@
     "entries": [
       {
         "collection": [
-          { "item": "hat_ball", "variant": "hat_FBI", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "hat_ball", "variant": "hat_fbi", "prob": 95, "damage": [ 1, 4 ] },
           { "item": "jacket_windbreaker", "variant": "windbreaker_fbi", "damage": [ 1, 4 ] },
           { "item": "tie_clipon", "prob": 70, "damage": [ 1, 4 ] },
           { "item": "sunglasses", "prob": 70, "damage": [ 1, 4 ] },
