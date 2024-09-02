@@ -7,7 +7,7 @@
     "name": { "str": "abstract gracken improvement" },
     "weight": "2041 g",
     "volume": "2500 ml",
-    "material": [ "demihuman_flesh", "shadowstuff" ],
+    "material": [ "flesh", "shadowstuff" ],
     "symbol": "!",
     "color": "light_gray",
     "price_postapoc": "10 USD",
