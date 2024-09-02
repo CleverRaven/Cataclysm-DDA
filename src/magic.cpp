@@ -2837,7 +2837,7 @@ int known_magic::select_spell( Character &guy )
             return inv_chars.ordinal( l_invlet ) < inv_chars.ordinal( r_invlet );
         }
         // 3. By spell name
-        return strcmp( left->name().c_str(), right->name().c_str() );
+        return strcmp( left->name().c_str(), right->name().c_str() ) < 0;
     } );
 
     uilist spell_menu;
