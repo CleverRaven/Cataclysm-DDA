@@ -7778,17 +7778,17 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
 
 // TODO: Change this to a hash function on the map implementation. This will also allow us to
 // account for the complete lack of entropy in the top 16 bits.
-int64_t map::sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
+point map::sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
 {
     // Canonicalize the order of the tripoints so the cache is reflexive.
     const tripoint_bub_ms &min = from < to ? from : to;
     const tripoint_bub_ms &max = !( from < to ) ? from : to;
 
     // A little gross, just pack the values into an integer.
-    return
-        static_cast<int64_t>( min.x() )  << 50 | static_cast<int64_t>( min.y() ) << 40 |
-        ( static_cast<int64_t>( min.z() ) + OVERMAP_DEPTH ) << 30 | max.x() << 20 | max.y() << 10 |
-        ( max.z() + OVERMAP_DEPTH );
+    return point(
+               min.x() << 20 | min.y() << 10 | ( min.z() + OVERMAP_DEPTH ),
+               max.x() << 20 | max.y() << 10 | ( max.z() + OVERMAP_DEPTH )
+           );
 }
 
 /**
@@ -7812,7 +7812,7 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    const int64_t key = sees_cache_key( F, T );
+    const point key = sees_cache_key( F, T );
     if( allow_cached ) {
         char cached = skew_cache.get( key, -1 );
         if( cached != -1 ) {
@@ -11116,7 +11116,7 @@ void map::invalidate_max_populated_zlev( int zlev )
 
 bool map::has_potential_los( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
 {
-    const int64_t key = sees_cache_key( from, to );
+    const point key = sees_cache_key( from, to );
     char cached = skew_vision_cache.get( key, -1 );
     if( cached != -1 ) {
         return cached > 0;
