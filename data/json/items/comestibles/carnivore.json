@@ -1051,8 +1051,8 @@
     "spoils_in": "1 day",
     "price_postapoc": "6 cent",
     "fun": -10,
-    "calories": 50,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "meat_allergen", 1 ] ],
+    "calories": 67,
+    "vitamins": [ [ "vitC", "3 mg" ], [ "calcium", "2840 μg" ], [ "iron", "2660 μg" ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
