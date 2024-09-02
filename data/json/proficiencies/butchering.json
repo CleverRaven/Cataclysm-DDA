@@ -15,7 +15,8 @@
     "name": { "str": "Butchering Expert" },
     "description": "There is very little meat left after your skillful knife movements.",
     "can_learn": true,
-    "time_to_learn": "40 h"
+    "time_to_learn": "40 h",
+    "required_proficiencies": [ "prof_butchering_basic" ]
   },
   {
     "type": "proficiency",
@@ -33,7 +34,8 @@
     "name": { "str": "Skinning Expert" },
     "description": "You really know how to skin the animal.",
     "can_learn": true,
-    "time_to_learn": "40 h"
+    "time_to_learn": "40 h",
+    "required_proficiencies": [ "prof_skinning_basic" ]
   },
   {
     "type": "proficiency",
