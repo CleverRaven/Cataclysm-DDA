@@ -2399,9 +2399,7 @@ class spellcasting_callback : public uilist_callback
     private:
         int selected_sp = 0;
         int scroll_pos = 0;
-        std::vector<std::string> info_txt;
         std::vector<spell *> known_spells;
-        void spell_info_text( const spell &sp, int width );
         void display_spell_info( size_t index );
     public:
         // invlets reserved for special functions
