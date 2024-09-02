@@ -1118,8 +1118,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
     uilist skmenu;
-    skmenu.text = change_theory ?
-                  _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
+    skmenu.title = change_theory ?
+                   _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
     skmenu.additional_actions = {
         { "LEFT", to_translation( "Decrease skill" ) },
@@ -1184,9 +1184,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             } else {
                 you->set_skill_level( skill.ident(), skset );
             }
-            skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      skill.name(),
-                                      get_level( skill ) );
+            skmenu.text = string_format( _( "%s set to %d" ), skill.name(), get_level( skill ) );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     get_level( skill ),
                     skill.name() );
