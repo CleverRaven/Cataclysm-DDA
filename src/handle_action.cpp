@@ -1786,7 +1786,6 @@ static void cast_spell()
     if( sp.id().is_null() ) {
         return;
     }
-    // spell &sp = player_character.magic->get_spell( selected_spell_id );
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
