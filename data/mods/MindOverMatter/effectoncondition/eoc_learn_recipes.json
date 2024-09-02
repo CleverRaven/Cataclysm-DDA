@@ -1212,7 +1212,7 @@
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
-        { 
+        {
           "or": [
             { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
             { "math": [ "u_pain()", ">=", "35" ] },
