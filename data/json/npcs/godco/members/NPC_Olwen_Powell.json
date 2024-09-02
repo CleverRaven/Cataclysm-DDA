@@ -202,7 +202,7 @@
     "dynamic_line": "Well, this is a really xenophobic bunch, and regard some of your, changes, as a curse brought on by God.  I'm cool with you though, not like some of these other <name_b>.  There are a few who wouldn't mind you, though.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "In that case.  <end_talking_leave>", "topic": "TALK_DONE" }
+      { "text": "In that case, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
