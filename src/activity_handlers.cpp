@@ -1296,8 +1296,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                       0 ) + 4 );
     }
 
-    // handle our prof training
-    // 40% time to skin the animal, 40% to actually butcher it, 20 for mics activities
+        // handle our prof training
+        // 40% time to skin the animal, 40% to actually butcher it, 20 for mics activities
 
         if( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
             mt.harvest->has_entry_type( harvest_drop_offal ) ) {
