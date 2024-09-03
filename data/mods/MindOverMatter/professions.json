@@ -70,7 +70,7 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
   },
- {
+  {
     "type": "profession",
     "id": "psi_clairsentient_doomseer",
     "name": "Doomseer",
