@@ -1075,17 +1075,15 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
             roll = 0;
         }
-        if( corpse_item->has_flag( flag_SKINNED ) ) {
-            monster_weight = std::round( 0.85 * monster_weight );
-        }
-        const int entry_count = ( action == butcher_type::DISSECT &&
-                                  !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
-        int monster_weight_remaining = monster_weight;
-        int practice = 0;
 
-        if( mt.harvest.is_null() ) {
-            debugmsg( "ERROR: %s has no harvest entry.", mt.id.c_str() );
-            return false;
+        if( entry.type == harvest_drop_flesh ) {
+            roll /= 1.13 - ( 0.13 * you.get_proficiency_practice( proficiency_prof_butchering_adv ) );
+            roll /= 1.6 - ( 0.6 * you.get_proficiency_practice( proficiency_prof_butchering_basic ) );
+        }
+
+        if( entry.type == harvest_drop_skin ) {
+            roll /= 1.13 - ( 0.13 * you.get_proficiency_practice( proficiency_prof_skinning_adv ) );
+            roll /= 1.6 - ( 0.6 * you.get_proficiency_practice( proficiency_prof_skinning_basic ) );
         }
 
         // QUICK BUTCHERY
@@ -1321,7 +1319,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                                       time_duration::from_moves<int>( moves_total / 2.5 ) );
         }
     }
-
 
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
