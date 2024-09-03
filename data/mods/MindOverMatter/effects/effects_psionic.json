@@ -550,7 +550,7 @@
     "rating": "good",
     "max_duration": "7 days"
   },
-   {
+  {
     "type": "effect_type",
     "id": "effect_clair_night_eyes_1",
     "name": [ "Night Eyes" ],
