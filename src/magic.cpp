@@ -726,13 +726,15 @@ int spell::damage( const Creature &caster ) const
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) ),
                     std::max( leveled_damage,
-                              static_cast<int>( type->max_damage.evaluate( d ) ) ) );
+                              static_cast<int>( type->max_damage.evaluate( d ) ) ) ) * temp_damage_multiplyer;
     } else {
         if( type->min_damage.evaluate( d ) >= 0 ||
             type->max_damage.evaluate( d ) >= type->min_damage.evaluate( d ) ) {
-            return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::min( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         } else { // if it's negative, min and max work differently
-            return std::max( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::max( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         }
     }
 }
@@ -1647,6 +1649,8 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
         temp_level_adjustment += adjustment;
     } else if( target_property == "casting_time" ) {
         temp_cast_time_multiplyer += adjustment;
+    } else if( target_property == "damage" ) {
+        temp_damage_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;
     } else if( target_property == "aoe" ) {
@@ -1670,6 +1674,7 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
 void spell::clear_temp_adjustments()
 {
     temp_level_adjustment = 0;
+    temp_damage_multiplyer = 1;
     temp_cast_time_multiplyer = 1;
     temp_spell_cost_multiplyer = 1;
     temp_aoe_multiplyer = 1;
@@ -2464,8 +2469,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
-                    display_spell_info( menu->selected );
+                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
+                    display_spell_info( menu->hovered );
                 }
             }
             ImGui::EndChild();
@@ -2903,7 +2908,7 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells_sorted );
 
-    spell_menu.query( true, -1, true );
+    spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 

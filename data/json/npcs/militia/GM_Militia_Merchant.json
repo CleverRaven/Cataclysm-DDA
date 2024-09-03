@@ -137,10 +137,7 @@
     "type": "talk_topic",
     "id": "TALK_MILITIA_MAIN",
     "dynamic_line": {
-      "u_has_var": "talked_to_MILITIAMAIN",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ],
       "yes": "Hello again.",
       "no": "Welcome to our camp.  Behave yourself while you are here.  What can I do for you?"
     },
@@ -149,23 +146,23 @@
       {
         "text": "What do you do here?",
         "topic": "TALK_MILITIA_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "talked_to_MILITIAEMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] } }
       },
       {
         "text": "What's the story behind this place?",
         "topic": "TALK_MILITIA_BACKGROUND",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       },
       {
         "text": "Is there something I can do for you?",
         "topic": "TALK_MILITIA_HELP",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       },
       { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
         "text": "Time for me to leave",
         "topic": "TALK_MILITIA_BYE",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       }
     ]
   },

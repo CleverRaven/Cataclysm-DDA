@@ -5342,8 +5342,8 @@ bool basecamp::validate_sort_points()
     zone_manager &mgr = zone_manager::get_manager();
     map *here = &get_map();
     const tripoint_abs_ms abspos = get_player_character().get_location();
-    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
-        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60, get_owner() ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60, get_owner() ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
@@ -5357,8 +5357,7 @@ bool basecamp::validate_sort_points()
 
 bool basecamp::set_sort_points()
 {
-    popup( _( "Sorting zones have changed.  Please create some sorting zones.  "
-              "You must create a camp food zone, and a camp storage zone." ) );
+    popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
     g->zones_manager();
     return validate_sort_points();
 }
@@ -5732,15 +5731,22 @@ static const npc &getAverageJoe()
 }
 
 // mission support
-bool basecamp::distribute_food()
+bool basecamp::distribute_food( bool player_command )
 {
     if( !validate_sort_points() ) {
-        popup( _( "You do not have a camp food zone.  Aborting…" ) );
+        if( player_command ) {
+            popup( _( "You do not have a camp food zone.  Aborting…" ) );
+        } else {
+            debugmsg( "NPC-initiated food distribution at %s failed due to lacking zones", name );
+        }
         return false;
     }
 
-    bool distribute_vitamins = query_yn(
-                                   _( "Do you also wish to distribute comestibles without any calorie value (i.e. multivitamins, mutagens)?" ) );
+    bool distribute_vitamins = false; // NPCs only ever distribute food
+    if( player_command ) {
+        distribute_vitamins = query_yn(
+                                  _( "Do you also wish to distribute comestibles without any calorie value (i.e. multivitamins, mutagens)?" ) );
+    }
 
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
@@ -5749,7 +5755,7 @@ bool basecamp::distribute_food()
     }
     const tripoint_abs_ms &abspos = get_dumping_spot();
     const std::unordered_set<tripoint_abs_ms> &z_food =
-        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
+        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60, nullptr, get_owner() );
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
@@ -5845,7 +5851,9 @@ bool basecamp::distribute_food()
     }
 
     if( nutrients_to_add.kcal() <= 0 && nutrients_to_add.vitamins().empty() ) {
-        popup( _( "No suitable items are located at the drop points…" ) );
+        if( player_command ) {
+            popup( _( "No suitable items are located at the drop points…" ) );
+        }
         return false;
     }
 
@@ -5857,7 +5865,9 @@ bool basecamp::distribute_food()
         popup_msg = _( "You distribute vitamins and medicine to your companions." );
     }
 
-    popup( popup_msg );
+    if( player_command ) {
+        popup( popup_msg );
+    }
     camp_food_supply( nutrients_to_add );
     return true;
 }

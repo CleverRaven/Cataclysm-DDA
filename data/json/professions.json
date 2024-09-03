@@ -96,13 +96,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_cell_phone",
-    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
+    "entries": [ { "item": "cell_phone", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_laptop",
-    "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
+    "entries": [ { "item": "laptop", "charges": 600 } ]
   },
   {
     "type": "item_group",
@@ -131,19 +131,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_flashlight",
-    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
+    "entries": [ { "item": "flashlight", "charges": 300 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_heavy_flashlight",
-    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 300 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_mp3",
-    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "mp3" } ]
+    "entries": [ { "item": "mp3", "charges": 150 } ]
   },
   {
     "type": "item_group",
@@ -3746,7 +3746,7 @@
           { "item": "caff_gum", "count": 3 },
           { "item": "memory_card" },
           { "item": "usb_drive" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
+          { "item": "portable_game", "charges": 150 },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
@@ -4142,7 +4142,7 @@
           { "item": "cheeseburger" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "eink_tablet_pc" },
+          { "item": "eink_tablet_pc", "charges": 150 },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
@@ -5640,7 +5640,7 @@
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "camera_pro", "charges": 300 },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5797,7 +5797,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_rich_wallet_full" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "item": "camera", "charges": 300 },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
@@ -6963,8 +6963,8 @@
             "container-item": "rad_monitor"
           },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "emf_detector" }
+          { "item": "camera_pro", "charges": 300 },
+          { "item": "emf_detector", "charges": 100 }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7539,7 +7539,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "item": "camera_pro", "charges": 300 },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
         ]
       },

@@ -37,12 +37,10 @@
     "type": "talk_topic",
     "id": "TALK_SWAMPER",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_talked_to_swamper",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_swamper" } ],
       "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
-        "u_has_var": "dialogue_eating_asked_about_eating",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_eating_asked_about_eating" } ],
         "no": "Welcome.  Are you hungry friend?",
         "yes": "The eaters will be fed."
       }
@@ -52,18 +50,18 @@
       {
         "text": "Hello.  Who are the eaters?",
         "topic": "TALK_SWAMPER_EATING",
-        "condition": { "not": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_eating_asked_about_eating" } ] } },
         "effect": { "u_add_var": "dialogue_eating_asked_about_eating", "value": "yes" }
       },
       {
         "text": "So about the eaters…",
         "topic": "TALK_SWAMPER_EATING",
-        "condition": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_eating_asked_about_eating" } ] }
       },
       {
         "text": "You mentioned some pretenders before.  What does that mean?",
         "topic": "TALK_SWAMPER_PRETENDER",
-        "condition": { "u_has_var": "general_mission_NC_SWAMPER_MISSION_1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_mission_NC_SWAMPER_MISSION_1" } ] }
       },
       {
         "text": "Would you like to join me on my travels?",
@@ -74,7 +72,7 @@
       {
         "text": "Is there a way I can help feed the eaters?",
         "topic": "TALK_MISSION_LIST_SWAMPER",
-        "condition": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_eating_asked_about_eating" } ] }
       },
       { "text": "I have to get going.  Take care, CEO Baronyx.", "topic": "TALK_DONE" }
     ]

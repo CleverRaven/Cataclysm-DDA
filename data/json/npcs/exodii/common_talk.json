@@ -29,12 +29,12 @@
       {
         "text": "Can you give me directions?",
         "topic": "TALK_Directions_exodii_true",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "exodii_mission_wh_correct" } ] }
       },
       {
         "text": "Can you give me directions?",
         "topic": "TALK_Directions_exodii_false",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "condition": { "compare_string": [ "alternate", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

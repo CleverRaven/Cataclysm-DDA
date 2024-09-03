@@ -22,7 +22,7 @@
     "type": "effect_on_condition",
     "id": "EOC_traveler_random_destination_direction",
     "//": "Picks a random direction for the NPC in question to be going in.  Used for dialogue checks.",
-    "condition": { "not": { "u_has_var": "dialogue_travel_direction_picked_direction", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_travel_direction_picked_direction" } ] } },
     "effect": [
       {
         "weighted_list_eocs": [
