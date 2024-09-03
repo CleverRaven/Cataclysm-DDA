@@ -167,6 +167,12 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
+        case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
+        case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";
+        case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
+        case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
+        case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
