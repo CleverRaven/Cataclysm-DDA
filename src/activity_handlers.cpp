@@ -818,14 +818,16 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 
     if( ( corpse.harvest->has_entry_type( harvest_drop_flesh ) ||
           corpse.harvest->has_entry_type( harvest_drop_offal ) ) && ( action == butcher_type::FULL ||
-                  action == butcher_type::QUICK || action == butcher_type::FIELD_DRESS ) ) ) {
+                  action == butcher_type::QUICK || action == butcher_type::FIELD_DRESS ) ) {
         time_to_cut *= 1.25 - ( 0.25 * you.get_proficiency_practice( proficiency_prof_butchering_adv ) );
         time_to_cut *= 1.75 - ( 0.75 * you.get_proficiency_practice( proficiency_prof_butchering_basic ) );
+    }
 
     // Skinning decrease the cutting speed only a little, and decreases the output mostly
     if( corpse.harvest->has_entry_type( harvest_drop_skin ) && ( action == butcher_type::FULL ||
             action == butcher_type::QUICK || action == butcher_type::SKIN ) ) {
-        time_to_cut *= 1.25 - ( 0.25 * you.get_proficiency_practice( proficiency_prof_skinning_adv ) );
+        time_to_cut *= 1.25 - ( 0.25 * you.get_proficiency_practice( proficiency_prof_skinning_basic ) );
+
     }
 
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
@@ -1296,29 +1298,29 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                       0 ) + 4 );
     }
 
-        // handle our prof training
-        // 40% time to skin the animal, 40% to actually butcher it, 20 for mics activities
+    // handle our prof training
+    // 40% time to skin the animal, 40% to actually butcher it, 20 for mics activities
 
-        if( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
-            mt.harvest->has_entry_type( harvest_drop_offal ) ) {
-            if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
-                you.practice_proficiency( proficiency_prof_butchering_adv,
-                                          time_duration::from_moves<int>( moves_total / 2.5 ) );
-            } else {
-                you.practice_proficiency( proficiency_prof_butchering_basic,
-                                          time_duration::from_moves<int>( moves_total / 2.5 ) );
-            }
+    if( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
+        mt.harvest->has_entry_type( harvest_drop_offal ) ) {
+        if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
+            you.practice_proficiency( proficiency_prof_butchering_adv,
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_butchering_basic,
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         }
+    }
 
-        if( mt.harvest->has_entry_type( harvest_drop_skin ) ) {
-            if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
-                you.practice_proficiency( proficiency_prof_skinning_adv,
-                                          time_duration::from_moves<int>( moves_total / 2.5 ) );
-            } else {
-                you.practice_proficiency( proficiency_prof_skinning_basic,
-                                          time_duration::from_moves<int>( moves_total / 2.5 ) );
-            }
+    if( mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+        if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
+            you.practice_proficiency( proficiency_prof_skinning_adv,
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_skinning_basic,
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         }
+    }
 
 
     // after this point, if there was a liquid handling from the harvest,
