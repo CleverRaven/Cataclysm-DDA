@@ -96,7 +96,7 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-// Wether or not to use Outfit (M) at character creation
+// Whether or not use Outfit (M) at character creation
 static bool outfit = true;
 
 // Responsive screen behavior for small terminal sizes
