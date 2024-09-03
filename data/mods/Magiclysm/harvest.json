@@ -175,8 +175,18 @@
     "id": "lizardfolk",
     "type": "harvest",
     "copy-from": "demihuman_large_fur",
-    "delete": { "entries": [ { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 } ] },
-    "extend": { "entries": [ { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 } ] }
+    "delete": {
+      "entries": [
+        { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+        { "drop": "demihuman_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      ]
+    }
+    "extend":  {
+      "entries": [
+        { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
+        { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      ]
+    }
   },
   {
     "id": "ravenfolk",
@@ -205,40 +215,26 @@
   {
     "id": "ogre",
     "type": "harvest",
-    "entries": [
-      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "demihuman_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.0025 },
-      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1025 }
-    ]
+    "copy-from": "demihuman_large_fur",
+    "delete": { "entries": [ { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 } ] },
+    "extend": { "entries": [ { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 } ] }
   },
   {
     "id": "orc",
     "type": "harvest",
-    "entries": [
-      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 }
-    ]
+    "copy-from": "demihuman_large_fur",
+    "delete": {
+      "entries": [
+        { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+        { "drop": "demihuman_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      ]
+    }
+    "extend":  {
+      "entries": [
+        { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
+        { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      ]
+    }
   },
   {
     "id": "zombie_owlbear",
