@@ -132,8 +132,10 @@ void uilist_impl::draw_controls()
                             parent.hovered = parent.fentries[ i ];
                         }
                         ImGui::SameLine( 0, 0 );
-                        cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
-                                                      is_selected ? parent.hilight_color : parent.hotkey_color );
+                        if( entry.hotkey.has_value() ) {
+                            cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                                          is_selected ? parent.hilight_color : parent.hotkey_color );
+                        }
 
                         ImGui::TableSetColumnIndex( 1 );
                         nc_color color = ( is_selected ?
