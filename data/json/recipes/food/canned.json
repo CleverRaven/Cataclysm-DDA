@@ -825,6 +825,52 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "canned_heart",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water_clean", 2 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 83, 5 ],
+    "using": [ [ "canning_high_heat", 1, "LIST" ] ],
+    "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "container": "jar_glass_sealed",
+    "charges": 8,
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "heart", 8 ], [ "human_heart", 8 ], [ "demihuman_heart", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "canned_heart",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water_clean", 12 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "60 m",
+    "batch_time_factors": [ 83, 5 ],
+    "using": [ [ "canning_high_heat", 6, "LIST" ] ],
+    "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "container": "jar_3l_glass_sealed",
+    "charges": 48,
+    "components": [
+      [ [ "water_clean", 6 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "heart", 48 ], [ "human_heart", 48 ], [ "demihuman_heart", 48 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "V8",
     "id_suffix": "jarred",
     "byproducts": [ [ "water_clean", 12 ] ],
