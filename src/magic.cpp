@@ -2397,7 +2397,6 @@ static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 class spellcasting_callback : public uilist_callback
 {
     private:
-        int selected_sp = 0;
         int scroll_pos = 0;
         std::vector<spell *> known_spells;
         void display_spell_info( size_t index );
@@ -2542,9 +2541,9 @@ void spellcasting_callback::display_spell_info( size_t index )
     // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
     // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as other imgui menus
     float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 6 );
-    cataimgui::draw_colored_text( sp.description().c_str(), spell_info_width );
+    cataimgui::draw_colored_text( sp.description(), spell_info_width );
     ImGui::NewLine();
-    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ).c_str(), spell_info_width );
+    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ), spell_info_width );
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
