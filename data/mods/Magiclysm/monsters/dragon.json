@@ -91,7 +91,7 @@
     "vision_day": 30,
     "vision_night": 20,
     "path_settings": { "//min_dist": 8, "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "dragon_black",
+    "harvest": "dragon_black_wyrmling",
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       { "id": "scratch", "cooldown": 7 },
@@ -140,6 +140,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
+    "harvest": "dragon_black_young",
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       { "id": "scratch", "cooldown": 3 },
@@ -178,6 +179,7 @@
     "speed": 100,
     "delete": { "flags": [ "PATH_AVOID_DANGER" ] },
     "emit_fields": [ { "emit_id": "emit_dragon_adult_fright", "delay": "1 s" } ],
+    "harvest": "dragon_black_adult",
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       { "id": "scratch", "cooldown": 3 },
