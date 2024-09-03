@@ -890,8 +890,7 @@
       "prof_frying",
       "prof_knives_familiar",
       "prof_butchering_basic",
-      "prof_skinning_basic",
-      "prof_butchery_offal"
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {
@@ -926,8 +925,7 @@
       "prof_butchering_basic",
       "prof_butchering_adv",
       "prof_skinning_basic",
-      "prof_skinning_adv",
-      "prof_butchery_offal"
+      "prof_skinning_adv"
     ],
     "items": {
       "both": {
@@ -5211,8 +5209,7 @@
       "prof_carving",
       "prof_knives_familiar",
       "prof_butchering_basic",
-      "prof_skinning_basic",
-      "prof_butchery_offal"
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {

@@ -36,14 +36,5 @@
     "can_learn": true,
     "time_to_learn": "40 h",
     "required_proficiencies": [ "prof_skinning_basic" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_butchery_offal",
-    "category": "prof_butchering",
-    "name": { "str": "Evisceration" },
-    "description": "You know how to properly remove offals from the body.",
-    "can_learn": true,
-    "time_to_learn": "4 h"
   }
 ]

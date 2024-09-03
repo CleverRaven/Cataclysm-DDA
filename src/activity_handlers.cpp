@@ -233,7 +233,6 @@ static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const proficiency_id proficiency_prof_butchering_adv( "prof_butchering_adv" );
 static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_basic" );
-static const proficiency_id proficiency_prof_butchery_offal( "prof_butchery_offal" );
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
 static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
@@ -817,17 +816,10 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
         time_to_cut /= 4;
     }
 
-    if( corpse.harvest->has_entry_type( harvest_drop_flesh ) && ( action == butcher_type::FULL ||
-            action == butcher_type::QUICK ) ) {
+    if( ( corpse.harvest->has_entry_type( harvest_drop_flesh ) || corpse.harvest->has_entry_type( harvest_drop_offal ) ) && ( action == butcher_type::FULL ||
+            action == butcher_type::QUICK || action == butcher_type::FIELD_DRESS ) ) ) {
         time_to_cut *= 1.25 - ( 0.25 * you.get_proficiency_practice( proficiency_prof_butchering_adv ) );
         time_to_cut *= 1.75 - ( 0.75 * you.get_proficiency_practice( proficiency_prof_butchering_basic ) );
-
-    }
-
-    if( corpse.harvest->has_entry_type( harvest_drop_offal ) && ( action == butcher_type::FULL ||
-            action == butcher_type::QUICK || action == butcher_type::FIELD_DRESS ) ) {
-        time_to_cut *= 1.25 - ( 0.25 * you.get_proficiency_practice( proficiency_prof_butchery_offal ) );
-    }
 
     // Skinning decrease the cutting speed only a little, and decreases the output mostly
     if( corpse.harvest->has_entry_type( harvest_drop_skin ) && ( action == butcher_type::FULL ||
@@ -1081,13 +1073,9 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             roll = 0;
         }
 
-        if( entry.type == harvest_drop_flesh ) {
+        if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_offal ) {
             roll /= 1.13 - ( 0.13 * you.get_proficiency_practice( proficiency_prof_butchering_adv ) );
             roll /= 1.6 - ( 0.6 * you.get_proficiency_practice( proficiency_prof_butchering_basic ) );
-        }
-
-        if( entry.type == harvest_drop_offal ) {
-            roll /= 1.13 - ( 0.13 * you.get_proficiency_practice( proficiency_prof_butchery_offal ) );
         }
 
         if( entry.type == harvest_drop_skin ) {
@@ -1306,29 +1294,25 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     // handle our prof training
+    // 40% time to skin the animal, 40% to actually butcher it, 20 for mics activities
 
-    if( mt.harvest->has_entry_type( harvest_drop_flesh ) ) {
+    if( mt.harvest->has_entry_type( harvest_drop_flesh ) || mt.harvest->has_entry_type( harvest_drop_offal ) ) {
         if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
             you.practice_proficiency( proficiency_prof_butchering_adv,
-                                      time_duration::from_moves<int>( moves_total ) );
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         } else {
             you.practice_proficiency( proficiency_prof_butchering_basic,
-                                      time_duration::from_moves<int>( moves_total ) );
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         }
-    }
-
-    if( mt.harvest->has_entry_type( harvest_drop_offal ) ) {
-        you.practice_proficiency( proficiency_prof_butchery_offal,
-                                  time_duration::from_moves<int>( moves_total ) );
     }
 
     if( mt.harvest->has_entry_type( harvest_drop_skin ) ) {
         if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
             you.practice_proficiency( proficiency_prof_skinning_adv,
-                                      time_duration::from_moves<int>( moves_total ) );
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         } else {
             you.practice_proficiency( proficiency_prof_skinning_basic,
-                                      time_duration::from_moves<int>( moves_total ) );
+                                      time_duration::from_moves<int>( moves_total / 2.5 ) );
         }
     }
 
