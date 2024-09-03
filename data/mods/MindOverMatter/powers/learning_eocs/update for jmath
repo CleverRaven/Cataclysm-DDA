@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_ZAP_ENEMIES",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -84,7 +87,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_MELEE_ATTACKS",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -171,7 +177,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PERSONAL_BATTERY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -258,7 +267,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PARALYSIS",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -350,7 +362,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_REDUCE_PAIN",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -442,7 +457,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BOLT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -534,7 +552,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_RECHARGE_VEHICLE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -626,7 +647,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PAIN_IMMUNE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -705,7 +729,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_SPEED_BOOST",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -802,7 +829,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_KILL_ROBOT",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -895,7 +925,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_AURA",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -987,7 +1020,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BLAST",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
@@ -1084,7 +1120,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_REVIVE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
