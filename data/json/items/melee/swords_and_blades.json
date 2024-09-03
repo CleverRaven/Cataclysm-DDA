@@ -836,7 +836,7 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "cut": 21 }
+    "melee_damage": { "bash": 5, "cut": 21 }
   },
   {
     "id": "survivor_machete",
@@ -879,7 +879,7 @@
     "looks_like": "survivor_machete",
     "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
+    "relative": { "melee_damage": { "bash": 1, "cut": 7 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
   },
   {
     "id": "machete_gimmick",
