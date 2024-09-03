@@ -59,6 +59,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 
@@ -1865,11 +1866,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             item_info_data data = result_info.get_result_data( current[line], 1, line_item_info_popup,
                                   w_iteminfo );
             data.handle_scrolling = true;
-            draw_item_info( []() -> catacurses::window {
-                const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
-                const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
-                return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
-            }, data );
+            data.arrow_scrolling = true;
+            const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+            const int info_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+            iteminfo_window info_window( data, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 ),
+                                         info_width, info_height );
+            info_window.execute();
         } else if( action == "FILTER" ) {
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
