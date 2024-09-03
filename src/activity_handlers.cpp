@@ -149,7 +149,6 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -178,11 +177,6 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
-
-static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
@@ -260,7 +254,6 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_PICKAXE, pickaxe_do_turn },
-    { ACT_PULP, pulp_do_turn },
     { ACT_GAME, game_do_turn },
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
@@ -333,7 +326,6 @@ activity_handlers::finish_functions = {
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
-    { ACT_PULP, pulp_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -1771,120 +1763,6 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
         }
-    }
-}
-
-void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    const tripoint_bub_ms &pos = here.bub_from_abs( act->placement );
-
-    const item_location weapon = you->get_wielded_item();
-    int weap_cut = 0;
-    int weap_stab = 0;
-    int weap_bash = 0;
-    int mess_radius = 1;
-
-    if( weapon ) {
-        // FIXME: Hardcoded damage types
-        weap_cut = weapon->damage_melee( damage_cut );
-        weap_stab = weapon->damage_melee( damage_stab );
-        weap_bash = weapon->damage_melee( damage_bash );
-        if( weapon->has_flag( flag_MESSY ) ) {
-            mess_radius = 2;
-        }
-    }
-
-    // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weap_cut, weap_stab / 2 );
-
-    ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + weap_bash;
-
-    // Multiplier to get the chance right + some bonus for survival skill
-    pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
-
-    int moves = 0;
-    // use this to collect how many corpse are pulped
-    int &num_corpses = act->index;
-    map_stack corpse_pile = here.i_at( pos );
-    for( item &corpse : corpse_pile ) {
-        const mtype *corpse_mtype = corpse.get_mtype();
-        const bool acid_immune = you->is_immune_damage( damage_acid ) ||
-                                 you->is_immune_field( fd_acid );
-        if( !corpse.is_corpse() || !corpse.can_revive() ||
-            ( ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-                act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) && !acid_immune ) ) {
-            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping unprotected
-            continue;
-        }
-
-        while( corpse.damage() < corpse.max_damage() ) {
-            // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage();
-                if( corpse.damage() == corpse.max_damage() ) {
-                    num_corpses++;
-                }
-            }
-
-            if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                // Splatter some blood around
-                // Splatter a bit more randomly, so that it looks cooler
-                const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
-                const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                                 corpse.get_mtype()->gibType() :
-                                                 corpse.get_mtype()->bloodType();
-                here.add_splatter_trail( type_blood, pos.raw(), dest.raw() );
-            }
-
-            // mixture of isaac clarke stomps and swinging your weapon
-            you->burn_energy_all( -pulp_effort );
-            you->recoil = MAX_RECOIL;
-
-            if( one_in( 4 ) ) {
-                // Smashing may not be butchery, but it involves some zombie anatomy
-                you->practice( skill_survival, 2, 2 );
-            }
-
-            float stamina_ratio = static_cast<float>( you->get_stamina() ) / you->get_stamina_max();
-            moves += 100 / std::max( 0.25f,
-                                     stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
-            if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->set_moves( std::min( 0, you->get_moves() - moves ) );
-                return;
-            }
-            if( moves >= you->get_moves() ) {
-                // Enough for this turn;
-                you->mod_moves( -moves );
-                return;
-            }
-        }
-        corpse.set_flag( flag_PULPED );
-    }
-    // If we reach this, all corpses have been pulped, finish the activity
-    act->moves_left = 0;
-    if( num_corpses == 0 ) {
-        you->add_msg_if_player( m_bad, _( "The corpse moved before you could finish smashing it!" ) );
-        return;
-    }
-    // TODO: Factor in how long it took to do the smashing.
-    you->add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
-                                           "The corpses are thoroughly pulped.", num_corpses ),
-                                n_gettext( "<npcname> finished pulping the corpse.",
-                                           "<npcname> finished pulping the corpses.", num_corpses ) );
-}
-
-void activity_handlers::pulp_finish( player_activity *act, Character *you )
-{
-    if( you->is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( you );
-        guy->revert_after_activity();
-        guy->pulp_location.reset();
-    } else {
-        act->set_to_null();
     }
 }
 
