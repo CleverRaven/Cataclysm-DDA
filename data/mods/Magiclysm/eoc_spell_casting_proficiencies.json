@@ -450,7 +450,7 @@
       }
     ]
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_TRANSFORMATION_SPELLS_PROFICIENCY_BONUSES",
     "eoc_type": "EVENT",
