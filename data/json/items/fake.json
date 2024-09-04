@@ -100,7 +100,7 @@
       {
         "target": "internal_mp3",
         "menu_text": "Turn off the radio",
-        "msg": "You turn off the radio. ",
+        "msg": "You turn off the radio.",
         "type": "transform",
         "active": true,
         "need_charges": 1,
