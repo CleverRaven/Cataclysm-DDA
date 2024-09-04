@@ -1978,7 +1978,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "remove_message": "You stop concentrating your healing.",
+    "remove_message": "",
     "rating": "bad",
     "max_duration": "7 days",
     "base_mods": { "healing_rate": [ 0.05 ] }
@@ -1989,13 +1989,13 @@
     "name": [ "Leukocyte Accumulation" ],
     "desc": [ "You are concentrating your body's healing resources." ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You stop concentrating your healing.",
     "rating": "good",
     "max_intensity": 500,
     "show_intensity": false,
     "max_duration": "7 days",
-    "base_mods": { "healing_rate": [ 1 ] },
-    "scaling_mods": { "healing_rate": [ 1 ] }
+    "base_mods": { "healing_rate": [ 2 ] },
+    "scaling_mods": { "healing_rate": [ 2 ] }
   },
   {
     "type": "effect_type",
