@@ -18,7 +18,7 @@
       "and": [
         { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } },
         { "not": { "u_has_trait": "RIGHT_PEG_LEG" } },
-        { "u_has_var": "traits_limbs_missing_right_leg", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "traits_limbs_missing_right_leg" } ] }
       ]
     },
     "effect": [ { "u_add_trait": "NO_RIGHT_LEG" } ]
@@ -42,7 +42,7 @@
       "and": [
         { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } },
         { "not": { "u_has_trait": "LEFT_PEG_LEG" } },
-        { "u_has_var": "traits_limbs_missing_left_leg", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "traits_limbs_missing_left_leg" } ] }
       ]
     },
     "effect": [ { "u_add_trait": "NO_LEFT_LEG" } ]
@@ -73,7 +73,7 @@
         { "not": { "u_has_trait": "RIGHT_PROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "RIGHT_NEUROPROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "RIGHT_COSMETIC_PROSTHETIC_ARM" } },
-        { "u_has_var": "traits_limbs_missing_right_arm", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "traits_limbs_missing_right_arm" } ] }
       ]
     },
     "effect": [ { "u_add_trait": "NO_RIGHT_ARM" } ]
@@ -104,7 +104,7 @@
         { "not": { "u_has_trait": "LEFT_PROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "LEFT_NEUROPROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "LEFT_COSMETIC_PROSTHETIC_ARM" } },
-        { "u_has_var": "traits_limbs_missing_left_arm", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "traits_limbs_missing_left_arm" } ] }
       ]
     },
     "effect": [ { "u_add_trait": "NO_LEFT_ARM" } ]

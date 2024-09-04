@@ -446,7 +446,7 @@
       [ "chainsaw_off", 7 ],
       { "item": "elec_chainsaw_off", "prob": 4, "charges": [ 0, 500 ] },
       { "item": "elec_chainsaw_cord_off", "prob": 4 },
-      { "item": "carver_off", "prob": 7, "charges": [ 0, 500 ] },
+      { "item": "carver_off", "prob": 7 },
       [ "jackhammer", 2 ],
       [ "elec_jackhammer", 1 ],
       [ "pickaxe", 1 ],

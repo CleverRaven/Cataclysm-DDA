@@ -25,7 +25,10 @@
       {
         "text": "Now that your guitar is fixed, could you play something for me?",
         "condition": {
-          "and": [ { "npc_has_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "npc_has_item": "acoustic_guitar" } ]
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "mission_completed_sonia_guitar_fixed" } ] },
+            { "npc_has_item": "acoustic_guitar" }
+          ]
         },
         "topic": "TALK_GODCO_Sonia_Play_For_U"
       },
@@ -39,8 +42,7 @@
       "math": [ "n_npc_anger()", ">=", "5" ],
       "yes": "&Sonia glances at you harshly, then turns away.  \"Come back later, I'm busy right now.\"",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_sonia",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ],
         "yes": [
           { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
           "Nice of you to come around <u_name>."
@@ -52,20 +54,26 @@
       {
         "text": "Sonia?  Nice to meet you, I'm <u_name>.  How are things here?",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_sonia", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] } },
         "topic": "TALK_GODCO_Sonia_Feeling"
       },
       {
         "text": "Hey Sonia.  What's up?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Sonia_Tunes"
       },
       {
         "text": "Hey Sonia.  What's up?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Sonia_Angry"
       },
@@ -86,8 +94,7 @@
     "id": "TALK_GODCO_Sonia_Tunes",
     "dynamic_line": [
       {
-        "npc_has_var": "mission_completed_sonia_guitar_fixed",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "mission_completed_sonia_guitar_fixed" } ],
         "yes": "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?",
         "no": "Nothin' much, just sitting around and biding my time, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."
       }

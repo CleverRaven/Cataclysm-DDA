@@ -90,15 +90,13 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "Please go away, I'm not in the mood to talk right now.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_katherine",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
           "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
           "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
         }
@@ -111,8 +109,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -121,8 +119,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Firstmeet"
@@ -132,7 +130,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Angry"
@@ -142,7 +140,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
@@ -152,7 +150,7 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
@@ -160,7 +158,10 @@
       {
         "text": "Alright, fuck you then.",
         "condition": {
-          "or": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_DONE"
       }
@@ -229,8 +230,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Corrie",
     "dynamic_line": {
-      "u_has_var": "mission_completed_godco_corrie_machine",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
       "yes": "She knows this and that about electronics.  The generator we have here was made by her.  Nice to have one here, even though there's not much use for it yet.",
       "no": "I hear she knows this and that about electronics.    She keeps herself occupied by doing menial tasks around the camp, looking for payment."
     }
@@ -259,8 +259,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Zachary",
     "dynamic_line": {
-      "u_has_var": "mission_completed_godco_corrie_machine",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
       "yes": "He can keep his distance with his smug nothingness.  At least he's a bit more useful than some of the others.  He helped Corrie make that generator.",
       "no": "I'm not planning to communicate with him, that's for certain.  He can keep his distance with his smug nothingness.  At least he knows how to cut lumber."
     }
