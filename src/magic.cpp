@@ -2506,6 +2506,24 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "is a psionic power" ) );
     }
+    if( has_flag( spell_flag::EVOCATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an evocation spell" ) );
+    }
+    if( has_flag( spell_flag::CHANNELING_SPELL ) ) {
+        spell_data.emplace_back( _( "is a channeling spell" ) );
+    }
+    if( has_flag( spell_flag::CONJURATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a summoning spell" ) );
+    }
+    if( has_flag( spell_flag::ENHANCEMENT_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enhancement spell" ) );
+    }
+    if( has_flag( spell_flag::ENERVATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enervation spell" ) );
+    }
+    if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conveyance spell" ) );
+    }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
