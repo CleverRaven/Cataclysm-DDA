@@ -1285,8 +1285,9 @@ void talk_function::distribute_food_auto( npc &p )
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint_abs_ms &npc_abs_loc = p.get_location();
     // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
-    const tripoint top_left = npc_abs_loc.raw() + point{-1, -1}; // Awful hack, zones want the raw value
-    const tripoint bottom_right = npc_abs_loc.raw() + point{1, 1}; // Awful hack, zones want the raw value
+    // TODO: fix point types; Awful hack, zones want the raw value
+    const tripoint top_left = npc_abs_loc.raw() + point_north_west;
+    const tripoint bottom_right = npc_abs_loc.raw() + point_south_east;
     std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
     const faction_id &fac_id = p.get_fac_id();
     mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );

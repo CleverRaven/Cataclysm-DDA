@@ -22,8 +22,9 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.02 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
       { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },

@@ -167,6 +167,12 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
+        case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
+        case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";
+        case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
+        case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
+        case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -2505,6 +2511,24 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "is a psionic power" ) );
     }
+    if( has_flag( spell_flag::EVOCATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an evocation spell" ) );
+    }
+    if( has_flag( spell_flag::CHANNELING_SPELL ) ) {
+        spell_data.emplace_back( _( "is a channeling spell" ) );
+    }
+    if( has_flag( spell_flag::CONJURATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conjuration spell" ) );
+    }
+    if( has_flag( spell_flag::ENHANCEMENT_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enhancement spell" ) );
+    }
+    if( has_flag( spell_flag::ENERVATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enervation spell" ) );
+    }
+    if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conveyance spell" ) );
+    }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
@@ -2837,7 +2861,7 @@ int known_magic::select_spell( Character &guy )
             return inv_chars.ordinal( l_invlet ) < inv_chars.ordinal( r_invlet );
         }
         // 3. By spell name
-        return strcmp( left->name().c_str(), right->name().c_str() );
+        return strcmp( left->name().c_str(), right->name().c_str() ) < 0;
     } );
 
     uilist spell_menu;
