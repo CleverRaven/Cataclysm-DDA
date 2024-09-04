@@ -3723,7 +3723,7 @@ void catacurses::init_interface()
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
-    ImGuiStyle& style = ImGui::GetStyle();
+    ImGuiStyle &style = ImGui::GetStyle();
 
     SDL_Color BLACK = windowsPalette[0];
     float BlackR = static_cast<float>( BLACK.r ) / 255.0f;
