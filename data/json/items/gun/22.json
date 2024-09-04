@@ -142,7 +142,20 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+      {
+        "magazine_well": "34 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "ruger1022mag",
+          "ruger1022mag_15",
+          "ruger1022bigmag",
+          "ruger1022mag_30",
+          "ruger1022mag_32",
+          "ruger1022mag_55",
+          "ruger1022mag_70",
+          "ruger1022mag_110"
+        ]
+      }
     ],
     "melee_damage": { "bash": 12 }
   },
@@ -413,7 +426,20 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "built_in_mods": [ "bipod" ],
     "pocket_data": [
-      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+      {
+        "magazine_well": "34 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "ruger1022mag",
+          "ruger1022mag_15",
+          "ruger1022bigmag",
+          "ruger1022mag_30",
+          "ruger1022mag_32",
+          "ruger1022mag_55",
+          "ruger1022mag_70",
+          "ruger1022mag_110"
+        ]
+      }
     ],
     "melee_damage": { "bash": 12 }
   },

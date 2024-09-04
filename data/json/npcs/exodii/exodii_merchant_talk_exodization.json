@@ -7,12 +7,12 @@
       {
         "text": "[Install CBM Interface] Let's do it.",
         "effect": [
-          { "u_add_bionic": "bio_power_storage" },
-          { "u_add_bionic": "bio_cable" },
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_add_effect": "blind", "duration": "2 hours" },
-          { "u_add_effect": "deaf", "duration": "2 hours" },
-          { "u_add_trait": "CBM_Interface" }
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
@@ -203,9 +203,11 @@
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
         "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_trait": "CBM_Interface" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"

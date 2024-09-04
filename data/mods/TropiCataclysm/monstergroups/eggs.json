@@ -1,15 +1,5 @@
 [
   {
-    "name": "GROUP_EGG_BIRD_WILD",
-    "type": "monstergroup",
-    "default": "mon_guinea_fowl_chick",
-    "monsters": [
-      { "monster": "mon_guinea_fowl_chick", "weight": 1 },
-      { "monster": "mon_quail_chick", "weight": 2 },
-      { "monster": "mon_rhea_chick", "weight": 5 }
-    ]
-  },
-  {
     "name": "GROUP_EGG_GUINEA_FOWL",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_guinea_fowl_chick" } ]
