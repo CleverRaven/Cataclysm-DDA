@@ -825,7 +825,7 @@
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
-  }, 
+  },
   {
     "id": "bio_mp3",
     "type": "bionic",
