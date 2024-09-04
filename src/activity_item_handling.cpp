@@ -3370,7 +3370,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location_unknown_activity ) {
             add_msg( m_neutral,
-                     _( "%1$s failed to perform the %2$s activity because of the activity couldn't be found.  This is probably an error." ),
+                     _( "%1$s failed to perform the %2$s activity because the activity couldn't be found.  This is probably an error." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location_no_location ) {
             add_msg( m_neutral,
