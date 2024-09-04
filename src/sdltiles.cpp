@@ -3735,9 +3735,9 @@ void catacurses::init_interface()
     float BlueB = static_cast<float>( BLUE.b ) / 255.0f;
 
     SDL_Color GRAY  = windowsPalette[7];
-    float GrayR = static_cast<float>(GRAY.r) / 255.0f;
-    float GrayG = static_cast<float>(GRAY.g) / 255.0f;
-    float GrayB = static_cast<float>(GRAY.b) / 255.0f;
+    float GrayR = static_cast<float>( GRAY.r ) / 255.0f;
+    float GrayG = static_cast<float>( GRAY.g ) / 255.0f;
+    float GrayB = static_cast<float>( GRAY.b ) / 255.0f;
 
     SDL_Color DGRAY = windowsPalette[8];
     float DGrayR = static_cast<float>(DGRAY.r) / 255.0f;
