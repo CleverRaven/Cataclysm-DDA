@@ -1,11 +1,11 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "egg_bird",
-    "name": { "str": "bird egg" },
+    "id": "egg_chicken",
+    "name": { "str": "chicken egg" },
     "weight": "50 g",
     "color": "brown",
-    "spoils_in": "10 days",
+    "spoils_in": "11 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -17,24 +17,14 @@
     "volume": "50 ml",
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ], [ "egg_allergen", 1 ] ],
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_chicken",
-    "name": { "str": "chicken egg" },
-    "spoils_in": "11 days",
-    "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CHICKEN",
+    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_bird_unfert",
-    "copy-from": "egg_bird",
-    "looks_like": "egg_bird",
+    "copy-from": "egg_chicken",
     "name": { "str": "unfertilized bird egg" },
     "description": "A nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
     "rot_spawn_chance": 0
@@ -978,7 +968,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "name": { "str_sp": "rehydrated egg" },
     "color": "yellow",
     "symbol": "%",

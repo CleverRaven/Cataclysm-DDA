@@ -254,38 +254,11 @@
   },
   {
     "type": "terrain",
-    "id": "t_atm",
-    "name": "ATM",
-    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  This thing has seen better days; there's been a run on the bank, and this machine has the dents and cracks to prove it.",
-    "symbol": "&",
-    "color": "magenta",
-    "move_cost": 0,
-    "coverage": 55,
-    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "atm",
-    "bash": {
-      "str_min": 40,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "money_strap_twenty", "count": [ 1, 59 ] },
-        { "item": "money_strap_fifty", "count": [ 1, 39 ] },
-        { "item": "money_twenty", "count": [ 1, 99 ] },
-        { "item": "money_fifty", "count": [ 1, 99 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_ticket_vendor",
     "name": "ticket vendor",
     "description": "A machine with a little screen and slots, intended to take your money and provide you with a ticket.",
     "symbol": "&",
-    "looks_like": "t_atm",
+    "looks_like": "f_atm",
     "color": "blue",
     "move_cost": 0,
     "coverage": 55,

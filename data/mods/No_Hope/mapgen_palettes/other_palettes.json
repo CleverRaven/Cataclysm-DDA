@@ -932,10 +932,10 @@
       "<": "t_stairs_up",
       ";": "t_gutter_downspout",
       "W": "t_strconc_wall",
-      "$": "t_atm",
       "Z": "t_bars"
     },
     "furniture": {
+      "$": "f_atm_off",
       "C": "f_counter",
       "3": "f_counter",
       "R": "f_counter",

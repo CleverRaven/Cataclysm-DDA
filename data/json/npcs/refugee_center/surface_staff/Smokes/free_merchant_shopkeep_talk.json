@@ -52,6 +52,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
     "type": "talk_topic",
     "dynamic_line": [ "Hope it helps.", "Give me second to write that down… okay, done.", "You know where to find me." ],
+    "speaker_effect": [ { "effect": "distribute_food_auto" } ],
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },

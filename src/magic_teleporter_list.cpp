@@ -169,7 +169,7 @@ class teleporter_callback : public uilist_callback
         }
         void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
-            const int entnum = menu->selected;
+            const int entnum = menu->hovered;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
                 avatar &player_character = get_avatar();
                 int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );

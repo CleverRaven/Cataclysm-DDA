@@ -70,7 +70,6 @@
     "//": "All of the different bird eggs",
     "components": [
       [
-        [ "egg_bird", 1 ],
         [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
@@ -440,6 +439,7 @@
     "//": "Anything you might consider offal or intestines.",
     "components": [
       [
+        [ "meat_heart", 4, "LIST" ],
         [ "meat_lung", 4, "LIST" ],
         [ "meat_liver", 4, "LIST" ],
         [ "meat_kidney", 4, "LIST" ],
@@ -493,6 +493,13 @@
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
     "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_heart",
+    "type": "requirement",
+    "components": [
+      [ [ "heart", 1 ], [ "human_heart", 1 ], [ "demihuman_heart", 1 ], [ "mutant_heart", 1 ], [ "mutant_human_heart", 1 ] ]
+    ]
   },
   {
     "id": "meat_liver",

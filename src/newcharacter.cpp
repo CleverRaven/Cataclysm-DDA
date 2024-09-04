@@ -96,7 +96,7 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-// Wether or not to use Outfit (M) at character creation
+// Whether or not use Outfit (M) at character creation
 static bool outfit = true;
 
 // Responsive screen behavior for small terminal sizes
@@ -452,7 +452,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         if( selected_scenario ) {
             set_scenario( selected_scenario );
         } else {
-            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+            debugmsg( "Failed randomizing scenario - no entries matching requirements." );
         }
     }
 
