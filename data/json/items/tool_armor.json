@@ -918,20 +918,13 @@
     "price": "200 USD",
     "price_postapoc": "50 cent",
     "material": [ "plastic", "steel" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
   },
@@ -946,20 +939,23 @@
     "price": "8 kUSD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CAMERA_PRO",
+      "ALWAYS_TWOHAND",
+      "OVERSIZE",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_BREAK",
+      "ELECTRONIC"
+    ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
   },
