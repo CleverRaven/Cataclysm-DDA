@@ -799,8 +799,6 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", calendar::turn_zero ) );
 
-    item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
-                                            item::default_charges_tag{} ) );
     item_location speedloader = dummy.i_add( item( "38_speedloader", calendar::turn_zero, false ) );
     item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
                                             speedloader->remaining_ammo_capacity() ) );
