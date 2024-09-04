@@ -428,7 +428,7 @@
       }
     ]
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_RESTORATION_SPELLS_PROFICIENCY_BONUSES",
     "eoc_type": "EVENT",
