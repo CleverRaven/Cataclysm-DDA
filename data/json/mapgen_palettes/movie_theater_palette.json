@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "movie_theater_palette.json",
     "furniture": {
+      "a": "f_atm_off",
       "T": "f_counter",
       "f": "f_counter",
       "&": "f_toilet",
@@ -49,7 +50,6 @@
       "^": "t_door_glass_c",
       "D": "t_door_metal_pickable",
       "d": "t_door_locked",
-      "a": "t_atm",
       "w": "t_window",
       "-": "t_railing_h",
       "R": "t_railing_h",
