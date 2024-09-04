@@ -821,7 +821,6 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
     double penalty_small = 0.5;
     double penalty_big = 1.5;
-    int prof_penalty = 0;
 
     int prof_butch_penalty = penalty_big * ( 1 - butch_basic ) + penalty_small * ( 1 - butch_adv );
     int prof_skin_penalty = penalty_small * ( 1 - skin_basic );
