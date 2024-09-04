@@ -819,39 +819,31 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
     double butch_adv = you.get_proficiency_practice( proficiency_prof_butchering_adv );
     double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
-    double penalty_small = 0.25;
-    double penalty_big = 0.75;
+    double penalty_small = 0.5;
+    double penalty_big = 1.5;
     int prof_penalty = 0;
+
+    int prof_butch_penalty = penalty_big * ( 1 - butch_basic ) + penalty_small * ( 1 - butch_adv );
+    int prof_skin_penalty = penalty_small * ( 1 - skin_basic );
+
+    // there supposed to be a code for book mitigation, but we don't have any book fitting for this
 
     if( action == butcher_type::FULL ) {
         // 40% of butchering and gutting, 40% of skinning, 20% another activities
-        prof_penalty += ( time_to_cut * 0.4 ) * penalty_small * ( 1 - butch_adv );
-        prof_penalty += ( time_to_cut * 0.4 ) * penalty_big * ( 1 - butch_basic );
-        prof_penalty += ( time_to_cut * 0.4 ) * penalty_small * ( 1 - skin_basic );
-
-        time_to_cut += prof_penalty;
+        time_to_cut *= 0.4 * ( 1 + prof_butch_penalty ) + 0.4 * ( 1 + prof_skin_penalty ) + 0.2;
     }
 
     if( action == butcher_type::QUICK ) {
         // 70% of butchery, 15% skinning, 15% another activities
-        prof_penalty += ( time_to_cut * 0.7 ) * penalty_small * ( 1 - butch_adv );
-        prof_penalty += ( time_to_cut * 0.7 ) * penalty_big * ( 1 - butch_basic );
-        prof_penalty += ( time_to_cut * 0.15 ) * penalty_small * ( 1 - skin_basic );
-
-        time_to_cut += prof_penalty;
+        time_to_cut *= 0.7 * ( 1 + prof_butch_penalty ) + 0.15 * ( 1 + prof_skin_penalty ) + 0.15;
     }
 
     if( action == butcher_type::FIELD_DRESS ) {
-        prof_penalty += time_to_cut * penalty_small * ( 1 - butch_adv );
-        prof_penalty += time_to_cut * penalty_big * ( 1 - butch_basic );
-
-        time_to_cut += prof_penalty;
+        time_to_cut *= 1 + prof_butch_penalty;
     }
 
     if( action == butcher_type::SKIN ) {
-        prof_penalty += time_to_cut  * penalty_small * ( 1 - skin_basic );
-
-        time_to_cut += prof_penalty;
+        time_to_cut *= 1 + prof_skin_penalty;
     }
 
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
