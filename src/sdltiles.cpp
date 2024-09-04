@@ -3726,9 +3726,9 @@ void catacurses::init_interface()
     ImGuiStyle& style = ImGui::GetStyle();
 
     SDL_Color BLACK = windowsPalette[0];
-    float BlackR = static_cast<float>(BLACK.r) / 255.0f;
-    float BlackG = static_cast<float>(BLACK.g) / 255.0f;
-    float BlackB = static_cast<float>(BLACK.b) / 255.0f;
+    float BlackR = static_cast<float>( BLACK.r ) / 255.0f;
+    float BlackG = static_cast<float>( BLACK.g ) / 255.0f;
+    float BlackB = static_cast<float>( BLACK.b ) / 255.0f;
 
     SDL_Color BLUE  = windowsPalette[4];
     float BlueR = static_cast<float>(BLUE.r) / 255.0f;
