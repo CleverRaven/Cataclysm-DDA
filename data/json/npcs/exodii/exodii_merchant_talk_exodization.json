@@ -7,12 +7,12 @@
       {
         "text": "[Install CBM Interface] Let's do it.",
         "effect": [
-          { "u_add_bionic": "bio_power_storage" },
-          { "u_add_bionic": "bio_cable" },
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_add_effect": "blind", "duration": "2 hours" },
-          { "u_add_effect": "deaf", "duration": "2 hours" },
-          { "u_add_trait": "CBM_Interface" }
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
@@ -79,7 +79,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -90,7 +90,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -120,7 +120,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -131,7 +131,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -157,7 +157,12 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
         "condition": {
-          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
+          "not": {
+            "or": [
+              { "u_has_mission": "RUBIK_ANUS_FETICK" },
+              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+            ]
+          }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -165,14 +170,24 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
         "condition": {
-          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
+          "not": {
+            "or": [
+              { "u_has_mission": "RUBIK_ANUS_FETICK" },
+              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+            ]
+          }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_DONE"
       },
       {
         "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
-        "condition": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] },
+        "condition": {
+          "or": [
+            { "u_has_mission": "RUBIK_ANUS_FETICK" },
+            { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+          ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -188,9 +203,11 @@
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
         "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_trait": "CBM_Interface" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
@@ -207,7 +224,7 @@
     },
     "speaker_effect": [
       {
-        "condition": { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] } },
         "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
         "effect": [
           { "u_add_faction_trust": 2 },

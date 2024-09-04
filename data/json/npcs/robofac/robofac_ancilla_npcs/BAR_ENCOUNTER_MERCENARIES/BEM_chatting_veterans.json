@@ -48,12 +48,12 @@
     "responses": [
       {
         "text": "Recall that time when you rescued a farmer's son from a citadel full of alien horrors.",
-        "condition": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Tell them about your hunting of a pyramidal robot using a prototype energy rifle.",
-        "condition": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
       },
       {
@@ -63,7 +63,7 @@
       },
       {
         "text": "Tell about your slaying of an insectile horror after getting trapped within its lair.",
-        "condition": { "u_has_var": "general_talk_killed_a_void_spider", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_talk_killed_a_void_spider" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
@@ -73,12 +73,12 @@
       },
       {
         "text": "Tell them about the horrors uncovered by the mining expeditions of New England.",
-        "condition": { "u_has_var": "general_talk_clearead_amigara_mine", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_talk_clearead_amigara_mine" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Tell them about the horrors wandering in these very same subway tunnels.",
-        "condition": { "u_has_var": "general_talk_clearead_amigara_mine", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_talk_clearead_amigara_mine" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
       },
       {
@@ -93,17 +93,17 @@
       },
       {
         "text": "Speak about the alien construct you found while lost in an endless sea of black glass.",
-        "condition": { "u_has_var": "general_yrax_u_met_apeirohedra", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_yrax_u_met_apeirohedra" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Tell them the story of how you were trapped in an infinitely looping corridor, fighting the warped remnants of the researchers there and somehow the damned corridor itself.  And at the end of the day, you're not even sure the headache was worth it.",
-        "condition": { "u_has_var": "dialogue_intercom_completed_robofac_lixa_sm_1", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_lixa_sm_1" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_LIXA"
       },
       {
         "text": "Tell them the story of how you dived into and were forced to fight for your life within a disgusting, toxic hellscape made from the un-living innards of some crushed zombie monstrosity.  All so the intercom could have some damned HDD back.",
-        "condition": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER"
       },
       {

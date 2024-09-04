@@ -32,12 +32,10 @@
       "math": [ "n_npc_anger()", ">=", "8" ],
       "yes": "What brings you back here?  Come to exploit me again?",
       "no": {
-        "u_has_var": "dialogue_godco_godco_notalk_to_u",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
         "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_greenwood",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ],
           "yes": {
             "u_male": true,
             "yes": [ "The Lord be with you, brother.", "Good to see you're still around, <u_name>." ],
@@ -57,8 +55,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Greenwood_Firstmeet"
@@ -66,7 +64,10 @@
       {
         "text": "Good to see you again, Reverend.  I wanted to talk.",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "8" ] }, { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Greenwood_2"
       },
@@ -75,8 +76,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "8" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_MISSION_LIST"
@@ -88,8 +89,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "8" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -98,8 +99,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Greenwood_You_Mutant"

@@ -41,6 +41,12 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
 
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
+    SKIP_LOCATION_NO_ZONE,  // Zone activity but no zone found
+    SKIP_LOCATION_NO_SKILL, // Insufficient npc skill for task.
+    SKIP_LOCATION_BLOCKING, // Something is blocking the target location for companion.
+    SKIP_LOCATION_UNKNOWN_ACTIVITY, // This is probably an error: failed to find matching activity.
+    SKIP_LOCATION_NO_LOCATION, // No candidate locations found
+    SKIP_LOCATION_NO_MATCH, // No matches found
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };

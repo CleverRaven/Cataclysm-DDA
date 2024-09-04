@@ -49,6 +49,7 @@
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",
+    "vision_levels": "first_glance_forest",
     "see_cost": "spaced_high"
   },
   {
@@ -58,6 +59,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
+    "vision_levels": "always_full",
     "see_cost": "all_clear"
   },
   {
@@ -112,6 +114,7 @@
     ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
+    "vision_levels": "isolated_tower",
     "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
@@ -156,6 +159,7 @@
     "name": "elemental altar",
     "sym": "O",
     "color": "light_green",
+    "vision_levels": "open_land",
     "looks_like": "standing_stones",
     "see_cost": "high",
     "mondensity": 2
@@ -255,6 +259,7 @@
     "name": "great tree trunk",
     "sym": "F",
     "color": "brown",
+    "vision_levels": "isolated_tower",
     "see_cost": "high"
   },
   {

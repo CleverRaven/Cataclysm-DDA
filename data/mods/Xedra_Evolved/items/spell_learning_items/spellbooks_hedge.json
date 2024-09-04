@@ -64,8 +64,7 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams",
-    "type": "BOOK",
-    "category": "manuals",
+    "type": "GENERIC",
     "name": {
       "str": "Ward your Dreams for a Good Night's Sleep!",
       "str_pl": "copies of Ward your Dreams for a Good Night's Sleep!"
@@ -78,12 +77,93 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS",
+          "//": "Max research time before failure is 10 hours. Average result of 60 after 10 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_ward_dreams", "!=", "1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_ward_dreams", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "36000" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_ward_dreams" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "63" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "70" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
+                    {
+                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_ward_dreams_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_WARD_DREAMS",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_ward_dreams_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_WARD_DREAMS_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_ward_dreams_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_ward_dreams_stub",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep" },
+    "description": "The temporary item that teaches you spells.",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
   },
   {
     "id": "spellbook_hedge_snare_changelings",
-    "type": "BOOK",
-    "category": "manuals",
+    "type": "GENERIC",
     "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
     "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
     "weight": "83 g",
@@ -93,6 +173,88 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS",
+          "//": "Max research time before failure is 30 hours. Average result of 180 after 30 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_snare_changelings", "!=", "1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_snare_changelings", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "108000" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_snare_changelings" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "248" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "275" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
+                    {
+                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_snare_changelings_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_SNARE_CHANGELINGS",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_snare_changelings_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_SNARE_CHANGELINGS_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_snare_changelings_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_snare_changelings_stub",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings" },
+    "description": "The temporary item that teaches you spells.",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
   },
   {
@@ -108,13 +270,13 @@
     "looks_like": "paper",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] },
+    "//": "This is a quest reward specifically written to be easy to understand, and so does not require research."
   },
   {
     "id": "spellbook_hedge_bathhouse_midnight",
     "//": "divination spells are appropriate here too",
-    "type": "BOOK",
-    "category": "manuals",
+    "type": "GENERIC",
     "name": {
       "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
       "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
@@ -126,6 +288,88 @@
     "looks_like": "paper",
     "symbol": "?",
     "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT",
+          "//": "Max research time before failure is 60 hours. Average result of 360 after 60 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_bathhouse_at_midnight", "!=", "1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_bathhouse_midnight", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "216000" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_bathhouse_midnight" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research", "==", "1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "495" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "550" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
+                    {
+                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "queue_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_bathhouse_midnight_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_BATHHOUSE_AT_MIDNIGHT",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_bathhouse_midnight_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_BATHHOUSE_AT_MIDNIGHT_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_bathhouse_midnight_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_bathhouse_midnight_stub",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight" },
+    "description": "The temporary item that teaches you spells.",
     "use_action": {
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]

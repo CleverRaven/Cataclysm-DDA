@@ -138,7 +138,7 @@
   {
     "id": "mon_gartersnake",
     "type": "MONSTER",
-    "name": { "str": "common garnet snake" },
+    "name": { "str": "common garter snake" },
     "description": "A common species of snake found all across North America.",
     "copy-from": "mon_snake_abstract",
     "reproduction": { "baby_monster": "mon_gartersnake_baby", "baby_count": 10, "baby_timer": 90 },
@@ -148,7 +148,7 @@
   {
     "id": "mon_gartersnake_baby",
     "type": "MONSTER",
-    "name": { "str": "common garnet snake snakelet" },
+    "name": { "str": "common garter snake snakelet" },
     "description": "A garter snake in its juvenile stage.",
     "copy-from": "mon_snakelet_abstract",
     "upgrades": { "age_grow": 136, "into": "mon_gartersnake" }
