@@ -2518,7 +2518,7 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         spell_data.emplace_back( _( "is a channeling spell" ) );
     }
     if( has_flag( spell_flag::CONJURATION_SPELL ) ) {
-        spell_data.emplace_back( _( "is a summoning spell" ) );
+        spell_data.emplace_back( _( "is a conjuration spell" ) );
     }
     if( has_flag( spell_flag::ENHANCEMENT_SPELL ) ) {
         spell_data.emplace_back( _( "is an enhancement spell" ) );
