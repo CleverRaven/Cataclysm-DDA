@@ -1878,6 +1878,7 @@
     "hp": 150,
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
     "death_drops": "xedra_officer_set",
+    "upgrades": false,
     "bleed_rate": 0,
     "vision_night": 40,
     "special_attacks": [

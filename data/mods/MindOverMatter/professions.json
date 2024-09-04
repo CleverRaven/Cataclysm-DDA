@@ -5,6 +5,7 @@
     "name": "Awakening Psion",
     "description": "You survived a portal storm and hid inside while reality broke around you, and when you left to examine the damage you found a strange crystal the storm had left behind.  It was captivating, and you took it with you.  Sometimes, at night, you look into it before you sleep, and you almost feel like something in you is responding to the glow within the crystal.",
     "points": 1,
+    "traits": [ "ALWAYS_GAIN_PSIONICS" ],
     "items": {
       "both": {
         "entries": [

@@ -275,7 +275,7 @@
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
 
-"Isolation Protocols ☣":
+"Mods: Isolation Protocol ☣":
   - data/mods/Isolation-Protocol/**/*
 
 "Mods":
@@ -298,7 +298,7 @@
   - "**/vehicle**"
   - "src/veh_**"
  
-"Game: Defense Mode":
+"Mods: Defense Mode":
   - "data/mods/Defense_Mode/**"
 
 "ImGui":

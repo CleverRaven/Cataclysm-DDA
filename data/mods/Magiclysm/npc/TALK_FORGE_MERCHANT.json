@@ -134,8 +134,7 @@
     "id": "TALK_FORGE_LORD_DOING",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_FORGE_LORD",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_FORGE_LORD" } ],
       "no": "Well here and now I am the law, and the law here is that people purchase my goods, they take them out into the world and they die; or they return to buy more of my goods.  Either way, I write poetry about them.",
       "yes": "Once I was lost in the throes of love, now I've built an empire of material goods.  I've found these two things are equally as powerful, and dangerous."
     },
@@ -143,7 +142,7 @@
       {
         "text": "Good day, sir.",
         "effect": { "u_add_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" },
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_FORGE_LORD" } ] } },
         "topic": "TALK_FORGE_LORD"
       }
     ]

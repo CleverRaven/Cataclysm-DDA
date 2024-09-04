@@ -496,7 +496,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 

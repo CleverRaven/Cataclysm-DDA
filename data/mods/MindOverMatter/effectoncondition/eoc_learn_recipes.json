@@ -930,6 +930,7 @@
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
         ]
       }
@@ -994,6 +995,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_ephemeral_walk')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_ephemeral_walk" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1205,7 +1212,13 @@
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
+            { "math": [ "u_pain()", ">=", "35" ] },
+            { "math": [ "u_val('focus')", "<=", "15" ] }
+          ]
+        },
         {
           "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
         },

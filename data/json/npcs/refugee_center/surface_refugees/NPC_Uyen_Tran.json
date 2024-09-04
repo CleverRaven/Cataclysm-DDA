@@ -83,7 +83,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 10 },
@@ -94,7 +94,7 @@
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
       {
         "text": "Could you teach me a bit about first aid?",
-        "condition": { "u_has_var": "knowledge_flag_Uyen_teach", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Uyen_teach" } ] },
         "topic": "TALK_REFUGEE_Uyen_Teach"
       },
       { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_Uyen_World" },
@@ -258,8 +258,7 @@
           "no": ", as long as this doesn't last too long."
         },
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
           "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.",
           "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy."
         }

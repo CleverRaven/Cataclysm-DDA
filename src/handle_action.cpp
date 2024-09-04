@@ -2257,13 +2257,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_zero ) {
-                        player_character.clear_destination();
+                        player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
                 if( !avatar_action::move( player_character, m, dest_delta ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
-                    player_character.clear_destination();
+                    player_character.abort_automove();
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
@@ -3002,7 +3002,7 @@ bool game::handle_action()
         act = player_character.get_next_auto_move_direction();
         if( act == ACTION_NULL ) {
             add_msg( m_info, _( "Auto-move canceled" ) );
-            player_character.clear_destination();
+            player_character.abort_automove();
             return false;
         }
         handle_key_blocking_activity();

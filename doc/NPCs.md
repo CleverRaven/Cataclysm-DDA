@@ -64,7 +64,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
+      "condition": { "compare_string": [ "yes", { "u_val": "general_examples_VIP" } ] }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
@@ -108,7 +108,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     {
       "item": "hammer",
       "rate": 10,
-      "condition": { "npc_has_var": "bool_dinner_hammer_eater", "value": "yes" }
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_dinner_hammer_eater" } ] }
     },
     { "category": "ammo", "rate": 10 },
     { "group": "EXODII_basic_trade", "rate": 100 }
@@ -126,7 +126,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "entries": [
     {
       "item": "hammer",
-      "condition": { "npc_has_var": "bool_test_hammer_hater", "value": "yes" },
+      "condition": { "compare_string": [ "yes", { "npc_val": "bool_test_hammer_hater" } ] },
       "message": "<npcname> hates this item"
     },
     { "category": "ammo" },
@@ -881,6 +881,7 @@ Effect | Description
 `assign_guard` | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
 `stop_guard` | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
 `start_camp` | The NPC will start a faction camp with the player.
+`distribute_food_auto` | The NPC will immediately distribute all food on their tile and adjacent tiles into the local camp's larder. Requires that such a camp exists and that the NPC has access to that camp.
 `wake_up` | Wakes up sleeping, but not sedated, NPCs.
 `reveal_stats` | Reveals the NPC's stats, based on the player's skill at assessing them.
 `end_conversation` | Ends the conversation and makes the NPC ignore you from now on.
@@ -1041,7 +1042,7 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "general_examples_has_met_PC", "value": "yes"
+      "compare_string": [ "yes", { "npc_val": "general_examples_has_met_PC" } ]
     }
   },
   "effect": {
@@ -1134,7 +1135,7 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
+  "condition": { "not": { "compare_string": [ "yes", { "u_val": "sentinel_old_guard_rep_asked_about_vault" } ] } },
   "effect": [
     { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
@@ -1143,7 +1144,7 @@ Condition | Type | Description
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
+  "condition": { "compare_string": [ "yes", { "u_val": "trigger_learning_experience_even_more_zombies" } ] },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
@@ -1370,7 +1371,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | spell_level_sum()    |  ✅   |   ❌  | u, n  | Return sum of all spell levels character has; having one spell of class A with level 5, and another with lvl 10 would return 15. <br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school. Omitting return sum of all spells character has, no matter of the class.<br/>`level`: `d/v` - count only spells that are higher or equal this field. Default 0.<br/><br/> Example:<br/>`{ "math": [ "test_var1", "=", "u_spell_level_sum()" ] }`<br/>`{ "math": [ "test_var2", "=", "u_spell_level_sum('school': 'MAGUS')" ] }`<br/>`{ "math": [ "test_var3", "=", "u_spell_level_sum('school': 'MAGUS', 'level': '10')" ] }`|
 | spell_level(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written.<br/>Argument is spell ID. If `"null"` is given, return the highest level of spells the character knows (read only).<br/> Example:<br/>`"condition": { "math": [ "u_spell_level('SPELL_ID')", "==", "-1"] }`|
 | spell_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is spell ID. If `"null"` is given, adjust all spell level.<br/><br/>Example:<br/>`{ "math": [ "u_spell_level_adjustment('SPELL_ID')", "+=", "3"] }`|
-| spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-0.95" ] }`|
+| spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`damage` - Multiplier - alters the damage of the given spell(s).  Negative damage result in healing.<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-0.95" ] }`|
 | value_or(`v`,`d`/`v`)    |  ✅   |   ❌  | g  | Return value of variable if defined, otherwise the provided value<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "value_or( fancy_var, 15 )" ] }`|
 | time(`s`/`v`)    |  ✅   |   ✅  | N/A<br/>(global)  | Return a numeric value (in turns) for a time period string (see [Units](JSON_INFO.md#units)).<br/><br/>Special Values:<br/>`now` - returns duration since turn zero<br/>`cataclysm` - returns duration between cataclysm and turn zero<br/><br/>`time('now')` can serve as an assignment target to change current turn.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Example:<br/>`{ "math": [ "time('now') - u_timer_caravan_RandEnc", ">", "time('1 h')" ] }`|
 | time_since(`v`)<br/>time_since('cataclysm')<br/>time_since('midnight')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period since time point stored in variable.<br/><br/>Special values:<br/>`cataclysm` - return time since start of cataclysm<br/>`midnight` - return time since midnight<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] }`<br/>`{ "math": [ "time_since('cataclysm', 'unit':'years') > 1" ] }`|

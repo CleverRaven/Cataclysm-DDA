@@ -1050,7 +1050,7 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
             const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
             return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty();
         } else {
-            return oter_no_dir( omt_ter ) == location_value;
+            return oter_no_dir_or_connections( omt_ter ) == location_value;
         }
     };
 }
@@ -1082,7 +1082,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
                        !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty() ) {
                 return true;
             } else {
-                if( oter_no_dir( omt_ter ) == location_value ) {
+                if( oter_no_dir_or_connections( omt_ter ) == location_value ) {
                     return true;
                 }
             }

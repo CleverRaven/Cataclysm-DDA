@@ -159,7 +159,6 @@
         "|": "t_brick_wall",
         "X": "t_door_metal_pickable",
         "#": "t_brick_wall",
-        "!": "t_atm",
         "L": "t_door_locked",
         "D": "t_door_c",
         "W": { "param": "laundromat_wall_type", "fallback": "t_wall" },
@@ -185,6 +184,7 @@
         "&": "t_linoleum_white"
       },
       "furniture": {
+        "!": "f_atm_off",
         ".": "f_null",
         "#": "f_sign",
         "$": "f_counter",
