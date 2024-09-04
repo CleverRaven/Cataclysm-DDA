@@ -599,7 +599,9 @@
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
         "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ] }
+        "time_in_future": {
+          "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
+        }
       }
     ],
     "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
