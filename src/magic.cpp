@@ -173,6 +173,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
         case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
         case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
+        case spell_flag::RESTORATION_SPELL: return "RESTORATION_SPELL";
+        case spell_flag::TRANSFORMATION_SPELL: return "TRANSFORMATION_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
