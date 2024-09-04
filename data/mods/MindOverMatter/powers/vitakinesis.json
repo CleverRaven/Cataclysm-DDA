@@ -3,7 +3,7 @@
     "id": "vita_health_power",
     "type": "SPELL",
     "name": "[Ψ]Healthy Glow (C)",
-    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Healthy Glow <color_red>cannot be active</color> with Leucocyte Acculumation",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -157,7 +157,7 @@
     "id": "vita_concentrated_healing",
     "type": "SPELL",
     "name": "[Ψ]Leukocyte Accumulation (C)",
-    "description": "By rerouting blood and stem cells from more lightly damaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "By rerouting blood and stem cells from more lightly damaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Leucocyte Acculumation <color_red>cannot be active</color> with Healthy Glow",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -182,12 +182,12 @@
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 80)), 1350)"
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_concentrated_healing') * 80)), 1350)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_health_power') * 9.5)), 35)"
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_concentrated_healing') * 9.5)), 35)"
       ]
     }
   },

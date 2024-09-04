@@ -1969,7 +1969,8 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP_AWAKE", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1993,8 +1994,8 @@
     "max_intensity": 500,
     "show_intensity": false,
     "max_duration": "7 days",
-    "removes_effects": [ "effect_vita_concentrated_healing_penalty" ], 
-    "base_mods": { "healing_rate": [ 1 ] }
+    "removes_effects": [ "effect_vita_concentrated_healing_penalty" ],
+    "base_mods": { "healing_rate": [ 1 ] },
     "scaling_mods": { "healing_rate": [ 1 ] }
   },
   {

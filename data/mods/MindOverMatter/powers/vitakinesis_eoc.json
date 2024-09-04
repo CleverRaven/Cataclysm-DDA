@@ -1,6 +1,35 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+    "condition": { "and": [ { "u_has_effect": "effect_vita_concentrated_healing" }, { "u_has_effect": "dermatik" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK_2",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_cure_disease')" ] }, "y": 100 } },
+                { "math": [ "u_vitamin('dermatik_larva_size')", "<=", "720" ] },
+                {
+                  "compare_string": [ { "u_val": "latest_concentrated_body_part" }, { "global_val": "IMPREGNATED_BODYPART" } ]
+                }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "dermatik" },
+              { "math": [ "u_vitamin('mutant_toxin')", "=", "u_vitamin('dermatik_larva_size')" ] },
+              { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] },
+              { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
     "condition": {
       "or": [
