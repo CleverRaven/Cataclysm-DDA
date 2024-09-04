@@ -3378,7 +3378,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location_no_match ) {
             add_msg( m_neutral,
-                     _( "%1$s failed to perform the %2$s activity because of no criteria could be matched." ),
+                     _( "%1$s failed to perform the %2$s activity because no criteria could be matched." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location ) {
             // Assumed to have been reported already.
