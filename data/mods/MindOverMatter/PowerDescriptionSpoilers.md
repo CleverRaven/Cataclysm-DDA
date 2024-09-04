@@ -1173,7 +1173,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level.<br />
 *Stamina Cost*: 3500, minus 80 per level to a minimum of 1350<br />
 *Channeling Time*: 250 moves, minus 9.5 moves per level to a minimum of 35<br />
-*Effects*: Focus the psion's healing on a single body part, increasing its healing rate by 3x + 1.5x per power level, but reducing the healing rate of every other body part by 95%. Leucocyte Accumulation is incompatible with Healthy Glow.<br />
+*Effects*: Focus the psion's healing on a single body part, increasing its healing rate by 6x + 3x per power level, but reducing the healing rate of every other body part by 95%. Leucocyte Accumulation is incompatible with Healthy Glow.<br />
 *Prerequisites*: Healthy Glow 6<br />
 
 ## Staunch Wound
