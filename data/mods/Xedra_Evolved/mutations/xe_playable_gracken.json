@@ -41,7 +41,6 @@
     "purifiable": false,
     "profession": true,
     "points": 2,
-    "scent_type": "sc_gracken",
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "allowed_category": [ "GRACKEN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
@@ -55,18 +54,6 @@
     "valid": false,
     "purifiable": false,
     "threshold": true
-  },
-  {
-    "id": "mutagen_species_gracken",
-    "type": "vitamin",
-    "vit_type": "counter",
-    "//": "Nothing should give this currently, Gracken only use this to mature and only mature Gracken are playable currently.  If someone comes up with a decent plan on maturing larval Gracken into adults remove this note.",
-    "name": { "str": "Gracken Purifier" },
-    "excess": "mutagen_species_gracken",
-    "min": 0,
-    "max": 2500,
-    "rate": "1 h",
-    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
     "type": "mutation",
@@ -139,7 +126,7 @@
     "type": "mutation",
     "id": "SHADE_STRONG_ARMS",
     "name": { "str": "Strong Arms" },
-    "description": "Your arms have begun bulking up and become stronger. +1 Strength",
+    "description": "Your arms have begun bulking up and become stronger.  +1 Strength",
     "//": "This is the first stage strong arms mutation.",
     "types": [ "ARMS" ],
     "prereqs": [ "SHADE_ARMS" ],
@@ -156,7 +143,7 @@
     "type": "mutation",
     "id": "SHADE_LONG_ARMS",
     "name": { "str": "Long Arms" },
-    "description": "Your arms have lengthened. You can push a target away from you.",
+    "description": "Your arms have lengthened.  You can push a target away from you.",
     "//": "This is the first stage long arms mutation.",
     "types": [ "ARMS" ],
     "purifiable": false,
@@ -217,6 +204,19 @@
     "visibility": 4,
     "ugliness": 1,
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_SKIN",
+    "name": { "str": "Shade Skin" },
+    "description": "Your skin is the color of shadows moving in the twilight.",
+    "//": "This is the baseline Gracken skin mutation.",
+    "types": [ "SKIN" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },

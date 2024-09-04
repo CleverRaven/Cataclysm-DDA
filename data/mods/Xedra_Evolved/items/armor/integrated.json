@@ -534,7 +534,7 @@
     "name": { "str": "shadowstuff organ" },
     "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
     "to_hit": -1,
-    "material": [ "demihuman_flesh" ],
+    "material": [ "flesh" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
