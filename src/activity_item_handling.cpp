@@ -3366,7 +3366,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                      _( "%1$s failed to perform the %2$s activity because the target location is blocked or cannot be reached." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location_no_skill ) {
-            add_msg( m_neutral, _( "%1$s failed to perform the %2$s activity because of unsufficient skills." ),
+            add_msg( m_neutral, _( "%1$s failed to perform the %2$s activity because of insufficient skills." ),
                      you.disp_name(), activity_to_restore.c_str() );
         } else if( reason.skip_location_unknown_activity ) {
             add_msg( m_neutral,
