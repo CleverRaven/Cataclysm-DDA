@@ -1102,7 +1102,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
 
         const double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
-        const double butch_adv = you.get_proficiency_practice( proficiency_prof_butchering_basic );
         const double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
         const double skin_adv = you.get_proficiency_practice( proficiency_prof_skinning_adv );
         const double penalty_small = 0.15;
