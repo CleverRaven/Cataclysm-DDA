@@ -832,11 +832,11 @@
     "name": { "str": "WearMan" },
     "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "toggled_pseudo_items": [ "mp3_on" ],
-    "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_psuedo_items": [ "bio_mp3" ]
   },
   {
-    "id": "bio_voice_b"
+    "id": "bio_voice_b",
     "type": "bionic",
     "name": { "str": "AudioVox" },
     "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice at will.  It consists of an electronic voice box, synthetic larynx and multiple small speakers implanted throughout the throat.",
