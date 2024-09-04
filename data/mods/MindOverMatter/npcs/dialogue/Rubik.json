@@ -26,7 +26,7 @@
       {
         "text": "From the portals…like you, right?  You've seen this before?",
         "topic": "TALK_EXODII_MERCHANT_alien_flora_source",
-        "condition": { "u_has_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }

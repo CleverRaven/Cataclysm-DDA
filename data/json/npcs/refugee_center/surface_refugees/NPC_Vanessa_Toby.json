@@ -89,7 +89,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1"
@@ -104,7 +104,7 @@
           "and": [
             { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
             { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
-            { "u_has_var": "mission_flag_Vanessa_Mission1", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Vanessa_Mission1" } ] }
           ]
         }
       },
@@ -164,7 +164,7 @@
       {
         "text": "Could you give me a haircut?",
         "topic": "TALK_REFUGEE_Vanessa_Haircut_no",
-        "condition": { "not": { "u_has_var": "mission_flag_Vanessa_Mission1", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Vanessa_Mission1" } ] } }
       }
     ]
   },
@@ -179,14 +179,12 @@
           "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },
         {
-          "u_has_var": "knowledge_flag_tacoma_started",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "knowledge_flag_tacoma_started" } ],
           "yes": ", and all anyone will talk about is this new ranch they're building, as though it'll solve all our food problems",
           "no": ", and there's not enough food to go around"
         },
         {
-          "u_has_var": "mission_flag_Vanessa_Mission1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_flag_Vanessa_Mission1" } ],
           "no": ".  Why don't you fuckin' figure it out?",
           "yes": ".  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut."
         }
@@ -231,7 +229,7 @@
       {
         "text": "Actually, you owe me a free haircut, remember?",
         "topic": "TALK_CUT_YOUR_HAIR",
-        "condition": { "npc_has_var": "mission_services_owed_haircut_1", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_services_owed_haircut_1" } ] },
         "effect": [
           { "npc_add_var": "mission_services_owed_haircut_1", "value": "no" },
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }

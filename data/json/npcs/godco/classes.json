@@ -580,7 +580,7 @@
       { "item": "icon", "price": 100 },
       {
         "group": "NC_EVAC_SHOPKEEP_misc",
-        "condition": { "not": { "npc_has_var": "general_meeting_u_paidoff", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_paidoff" } ] } },
         "markup": 3
       }
     ],

@@ -1505,10 +1505,10 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_sylph_levitation",
+    "id": "effect_sylph_climb_flying",
     "//": "Hidden, paired with the previous effect sometimes but not always.",
-    "name": [  ],
-    "desc": [  ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "flags": [ "CLIMB_FLYING" ]
   },
   {

@@ -702,7 +702,7 @@ class map
                    bool with_fields = true ) const;
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range, int &bresenham_slope,
                    bool with_fields = true, bool allow_cached = true ) const;
-        point sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
+        int64_t sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -2602,7 +2602,7 @@ class map
         /**
          * Cache of coordinate pairs recently checked for visibility.
          */
-        using lru_cache_t = lru_cache<point, char>;
+        using lru_cache_t = lru_cache<int64_t, char>;
         mutable lru_cache_t skew_vision_cache;
         mutable lru_cache_t skew_vision_wo_fields_cache;
 

@@ -40,6 +40,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -382,6 +383,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "overmap_fast_travel", overmap_fast_travel );
+    json.member( "overmap_fast_scroll", overmap_fast_scroll );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -455,6 +458,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "overmap_fast_travel", overmap_fast_travel );
+    jo.read( "overmap_fast_scroll", overmap_fast_scroll );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -3476,11 +3481,11 @@ void inventory_selector::action_examine( const item_location &sitem )
 
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
-    draw_item_info( [&]() -> catacurses::window {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        int width = std::min( 80, maxwidth );
-        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
-    data ).get_first_input();
+    data.arrow_scrolling = true;
+    int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+    int width = std::min( 80, maxwidth );
+    iteminfo_window info_window( data, point( maxwidth / 2 - width / 2, -1 ), width, 0 );
+    info_window.execute();
 }
 
 void inventory_selector::highlight()

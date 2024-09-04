@@ -685,7 +685,7 @@ bool Character::handle_gun_damage( item &it )
     int gun_damage = it.damage() / 1000.0;
     switch( gun_damage ) {
         case 0:
-            gun_jam_chance = 0.0000018 * firing.gun_jam_mult;
+            gun_jam_chance = 0.0005 * firing.gun_jam_mult;
             break;
         case 1:
             gun_jam_chance = 0.03 * firing.gun_jam_mult;
@@ -707,7 +707,7 @@ bool Character::handle_gun_damage( item &it )
         mag_damage = it.magazine_current()->damage() / 1000.0;
         switch( mag_damage ) {
             case 0:
-                mag_jam_chance = 0.00000288 * it.magazine_current()->type->magazine->mag_jam_mult;
+                mag_jam_chance = 0.00027 * it.magazine_current()->type->magazine->mag_jam_mult;
                 break;
             case 1:
                 mag_jam_chance = 0.05 * it.magazine_current()->type->magazine->mag_jam_mult;
@@ -724,7 +724,7 @@ bool Character::handle_gun_damage( item &it )
         }
     }
 
-    const double jam_chance = ( gun_jam_chance + mag_jam_chance ) * 1.8;
+    const double jam_chance = gun_jam_chance + mag_jam_chance;
 
     add_msg_debug( debugmode::DF_RANGED,
                    "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",

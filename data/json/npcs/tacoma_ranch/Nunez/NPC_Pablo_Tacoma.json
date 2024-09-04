@@ -86,12 +86,12 @@
       {
         "text": "Hey, Pablo!  I heard you might be willing to trade for propane?",
         "topic": "TALK_TACOMA_Pablo_Propane1",
-        "condition": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_propane_scavenging" } ] }
       },
       {
         "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Pablo_Bakery1",
-        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_tacoma_bakery" } ] }
       },
       { "text": "Just popping in to say hi.  Talk to you later!", "topic": "TALK_DONE" }
     ]
@@ -227,12 +227,12 @@
       {
         "text": "I heard you might be willing to trade for propane?",
         "topic": "TALK_TACOMA_Pablo_Propane1",
-        "condition": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_propane_scavenging" } ] }
       },
       {
         "text": "Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Pablo_Bakery1",
-        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_tacoma_bakery" } ] }
       },
       {
         "text": "I don't mind keeping my eye out for some firebricks for you.",
@@ -240,8 +240,8 @@
         "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "firebricks_tacoma_bakery", "value": "known_deleted" },
-            { "not": { "u_has_var": "firebricks_tacoma_bakery", "value": "helped" } }
+            { "compare_string": [ "known_deleted", { "u_val": "firebricks_tacoma_bakery" } ] },
+            { "not": { "compare_string": [ "helped", { "u_val": "firebricks_tacoma_bakery" } ] } }
           ]
         }
       },
@@ -251,8 +251,8 @@
         "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "message_jenny_tacoma_mill", "value": "known_deleted" },
-            { "not": { "u_has_var": "message_jenny_tacoma_mill", "value": "helped" } }
+            { "compare_string": [ "known_deleted", { "u_val": "message_jenny_tacoma_mill" } ] },
+            { "not": { "compare_string": [ "helped", { "u_val": "message_jenny_tacoma_mill" } ] } }
           ]
         }
       },
@@ -263,8 +263,8 @@
           "and": [
             { "math": [ "u_skill('survival')", ">=", "4" ] },
             { "math": [ "u_skill('fabrication')", ">=", "4" ] },
-            { "u_has_var": "rootcellar_tacoma_bakery", "value": "known" },
-            { "not": { "npc_has_var": "rootcellar_tacoma_bakery", "value": "helped" } }
+            { "compare_string": [ "known", { "u_val": "rootcellar_tacoma_bakery" } ] },
+            { "not": { "compare_string": [ "helped", { "npc_val": "rootcellar_tacoma_bakery" } ] } }
           ]
         }
       }
