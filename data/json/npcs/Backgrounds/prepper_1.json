@@ -53,7 +53,7 @@
     "id": "BGSS_PREPPER_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
+      "gendered_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

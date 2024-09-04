@@ -255,8 +255,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "magazines_22_1022",
-    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
-    "items": [ { "item": "ruger1022mag", "prob": 500 }, { "item": "ruger1022bigmag", "prob": 300 } ]
+    "//": "Collections of magazines for the gun.  Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.  In this case, it seems the 110 drum is quite commom for the high capacties.",
+    "items": [
+      { "item": "ruger1022mag", "prob": 500 },
+      { "item": "ruger1022mag_15", "prob": 200 },
+      { "item": "ruger1022bigmag", "prob": 300 },
+      { "item": "ruger1022mag_30", "prob": 1 },
+      { "item": "ruger1022mag_32", "prob": 5 },
+      { "item": "ruger1022mag_55", "prob": 12 },
+      { "item": "ruger1022mag_70", "prob": 16 },
+      { "item": "ruger1022mag_110", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",

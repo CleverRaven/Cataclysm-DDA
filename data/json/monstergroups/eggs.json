@@ -1,24 +1,5 @@
 [
   {
-    "name": "GROUP_EGG_BIRD_WILD",
-    "type": "monstergroup",
-    "default": "mon_grouse_chick",
-    "monsters": [
-      { "monster": "mon_grouse_chick", "weight": 50 },
-      { "monster": "mon_chicken_chick", "weight": 100 },
-      { "monster": "mon_turkey_chick", "weight": 250 },
-      { "monster": "mon_pheasant_chick", "weight": 250 },
-      { "monster": "mon_duck_chick", "weight": 150 },
-      { "monster": "mon_crow_chick", "weight": 40 },
-      { "monster": "mon_raven_chick", "weight": 40 },
-      { "monster": "mon_bluejay_chick", "weight": 15 },
-      { "monster": "mon_cardinal_chick", "weight": 15 },
-      { "monster": "mon_sparrow_chick", "weight": 15 },
-      { "monster": "mon_goose_canadian_chick", "weight": 100 },
-      { "monster": "mon_goose_chick", "weight": 100 }
-    ]
-  },
-  {
     "name": "GROUP_EGG_CHICKEN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_chicken_chick" } ]

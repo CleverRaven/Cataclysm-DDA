@@ -182,7 +182,7 @@
     "id": "skull_canis_triclopean",
     "name": { "str": "triclopean canine skull" },
     "description": "The skull of a what looks like a dog, although it has an extra eye socket.",
-    "copy-from": "skull_canis_medium"
+    "copy-from": "skull_canis"
   },
   {
     "type": "GENERIC",

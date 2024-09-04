@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "egg_guinea_fowl",
     "name": "guinea fowl egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GUINEA_FOWL",
     "rot_spawn_chance": 70
   },
@@ -73,7 +73,7 @@
     "type": "COMESTIBLE",
     "id": "egg_tinamou",
     "name": "tinamou egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_TINAMOU",
     "rot_spawn_chance": 70
   },
@@ -81,7 +81,7 @@
     "type": "COMESTIBLE",
     "id": "egg_seriema",
     "name": "seriema egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_SERIEMA",
     "rot_spawn_chance": 70
   },
@@ -89,7 +89,7 @@
     "type": "COMESTIBLE",
     "id": "egg_chachalaca",
     "name": "chachalaca egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CHACHALACA",
     "rot_spawn_chance": 70
   },
@@ -97,7 +97,7 @@
     "type": "COMESTIBLE",
     "id": "egg_guan",
     "name": "guan egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GUAN",
     "rot_spawn_chance": 70
   },
@@ -105,7 +105,7 @@
     "type": "COMESTIBLE",
     "id": "egg_curassow",
     "name": "curassow egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CURASSOW",
     "rot_spawn_chance": 70
   },
@@ -113,7 +113,7 @@
     "type": "COMESTIBLE",
     "id": "egg_constrictor",
     "name": "snake egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The egg of a tropical snake.",
     "rot_spawn": "GROUP_EGG_CONSTRICTOR"
   },
@@ -121,7 +121,7 @@
     "type": "COMESTIBLE",
     "id": "egg_lizard",
     "name": "lizard egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The egg of a tropical lizard.",
     "rot_spawn": "GROUP_EGG_LIZARD"
   },
@@ -129,7 +129,7 @@
     "type": "COMESTIBLE",
     "id": "egg_monitor",
     "name": "varanid egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The egg of a monitor lizard.",
     "rot_spawn": "GROUP_EGG_MONITOR"
   },
@@ -137,7 +137,7 @@
     "type": "COMESTIBLE",
     "id": "egg_iguana",
     "name": "iguana egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The egg of an iguana.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },
@@ -145,7 +145,7 @@
     "type": "COMESTIBLE",
     "id": "egg_turtle",
     "name": "turtle egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The round egg of a turtle.  It is covered in leaves.",
     "rot_spawn": "GROUP_EGG_TURTLE"
   },
@@ -153,7 +153,7 @@
     "type": "COMESTIBLE",
     "id": "egg_snapper",
     "name": "iguana egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The round egg of a snapping turtle.  It is covered in mud.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },
@@ -161,7 +161,7 @@
     "type": "COMESTIBLE",
     "id": "egg_tortoise",
     "name": "iguana egg",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "The round egg of a tortoise.  It is covered in dirt.",
     "rot_spawn": "GROUP_EGG_IGUANA"
   },

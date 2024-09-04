@@ -676,7 +676,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "hat_hard",
-    "items": [ { "item": "light_disposable_cell", "charges": [ 0, -1 ], "container-item": "flashlight" } ]
+    "items": [ { "item": "flashlight", "charges": [ 0, -1 ] } ]
   },
   {
     "id": "hat_hard_modified",
@@ -685,7 +685,7 @@
     "container-item": "hat_hard",
     "items": [
       { "group": "common_nape_protectors", "prob": 50 },
-      { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "flashlight", "prob": 50 },
+      { "item": "flashlight", "charges": [ 0, -1 ], "prob": 50 },
       { "group": "common_face_shields", "prob": 15 },
       { "item": "plastic_chin_guard", "prob": 10 },
       { "item": "attachable_ear_muffs", "prob": 5 }

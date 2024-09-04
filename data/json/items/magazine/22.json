@@ -118,7 +118,7 @@
     ],
     "weight": "245 g",
     "volume": "159 ml",
-    "longest_side": "185 mm",
+    "longest_side": "162 mm",
     "price": "79 USD",
     "price_postapoc": "2 USD",
     "material": [ "steel", "plastic" ],
@@ -154,6 +154,172 @@
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "ruger1022mag_15",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "15-round varmint magazine" },
+    "description": "An extended capacity 15-round magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag_15",
+        "name": { "str": "Ruger 10/22 15-round magazine" },
+        "description": "An extended 15-round stick magazine for the Ruger 10/22, known as the BX-15."
+      }
+    ],
+    "weight": "147 g",
+    "volume": "95 ml",
+    "longest_side": "111 mm",
+    "price": "31 USD 95 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ]
+  },
+  {
+    "id": "ruger1022mag_30",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "30-round varmint drum magazine" },
+    "description": "A 30-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag_30",
+        "name": { "str": "Ruger 10/22 30-round drum magazine" },
+        "description": "The ProMag 30 round drum magazine is a high capacity after-market 10/22 magazine.  While a whole lot lighter and handier than larger drum mags, the fact that the capacity isn't much higher than a stick magazine makes this an unpopular choice, as it still comes with all the reliability issues drum magazines have."
+      }
+    ],
+    "weight": "232 g",
+    "volume": "170 ml",
+    "longest_side": "134 mm",
+    "price": "39 USD 99 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 140,
+    "mag_jam_mult": 2,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 55 } } ]
+  },
+  {
+    "id": "ruger1022mag_32",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "32-round varmint magazine" },
+    "description": "An extended capacity 32-round magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022bigmag",
+        "name": { "str": "Ruger 10/22 32-round magazine" },
+        "description": "An extended 32-round stick magazine for the Ruger 10/22 by ProMag.  While more reliable than a drum mag, it's surprisingly not by much."
+      }
+    ],
+    "weight": "312 g",
+    "volume": "204 ml",
+    "longest_side": "208 mm",
+    "price": "20 USD 99 cent",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 120,
+    "mag_jam_mult": 1.5,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 32 } } ]
+  },
+  {
+    "id": "ruger1022mag_55",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "55-round varmint drum magazine" },
+    "description": "A 55-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag_55",
+        "name": { "str": "Ruger 10/22 55-round drum magazine" },
+        "description": "The ProMag 55 round drum magazine is a high capacity after-market 10/22 magazine.  While cumbersome, heavy, and unreliable, the capacity is no doubt a selling factor.  While usually range toys, these mags may just make surviving a little bit easier."
+      }
+    ],
+    "weight": "426 g",
+    "volume": "311 ml",
+    "longest_side": "148 mm",
+    "price": "98 USD 99 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 160,
+    "mag_jam_mult": 2,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 55 } } ]
+  },
+  {
+    "id": "ruger1022mag_70",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "70-round varmint drum magazine" },
+    "description": "A 70-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag_70",
+        "name": { "str": "Ruger 10/22 70-round drum magazine" },
+        "description": "The ProMag 70 round drum magazine is a high capacity after-market 10/22 magazine.  While cumbersome, heavy, and unreliable, the capacity is no doubt a selling factor.  While usually range toys, these mags may just make surviving a little bit easier."
+      }
+    ],
+    "weight": "659 g",
+    "volume": "450 ml",
+    "longest_side": "167 mm",
+    "price": "109 USD 99 cent",
+    "price_postapoc": "6 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 180,
+    "mag_jam_mult": 2,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 70 } } ]
+  },
+  {
+    "id": "ruger1022mag_110",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "110-round varmint drum magazine" },
+    "description": "An 110-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag_110",
+        "name": { "str": "Ruger 10/22 110-round drum magazine" },
+        "description": "The GSG-16 110 round drum magazine is the highest capacity 10/22 magazine on the (after)-market.  While cumbersome, heavy, and unreliable, the capacity is no doubt a selling factor.  While usually range toys, these mags may just make surviving a little bit easier."
+      }
+    ],
+    "weight": "1492 g",
+    "volume": "890 ml",
+    "longest_side": "344 mm",
+    "price": "88 USD 99 cent",
+    "price_postapoc": "8 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 200,
+    "mag_jam_mult": 2.3,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 110 } } ]
   },
   {
     "id": "wp22mag",
