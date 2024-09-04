@@ -1978,7 +1978,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You stop concentrating your healing.",
     "rating": "bad",
     "max_duration": "7 days",
     "base_mods": { "healing_rate": [ 0.05 ] }
@@ -1994,7 +1994,6 @@
     "max_intensity": 500,
     "show_intensity": false,
     "max_duration": "7 days",
-    "removes_effects": [ "effect_vita_concentrated_healing_penalty" ],
     "base_mods": { "healing_rate": [ 1 ] },
     "scaling_mods": { "healing_rate": [ 1 ] }
   },
