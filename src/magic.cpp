@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <cstring>
 #include <memory>
 #include <set>
 #include <utility>
@@ -166,6 +167,12 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
+        case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
+        case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";
+        case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
+        case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
+        case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -719,13 +726,15 @@ int spell::damage( const Creature &caster ) const
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) ),
                     std::max( leveled_damage,
-                              static_cast<int>( type->max_damage.evaluate( d ) ) ) );
+                              static_cast<int>( type->max_damage.evaluate( d ) ) ) ) * temp_damage_multiplyer;
     } else {
         if( type->min_damage.evaluate( d ) >= 0 ||
             type->max_damage.evaluate( d ) >= type->min_damage.evaluate( d ) ) {
-            return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::min( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         } else { // if it's negative, min and max work differently
-            return std::max( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::max( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         }
     }
 }
@@ -1640,6 +1649,8 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
         temp_level_adjustment += adjustment;
     } else if( target_property == "casting_time" ) {
         temp_cast_time_multiplyer += adjustment;
+    } else if( target_property == "damage" ) {
+        temp_damage_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;
     } else if( target_property == "aoe" ) {
@@ -1663,6 +1674,7 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
 void spell::clear_temp_adjustments()
 {
     temp_level_adjustment = 0;
+    temp_damage_multiplyer = 1;
     temp_cast_time_multiplyer = 1;
     temp_spell_cost_multiplyer = 1;
     temp_aoe_multiplyer = 1;
@@ -1855,6 +1867,18 @@ int spell::heal( const tripoint &target, Creature &caster ) const
     return -1;
 }
 
+void spell::cast_spell_effect( const tripoint &target ) const
+{
+    avatar fake_avatar;
+    fake_avatar.setpos( target );
+
+    get_event_bus().send<event_type::character_casts_spell>( character_id( -1 ),
+            this->id(), this->spell_class(),
+            0, 0, 0, this->damage( fake_avatar ) );
+
+    type->effect( *this, fake_avatar, target );
+}
+
 void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 {
     Character *caster = source.as_character();
@@ -1867,6 +1891,38 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
     }
 
     type->effect( *this, source, target );
+}
+
+void spell::cast_all_effects( const tripoint &target ) const
+{
+    avatar fake_avatar;
+    fake_avatar.setpos( target );
+
+    if( has_flag( spell_flag::WONDER ) ) {
+        const auto iter = type->additional_spells.begin();
+        for( int num_spells = std::abs( damage( fake_avatar ) ); num_spells > 0; num_spells-- ) {
+            if( type->additional_spells.empty() ) {
+                debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", type->id.c_str() );
+                return;
+            }
+            const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
+            spell sp = ( iter + rand_spell )->get_spell( fake_avatar, get_effective_level() );
+
+            // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
+            // if a message is added to the casting spell, it will be sent as well.
+            add_msg( sp.message() );
+
+            sp.cast_all_effects( target );
+        }
+    } else {
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( target );
+            cast_spell_effect( target );
+        } else {
+            cast_spell_effect( target );
+            cast_extra_spell_effects( target );
+        }
+    }
 }
 
 void spell::cast_all_effects( Creature &source, const tripoint &target ) const
@@ -1907,6 +1963,16 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             cast_spell_effect( source, target );
             cast_extra_spell_effects( source, target );
         }
+    }
+}
+
+void spell::cast_extra_spell_effects( const tripoint &target ) const
+{
+    avatar fake_avatar;
+    fake_avatar.setpos( target );
+    for( const fake_spell &extra_spell : type->additional_spells ) {
+        spell sp = extra_spell.get_spell( fake_avatar, get_effective_level() );
+        sp.cast_all_effects( target );
     }
 }
 
@@ -2345,7 +2411,7 @@ class spellcasting_callback : public uilist_callback
         void display_spell_info( size_t index );
     public:
         // invlets reserved for special functions
-        const std::set<int> reserved_invlets{ 'I', '=', '*' };
+        static const std::set<int> reserved_invlets;
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
@@ -2361,8 +2427,11 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    const bool invlet_set =
-                        get_player_character().magic->set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
+                    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
+                    get_player_character().magic->update_used_invlets( used_invlets );
+                    const bool invlet_set = get_player_character().magic->set_invlet(
+                                                known_spells[entnum]->id(), invlet, used_invlets );
+                    // TODO: if key already in use, have spells swap invlets?
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
                     } else {
@@ -2400,13 +2469,15 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
-                    display_spell_info( menu->selected );
+                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
+                    display_spell_info( menu->hovered );
                 }
             }
             ImGui::EndChild();
         }
 };
+
+const std::set<int> spellcasting_callback::reserved_invlets { 'I', '=', '*' };
 
 bool spell::casting_time_encumbered( const Character &guy ) const
 {
@@ -2439,6 +2510,24 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     std::vector<std::string> spell_data;
     if( has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "is a psionic power" ) );
+    }
+    if( has_flag( spell_flag::EVOCATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an evocation spell" ) );
+    }
+    if( has_flag( spell_flag::CHANNELING_SPELL ) ) {
+        spell_data.emplace_back( _( "is a channeling spell" ) );
+    }
+    if( has_flag( spell_flag::CONJURATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conjuration spell" ) );
+    }
+    if( has_flag( spell_flag::ENHANCEMENT_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enhancement spell" ) );
+    }
+    if( has_flag( spell_flag::ENERVATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enervation spell" ) );
+    }
+    if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conveyance spell" ) );
     }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
@@ -2695,12 +2784,21 @@ bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int
         return false;
     }
     invlets[sp] = invlet;
+    // TODO: we should really update used_invlets too, to avoid inconsistency
     return true;
 }
 
 void known_magic::rem_invlet( const spell_id &sp )
 {
+    // TODO: ... except that rem_invlet cannot update used_invlets (not passed in)
     invlets.erase( sp );
+}
+
+void known_magic::update_used_invlets( std::set<int> &used_invlets )
+{
+    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
+        used_invlets.emplace( invlet_pair.second );
+    }
 }
 
 void known_magic::toggle_favorite( const spell_id &sp )
@@ -2723,25 +2821,16 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     if( found != invlets.end() ) {
         return found->second;
     }
-    for( const std::pair<const spell_id, int> &invlet_pair : invlets ) {
-        used_invlets.emplace( invlet_pair.second );
-    }
-    for( int i = 'a'; i <= 'z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
-            used_invlets.emplace( i );
-            return i;
-        }
-    }
-    for( int i = 'A'; i <= 'Z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
-            used_invlets.emplace( i );
-            return i;
-        }
-    }
-    for( int i = '!'; i <= '-'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
-            used_invlets.emplace( i );
-            return i;
+    update_used_invlets( used_invlets );
+    // For spells without an invlet, assign first available one.
+    // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
+    // when spells are added or subtracted.
+    // TODO: respect "Auto inventory letters" option?
+    for( char &ch : inv_chars.get_allowed_chars() ) {
+        int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
+        if( set_invlet( sp, invlet, used_invlets ) ) {
+            used_invlets.emplace( invlet );
+            return invlet;
         }
     }
     return 0;
@@ -2749,15 +2838,40 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 
 int known_magic::select_spell( Character &guy )
 {
-    std::vector<spell *> known_spells = get_spells();
+    std::vector<spell *> known_spells_sorted = get_spells();
+
+    std::set<int> used_invlets{ spellcasting_callback::reserved_invlets };
+
+    // Sort the spell lists by 3 dimensions.
+    sort( known_spells_sorted.begin(), known_spells_sorted.end(),
+    [&guy, &used_invlets, this]( spell * left, spell * right ) -> int {
+        const bool l_fav = guy.magic->is_favorite( left->id() );
+        const bool r_fav = guy.magic->is_favorite( right->id() );
+        // 1. Favorite spells before non-favorite
+        if( l_fav != r_fav )
+        {
+            return l_fav > r_fav;
+        }
+        const int l_invlet = get_invlet( left->id(), used_invlets );
+        const int r_invlet = get_invlet( right->id(), used_invlets );
+        // 2. By invlet, if present (but in allowed_chars order; e.g.,
+        //    lower-case first)
+        if( l_invlet != r_invlet )
+        {
+            return inv_chars.ordinal( l_invlet ) < inv_chars.ordinal( r_invlet );
+        }
+        // 3. By spell name
+        return strcmp( left->name().c_str(), right->name().c_str() ) < 0;
+    } );
 
     uilist spell_menu;
     spell_menu.desired_bounds = {
         -1.0,
             -1.0,
             std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
-            clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+            clamp( static_cast<int>( known_spells_sorted.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
         };
+
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.input_category = "SPELL_MENU";
     spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
@@ -2766,13 +2880,13 @@ int known_magic::select_spell( Character &guy )
     spell_menu.additional_actions.emplace_back( "SCROLL_DOWN_SPELL_MENU", translation() );
     spell_menu.additional_actions.emplace_back( "SCROLL_FAVORITE", translation() );
     spell_menu.hilight_disabled = true;
-    spellcasting_callback cb( known_spells, casting_ignore );
+    spellcasting_callback cb( known_spells_sorted, casting_ignore );
     spell_menu.callback = &cb;
     spell_menu.add_category( "all", _( "All" ) );
     spell_menu.add_category( "favorites", _( "Favorites" ) );
 
     std::vector<std::pair<std::string, std::string>> categories;
-    for( const spell *s : known_spells ) {
+    for( const spell *s : known_spells_sorted ) {
         if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
             const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
                                                  s->spell_class().obj().name();
@@ -2789,16 +2903,16 @@ int known_magic::select_spell( Character &guy )
         spell_menu.add_category( cat.first, cat.second );
     }
 
-    spell_menu.set_category_filter( [&guy, known_spells]( const uilist_entry & entry,
+    spell_menu.set_category_filter( [&guy, known_spells_sorted]( const uilist_entry & entry,
     const std::string & key )->bool {
         if( key == "all" )
         {
             return true;
         } else if( key == "favorites" )
         {
-            return guy.magic->is_favorite( known_spells[entry.retval]->id() );
+            return guy.magic->is_favorite( known_spells_sorted[entry.retval]->id() );
         }
-        return ( known_spells[entry.retval]->spell_class().is_valid() || known_spells[entry.retval]->spell_class() == trait_NONE ) && known_spells[entry.retval]->spell_class().str() == key;
+        return ( known_spells_sorted[entry.retval]->spell_class().is_valid() || known_spells_sorted[entry.retval]->spell_class() == trait_NONE ) && known_spells_sorted[entry.retval]->spell_class().str() == key;
     } );
     if( !favorites.empty() ) {
         spell_menu.set_category( "favorites" );
@@ -2806,15 +2920,13 @@ int known_magic::select_spell( Character &guy )
         spell_menu.set_category( "all" );
     }
 
-    std::set<int> used_invlets{ cb.reserved_invlets };
-
-    for( size_t i = 0; i < known_spells.size(); i++ ) {
-        spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( guy ),
-                             get_invlet( known_spells[i]->id(), used_invlets ), known_spells[i]->name() );
+    for( size_t i = 0; i < known_spells_sorted.size(); i++ ) {
+        spell_menu.addentry( static_cast<int>( i ), known_spells_sorted[i]->can_cast( guy ),
+                             get_invlet( known_spells_sorted[i]->id(), used_invlets ), known_spells_sorted[i]->name() );
     }
-    reflesh_favorite( &spell_menu, known_spells );
+    reflesh_favorite( &spell_menu, known_spells_sorted );
 
-    spell_menu.query( true, -1, true );
+    spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 

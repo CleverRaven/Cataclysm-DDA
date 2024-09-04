@@ -76,7 +76,6 @@
         "=": "t_afs_augustmoon_diamond_glass",
         "w": "t_carpet_metal_red",
         "|": "t_afs_augustmoon_hull_wall",
-        "ò": "t_atm",
         "1": "t_underbrush",
         "2": "t_nanofab_body",
         "3": "t_nanofab",
@@ -84,6 +83,7 @@
         "6": "t_elevator"
       },
       "furniture": {
+        "ò": "f_atm",
         "0": "f_cryo_pod",
         "4": "f_mil_comms_sat",
         "7": "f_autodoc",

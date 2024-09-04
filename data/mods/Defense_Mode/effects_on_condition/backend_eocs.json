@@ -46,7 +46,7 @@
     "type": "effect_on_condition",
     "id": "defense_mode_money_add_npc",
     "global": false,
-    "condition": { "not": { "npc_has_var": "general_trade_u_got_money", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_u_got_money" } ] } },
     "effect": [
       { "u_spend_cash": { "math": [ "wave_number * wave_money_modifier" ] } },
       { "npc_add_var": "general_trade_u_got_money", "value": "yes" }

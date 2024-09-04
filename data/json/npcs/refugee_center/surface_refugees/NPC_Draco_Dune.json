@@ -76,8 +76,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_Draco_Dune",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Draco_Dune" } ],
       "yes": { "gendered_line": "Always good to see you, friend.", "relevant_genders": [ "u" ] },
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
@@ -98,8 +97,8 @@
         "text": "Hi, Draco, how are you doing?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "3" } },
-            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" } }
+            { "not": { "compare_string": [ "3", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } },
+            { "not": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Draco_2"
@@ -108,15 +107,15 @@
         "text": "Hi again, Draco, nice to see you too.",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "3" },
-            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" } }
+            { "compare_string": [ "3", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] },
+            { "not": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" },
+        "condition": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "Hi Draco, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
@@ -249,8 +248,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_7",
     "dynamic_line": {
-      "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ],
       "yes": {
         "gendered_line": "My savior!  My patron of the arts!  You're always welcome here, friend.",
         "relevant_genders": [ "u" ]
@@ -262,22 +260,22 @@
       {
         "text": "Let's talk about getting you that guitar.",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] } }
       },
       {
         "text": "I've been thinking about that deal you mentioned.",
-        "condition": { "u_has_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_barter_NC_REFUGEE_Draco_offered_weed_deal" } ] },
         "topic": "TALK_REFUGEE_Draco_10_approve"
       },
       {
         "text": "Anything you buying or selling, by chance?",
-        "condition": { "not": { "u_has_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_barter_NC_REFUGEE_Draco_offered_weed_deal" } ] } },
         "effect": { "u_add_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_8"
       },
       {
         "text": "Do you know any tunes good to dance to?",
-        "condition": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] },
         "topic": "TALK_REFUGEE_Draco_Dance"
       },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
@@ -349,7 +347,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
-            { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -365,7 +363,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
-            { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -381,7 +379,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -397,7 +395,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_mission_NC_REFUGEE_Draco_has_guitar" } ] },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },

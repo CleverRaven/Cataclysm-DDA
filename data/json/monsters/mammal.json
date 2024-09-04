@@ -1425,7 +1425,7 @@
     "dodge": 2,
     "vision_night": 6,
     "stomach_size": 650,
-    "harvest": "mammal_fur_canis",
+    "harvest": "dog_with_skull_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines"
   },
@@ -2626,7 +2626,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "vision_night": 5,
-    "harvest": "mammal_fur_canis",
+    "harvest": "dog_with_skull_fur",
     "dissect": "dissect_lupine_sample_single",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],

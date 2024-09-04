@@ -36,7 +36,7 @@
             "damage_required": [ 4, 100 ]
           }
         ],
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "coverage": 8
       },
       {
@@ -164,7 +164,7 @@
             "damage_required": [ 51, 100 ]
           }
         ],
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       }
     ]
   },
@@ -513,7 +513,7 @@
             "damage_required": [ 51, 100 ]
           }
         ],
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       }
     ]
   },

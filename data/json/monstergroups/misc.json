@@ -96,12 +96,10 @@
     "type": "monstergroup",
     "name": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
-    "default": "mon_spider_jumping_small",
+    "default": "mon_silverfish_small",
     "monsters": [
       { "group": "GROUP_NETHER_UNVIABLE", "weight": 300, "cost_multiplier": 0 },
-      { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
-      { "group": "GROUP_SLUG", "weight": 180 },
-      { "group": "GROUP_SPIDER_BASEMENT", "weight": 300, "pack_size": [ 2, 5 ] },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 750 },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
@@ -160,6 +158,7 @@
     "default": "mon_kreck",
     "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
     "monsters": [
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 75 },
       { "monster": "mon_kreck", "weight": 200 },
       { "monster": "mon_unseen_hunter", "weight": 200, "starts": "6 hours", "ends": "15 days" },
       { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "15 days" },
@@ -292,7 +291,6 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
       { "group": "GROUP_COWS", "weight": 10 },
       { "group": "GROUP_HORSES", "weight": 10 },
       { "group": "GROUP_PIGS", "weight": 10 },
@@ -321,6 +319,8 @@
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
       { "group": "GROUP_FLY", "weight": 100 },
+      { "group": "GROUP_ROACH", "weight": 50 },
+      { "group": "GROUP_MOTH_FLY", "weight": 50 },
       { "monster": "mon_crow", "weight": 75 },
       { "monster": "mon_raven", "weight": 75 },
       {
@@ -335,8 +335,6 @@
       { "monster": "mon_black_rat", "weight": 100 },
       { "monster": "mon_opossum", "weight": 15 },
       { "monster": "mon_raccoon", "weight": 15 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
-      { "monster": "mon_rattlesnake_giant", "weight": 5, "cost_multiplier": 2 },
       { "group": "GROUP_WORM", "weight": 20 },
       { "monster": "mon_wasp_small", "weight": 10 }
     ]
@@ -344,7 +342,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PEST",
-    "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 760 },
       {
@@ -355,7 +352,9 @@
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_SPIDER_WIDOW", "weight": 30, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_giant_cockroach", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_ROACH", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_FLY", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 35, "pack_size": [ 1, 3 ] },
       { "monster": "mon_black_rat", "weight": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_wasp_small", "weight": 50, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "weight": 20, "pack_size": [ 2, 6 ] },
@@ -372,10 +371,9 @@
       { "monster": "mon_null", "weight": 370, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 75, "cost_multiplier": 0 },
       { "monster": "mon_raccoon", "weight": 100, "cost_multiplier": 0 },
-      { "group": "GROUP_FLY", "weight": 100 },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175 },
       { "monster": "mon_blob_sewer", "weight": 100 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "group": "GROUP_ROACH", "weight": 75 },
       { "group": "GROUP_STRAY_CATS", "weight": 20 },
       { "group": "GROUP_TADPOLES_SEWER", "weight": 5 },
       { "group": "GROUP_FROGS_SEWER", "weight": 5 },

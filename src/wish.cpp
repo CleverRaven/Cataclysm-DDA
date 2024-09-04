@@ -173,8 +173,8 @@ class wish_mutate_callback: public uilist_callback
 
             ImGui::TableSetColumnIndex( 2 );
 
-            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < vTraits.size() ) {
-                const mutation_branch &mdata = vTraits[menu->selected].obj();
+            if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->hovered].obj();
 
                 ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
                 ImGui::NewLine();
@@ -672,7 +672,7 @@ class wish_monster_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
                 if( entnum != lastent ) {
                     lastent = entnum;
@@ -921,7 +921,7 @@ class wish_item_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
                     item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 

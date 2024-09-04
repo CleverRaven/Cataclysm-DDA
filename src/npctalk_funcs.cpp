@@ -109,6 +109,9 @@ static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
 
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+
 struct itype;
 
 static void spawn_animal( npc &p, const mtype_id &mon );
@@ -1264,6 +1267,43 @@ npc *pick_follower()
     }
 
     return followers[ menu.ret ];
+}
+
+void talk_function::distribute_food_auto( npc &p )
+{
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    if( !bcp ) {
+        debugmsg( "distribute_food_auto called without a basecamp, aborting." );
+        return;
+    }
+    basecamp *npc_camp = *bcp;
+    if( !npc_camp->allowed_access_by( p ) ) {
+        debugmsg( "distribute_food_auto called on npc that isn't allowed to access local basecamp storage, aborting." );
+        return;
+    }
+
+    zone_manager &mgr = zone_manager::get_manager();
+    const tripoint_abs_ms &npc_abs_loc = p.get_location();
+    // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
+    // TODO: fix point types; Awful hack, zones want the raw value
+    const tripoint top_left = npc_abs_loc.raw() + point_north_west;
+    const tripoint bottom_right = npc_abs_loc.raw() + point_south_east;
+    std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
+    const faction_id &fac_id = p.get_fac_id();
+    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );
+    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left, bottom_right );
+    npc_camp->distribute_food( false );
+    // Now we clean up all camp zones, though there SHOULD only be the two we just made
+    auto lambda_remove_zones = [&mgr, &fac_id]( zone_type_id type_to_remove ) {
+        std::vector<zone_manager::ref_zone_data> p_zones = mgr.get_zones( fac_id );
+        for( zone_data &a_zone : p_zones ) {
+            if( a_zone.get_type() == type_to_remove ) {
+                mgr.remove( a_zone );
+            }
+        }
+    };
+    lambda_remove_zones( zone_type_CAMP_FOOD );
+    lambda_remove_zones( zone_type_CAMP_STORAGE );
 }
 
 void talk_function::copy_npc_rules( npc &p )

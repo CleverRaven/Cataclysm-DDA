@@ -169,6 +169,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_CUT_OFF_FURTHER_HOMULLUS_MUTATIONS",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "iv_mutagen", { "context_val": "itype" } ] },
+            { "compare_string": [ "mutagen", { "context_val": "itype" } ] }
+          ]
+        },
+        { "u_has_trait": "HOMULLUS_EXPANDED_MUTATIONS" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HOMULLUS_NO_DOLL_MUTATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_CUT_OFF_FURTHER_HOMULLUS_MUTATIONS_2",
+    "recurrence": "10 m",
+    "condition": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" } },
+    "effect": [ { "math": [ "u_vitamin('mutagen_dollkin')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_ON",
     "condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
     "effect": [
@@ -310,27 +336,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_ALL_ROADS_TRANSLOCATE_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        {
-          "or": [
-            { "u_at_om_location": "road_curved" },
-            { "u_at_om_location": "road_tee" },
-            { "u_at_om_location": "road_four_way" },
-            { "u_at_om_location": "road_end" },
-            { "u_at_om_location": "road_sw" },
-            { "u_at_om_location": "road_ne" },
-            { "u_at_om_location": "road_ew" },
-            { "u_at_om_location": "road_ns" },
-            { "u_at_om_location": "road_nesw" },
-            { "u_at_om_location": "road" },
-            { "u_at_om_location": "road_straight" }
-          ]
-        },
-        { "u_is_on_terrain_with_flag": "ROAD" }
-      ]
-    },
+    "condition": { "and": [ "u_is_outside", { "u_at_om_location": "road" }, { "u_is_on_terrain_with_flag": "ROAD" } ] },
     "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
     "false_effect": [ { "u_message": "You must be standing on a road to cast this spell.", "type": "mixed" } ]
   },

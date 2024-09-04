@@ -1,5 +1,48 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAMESTART_TELEPORTATION_GATEWAY_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [ { "math": [ "u_teleportation_gateway_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAMELOAD_TELEPORTATION_GATEWAY_UPDATE_DONTKNOW",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
+        { "math": [ "u_spell_level('teleport_gateway')", "==", "-1" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_teleportation_gateway_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAMELOAD_TELEPORTATION_GATEWAY_UPDATE_KNOW",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
+        { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spell_level('teleport_area_attune')", "=", "-1" ] },
+      { "math": [ "u_spell_level('teleport_gateway_legacy')", "=", "u_spell_level('teleport_gateway')" ] },
+      {
+        "u_message": "Your Gateway power has been updated.  Your saved locations have not been updated--you can use the Gateway (Obsolete) power to return to them and add them to the new Gateway power.",
+        "popup": true
+      },
+      { "math": [ "u_teleportation_gateway_updated", "=", "1" ] }
+    ]
+  },
+  {
     "id": "telepathic_fear_self_effect",
     "type": "SPELL",
     "name": "[Ψ]Primal Terror Effect on self",
@@ -90,5 +133,49 @@
       ]
     },
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_gateway_legacy",
+    "type": "SPELL",
+    "name": "[Ψ]Gateway (Obsolete)",
+    "description": "This power is Obsolete, but you can still use it.  Teleport to an attuned location.",
+    "message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "translocate",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 6000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_area_attune",
+    "type": "SPELL",
+    "name": "[Ψ]Attune to Area",
+    "description": "Attune to a location for later teleporting.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_teleport_location_attune",
+    "shape": "blast",
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('teleport_gateway') * 108000), 180000)" ] }
   }
 ]

@@ -10,8 +10,16 @@
       "TALK_GODCO_Maria_Theresa"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Maria_Story" },
-      { "text": "Could you tell me about yourself?", "topic": "TALK_GODCO_Maria_Past" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Maria_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
+      {
+        "text": "Could you tell me about yourself?",
+        "topic": "TALK_GODCO_Maria_Past",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Maria_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Maria_Godco" }
     ]
@@ -20,14 +28,16 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_maria",
-        "value": "yes",
-        "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
-        "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Buzz off <name_b>, I'm not interested in  <swear> chatting with you.",
+        "no": {
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ],
+          "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
+          "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+        }
       }
     },
     "responses": [
@@ -36,8 +46,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_maria", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Maria_Feeling"
@@ -46,20 +56,42 @@
         "text": "Hey Maria.  What's up?",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Maria_2"
       },
       {
+        "text": "Maria, why the sudden hostility?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
+        "topic": "TALK_GODCO_Maria_Angry"
+      },
+      {
         "text": "Hey Maria.  I can't stay to talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -72,12 +104,12 @@
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Could you sew something for me?",
-        "condition": { "npc_has_var": "general_trade_can_sew_for_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_can_sew_for_u" } ] },
         "topic": "TALK_GODCO_Maria_Tailor_Something"
       },
       {
         "text": "How's my order going?",
-        "condition": { "npc_has_var": "general_trade_can_sew_for_u", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_can_sew_for_u" } ] },
         "topic": "TALK_GODCO_Maria_Retrieve_Order"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -235,7 +267,7 @@
         "text": "I ordered a t-shirt.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_tshirt", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_tshirt" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -250,7 +282,7 @@
         "text": "I ordered a pair of pants.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_pants", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_pants" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -265,7 +297,7 @@
         "text": "I ordered a jacket.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_jacket", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_jacket" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -280,7 +312,7 @@
         "text": "I ordered a dress.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_dress", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_dress" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -295,7 +327,7 @@
         "text": "I ordered a duster.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_duster", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_duster" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
@@ -310,7 +342,7 @@
         "text": "I ordered a trench coat.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_trenchcoat", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_trenchcoat" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
@@ -325,7 +357,7 @@
         "text": "I ordered a backpack.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_backpack", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_backpack" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
@@ -340,7 +372,7 @@
         "text": "I ordered a gambeson.",
         "condition": {
           "and": [
-            { "npc_has_var": "general_trade_u_want_gambeson", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_gambeson" } ] },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
@@ -400,5 +432,11 @@
     "id": "TALK_GODCO_Maria_Tailor_Done",
     "dynamic_line": "Here it is, I hope you enjoy it.  If you want something else, just come to me.",
     "responses": [ { "text": "Thank you.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Maria_Angry",
+    "dynamic_line": "'Cause your a <swear> <name_b> is why!  You think you can just do what <swear> ever you want with no consequence!  I'm sick of this, I'm not talking to you anymore.",
+    "responses": [ { "text": "Okay, <name_b>, piss on it.", "topic": "TALK_DONE" } ]
   }
 ]
