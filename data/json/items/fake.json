@@ -55,7 +55,7 @@
     "use_action": [
       {
         "target": "internal_mp3_music",
-        "menu_text": "play music",
+        "menu_text": "Play music",
         "msg": "Your ears are alive with the sound of music.",
         "type": "transform",
         "active": true,
@@ -75,8 +75,8 @@
     "use_action": [
       {
         "target": "internal_mp3_radio",
-        "menu_text": "switch to radio",
-        "msg": "You can now hear your surroundings, as well as the radio.",
+        "menu_text": "Switch to radio",
+        "msg": "You switch your WearMan to the radio.",
         "type": "transform",
         "active": true,
         "need_charges": 1,
@@ -85,7 +85,7 @@
     ],
     "charges_per_use": 1,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
-    "power_draw": "1 mW",
+    "power_draw": "1 W",
     "revert_to": "internal_mp3",
     "tick_action": [ "MP3_ON" ]
   },
@@ -99,8 +99,8 @@
       "RADIO_ON",
       {
         "target": "internal_mp3",
-        "menu_text": "turn off the radio",
-        "msg": "The radio goes quiet.",
+        "menu_text": "Turn off the radio",
+        "msg": "You turn off the radio. ",
         "type": "transform",
         "active": true,
         "need_charges": 1,
@@ -108,7 +108,7 @@
       }
     ],
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
-    "power_draw": "1 mW",
+    "power_draw": "1 W",
     "revert_to": "internal_mp3",
     "tick_action": [ "RADIO_TICK" ]
   },
