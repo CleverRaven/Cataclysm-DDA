@@ -62,7 +62,6 @@
     "skill_used": "mechanics",
     "difficulty": 1,
     "time": "2 m",
-    "reversible": true,
     "autolearn": true,
     "components": [
       [
@@ -73,7 +72,8 @@
         [ "qt_wire", 2 ],
         [ "ch_wire", 2 ],
         [ "cable", 2 ]
-      ]
+      ],
+      [ [ "yarn", 1 ],[ "cotton_ball", 1 ], [ "wool_staple, 1 ] ] 
     ]
   },
   {
