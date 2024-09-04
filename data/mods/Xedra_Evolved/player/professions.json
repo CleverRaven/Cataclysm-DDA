@@ -128,7 +128,7 @@
           { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+          { "item": "camera_pro", "charges": 300 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "socks" } ] },

@@ -13,25 +13,29 @@
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYN_MAIN",
-    "dynamic_line": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes", "yes": "Yeah?", "no": "Oh.  Hey there." },
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ],
+      "yes": "Yeah?",
+      "no": "Oh.  Hey there."
+    },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" } },
     "responses": [
       {
         "text": "Thought I heard someone.  What are you doing here?",
         "topic": "TALK_COWBOYN_INTRODUCTION1",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] } }
       },
       {
         "text": "How did you get here?",
         "topic": "TALK_COWBOYN_BACKGROUND",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] },
             {
               "not": {
                 "or": [
-                  { "u_has_var": "dialogue_cowboyn_cowboynmota", "value": "yes" },
-                  { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
+                  { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ] },
+                  { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
                 ]
               }
             }
@@ -43,15 +47,15 @@
         "topic": "TALK_COWBOYN_FOLLOW",
         "condition": {
           "or": [
-            { "u_has_var": "dialogue_cowboyn_cowboynmota", "value": "yes" },
-            { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
           ]
         }
       },
       {
         "text": "See you around.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] }
       }
     ]
   },
@@ -59,8 +63,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYN_BACKGROUND",
     "dynamic_line": {
-      "u_has_var": "dialogue_cowboyn_cowboynmota",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ],
       "no": {
         "gendered_line": "Lived in a nearby town.  Normal life.  9 to 5 job.  When it all happened, we ran away to find some safety.  But there's no safety anymore, is there?",
         "relevant_genders": [ "npc" ]
@@ -73,8 +76,8 @@
         "topic": "TALK_COWBOYN_PARTNER",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "dialogue_first_meeting_cowboynmota", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_first_meeting_cowboynmots", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmota" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmots" } ] } }
           ]
         }
       },
@@ -83,8 +86,8 @@
         "topic": "TALK_COWBOYN_MAIN",
         "condition": {
           "or": [
-            { "u_has_var": "dialogue_first_meeting_cowboynmota", "value": "yes" },
-            { "u_has_var": "dialogue_first_meeting_cowboynmots", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmota" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmots" } ] }
           ]
         }
       }
@@ -159,8 +162,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYN_FOLLOW",
     "dynamic_line": {
-      "u_has_var": "dialogue_cowboyn_cowboynmots",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ],
       "yes": "I dunno.  Maybe.  Might give me something to do while I think about all this.",
       "no": { "gendered_line": "I told you to just leave me alone.", "relevant_genders": [ "npc" ] }
     },
@@ -168,18 +170,18 @@
       {
         "text": "It will.  Let's get going.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] },
         "effect": "follow"
       },
       {
         "text": "On a second thought, wait here a while.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
       },
       {
         "text": "Alright.  Goodbye.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] } }
       }
     ]
   }

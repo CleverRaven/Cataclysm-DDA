@@ -61,8 +61,7 @@
           "u_is_wearing": "badge_marshal",
           "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father spots it.\"",
           "no": {
-            "u_has_var": "isherwood_luke_marshal_badge",
-            "value": "seen",
+            "compare_string": [ "seen", { "u_val": "isherwood_luke_marshal_badge" } ],
             "yes": ", and nods once when he sees you've taken off your marshal badge.  \"Tread carefully around here, we don't have a lot of respect for your type of lawman.\"",
             "no": {
               "u_male": true,
@@ -85,26 +84,29 @@
         "text": "What's wrong with me being a marshal?",
         "topic": "TALK_ISHERWOOD_LUKE_Marshal",
         "condition": {
-          "and": [ { "u_has_var": "isherwood_luke_marshal_badge", "value": "seen" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+          "and": [
+            { "compare_string": [ "seen", { "u_val": "isherwood_luke_marshal_badge" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
         }
       },
       {
         "text": "Your dad said you were out here fixing up this place.",
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
         "effect": [ { "u_add_var": "u_met_Luke_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
-        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "u_met_Eddie_Isherwood" } ] }
       },
       {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS1",
-        "condition": { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] } }
       },
       {
         "text": "Chris and I have a little project for you that we've cooked up, if you're interested.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-            { "u_has_var": "chris_planned_for_bomb", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "chris_planned_for_bomb" } ] },
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
@@ -214,7 +216,7 @@
       {
         "text": "Because of Barry?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
-        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -254,8 +256,7 @@
       "concatenate": [
         "*gestures around at the worn down shed surrounding you.  \"I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things",
         {
-          "u_has_var": "u_saved_barry_isherwood",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ],
           "yes": ", says it is too dangerous.  After what happened with Barry, well, I tend to agree with him.\"  He smiles thinly.  \"Don't want you to have to run out saving another one of us, right?\"",
           "no": ", says it's too dangerous.  I used to think he was being a pain in the butt, but lately…\" he stops abruptly, and says nothing more."
         }
@@ -309,12 +310,12 @@
       {
         "text": "I already know Barry got captured.  I just wanted to know a bit more about it.  Maybe I can help.",
         "topic": "TALK_LUKE_BARRY2",
-        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
       },
       {
         "text": "I might be able to help, though.",
         "topic": "TALK_LUKE_BARRYhelp",
-        "condition": { "not": { "u_has_var": "u_learned_barry_missing", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] } }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -377,8 +378,8 @@
         "topic": "TALK_LUKE_EDDIE_NoBarry",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" },
-            { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "u_met_Eddie_Isherwood" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] } }
           ]
         }
       },
@@ -386,7 +387,10 @@
         "text": "Tell me about your dad.",
         "topic": "TALK_LUKE_EDDIE_YesBarry",
         "condition": {
-          "and": [ { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }, { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_met_Eddie_Isherwood" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] }
+          ]
         }
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

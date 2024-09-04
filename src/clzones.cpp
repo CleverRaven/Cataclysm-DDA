@@ -583,6 +583,11 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
@@ -609,13 +614,13 @@ std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     uilist as_m;
     as_m.desc_enabled = true;
-    as_m.text = _( "Select zone type:" );
+    as_m.title = _( "Select zone type:" );
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
         const zone_type &type = pair.second;
 
-        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
+        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), wrap60( type.desc() ) );
     }
 
     as_m.query();

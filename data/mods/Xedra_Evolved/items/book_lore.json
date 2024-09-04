@@ -152,7 +152,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEARN_FROM_VAMPIRE_MENTOR_BOOK",
     "//": "Using roll-remainder allows to grant recipes that do not create items.  Switch them if a better way is found.",
-    "condition": { "not": { "u_has_var": "you_know_vampire_mentor_recipes", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "you_know_vampire_mentor_recipes" } ] } },
     "effect": [
       { "u_roll_remainder": [ "stormwrought_blood" ], "type": "recipe" },
       { "u_learn_recipe": "concentrated_underhill_essence" },

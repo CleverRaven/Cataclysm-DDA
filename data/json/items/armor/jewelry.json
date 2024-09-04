@@ -2011,6 +2011,13 @@
     "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the cops just aren't enough."
   },
   {
+    "id": "badge_fbi",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "FBI badge" },
+    "description": "A gold-filled brass shield with an eagle perched atop it and Lady Justice emblazoned on its center.  In large, engraved lettering it reads, \"FEDERAL BUREAU OF INVESTIGATION-US DEPARTMENT OF JUSTICE\".  It identifies the wearer as an agent with federal authority throughout all the United States and her territories; that is, whatever is left of them."
+  },
+  {
     "id": "badge_doctor",
     "copy-from": "badge_abstract",
     "type": "ARMOR",

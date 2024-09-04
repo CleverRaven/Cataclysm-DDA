@@ -94,8 +94,7 @@
     "type": "talk_topic",
     "id": "TALK_KINDRED_COOPER",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_talked_to_cooper",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ],
       "no": {
         "u_has_trait": "seer_mark",
         "yes": {
@@ -106,10 +105,13 @@
       },
       "yes": {
         "u_has_trait": "seer_mark",
-        "no": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes", "yes": "Hello again, traveler.", "no": "Yes?" },
+        "no": {
+          "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ],
+          "yes": "Hello again, traveler.",
+          "no": "Yes?"
+        },
         "yes": {
-          "u_has_var": "dialogue_cooper_cooper_friendly",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ],
           "no": "What do you want, Kindred?",
           "yes": "Kindred.  What can I do for you?"
         }
@@ -122,10 +124,10 @@
         "topic": "TALK_KNOWS_COOPER1",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_cooper_confronted_cooper", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_confronted_cooper" } ] } },
             { "u_has_trait": "seer_mark" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] } }
           ]
         }
       },
@@ -134,10 +136,10 @@
         "topic": "TALK_KNOWS_COOPER_CARVE",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_cooper_confronted_cooper", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_confronted_cooper" } ] } },
             { "u_has_trait": "seer_mark" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
@@ -146,11 +148,11 @@
         "topic": "TALK_COOPER_AGREE",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_cooper_confronted_cooper", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_confronted_cooper" } ] } },
             { "u_has_trait": "seer_mark" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_admires_cooper", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_admires_cooper" } ] }
           ]
         }
       },
@@ -159,9 +161,9 @@
         "topic": "TALK_COOPER_NOTFMLR",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } },
             { "u_has_trait": "seer_mark" },
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] } }
           ]
         }
       },
@@ -171,8 +173,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } }
           ]
         }
       },
@@ -182,9 +184,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
@@ -194,9 +196,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] } }
           ]
         }
       },
@@ -206,9 +208,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_admires_cooper", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_admires_cooper" } ] }
           ]
         }
       },
@@ -218,10 +220,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] } }
           ]
         }
       },
@@ -231,25 +233,25 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" } },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
       {
         "text": "Could you tell me about yourself?",
         "topic": "TALK_COOPER_ABOUT",
-        "condition": { "and": [ { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" } ] }
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] } ] }
       },
       {
         "text": "I'll be going now.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] } }
           ]
         }
       },
@@ -257,7 +259,10 @@
         "text": "Remind me what happened between you and Brigitte.",
         "topic": "TALK_COOPERS_SIDE",
         "condition": {
-          "and": [ { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" }, { "u_has_trait": "seer_mark" } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "u_has_trait": "seer_mark" }
+          ]
         }
       },
       {
@@ -265,8 +270,8 @@
         "topic": "TALK_COOPER_FIGHT",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
@@ -276,8 +281,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] }
           ]
         }
       },
@@ -287,23 +292,23 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark" } },
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_first_meeting_cooper_goal_dk", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_dk" } ] }
           ]
         }
       },
       {
         "text": "The woman you mentioned - Brigitte - why isn't she with you?",
         "topic": "TALK_COOPERS_SIDE",
-        "condition": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] }
       },
       {
         "text": "I was just checking in.  Take care.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] }
           ]
         }
       }
@@ -353,18 +358,18 @@
       {
         "text": "What do you mean by 'necessary'?",
         "topic": "TALK_COOPER_NECESSARY",
-        "condition": { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] } }
       },
       {
         "text": "What are you actually trying to accomplish?",
         "topic": "TALK_COOPER_GOAL",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] } }
       },
       { "text": "Can't have been easy to split off, but I understand why you did it.", "topic": "TALK_COOPER_AGREE" },
       {
         "text": "Necessary?  You kill innocent people!",
         "topic": "TALK_COOPER_NECESSARY",
-        "condition": { "u_has_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper_kill" } ] }
       }
     ]
   },
@@ -377,7 +382,7 @@
       {
         "text": "Why do you kill people?",
         "topic": "TALK_COOPER_GOAL",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] } }
       },
       { "text": "Are you going to kill me?", "topic": "TALK_COOPER_KILL_PLAYER" },
       { "text": "You're a monster.", "topic": "TALK_COOPER_MONSTER" },
@@ -389,7 +394,7 @@
       {
         "text": "Do you have any proof that this will work?",
         "topic": "TALK_COOPER_WORK",
-        "condition": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] }
       }
     ]
   },
@@ -440,7 +445,7 @@
       {
         "text": "That being said, I need to know why you do it - what purpose it fills.",
         "topic": "TALK_COOPER_GOAL",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] } }
       }
     ]
   },
@@ -460,15 +465,15 @@
       {
         "text": "What about the woman you mentioned - Brigitte - what happened to her?",
         "topic": "TALK_COOPERS_SIDE",
-        "condition": { "u_has_var": "dialogue_first_meeting_cooper_goal_k", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cooper_goal_k" } ] }
       },
       {
         "text": "Brigitte was right.  I can't reason with you.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" },
-            { "u_has_var": "dialogue_cooper_knows_cooper_kill", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
@@ -477,8 +482,8 @@
         "topic": "TALK_COOPER_FIGHT",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" } },
-            { "u_has_var": "dialogue_cooper_knows_cooper_kill", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_kindred_cooper_knows_cooper" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_cooper_knows_cooper_kill" } ] }
           ]
         }
       },
@@ -516,15 +521,15 @@
       {
         "text": "You mentioned a woman, Brigitte.  Why isn't she with you?  What happened?",
         "topic": "TALK_COOPERS_SIDE",
-        "condition": { "not": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_song_asked_about_song" } ] } }
       },
       {
         "text": "Wait, Brigitte LaCroix?  I've met her.",
         "topic": "TALK_COOPER_KNOWBRIG",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_song_asked_about_song" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] } }
           ]
         }
       },
@@ -544,8 +549,7 @@
     "type": "talk_topic",
     "id": "TALK_COOPER_ABOUT",
     "dynamic_line": {
-      "u_has_var": "dialogue_cooper_cooper_friendly",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ],
       "no": "Sorry, but I don't know you that well and I'd rather not go into that.",
       "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really anything special about my life before I learned about the Song, so there isn't much to say."
     },
@@ -553,17 +557,17 @@
       {
         "text": "I understand.",
         "topic": "TALK_KINDRED_COOPER",
-        "condition": { "not": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] } }
       },
       {
         "text": "Do you have a favorite food?",
         "topic": "TALK_COOPER_FOOD",
-        "condition": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] }
       },
       {
         "text": "I see.  Thanks for sharing.",
         "topic": "TALK_KINDRED_COOPER",
-        "condition": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cooper_cooper_friendly" } ] }
       }
     ]
   },

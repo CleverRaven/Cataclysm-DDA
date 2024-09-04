@@ -1372,7 +1372,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SETUP",
-          "condition": { "not": { "npc_has_var": "mbt_f_function_set", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "npc_val": "mbt_f_function_set" } ] } },
           "effect": [
             { "npc_add_var": "mbt_f_function_set", "value": "yes" },
             { "npc_add_var": "mbt_f_function", "possible_values": [ "morale", "focus", "pain", "sleepiness" ] }
@@ -1380,7 +1380,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_MORALE",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "morale" },
+          "condition": { "compare_string": [ "morale", { "npc_val": "mbt_f_function" } ] },
           "effect": [
             { "u_message": "You feel amazing!" },
             {
@@ -1394,7 +1394,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "focus" },
+          "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
             { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
@@ -1402,12 +1402,12 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "pain" },
+          "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
           "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "sleepiness" },
+          "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
           "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
         }
       ]
