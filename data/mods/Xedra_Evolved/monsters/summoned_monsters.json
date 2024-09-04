@@ -7,7 +7,8 @@
     "looks_like": "mon_feral_armored_mace",
     "description": "Clad in ancient armor and with a mace in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
-    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
   {
     "type": "MONSTER",
@@ -17,7 +18,8 @@
     "looks_like": "mon_feral_armored_battleaxe",
     "description": "Clad in ancient armor and with a battleaxe in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
-    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
   {
     "type": "MONSTER",
@@ -27,7 +29,8 @@
     "looks_like": "mon_feral_sapien_spear",
     "description": "Clad in leather armor and with a spear in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
-    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] }
+    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   },
   {
     "type": "MONSTER",
@@ -38,6 +41,7 @@
     "description": "Clad in leather armor and with a sword in hand, this warrior was summoned by magic to defend you.",
     "default_faction": "player",
     "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
-    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] }
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   }
 ]

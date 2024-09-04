@@ -1215,6 +1215,13 @@
     "id": "sidearms_cop",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      {
+        "item": "glock_19",
+        "variant": "glock_19_cop",
+        "prob": 2,
+        "contents-item": [ "red_dot_sight" ],
+        "charges": [ 0, 15 ]
+      },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },

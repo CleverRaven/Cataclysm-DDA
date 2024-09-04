@@ -6913,6 +6913,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( clear_overrides ),
             WRAP( pick_style ),
             WRAP( do_disassembly ),
+            WRAP( distribute_food_auto ),
             WRAP( nothing )
 #undef WRAP
         }

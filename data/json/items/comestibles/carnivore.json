@@ -1039,6 +1039,91 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
+    "id": "heart",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "looks_like": "offal",
+    "name": { "str": "piece of raw heart", "str_pl": "pieces of raw heart" },
+    "description": "A portion of an animal's heart.  It's tough but not that chewy, and it spoils very quickly.",
+    "weight": "55 g",
+    "volume": "50 ml",
+    "color": "pink",
+    "spoils_in": "1 day",
+    "price_postapoc": "6 cent",
+    "fun": -10,
+    "calories": 67,
+    "vitamins": [ [ "vitC", "3 mg" ], [ "calcium", "2840 μg" ], [ "iron", "2660 μg" ], [ "meat_allergen", 1 ] ],
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
+  },
+  {
+    "id": "human_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "looks_like": "heart",
+    "name": { "str": "piece of raw human heart", "str_pl": "pieces of raw human heart" },
+    "description": "A portion of heart from a human.  It's tough but not that chewy, and it spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+  },
+  {
+    "id": "demihuman_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "looks_like": "heart",
+    "name": { "str": "piece of raw demihuman heart", "str_pl": "pieces of raw demihuman heart" },
+    "description": "A portion of heart from a demihuman being.  It's tough but not that chewy, and it spoils very quickly.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "id": "heart_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "fun": -5,
+    "looks_like": "offal_cooked",
+    "name": { "str": "cooked piece of heart", "str_pl": "cooked pieces of heart" },
+    "description": "A roasted piece of heart.  It doesn't look any tastier than it did raw, but any parasites are all cooked out.",
+    "parasites": 0,
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "id": "mutant_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "name": { "str": "piece of raw mutant heart", "str_pl": "pieces of raw mutant heart" },
+    "snippet_category": "mutant_heart_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
+  },
+  {
+    "id": "mutant_human_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "name": { "str": "piece of raw mutant humanoid heart", "str_pl": "pieces of raw mutant humanoid heart" },
+    "snippet_category": "mutant_heart_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 3 ],
+      [ "iron", 14 ],
+      [ "mutant_toxin", 10 ],
+      [ "meat_allergen", 1 ],
+      [ "human_flesh_vitamin", 1 ]
+    ]
+  },
+  {
+    "id": "mutant_heart_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "heart_cooked",
+    "name": { "str": "cooked piece of mutant heart", "str_pl": "cooked pieces of mutant heart" },
+    "snippet_category": "cooked_mutant_heart_desc",
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
     "id": "mutant_bug_lungs",
     "type": "COMESTIBLE",
     "copy-from": "lung",
