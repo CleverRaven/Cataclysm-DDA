@@ -64,7 +64,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
+    "components": [ [ [ "wire", 2 ], [ "lc_wire", 2 ], [ "mc_wire", 2 ], [ "hc_wire", 2 ], [ "qt_wire", 2 ], [ "ch_wire", 2 ], [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
