@@ -141,6 +141,8 @@ Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
 Google Maps
 Dynamic trait purifiability
+Add drugs and mutagens to your faction camp stores.
+Allow military night vision goggles to attach to combat exoskeleton head armors
 
 
 ## Content:
@@ -313,6 +315,10 @@ Added a way to fix cyborgs at rubic's castle
 Added mashed potatoes.
 Allow cephalopods to gain the ability to eat, sleep underwater
 Alpha Social trait
+A few new reptiles to populate the world
+A bunch of new mutant arthropods underground
+Make dermatik pregnancy and birth suck significantly more
+Add painkiller eyedrops
 
 
 ## Interface:
@@ -397,6 +403,9 @@ Allow ebooks in read command
 format `uilist` menu entries with a table
 Prevent automatically assigning keys to passive mutations
 Fix ImGui Demo in curses
+make ImTui render text as text, so that the players can read our spiffy new menus
+toggle to only draw overmap during autotravel
+mouse input in uilists does not block keyboard navigation
 
 
 ## Mods:
@@ -628,6 +637,12 @@ MOM: Add Reality Tear Teleporter Power
 [Xedra Evolved] Add Homullus must wake up near humans fae ban + eating restrictions
 [Sky Island] Make Beta security containers and better ones obtainable.
 [Xedra Evolved] More Paraclesian restrictions
+Isolation Protocol: Add roguelike style health regen and pain reduction
+[Xedra Evolved] Add the "XEDRA Operative, Department of Extra-Normal Capabilities, SATOR Division" profession
+[Xedra] Inventor: (Re)Add Dimensional Research
+[MoM] Add Illuminate Photokinetic power
+[MoM] Add Headblind trait and Latent Psion trait
+[Xedra Evolved] Extend hedge magic research system
 
 
 ## Balance:
@@ -718,6 +733,11 @@ rebalance beverage quench based on oral hydration index
 Greatly reduce weak point proficiency learning times.
 Adjust martial arts to have crit techs that do not require stun
 Exclude PARROT special attack from monster difficulty calculations
+Remove CLAWS from Judo, Aikido, Eskrima and Biojutsu
+Change Frame, Heavy duty frame, steel plating, sheet metal, and related vehicle parts material to mild steel
+Wielded items behave the same as ranged weapons when driving
+Small changes to Quenching and tempering proficiency
+Battery tools sanification
 
 
 ## Bugfixes:
@@ -949,6 +969,12 @@ ImGui doesn't respect font settings #73019
 Superglue isn't super dense anymore
 Adds jack-o'-lantern recipe byproducts
 Reach attack around corners
+Reach attack around corners
+Fix NPC butchering requirements
+Fixed segfault when monster tries to grab-drag another monster out of reality bubble
+Prevent being teleported beyond OVERMAP_DEPTH
+NPC flee from being run over by vehicles
+fix the crash in select_language by building the font atlas first
 
 
 ## Performance:
@@ -978,6 +1004,7 @@ Decrease memory overhead by about 200MB or about 15% by slimming down mapgen dat
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
 cache available recipe list in craft menu
+NPCs take less time to check for enemies.
 
 
 ## Infrastructure:
@@ -1047,6 +1074,7 @@ Add Flathub download button and Flatpak manifest
 [EOC] Support user-input text in EOC (similar to num_input in `math`)
 Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
+Extend/delete support for harvest lists
 
 
 ## Build:
@@ -1077,6 +1105,7 @@ Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
+Expand the Russian name list with translated English names
 
 
 # 0.G (Gaiman)
