@@ -821,28 +821,37 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
     double penalty_small = 0.25;
     double penalty_big = 0.75;
+    int prof_penalty = 0;
 
     if( action == butcher_type::FULL ) {
         // 40% of butchering and gutting, 40% of skinning, 20% another activities
-        time_to_cut *= 1 + ( penalty_small * ( 1 - butch_adv ) * 0.4 );
-        time_to_cut *= 1 + ( penalty_big * ( 1 - butch_basic ) * 0.4 );
-        time_to_cut *= 1 + ( penalty_small * ( 1 - skin_basic ) * 0.4 );
+        prof_penalty += ( time_to_cut * 0.4 ) * penalty_small * ( 1 - butch_adv );
+        prof_penalty += ( time_to_cut * 0.4 ) * penalty_big * ( 1 - butch_basic );
+        prof_penalty += ( time_to_cut * 0.4 ) * penalty_small * ( 1 - skin_basic );
+
+        time_to_cut += prof_penalty;
     }
 
     if( action == butcher_type::QUICK ) {
         // 70% of butchery, 15% skinning, 15% another activities
-        time_to_cut *= 1 + ( penalty_small * ( 1 - butch_adv ) * 0.7 );
-        time_to_cut *= 1 + ( penalty_big * ( 1 - butch_basic ) * 0.7 );
-        time_to_cut *= 1 + ( penalty_small * ( 1 - skin_basic ) * 0.15 );
+        prof_penalty += ( time_to_cut * 0.7 ) * penalty_small * ( 1 - butch_adv );
+        prof_penalty += ( time_to_cut * 0.7 ) * penalty_big * ( 1 - butch_basic );
+        prof_penalty += ( time_to_cut * 0.15 ) * penalty_small * ( 1 - skin_basic );
+
+        time_to_cut += prof_penalty;
     }
 
     if( action == butcher_type::FIELD_DRESS ) {
-        time_to_cut *= 1 + ( penalty_small * ( 1 - butch_adv ) );
-        time_to_cut *= 1 + ( penalty_big * ( 1 - butch_basic ) );
+        prof_penalty += time_to_cut * penalty_small * ( 1 - butch_adv );
+        prof_penalty += time_to_cut * penalty_big * ( 1 - butch_basic );
+
+        time_to_cut += prof_penalty;
     }
 
     if( action == butcher_type::SKIN ) {
-        time_to_cut *= 1 + ( penalty_small * ( 1 - skin_basic ) );
+        prof_penalty += time_to_cut  * penalty_small * ( 1 - skin_basic );
+
+        time_to_cut += prof_penalty;
     }
 
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
