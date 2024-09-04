@@ -825,6 +825,26 @@
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
+  }, 
+  {
+    "id": "bio_mp3",
+    "type": "bionic",
+    "name": { "str": "WearMan" },
+    "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "integrated_mp3" ]
+  },
+  {
+    "id": "bio_voice_b"
+    "type": "bionic",
+    "name": { "str": "AudioVox" },
+    "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice at will.  It consists of an electronic voice box, synthetic larynx and multiple small speakers implanted throughout the throat.",
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 10 }, { "value":  "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
+    "social_modifiers": { "persuade": 20, "lie": 10, "intimidate": 20 },
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_emp",
