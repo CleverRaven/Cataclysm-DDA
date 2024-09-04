@@ -10,7 +10,7 @@
       "and": [
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        { "math": [ "u_spell_level('vita_health_power')", ">=", "6" ] },
+        { "math": [ "u_spell_level('vita_health_power')", ">=", "5" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_concentrated_healing')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_vita_concentrated_healing" } }
