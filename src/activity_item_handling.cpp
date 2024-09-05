@@ -1371,7 +1371,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( p ) {
             item_location to_craft = p->get_item_to_craft();
             if( to_craft && to_craft->is_craft() ) {
-                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
                 const recipe &r = to_craft->get_making();
                 std::vector<std::vector<item_comp>> item_comp_vector =
                                                      to_craft->get_continue_reqs().get_components();
@@ -1390,7 +1390,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -2812,8 +2812,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
-                PICKUP_RANGE - 1 ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE,
+                PICKUP_RANGE ) ) {
             combined_spots.push_back( elem );
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
