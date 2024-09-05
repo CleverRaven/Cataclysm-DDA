@@ -584,7 +584,6 @@
     "volume": "3500 ml",
     "price": "55 kUSD",
     "price_postapoc": "100 USD",
-    "to_hit": -1,
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
