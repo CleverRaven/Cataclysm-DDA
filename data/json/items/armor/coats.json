@@ -1697,7 +1697,17 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "windbreaker_fbi",
+        "name": { "str": "FBI raid jacket" },
+        "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification.",
+        "color": "blue",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "jacket_varsity",

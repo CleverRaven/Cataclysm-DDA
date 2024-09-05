@@ -308,6 +308,7 @@ mtype::mtype()
     reproduces = false;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
+    baby_monster_group = mongroup_id::NULL_ID();
     baby_egg = itype_id::NULL_ID();
 
     biosignatures = false;

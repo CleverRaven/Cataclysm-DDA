@@ -132,8 +132,10 @@ void uilist_impl::draw_controls()
                             parent.hovered = parent.fentries[ i ];
                         }
                         ImGui::SameLine( 0, 0 );
-                        cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
-                                                      is_selected ? parent.hilight_color : parent.hotkey_color );
+                        if( entry.hotkey.has_value() ) {
+                            cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                                          is_selected ? parent.hilight_color : parent.hotkey_color );
+                        }
 
                         ImGui::TableSetColumnIndex( 1 );
                         nc_color color = ( is_selected ?
@@ -392,7 +394,6 @@ void uilist::init()
     extra_space_right = 0.0;
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
-    textformatted.clear(); // folded to textwidth
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]

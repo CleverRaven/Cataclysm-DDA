@@ -1190,6 +1190,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
         optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
                   mtype_id::NULL_ID() );
+        optional( repro, was_loaded, "baby_monster_group", baby_monster_group, mongroup_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         reproduces = true;
@@ -1762,14 +1763,24 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Number of children (%d) is invalid for %s",
                           mon.baby_count, mon.id.c_str() );
             }
-            if( !mon.baby_monster && mon.baby_egg.is_null() ) {
-                debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
+            if( !mon.baby_monster && mon.baby_egg.is_null() && !mon.baby_monster_group ) {
+                debugmsg( "No baby, baby group, or egg defined for monster %s", mon.id.c_str() );
             }
             if( mon.baby_monster && !mon.baby_egg.is_null() ) {
                 debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
             }
+            if( mon.baby_monster_group && !mon.baby_egg.is_null() ) {
+                debugmsg( "Both an egg and a baby group are defined for %s", mon.id.c_str() );
+            }
+            if( mon.baby_monster && mon.baby_monster_group ) {
+                debugmsg( "Both baby and a baby group are defined for %s", mon.id.c_str() );
+            }
             if( !mon.baby_monster.is_valid() ) {
                 debugmsg( "baby_monster %s of monster %s is not a valid monster id",
+                          mon.baby_monster.c_str(), mon.id.c_str() );
+            }
+            if( !mon.baby_monster_group.is_valid() ) {
+                debugmsg( "baby_monster_group %s of monster %s is not a valid monster group id",
                           mon.baby_monster.c_str(), mon.id.c_str() );
             }
             if( !item::type_is_defined( mon.baby_egg ) ) {
