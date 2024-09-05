@@ -76,13 +76,23 @@
     "name": "Doomseer",
     "description": "You knew the world was going to end, but they never listened.  They never listened!  They couldn't see the things that walked among them!  They didn't know what you had seen, what you knew was coming, and where are they now?  In a zombie's stomach or walking with those corpses themselves, but you're still alive.",
     "points": 0,
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 3, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 5, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES", "SCHIZOPHRENIC" ],
     "spells": [
       { "id": "clair_night_vision", "level": 4 },
-      { "id": "clair_danger_sense", "level": 3 },
-      { "id": "clair_spot_weakness", "level": 3 },
-      { "id": "clair_voyance", "level": 2 }
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 9 },
+      { "id": "clair_see_auras", "level": 8 },
+      { "id": "clair_spot_weakness", "level": 5 },
+      { "id": "clair_voyance", "level": 6 }
+    ],
+    "recipes": [
+      "practice_clair_night_vision",
+      "practice_clair_danger_sense",
+      "practice_clair_speed_reading",
+      "practice_clair_aura_sight",
+      "practice_clair_spot_weakness",
+      "practice_clair_voyance"
     ],
     "items": {
       "both": {
@@ -91,6 +101,7 @@
           { "item": "socks" },
           { "item": "robe" },
           { "item": "lowtops" },
+          { "item": "matrix_crystal_clairsentience" },
           { "item": "newest_newspaper" },
           { "item": "weeks_old_newspaper" },
           { "item": "months_old_newspaper" },
@@ -157,19 +168,23 @@
     "id": "psi_photokinetic_magician",
     "name": "Magician",
     "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
-    "points": 4,
+    "points": 8,
     "skills": [
       { "level": 2, "name": "cooking" },
       { "level": 1, "name": "driving" },
-      { "level": 2, "name": "metaphysics" },
-      { "level": 4, "name": "speech" }
+      { "level": 3, "name": "swimming" },
+      { "level": 3, "name": "metaphysics" },
+      { "level": 5, "name": "speech" }
     ],
     "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],
     "spells": [
-      { "id": "photokinetic_snuff_light", "level": 4 },
-      { "id": "photokinetic_light_dodge", "level": 3 },
-      { "id": "photokinetic_light_beam", "level": 4 },
-      { "id": "photokinetic_light_arms", "level": 2 }
+      { "id": "photokinetic_light_local", "level": 6 },
+      { "id": "photokinetic_create_light", "level": 9 },
+      { "id": "photokinetic_snuff_light", "level": 9 },
+      { "id": "photokinetic_camouflage", "level": 6 },
+      { "id": "photokinetic_light_dodge", "level": 8 },
+      { "id": "photokinetic_light_beam", "level": 6 },
+      { "id": "photokinetic_light_arms", "level": 7 }
     ],
     "items": {
       "both": {
@@ -177,6 +192,7 @@
           { "item": "socks" },
           { "item": "jeans" },
           { "item": "sneakers" },
+          { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "deck_of_cards" },
           { "item": "tophat" },

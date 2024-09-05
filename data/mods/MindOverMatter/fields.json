@@ -185,5 +185,12 @@
     "half_life": "30 minutes",
     "phase": "plasma",
     "display_field": true
+  },
+  {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "5 minutes",
+    "percent_spread": 50
   }
 ]

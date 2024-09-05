@@ -8,7 +8,7 @@
     "skill": "metaphysics",
     "derived_from": [ "heat", 0.8 ],
     "immune_flags": { "character": [ "PHOTOKIN_CHAR_IMMUNE" ], "monster": [ "PHOTOKIN_MONSTER_IMMUNE" ] },
-    "ondamage_eocs": [ "EOC_PHOTOKINETIC_DAMAGE_BLIND_CHANCE" ]
+    "ondamage_eocs": [ "EOC_PHOTOKINETIC_DAMAGE_BLIND_CHANCE", "EOC_PHOTOKINETIC_DAMAGE_EXTRA_BLIND_CHANCE" ]
   },
   {
     "type": "effect_on_condition",
@@ -23,6 +23,20 @@
       ]
     },
     "effect": [ { "npc_add_effect": "blind", "duration": "3 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKINETIC_DAMAGE_EXTRA_BLIND_CHANCE",
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 1, "y": 20 } },
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_trait": "PHOTOKINETIC" } },
+        { "not": { "npc_has_flag": "PHOTOKIN_CHAR_IMMUNE" } },
+        { "not": { "npc_has_flag": "PHOTOKIN_MONSTER_IMMUNE" } }
+      ]
+    },
+    "effect": [ { "npc_add_effect": "blind", "duration": "10 s" } ]
   },
   {
     "id": "psi_photokinetic_damage",

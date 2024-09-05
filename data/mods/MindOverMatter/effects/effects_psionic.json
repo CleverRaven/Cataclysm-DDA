@@ -564,7 +564,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -581,7 +581,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -598,7 +598,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -615,7 +615,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -632,7 +632,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -649,7 +649,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -666,7 +666,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -683,7 +683,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
