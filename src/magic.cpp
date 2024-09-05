@@ -2531,6 +2531,12 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
         spell_data.emplace_back( _( "is a conveyance spell" ) );
     }
+    if( has_flag( spell_flag::RESTORATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a restoration spell" ) );
+    }
+    if( has_flag( spell_flag::TRANSFORMATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a transformation spell" ) );
+    }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );

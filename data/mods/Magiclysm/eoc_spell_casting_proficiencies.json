@@ -436,7 +436,7 @@
     "effect": [
       {
         "math": [
-          "u_spellcasting_adjustment('cost', 'flag_whitelist': 'RESTORATION_SPELL')",
+          "u_spellcasting_adjustment('damage', 'flag_whitelist': 'RESTORATION_SPELL')",
           "=",
           "( (u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_master', 'format': 'percent') / 1000) ) * -1"
         ]
@@ -445,7 +445,7 @@
         "math": [
           "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'RESTORATION_SPELL')",
           "=",
-          "( (u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_master', 'format': 'percent') / 1000) ) * -1"
+          "( (u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') / 1000) + (u_proficiency('prof_magic_restoration_master', 'format': 'percent') / 1000) )"
         ]
       }
     ]
