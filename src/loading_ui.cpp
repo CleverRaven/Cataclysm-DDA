@@ -90,7 +90,7 @@ static void update_state( const std::string &context, const std::string &step )
         } );
 
 #ifdef TILES
-        cata_path path = PATH_INFO::gfxdir() / "cdda.avif";
+        cata_path path = PATH_INFO::gfxdir() / "cdda.png";
         SDL_Surface_Ptr surf = load_image( path.get_unrelative_path().u8string().c_str() );
         gLUI->splash_size = { static_cast<float>( surf->w ), static_cast<float>( surf->h ) };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
