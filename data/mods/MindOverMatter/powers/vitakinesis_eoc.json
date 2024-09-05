@@ -5,7 +5,19 @@
     "condition": {
       "or": [
         { "u_has_effect": "poison" },
+        { "u_has_effect": "poison", "bodypart": "head" },
+        { "u_has_effect": "poison", "bodypart": "torso" },
+        { "u_has_effect": "poison", "bodypart": "arm_r" },
+        { "u_has_effect": "poison", "bodypart": "arm_l" },
+        { "u_has_effect": "poison", "bodypart": "leg_r" },
+        { "u_has_effect": "poison", "bodypart": "leg_l" },
         { "u_has_effect": "badpoison" },
+        { "u_has_effect": "badpoison", "bodypart": "head" },
+        { "u_has_effect": "badpoison", "bodypart": "torso" },
+        { "u_has_effect": "badpoison", "bodypart": "arm_r" },
+        { "u_has_effect": "badpoison", "bodypart": "arm_l" },
+        { "u_has_effect": "badpoison", "bodypart": "leg_r" },
+        { "u_has_effect": "badpoison", "bodypart": "leg_l" },
         { "u_has_effect": "venom_dmg" },
         { "u_has_effect": "venom_weaken" },
         { "u_has_effect": "venom_blind" },
@@ -35,7 +47,19 @@
       { "u_add_wet": 8 },
       { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
       { "u_lose_effect": "poison" },
+      { "u_lose_effect": "poison", "target_part": "head" },
+      { "u_lose_effect": "poison", "target_part": "torso" },
+      { "u_lose_effect": "poison", "target_part": "arm_r" },
+      { "u_lose_effect": "poison", "target_part": "arm_l" },
+      { "u_lose_effect": "poison", "target_part": "leg_r" },
+      { "u_lose_effect": "poison", "target_part": "leg_l" },
       { "u_lose_effect": "badpoison" },
+      { "u_lose_effect": "badpoison", "target_part": "head" },
+      { "u_lose_effect": "badpoison", "target_part": "torso" },
+      { "u_lose_effect": "badpoison", "target_part": "arm_r" },
+      { "u_lose_effect": "badpoison", "target_part": "arm_l" },
+      { "u_lose_effect": "badpoison", "target_part": "leg_r" },
+      { "u_lose_effect": "badpoison", "target_part": "leg_l" },
       { "u_lose_effect": "venom_dmg" },
       { "u_lose_effect": "venom_weaken" },
       { "u_lose_effect": "venom_blind" },
@@ -54,12 +78,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_remove_poison') * 5) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_remove_poison') * 4) + 156) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_remove_poison') * 30) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_remove_poison') * 32) + 418) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -836,195 +860,11 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "-=", "rng( 50,250 )" ] },
+      { "math": [ "u_val('stored_kcal')", "-=", "rng( 150,650 )" ] },
       { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
       { "math": [ "u_val('fatigue')", "+=", "rng( 2,10 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
-    "effect": [
-      {
-        "run_eoc_selector": [
-          "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
-          "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
-          "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
-          "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM",
-          "EOC_PORTAL_NULL_AWAKENING"
-        ],
-        "names": [ "Restore Right Leg", "Restore Left Leg", "Restore Right Arm", "Restore Left Arm", "Nevermind" ],
-        "keys": [ "1", "2", "3", "4", "5" ],
-        "descriptions": [
-          "Attempt to restore your right leg.",
-          "Attempt to restore your left leg.",
-          "Attempt to restore your right arm.",
-          "Attempt to restore your left arm.",
-          "Do nothing for now."
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
-    "condition": { "u_has_trait": "NO_RIGHT_LEG" },
-    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG", "duration": "540 minutes" } ],
-    "false_effect": [
-      {
-        "u_message": "You have a right leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
-        "type": "mixed"
-      }
-    ]
-  },
-  {
-    "id": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
-    "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
-    "verb": "meditating",
-    "based_on": "time",
-    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
-    "effect": [
-      { "u_message": "Your right leg has been restored.", "type": "good" },
-      { "u_lose_trait": "NO_RIGHT_LEG" },
-      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
-      { "u_add_trait": "HAS_RIGHT_LEG" },
-      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ],
-    "false_effect": [
-      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
-    "condition": { "u_has_trait": "NO_LEFT_LEG" },
-    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG", "duration": "540 minutes" } ],
-    "false_effect": [
-      {
-        "u_message": "You have a left leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
-        "type": "mixed"
-      }
-    ]
-  },
-  {
-    "id": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG",
-    "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
-    "verb": "meditating",
-    "based_on": "time",
-    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEFT_RESULT"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
-    "effect": [
-      { "u_message": "Your left leg has been restored.", "type": "good" },
-      { "u_lose_trait": "NO_LEFT_LEG" },
-      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
-      { "u_add_trait": "HAS_LEFT_LEG" },
-      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ],
-    "false_effect": [
-      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
-    "condition": { "u_has_trait": "NO_RIGHT_ARM" },
-    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_ARM", "duration": "540 minutes" } ],
-    "false_effect": [
-      {
-        "u_message": "You have a right arm or equivalent thereof.  If it's a prosthetic, please take it off before restoring your arm.",
-        "type": "mixed"
-      }
-    ]
-  },
-  {
-    "id": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
-    "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
-    "verb": "meditating",
-    "based_on": "time",
-    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM_RESULT"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
-    "effect": [
-      { "u_message": "Your right arm had been restored.", "type": "good" },
-      { "u_lose_trait": "NO_RIGHT_ARM" },
-      { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" },
-      { "u_add_trait": "HAS_RIGHT_ARM" },
-      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ],
-    "false_effect": [
-      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM",
-    "condition": { "u_has_trait": "NO_LEFT_ARM" },
-    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_LEFT_ARM", "duration": "540 minutes" } ],
-    "false_effect": [
-      {
-        "u_message": "You have a left arm or equivalent thereof.  If it's a prosthetic, please take it off before restoring your arm.",
-        "type": "mixed"
-      }
-    ]
-  },
-  {
-    "id": "ACT_VITAKIN_RESTORE_LIMB_LEFT_ARM",
-    "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
-    "verb": "meditating",
-    "based_on": "time",
-    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM_RESULT"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM_RESULT",
-    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
-    "effect": [
-      { "u_message": "Your left arm had been restored.", "type": "good" },
-      { "u_lose_trait": "NO_LEFT_ARM" },
-      { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
-      { "u_add_trait": "HAS_LEFT_ARM" },
-      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ],
-    "false_effect": [
-      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
-    "//": "About 2.5 times as costly as the super heal drain, factored for each tick of healing. Assuming you're using super heal at level twelve, it ticks 15 times. 15 * 2.5 = 37.5 times increase for proper scaling in a single tick of this.  You are regrowing a whole body part, you know.",
-    "effect": [
-      { "math": [ "u_val('stored_kcal')", "-=", "rng( 1875,9375 )" ] },
-      { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
-      { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
-      { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
-      { "math": [ "u_val('fatigue')", "+=", "rng( 75,375 )" ] }
     ]
   },
   {
@@ -1043,12 +883,12 @@
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
       { "math": [ "u_val('stored_kcal')", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "torso" },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "head" },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "arm_l" },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "arm_r" },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "leg_r" },
-      { "u_set_hp": 5, "only_increase": true, "target_part": "leg_l" },
+      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 5)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 5)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 5)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
       { "u_cast_spell": { "id": "vita_pain_split", "hit_self": true } },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
