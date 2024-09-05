@@ -73,6 +73,7 @@
       { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
     "burn_into": "mon_zombie_scorched_lasher",
+    "upgrades": false,
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
     "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] }
   },
