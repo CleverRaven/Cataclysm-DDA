@@ -76,6 +76,7 @@ namespace io
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
