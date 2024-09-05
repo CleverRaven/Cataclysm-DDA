@@ -1778,13 +1778,11 @@ static void cast_spell()
         }
     }
 
-    const int spell_index = player_character.magic->select_spell( player_character );
-    if( spell_index < 0 ) {
+    spell &sp = player_character.magic->select_spell( player_character );
+    // if no spell was selected
+    if( sp.id().is_null() ) {
         return;
     }
-
-    spell &sp = *player_character.magic->get_spells()[spell_index];
-
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
