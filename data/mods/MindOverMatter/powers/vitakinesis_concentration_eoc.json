@@ -218,6 +218,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
+      { "set_string_var": "arm_l", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "arm_l",
@@ -241,6 +242,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
+      { "set_string_var": "arm_r", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "arm_r",
@@ -263,6 +265,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
+      { "set_string_var": "torso", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "torso",
@@ -285,6 +288,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
+      { "set_string_var": "leg_r", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "leg_r",
@@ -307,6 +311,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
+      { "set_string_var": "leg_l", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "leg_l",
@@ -329,6 +334,7 @@
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
       { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
+      { "set_string_var": "head", "target_var": { "u_val": "latest_concentrated_body_part" } },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
         "target_part": "head",
