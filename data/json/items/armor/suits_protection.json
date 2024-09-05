@@ -1259,7 +1259,7 @@
     "abstract": "base_chainmail_hauberk",
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "9356 g",
     "//": "Should be lighter when irl hauberk as it does not cover legs",
@@ -1322,7 +1322,7 @@
   {
     "abstract": "xl_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1366,7 +1366,7 @@
     "abstract": "xs_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1536,7 +1536,7 @@
     "abstract": "base_chainmail_sjumpsuit",
     "copy-from": "base_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "10669 g",
     "pocket_data": [
@@ -1593,7 +1593,7 @@
   {
     "abstract": "xl_chainmail_sjumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_sjumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1637,7 +1637,7 @@
     "abstract": "xs_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1785,7 +1785,7 @@
     "abstract": "base_chainmail_jumpsuit",
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "13131 g",
     "volume": "3250 ml",
@@ -1862,7 +1862,7 @@
   {
     "abstract": "xl_chainmail_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1928,7 +1928,7 @@
     "abstract": "xs_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2098,7 +2098,7 @@
     "abstract": "base_chainmail_suit",
     "copy-from": "base_chainmail_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "14446 g",
     "pocket_data": [
@@ -2170,7 +2170,7 @@
   {
     "abstract": "xl_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -2236,7 +2236,7 @@
     "abstract": "xs_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {

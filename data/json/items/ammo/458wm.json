@@ -2,7 +2,7 @@
   {
     "abstract": "458wm_fmj",
     "type": "AMMO",
-    "name": { "str_sp": ".458 WM FMJ" },
+    "name": { "str_sp": ".458 WM FMJ", "//~": "NO_I18N" },
     "//": "This is .458 Winchester Magnum FMJ.  This is just here for the BBTI data.",
     "ascii_picture": "458wm",
     "weight": "42 g",

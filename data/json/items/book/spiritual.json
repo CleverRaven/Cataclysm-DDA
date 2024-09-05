@@ -1,21 +1,5 @@
 [
   {
-    "abstract": "holybook_abstract",
-    "type": "BOOK",
-    "name": { "str": "holybook abstract" },
-    "description": "theoretically this isn't a book at all",
-    "price": "5 USD 50 cent",
-    "price_postapoc": "5 USD 50 cent",
-    "material": [ "paper", "cardboard" ],
-    "symbol": "?",
-    "looks_like": "story_book",
-    "color": "dark_gray",
-    "flags": [ "INSPIRATIONAL" ],
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1
-  },
-  {
     "id": "mycenacean_hymns",
     "type": "BOOK",
     "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },

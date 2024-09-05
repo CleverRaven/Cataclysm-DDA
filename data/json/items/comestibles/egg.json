@@ -214,7 +214,7 @@
   {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "insect egg" },
+    "name": { "str": "insect egg", "//~": "NO_I18N" },
     "abstract": "egg_insect",
     "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal to 296g mutant meat",
     "color": "white",
