@@ -106,7 +106,7 @@ Enervation spells are the opposite of Enhancement, being spells that reduce the 
 Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell and lower the mana cost of the incantation.
 
 ## Restoration
-Restoration spells return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, or Mind over Pain are all restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
+Restoration spells return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, Mind over Pain, or Stone's Endurance are all restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
 
 ## Transformation
 Transformation spells change one thing into another, such as changing a handful of leaves into gold or changing a charging enemy into a housecat. This also includes partial tranformations of the target. Spells like Harvest of the Hunter, Vicious Tentacle, or Convert are transformation spells. Proficiency in Transformation will increase the duration and reduce the casting time. 
