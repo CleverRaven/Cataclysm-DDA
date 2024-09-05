@@ -1602,21 +1602,21 @@
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1681,21 +1681,21 @@
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Change game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Reset scenario calendar",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

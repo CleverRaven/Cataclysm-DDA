@@ -229,7 +229,6 @@ static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
@@ -10918,32 +10917,37 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto pulp = [&]( const tripoint_bub_ms & pos ) {
+            const auto corpse_available = [&]( const tripoint_bub_ms & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
-
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
                                 continue;
+                            } else {
+                                return true;
                             }
+                        } else {
+                            return true;
                         }
-
-                        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getglobal( pos );
-                        u.activity.auto_resume = true;
-                        u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
-                        return;
                     }
                 }
+                return false;
             };
-
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                std::set<tripoint_abs_ms> places;
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos_bub() + displace_XY( elem ) );
+                    if( corpse_available( u.pos_bub() + displace_XY( elem ) ) ) {
+                        places.emplace( m.getglobal( u.pos_bub() + displace_XY( elem ) ) );
+                    }
+                }
+                if( !places.empty() ) {
+                    u.assign_activity( pulp_activity_actor( places, true ) );
                 }
             } else {
-                pulp( u.pos_bub() );
+                if( corpse_available( u.pos_bub() ) ) {
+                    u.assign_activity( pulp_activity_actor( m.getglobal( u.pos_bub() ), true ) );
+                }
             }
         }
     }

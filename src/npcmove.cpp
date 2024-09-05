@@ -13,6 +13,7 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
+#include "activity_actor_definitions.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -87,7 +88,6 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 
@@ -2517,8 +2517,7 @@ npc_action npc::address_needs( float danger )
 
     if( can_do_pulp() ) {
         if( !activity ) {
-            assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-            activity.placement = *pulp_location;
+            assign_activity( pulp_activity_actor( *pulp_location ) );
         }
         return npc_player_activity;
     } else if( find_corpse_to_pulp() ) {

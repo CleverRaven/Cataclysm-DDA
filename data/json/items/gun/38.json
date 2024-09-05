@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "2 Shot Special" },
+    "name": { "str": "double barrel .38 pistol" },
     "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
     "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "ascii_picture": "2_shot_special",
@@ -37,8 +37,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "S&W Model 10" },
+    "name": { "str": "six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "model_10_revolver",
+        "name": { "str": "S&W Model 10" },
+        "description": "The Model 10 is one of the oldest firearm models still in production, and most produced handguns, with production dating back to 1899.  Starting life as the Model 1899 Hand Ejector, it only picked up the current name of Model 10 in the 1950s.  Despite .38 Special and .357 Magnum being the same caliber, Model 10s were produced to handle blackpowder loads, and while modern smokeless loads of .38 Special work fine, .357 Magnum could cause the Model 10 to catastrophically fail."
+      }
+    ],
     "weight": "975 g",
     "volume": "402 ml",
     "longest_side": "252 mm",
@@ -100,8 +108,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Ruger LCR .38" },
+    "name": { "str": "conceal-carry six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_lcr_38",
+        "name": { "str": "Ruger LCR" },
+        "description": "The Ruger LCR (Lightweight Compact Revolver) is a modern revolver, starting production in just 2010.  It's a lightweight, aluminum-framed revolver, designed for conceal carry with its double-action-only trigger, lightweight and compact size.  Due to the double-action trigger, it is more possible to carry it in your pocket instead of a holster due to the heavy trigger, but still ill-advised."
+      }
+    ],
     "weight": "382 g",
     "volume": "321 ml",
     "longest_side": "192 mm",

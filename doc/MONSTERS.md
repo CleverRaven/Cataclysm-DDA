@@ -545,8 +545,9 @@ The monster's reproduction cycle, if any. Supports:
 
 Field          | Description
 ---            | ---
-`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
+`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster_group` or `baby_egg` for reproduction to work.
+`baby_monster_group` | (string, optional) the id of the monstergroup spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster`, or `baby_egg` for reproduction to work.
+`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this, `baby_monster_group` or `baby_monster` for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
 

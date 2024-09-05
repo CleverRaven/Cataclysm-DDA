@@ -312,6 +312,7 @@ struct mtype {
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         mtype_id baby_monster;
+        mongroup_id baby_monster_group;
         itype_id baby_egg;
         // Monster biosignature variables
         itype_id biosig_item;
