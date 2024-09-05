@@ -169,7 +169,7 @@
       { "group": "GROUP_REINDEERS", "weight": 3, "cost_multiplier": 3, "pack_size": [ 2, 6 ], "event": "christmas" },
       { "monster": "mon_fox_gray", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_fox_red", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_coyote", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_COYOTE", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
       { "group": "GROUP_MOOSE", "weight": 1, "cost_multiplier": 3, "pack_size": [ 1, 3 ] }
     ]
   },
