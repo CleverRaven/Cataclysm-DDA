@@ -81,7 +81,7 @@
     "hp": 34,
     "speed": 85,
     "color": "magenta",
-    "upgrades": { "half_life": 56, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "upgrades": false,
     "extend": { "special_attacks": [ [ "PARROT_AT_DANGER", 2 ], [ "SHRIEK", 2 ] ] }
   },
   {
