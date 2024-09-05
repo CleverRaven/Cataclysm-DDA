@@ -1,5 +1,21 @@
 [
   {
+    "id": "crude_bronze_nail",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "crude bronze nail" },
+    "description": "A crude bronze nail.  Probably not useful for many things due to its size and shape.",
+    "ascii_picture": "nail",
+    "weight": "7 g",
+    "volume": "1ml",
+    "longest_side": "40 mm",
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "bronze" ],
+    "symbol": "=",
+    "color": "yellow"
+  },
+  {
     "id": "anvil",
     "type": "TOOL",
     "name": { "str": "anvil" },
