@@ -10932,7 +10932,7 @@ void map::update_pathfinding_cache( const tripoint &p ) const
         return;
     }
     pathfinding_cache &cache = get_pathfinding_cache( p.z );
-    pf_special cur_value = PF_NORMAL;
+    PathfindingFlags cur_value = PathfindingFlag::Ground;
 
     const_maptile tile = maptile_at_internal( p );
 
@@ -10946,39 +10946,49 @@ void map::update_pathfinding_cache( const tripoint &p ) const
     const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
     if( cost > 2 ) {
-        cur_value |= PF_SLOW;
+        cur_value |= PathfindingFlag::Slow;
     } else if( cost <= 0 ) {
-        cur_value |= PF_WALL;
+        cur_value |= PathfindingFlag::Obstacle;
         if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
-            cur_value |= PF_CLIMBABLE;
+            cur_value |= PathfindingFlag::Climbable;
         }
     }
 
     if( veh != nullptr ) {
-        cur_value |= PF_VEHICLE;
+        cur_value |= PathfindingFlag::Vehicle;
     }
 
     for( const auto &fld : tile.get_field() ) {
         const field_entry &cur = fld.second;
         if( cur.is_dangerous() ) {
-            cur_value |= PF_FIELD;
+            cur_value |= PathfindingFlag::DangerousField;
         }
     }
 
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
         !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_TRAP;
+        cur_value |= PathfindingFlag::DangerousTrap;
     }
 
-    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
-        cur_value |= PF_UPDOWN;
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
+        cur_value |= PathfindingFlag::GoesUp;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+        cur_value |= PathfindingFlag::GoesDown;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ) {
+        cur_value |= PathfindingFlag::GoesUp | PathfindingFlag::RampUp;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
+        cur_value |= PathfindingFlag::GoesDown | PathfindingFlag::RampDown;
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_SHARP;
+        cur_value |= PathfindingFlag::Sharp;
     }
 
     cache.special[p.x][p.y] = cur_value;
