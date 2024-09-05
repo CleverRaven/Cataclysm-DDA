@@ -844,18 +844,6 @@ void emp_blast( const tripoint &p )
     // TODO: Drain NPC energy reserves
 }
 
-void nuke( const tripoint_abs_omt &p )
-{
-    tinymap tmpmap;
-    tmpmap.load( p, false );
-
-    item mininuke( itype_mininuke_act );
-    mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
-    tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
-
-    tmpmap.save();
-}
-
 void resonance_cascade( const tripoint &p )
 {
     Character &player_character = get_player_character();
