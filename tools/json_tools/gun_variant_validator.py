@@ -102,9 +102,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "1895sbl",
-    "bfr",
-    "sharps",
     "fn_p90",
     "hk_mp7",
     "obrez",
@@ -113,16 +110,10 @@ NAME_CHECK_BLACKLIST = {
     "m2010",
     "weatherby_5",
     "win70",
-    "2_shot_special",
-    "model_10_revolver",
     "mr73",
-    "ruger_lcr_38",
-    "sw_619",
     "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
-    "bond_410",
-    "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
@@ -134,7 +125,6 @@ NAME_CHECK_BLACKLIST = {
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "colt_army",
     "atgm_launcher",
     "xedra_gun",
     "90two40",
@@ -147,10 +137,8 @@ NAME_CHECK_BLACKLIST = {
     "AT4",
     "af2011a1_38super",
     "m1911a1_38super",
-    "colt_navy",
     "plasma_gun",
     "bbgun",
-    "LAW",
 }
 BAD_IDENTIFIERS = [
     "10mm",
@@ -178,6 +166,7 @@ TYPE_DESCRIPTORS = [
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",
+    "derringer",
     "flamethrower",
     "flintlock",
     # Special faction-specific invented weapons get a pass
