@@ -258,7 +258,7 @@
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
-        { "item": "wire", "count": [ 3, 10 ] },
+        { "item": "lc_wire", "count": [ 3, 10 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
         { "item": "sheet_metal_small", "count": [ 20, 30 ] },
         { "item": "exodii_chassis", "count": [ 0, 1 ] },

@@ -1029,8 +1029,8 @@
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "mild steel wire" },
-    "description": "A length of thin, relatively stiff steel wire.  Like the sort you find in chain link fences.",
+    "name": { "str": "wire" },
+    "description": "A length of thin, relatively stiff steel wire, made of ubiquitous mild steel.  Like the sort you find in chain link fences.",
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
@@ -1043,6 +1043,7 @@
     "id": "mc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
+	"description": "A length of thin, relatively stiff steel wire, made of medium steel.",
     "material": [ "mc_steel" ]
   },
   {
@@ -1050,6 +1051,7 @@
     "id": "hc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
+	"description": "A length of thin, relatively stiff steel wire, made of high steel.",
     "material": [ "hc_steel" ]
   },
   {
@@ -1057,6 +1059,7 @@
     "id": "ch_wire",
     "copy-from": "lc_wire",
     "name": { "str": "hardened steel wire" },
+    "description": "A length of thin, relatively stiff steel wire, made of hardened steel.",
     "material": [ "ch_steel" ]
   },
   {
@@ -1064,6 +1067,7 @@
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
+	"description": "A length of thin, relatively stiff steel wire, made of tempered steel.",
     "material": [ "qt_steel" ]
   },
   {
