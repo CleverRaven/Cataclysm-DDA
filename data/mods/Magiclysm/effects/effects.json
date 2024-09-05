@@ -1271,7 +1271,7 @@
     "type": "effect_type",
     "id": "effect_flame_immunity",
     "name": [ "Flame Immunity" ],
-    "desc": [ "You are immune to heat and fire." ],
+    "desc": [ "You are immune to heat and fire" ],
     "rating": "good",
     "show_in_info": true,
     "blocks_effects": [ "onfire", "blisters" ],
