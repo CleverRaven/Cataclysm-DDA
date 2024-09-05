@@ -131,7 +131,7 @@
     "special_attacks": [ [ "RATTLE", 6 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_s" }, "baby_count": 10, "baby_timer": 135 },
+    "reproduction": { "baby_type": { "baby_monster_group": "REPRODUCTION_MUT_RATTLESNAKE" }, "baby_count": 10, "baby_timer": 135 },
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "extend": { "flags": [ "BADVENOM" ] }
