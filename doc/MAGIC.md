@@ -879,6 +879,7 @@ Character status value  | Description
 `POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
+`RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.

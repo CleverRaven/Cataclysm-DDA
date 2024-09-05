@@ -6,38 +6,117 @@
 #include "game_constants.h"
 #include "mdarray.h"
 
-enum pf_special : int {
-    PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
-    PF_SLOW = 0x01,      // Tile with move cost >2
-    PF_WALL = 0x02,      // Unpassable ter/furn/vehicle
-    PF_VEHICLE = 0x04,   // Any vehicle tile (passable or not)
-    PF_FIELD = 0x08,     // Dangerous field
-    PF_TRAP = 0x10,      // Dangerous trap
-    PF_UPDOWN = 0x20,    // Stairs, ramp etc.
-    PF_CLIMBABLE = 0x40, // 0 move cost but can be climbed on examine
-    PF_SHARP = 0x80,     // sharp items (barbed wire, etc)
+// An attribute of a particular map square that is of interest in pathfinding.
+// Has a maximum of 32 members. For more, the datatype underlying PathfindingFlags
+// needs to be increased.
+enum class PathfindingFlag : uint8_t {
+    Ground = 0,     // Can walk on
+    Slow,           // Move cost > 2
+    Swimmable,      // Can swim in
+    Air,            // Empty air
+    Unsheltered,    // Outside and above ground level
+    Obstacle,       // Something stopping us, might be bashable.
+    Bashable,       // Something bashable.
+    Impassable,     // Impassable obstacle.
+    Vehicle,        // Vehicle tile (passable or not)
+    DangerousField, // Dangerous field
+    DangerousTrap,  // Dangerous trap (i.e. not flagged benign)
+    GoesUp,         // Valid stairs up
+    GoesDown,       // Valid stairs down
+    RampUp,         // Valid ramp up
+    RampDown,       // Valid ramp down
+    Climbable,      // Obstacle but can be climbed on examine
+    Sharp,          // Sharp items (barbed wire, etc)
+    Door,           // A door (any kind)
+    InsideDoor,     // A door that can be opened from the inside only
+    LockedDoor,     // A locked door
+    Pit,            // A pit you can fall into / climb out of.
+    DeepWater,      // Deep water.
+    Burrowable,     // Can burrow into
+    HardGround,     // Can not dig & burrow intotiny = 1,
+    RestrictTiny,   // Tiny cannot enter
+    RestrictSmall,  // Small cannot enter
+    RestrictMedium, // Medium cannot enter
+    RestrictLarge,  // Large cannot enter
+    RestrictHuge,   // Huge cannot enter
+    Lava,           // Lava terrain
 };
 
-constexpr pf_special operator | ( pf_special lhs, pf_special rhs )
+class PathfindingFlags
 {
-    return static_cast<pf_special>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
+    public:
+        constexpr PathfindingFlags() = default;
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr PathfindingFlags( PathfindingFlag flag ) : flags_( uint32_t{ 1 } << static_cast<uint8_t>
+                    ( flag ) ) {}
+
+        constexpr void set_union( PathfindingFlags flags ) {
+            flags_ |= flags.flags_;
+        }
+        constexpr void set_intersect( PathfindingFlags flags ) {
+            flags_ &= flags.flags_;
+        }
+        constexpr void set_clear( PathfindingFlags flags ) {
+            flags_ &= ~flags.flags_;
+        }
+
+        constexpr void clear() {
+            flags_ = 0;
+        }
+
+        constexpr bool is_set( PathfindingFlag flag ) const {
+            return flags_ & ( uint32_t{ 1 } << static_cast<uint8_t>( flag ) );
+        }
+        constexpr bool is_set( PathfindingFlags flags ) const {
+            return ( flags_ & flags.flags_ ) == flags.flags_;
+        }
+
+        constexpr bool is_any_set() const {
+            return flags_;
+        }
+
+        constexpr explicit operator bool() const {
+            return is_any_set();
+        }
+
+        constexpr PathfindingFlags &operator|=( PathfindingFlags flags ) {
+            set_union( flags );
+            return *this;
+        }
+
+        constexpr PathfindingFlags &operator&=( PathfindingFlags flags ) {
+            set_intersect( flags );
+            return *this;
+        }
+
+    private:
+        uint32_t flags_ = 0;
+};
+
+constexpr PathfindingFlags operator|( PathfindingFlags lhs, PathfindingFlags rhs )
+{
+    return lhs |= rhs;
 }
 
-constexpr pf_special operator & ( pf_special lhs, pf_special rhs )
+constexpr PathfindingFlags operator&( PathfindingFlags lhs, PathfindingFlags rhs )
 {
-    return static_cast<pf_special>( static_cast< int >( lhs ) & static_cast< int >( rhs ) );
+    return lhs &= rhs;
 }
 
-inline pf_special &operator |= ( pf_special &lhs, pf_special rhs )
+constexpr PathfindingFlags operator|( PathfindingFlags lhs, PathfindingFlag rhs )
 {
-    lhs = static_cast<pf_special>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
-    return lhs;
+    return lhs |= rhs;
 }
 
-inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
+constexpr PathfindingFlags operator&( PathfindingFlags lhs, PathfindingFlag rhs )
 {
-    lhs = static_cast<pf_special>( static_cast< int >( lhs ) & static_cast< int >( rhs ) );
-    return lhs;
+    return lhs &= rhs;
+}
+
+constexpr PathfindingFlags operator |( const PathfindingFlag &a, const PathfindingFlag &b )
+{
+    return PathfindingFlags( a ) | PathfindingFlags( b );
 }
 
 struct pathfinding_cache {
@@ -46,7 +125,7 @@ struct pathfinding_cache {
     bool dirty = false;
     std::unordered_set<point> dirty_points;
 
-    cata::mdarray<pf_special, point_bub_ms> special;
+    cata::mdarray<PathfindingFlags, point_bub_ms> special;
 };
 
 struct pathfinding_settings {
