@@ -1980,7 +1980,7 @@
     "remove_message": "",
     "rating": "bad",
     "max_duration": "7 days",
-    "base_mods": { "healing_rate": [ 0.05 ] }
+    "base_mods": { "healing_rate": [ 0.01 ] }
   },
   {
     "type": "effect_type",
