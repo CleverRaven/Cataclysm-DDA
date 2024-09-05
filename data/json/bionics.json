@@ -841,7 +841,7 @@
     "id": "bio_voice_b",
     "type": "bionic",
     "name": { "str": "AudioVox" },
-    "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice. It also causes vocalizations /(such as shouts and singing/) to be much louder. It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout the throat.",
+    "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice.  It also causes vocalizations /(such as shouts and singing/) to be much louder.  It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout the throat.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
     "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
     "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
