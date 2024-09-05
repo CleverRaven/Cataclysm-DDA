@@ -225,7 +225,11 @@ static const morale_type morale_feeling_good( "morale_feeling_good" );
 static const morale_type morale_game( "morale_game" );
 static const morale_type morale_tree_communion( "morale_tree_communion" );
 
+static const proficiency_id proficiency_prof_butchering_adv( "prof_butchering_adv" );
+static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_basic" );
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
+static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
+static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -803,6 +807,36 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
+
+    double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
+    double butch_adv = you.get_proficiency_practice( proficiency_prof_butchering_adv );
+    double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
+    double penalty_small = 0.5;
+    double penalty_big = 1.5;
+
+    int prof_butch_penalty = penalty_big * ( 1 - butch_basic ) + penalty_small * ( 1 - butch_adv );
+    int prof_skin_penalty = penalty_small * ( 1 - skin_basic );
+
+    // there supposed to be a code for book mitigation, but we don't have any book fitting for this
+
+    if( action == butcher_type::FULL ) {
+        // 40% of butchering and gutting, 40% of skinning, 20% another activities
+        time_to_cut *= 0.4 * ( 1 + prof_butch_penalty ) + 0.4 * ( 1 + prof_skin_penalty ) + 0.2;
+    }
+
+    if( action == butcher_type::QUICK ) {
+        // 70% of butchery, 15% skinning, 15% another activities
+        time_to_cut *= 0.7 * ( 1 + prof_butch_penalty ) + 0.15 * ( 1 + prof_skin_penalty ) + 0.15;
+    }
+
+    if( action == butcher_type::FIELD_DRESS ) {
+        time_to_cut *= 1 + prof_butch_penalty;
+    }
+
+    if( action == butcher_type::SKIN ) {
+        time_to_cut *= 1 + prof_skin_penalty;
+    }
+
     time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
     return time_to_cut;
 }
@@ -942,7 +976,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
 
 // Returns false if the calling function should abort
 static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
-                                    butcher_type action )
+                                    butcher_type action, int moves_total )
 {
     const int tool_quality = you.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
                              qual_BUTCHER, PICKUP_RANGE );
@@ -1009,6 +1043,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
+
     for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
                                         !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
@@ -1047,6 +1082,21 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
 
         if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
             roll = 0;
+        }
+
+        const double butch_basic = you.get_proficiency_practice( proficiency_prof_butchering_basic );
+        const double skin_basic = you.get_proficiency_practice( proficiency_prof_skinning_basic );
+        const double skin_adv = you.get_proficiency_practice( proficiency_prof_skinning_adv );
+        const double penalty_small = 0.15;
+        const double penalty_big = 2;
+
+        if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_offal ) {
+            roll /= 1 + ( penalty_small * ( 1 - butch_basic ) );
+        }
+
+        if( entry.type == harvest_drop_skin ) {
+            roll /= 1 + ( penalty_big * ( 1 - skin_basic ) );
+            roll /= 1 + ( penalty_small * ( 1 - skin_adv ) );
         }
 
         // QUICK BUTCHERY
@@ -1259,6 +1309,75 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                       0 ) + 4 );
     }
 
+    // handle our prof training
+    if( action == butcher_type::FULL && ( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
+                                          mt.harvest->has_entry_type( harvest_drop_offal ) ) ) {
+        // 40% of butchering and gutting, 40% of skinning, 20% another activities
+        if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
+            you.practice_proficiency( proficiency_prof_butchering_adv,
+                                      time_duration::from_moves<int>( moves_total * 0.4 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_butchering_basic,
+                                      time_duration::from_moves<int>( moves_total * 0.4 ) );
+        }
+    }
+
+    if( action == butcher_type::FULL && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+        // 40% of butchering and gutting, 40% of skinning, 20% another activities
+        if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
+            you.practice_proficiency( proficiency_prof_skinning_adv,
+                                      time_duration::from_moves<int>( moves_total * 0.4 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_skinning_basic,
+                                      time_duration::from_moves<int>( moves_total * 0.4 ) );
+        }
+    }
+
+    if( action == butcher_type::QUICK && ( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
+                                           mt.harvest->has_entry_type( harvest_drop_offal ) ) ) {
+        // 70% of butchery, 15% skinning, 15% another activities
+        if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
+            you.practice_proficiency( proficiency_prof_butchering_adv,
+                                      time_duration::from_moves<int>( moves_total * 0.7 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_butchering_basic,
+                                      time_duration::from_moves<int>( moves_total * 0.7 ) );
+        }
+    }
+
+    if( action == butcher_type::QUICK && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+        // 70% of butchery, 15% skinning, 15% another activities
+        if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
+            you.practice_proficiency( proficiency_prof_skinning_adv,
+                                      time_duration::from_moves<int>( moves_total * 0.15 ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_skinning_basic,
+                                      time_duration::from_moves<int>( moves_total * 0.15 ) );
+        }
+    }
+
+    if( action == butcher_type::FIELD_DRESS && ( mt.harvest->has_entry_type( harvest_drop_flesh ) ||
+            mt.harvest->has_entry_type( harvest_drop_offal ) ) ) {
+        if( you.has_proficiency( proficiency_prof_butchering_basic ) ) {
+            you.practice_proficiency( proficiency_prof_butchering_adv,
+                                      time_duration::from_moves<int>( moves_total ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_butchering_basic,
+                                      time_duration::from_moves<int>( moves_total ) );
+        }
+    }
+
+    if( action == butcher_type::SKIN && mt.harvest->has_entry_type( harvest_drop_skin ) ) {
+        // 70% of butchery, 15% skinning, 15% another activities
+        if( you.has_proficiency( proficiency_prof_skinning_basic ) ) {
+            you.practice_proficiency( proficiency_prof_skinning_adv,
+                                      time_duration::from_moves<int>( moves_total ) );
+        } else {
+            you.practice_proficiency( proficiency_prof_skinning_basic,
+                                      time_duration::from_moves<int>( moves_total ) );
+        }
+    }
+
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activity's targets and values may be invalidated.
@@ -1345,7 +1464,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     }
 
     // all action types - yields
-    if( !butchery_drops_harvest( &corpse_item, *corpse, *you, action ) ) {
+    if( !butchery_drops_harvest( &corpse_item, *corpse, *you, action, act->moves_total ) ) {
         // FATAL FAILURE
         add_msg( m_warning, SNIPPET.random_from_category( "harvest_drop_default_dissect_failed" ).value_or(
                      translation() ).translated() );
