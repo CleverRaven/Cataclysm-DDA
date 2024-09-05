@@ -122,6 +122,7 @@
       { "item": "glock_19" },
       { "item": "glock_19", "prob": 50 },
       { "item": "glock_19", "prob": 25 },
+      { "item": "glock_19", "variant": "glock_19_cop", "contents-item": [ "red_dot_sight" ], "prob": 15 },
       { "item": "glockmag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_glockmag_9mm", "count": [ 0, 4 ] },
       { "group": "police_armory_full_glockmag_9mmfmj", "count": [ 0, 4 ] },

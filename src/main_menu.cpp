@@ -31,7 +31,6 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
-#include "loading_ui.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -578,9 +577,8 @@ void main_menu::init_strings()
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
-    loading_ui ui( false );
     try {
-        g->load_core_data( ui );
+        g->load_core_data();
     } catch( const std::exception &err ) {
         debugmsg( err.what() );
         std::exit( 1 );
@@ -1008,7 +1006,7 @@ bool main_menu::new_character_tab()
                 }
                 if( !world->world_saves.empty() ) {
                     if( !query_yn(
-                            _( "Many game features will not work correctly with multiple characters in the same world. Create a new character anyway?" ) ) ) {
+                            _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
                         return false;
                     }
                 }
@@ -1053,7 +1051,7 @@ bool main_menu::new_character_tab()
         }
         if( !world->world_saves.empty() ) {
             if( !query_yn(
-                    _( "Many game features will not work correctly with multiple characters in the same world. Create a new character anyway?" ) ) ) {
+                    _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
                 return false;
             }
         }

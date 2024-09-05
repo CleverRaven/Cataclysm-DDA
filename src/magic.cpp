@@ -167,6 +167,12 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
+        case spell_flag::EVOCATION_SPELL: return "EVOCATION_SPELL";
+        case spell_flag::CHANNELING_SPELL: return "CHANNELING_SPELL";
+        case spell_flag::CONJURATION_SPELL: return "CONJURATION_SPELL";
+        case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
+        case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
+        case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -720,13 +726,15 @@ int spell::damage( const Creature &caster ) const
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) ),
                     std::max( leveled_damage,
-                              static_cast<int>( type->max_damage.evaluate( d ) ) ) );
+                              static_cast<int>( type->max_damage.evaluate( d ) ) ) ) * temp_damage_multiplyer;
     } else {
         if( type->min_damage.evaluate( d ) >= 0 ||
             type->max_damage.evaluate( d ) >= type->min_damage.evaluate( d ) ) {
-            return std::min( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::min( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         } else { // if it's negative, min and max work differently
-            return std::max( leveled_damage, static_cast<int>( type->max_damage.evaluate( d ) ) );
+            return std::max( leveled_damage,
+                             static_cast<int>( type->max_damage.evaluate( d ) ) ) * temp_damage_multiplyer;
         }
     }
 }
@@ -1641,6 +1649,8 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
         temp_level_adjustment += adjustment;
     } else if( target_property == "casting_time" ) {
         temp_cast_time_multiplyer += adjustment;
+    } else if( target_property == "damage" ) {
+        temp_damage_multiplyer += adjustment;
     } else if( target_property == "cost" ) {
         temp_spell_cost_multiplyer += adjustment;
     } else if( target_property == "aoe" ) {
@@ -1664,6 +1674,7 @@ void spell::set_temp_adjustment( const std::string &target_property, float adjus
 void spell::clear_temp_adjustments()
 {
     temp_level_adjustment = 0;
+    temp_damage_multiplyer = 1;
     temp_cast_time_multiplyer = 1;
     temp_spell_cost_multiplyer = 1;
     temp_aoe_multiplyer = 1;
@@ -2392,11 +2403,8 @@ static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 class spellcasting_callback : public uilist_callback
 {
     private:
-        int selected_sp = 0;
         int scroll_pos = 0;
-        std::vector<std::string> info_txt;
         std::vector<spell *> known_spells;
-        void spell_info_text( const spell &sp, int width );
         void display_spell_info( size_t index );
     public:
         // invlets reserved for special functions
@@ -2458,8 +2466,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
-                if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
-                    display_spell_info( menu->selected );
+                if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < known_spells.size() ) {
+                    display_spell_info( menu->hovered );
                 }
             }
             ImGui::EndChild();
@@ -2500,6 +2508,24 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "is a psionic power" ) );
     }
+    if( has_flag( spell_flag::EVOCATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an evocation spell" ) );
+    }
+    if( has_flag( spell_flag::CHANNELING_SPELL ) ) {
+        spell_data.emplace_back( _( "is a channeling spell" ) );
+    }
+    if( has_flag( spell_flag::CONJURATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conjuration spell" ) );
+    }
+    if( has_flag( spell_flag::ENHANCEMENT_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enhancement spell" ) );
+    }
+    if( has_flag( spell_flag::ENERVATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is an enervation spell" ) );
+    }
+    if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
+        spell_data.emplace_back( _( "is a conveyance spell" ) );
+    }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
@@ -2536,9 +2562,12 @@ void spellcasting_callback::display_spell_info( size_t index )
 
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    ImGui::TextWrapped( "%s", sp.description().c_str() );
+    // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
+    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as other imgui menus
+    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 6 );
+    cataimgui::draw_colored_text( sp.description(), spell_info_width );
     ImGui::NewLine();
-    ImGui::TextWrapped( "%s", sp.enumerate_spell_data( pc ).c_str() );
+    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ), spell_info_width );
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
@@ -2593,10 +2622,11 @@ void spellcasting_callback::display_spell_info( size_t index )
                                       sp.energy_cost_string( pc ).c_str(),
                                       sp.energy_string().c_str(), energy_cur.c_str() ) );
     } else {
-        ImGui::TextColored( c_red, "%s", _( "Not Enough Stamina" ) );
+        ImGui::TextColored( c_red, "%s %s", _( "Not Enough" ), sp.energy_string().c_str() );
         ImGui::SameLine( 0, 0 );
-        ImGui::Text( ": %s %s", sp.energy_cost_string( pc ).c_str(),
-                     sp.energy_string().c_str() );
+        cataimgui::draw_colored_text( string_format( ": %s %s",
+                                      sp.energy_cost_string( pc ).c_str(),
+                                      sp.energy_string().c_str() ) );
     }
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
     std::string psi_cast_time = c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" );
@@ -2732,18 +2762,21 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
+    // TODO(thePotatomancer): once we do rewrite it make sure to pass wrapping info to draw_colored_text or skip it entirely
     float width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
-                info_txt.emplace_back( line );
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
+                cataimgui::draw_colored_text( line );
+                ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
-                info_txt.emplace_back( line );
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
+                cataimgui::draw_colored_text( line );
+                ImGui::NewLine();
             }
         }
     }
@@ -2807,7 +2840,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( Character &guy )
+spell &known_magic::select_spell( Character &guy )
 {
     std::vector<spell *> known_spells_sorted = get_spells();
 
@@ -2832,7 +2865,7 @@ int known_magic::select_spell( Character &guy )
             return inv_chars.ordinal( l_invlet ) < inv_chars.ordinal( r_invlet );
         }
         // 3. By spell name
-        return strcmp( left->name().c_str(), right->name().c_str() );
+        return strcmp( left->name().c_str(), right->name().c_str() ) < 0;
     } );
 
     uilist spell_menu;
@@ -2897,11 +2930,15 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells_sorted );
 
-    spell_menu.query( true, -1, true );
+    spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
-
-    return spell_menu.ret;
+    if( spell_menu.ret < 0 ) {
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference;
+    }
+    spell *selected_spell = known_spells_sorted[spell_menu.ret];
+    return *selected_spell;
 }
 
 void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
@@ -2958,7 +2995,6 @@ static std::string color_number( const float num )
         return colorize( "0", c_white );
     }
 }
-
 static void draw_spellbook_info( const spell_type &sp )
 {
     const spell fake_spell( sp.id );

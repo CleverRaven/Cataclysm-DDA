@@ -168,7 +168,7 @@
   {
     "id": "ROBOT_DAZZLE",
     "type": "ammo_effect",
-    "//": "Applies sensor-stunning effect to robots. Hardcoded"
+    "//": "Applies sensor-stunning effect to robots.  Only intended to affect ROBOTs not CYBORGs. Hardcoded"
   },
   {
     "id": "RECYCLED",

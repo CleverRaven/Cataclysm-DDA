@@ -115,7 +115,6 @@ static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -975,9 +974,7 @@ static void smash()
     }
 
     if( should_pulp ) {
-        // do activity forever. ACT_PULP stops itself
-        player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        player_character.activity.placement = here.getglobal( smashp );
+        player_character.assign_activity( pulp_activity_actor( here.getglobal( smashp ) ) );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1781,13 +1778,11 @@ static void cast_spell()
         }
     }
 
-    const int spell_index = player_character.magic->select_spell( player_character );
-    if( spell_index < 0 ) {
+    spell &sp = player_character.magic->select_spell( player_character );
+    // if no spell was selected
+    if( sp.id().is_null() ) {
         return;
     }
-
-    spell &sp = *player_character.magic->get_spells()[spell_index];
-
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
@@ -2257,13 +2252,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_zero ) {
-                        player_character.clear_destination();
+                        player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
                 if( !avatar_action::move( player_character, m, dest_delta ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
-                    player_character.clear_destination();
+                    player_character.abort_automove();
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
@@ -3002,7 +2997,7 @@ bool game::handle_action()
         act = player_character.get_next_auto_move_direction();
         if( act == ACTION_NULL ) {
             add_msg( m_info, _( "Auto-move canceled" ) );
-            player_character.clear_destination();
+            player_character.abort_automove();
             return false;
         }
         handle_key_blocking_activity();

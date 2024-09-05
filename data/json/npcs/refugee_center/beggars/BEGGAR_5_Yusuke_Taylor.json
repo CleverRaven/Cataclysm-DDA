@@ -188,9 +188,9 @@
       {
         "condition": {
           "and": [
-            { "u_has_var": "general_recruit_reena_recruited", "value": "yes" },
-            { "u_has_var": "general_recruit_luo_recruited", "value": "yes" },
-            { "u_has_var": "general_recruit_brendan_recruited", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_recruit_reena_recruited" } ] },
+            { "compare_string": [ "yes", { "u_val": "general_recruit_luo_recruited" } ] },
+            { "compare_string": [ "yes", { "u_val": "general_recruit_brendan_recruited" } ] }
           ]
         },
         "text": "I've spoken to all your friends, and except for Dave, they're good to go.  Dave wants to stay here.  How about you?",

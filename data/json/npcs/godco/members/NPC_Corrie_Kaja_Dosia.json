@@ -21,15 +21,15 @@
       {
         "text": "Want to come with me?",
         "topic": "TALK_GODCO_Corrie_Recruit",
-        "condition": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_completed_godco_corrie_machine" } ] }
       },
       {
         "text": "What needs to be done?",
         "topic": "TALK_GODCO_Corrie_Mission",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" } },
-            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" } }
+            { "not": { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_corrie_machine" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_completed_godco_corrie_machine" } ] } }
           ]
         }
       }
@@ -49,9 +49,9 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetA"
@@ -61,9 +61,9 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetB"
@@ -73,8 +73,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetC"
@@ -82,20 +82,26 @@
       {
         "text": "Hey Corrie, you free?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Corrie_2"
       },
       {
         "text": "Hey Corrie, you free?",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", ">=", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Corrie_Angry"
       },
       {
         "text": "Hey Corrie.  I gotta go.",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -158,8 +164,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardIcon",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "icon" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "icon", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },
@@ -168,8 +174,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardRation",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "ration" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "ration", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },

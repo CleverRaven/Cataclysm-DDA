@@ -12,8 +12,7 @@
     "type": "talk_topic",
     "id": "TALK_AUGUSTMOON_LONGSHOREMAN",
     "dynamic_line": {
-      "u_has_var": "dialogue_augustmoon_longshoreman_first_meet",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_augustmoon_longshoreman_first_meet" } ],
       "yes": [ "Please retrieve your belongings and move along.  We have a schedule to keep" ],
       "no": "Yes yes, welcome to Port Augustmoon.  Please collect your belongings and head down the docking arm.  Port authority won't be liable for any missing items."
     },

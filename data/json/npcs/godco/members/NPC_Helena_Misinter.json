@@ -18,7 +18,7 @@
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       {
@@ -27,8 +27,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_value()", ">=", "3" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } }
           ]
         }
       }
@@ -38,15 +38,13 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Get away from here, sinner, we don't want your kind here.", "relevant_genders": [ "u" ] },
       "no": {
         "math": [ "n_npc_anger()", ">=", "5" ],
         "yes": "What brings you here <name_b>?  You know we don't want anything to do with you.",
         "no": {
-          "npc_has_var": "general_meeting_u_met_godco_helena",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ],
           "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
           "no": "Stranger, what brings you to our holy home?"
         }
@@ -58,8 +56,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_helena", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Helena_Firstmeet"
@@ -69,8 +67,8 @@
         "condition": {
           "and": [
             { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Helena_2"
@@ -79,7 +77,7 @@
         "text": "Why might that be?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "math": [ "n_npc_anger()", ">=", "5" ] }
           ]
         },
@@ -89,7 +87,7 @@
         "text": "I can't talk right now.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
             { "math": [ "n_npc_anger()", "<", "5" ] }
           ]
         },
@@ -98,7 +96,10 @@
       {
         "text": "Fine then.",
         "condition": {
-          "or": [ { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }, { "math": [ "n_npc_anger()", ">=", "5" ] } ]
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
+            { "math": [ "n_npc_anger()", ">=", "5" ] }
+          ]
         },
         "topic": "TALK_DONE"
       }
@@ -113,7 +114,7 @@
       {
         "text": "I'm not doing much wandering, I'm staying here.",
         "topic": "TALK_GODCO_Gemma_Firstmeet",
-        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
       },
       { "text": "I'm just passing through.  I'll see you around.", "topic": "TALK_DONE" }
     ]
@@ -144,16 +145,16 @@
       { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "Corrie and I have finished that solar cart.",
-        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
+        "condition": { "compare_string": [ "in-progress", { "u_val": "mission_completed_godco_corrie_machine" } ] },
         "topic": "TALK_GODCO_Helena_Negotiate"
       },
       {
         "text": "Olwen's finished the radio transmitter she was working on.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
             { "not": { "u_has_mission": "MISSION_GODCO_HELENA_VISIT_MERCHANTS" } },
-            { "u_has_var": "general_mission_godco_has_radio", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_mission_godco_has_radio" } ] }
           ]
         },
         "topic": "TALK_GODCO_Helena_Contact_FreeMerch"
@@ -227,12 +228,12 @@
     "responses": [
       {
         "text": "I'll have some icons.",
-        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
+        "condition": { "compare_string": [ "in-progress", { "u_val": "mission_completed_godco_corrie_machine" } ] },
         "topic": "TALK_GODCO_Helena_machineIcon"
       },
       {
         "text": "I want Corrie to have some extra rations.",
-        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
+        "condition": { "compare_string": [ "in-progress", { "u_val": "mission_completed_godco_corrie_machine" } ] },
         "topic": "TALK_GODCO_Helena_machineFood"
       },
       { "text": "Let's negotiate some other time.", "topic": "TALK_DONE" }
@@ -280,8 +281,8 @@
         "text": "I presume you want me to pay a visit?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Helena_Accept_Contact_FreeMerch"
@@ -290,8 +291,8 @@
         "text": "Oh, I've met them before!",
         "condition": {
           "or": [
-            { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
-            { "u_has_var": "found_refugee_center", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+            { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] }
           ]
         },
         "topic": "TALK_GODCO_Helena_Accept_Contact_FreeMerch"

@@ -38,13 +38,16 @@
       {
         "text": "Don't worry, I'm not going to hurt you.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] } },
         "topic": "TALK_GODCO_Zachary_Intro"
       },
       {
         "text": "Hey, good to see you're still around.",
         "condition": {
-          "and": [ { "math": [ "n_npc_anger()", "<", "5" ] }, { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] }
+          ]
         },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
@@ -64,8 +67,7 @@
       "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
       "yes": "I ain't leaving, <name_g>.  Not until you or someone else has checked out that nightmare for me.",
       "no": {
-        "u_has_var": "mission_meeting_zachary_willing_to_follow",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ],
         "yes": "Thanks, <name_g>.  I sure owe you one.",
         "no": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried."
       }
@@ -76,7 +78,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" } },
-            { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Zachary_Nightmare"
@@ -165,8 +167,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Zachary_Follow",
     "dynamic_line": {
-      "u_has_var": "mission_meeting_zachary_willing_to_follow",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ],
       "yes": {
         "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
         "relevant_genders": [ "u" ]
@@ -176,12 +177,12 @@
     "responses": [
       {
         "text": "That's understandable.",
-        "condition": { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] } },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       {
         "text": "Let's hit the road.",
-        "condition": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_meeting_zachary_willing_to_follow" } ] },
         "effect": "follow",
         "topic": "TALK_DONE"
       }

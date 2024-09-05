@@ -11,7 +11,7 @@
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
         "is_day",
         { "one_in_chance": 10 },
-        { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
+        { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] },
         { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc)", ">=", "time('1 d')" ] }
       ]
     },
@@ -58,7 +58,7 @@
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } },
         "is_day",
         { "one_in_chance": 15 },
-        { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
+        { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] },
         { "math": [ "time_since(u_timer_JohnBailey_RandEnc)", ">=", "time('3 d')" ] }
       ]
     },

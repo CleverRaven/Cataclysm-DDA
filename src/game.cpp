@@ -229,7 +229,6 @@ static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
@@ -502,7 +501,7 @@ void game::load_static_data()
     get_safemode().load_global();
 }
 
-bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
+bool game::check_mod_data( const std::vector<mod_id> &opts )
 {
     dependency_tree &tree = world_generator->get_mod_manager().get_tree();
 
@@ -527,8 +526,8 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 
         // if no loadable mods then test core data only
         try {
-            load_core_data( ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+            load_core_data();
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
@@ -563,18 +562,18 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
-            load_core_data( ui );
+            load_core_data();
 
             // Load any dependencies and de-duplicate them
             std::vector<mod_id> dep_vector = tree.get_dependencies_of_X_as_strings( mod.ident );
             std::set<mod_id> dep_set( dep_vector.begin(), dep_vector.end() );
             for( const auto &dep : dep_set ) {
-                load_data_from_dir( dep->path, dep->ident.str(), ui );
+                load_data_from_dir( dep->path, dep->ident.str() );
             }
 
             // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str(), ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+            load_data_from_dir( mod.path, mod.ident.str() );
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
@@ -593,18 +592,18 @@ bool game::is_core_data_loaded() const
     return DynamicDataLoader::get_instance().is_data_finalized();
 }
 
-void game::load_core_data( loading_ui &ui )
+void game::load_core_data()
 {
     // core data can be loaded only once and must be first
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
+    load_data_from_dir( PATH_INFO::jsondir(), "core" );
 }
 
-void game::load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui )
+void game::load_data_from_dir( const cata_path &path, const std::string &src )
 {
-    DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
+    DynamicDataLoader::get_instance().load_data_from_path( path, src );
 }
 
 #if defined(TUI)
@@ -779,18 +778,16 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    loading_ui ui( true );
     new_game = true;
     {
-        background_pane background;
         static_popup popup;
         popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
         ui_manager::redraw();
         refresh_display();
 
-        load_core_data( ui );
+        load_core_data();
     }
-    load_world_modfiles( ui );
+    load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
 
@@ -1466,7 +1463,7 @@ static bool cancel_auto_move( Character &you, const std::string &text )
     g->invalidate_main_ui_adaptor();
     if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
         add_msg( m_warning, _( "%s Auto move canceled." ), text );
-        you.clear_destination();
+        you.abort_automove();
         return true;
     }
     return false;
@@ -1602,7 +1599,7 @@ bool game::cancel_activity_query( const std::string &text )
             }
         }
         u.cancel_activity();
-        u.clear_destination();
+        u.abort_automove();
         u.resume_backlog_activity();
         return true;
     }
@@ -3014,9 +3011,6 @@ bool game::load( const std::string &world )
 
 bool game::load( const save_t &name )
 {
-    loading_ui ui( true );
-    ui.new_context( _( "Loading the save…" ) );
-
     const cata_path worldpath = PATH_INFO::world_base_save_path_path();
     const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
@@ -3163,22 +3157,19 @@ bool game::load( const save_t &name )
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Loading the save…" ), e.first );
         e.second();
         if( abort ) {
+            loading_ui::done();
             return false;
         }
-        ui.proceed();
     }
 
+    loading_ui::done();
     return true;
 }
 
-void game::load_world_modfiles( loading_ui &ui )
+void game::load_world_modfiles()
 {
     auto &mods = world_generator->active_world->active_mod_order;
 
@@ -3205,40 +3196,37 @@ void game::load_world_modfiles( loading_ui &ui )
     // are resolved during the creation of the world.
     // That means world->active_mod_order contains a list
     // of mods in the correct order.
-    load_packs( _( "Loading files" ), mods, ui );
+    load_packs( _( "Loading files" ), mods );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom", ui );
+    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
 
-    DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+    DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
-void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
+void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
 {
-    ui.new_context( msg );
     std::vector<mod_id> missing;
     std::vector<mod_id> available;
 
     for( const mod_id &e : packs ) {
         if( e.is_valid() ) {
             available.emplace_back( e );
-            ui.add_entry( e->name() );
         } else {
             missing.push_back( e );
         }
     }
 
-    ui.show();
     for( const auto &e : available ) {
+        loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
         restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_data_from_dir( mod.path, mod.ident.str(), ui );
-
-        ui.proceed();
+        load_data_from_dir( mod.path, mod.ident.str() );
     }
+    loading_ui::done();
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
@@ -10918,32 +10906,37 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto pulp = [&]( const tripoint_bub_ms & pos ) {
+            const auto corpse_available = [&]( const tripoint_bub_ms & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
-
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
                                 continue;
+                            } else {
+                                return true;
                             }
+                        } else {
+                            return true;
                         }
-
-                        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getglobal( pos );
-                        u.activity.auto_resume = true;
-                        u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
-                        return;
                     }
                 }
+                return false;
             };
-
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                std::set<tripoint_abs_ms> places;
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos_bub() + displace_XY( elem ) );
+                    if( corpse_available( u.pos_bub() + displace_XY( elem ) ) ) {
+                        places.emplace( m.getglobal( u.pos_bub() + displace_XY( elem ) ) );
+                    }
+                }
+                if( !places.empty() ) {
+                    u.assign_activity( pulp_activity_actor( places, true ) );
                 }
             } else {
-                pulp( u.pos_bub() );
+                if( corpse_available( u.pos_bub() ) ) {
+                    u.assign_activity( pulp_activity_actor( m.getglobal( u.pos_bub() ), true ) );
+                }
             }
         }
     }

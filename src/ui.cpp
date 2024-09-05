@@ -23,6 +23,7 @@
 #include "ui_manager.h"
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 
 #if defined(__ANDROID__)
 #include <jni.h>
@@ -90,45 +91,64 @@ void uilist_impl::draw_controls()
                 ImGui::TableSetupColumn( "secondary", ImGuiTableColumnFlags_WidthFixed,
                                          parent.calculated_secondary_width );
 
-                // It would be natural to make the entries into buttons, or
-                // combos, or other pre-built ui elements. For now I am mostly
-                // going to copy the style of the original textual ui elements.
-                for( size_t i = 0; i < parent.fentries.size(); i++ ) {
-                    auto entry = parent.entries[parent.fentries[i]];
-                    ImGui::TableNextRow( ImGuiTableRowFlags_None, entry_height );
-                    ImGui::TableSetColumnIndex( 0 );
+                ImGuiListClipper clipper;
+                clipper.Begin( parent.fentries.size(), entry_height );
+                clipper.IncludeRangeByIndices( parent.fselected, parent.fselected + 1 );
+                while( clipper.Step() ) {
+                    // It would be natural to make the entries into buttons, or
+                    // combos, or other pre-built ui elements. For now I am mostly
+                    // going to copy the style of the original textual ui elements.
+                    for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+                        auto entry = parent.entries[parent.fentries[i]];
+                        bool is_selected = i == parent.fselected;
+                        ImGui::PushID( i );
+                        ImGui::TableNextRow( ImGuiTableRowFlags_None, entry_height );
+                        ImGui::TableSetColumnIndex( 0 );
 
-                    ImVec2 rowMin = ImGui::GetCursorScreenPos();
-                    ImVec2 rowMax = ImVec2( rowMin.x + parent.calculated_menu_size.x, rowMin.y + entry_height );
-                    bool is_hovered = ImGui::IsMouseHoveringRect( rowMin, rowMax, false );
-                    if( is_hovered ) {
-                        ImGui::TableSetBgColor( ImGuiTableBgTarget_RowBg1,
-                                                ImColor( ImGui::GetStyle().Colors[ ImGuiCol_HeaderHovered ] ) );
-                        parent.fselected = i;
-                    }
-                    bool is_selected = static_cast<int>( i ) == parent.fselected;
-                    if( is_selected ) {
-                        ImGui::SetItemDefaultFocus();
-                        ImGui::SetScrollHereY();
-                        ImGui::TableSetBgColor( ImGuiTableBgTarget_RowBg1,
-                                                ImColor( ImGui::GetStyle().Colors[ ImGuiCol_HeaderActive ] ) );
-                    }
+                        if( is_selected && parent.need_to_scroll ) {
+                            // this is the selected row, and the user just changed the selection; scroll it into view
+                            ImGui::SetScrollHereY();
+                            parent.need_to_scroll = false;
+                        }
+                        ImGuiSelectableFlags flags = ImGuiSelectableFlags_SpanAllColumns |
+                                                     ImGuiSelectableFlags_AllowItemOverlap;
+                        if( !entry.enabled ) {
+                            flags |= ImGuiSelectableFlags_Disabled;
+                        }
+                        if( ImGui::Selectable( "##s", is_selected, flags ) ) {
+                            parent.fselected = i;
+                            parent.selected = parent.hovered = parent.fentries[ parent.fselected ];
+                            // We are going to return now that the user clicked on something, so scrolling seems
+                            // unnecessary. However, the debug spawn item function reuses the same menu to let the
+                            // user spawn multiple items and it’s weird if the correct item isn’t scrolled into view
+                            // the next time around.
+                            parent.need_to_scroll = true;
+                            is_selected = parent.clicked = true;
+                        }
+                        bool mouse_moved = ImGui::GetCurrentContext()->HoveredId !=
+                                           ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
+                        if( ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride ) && mouse_moved ) {
+                            // this row is hovered and the hover state just changed, show context for it
+                            parent.hovered = parent.fentries[ i ];
+                        }
+                        ImGui::SameLine( 0, 0 );
+                        if( entry.hotkey.has_value() ) {
+                            cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                                          is_selected ? parent.hilight_color : parent.hotkey_color );
+                        }
 
-                    if( entry.hotkey.has_value() ) {
-                        nc_color color = is_selected ? parent.hilight_color : parent.hotkey_color;
-                        cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
-                                                      color );
-                    }
-                    ImGui::TableSetColumnIndex( 1 );
-                    nc_color color = ( is_selected ?
-                                       parent.hilight_color :
-                                       ( entry.enabled || entry.force_color ?
-                                         entry.text_color :
-                                         parent.disabled_color ) );
-                    cataimgui::draw_colored_text( entry.txt, color );
-                    ImGui::TableSetColumnIndex( 2 );
-                    if( !entry.ctxt.empty() ) {
+                        ImGui::TableSetColumnIndex( 1 );
+                        nc_color color = ( is_selected ?
+                                           parent.hilight_color :
+                                           ( entry.enabled || entry.force_color ?
+                                             entry.text_color :
+                                             parent.disabled_color ) );
+                        cataimgui::draw_colored_text( entry.txt, color );
+
+                        ImGui::TableSetColumnIndex( 2 );
                         cataimgui::draw_colored_text( entry.ctxt, color );
+
+                        ImGui::PopID();
                     }
                 }
                 ImGui::EndTable();
@@ -147,8 +167,8 @@ void uilist_impl::draw_controls()
         std::string description;
         if( !parent.footer_text.empty() ) {
             description = parent.footer_text;
-        } else if( parent.selected >= 0 ) {
-            description = parent.entries[parent.selected].desc;
+        } else {
+            description = parent.entries[parent.hovered].desc;
         }
         cataimgui::draw_colored_text( description );
     }
@@ -374,11 +394,11 @@ void uilist::init()
     extra_space_right = 0.0;
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
-    textformatted.clear(); // folded to textwidth
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
+    hovered = 0;           // current mouse highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     desc_enabled = false;  // don't show option description by default
@@ -423,8 +443,6 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
     ctxt.register_action( "END", to_translation( "Go to last entry" ) );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {
         ctxt.register_action( "UILIST.QUIT" );
     }
@@ -701,8 +719,6 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -1;
     } else if( action == "PAGE_UP" ) {
         return -scroll_rate;
-    } else if( action == "SCROLL_UP" ) {
-        return -3;
     } else if( action == "HOME" ) {
         return -fselected;
     } else if( action == "END" ) {
@@ -711,8 +727,6 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return 1;
     } else if( action == "PAGE_DOWN" ) {
         return scroll_rate;
-    } else if( action == "SCROLL_DOWN" ) {
-        return +3;
     } else {
         return 0;
     }
@@ -768,7 +782,7 @@ bool uilist::scrollby( const int scrollby )
         }
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
-        selected = fentries [ fselected ];
+        selected = hovered = fentries [ fselected ];
         if( callback != nullptr ) {
             callback->select( this );
         }
@@ -890,6 +904,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         recalc_start = false;
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
+            need_to_scroll = true;
             recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
@@ -925,14 +940,15 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
                     }
                 }
             }
-        } else if( allow_confirm && !fentries.empty() && ( ret_act == "CONFIRM" || ret_act == "SELECT" ) ) {
+        } else if( allow_confirm && !fentries.empty() && ( clicked || ret_act == "CONFIRM" ) ) {
+            clicked = false;
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
-            ret = UILIST_TIMEOUT;
+            ret = UILIST_WAIT_INPUT;
         } else {
             // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
@@ -1016,7 +1032,7 @@ void uilist::settext( const std::string &str )
 
 void uilist::set_selected( int index )
 {
-    selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = hovered = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1084,7 +1100,7 @@ void uimenu::finalize_addentries()
 
 void uimenu::set_selected( int index )
 {
-    menu.selected = index;
+    menu.selected = menu.hovered = index;
 }
 
 void uimenu::set_title( const std::string &title )

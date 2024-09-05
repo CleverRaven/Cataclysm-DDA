@@ -70,46 +70,42 @@
     "id": "carver_off",
     "type": "TOOL",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
-    "description": "An electric meat carver powered by batteries.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "weight": "1106 g",
+    "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
+    "//": "https://www.amazon.com/dp/B07CDR4KFM",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "weight": "680 g",
     "volume": "1500 ml",
-    "longest_side": "30 cm",
-    "price": "20 USD",
-    "price_postapoc": "50 cent",
+    "longest_side": "482 mm",
+    "price": "24 USD",
+    "price_postapoc": "1 cent",
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__carver",
-          "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.8",
-              "transform_target": "carver_on",
-              "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
-              "volume": "20",
-              "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__carver",
+            "effect": {
+              "run_eoc_with": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": "0.8",
+                "transform_target": "carver_on",
+                "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
+                "volume": "20",
+                "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
+              }
             }
           }
-        }
-      ]
-    },
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
     ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "melee_damage": { "bash": 2, "cut": 8 }
   },
   {
@@ -118,21 +114,24 @@
     "type": "TOOL",
     "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
-    "power_draw": "150 W",
+    "power_draw": "120 W",
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_deactivate__carver",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
-        }
-      ]
-    },
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_deactivate__carver",
+            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
+    ],
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -151,7 +150,7 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 2, "cut": 30 }
+    "melee_damage": { "bash": 2, "cut": 8 }
   },
   {
     "id": "char_purifier",
@@ -538,14 +537,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 4, "charge_rate": "55 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -995,14 +986,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "110 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1043,14 +1026,6 @@
     "charges_per_use": 14,
     "use_action": [ "WATER_PURIFIER", { "type": "link_up", "cable_length": 2, "charge_rate": "30 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1173,5 +1148,21 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "type": "TOOL",
+    "id": "toaster",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "toaster" },
+    "description": "A small two-slice toaster, can be used to toast toast and few other things.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "725 g",
+    "volume": "750 ml",
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" } ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
+    "ammo": [ "battery" ]
   }
 ]

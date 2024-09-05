@@ -184,8 +184,8 @@ struct uilist_entry {
  *     }
  *   }
  *   void refresh( uilist *menu ) {
- *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
- *           ImGui::TextColored( c_red, "( %s )", game_z[menu->selected]->name() );
+ *       if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < game_z.size() ) {
+ *           ImGui::TextColored( c_red, "( %s )", game_z[menu->hovered]->name() );
  *       }
  *   }
  * }
@@ -294,7 +294,7 @@ class uilist // NOLINT(cata-xy)
         // initialize the window or reposition it after screen size change.
         void reposition();
         bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = -1, bool allow_unfiltered_hotkeys = false );
+        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -450,8 +450,6 @@ class uilist // NOLINT(cata-xy)
     public:
         // Iternal states
         // TODO make private
-        std::vector<std::string> textformatted;
-
         catacurses::window window;
 
         int vshift = 0;
@@ -480,9 +478,9 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         bool started = false;
-
         bool recalc_start = false;
-
+        bool clicked = false;
+        bool need_to_scroll = false;
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
         int current_category = 0;
@@ -494,6 +492,7 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+        int hovered = 0;
 
         void set_selected( int index );
 };

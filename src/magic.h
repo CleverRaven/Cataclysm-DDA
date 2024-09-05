@@ -85,6 +85,12 @@ enum class spell_flag : int {
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
+    EVOCATION_SPELL, // Evocation spell category, used for Magiclysm proficiencies
+    CHANNELING_SPELL, // Channeling spell category, used for Magiclysm proficiencies
+    CONJURATION_SPELL, // Conjuration spell category, used for Magiclysm proficiencies
+    ENHANCEMENT_SPELL, // Enhancement spell category, used for Magiclysm proficiencies
+    ENERVATION_SPELL, // Enervation spell category, used for Magiclysm proficiencies
+    CONVEYANCE_SPELL, // Conveyance spell category, used for Magiclysm proficiencies
     LAST
 };
 
@@ -432,6 +438,7 @@ class spell
 
         // Temporary adjustments caused by EoC's
         int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_damage_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
@@ -688,8 +695,8 @@ class known_magic
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
-        // returns the index of the spell in the vector of spells
-        int select_spell( Character &guy );
+        // returns the selected spell
+        spell &select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // directly get the character known spells

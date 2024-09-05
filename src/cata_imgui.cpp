@@ -36,8 +36,39 @@ struct pairs {
     short BG;
 };
 
+ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
-std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
+std::array<pairs, 100> colorpairs;   //storage for paired colors
+
+static ImVec4 compute_color( uint8_t index )
+{
+    if( index < 16 ) {
+        RGBTuple &rgbCol = rgbPalette[index];
+        return { static_cast<float>( rgbCol.Red ) / 255.0f,
+                 static_cast<float>( rgbCol.Green ) / 255.0f,
+                 static_cast<float>( rgbCol.Blue ) / 255.0f,
+                 1.0f };
+    } else if( index < 232 ) {
+        static uint8_t colors[6] = {0, 95, 135, 175, 215, 255};
+        int i = index - 16;
+        int r = i / 36;
+        i -= 36 * r;
+        int g = i / 6;
+        i -= 6 * g;
+        int b = i;
+        return { static_cast<float>( colors[r] ) / 255.0f,
+                 static_cast<float>( colors[g] ) / 255.0f,
+                 static_cast<float>( colors[b] ) / 255.0f,
+                 1.0f };
+    } else {
+        static uint8_t gray[24] = {8, 18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 118,
+                                   128, 138, 148, 158, 168, 178, 188, 198, 208, 218,
+                                   228, 238
+                                  };
+        float level = static_cast<float>( gray[index - 232] ) / 255.0f;
+        return { level, level, level, 1.0f };
+    }
+}
 
 ImVec4 cataimgui::imvec4_from_color( nc_color &color )
 {
@@ -48,11 +79,7 @@ ImVec4 cataimgui::imvec4_from_color( nc_color &color )
     if( color.is_bold() ) {
         palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
     }
-    RGBTuple &rgbCol = rgbPalette[palette_index];
-    return { static_cast<float>( rgbCol.Red / 255. ),
-             static_cast<float>( rgbCol.Green / 255. ),
-             static_cast<float>( rgbCol.Blue / 255. ),
-             static_cast<float>( 255. ) };
+    return impalette[palette_index];
 }
 
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
@@ -177,8 +204,10 @@ void cataimgui::client::process_input( void *input )
 
 void cataimgui::load_colors()
 {
-
     color_loader<RGBTuple>().load( rgbPalette );
+    for( int i = 0; i < 256; i++ ) {
+        impalette[i] = compute_color( i );
+    }
 }
 
 void cataimgui::init_pair( int p, int f, int b )
@@ -280,6 +309,8 @@ void cataimgui::client::load_fonts( const Font_Ptr &cata_font,
         io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
         io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
         io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        io.Fonts->Build();
+        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
