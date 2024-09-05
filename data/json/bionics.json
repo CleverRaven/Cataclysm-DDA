@@ -833,16 +833,17 @@
     "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
-    "passive_pseudo_items": [ "internal_mp3" ]
+    "passive_pseudo_items": [ "internal_mp3" ],
+    "included_bionics": [ "bio_radio" ],
+    "upgraded_bionic": "bio_radio"
   },
   {
     "id": "bio_voice_b",
     "type": "bionic",
     "name": { "str": "AudioVox" },
-    "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice at will.  It consists of an electronic voice box, synthetic larynx and multiple small speakers implanted throughout the throat.",
+    "description": "Well-loved by the Translyvanian nobility, and now appreciated by Exodii artists, the AudioVox implant allows the user to change, remodulate, and even autotune their voice. It also causes vocalizations /(such as shouts and singing/) to be much louder. It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout the throat.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
-    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
-    "social_modifiers": { "persuade": 20, "lie": 10, "intimidate": 20 },
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
     "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
     "mutation_conflicts": [ "SCREECH" ]
   },
@@ -1414,7 +1415,8 @@
     "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "passive_pseudo_items": [ "fake_radio" ]
+    "passive_pseudo_items": [ "fake_radio" ],
+    "available_upgrades": [ "bio_mp3" ]
   },
   {
     "id": "bio_radscrubber",
