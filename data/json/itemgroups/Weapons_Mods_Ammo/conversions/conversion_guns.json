@@ -108,6 +108,30 @@
     "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_22" } ]
   },
   {
+    "id": "ar_pistol",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_223rem_pistol" } ]
+  },
+  {
+    "id": "ar_pistol_long",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_223rem_short" } ]
+  },
+  {
+    "id": "ar_pistol_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_300blk_short" } ]
+  },
+  {
+    "id": "ar_pistol_300_long",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_300blk_medium" } ]
+  },
+  {
     "id": "mdrx_223",
     "type": "item_group",
     "subtype": "collection",

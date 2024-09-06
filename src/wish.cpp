@@ -173,8 +173,8 @@ class wish_mutate_callback: public uilist_callback
 
             ImGui::TableSetColumnIndex( 2 );
 
-            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < vTraits.size() ) {
-                const mutation_branch &mdata = vTraits[menu->selected].obj();
+            if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->hovered].obj();
 
                 ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
                 ImGui::NewLine();
@@ -672,7 +672,7 @@ class wish_monster_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
                 if( entnum != lastent ) {
                     lastent = entnum;
@@ -921,7 +921,7 @@ class wish_item_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
                     item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 
@@ -1118,8 +1118,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
     uilist skmenu;
-    skmenu.text = change_theory ?
-                  _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
+    skmenu.title = change_theory ?
+                   _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
     skmenu.additional_actions = {
         { "LEFT", to_translation( "Decrease skill" ) },
@@ -1184,9 +1184,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             } else {
                 you->set_skill_level( skill.ident(), skset );
             }
-            skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      skill.name(),
-                                      get_level( skill ) );
+            skmenu.text = string_format( _( "%s set to %d" ), skill.name(), get_level( skill ) );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     get_level( skill ),
                     skill.name() );

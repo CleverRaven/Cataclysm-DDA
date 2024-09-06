@@ -37,8 +37,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 2 ], "repeat": [ 8, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
-      "terrain": { "T": "t_atm" },
-      "furniture": { "V": "f_vending_reinforced", "k": "f_rack" },
+      "furniture": { "V": "f_vending_reinforced", "k": "f_rack", "T": "f_atm" },
       "toilets": { "&": {  } },
       "gaspumps": { "G": {  } },
       "items": {

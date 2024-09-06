@@ -66,7 +66,10 @@
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
         "topic": "TALK_CHRIS_THEORIES",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris_ideas", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_heard_about_chris_ideas" } ] }
+          ]
         }
       },
       {
@@ -191,8 +194,7 @@
           "u_is_wearing": "badge_marshal",
           "yes": "I see that badge.  You need to leave our land, my relatives have no fondness for Marshals.\"",
           "no": {
-            "u_has_var": "isherwood_chris_marshal_badge",
-            "value": "seen",
+            "compare_string": [ "seen", { "u_val": "isherwood_chris_marshal_badge" } ],
             "yes": {
               "gendered_line": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
               "relevant_genders": [ "u" ]
@@ -222,7 +224,9 @@
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
+        "condition": {
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] } ]
+        }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -380,7 +384,7 @@
     "responses": [
       {
         "text": "What about Lisa?  She seems like she could handle herself.",
-        "condition": { "u_has_var": "u_met_lisa_isherwood", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "u_met_lisa_isherwood" } ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2"
       },
       {
@@ -491,8 +495,8 @@
         "text": "We're going to need some way to breach the tower itself, possibly some form of explosives.  Do you know anyone who could help us with that?",
         "condition": {
           "and": [
-            { "u_has_var": "u_been_to_migos", "value": "yes" },
-            { "not": { "u_has_var": "chris_planned_for_bomb", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "u_been_to_migos" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "chris_planned_for_bomb" } ] } }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"
@@ -547,8 +551,8 @@
         "text": "We're going to need some way to breach the tower itself, possibly some form of explosives.  Do you know anyone who could help us with that?",
         "condition": {
           "and": [
-            { "u_has_var": "u_been_to_migos", "value": "yes" },
-            { "not": { "u_has_var": "chris_planned_for_bomb", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "u_been_to_migos" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "chris_planned_for_bomb" } ] } }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"

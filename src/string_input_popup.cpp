@@ -668,3 +668,31 @@ void string_input_popup::add_callback( int input, const std::function<bool()> &c
 {
     callbacks.emplace_back( "", input, callback_func );
 }
+
+string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
+{
+    string_input_params p;
+    if( jo.has_member( "title" ) ) {
+        const JsonValue &jv_title = jo.get_member( "title" );
+        p.title = get_str_translation_or_var( jv_title, "" );
+    }
+    if( jo.has_member( "description" ) ) {
+        const JsonValue &jv_description = jo.get_member( "description" );
+        p.description = get_str_translation_or_var( jv_description, "" );
+    }
+    if( jo.has_member( "default_text" ) ) {
+        const JsonValue &jv_default_text = jo.get_member( "default_text" );
+        p.default_text = get_str_translation_or_var( jv_default_text, "" );
+    }
+    if( jo.has_int( "width" ) ) {
+        p.width = jo.get_int( "width" );
+    }
+    if( jo.has_member( "identifier" ) ) {
+        const JsonValue &jv_identifier = jo.get_member( "identifier" );
+        p.identifier = get_str_or_var( jv_identifier, "" );
+    }
+    if( jo.has_bool( "only_digits" ) ) {
+        p.only_digits = jo.get_bool( "only_digits" );
+    }
+    return p;
+}

@@ -712,7 +712,6 @@
       [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "sheet_metal_small", 8 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
       [ [ "cordage_superior", 18, "LIST" ] ]
     ]
   },
@@ -1215,7 +1214,7 @@
     "difficulty": 5,
     "time": "8 h",
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 7 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 7 ], [ "glue_any", 1 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
@@ -1226,7 +1225,6 @@
     "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "power_supply", 2 ] ],
@@ -1377,7 +1375,7 @@
       [ [ "ruger_1022", 1 ] ],
       [ [ "qt_wire", 1 ], [ "piano_wire", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "super_glue", 5 ] ]
     ]
   },
   {
@@ -1405,7 +1403,7 @@
       [ [ "ruger_charger", 1 ] ],
       [ [ "qt_wire", 1 ], [ "piano_wire", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "superglue", 1 ] ]
+      [ [ "super_glue", 5 ] ]
     ]
   }
 ]

@@ -65,8 +65,7 @@
     "id": "TALK_THAWED_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_thawed_thawed_has_talked",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_thawed_thawed_has_talked" } ],
       "no": "What year is it?  How long have I been asleep?",
       "yes": "Anymore bad news?"
     },
@@ -74,7 +73,7 @@
     "responses": [
       {
         "switch": true,
-        "condition": { "npc_has_var": "dialogue_thawed_thawed_has_talked", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_thawed_thawed_has_talked" } ] },
         "text": "Hey.  Let's chat for a second.",
         "topic": "TALK_STRANGER_NEUTRAL"
       },

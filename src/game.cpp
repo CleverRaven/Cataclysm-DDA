@@ -229,7 +229,6 @@ static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
@@ -502,7 +501,7 @@ void game::load_static_data()
     get_safemode().load_global();
 }
 
-bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
+bool game::check_mod_data( const std::vector<mod_id> &opts )
 {
     dependency_tree &tree = world_generator->get_mod_manager().get_tree();
 
@@ -527,8 +526,8 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 
         // if no loadable mods then test core data only
         try {
-            load_core_data( ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+            load_core_data();
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
@@ -563,18 +562,18 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
-            load_core_data( ui );
+            load_core_data();
 
             // Load any dependencies and de-duplicate them
             std::vector<mod_id> dep_vector = tree.get_dependencies_of_X_as_strings( mod.ident );
             std::set<mod_id> dep_set( dep_vector.begin(), dep_vector.end() );
             for( const auto &dep : dep_set ) {
-                load_data_from_dir( dep->path, dep->ident.str(), ui );
+                load_data_from_dir( dep->path, dep->ident.str() );
             }
 
             // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str(), ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+            load_data_from_dir( mod.path, mod.ident.str() );
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
@@ -593,18 +592,18 @@ bool game::is_core_data_loaded() const
     return DynamicDataLoader::get_instance().is_data_finalized();
 }
 
-void game::load_core_data( loading_ui &ui )
+void game::load_core_data()
 {
     // core data can be loaded only once and must be first
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
+    load_data_from_dir( PATH_INFO::jsondir(), "core" );
 }
 
-void game::load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui )
+void game::load_data_from_dir( const cata_path &path, const std::string &src )
 {
-    DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
+    DynamicDataLoader::get_instance().load_data_from_path( path, src );
 }
 
 #if defined(TUI)
@@ -779,18 +778,16 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    loading_ui ui( true );
     new_game = true;
     {
-        background_pane background;
         static_popup popup;
         popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
         ui_manager::redraw();
         refresh_display();
 
-        load_core_data( ui );
+        load_core_data();
     }
-    load_world_modfiles( ui );
+    load_world_modfiles();
     // Panel manager needs JSON data to be loaded before init
     panel_manager::get_manager().init();
 
@@ -1466,7 +1463,7 @@ static bool cancel_auto_move( Character &you, const std::string &text )
     g->invalidate_main_ui_adaptor();
     if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
         add_msg( m_warning, _( "%s Auto move canceled." ), text );
-        you.clear_destination();
+        you.abort_automove();
         return true;
     }
     return false;
@@ -1602,7 +1599,7 @@ bool game::cancel_activity_query( const std::string &text )
             }
         }
         u.cancel_activity();
-        u.clear_destination();
+        u.abort_automove();
         u.resume_backlog_activity();
         return true;
     }
@@ -2921,7 +2918,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 2000 );
 }
 
 void game::death_screen()
@@ -3014,9 +3011,6 @@ bool game::load( const std::string &world )
 
 bool game::load( const save_t &name )
 {
-    loading_ui ui( true );
-    ui.new_context( _( "Loading the save…" ) );
-
     const cata_path worldpath = PATH_INFO::world_base_save_path_path();
     const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
@@ -3163,22 +3157,19 @@ bool game::load( const save_t &name )
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Loading the save…" ), e.first );
         e.second();
         if( abort ) {
+            loading_ui::done();
             return false;
         }
-        ui.proceed();
     }
 
+    loading_ui::done();
     return true;
 }
 
-void game::load_world_modfiles( loading_ui &ui )
+void game::load_world_modfiles()
 {
     auto &mods = world_generator->active_world->active_mod_order;
 
@@ -3205,40 +3196,37 @@ void game::load_world_modfiles( loading_ui &ui )
     // are resolved during the creation of the world.
     // That means world->active_mod_order contains a list
     // of mods in the correct order.
-    load_packs( _( "Loading files" ), mods, ui );
+    load_packs( _( "Loading files" ), mods );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom", ui );
+    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
 
-    DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+    DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
-void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
+void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs )
 {
-    ui.new_context( msg );
     std::vector<mod_id> missing;
     std::vector<mod_id> available;
 
     for( const mod_id &e : packs ) {
         if( e.is_valid() ) {
             available.emplace_back( e );
-            ui.add_entry( e->name() );
         } else {
             missing.push_back( e );
         }
     }
 
-    ui.show();
     for( const auto &e : available ) {
+        loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
         restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_data_from_dir( mod.path, mod.ident.str(), ui );
-
-        ui.proceed();
+        load_data_from_dir( mod.path, mod.ident.str() );
     }
+    loading_ui::done();
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
@@ -4517,7 +4505,8 @@ void game::mon_info_update( )
                                       p->attitude_to( u ),
                                       npc_dist,
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED ;
-            } else {
+            }
+            if( !need_processing ) {
                 need_processing = npc_dist <= iProxyDist &&
                                   p->get_attitude() == NPCATT_KILL;
             }
@@ -5536,11 +5525,40 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( u ) ) {
                 return; // player not owner and refused to steal
             }
+            const item_location weapon = u.get_wielded_item();
+            if( weapon ) {
+                if( u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
+                    add_msg( m_info, _( "Something you are wearing hinders the use of both hands." ) );
+                    return;
+                }
+                if( !u.has_two_arms_lifting() ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+                if( weapon->is_two_handed( u ) ) {
+                    if( query_yn(
+                            _( "You can't drive because you have to wield a %s with both hands.\n\nPut it away?" ),
+                            weapon->tname() ) ) {
+                        if( !u.unwield() ) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
             if( veh->engine_on ) {
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( true );
+                veh->start_engines( &u, true );
             }
         }
     }
@@ -9139,6 +9157,11 @@ static void add_disassemblables( uilist &menu,
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
@@ -9283,100 +9306,100 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     uilist smenu;
     smenu.desc_enabled = true;
-    smenu.text = _( "Choose type of butchery:" );
+    smenu.title = _( "Choose type of butchery:" );
 
     smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used when you are in a hurry, "
-                                          "but still want to harvest something from the corpse. "
-                                          " Yields are lower as you don't try to be precise, "
-                                          "but it's useful if you don't want to set up a workshop.  "
-                                          "Prevents zombies from raising." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used when you are in a hurry, "
+                                   "but still want to harvest something from the corpse. "
+                                   " Yields are lower as you don't try to be precise, "
+                                   "but it's useful if you don't want to set up a workshop.  "
+                                   "Prevents zombies from raising." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FULL ),
                         is_enabled( butcher_type::FULL ),
                         'b', _( "Full butchery" )
                         + progress_str( butcher_type::FULL ),
                         time_or_disabledreason( butcher_type::FULL ),
-                        string_format( "%s  %s",
-                                       _( "This technique is used to properly butcher a corpse, "
-                                          "and requires a rope & a tree or a butchering rack, "
-                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                          "and good tools.  Yields are plentiful and varied, "
-                                          "but it is time consuming." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "This technique is used to properly butcher a corpse, "
+                                   "and requires a rope & a tree or a butchering rack, "
+                                   "a flat surface (for ex. a table, a leather tarp, etc.) "
+                                   "and good tools.  Yields are plentiful and varied, "
+                                   "but it is time consuming." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ),
                         is_enabled( butcher_type::FIELD_DRESS ),
                         'f', _( "Field dress corpse" )
                         + progress_str( butcher_type::FIELD_DRESS ),
                         time_or_disabledreason( butcher_type::FIELD_DRESS ),
-                        string_format( "%s  %s",
-                                       _( "Technique that involves removing internal organs and "
-                                          "viscera to protect the corpse from rotting from inside.  "
-                                          "Yields internal organs.  Carcass will be lighter and will "
-                                          "stay fresh longer.  Can be combined with other methods for "
-                                          "better effects." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Technique that involves removing internal organs and "
+                                   "viscera to protect the corpse from rotting from inside.  "
+                                   "Yields internal organs.  Carcass will be lighter and will "
+                                   "stay fresh longer.  Can be combined with other methods for "
+                                   "better effects." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::SKIN ),
                         is_enabled( butcher_type::SKIN ),
                         's', _( "Skin corpse" )
                         + progress_str( butcher_type::SKIN ),
                         time_or_disabledreason( butcher_type::SKIN ),
-                        string_format( "%s  %s",
-                                       _( "Skinning a corpse is an involved and careful process that "
-                                          "usually takes some time.  You need skill and an appropriately "
-                                          "sharp and precise knife to do a good job.  Some corpses are "
-                                          "too small to yield a full-sized hide and will instead produce "
-                                          "scraps that can be used in other ways." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Skinning a corpse is an involved and careful process that "
+                                   "usually takes some time.  You need skill and an appropriately "
+                                   "sharp and precise knife to do a good job.  Some corpses are "
+                                   "too small to yield a full-sized hide and will instead produce "
+                                   "scraps that can be used in other ways." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
                         is_enabled( butcher_type::BLEED ),
                         'l', _( "Bleed corpse" )
                         + progress_str( butcher_type::BLEED ),
                         time_or_disabledreason( butcher_type::BLEED ),
-                        string_format( "%s  %s",
-                                       _( "Bleeding involves severing the carotid arteries and jugular "
-                                          "veins, or the blood vessels from which they arise.  "
-                                          "You need skill and an appropriately sharp and precise knife "
-                                          "to do a good job." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "Bleeding involves severing the carotid arteries and jugular "
+                                   "veins, or the blood vessels from which they arise.  "
+                                   "You need skill and an appropriately sharp and precise knife "
+                                   "to do a good job." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
                         is_enabled( butcher_type::QUARTER ),
                         'k', _( "Quarter corpse" )
                         + progress_str( butcher_type::QUARTER ),
                         time_or_disabledreason( butcher_type::QUARTER ),
-                        string_format( "%s  %s",
-                                       _( "By quartering a previously field dressed corpse you will "
-                                          "acquire four parts with reduced weight and volume.  It "
-                                          "may help in transporting large game.  This action destroys "
-                                          "skin, hide, pelt, etc., so don't use it if you want to "
-                                          "harvest them later." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "By quartering a previously field dressed corpse you will "
+                                   "acquire four parts with reduced weight and volume.  It "
+                                   "may help in transporting large game.  This action destroys "
+                                   "skin, hide, pelt, etc., so don't use it if you want to "
+                                   "harvest them later." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ),
                         is_enabled( butcher_type::DISMEMBER ),
                         'm', _( "Dismember corpse" )
                         + progress_str( butcher_type::DISMEMBER ),
                         time_or_disabledreason( butcher_type::DISMEMBER ),
-                        string_format( "%s  %s",
-                                       _( "If you're aiming to just destroy a body outright and don't "
-                                          "care about harvesting it, dismembering it will hack it apart "
-                                          "in a very short amount of time but yields little to no usable flesh." ),
-                                       msgFactor ) );
+                        wrap60( string_format( "%s  %s",
+                                _( "If you're aiming to just destroy a body outright and don't "
+                                   "care about harvesting it, dismembering it will hack it apart "
+                                   "in a very short amount of time but yields little to no usable flesh." ),
+                                msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ),
                         is_enabled( butcher_type::DISSECT ),
                         'd', _( "Dissect corpse" )
                         + progress_str( butcher_type::DISSECT ),
                         time_or_disabledreason( butcher_type::DISSECT ),
-                        string_format( "%s  %s%s",
-                                       _( "By careful dissection of the corpse, you will examine it for "
-                                          "possible bionic implants, or discrete organs and harvest them "
-                                          "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                          "corpse, and consumes a lot of time.  Your medical knowledge "
-                                          "is most useful here." ),
-                                       msgFactorD, dissect_wp_hint ) );
+                        wrap60( string_format( "%s  %s%s",
+                                _( "By careful dissection of the corpse, you will examine it for "
+                                   "possible bionic implants, or discrete organs and harvest them "
+                                   "if possible.  Requires scalpel-grade cutting tools, ruins "
+                                   "corpse, and consumes a lot of time.  Your medical knowledge "
+                                   "is most useful here." ),
+                                msgFactorD, dissect_wp_hint ) ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
@@ -10883,32 +10906,37 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto pulp = [&]( const tripoint_bub_ms & pos ) {
+            const auto corpse_available = [&]( const tripoint_bub_ms & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
-
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
                                 continue;
+                            } else {
+                                return true;
                             }
+                        } else {
+                            return true;
                         }
-
-                        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getglobal( pos );
-                        u.activity.auto_resume = true;
-                        u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
-                        return;
                     }
                 }
+                return false;
             };
-
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                std::set<tripoint_abs_ms> places;
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos_bub() + displace_XY( elem ) );
+                    if( corpse_available( u.pos_bub() + displace_XY( elem ) ) ) {
+                        places.emplace( m.getglobal( u.pos_bub() + displace_XY( elem ) ) );
+                    }
+                }
+                if( !places.empty() ) {
+                    u.assign_activity( pulp_activity_actor( places, true ) );
                 }
             } else {
-                pulp( u.pos_bub() );
+                if( corpse_available( u.pos_bub() ) ) {
+                    u.assign_activity( pulp_activity_actor( m.getglobal( u.pos_bub() ), true ) );
+                }
             }
         }
     }
@@ -11130,6 +11158,66 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         //tunneling costs 250 bionic power per impassable tile
         u.mod_power_level( -( tunneldist * trigger_cost ) );
         u.mod_moves( -to_moves<int>( 1_seconds ) ); //tunneling takes exactly one second
+        u.setpos( dest );
+
+        if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
+            m.board_vehicle( u.pos_bub(), &u );
+        }
+
+        u.grab( object_type::NONE );
+        on_move_effects();
+        m.creature_on_trap( u );
+        return true;
+    }
+
+    return false;
+}
+
+bool game::phasing_move_enchant( const tripoint &dest_loc, const int phase_distance )
+{
+
+    if( phase_distance < 1 ) {
+        return false;
+    }
+
+    // phasing only applies to impassible tiles such as walls
+
+    int tunneldist = 0;
+    tripoint dest = dest_loc;
+    const tripoint d( sgn( dest.x - u.posx() ), sgn( dest.y - u.posy() ), sgn( dest.z - u.posz() ) );
+    creature_tracker &creatures = get_creature_tracker();
+
+    while( m.impassable( dest ) ||
+           ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
+        // add 1 to tunnel distance for each impassable tile in the line
+        tunneldist += 1;
+        if( tunneldist > phase_distance ) {
+            return false;
+        }
+        if( tunneldist > 48 ) {
+            return false;
+        }
+
+        dest.x += d.x;
+        dest.y += d.y;
+        dest.z += d.z;
+    }
+
+    // vertical handling for adjacent tiles
+    if( d.z != 0 && !m.impassable( dest_loc ) && tunneldist == 0 ) {
+        tunneldist += 1;
+    }
+
+    if( tunneldist != 0 ) {
+        if( u.in_vehicle ) {
+            m.unboard_vehicle( u.pos_bub() );
+        }
+
+        if( dest.z != u.posz() ) {
+            // calling vertical_shift here doesn't actually move the character for some reason, but it does perform other necessary tasks for vertical movement
+            vertical_shift( dest.z );
+        }
+
         u.setpos( dest );
 
         if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
@@ -11794,8 +11882,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
         if( here.has_floor_or_support( stairs.raw() ) ) {
-            add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
-            return;
+            tripoint dest_phase = u.pos();
+            dest_phase.z += 1;
+            if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                      enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+                return;
+            } else {
+                add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+                return;
+            }
         }
 
         if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) ) {
@@ -11870,12 +11965,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
+        tripoint dest_phase = u.pos();
+        dest_phase.z -= 1;
+
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );
             u.burn_energy_all( -750 );
             move_cost += 500;
+        } else if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
+                                         enchant_vals::mod::PHASE_DISTANCE ) ) ) {
+            return;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
             return;
@@ -12199,31 +12300,29 @@ void game::start_hauling( const tripoint &pos )
     u.assign_activity( actor );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking, const tripoint &pos )
+std::optional<tripoint> game::find_stairs( const map &mp, int z_after, const tripoint &pos )
 {
-    const bool is_avatar = u.pos() == pos;
-    const int omtilesz = SEEX * 2;
-    real_coords rc( mp.getabs( pos.xy() ) );
-    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
-    tripoint omtile_align_end( omtile_align_start + point( -1 + omtilesz, -1 + omtilesz ) );
-
-    // Try to find the stairs.
-    std::optional<tripoint> stairs;
-    int best = INT_MAX;
     const int movez = z_after - pos.z;
     const bool going_down_1 = movez == -1;
     const bool going_up_1 = movez == 1;
+
     // If there are stairs on the same x and y as we currently are, use those
     if( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos + tripoint_below ) ) {
-        stairs.emplace( pos + tripoint_below );
+        return pos + tripoint_below;
     }
     if( going_up_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos + tripoint_above ) ) {
-        stairs.emplace( pos + tripoint_above );
+        return pos + tripoint_above;
     }
     // We did not find stairs directly above or below, so search the map for them
     // If there's empty space right below us, we can just go down that way.
-    if( !stairs.has_value() && get_map().tr_at( u.pos() ) != tr_ledge ) {
+    int best = INT_MAX;
+    std::optional<tripoint> stairs;
+    const int omtilesz = SEEX * 2 - 1;
+    real_coords rc( mp.getabs( pos.xy() ) );
+    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
+    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+
+    if( get_map().tr_at( u.pos() ) != tr_ledge ) {
         for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
@@ -12235,6 +12334,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             }
         }
     }
+
+    return stairs;
+}
+
+std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking, const tripoint &pos )
+{
+    const bool is_avatar = u.pos() == pos;
+    const int movez = z_after - pos.z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, pos );
 
     creature_tracker &creatures = get_creature_tracker();
     if( stairs.has_value() ) {

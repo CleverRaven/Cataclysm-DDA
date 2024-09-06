@@ -28,10 +28,10 @@
       "W": "t_window",
       "X": "t_window_bars",
       "|": "t_concrete_wall",
-      "O": "t_flat_roof",
-      "m": "t_atm"
+      "O": "t_flat_roof"
     },
     "furniture": {
+      "m": "f_atm_off",
       "b": "f_bench",
       "B": "f_bench",
       "V": "f_vending_c",

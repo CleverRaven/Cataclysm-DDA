@@ -607,6 +607,13 @@ void monster::try_reproduce()
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
                 here.add_spawn( type->baby_monster, spawn_cnt, pos_bub(), friendly );
+            } else if( type->baby_monster_group ) {
+                std::vector<MonsterGroupResult> babies = MonsterGroupManager::GetResultFromGroup(
+                            type->baby_monster_group, &spawn_cnt,
+                            nullptr, false, nullptr, true );
+                for( const MonsterGroupResult &mgr : babies ) {
+                    here.add_spawn( mgr.name, spawn_cnt * mgr.pack_size, pos_bub(), friendly );
+                }
             } else {
                 const item egg( type->baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
@@ -1385,12 +1392,14 @@ int monster::sight_range( const float light_level ) const
     }
     static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
-        return type->vision_night;
+        return calculate_by_enchantment( type->vision_night, enchant_vals::mod::VISION_RANGE, true );
     } else if( light_level >= default_daylight ) {
-        return type->vision_day;
+        return calculate_by_enchantment( type->vision_day, enchant_vals::mod::VISION_RANGE, true );
     }
     int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
                   type->vision_night ) / default_daylight;
+
+    range = calculate_by_enchantment( range, enchant_vals::mod::VISION_RANGE, true );
 
     return range;
 }

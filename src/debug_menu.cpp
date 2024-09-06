@@ -2171,6 +2171,7 @@ static void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
+    charmenu.title = _( "Edit which character?" );
     int charnum = 0;
     avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );

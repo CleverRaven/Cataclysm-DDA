@@ -1,0 +1,16 @@
+[
+  {
+    "id": "gracken_arm_push_spell",
+    "type": "SPELL",
+    "name": "Gracken Long Arms Spell",
+    "description": "Push a target away from you.",
+    "message": "You extend your arms and push the %s away from you!",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": { "math": [ "(u_val('dexterity') / 2)" ] },
+    "min_range": { "math": [ "(u_val('dexterity') / 4)" ] }
+  }
+]

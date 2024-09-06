@@ -16,7 +16,6 @@
 
 class JsonObject;
 class JsonValue;
-class loading_ui;
 struct json_source_location;
 
 /**
@@ -100,7 +99,6 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_all_from_json( const JsonValue &jsin, const std::string &src,
-                                 loading_ui &,
                                  const cata_path &base_path, const cata_path &full_path );
         /**
          * Load a single object from a json object.
@@ -123,7 +121,7 @@ class DynamicDataLoader
          * May print a debugmsg if something seems wrong.
          * @param ui Finalization status display.
          */
-        void check_consistency( loading_ui &ui );
+        void check_consistency();
 
     public:
         /**
@@ -141,7 +139,7 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         /*@{*/
-        void load_data_from_path( const cata_path &path, const std::string &src, loading_ui &ui );
+        void load_data_from_path( const cata_path &path, const std::string &src );
         /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with
@@ -159,7 +157,6 @@ class DynamicDataLoader
          * game should *not* proceed in that case.
          */
         /*@{*/
-        void finalize_loaded_data( loading_ui &ui );
         void finalize_loaded_data();
         /*@}*/
 

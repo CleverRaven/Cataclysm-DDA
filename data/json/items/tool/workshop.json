@@ -1224,7 +1224,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -1281,7 +1281,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
@@ -1513,21 +1513,6 @@
     "color": "brown",
     "qualities": [ [ "SMOOTH", 1 ] ],
     "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "wool_staple",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "wool staple" },
-    "description": "A natural cluster of wool fibers.  Could be processed into felt patches or yarn.",
-    "weight": "200 g",
-    "volume": "500 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wool" ],
-    "symbol": ",",
-    "color": "white",
-    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "xacto",

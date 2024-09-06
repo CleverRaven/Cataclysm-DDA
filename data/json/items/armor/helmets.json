@@ -797,6 +797,7 @@
     "id": "xl_helmet_chitin",
     "type": "ARMOR",
     "copy-from": "helmet_chitin",
+    "looks_like": "helmet_chitin",
     "name": { "str": "chitinous helmet" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -807,6 +808,56 @@
     "copy-from": "helmet_chitin",
     "looks_like": "helmet_chitin",
     "name": { "str": "chitinous helmet" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "WATERPROOF", "STURDY", "UNDERSIZE", "PREFIX_XS" ]
+  },
+  {
+    "id": "helmet_chitin_light",
+    "type": "ARMOR",
+    "copy-from": "helmet_chitin",
+    "looks_like": "helmet_chitin",
+    "name": { "str": "light chitinous helmet" },
+    "description": "A helmet made from the exoskeletons of insects.  Covers most of the head but leaves some space around the eyes and mouth open for breathability.  Very light and durable.",
+    "weight": "1247 g",
+    "volume": "2300 ml",
+    "price": "340 USD",
+    "price_postapoc": "10 USD",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 95,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "specifically_covers": [ "mouth_cheeks", "mouth_chin" ],
+        "coverage": 60
+      },
+      { "covers": [ "head" ], "specifically_covers": [ "head_nape", "head_throat" ], "coverage": 60 }
+    ],
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 4,
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_helmet_chitin_light",
+    "type": "ARMOR",
+    "copy-from": "helmet_chitin_light",
+    "looks_like": "helmet_chitin_light",
+    "name": { "str": "light chitinous helmet" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "helmet_chitin_light_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_chitin_light",
+    "looks_like": "helmet_chitin_light",
+    "name": { "str": "light chitinous helmet" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "WATERPROOF", "STURDY", "UNDERSIZE", "PREFIX_XS" ]
   },
@@ -862,7 +913,7 @@
     "looks_like": "helmet_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the whole head.  Acid-resistant but brittle.",
     "price_postapoc": "17 USD 50 cent",
     "material": [ "acidchitin" ],
     "relative": { "melee_damage": { "bash": 1 } }
@@ -871,6 +922,7 @@
     "id": "xl_helmet_acidchitin",
     "type": "ARMOR",
     "copy-from": "helmet_acidchitin",
+    "looks_like": "helmet_acidchitin",
     "name": { "str": "biosilicified chitin helmet" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -881,6 +933,35 @@
     "copy-from": "helmet_acidchitin",
     "looks_like": "helmet_acidchitin",
     "name": { "str": "biosilicified chitin helmet" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "helmet_acidchitin_light",
+    "copy-from": "helmet_chitin_light",
+    "looks_like": "helmet_chitin_light",
+    "type": "ARMOR",
+    "name": { "str": "biosilicified light chitin helmet" },
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers most of the head but leaves some space around the eyes and mouth open for breathability.  Acid-resistant but brittle.",
+    "price_postapoc": "14 USD 50 cent",
+    "material": [ "acidchitin" ],
+    "relative": { "melee_damage": { "bash": 1 } }
+  },
+  {
+    "id": "xl_helmet_acidchitin_light",
+    "type": "ARMOR",
+    "copy-from": "helmet_acidchitin_light",
+    "looks_like": "helmet_acidchitin_light",
+    "name": { "str": "biosilicified light chitin helmet" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "helmet_acidchitin_light_xs",
+    "type": "ARMOR",
+    "copy-from": "helmet_acidchitin_light",
+    "looks_like": "helmet_acidchitin_light",
+    "name": { "str": "biosilicified light chitin helmet" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },

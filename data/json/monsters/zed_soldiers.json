@@ -117,7 +117,8 @@
     "diff": 20,
     "bleed_rate": 50,
     "harvest": "zombie_humanoid_acid",
-    "delete": { "upgrades": { "half_life": 42, "into_group": "GROUP_SOLDIER_UPGRADE" }, "categories": [ "CLASSIC" ] },
+    "delete": { "categories": [ "CLASSIC" ] },
+    "upgrades": false,
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor": { "bash": 5 } },
     "extend": {
       "special_attacks": [

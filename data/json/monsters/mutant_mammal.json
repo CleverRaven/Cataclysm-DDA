@@ -96,7 +96,7 @@
     "type": "MONSTER",
     "name": { "str": "feaver" },
     "description": "This mutant beaver's body is covered with brightly-colored feathers in a particularly eyecatching pattern.  It must have been very lucky not to have been caught by a predator before now.",
-    "default_faction": "small_animal",
+    "default_faction": "herbivore",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
@@ -145,7 +145,7 @@
       { "id": "scratch_grab_required" }
     ],
     "stomach_size": 500,
-    "harvest": "mutant_mammal_fur",
+    "harvest": "dog_with_skull_fur_mutant",
     "path_settings": { "max_dist": 7 },
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -159,7 +159,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "path_settings": { "max_dist": 7 },
-    "harvest": "mutant_mammal_fur",
+    "harvest": "dog_with_skull_fur_mutant",
     "extend": { "flags": [ "NO_BREED", "BADVENOM" ] }
   },
   {

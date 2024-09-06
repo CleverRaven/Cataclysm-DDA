@@ -417,23 +417,6 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
-    "id": "feral_weapon_feral_m9",
-    "cooldown": 1,
-    "move_cost": 90,
-    "accuracy": 4,
-    "//": "Feral melee skill + weapon's to hit, so 6-2=4",
-    "damage_max_instance": [ { "damage_type": "bash", "amount": 7 } ],
-    "condition": { "test_eoc": "is_disarmed" },
-    "hit_dmg_u": "%1$s hits your %2$s with a gun!",
-    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a gun!",
-    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
-    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
-    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
-  },
-  {
-    "type": "monster_attack",
-    "attack_type": "melee",
     "id": "feral_weapon_heavy_flashlight",
     "cooldown": 1,
     "move_cost": 79,

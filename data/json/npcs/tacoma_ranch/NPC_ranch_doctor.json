@@ -14,8 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR",
     "dynamic_line": {
-      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_provides_aid" } ],
       "yes": "How can I help you today?",
       "no": "I'm sorry, I don't have time to help you at the moment."
     },
@@ -23,14 +22,14 @@
       {
         "text": "Is there anything else I can help with?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "and": [ { "npc_has_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "yes" } ] }
+        "condition": { "and": [ { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_completed_supplies" } ] } ] }
       },
       {
         "text": "Maybe I could help you with something?",
         "topic": "TALK_RANCH_DOCTOR_SUPPLIES",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_completed_supplies" } ] } },
             { "not": { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" } }
           ]
         },
@@ -58,7 +57,7 @@
       {
         "text": "Could you help me with some bionics?",
         "topic": "TALK_RANCH_DOCTOR_BIONICS",
-        "condition": { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodization_u_knows_exodiilore" } ] }
       },
       { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_DOCTOR_AID" },
       { "text": "…", "topic": "TALK_DONE" }
@@ -68,8 +67,7 @@
     "id": "TALK_RANCH_DOCTOR_AID",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_provides_aid" } ],
       "yes": {
         "npc_has_effect": "currently_busy",
         "yes": "I have other patients to attend to.  Come back later.",
@@ -85,7 +83,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 80 } },
-            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_provides_aid" } ] }
           ]
         }
       },
@@ -96,7 +94,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 200 } },
-            { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_provides_aid" } ] }
           ]
         }
       },
@@ -114,8 +112,7 @@
     "id": "TALK_RANCH_DOCTOR_BIONICS",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_tacoma_ranch_provides_surgery",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_provides_surgery" } ],
       "yes": "If you mean something like pacemaker, then maybe.  What's the trouble?",
       "no": "If you mean something like pacemaker, we can't really do much without anesthesia."
     },
@@ -282,8 +279,8 @@
     "goal_condition": {
       "and": [
         { "u_has_items": { "item": "anesthetic", "count": 3000 } },
-        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
-        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
+        { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] },
+        { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
       ]
     },
     "difficulty": 5,

@@ -573,6 +573,7 @@ struct item_info_data {
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
+        bool arrow_scrolling = false;
         bool any_input = true;
         bool scrollbar_left = true;
         bool use_full_win = false;

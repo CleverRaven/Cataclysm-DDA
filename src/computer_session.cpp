@@ -104,6 +104,8 @@ static const mtype_id mon_secubot( "mon_secubot" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
 
+static const overmap_special_id overmap_special_Crater( "Crater" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
@@ -496,7 +498,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
@@ -779,16 +781,8 @@ void computer_session::action_miss_launch()
         tmpmap.save();
     }
 
-    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
-        // give it a nice rounded shape
-        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "field" ) );
-        }
-    }
-    explosion_handler::nuke( target );
+    overmap_buffer.place_special( *overmap_special_Crater, target, om_direction::type::north, false,
+                                  true );
 
     activate_failure( COMPFAIL_SHUTDOWN );
 }

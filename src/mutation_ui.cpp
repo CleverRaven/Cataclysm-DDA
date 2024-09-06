@@ -110,7 +110,7 @@ void avatar::power_mutations()
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
             for( const char &letter : mutation_chars ) {
-                if( trait_by_invlet( letter ).is_null() ) {
+                if( trait_by_invlet( letter ).is_null() && mut.first->activated ) {
                     mut.second.key = letter;
                     break;
                 }

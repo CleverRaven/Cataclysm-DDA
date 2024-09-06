@@ -3,8 +3,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_Gavin",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ],
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
       "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
     },
@@ -12,7 +11,7 @@
       {
         "text": "Who are you?  This is a refugee center, right?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
         "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
@@ -21,7 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -29,23 +28,23 @@
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
       },
       {
         "text": "Let's trade.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
         "effect": "start_trade"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
       }
     ]
   },
@@ -53,6 +52,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
     "type": "talk_topic",
     "dynamic_line": [ "Hope it helps.", "Give me second to write that down… okay, done.", "You know where to find me." ],
+    "speaker_effect": [ { "effect": "distribute_food_auto" } ],
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
@@ -113,7 +113,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
@@ -134,15 +134,15 @@
       { "text": "You mentioned you were selling hardware?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware" },
       {
         "text": "What's with these people in the lobby?  Are they with you?",
-        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars"
       },
       {
         "text": "I took care of your beggar problem.",
         "condition": {
           "and": [
-            { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
-            { "npc_has_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_beggars_reward_agreed" } ] }
           ]
         },
         "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
@@ -231,7 +231,7 @@
       {
         "text": "I'll see what I can do.  What's merch?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_merch", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_merch" } ] } }
       },
       { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -274,12 +274,12 @@
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] } }
       },
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
-        "condition": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] }
       },
       { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -292,7 +292,7 @@
       {
         "text": "Wait, basement?  I didn't know this place had a basement.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       {
@@ -317,7 +317,7 @@
       {
         "text": "I don't see that many of you around.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
@@ -354,8 +354,7 @@
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  Smokes listens",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
           "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
         }
@@ -367,7 +366,7 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
           { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }

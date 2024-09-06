@@ -380,7 +380,7 @@
         "M": "t_ramp_up_high",
         "m": "t_ramp_up_low"
       },
-      "furniture": { "6": "f_console", ":": "f_server", "f": "f_filing_cabinet" },
+      "furniture": { "6": "f_console", ":": "f_server", "f": "f_filing_cabinet", "A": "f_indoor_flagpole" },
       "item": { "A": { "item": "american_flag" } },
       "items": { "f": { "item": "file_room", "chance": 100, "repeat": [ 10, 30 ] } },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
@@ -459,7 +459,15 @@
         "R": "t_railing",
         "W": "t_water_dispenser"
       },
-      "furniture": { "6": "f_console", ":": "f_server", "K": "f_counter", "H": "f_armchair", "L": "f_locker", "f": "f_filing_cabinet" },
+      "furniture": {
+        "6": "f_console",
+        ":": "f_server",
+        "K": "f_counter",
+        "H": "f_armchair",
+        "L": "f_locker",
+        "f": "f_filing_cabinet",
+        "A": "f_indoor_flagpole"
+      },
       "item": { "A": { "item": "american_flag" } },
       "items": {
         "F": { "item": "fridge", "chance": 80 },

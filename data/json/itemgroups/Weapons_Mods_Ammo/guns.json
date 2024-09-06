@@ -15,6 +15,8 @@
       { "group": "guns_pistol_common_44", "prob": 1 },
       { "group": "guns_pistol_common_10mm", "prob": 1 },
       { "group": "guns_pistol_common_762_39", "prob": 1 },
+      { "group": "guns_pistol_common_223", "prob": 17 },
+      { "group": "guns_pistol_common_300", "prob": 10 },
       { "group": "guns_pistol_common_other", "prob": 39 }
     ]
   },
@@ -53,13 +55,15 @@
       { "group": "guns_pistol_common_display_45colt", "prob": 5 },
       { "group": "guns_pistol_common_display_10mm", "prob": 1 },
       { "group": "guns_pistol_common_display_762_39", "prob": 1 },
+      { "group": "guns_pistol_common_display_223", "prob": 17 },
+      { "group": "guns_pistol_common_display_300", "prob": 10 },
       { "group": "guns_pistol_common_display_other", "prob": 46 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally supressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
+    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally suppressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "guns_pistol_rare_9mm", "prob": 93 },
@@ -151,16 +155,12 @@
     "subtype": "distribution",
     "id": "guns_pistol_obscure_display",
     "//": "Very obscure pistols which are illegal to sell.",
-    "items": [
-      { "item": "ar_pistol", "prob": 35 },
-      { "group": "guns_pistol_collectible", "prob": 1 },
-      { "item": "minidraco556", "prob": 30 }
-    ]
+    "items": [ { "group": "guns_pistol_collectible", "prob": 1 }, { "item": "minidraco556", "prob": 30 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_collectible",
-    "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally supressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
+    "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
     "items": [ { "item": "mauser_c96", "prob": 50 }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
   },
   {
@@ -1215,6 +1215,13 @@
     "id": "sidearms_cop",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      {
+        "item": "glock_19",
+        "variant": "glock_19_cop",
+        "prob": 2,
+        "contents-item": [ "red_dot_sight" ],
+        "charges": [ 0, 15 ]
+      },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
@@ -1694,7 +1701,7 @@
     "items": [
       { "group": "guns_improvised", "prob": 50 },
       { "group": "modular_ar15", "prob": 13, "charges": [ 0, 30 ] },
-      { "item": "ar_pistol", "prob": 2, "charges": [ 0, 30 ] },
+      { "group": "ar_pistol", "prob": 7, "charges": [ 0, 30 ] },
       { "item": "mossberg_500", "prob": 2, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "benelli_sa", "variant": "m2", "prob": 2, "charges": [ 0, 4 ] },

@@ -269,7 +269,7 @@
     "vision_day": 7,
     "vision_night": 25,
     "reproduction": { "baby_monster": "mon_onicophore_baby", "baby_count": 4, "baby_timer": 21 },
-    "//": "Brazil has only Peripatidae velvet worms, and the american members of this family are all live bearing, so live young.",
+    "//": "Brazil has only Peripatidae velvet worms, and the American members of this family are all live bearing, so live young.",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "harvest": "mutant_meatslug",
     "special_attacks": [
