@@ -77,13 +77,10 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
-
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
-static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
@@ -542,8 +539,8 @@ void explosion( const Creature *source, const tripoint &p, const explosion_data 
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {
-    if( get_map().inbounds( m->getabs( p ) ) ) {
-        tripoint_bub_ms bubble_pos = get_map().bub_from_abs( m->getabs( p ) );
+    if( get_map().inbounds( m->getglobal( p ) ) ) {
+        tripoint_bub_ms bubble_pos = get_map().bub_from_abs( m->getglobal( p ) );
         int noise = ex.power * ( ex.fire ? 2 : 10 );
         noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
 
@@ -842,18 +839,6 @@ void emp_blast( const tripoint &p )
         }
     }
     // TODO: Drain NPC energy reserves
-}
-
-void nuke( const tripoint_abs_omt &p )
-{
-    tinymap tmpmap;
-    tmpmap.load( p, false );
-
-    item mininuke( itype_mininuke_act );
-    mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
-    tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
-
-    tmpmap.save();
 }
 
 void resonance_cascade( const tripoint &p )

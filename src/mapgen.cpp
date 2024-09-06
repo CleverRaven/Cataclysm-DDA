@@ -7116,8 +7116,11 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
  * degrees.
  * @param turns How many 90-degree turns to rotate the map.
  */
-void map::rotate( int turns, const bool setpos_safe )
+void map::rotate( int turns )
 {
+    if( this->my_MAPSIZE != 2 ) {
+        debugmsg( "map::rotate called with map too large to be rotated properly.  Only the top left overmap will be rotated." );
+    }
 
     //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
     turns = turns % 4;
@@ -7125,53 +7128,36 @@ void map::rotate( int turns, const bool setpos_safe )
         return;
     }
 
-    real_coords rc;
     const tripoint_abs_sm &abs_sub = get_abs_sub();
-    // TODO: fix point types
-    rc.fromabs( project_to<coords::ms>( abs_sub.xy() ).raw() );
+    const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sub );
 
-    // TODO: This radius can be smaller - how small?
-    const int radius = HALF_MAPSIZE + 3;
-    // uses submap coordinates
-    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub, radius );
+    if( abs_sub.x() % 2 != 0 || abs_sub.y() % 2 != 0 ) {
+        debugmsg( "map::rotate called with map not aligned with overmap boundary.  Results will be incorrect at best." );
+    }
+
+    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_omt( abs_omt, 0 );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
-        const tripoint sq = np.get_location().raw();
-        real_coords np_rc;
-        np_rc.fromabs( sq.xy() );
-        // Note: We are rotating the entire overmap square (2x2 of submaps)
-        if( np_rc.om_pos != rc.om_pos || ( sq.z != abs_sub.z() && !zlevels ) ) {
+        const tripoint_abs_ms sq( np.get_location() );
+
+        if( sq.z() != abs_sub.z() && !zlevels ) {
             continue;
         }
 
-        // OK, this is ugly: we remove the NPC from the whole map
-        // Then we place it back from scratch
-        // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
+        const point_abs_sm npc_sm( np.global_sm_location().xy() );
+        const point_bub_ms npc_bub( np.pos_bub().xy() );
+        point_bub_ms old( npc_bub.x() % SEEX, npc_bub.y() % SEEY );
 
-        point old( np_rc.sub_pos );
-        if( np_rc.om_sub.x % 2 != 0 ) {
-            old.x += SEEX;
+        // Note: We are rotating the entire overmap square (2x2 of submaps)
+        if( npc_sm.x() % 2 != 0 ) {
+            old.x() += SEEX;
         }
-        if( np_rc.om_sub.y % 2 != 0 ) {
-            old.y += SEEY;
+        if( npc_sm.y() % 2 != 0 ) {
+            old.y() += SEEY;
         }
 
-        const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
-        if( setpos_safe ) {
-            const point local_sq = bub_from_abs( sq ).xy().raw();
-            // setpos can't be used during mapgen, but spawn_at_precise clips position
-            // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
-            // calls
-            const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().bub_from_abs( new_global_sq ) );
-        } else {
-            // OK, this is ugly: we remove the NPC from the whole map
-            // Then we place it back from scratch
-            // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-            shared_ptr_fast<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
-            np.spawn_at_precise( tripoint_abs_ms( getabs( tripoint( new_pos, sq.z ) ) ) );
-            overmap_buffer.insert_npc( npc_ptr );
-        }
+        const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
+        np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );
     }
 
     clear_vehicle_level_caches();
@@ -7243,21 +7229,24 @@ void map::rotate( int turns, const bool setpos_safe )
         queued_points.clear();
         for( std::pair<const std::string, tripoint_abs_ms> &queued_point : temp_points ) {
             //This is all just a copy of the section rotating NPCs above
-            real_coords np_rc;
-            np_rc.fromabs( queued_point.second.xy().raw() );
+            const point_abs_omt queued_point_omt( project_to<coords::omt>( queued_point.second.xy() ) );
+
             // Note: We are rotating the entire overmap square (2x2 of submaps)
-            if( np_rc.om_pos != rc.om_pos || ( queued_point.second.z() != abs_sub.z() && !zlevels ) ) {
+            if( queued_point_omt != abs_omt.xy() || ( queued_point.second.z() != abs_sub.z() && !zlevels ) ) {
                 continue;
             }
-            point old( np_rc.sub_pos );
-            if( np_rc.om_sub.x % 2 != 0 ) {
-                old.x += SEEX;
+            const point_abs_sm queued_point_sm( project_to<coords::sm>( queued_point.second.xy() ) );
+            const point_bub_ms queued_point_bub( get_map().bub_from_abs( queued_point.second.xy() ) );
+            point_bub_ms old( queued_point_bub.x() % SEEX, queued_point_bub.y() % SEEY );
+
+            if( queued_point_sm.x() % 2 != 0 ) {
+                old.x() += SEEX;
             }
-            if( np_rc.om_sub.y % 2 != 0 ) {
-                old.y += SEEY;
+            if( queued_point_sm.y() % 2 != 0 ) {
+                old.y() += SEEY;
             }
-            const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
-            queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint( new_pos,
+            const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
+            queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint_bub_ms( new_pos,
                                                 queued_point.second.z() ) ) );
         }
     }
@@ -7273,10 +7262,7 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         return;
     }
 
-    real_coords rc;
     const tripoint_abs_sm &abs_sub = get_abs_sub();
-    // TODO: fix point types
-    rc.fromabs( project_to<coords::ms>( abs_sub.xy() ).raw() );
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
@@ -8058,7 +8044,7 @@ class rotation_guard
             // If the existing map is rotated, we need to rotate it back to the north
             // orientation before applying our updates.
             if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                md.m.rotate( rotation, true );
+                md.m.rotate( rotation );
             }
         }
 
@@ -8066,7 +8052,7 @@ class rotation_guard
             // If we rotated the map before applying updates, we now need to rotate
             // it back to where we found it.
             if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                md.m.rotate( 4 - rotation, true );
+                md.m.rotate( 4 - rotation );
             }
         }
     private:

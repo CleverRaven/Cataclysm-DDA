@@ -905,7 +905,9 @@
       "prof_baking",
       "prof_baking_desserts_1",
       "prof_frying",
-      "prof_knives_familiar"
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {
@@ -931,7 +933,17 @@
     "description": "You spent most of your adult life in a butcher shop.  Your trusty knife has seen many different creatures and you know how to butcher them.",
     "points": 2,
     "skills": [ { "name": "cutting", "level": 2 }, { "name": "cooking", "level": 2 }, { "name": "survival", "level": 2 } ],
-    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_intro_biology", "prof_wp_basic_bird", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_food_prep",
+      "prof_knife_skills",
+      "prof_intro_biology",
+      "prof_wp_basic_bird",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_butchering_adv",
+      "prof_skinning_basic",
+      "prof_skinning_adv"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -5212,7 +5224,9 @@
       "prof_bow_expert",
       "prof_fletching",
       "prof_carving",
-      "prof_knives_familiar"
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {

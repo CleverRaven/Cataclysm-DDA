@@ -1962,6 +1962,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vita_concentrated_healing",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "bad",
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 0.01 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_bonus",
+    "name": [ "Leukocyte Accumulation" ],
+    "desc": [ "Your %s is receiving the bulk of your body's healing resources." ],
+    "apply_message": "",
+    "remove_message": "You stop concentrating your healing.",
+    "rating": "good",
+    "part_descs": true,
+    "max_intensity": 500,
+    "show_intensity": false,
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 20 ], "healing_head": [ 100 ], "healing_torso": [ 100 ] },
+    "scaling_mods": { "healing_rate": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_cure_disease",
     "name": [ "Immunostimulized" ],
     "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],

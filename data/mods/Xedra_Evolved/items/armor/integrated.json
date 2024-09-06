@@ -528,6 +528,31 @@
     "flags": [ "INTEGRATED", "PADDED", "SEMITANGIBLE", "ZERO_WEIGHT", "TARDIS", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY" ]
   },
   {
+    "id": "item_gracken_shadowstuff_pocket",
+    "type": "GENERIC",
+    "category": "clothing",
+    "name": { "str": "shadowstuff organ" },
+    "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
+    "flags": [
+      "INTEGRATED",
+      "NO_UNLOAD",
+      "PADDED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "TARDIS",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SOFT",
+      "WATER_FRIENDLY"
+    ]
+  },
+  {
     "id": "integrated_cloud_skin",
     "type": "ARMOR",
     "category": "armor",

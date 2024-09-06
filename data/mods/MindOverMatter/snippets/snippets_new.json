@@ -323,27 +323,39 @@
       {
         "name": "On Time Travel",
         "id": "lab_file_teleportation_01",
+        "weight": 800,
         "text": "Let's start with the obvious.  Teleportation is moving faster than light, by definition.  Even though our most powerful mathematicians can currently only teleport a few grams a few meters distant, we've used slow-motion photography and confirmed that while the transit is not instantaneous, it's still faster than c.  So, as the saying goes, relativity, causality, faster than light travel, pick two, right?  Which are we going to pick?\n\nWell, as much as it pains me as a physicist to say it, relativity, at least as it relates in this case.  Now we have a third domain alongside quantum mechanics and general relativity: netherum mathematics.  While I hesitate to speculate on something that we have collected so little data on, it is possible that the Netherum provides its own reference frame coterminous with our own (or multiple) realities.  If we built our satellites with matrix technology, would they still need to account for time dilation?  Would relativity override netherum mathematics in that case?\n\nBut to return to the title: there is no evidence time travel is possible despite repeated attempts.  Perhaps if we had a LOST RAIN mathematician capable of moving interstellar distances we could ask them to come back before they left.  Barring that, I'm afraid asking LOST RAIN to retroactively avert any disasters is not on the table."
       },
       {
         "name": "COBALT RAIN progress report",
         "id": "lab_file_teleportation_02",
+        "weight": 500,
         "text": "Alright, so should I even be working on this?  The world is ending, we're on lockdown, and I'm pretty sure some of my coworkers have lost their minds.  I should be looking for ways to get out of here, right?  But hell, I've always buried myself in my work in a crisis and this sure is one of those.  So my report is that ever since we detected the spread of XE037, COBALT RAIN has been running at…well, it's a perpetual motion machine so I can't exactly talk about \"increased efficiency\" but it's been putting out even more power than it was a month ago.  On the order of 3x more.  Maybe all that nonsense about the fabric of space expanding or whatever was right?  I regret to inform you that it's still occasionally popping out monsters, though fortunately the only thing I had to deal with so far has been those blobs and I set up an isolation chamber for COBALT RAIN to run in.  It's keeping the lights on down here, so there's that.  If I can just fix that one flaw, we'll see set.  Too bad my assistant is out trying to figure out how to jump floor to floor so they don't have to use the stairs anymore."
       },
       {
         "name": "testing report I4-9469",
         "id": "lab_file_teleportation_03",
+        "weight": 1000,
         "text": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the distortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by a defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached."
       },
       {
         "name": "testing report B4-2567",
         "id": "lab_file_teleportation_04",
+        "weight": 1000,
         "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
       },
       {
         "name": "It's alive!  IT'S ALIVE!",
         "id": "lab_file_teleportation_05",
+        "weight": 700,
         "text": "Like we won't be for much longer.\n\nNews outside is a nightmare.  I saw some phone video of a giant monster destroying LA before the net went down.  There's no way I'll be able to report this to Dr. Liu, but I finally made a breakthrough.  Or maybe I should say, a breakthrough was made, because I sure as hell didn't do anything to cause it.  I went to go test QN283 today and it just worked.  I didn't change anything, I didn't make any adjustments, I just turned on the remote and the payload vanished and reappeared near the beacon just like it was supposed to.  Is this because of the end of the world?  I can hear gunfire and shouting in the distance and there's nowhere to run because we're been on lockdown for weeks but I invent functional teleportation, one of the greatest discoveries in human history?  Great.\n\nIf I only had gotten C78 to sneak a beacon outside before lockdown.  If she can get out of here with her powers, maybe I can still escape."
+      },
+      {
+        "name": "Incident report: 2945883 (again)",
+        "id": "lab_file_teleportation_06",
+        "weight": 500,
+        "//": "XE754 here are the Hounds of Tindalos",
+        "text": "At 1238 yesterday during COBALT RAIN testing, a malfunction occurred, leading to a power surge in the matrix crystal housing.  While Dr. Simmons immediately engaged the shutdown sequence and prevented any damage to the prototype, smoke began filling the room after her actions.  I hit the alarm button but security did not respond before the appearance of an entity since designated XE754.  XE754 immediately attacked Dr. Simmons and Dr. Rodriguez and, though security did arrive within the ideal 1 minute response time, XE754 seemed to be nearly immune to small-arms fire.  Dr. Simmons suffered serious injuries during the attack and when XE754 retreated it appeared to take her with it.  The smoke vanished soon afterward and the COBALT RAIN prototype was successfully returned to an inactive state.\n\nFinally, I must protest at the treatment I have received over my accounting of the incident.  This is the third report I have submitted and I have not changed my story in any way.  I was there.  I know what I saw.  I do not understand why I am being put through this or why sole responsibility is being assigned to me when I was not in charge of the project.  I especially do not understand why Dr. Rodriguez has not been subject to the same process nor why I have not been permitted to speak to him.  I worked with him and Julia on this project for six months!  I refuse to be treated this way.\nArthur Mitchell\nResearcher, COBALT RAIN"
       }
     ]
   },
@@ -522,6 +534,12 @@
         "id": "lab_file_phavian_memo_07",
         "weight": 1000,
         "text": "No mathematician should be subject to more than ten hours of testing in a two-day period.  Any period of more than four hours of continuous testing must include a half-hour meal break.  Mathematicians are entitled to the same work-week and schedule as researchers are, including days off.  Mathematicians will be informed of the purpose and subject of any experiment they take part in and may register a complaint with HR if they object to their participation.  Note that this does not absolve each mathematician from fulfilling the duties of their employment.  Mathematicians must wear their identifying badges at all times when on-site and present them for inspection at the request of any member of security.\n\nOur mathematicians are not cases, they are not subjects, and they are certainly not \"guinea pigs\" or \"lab rats.\"  They are valuable partners in our exploration of dimensional metaphysics, irreplaceable personnel, and should be treated as such.  Researchers found violating these guidelines will be sanctioned, up to and including termination of employment."
+      },
+      {
+        "name": "re: re: Incident report: 2945883 (again!!!)",
+        "id": "lab_file_phavian_memo_08",
+        "weight": 500,
+        "text": "Dr. Mitchell,\nPer our last email, Dr. Enrique Rodriguez passed away in a car accident almost two years ago, shortly after being assigned to XEDRA as a portal research specialist, and he never had the opportunity to work with XEDRA-23.  As you can see from the employee database, there has never been a Dr. Julia Simmons employed by either XEDRA-23 or any other XEDRA division.\n\nIn addition, the XEDRA handbook requires that all employees use their current title in their signature at all times.  Please update your signature to comply with this policy.\nAlicia Sanders\nSenior Talent Coodinator"
       }
     ]
   },

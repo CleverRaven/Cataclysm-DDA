@@ -4,8 +4,16 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Browning BLR rifle" },
+    "name": { "str": "magazine-fed lever-action hunting rifle" },
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "browning_blr",
+        "name": { "str": "Browning BLR" },
+        "description": "The Browning BLR is notable for being a lever-action rifle, chambered in calibers with spitzer bullets.  This is unusual for lever-actions, as a spitzer bullet risks setting off other cartridges in a typical tube magazine.  The BLR gets around this issue by utilizing box magazines instead, making it quite unique among other lever-action rifles.  This one is chambered for 30-06."
+      }
+    ],
     "weight": "3290 g",
     "volume": "3610 ml",
     "longest_side": "1106 mm",
@@ -45,8 +53,16 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "M1 Garand rifle" },
+    "name": { "str": "Garand battle rifle" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "garand",
+        "name": { "str": "M1 Garand" },
+        "description": "The M1 Garand is a widely celebrated battle rifle, being one of the most mass-produced battle rifles in the world.  It saw widespread use in the US military, being used extensively in WW2 and the Korean War.  While its military use has dwindled down, being out of US service for more than 50 years, some of its mechanical influence still remains through rifles such as AKs or M14s.  It still sees widespread use in civilian spaces as an accurate competition or hunting rifle."
+      }
+    ],
     "ascii_picture": "m1_garand",
     "weight": "4280 g",
     "volume": "3160 ml",
@@ -87,8 +103,16 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M1903 Springfield rifle" },
+    "name": { "str": "Springfield rifle" },
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  It served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1903",
+        "name": { "str": "M1903 Springfield" },
+        "description": "A powerful military rifle originally chambered in .30-03 Springfield, developed to replace the US Army's older Krag rifle.  It was quickly rechambered into the .30-06 caliber with its spitzer bullet.  While an American rifle produced and developed around WW1, manufacturing couldn't keep up with demand, and saw service alongside the M1917 Enfield, a British rifle rechambered for the American 30-06.  It saw service as a sniper rifle up to the Vietnam War, but nowadays is mainly used by civilians, either as hunting rifles or in collections."
+      }
+    ],
     "weight": "3910 g",
     "volume": "2840 ml",
     "longest_side": "1102 mm",
@@ -136,7 +160,7 @@
       {
         "id": "m1918",
         "name": { "str": "Browning Automatic Rifle" },
-        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield."
+        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Originally developed to fill a now outdated role as an \"automatic rifle\", it was pushed into service for use as a light machine gun.  Despite being heavy and cumbersome, without filling its designed role, it saw service for over 50 years.  While newer models have a slow and fast fully automatic setting, this one is an older one, with just semi and full auto."
       }
     ],
     "weight": "8820 g",

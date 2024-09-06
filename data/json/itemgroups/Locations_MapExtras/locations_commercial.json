@@ -1980,19 +1980,6 @@
     ]
   },
   {
-    "id": "daycare_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 2 ],
-      { "item": "sewing_kit", "prob": 1, "charges": [ 0, -1 ] },
-      [ "scissors", 1 ],
-      [ "phonebook", 2 ],
-      { "item": "flashlight", "prob": 2, "charges": [ 0, 300 ] },
-      [ "petpack", 1 ],
-      [ "mag_comic", 5 ]
-    ]
-  },
-  {
     "id": "daycare_kitchen",
     "type": "item_group",
     "items": [

@@ -367,5 +367,43 @@
       { "item": "geiger_off", "prob": 10 },
       { "item": "tool_belt", "prob": 15 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_wanderer",
+    "magazine": 100,
+    "ammo": 20,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jumpsuit", "prob": 90 },
+      { "item": "mask_filter", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
+      { "item": "boots_combat", "prob": 20 },
+      { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
+      { "prob": 30, "group": "cig_box_cigarette_1_20" },
+      { "item": "knife_combat_army", "variant": "m9bayonet", "prob": 10 },
+      { "item": "vest", "prob": 15 },
+      { "item": "glasses_safety", "prob": 15 },
+      { "item": "9mm", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "m9", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "water_clean", "prob": 10 },
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "screwdriver", "prob": 10 },
+      { "group": "wallets_science", "prob": 5 },
+      { "item": "cleansuit", "prob": 10 },
+      { "item": "coat_lab", "prob": 20 },
+      { "item": "glasses_eye", "prob": 30 },
+      { "item": "rad_monitor", "prob": 10, "charges": [ 2, 20 ] },
+      { "item": "geiger_off", "prob": 10, "charges": [ 10, 95 ] },
+      { "item": "tool_belt", "prob": 15 },
+      { "item": "panties", "prob": 20 },
+      { "item": "boy_shorts", "prob": 20 },
+      { "item": "bra", "prob": 20 },
+      { "item": "undershirt", "prob": 40 },
+      { "item": "boxer_shorts", "prob": 30 },
+      { "item": "briefs", "prob": 30 }
+    ]
   }
 ]

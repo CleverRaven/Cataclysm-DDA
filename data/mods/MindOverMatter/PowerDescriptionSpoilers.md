@@ -1155,7 +1155,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level<br />
 *Stamina Cost*: 2500, minus 75 per level to a minimum of 1000<br />
 *Channeling Time*: 100 moves, minus 7.5 moves per level to a minimum of 25<br />
-*Effects*: The psion improves their health. They are immune to the deleterious effects of vitamin deficiency and toxin buildup, heal twice as fast, and cannot suffer from an asthma attack while the power is in effect. In addition, their Health has a 7% chance of going up by 1 every 10 minutes.<br />
+*Effects*: The psion improves their health. They are immune to the deleterious effects of vitamin deficiency and toxin buildup, heal twice as fast, and cannot suffer from an asthma attack while the power is in effect. In addition, their Health has a 7% chance of going up by 1 every 10 minutes.  Healthy Glow is incompatible with Leucocyte Accumulation.<br />
 *Prerequisites*: Starting power<br />
 
 ## Coagulation (C) 
@@ -1166,6 +1166,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
 *Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
 *Prerequisites*: Starting power<br />
+
+## Leucocyte Accumulation
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level.<br />
+*Stamina Cost*: 3500, minus 80 per level to a minimum of 1350<br />
+*Channeling Time*: 250 moves, minus 9.5 moves per level to a minimum of 35<br />
+*Effects*: Focus the psion's healing on a single body part, increasing its healing rate by 20x + 6x per power level, but reducing the healing rate of every other body part by 99%. Leucocyte Accumulation is incompatible with Healthy Glow.<br />
+*Prerequisites*: Healthy Glow 5<br />
 
 ## Staunch Wound
 *Difficulty*: 2<br />
@@ -1220,15 +1229,6 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: Indefinite<br />
 *Effects*: Meditate in lieu of sleep. Using the power will begin the meditating, slowly lowering the psion's fatigue and sleep deprivation ratings. The rate of reduction increases per power level and with the psion's metaphysics skill, with the formula: 1 in (55 - ( Wakeful Rest power level * 2) - Metaphysics skill) ), 15 ) chance per second for fatigue, and 1 per second for sleep deprivation.  When fatigue hits zero, a prompt to cancel the meditation pops up.<br />
 *Prerequisites*: Healthy Glow 8, Immunostimulus 4<br />
-
-## Damage Balancing
-*Difficulty*: 5<br />
-*Target*: Self<br />
-*Duration*: Indefinite<br />
-*Stamina Cost*: 6500, minus 175 per level to a minimum of 1750<br />
-*Channeling Time*: 200 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Evens out the damage on all the psion's limbs.  Mechnically, this adds up all their hit points, divides the result by 6, and replaces that hit point total on each limb with that number.<br />
-*Prerequisites*: Immunostimulus 5 *or* Detoxification 5, Healthy Glow 10 *or* Coagulation 8<br />
 
 ## Allay Infection
 *Difficulty*: 5<br />

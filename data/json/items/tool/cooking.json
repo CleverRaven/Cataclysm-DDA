@@ -1148,5 +1148,21 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "type": "TOOL",
+    "id": "toaster",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "toaster" },
+    "description": "A small two-slice toaster, can be used to toast toast and few other things.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "725 g",
+    "volume": "750 ml",
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" } ],
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
+    "ammo": [ "battery" ]
   }
 ]

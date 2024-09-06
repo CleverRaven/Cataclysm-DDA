@@ -154,7 +154,7 @@
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
     "melee_damage": { "bash": 1 }
   },
@@ -175,7 +175,7 @@
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
     ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -348,7 +348,7 @@
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "WRIST_MOUNT_ATTACHMENT" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "WRIST_MOUNT_ATTACHMENT" ],
     "use_action": [
       {
         "type": "transform",
@@ -393,7 +393,16 @@
         "charge_rate": "20 W"
       }
     ],
-    "flags": [ "LIGHT_500", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "LIGHT_500",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_med",
@@ -423,7 +432,16 @@
         "charge_rate": "20 W"
       }
     ],
-    "flags": [ "LIGHT_200", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "LIGHT_200",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT"
+    ]
   },
   {
     "id": "diving_flashlight_variable_on_low",
@@ -450,7 +468,16 @@
         "charge_rate": "20 W"
       }
     ],
-    "flags": [ "LIGHT_80", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "LIGHT_80",
+      "CHARGEDIM",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "HELMET_HEAD_ATTACHMENT",
+      "HEAD_STRAP_MOUNT"
+    ]
   },
   {
     "id": "gasoline_lantern",
@@ -626,7 +653,7 @@
     "armor_data": {
       "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
-    "flags": [ "BELT_CLIP", "BELTED" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "BELTED" ],
     "use_action": [
       {
         "type": "transform",
@@ -658,7 +685,7 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
   },
   {
     "id": "lightstrip",
@@ -847,7 +874,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
@@ -875,7 +902,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_15", "CHARGEDIM" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "LIGHT_15", "CHARGEDIM" ]
   },
   {
     "id": "smart_lamp",
@@ -905,7 +932,16 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 33 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_2",
+      "WATER_BREAK",
+      "ELECTRONIC"
+    ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -924,6 +960,8 @@
       "type": "transform"
     },
     "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
       "ALLOWS_REMOTE_USE",
       "RADIO_ACTIVATION",
       "RADIO_INVOKE_PROC",
