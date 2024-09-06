@@ -119,6 +119,15 @@
   },
   {
     "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
     "id": "KI_STRIKE",
     "name": { "str": "VERDANT HAND Combat Protocols" },
     "points": 2,
