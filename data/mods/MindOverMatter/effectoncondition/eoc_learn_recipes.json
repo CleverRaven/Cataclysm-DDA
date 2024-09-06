@@ -1093,12 +1093,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
-    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_vita_pain_split" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_infection')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_stop_infection" } ]
