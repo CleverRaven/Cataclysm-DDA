@@ -74,11 +74,6 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         return false;
     }
 
-    if( critter.type->has_flag( mon_flag_VERMIN ) ) {
-        // Don't spawn vermin, they aren't implemented yet
-        return false;
-    }
-
     if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.get_location() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
