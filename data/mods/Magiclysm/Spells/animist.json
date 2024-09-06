@@ -1113,7 +1113,7 @@
     "name": "Vocalize",
     "description": "Channel magic through your soul instead of your voice, allowing you to cast spells that require speech even when mute.",
     "valid_targets": [ "self" ],
-    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
     "max_level": 10,
     "spell_class": "ANIMIST",
     "effect": "attack",
@@ -1125,7 +1125,7 @@
     "max_duration": 300000,
     "duration_increment": 30000,
     "energy_source": "MANA",
-    "base_casting_time": 500,
+    "base_casting_time": 250,
     "base_energy_cost": 250
   }
 ]
