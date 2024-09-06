@@ -404,7 +404,7 @@
     "time": "4 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "black_dragons_historical", 7 ] ],
-    "qualities": [ 
+    "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
@@ -426,7 +426,7 @@
     "time": "8 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "black_dragons_historical", 8 ] ],
-    "qualities": [ 
+    "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
@@ -448,7 +448,7 @@
     "time": "8 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "black_dragons_historical", 8 ] ],
-    "qualities": [ 
+    "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
