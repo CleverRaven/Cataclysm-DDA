@@ -408,7 +408,7 @@
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
-      [ "id": "MAGIC_MUTAGEN", "level": 2 ] 
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
     ],
     "components": [ [ [ "dragon_essence", 5 ] ], [ [ "potion_starter_superior", 1 ] ], [ [ "dragon_black_scale", 10 ] ] ],
     "flags": [ "SECRET" ]
@@ -429,7 +429,7 @@
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
-      [ "id": "MAGIC_MUTAGEN", "level": 2 ] 
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
     ],
     "components": [ [ [ "dragon_essence", 5 ] ], [ [ "mutagen_black_dragon", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -450,7 +450,7 @@
       { "id": "CHEM", "level": 1 },
       { "id": "CONCENTRATE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 },
-      [ "id": "MAGIC_MUTAGEN", "level": 2 ] 
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
     ],
     "result_mult": 2,
     "components": [ [ [ "dragon_essence", 5 ] ], [ [ "young_dragon_heart_black", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
