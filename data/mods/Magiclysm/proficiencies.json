@@ -306,5 +306,77 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Restoration" },
+    "//": "This covers anything that restores the base physical, spiritual, or mental capabilities of the target, like healing spells.",
+    "description": "You're familiar with how to return a target to its normal condition.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Restoration" },
+    "description": "You're proficient in returning a target to its base condition, curing any ills it might suffer.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_conveyance_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Restoration" },
+    "description": "You've mastered the art of restoring a target to its normal condition.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Transformation" },
+    "//": "This covers anything that turns one thing into another, like leaves into gold or a human into a bear.  It also covers magical mutation.",
+    "description": "You're familiar with how to turn things into other things using magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Transformation" },
+    "description": "You're proficient in turning things into other things using magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_conveyance_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Transformation" },
+    "description": "You've mastered the art of transforming the physical form of creatures and objects.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
   }
 ]

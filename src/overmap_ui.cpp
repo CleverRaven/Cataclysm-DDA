@@ -1195,10 +1195,8 @@ tiles_redraw_info redraw_info;
 
 static void draw( overmap_draw_data_t &data )
 {
+    cata_assert( static_cast<bool>( data.ui ) );
     ui_adaptor *ui = data.ui.get();
-    if( ui == nullptr ) {
-        return;
-    }
     draw_om_sidebar( *ui, g->w_omlegend, data.ictxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {

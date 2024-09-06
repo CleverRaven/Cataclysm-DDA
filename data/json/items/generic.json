@@ -126,7 +126,6 @@
     "category": "books",
     "description": "Several documents containing all kinds of information, customer data, and charts, kept together in a manila folder.  Pretty useless now.",
     "weight": "15 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -183,7 +182,6 @@
     "category": "books",
     "description": "A small scrap of paper with two long character sequences scribbled on it.",
     "weight": "1 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -197,7 +195,6 @@
     "category": "books",
     "description": "A sequence of overlapping numbers plotted in thermal paper, at times so densely-packed that they disappear into thick blots of oxide-colored ink.  A few number sequences repeat in an almost orderly fashion, but you can't tell whether that means anything.",
     "weight": "1 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -385,6 +382,7 @@
     "price": "80 USD",
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 26 }
   },
   {
@@ -402,8 +400,7 @@
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "250 ml",
-    "melee_damage": { "bash": 1 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -419,8 +416,7 @@
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "300 ml",
-    "melee_damage": { "bash": 1 }
+    "volume": "300 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -436,7 +432,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
-    "to_hit": -4,
     "fun": -25,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -452,8 +447,7 @@
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
-    "volume": "250 ml",
-    "to_hit": -4
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -462,8 +456,7 @@
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
-    "flags": [ "NO_SALVAGE" ],
-    "relative": { "melee_damage": { "bash": 2 } }
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "bundle_rag",
@@ -661,9 +654,7 @@
     "price_postapoc": "0 cent",
     "material": [ "stone" ],
     "weight": "100 g",
-    "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 1 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -676,8 +667,7 @@
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "weight": "60 g",
-    "volume": "250 ml",
-    "to_hit": -3
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -690,7 +680,6 @@
     "material": [ "steel" ],
     "weight": "40 g",
     "volume": "263 ml",
-    "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "pocket_data": [
@@ -703,8 +692,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "type": "GENERIC",
@@ -718,9 +706,9 @@
     "material": [ "stone" ],
     "weight": "700 g",
     "volume": "250 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -735,9 +723,9 @@
     "material": [ "stone" ],
     "weight": "493 g",
     "volume": "250 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "TOOL",
@@ -825,8 +813,7 @@
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "weight": "30 g",
-    "volume": "250 ml",
-    "to_hit": -3
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -838,7 +825,6 @@
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "r",
     "material": [ "paper" ]
@@ -853,7 +839,6 @@
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "r",
     "material": [ "paper" ]
@@ -916,7 +901,7 @@
     "material": [ "steel" ],
     "weight": "553 g",
     "volume": "750 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "BUTCHER", -38 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
     "melee_damage": { "bash": 6, "cut": 8 },
@@ -933,9 +918,10 @@
     "price": "280 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "1500 ml",
     "qualities": [ [ "BUTCHER", -38 ] ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 6, "cut": 8 }
   },
   {
@@ -953,7 +939,7 @@
     "volume": "250 ml",
     "longest_side": "204 mm",
     "flags": [ "HURT_WHEN_WIELDED" ],
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "cut": 14 }
   },
   {
@@ -1437,21 +1423,6 @@
     "material": [ "steel", "plastic" ],
     "weight": "5 g",
     "volume": "1 ml"
-  },
-  {
-    "type": "GENERIC",
-    "id": "toaster",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "toaster" },
-    "description": "A small two-slice toaster, not much use as anything but spare parts.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
-    "weight": "725 g",
-    "volume": "750 ml",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 2 }
   },
   {
     "id": "broken_kord",

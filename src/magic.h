@@ -91,6 +91,8 @@ enum class spell_flag : int {
     ENHANCEMENT_SPELL, // Enhancement spell category, used for Magiclysm proficiencies
     ENERVATION_SPELL, // Enervation spell category, used for Magiclysm proficiencies
     CONVEYANCE_SPELL, // Conveyance spell category, used for Magiclysm proficiencies
+    RESTORATION_SPELL, // Restoration spell category, used for Magiclysm proficiencies
+    TRANSFORMATION_SPELL, // Transformation spell category, used for Magiclysm proficiencies
     LAST
 };
 
@@ -695,8 +697,8 @@ class known_magic
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
-        // returns the index of the spell in the vector of spells
-        int select_spell( Character &guy );
+        // returns the selected spell
+        spell &select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // directly get the character known spells

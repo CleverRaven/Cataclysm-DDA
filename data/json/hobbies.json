@@ -836,7 +836,7 @@
     "points": -3,
     "traits": [ "ANTIFRUIT", "MEATARIAN" ],
     "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
-    "proficiencies": [ "prof_knives_familiar", "prof_knife_skills" ]
+    "proficiencies": [ "prof_knives_familiar", "prof_knife_skills", "prof_butchering_basic", "prof_skinning_basic" ]
   },
   {
     "type": "profession",

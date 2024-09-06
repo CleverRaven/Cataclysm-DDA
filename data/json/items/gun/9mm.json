@@ -1332,7 +1332,7 @@
     "variants": [
       {
         "id": "draco_9mm",
-        "name": { "str": "NAK 9" },
+        "name": { "str": "Century Arms NAK 9" },
         "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
       }
     ],

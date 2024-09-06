@@ -177,5 +177,28 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 0,
     "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('teleport_gateway') * 108000), 180000)" ] }
+  },
+  {
+    "id": "vita_pain_split",
+    "type": "SPELL",
+    "name": "[Ψ]Damage Balancing Obsolete",
+    "description": "By rerouting blood and stem cells from undamaged areas, you can lessen your most grievous wounds at the cost of weakness elsewhere.  You may also use this to control an asthma attack.\n\n\nThe power is OBSOLETE.",
+    "message": "With a moment's concentration, your worst injuries heal, but you still don't feel well.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "pain_split",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 1750,
+    "energy_increment": -175,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -8
   }
 ]
