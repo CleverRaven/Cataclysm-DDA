@@ -221,7 +221,7 @@
         "value": "ARMOR_HEAT",
         "add": {
           "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
           ]
         }
       },
