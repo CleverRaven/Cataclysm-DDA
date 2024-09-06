@@ -91,7 +91,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo": [ "mom_pulse_rifle_ammo" ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "OVERHEATS" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_melting" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_pulse_rifle_ammo": 1 } } ],

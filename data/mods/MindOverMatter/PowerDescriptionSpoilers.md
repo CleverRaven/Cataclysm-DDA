@@ -8,7 +8,7 @@ All powers have a kCal cost equal to (Difficulty of power * 5) times a randomize
 # Biokinesis
 **Note**: No biokinetic powers have a target listed because they only affect the psion. 
 
-**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 1.5% times the highest single biokinetic power the psion knows.
+**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 0.075% times the sum total levels of the psion's biokinetic powers, and increases the number of vitamins absorbed from food by a similar amount.
 
 ## Overcome Pain (C)
 *Difficulty*: 1<br />
@@ -59,9 +59,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Greatly increases the psion’s reaction (2x), block (1.2x) and crawl (1.5) limb scores, as well as rendering them immune to being grabbed and making it easier to recover from being downed.  It reduces fall damage by 20% plus 2% per level.<br />
 *Prerequisites*: Physical Enhancement 6<br />
 
-## Hardened Skin 
+## Hardened Skin (C)
 *Difficulty*: 4
-*Duration*: 45 to 90 seconds, plus 8 to 15 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />
@@ -112,7 +112,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 60 seconds to 5 minutes, plus 8 to 25 seconds per level<br />
 *Stamina Cost*: 5500, minus 175 per level to a minimum of 2750<br />
 *Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 100<br />
-*Effects*: Prevents the psion from having to breath and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
+*Effects*: Prevents the psion from having to breathe and seals off their body against outside danger.  They become immune to the Smoke, Teargas, Boomer Bile, Mi-go Atmosphere, Fetid Goop, Relaxation Gas, Triffid Pollen, Fungal Spores, Dermatik parasitization, Poison, and Bad Poison effects, as well as electrical damage.  They have no scent and receive 75% less radiation. Finally, their wounds stop bleeding and wounds received while the power is in effect will not bleed.<br />
 *Prerequisites*: Hardened Skin 9 *or* Oxygen Absorption 9, Temperature Adaptability 10 *or* Hammerhand 7<br />
 
 ## Metabolic Hyperefficiency (C) 
@@ -149,7 +149,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Clairsentience
 
-**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creaturs within a radius of 2 squares plus 1.5 squares times the level of the psion's highest-level clairsentience power.
+**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
 
 ## Night Eyes (C)
 *Difficulty*: 1<br />
@@ -229,7 +229,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
-*Effects*: Gaze a short time into the future to predict enemy movements.  Grants +1 bonus dodge and block, +1 addition bonus dodge and block per 6 power levels, prevents the psion from being grabbed, and applies the UNCANNY_DODGE flag.<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
 *Prerequisites*: Premonition 10 *or* Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 
 ## Intuitive Artisan (C)
@@ -297,7 +297,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Electrokinesis
 
-**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 1 per four levels of the psion's highest-leveled electrokinetic power and reduces incoming pain by 0.7% times the level of the psion's highest-level electrokinetic power.
+**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 0.2 per level of the psion's electrokinetic powers and reduces incoming pain by 0.035% times the sum total of the psion's levels in electrokinetic powers.
 
 ## Spark Sight (C)
 *Difficulty*: 1<br />
@@ -317,7 +317,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Zap a single target with a jolt of electricity, doing 2 to 7 plus 1 to 1.5 per power level electrical damage, as well as dazing them for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 
-## Electrical Discharge
+## Electrical Discharge (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 5 minutes to 13 minutes and 20 seconds, plus 1 minute and 20 seconds to 3 minutes and 45 seconds per power level<br />
@@ -326,7 +326,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Build up a charge in the psion's body, zapping anyone who attacks them 50% of the time for 1 to 5 damage, plus 1/4 (i.e., one point per four levels) to 1/2 damage per power level.  The power also renders the psion's gear and bionic power immune to EMP attacks.<br />
 *Prerequisites*: Static Touch 4<br />
 
-## Voltaic Strikes
+## Voltaic Strikes (C)
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 4 minutes to 10 minutes, plus 55 seconds to 1 minute 30 seconds per power level.<br />
@@ -341,7 +341,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 10 minutes to 30 minutes, plus 45 seconds to 90 seconds per power level<br />
 *Stamina Cost*: 6500, minus 150 per level to a minimum of 3500<br />
 *Channeling Time*: 350 moves, minus 9 moves per level to a minimum of 150<br />
-*Effects*: Passively recharge any UPS-compatible devices on the psion's person.<br /> 
+*Effects*: Passively recharge any batteries and electrical devices on the psion's person.<br /> 
 *Prerequisites*: Spark Sight 5, Electrical Discharge 8<br />
 
 ## Neural Spasms
@@ -398,10 +398,10 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
-## Neuro-acceleration
+## Neuro-acceleration (C)
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
-*Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
+*Duration*: 1 minute 21 seconds to 4 minutes 46 seconds, plus 18 to 57 seconds per level if used on self, or <br />
 *Stamina Cost*: 6000, minus 135 per level to a minimum of 2750<br />
 *Channeling Time*: 165 moves, minus 5.5 moves per level to a minimum of 75<br />
 *Effects*: Increases the target's reflexes and response time, adding 5 learning focus plus 1 per power level to a maximum of 35 learning focus, as well as 10 speed plus 1.5 per power level to a maximum of 60 speed.<br />
@@ -476,16 +476,25 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Creates a large glow over an area, filling the entire area with light.<br />
 *Prerequisites*: Starting power<br />
 
+## Illuminate
+*Difficulty*: 2<br />
+*Target*: A single target within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 1 minute and 6 seconds to 3 minutes and 4 seconds, plus 18 seconds to 1 minute and 11 seconds per power level<br />
+*Stamina Cost*: 2750, minus 95 per level to a minimum of 750<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 35<br />
+*Effects*: Excite the air around a single target, causing them to be surrounded by a glow.  This illumintews the area around them and reduces their chance to dodge slightly.<br />
+*Prerequisites*: None<br />
+
 ## Blackout
 *Difficulty*: 2<br />
 *Target*: An area of 1 square plus 0.8 squares per power level to a maximum of 50 squares, out to a distance of 5 squares plus 1.2 squares per power level to a maximum of 80 squares<br />
 *Duration*: Halflife of 5 minutes<br />
-*Stamina Cost*: 2500, minus 115 per level to a minimum of 1000<br />
+*Stamina Cost*: 2500, minus 95 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 75<br />
 *Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
 *Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
 
-## Trick of the Light
+## Trick of the Light (C)
 *Difficulty*: 2<br />
 *Target*: Self<br />
 *Duration*: 28 seconds to 2 minutes and 5 seconds, plus 13 to 27 seconds per power level, or until hit in combat<br />
@@ -557,13 +566,22 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
 *Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
 
-## Veil of Light
+## Sensor Interference
+*Difficulty*: 5<br />
+*Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 20 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 50 squares<br />
+*Duration*: 2 to 3 seconds plus three-quarters of a second to a second and a half per power level.<br />
+*Stamina Cost*: 6000, minus 150 per level to a minimum of 2200<br />
+*Channeling Time*: 200 moves, minus 9.5 moves per level to a minimum of 80<br />
+*Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
+*Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
+
+## Veil of Light (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 16 seconds to 42 seconds, plus 6 seconds to 23 seconds per power level<br />
 *Stamina Cost*: 3500, minus 125 per level to a minimum of 1200<br />
 *Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 35<br />
-*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.<br />
+*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.  It will always break when engaging in melee combat.<br />
 *Prerequisites*: Lucent Barrier 6 *or* Lucid Shadows 6, Mirror-Mask 6 *or* Chameleoflage 10<br />
 
 ## Star Flash
@@ -575,7 +593,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a high-powered laser blast, doing 20 to 54 photokinetic damage plus 2.5 to 6 photokinetic damage per level to everything within the targeted line.<br />
 *Prerequisites*: Photon Beam 8, Lucent Barrier 6 *or* Refracted Arms 6<br />
 
-## Blinding Radiance
+## Blinding Radiance (C)
 *Difficulty*: 7<br />
 *Target*: Self<br />
 *Duration*: 59 seconds to 2 minutes and 58 seconds, plus 11 seconds to 47 seconds per power level<br />
@@ -596,7 +614,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Pyrokinesis
 
-**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
+**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and increasing their temperature when sleeping by 0.05 times the total levels in the psion's pyrokinetic powers, as well as ignoring the first 10 points of wetness on any part of their body.
 
 ## Brilliant Flash
 *Difficulty*: 1<br />
@@ -726,7 +744,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Grasping Hand**: The telekinetic may bring items quickly to hand, reducing the time necessary to pull items from pockets or containers by 10%, plus 0.075% times the telekinetic's total levels in telekinesis powers.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
@@ -775,7 +793,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Manipulate local momentum to the psion's advantage, speeding their own movements and slowing incoming dangerous objects. Reduces move cost by 0.5% per power level to a maximum of 15%, increases attack speed by 1% per power level, reduces incoming cutting and piercing damage by 0.5% per power level, reduces incoming bashing damage by 1% per power level, and reduces incoming ballistic damage by 2% per power level.<br />
 *Prerequisites*: Far Hand 5, Force Shove 5<br />
 
-## Slowfall (C)
+## Slowfall
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: From 3 to 15 seconds, plus 1 to 4 seconds per power level<br />
@@ -793,6 +811,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Lifting Field (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: From 8 minutes and 14 seconds to 27 minutes and 54 seconds, plus 1 minute and 33 seconds to 4 minutes and 19 seconds per power level<br />
+*Stamina Cost*: 4500, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 55<br />
+*Effects*: Create a field to float a single object next to the psion, keeping it close at hand and preventing its weight or encumbrance from affecting them. The weight limit increases at each level of the power; there is no volume or length limit.<br />
+*Prerequisites*: Lift Vehicle 3 *or* Far Hand 7 AND Momentum Alteration 5<br />
+
 ## Enhance Strength (C)
 *Difficulty*: 5<br />
 *Target*: Self<br />
@@ -802,7 +829,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Use telekinesis to enhance the psion's strength by 15 plus 3 per power level. This enhanced strength requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Force Shove 6 *or* Far Hand 6, Momentum Alteration 5<br />
 
-## Mindhammer (C)
+## Mindhammer
 *Difficulty*: 5<br />
 *Target*: One target within 3 squares plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
@@ -818,7 +845,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 6500, minus 200 per level to a minimum of 3250<br />
 *Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 125<br />
 *Effects*: Create a field to lift up a vehicle just enough to work on the wheels or undercarriage. This field requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8<br />
+*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8 *or* Lifting Field 12<br />
 
 ## Inertial Barrier (C)
 *Difficulty*: 6<br />
@@ -844,8 +871,8 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: 1 to 5 seconds, plus 0.75 to 2 seconds per power level<br />
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
-*Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
+*Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Slowfall 9, Force Shove 12 *or* Lift Vehicle 5<br />
 
 # Megakinesis
 *Difficulty*: 8<br />
@@ -876,7 +903,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 # Telepathy
 
-**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 0.075% times the psion's total levels in telepathic powers.
 
 Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
 
@@ -909,11 +936,11 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
-*Target*: Self (or dialogue)<br />
-*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level when used on self, indefinite when used on others<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
-*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Effects*: When used on oneself, edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). When used on others, increases a target NPC's trust by 0.25 per power level and reduces both fear and anger by 0.5 per power level (usable a maximum of once per 12 hours) or reduces a target monster's aggression by power level times 5 (usable once per 5 minutes). It may also be used in dialogue to calm down angry NPCs.<br />
 *Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
 
 ## Synaptic Blast
@@ -949,7 +976,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
 *Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
 *Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
-*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of seconds depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3).  In addition, the target will suffer a lingering teror--for the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage. If an NPC, the target has their fear of the avatar increased by one-half the power level, and if a monster, the target has their morale reduced by 5 times the power level.<br />
 *Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
 
 ## Obscurity
@@ -999,7 +1026,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 # Teleportation
 
-**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
+**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.025% times the psion's total levels in teleportation powers.
 
 ## Blink 
 *Difficulty*: 1<br />
@@ -1066,12 +1093,21 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Farstep 
 *Difficulty*: 6<br />
-*Target*: Anywhere within 2 square plus 1.5 squares per power level<br />
+*Target*: Anywhere within 1 square plus 2 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
 *Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
 *Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
+
+## Ephemeral Walk (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 5 minutes, plus 10 to 30 seconds per power level<br />
+*Stamina Cost*: 6500, minus 200 per level to a minimum of 2000<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
+*Prerequisites*: Phase 10, Extended Stride 5<br />
 
 ## Oubliette 
 *Difficulty*: 7<br />
@@ -1088,21 +1124,30 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
-*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance..<br />
+*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
 *Prerequisites*: Farstep 10, Extended Stride 10 <br />
 
 ## Breach 
 *Difficulty*: 9<br />
 *Target*: A single target within 2 squares plus 1.3 squares per power level<br />
-*Duration*: Indefinitet<br />
+*Duration*: Indefinite<br />
 *Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
 *Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
 *Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
 
+## Reality Tear 
+*Difficulty*: 10<br />
+*Target*: A single target within 1 square<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 10000, minus 250 per level to a minimum of 5000<br />
+*Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 100<br />
+*Effects*: Rip open the fabric of reality, creating a permanent opening to the Nether.  Several denizens of the Nether will also come through the opening; like Breach, the psion has no control over them when they arrive.<br />
+*Prerequisites*: Gateway 10, Breach 10<br />
+
 # Vitakinesis
 
-**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 1% times the psion's highest-leveled vitakinetic power, faster healing equal to 10% plus 1% times the psion's highest-leveled vitakinetic power, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
+**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 0.05% times the psion's total levels in vitakinetic powers, faster healing equal to 10% plus 0.05% times the psion's total levels in vitakinetic powers, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
 
 ## Healthy Glow (C) 
 *Difficulty*: 1<br />
@@ -1110,7 +1155,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level<br />
 *Stamina Cost*: 2500, minus 75 per level to a minimum of 1000<br />
 *Channeling Time*: 100 moves, minus 7.5 moves per level to a minimum of 25<br />
-*Effects*: The psion improves their health. They are immune to the deleterious effects of vitamin deficiency and toxin buildup, heal twice as fast, and cannot suffer from an asthma attack while the power is in effect. In addition, their Health has a 7% chance of going up by 1 every 10 minutes.<br />
+*Effects*: The psion improves their health. They are immune to the deleterious effects of vitamin deficiency and toxin buildup, heal twice as fast, and cannot suffer from an asthma attack while the power is in effect. In addition, their Health has a 7% chance of going up by 1 every 10 minutes.  Healthy Glow is incompatible with Leucocyte Accumulation.<br />
 *Prerequisites*: Starting power<br />
 
 ## Coagulation (C) 
@@ -1121,6 +1166,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
 *Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
 *Prerequisites*: Starting power<br />
+
+## Leucocyte Accumulation
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level.<br />
+*Stamina Cost*: 3500, minus 80 per level to a minimum of 1350<br />
+*Channeling Time*: 250 moves, minus 9.5 moves per level to a minimum of 35<br />
+*Effects*: Focus the psion's healing on a single body part, increasing its healing rate by 20x + 6x per power level, but reducing the healing rate of every other body part by 99%. Leucocyte Accumulation is incompatible with Healthy Glow.<br />
+*Prerequisites*: Healthy Glow 5<br />
 
 ## Staunch Wound
 *Difficulty*: 2<br />
@@ -1149,7 +1203,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Cause decay in the target's tissues causing 1 point of biological damage per second for the power's duration. As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
-## Detoxification (C)
+## Detoxification
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 2 minutes and 36 seconds to 6 minutes and 58 seconds, plus 4 seconds to 32 seconds per power level<br />
@@ -1175,15 +1229,6 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: Indefinite<br />
 *Effects*: Meditate in lieu of sleep. Using the power will begin the meditating, slowly lowering the psion's fatigue and sleep deprivation ratings. The rate of reduction increases per power level and with the psion's metaphysics skill, with the formula: 1 in (55 - ( Wakeful Rest power level * 2) - Metaphysics skill) ), 15 ) chance per second for fatigue, and 1 per second for sleep deprivation.  When fatigue hits zero, a prompt to cancel the meditation pops up.<br />
 *Prerequisites*: Healthy Glow 8, Immunostimulus 4<br />
-
-## Damage Balancing
-*Difficulty*: 5<br />
-*Target*: Self<br />
-*Duration*: Indefinite<br />
-*Stamina Cost*: 6500, minus 175 per level to a minimum of 1750<br />
-*Channeling Time*: 200 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Evens out the damage on all the psion's limbs.  Mechnically, this adds up all their hit points, divides the result by 6, and replaces that hit point total on each limb with that number.<br />
-*Prerequisites*: Immunostimulus 5 *or* Detoxification 5, Healthy Glow 10 *or* Coagulation 8<br />
 
 ## Allay Infection
 *Difficulty*: 5<br />
@@ -1239,7 +1284,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
 *Prerequisites*: Allay Infection 12, Damage Balancing 8 *or* Immunostimulus 12<br />
 
-## Anabolic Rejuvenation
+## Anabolic Rejuvenation (C)
 *Difficulty*: 9<br />
 *Target*: Self<br />
 *Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
@@ -1248,7 +1293,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
 *Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
 
-## Accelerated Resuscitation
+## Accelerated Resuscitation (C)
 *Difficulty*: 10<br />
 *Target*: Self<br />
 *Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />

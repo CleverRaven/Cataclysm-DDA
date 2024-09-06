@@ -17,9 +17,11 @@
 
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_cureall( "cureall" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_foodpoison( "foodpoison" );
@@ -56,9 +58,14 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifying( "water_purifying" );
 
+static const morale_type morale_wet( "morale_wet" );
+
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    //Give eyes to our dummy
+    dummy.set_body();
+    REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     dummy.normalize();
 
     item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
@@ -82,6 +89,30 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             }
         }
     }
+
+    charges_before = eyedrops.charges;
+    REQUIRE( charges_before > 0 );
+
+    GIVEN( "avatar gets conjunctivitis" ) {
+        dummy.add_effect( effect_conjunctivitis, 72_hours, bodypart_id( "eyes" ) );
+        REQUIRE( dummy.has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) );
+        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) > 48_hours );
+
+        WHEN( "they use eye drops" ) {
+            dummy.consume( eyedrops );
+
+            THEN( "one dose is depleted" ) {
+                CHECK( eyedrops.charges == charges_before - 1 );
+
+                AND_THEN( "it shortens the duration of conjunctivitis" ) {
+                    CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 48_hours );
+                }
+            }
+        }
+    }
+
+    charges_before = eyedrops.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is underwater" ) {
         dummy.set_underwater( true );
@@ -443,8 +474,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
     GIVEN( "avatar has poor morale due to being wet" ) {
         dummy.drench( 100, { body_part_torso, body_part_head, body_part_arm_l, body_part_arm_r },
                       false );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( dummy.has_morale( morale_wet ) == -10 );
 
         WHEN( "they use a wet towel" ) {
             towel.convert( itype_towel_wet );
@@ -452,7 +483,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it does not improve their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == -10 );
+                CHECK( dummy.has_morale( morale_wet ) == -10 );
             }
         }
 
@@ -461,7 +492,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it improves their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == 0 );
+                CHECK( dummy.has_morale( morale_wet ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
                     CHECK( towel.typeId() == itype_towel_wet );
@@ -470,13 +501,15 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
     }
 
-    GIVEN( "avatar is slimed, boomered, and glowing" ) {
+    GIVEN( "avatar is slimed, boomered, glowing, and bile irritated." ) {
         dummy.add_effect( effect_slimed, 1_hours );
         dummy.add_effect( effect_boomered, 1_hours );
         dummy.add_effect( effect_glowing, 1_hours );
+        dummy.add_effect( effect_bile_irritant, 1_hours );
         REQUIRE( dummy.has_effect( effect_slimed ) );
         REQUIRE( dummy.has_effect( effect_boomered ) );
         REQUIRE( dummy.has_effect( effect_glowing ) );
+        REQUIRE( dummy.has_effect( effect_bile_irritant ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -486,6 +519,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( effect_slimed ) );
                 CHECK_FALSE( dummy.has_effect( effect_boomered ) );
                 CHECK_FALSE( dummy.has_effect( effect_glowing ) );
+                CHECK_FALSE( dummy.has_effect( effect_bile_irritant ) );
 
                 AND_THEN( "the towel becomes filthy" ) {
                     CHECK( towel.is_filthy() );
@@ -496,8 +530,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( effect_boomered, 1_hours );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( std::abs( dummy.has_morale( morale_wet ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -505,7 +539,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( effect_boomered ) );
-                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK( std::abs( dummy.has_morale( morale_wet ) ) );
 
                 AND_THEN( "the towel becomes filthy" ) {
                     CHECK( towel.is_filthy() );

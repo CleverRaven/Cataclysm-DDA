@@ -1,5 +1,78 @@
 [
   {
+    "id": "wrapped_gasmask_filter",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "container-item": "wrapping_vacuumed",
+    "on_overflow": "spill",
+    "items": [ { "item": "gasfilter_med" } ]
+  },
+  {
+    "id": "gasmask_inserts_stowed",
+    "type": "item_group",
+    "//": "These are accessories grouped together for use in stashed-away or unused gas mask bags.",
+    "//2": "Vision correction assemblies have been omitted for handling within the gas mask bag item group itself.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "outsert_clear", "prob": 100 },
+      { "item": "outsert_sunlight", "prob": 50 },
+      { "item": "outsert_breach", "prob": 25 }
+    ]
+  },
+  {
+    "id": "gasmask_inserts_in_use",
+    "type": "item_group",
+    "//": "Accessories grouped together for use as pre-installed spawns within gas masks.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "outsert_clear", "prob": 100 },
+          { "item": "outsert_sunlight", "prob": 50 },
+          { "item": "outsert_breach", "prob": 25 }
+        ]
+      },
+      { "item": "insert_vision_correction", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, a spare filter, and loose accessories.",
+    "//2": "The gas mask doesn't have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
+    "ammo": 100,
+    "magazine": 0,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      { "item": "mask_gas" },
+      { "group": "wrapped_gasmask_filter", "count": 2 },
+      { "group": "gasmask_inserts_stowed", "prob": 90 },
+      { "item": "insert_vision_correction", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A gas mask left in its carrier, but that was in use prior to being found: assumed that the former user had required it or anticipated needing it and assembled it in readiness. The spare filter may be absent, a canister's already been loaded into the gas mask, and there's a greater chance that the loose attachments have already been added to the mask.",
+    "ammo": 100,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 40 },
+          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts_in_use", "prob": 60 }
+        ]
+      },
+      { "group": "wrapped_gasmask_filter", "prob": 50 },
+      { "group": "gasmask_inserts_stowed", "prob": 55 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "swat_gear",
     "subtype": "distribution",
@@ -26,7 +99,7 @@
       [ "pockknife", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "group": "swat_ballistic_vest", "prob": 15 },
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
@@ -34,6 +107,31 @@
       [ "tac_fullhelmet", 5 ],
       [ "tac_helmet", 10 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "helmet_army", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tac_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "tac_helmet", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nvg_distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "military_nvg", "prob": 60, "charges": [ 0, 100 ] },
+          { "item": "advanced_gpnvg", "prob": 30, "charges": [ 0, 100 ] },
+          { "item": "enhanced_nvg", "prob": 10, "charges": [ 0, 100 ] }
+        ]
+      }
     ]
   },
   {
@@ -74,7 +172,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
@@ -88,7 +186,7 @@
     "items": [
       { "item": "EOD_hotstick", "prob": 50 },
       { "item": "multitool", "container-item": "sheath", "prob": 30 },
-      { "item": "light_disposable_cell", "prob": 30, "count": [ 1, 8 ] },
+      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 8 ] },
       { "item": "light_minus_disposable_cell", "prob": 20, "count": [ 1, 6 ] },
       { "item": "cordless_drill", "prob": 30 },
       { "item": "rope_30", "prob": 50 },
@@ -158,16 +256,16 @@
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 10, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 10, "charges": [ 0, -1 ] },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],
-      { "item": "chainsaw_off", "prob": 1, "charges-min": 0 },
+      { "item": "chainsaw_off", "prob": 1, "charges": [ 0, -1 ] },
       [ "backpack", 15 ],
       [ "backpack_denim", 1 ],
       [ "rope_30", 10 ],
-      { "item": "rx12_injector", "prob": 1, "charges-min": 0 },
-      { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
+      { "item": "rx12_injector", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "rx11_stimpack", "prob": 1, "charges": [ 0, -1 ] },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
       { "item": "handflare", "prob": 20, "charges": 300 },
@@ -181,7 +279,7 @@
       [ "pocketwatch", 5 ],
       [ "wristwatch", 10 ],
       { "group": "tobacco_products", "prob": 32 },
-      { "item": "ref_lighter", "prob": 1, "charges-min": 0 },
+      { "item": "ref_lighter", "prob": 1, "charges": [ 0, -1 ] },
       [ "flask_hip", 1 ],
       [ "textbook_fireman", 10 ],
       [ "knee_pads", 5 ],
@@ -191,15 +289,15 @@
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
-      { "item": "oxygen_tank", "prob": 15, "charges-min": 4 },
+      { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
       [ "fireman_belt", 15 ],
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
-      { "item": "wearable_light", "prob": 5, "charges-min": 0 },
+      { "item": "wearable_light", "prob": 5, "charges": [ 0, -1 ] },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "smoxygen_tank", "prob": 35, "charges-min": 4 },
-      { "item": "watercannon", "prob": 10, "charges-min": 0 },
+      { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
+      { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
       [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
@@ -211,8 +309,8 @@
       [ "wrapped_rad_badge", 80 ],
       { "item": "geiger_off", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
-      { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
+      { "item": "oxygen_tank", "prob": 10, "charges": [ 4, -1 ] },
+      { "item": "smoxygen_tank", "prob": 15, "charges": [ 2, -1 ] },
       [ "UPS_OFF", 2 ],
       { "prob": 25, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_1_10" }

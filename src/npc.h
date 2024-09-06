@@ -25,7 +25,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -39,6 +39,7 @@
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
+#include "npc_opinion.h"
 #include "pimpl.h"
 #include "point.h"
 #include "sounds.h"
@@ -57,8 +58,8 @@ class npc_class;
 class talker;
 class vehicle;
 
-constexpr int8_t NPC_PERSONALITY_MIN = -10;
-constexpr int8_t NPC_PERSONALITY_MAX = 10;
+constexpr int NPC_PERSONALITY_MIN = -10;
+constexpr int NPC_PERSONALITY_MAX = 10;
 constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
 constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
@@ -228,43 +229,6 @@ struct npc_personality {
     void serialize( JsonOut &json ) const;
     void deserialize( const JsonObject &data );
 };
-
-struct npc_opinion {
-    int trust;
-    int fear;
-    int value;
-    int anger;
-    int owed; // Positive when the npc owes the player. Negative if player owes them.
-    int sold; // Total value of goods sold/donated by player to the npc. Cannot be negative.
-
-    npc_opinion() {
-        trust = 0;
-        fear  = 0;
-        value = 0;
-        anger = 0;
-        owed  = 0;
-        sold = 0;
-    }
-
-    npc_opinion &operator+=( const npc_opinion &rhs ) {
-        trust += rhs.trust;
-        fear  += rhs.fear;
-        value += rhs.value;
-        anger += rhs.anger;
-        owed  += rhs.owed;
-        sold  += rhs.sold;
-        return *this;
-    }
-
-    npc_opinion operator+( const npc_opinion &rhs ) {
-        return npc_opinion( *this ) += rhs;
-    }
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( const JsonObject &data );
-};
-
-
 
 enum class combat_engagement : int {
     NONE = 0,
@@ -532,6 +496,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule clearit );
 
     void set_danger_overrides();
+    void clear_flags();
     void clear_overrides();
 };
 
@@ -1112,7 +1077,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
+        // TODO: Get rid of untyped overload
         bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
@@ -1130,7 +1097,7 @@ class npc : public Character
         // among the different attack methods the npc has available, what's the best one in the current situation?
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
-        void evaluate_best_weapon( const Creature *target );
+        void evaluate_best_attack( const Creature *target );
         float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
@@ -1146,6 +1113,10 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
+        // Returns score for how well this weapon might kill things
+        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
+        // Returns best weapon. Can return null (fists)
+        item *evaluate_best_weapon() const;
         // Returns true if did wield it
         bool wield_better_weapon();
 
@@ -1211,7 +1182,7 @@ class npc : public Character
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
 
         // Item discovery and fetching
 
@@ -1358,7 +1329,10 @@ class npc : public Character
         // Player orders a friendly NPC to move to this position
         std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
-        const item *wanted_item = nullptr;
+
+        //Safe reference to an item at a specific location in case it gets deleted before pickup
+        item_location wanted_item = {};
+
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;
@@ -1504,7 +1478,7 @@ class npc_template
         std::optional<int> per;
         std::optional<npc_personality> personality;
 
-        static void load( const JsonObject &jsobj );
+        static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
 };

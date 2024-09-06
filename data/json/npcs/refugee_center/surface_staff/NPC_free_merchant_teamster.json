@@ -43,7 +43,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1"
@@ -70,11 +70,22 @@
         "default": true
       },
       {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      {
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
             { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
-            { "u_has_var": "general_trade_u_think_suspicious_price", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_trade_u_think_suspicious_price" } ] },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
         },
@@ -105,7 +116,7 @@
       {
         "text": "I wanted to tell you about a potential new trading partner I met recently.",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_FACTION_INTRO",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       }
     ]
   },
@@ -114,8 +125,7 @@
     "id": "TALK_FREE_MERCHANT_TEAMSTER",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_teamster",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_teamster" } ],
       "yes": "What can I help you with?",
       "no": "Well now, a new face.  Nice ta meet ya.  I'm the one sendin' out these here caravans far and wide.  What can I do ya for?"
     },
@@ -172,7 +182,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "isherwood" } }
+            { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_isherwood" },
@@ -184,7 +194,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "hub01" } }
+            { "not": { "compare_string": [ "hub01", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_hub01" },
@@ -196,7 +206,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "exodii" } }
+            { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_exodii" },
@@ -208,7 +218,7 @@
         "condition": {
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
-            { "not": { "u_has_var": "teamster_mission_directions", "value": "artisans" } }
+            { "not": { "compare_string": [ "artisans", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_artisans" },
@@ -227,8 +237,41 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
     "type": "talk_topic",
-    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.",
+    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.\"",
     "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The teamster considers for a moment",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": {
+            "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"Hmm.  I'm not sure, but I've heard of an odd building that's a bit like you're describing.\"",
+            "relevant_genders": [ "npc" ]
+          }
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "talk_topic",
@@ -236,9 +279,9 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[Tell them about Rubik and the Exodii]",
+        "text": "[Tell them about Rubik and the Exodii.]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
@@ -392,7 +435,7 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success",
     "type": "talk_topic",
-    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.\"",
     "responses": [
       {
         "text": "Glad to help.",
@@ -409,7 +452,7 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail",
     "type": "talk_topic",
-    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.\"",
     "responses": [
       {
         "text": "Alright then, <name_b>.  I guess that's what I get for my troubles.",
@@ -431,7 +474,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "teamster_mission_directions", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

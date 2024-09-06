@@ -21,7 +21,7 @@ struct mouse_event {
 
 // fps_active - specify the redraw rate when the application is active
 // fps_idle - specify the redraw rate when the application is not active
-ImTui::TScreen *ImTui_ImplNcurses_Init( float fps_active = 60.0, float fps_idle = -1.0 );
+void ImTui_ImplNcurses_Init( float fps_active = 60.0, float fps_idle = -1.0 );
 
 void ImTui_ImplNcurses_Shutdown();
 

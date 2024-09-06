@@ -21,7 +21,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -30,7 +30,12 @@
     "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 10 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_feral_wizard_base" },
+        "monster_message": "%1$s chants and gestures erratically!",
+        "cooldown": 10
+      },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
     ],
@@ -45,7 +50,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_feral_lab_magician",
@@ -69,7 +74,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -124,7 +129,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
   },
   {
     "id": "mon_feral_radiation_mage",
@@ -148,7 +153,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "emit_fields": [ { "emit_id": "emit_rad_leak", "delay": "5 s" } ],
@@ -213,7 +218,7 @@
       "NO_BREATHE",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "EATS"
     ]
   },
@@ -240,7 +245,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -288,7 +293,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -315,7 +320,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 3,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -374,7 +379,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -401,7 +406,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -453,7 +458,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   },
@@ -480,7 +485,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -561,7 +566,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   }

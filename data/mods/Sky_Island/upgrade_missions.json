@@ -131,7 +131,7 @@
       [ [ "warptoken", 2 ] ],
       [ [ "cu_pipe", 5 ] ],
       [ [ "duct_tape", 20 ] ],
-      [ [ "light_plus_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_disposable_cell", 15 ] ],
+      [ [ "light_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_battery_cell", 15 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
   },
@@ -195,8 +195,8 @@
       [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
       [ [ "warptoken", 5 ] ],
       [ [ "scrap_aluminum", 12 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
-      [ [ "medium_battery_cell", 2 ], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
+      [ [ "super_glue", 10 ], [ "bone_glue", 1 ] ],
+      [ [ "medium_battery_cell", 6 ] ],
       [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
     ]
   },
@@ -262,7 +262,7 @@
       [ [ "microscope", 1 ] ],
       [ [ "silver_small", 20 ] ],
       [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
-      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ], [ "heavy_disposable_cell", 4 ] ],
+      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ] ],
       [ [ "rope_30", 1 ] ]
     ]
   },
@@ -1264,7 +1264,7 @@
       [ [ "cufflinks_intricate", 1 ] ],
       [ [ "ring_signet", 1 ] ],
       [ [ "platinum_locket", 1 ] ],
-      [ [ "onyx_silver_earring", 1 ] ]
+      [ [ "tieclip", 1 ] ]
     ]
   },
   {
@@ -1507,6 +1507,7 @@
         { "u_learn_recipe": "recipe_craft_random_artifact" },
         { "u_learn_recipe": "warp_vortex_token" },
         { "u_learn_recipe": "warphaulbag" },
+        { "u_learn_recipe": "sky_island_warped_pond" },
         {
           "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
           "type": "mixed"
@@ -1522,7 +1523,7 @@
     "id": "upgradekey_rankup1",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Proof of Determination" },
+    "name": { "str": "Proof of Determination", "str_pl": "Proofs of Determination" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 1",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -2296,6 +2297,263 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_centralskylight2",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Glass Figurine from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 2.  A larger skylight above your main room, allowing more light to enter in.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight2" },
+        {
+          "u_message": "Now that you have a bunker under the island, you have a place to live.  But the small glass roof doesn't let in a lot of light; a larger skylight would be ideal.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 2.  A larger skylight over the main room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_centralskylight2" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight2" },
+        { "u_message": "Construction complete.  The skylight above the central room has expanded.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Glass Figurine" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "glass_shard", 150 ] ],
+      [ [ "chunk_rubber", 5 ] ],
+      [ [ "super_glue", 20 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight3",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Mirror from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 3.  Expand the central room's skylight to allow even more light.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight3" },
+        {
+          "u_message": "The central room could use even more natural light.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 3.  Expand the skylight over the central room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_centralskylight3" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight3" },
+        { "u_message": "Construction complete.  The skylight over the central room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Crystalline Mirror" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
+      [ [ "glass_sheet", 3 ] ],
+      [ [ "mirror", 1 ] ],
+      [ [ "super_glue", 40 ] ],
+      [ [ "frame_wood", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight4",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 4",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Transparent Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 4.  Expand the central skylight to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight4" },
+        {
+          "u_message": "The central skylight should be enormous to allow in as much light as possible.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skaylight 4.  Expand the central skylight to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_centralskylight4" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+        { "u_message": "Construction complete.  The central skylight has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Transparent Cube" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "bigmirror", 1 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "frame", 4 ] ],
+      [ [ "rubber_cement", 8 ] ],
+      [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_bunker_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Construct: Climate Control",
+    "description": "Completing this mission will instantly enhance the bunker on your home island.\n\nCraft a Lukewarm Sphere from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_climatecontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_climatecontrol" },
+        {
+          "u_message": "The bunker is expansive, but it's too hot in summer and much too cold in winter.  A climate control system would make it a more comfortable place to rest when not on raids.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_bunker_temperature_adaptation", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_climatecontrol" },
+        { "run_eocs": "EOC_skyisland_build_climatecontrol" },
+        { "u_message": "Construction complete.  The bunker's temperature is now controlled.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_climatecontrol",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Lukewarm Sphere" },
+    "description": "This strange metaphysical artifact is used to build infrastructure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Climate Control",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_climatecontrol",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "BLOW_HOT_AIR", "level": 1 } ],
+    "components": [
+      [ [ "coat_winter", 1 ] ],
+      [ [ "down_blanket", 1 ] ],
+      [ [ "mask_ski", 1 ] ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "flag_swimsuit", 1 ], [ "trunks", 1 ], [ "bikini_bottom_short", 1 ], [ "bikini_bottom", 1 ] ],
+      [ [ "tshirt_cropped", 1 ] ],
+      [ [ "large_space_heater", 1 ] ],
+      [ [ "mountable_cooler", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_westroom1",
     "type": "mission_definition",
     "name": "Construct: West Room 1",
@@ -2823,7 +3081,7 @@
     "id": "SKYISLAND_BUILD_northroom1",
     "type": "mission_definition",
     "name": "Construct: North Room 1",
-    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: north Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom1",
     "count": 1,
@@ -2856,7 +3114,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str_sp": "Miner's Cameo (North)" },
-    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: north Room 1",
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 1",
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
@@ -3148,7 +3406,7 @@
     "id": "SKYISLAND_UPGRADE_security2",
     "type": "mission_definition",
     "name": "Upgrade: Security Beta",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_2",
     "count": 1,
@@ -3159,7 +3417,7 @@
       "effect": [
         { "u_learn_recipe": "secure_container_2" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
@@ -3168,6 +3426,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "2" ] },
         { "u_forget_recipe": "secure_container_2" },
+        { "u_lose_trait": "mut_secure_container_1" },
         { "u_add_trait": "mut_secure_container_2" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3194,7 +3453,7 @@
     "id": "SKYISLAND_UPGRADE_security3",
     "type": "mission_definition",
     "name": "Upgrade: Security Gamma",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_3",
     "count": 1,
@@ -3205,7 +3464,7 @@
       "effect": [
         { "u_learn_recipe": "secure_container_3" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
@@ -3214,6 +3473,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "3" ] },
         { "u_forget_recipe": "secure_container_3" },
+        { "u_lose_trait": "mut_secure_container_2" },
         { "u_add_trait": "mut_secure_container_3" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3240,7 +3500,7 @@
     "id": "SKYISLAND_UPGRADE_security4",
     "type": "mission_definition",
     "name": "Upgrade: Security Epsilon",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_4",
     "count": 1,
@@ -3251,7 +3511,7 @@
       "effect": [
         { "u_learn_recipe": "secure_container_4" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
           "popup": true
         }
       ]
@@ -3260,6 +3520,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "4" ] },
         { "u_forget_recipe": "secure_container_4" },
+        { "u_lose_trait": "mut_secure_container_3" },
         { "u_add_trait": "mut_secure_container_4" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
@@ -3286,7 +3547,7 @@
     "id": "SKYISLAND_UPGRADE_security5",
     "type": "mission_definition",
     "name": "Upgrade: Security Kappa",
-    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "secure_container_5",
     "count": 1,
@@ -3297,7 +3558,7 @@
       "effect": [
         { "u_learn_recipe": "secure_container_5" },
         {
-          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST!  Anything left inside when upgrading will be lost forever!",
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
           "popup": true
         }
       ]
@@ -3306,6 +3567,7 @@
       "effect": [
         { "math": [ "securitylevel", "=", "5" ] },
         { "u_forget_recipe": "secure_container_5" },
+        { "u_lose_trait": "mut_secure_container_4" },
         { "u_add_trait": "mut_secure_container_5" },
         {
           "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",

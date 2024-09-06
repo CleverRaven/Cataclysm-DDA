@@ -32,7 +32,7 @@
     "sound_id": "earth_spell",
     "sound_variant": "strong",
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "quake_transform" }, { "id": "quake_shake" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "quake_transform" }, { "id": "quake_shake" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "quake_transform",
@@ -98,7 +98,7 @@
       { "id": "single_rock_blast" },
       { "id": "single_rock_blast" },
       { "id": "rock_blast_push" },
-      { "id": "eoc_evocation_setup" }
+      { "id": "eoc_evocation_setup", "hit_self": true }
     ]
   },
   {

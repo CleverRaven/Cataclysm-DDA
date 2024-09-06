@@ -211,18 +211,18 @@
   {
     "id": "xl_coat_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur coat" },
+    "name": { "str": "fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
-    "name": { "str": "XS fur coat" },
+    "name": { "str": "fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_faux_fur",
@@ -239,18 +239,18 @@
   {
     "id": "xl_coat_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_faux_fur",
-    "name": { "str": "XS faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab",
@@ -261,7 +261,6 @@
     "volume": "2250 ml",
     "price": "25 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -387,7 +386,6 @@
     "volume": "6750 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -582,34 +580,34 @@
   {
     "id": "xl_duster_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur duster" },
+    "name": { "str": "fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "name": { "str": "XS fur duster" },
+    "name": { "str": "fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_duster",
     "type": "ARMOR",
-    "name": { "str": "XL duster" },
+    "name": { "str": "duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster",
     "type": "ARMOR",
     "copy-from": "duster",
-    "name": { "str": "XS duster" },
+    "name": { "str": "duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_faux_fur",
@@ -625,18 +623,18 @@
   {
     "id": "xl_duster_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_faux_fur",
-    "name": { "str": "XS faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_leather",
@@ -715,18 +713,18 @@
   {
     "id": "xl_duster_leather",
     "type": "ARMOR",
-    "name": { "str": "XL leather duster" },
+    "name": { "str": "leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_leather",
     "type": "ARMOR",
     "copy-from": "duster_leather",
-    "name": { "str": "XS leather duster" },
+    "name": { "str": "leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "greatcoat",
@@ -890,7 +888,7 @@
   },
   {
     "id": "jacket_army",
-    "//": "Intended to be, and modelled off of, an M65 combat jacket.",
+    "//": "Intended to be, and modeled off of, an M65 combat jacket.",
     "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
     "looks_like": "coat_winter",
@@ -1054,7 +1052,7 @@
       {
         "id": "m65_coyote",
         "name": { "str": "coyote combat jacket" },
-        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively hansom coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
+        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively handsome coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
         "color": "brown",
         "weight": 20,
         "append": true
@@ -1699,7 +1697,17 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "windbreaker_fbi",
+        "name": { "str": "FBI raid jacket" },
+        "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification.",
+        "color": "blue",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "jacket_varsity",
@@ -3733,7 +3741,7 @@
       {
         "id": "tacjacket_jungle",
         "name": { "str": "jungle-camo tactical jacket" },
-        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
+        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerrilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
         "color": "green",
         "weight": 15,
         "append": true

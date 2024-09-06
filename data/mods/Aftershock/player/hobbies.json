@@ -44,5 +44,25 @@
     "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
     "points": 3,
     "traits": [ "AFS_LEADERSHIP" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_electrokinetic_hobby",
+    "name": "Esper Inheritance (Spark)",
+    "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you.  You have no training and little idea what you're doing, but you've developed a trick or two.",
+    "points": 5,
+    "traits": [ "ESPER", "AFS_ELECTROKINETIC" ],
+    "spells": [ { "id": "afs_electrokinetic_see_electric", "level": 3 }, { "id": "afs_electrokinetic_shock_touch", "level": 2 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_telepath_hobby",
+    "name": "Esper Inheritance (Whisper)",
+    "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you.  You have no training and little idea what you're doing, but you've developed a trick or two.",
+    "points": 5,
+    "traits": [ "ESPER", "AFS_TELEPATH" ],
+    "spells": [ { "id": "afs_telepathic_mind_sense", "level": 3 }, { "id": "afs_telepathic_shield", "level": 2 } ]
   }
 ]

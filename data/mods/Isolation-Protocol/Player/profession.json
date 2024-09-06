@@ -80,7 +80,7 @@
       "both": {
         "entries": [
           { "item": "pants" },
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "hoodie" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -89,19 +89,9 @@
           { "item": "caff_gum" },
           { "item": "memory_card" },
           { "item": "usb_drive" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "electrohack"
-          },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "noise_emitter"
-          },
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
+          { "item": "electrohack", "charges": 150 },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "noise_emitter" },
+          { "item": "camera", "charges": 150 },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" }
         ]

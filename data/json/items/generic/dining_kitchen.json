@@ -41,7 +41,6 @@
     "weight": "28 g",
     "volume": "25 ml",
     "material": [ "plastic" ],
-    "to_hit": -2,
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
@@ -113,7 +112,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "price": "45 USD",
     "price_postapoc": "10 cent",
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -146,6 +145,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -172,6 +172,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
@@ -198,6 +199,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "variants": [
       {
@@ -431,6 +433,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -450,6 +453,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -481,6 +485,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -526,6 +531,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -575,7 +581,8 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "max_item_length": "239 mm"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
@@ -1046,7 +1053,6 @@
     "weight": "750 g",
     "volume": "3500 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -1118,6 +1124,7 @@
     "volume": "25400 ml",
     "longest_side": "45 cm",
     "price": "68 USD",
+    "price_postapoc": "8 USD 15 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
@@ -1132,7 +1139,7 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 },
     "//": "Based on https://www.amazon.com/dp/B0075O2Z34"
@@ -1147,7 +1154,7 @@
     "volume": "30 L",
     "longest_side": "35 cm",
     "price": "100 USD",
-    "to_hit": -2,
+    "price_postapoc": "3 USD",
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1161,7 +1168,7 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 9 }
   },
@@ -1206,7 +1213,6 @@
     "weight": "660 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1232,7 +1238,6 @@
     "weight": "628 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1270,7 +1275,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 }
   },
@@ -1299,7 +1304,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 }
   },
@@ -1397,6 +1402,7 @@
     "volume": "250 ml",
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 2 }
   },
   {

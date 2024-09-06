@@ -57,7 +57,7 @@
       "HUMAN",
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -181,7 +181,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
-    "harvest": "fae_changeling",
+    "harvest": "fae_march_lord",
     "families": [ "prof_wp_demihuman" ],
     "vision_day": 50,
     "vision_night": 6,
@@ -198,7 +198,7 @@
       "HUMAN",
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -480,7 +480,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "fae_furred",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_xe_unicorn_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
@@ -494,7 +494,7 @@
       "FAE_CREATURE",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN"
     ],
@@ -544,7 +544,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER", "WARM", "NO_BREED" ],
     "armor": { "bash": 2, "electric": 1, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {

@@ -523,7 +523,15 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb", "magus_ranged_increase" ]
+      "spells": [
+        "phase_door",
+        "magus_escape",
+        "magus_haste",
+        "magus_slow",
+        "magus_slowfall",
+        "magus_spiderclimb",
+        "magus_ranged_increase"
+      ]
     }
   },
   {
@@ -1172,8 +1180,8 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
-    "//": "2 druid spells, 1 stormshaper spell, all spells the pun ones",
-    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but but there's the occasional real tragedy mixed in as a cautionary tale.",
+    "//": "2 druid spells, 1 stormshaper spell, 1 animist spell, all spells the pun ones",
+    "description": "A series of stories of the various ways magic can go wrong if the wrong ingredients, words, or gestures are used.  A lot of the stories are merely funny, like the magus who in trying to alter the Sorcerer's Hand spell caused music to follow her everywhere she went, but there's the occasional real tragedy mixed in as a cautionary tale.",
     "weight": "483 g",
     "volume": "825 ml",
     "price": "50 USD",
@@ -1181,7 +1189,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog", "animist_magic_fissile" ]
+    }
   },
   {
     "id": "biomancy_fasting_spellbook",

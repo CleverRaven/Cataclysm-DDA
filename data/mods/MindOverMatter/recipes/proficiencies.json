@@ -55,8 +55,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -67,8 +66,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -79,8 +77,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -91,8 +88,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -103,8 +99,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -115,8 +110,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -127,8 +121,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -139,8 +132,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency",
@@ -151,8 +143,7 @@
     "can_learn": true,
     "default_time_multiplier": 1.0,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "200 h",
-    "//": "Length is deliberate"
+    "time_to_learn": "32 h"
   },
   {
     "type": "proficiency_category",

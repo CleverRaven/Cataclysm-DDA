@@ -78,7 +78,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "food cubes" },
     "symbol": "f",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 700,
@@ -93,7 +93,7 @@
     "id": "afs_food_to_go",
     "type": "COMESTIBLE",
     "name": { "str_sp": "Foodplace's Food-to-go™" },
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "f",
     "copy-from": "protein_bar_evac",
     "color": "magenta",
@@ -108,7 +108,7 @@
     "id": "afs_loop_fruit",
     "type": "COMESTIBLE",
     "name": { "str_sp": "loop 'fruit'" },
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 200,
@@ -131,7 +131,7 @@
     "description": "Smooth crackers colored grayish-green.  Used to be perfectly edible seaweed, or so the wrapper claims.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "74 ml"
   },
   {
@@ -147,7 +147,7 @@
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.)",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "111 ml"
   },
   {
@@ -163,14 +163,14 @@
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "afs_escapepod_ration",
     "type": "COMESTIBLE",
     "name": { "str_sp": "landfall survival rations" },
     "symbol": "o",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
     "color": "white",
     "calories": 500,
@@ -203,6 +203,7 @@
     "volume": "100 ml",
     "weight": "50 g",
     "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
-    "material": [ "flesh", "veggy" ]
+    "material": [ "flesh", "veggy" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

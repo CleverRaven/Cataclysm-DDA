@@ -224,8 +224,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -239,8 +238,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -254,8 +252,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -269,8 +266,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -284,8 +280,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -299,8 +294,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",
@@ -314,8 +308,7 @@
     "material": [ "plastic" ],
     "weight": "3 g",
     "volume": "5 ml",
-    "category": "keys",
-    "to_hit": -3
+    "category": "keys"
   },
   {
     "type": "GENERIC",

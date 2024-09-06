@@ -191,7 +191,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
-    "monsters": [ { "monster": "mon_hidebehind", "weight": 1, "starts": "21 days", "cost_multiplier": 10 } ]
+    "monsters": [
+      { "monster": "mon_hidebehind", "weight": 1, "starts": "21 days", "cost_multiplier": 10 },
+      { "monster": "mon_psi_gremlin", "weight": 1, "starts": "21 days", "cost_multiplier": 10 }
+    ]
   },
   {
     "name": "GROUP_COWS",
@@ -202,6 +205,18 @@
     "name": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_hodag", "weight": 10, "starts": "14 days", "cost_multiplier": 20 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "cost_multiplier": 5 },
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "14 days", "cost_multiplier": 5 },
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "28 days", "cost_multiplier": 5 },
+      { "group": "GROUP_ANIMAL_PSIONS", "weight": 15, "starts": "90 days", "cost_multiplier": 5 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -218,21 +233,32 @@
     "name": "GROUP_ROOF_ANIMAL",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days", "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_ROOF_ANIMAL",
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [ { "monster": "mon_cockatrice", "weight": 10, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] } ]
+    "monsters": [
+      { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days", "cost_multiplier": 2 },
+      { "monster": "mon_cockatrice", "weight": 10, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SAFE",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days" } ]
+    "monsters": [
+      { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days" },
+      { "monster": "mon_psi_gremlin", "weight": 2, "starts": "21 days" }
+    ]
+  },
+  {
+    "name": "GROUP_STRAY_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog",
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_MUTANT_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_mongrel",
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
@@ -271,6 +297,33 @@
       { "monster": "mon_mi_go_photokinetic", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
       { "monster": "mon_mi_go_biokinetic", "weight": 200, "cost_multiplier": 5 },
       { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 20, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 25, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 150, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_PSIONS",
+    "monsters": [
+      { "monster": "mon_triffid_clairsentient", "weight": 400 },
+      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
+      { "monster": "mon_triffid_teleporter", "weight": 200 }
     ]
   }
 ]

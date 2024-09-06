@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "messages.h"
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
@@ -56,6 +57,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -129,7 +131,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string(),
-                                   item_location container = item_location() )
+                                   item_location container = item_location(),
+                                   bool add_ebooks = false )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -154,6 +157,9 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Default behavior.
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
+        if( add_ebooks ) {
+            inv_s.add_character_ebooks( u );
+        }
     }
 
     if( u.has_activity( consuming ) ) {
@@ -502,9 +508,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
         const item *const avoid )
 {
     return inv_internal( you, liquid_inventory_selector_preset( liquid, avoid ),
-                         string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
+                         string_format( _( "Pour %s | %s %s into" ), liquid.display_name( liquid.charges ),
                                         format_volume( liquid.volume() ), volume_units_abbr() ), radius,
-                         string_format( _( "You don't have a suitable container for carrying %s." ),
+                         string_format( _( "You don't have a suitable container to pour %s into." ),
                                         liquid.tname() ) );
 }
 
@@ -570,7 +576,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
                     return false;
                 }
             }
@@ -1558,7 +1564,8 @@ item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), you.disp_name() );
-    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg );
+    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
+                         true );
 }
 
 item_location game_menus::inv::ebookread( Character &you, item_location &ereader )
@@ -1831,27 +1838,15 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 
 static bool valid_unload_container( const item_location &container )
 {
-    // Item must be a container.
-    if( !container->is_container() ) {
-        return false;
-    }
-
-    // Item must be able to be unloaded
-    if( container->has_flag( flag_NO_UNLOAD ) ) {
-        return false;
-    }
-
-    // Container must contain at least one item
-    if( container->empty_container() ) {
-        return false;
-    }
-
-    // Not all contents should not be liquid, gas or plasma
-    if( container->contains_no_solids() ) {
-        return false;
-    }
-
-    return true;
+    return
+        // Item must be a container.
+        container->is_container()
+        // Item must be able to be unloaded
+        && !container->has_flag( flag_NO_UNLOAD )
+        // Container must contain at least one item
+        && !container->empty_container()
+        // Not all contents should not be liquid, gas or plasma
+        && !container->contains_no_solids();
 }
 
 drop_locations game_menus::inv::unload_container( avatar &you )
@@ -2229,7 +2224,11 @@ drop_locations game_menus::inv::pickup( avatar &you,
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        if( target ) {
+            add_msg( _( "There is nothing to pick up." ) );
+        } else {
+            add_msg( _( "There is nothing to pick up nearby." ) );
+        }
         return drop_locations();
     }
 
@@ -2238,6 +2237,16 @@ drop_locations game_menus::inv::pickup( avatar &you,
     }
 
     return pick_s.execute();
+}
+
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+{
+    std::optional<tripoint> tmp;
+    if( target.has_value() ) {
+        tmp = target.value().raw();
+    }
+    return game_menus::inv::pickup( you, tmp, selection );
 }
 
 class smokable_selector_preset : public inventory_selector_preset
@@ -2803,7 +2812,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             append_cell( [&you, target]( const item_location & loc ) {
                 for( const item_location &opt : get_possible_reload_targets( target ) ) {
-                    if( opt->can_reload_with( *loc, true ) ) {
+                    if( opt.can_reload_with( loc, true ) ) {
                         if( opt == target ) {
                             return std::string();
                         }
@@ -2871,11 +2880,11 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p->can_reload_with( *loc, true ) ) {
+                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
-                if( p->can_reload_with( *loc, true ) ) {
+                if( p.can_reload_with( loc, true ) ) {
                     return true;
                 }
             }
@@ -2944,7 +2953,7 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
 
     item_location target_loc;
     for( const item_location &opt : get_possible_reload_targets( loc ) ) {
-        if( opt->can_reload_with( *selected.first, true ) ) {
+        if( opt.can_reload_with( selected.first, true ) ) {
             target_loc = opt;
             break;
         }

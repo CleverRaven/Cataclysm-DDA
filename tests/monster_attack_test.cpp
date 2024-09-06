@@ -187,22 +187,6 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
                            true, false, true );
 }
 
-TEST_CASE( "monster_special_attack", "[vision][reachability]" )
-{
-    clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
-    scoped_weather_override weather_clear( WEATHER_CLEAR );
-    get_map().ter_set( attacker_location + tripoint{ 2, 0, 0 }, ter_id( "t_wall" ) );
-    get_map().ter_set( attacker_location + tripoint{ 2, 0, 1 }, ter_id( "t_floor" ) );
-    get_map().ter_set( attacker_location + tripoint_east, ter_id( "t_wall" ) );
-    get_map().ter_set( attacker_location + tripoint{ 1, 0, 1 }, ter_id( "t_floor" ) );
-    // Adjacent should be visible if 3d vision is on, but it's too close to attack.
-    // test_monster_attack( { 1, 0, 1 }, false, true, mattack::stretch_attack );
-    // At a distance of 2, the ledge should block los and line of attack.
-    test_monster_attack( { 2, 0, 1 },  false, false, mattack::stretch_attack );
-}
-
 TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 {
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
@@ -211,22 +195,22 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = sunrise( calendar::turn );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
-    const tripoint target_location = { 65, 65, 0 };
+    const tripoint_bub_ms target_location = { 65, 65, 0 };
     // You got a player
     Character &you = get_player_character();
     clear_avatar();
     you.set_dodges_left( 1 ) ;
     REQUIRE( Approx( you.get_dodge() ) == 4.0 );
-    you.setpos( target_location );
+    you.setpos( target_location.raw() );
     const tripoint_abs_ms abs_target_location = you.get_location();
-    reset_caches( target_location.z, target_location.z );
+    reset_caches( target_location.z(), target_location.z() );
     REQUIRE( g->natural_light_level( 0 ) > 50.0 );
     CHECK( here.ambient_light_at( target_location ) > 50.0 );
     const std::string monster_type = "mon_feral_human_pipe";
     for( int distance = 2; distance <= 5; ++distance ) {
         float expected_damage = expected_average_damage_at_range[ distance ];
         // and you got a monster
-        const tripoint attacker_location = target_location + tripoint_east * distance;
+        const tripoint attacker_location = target_location.raw() + tripoint_east * distance;
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
         test_monster.set_dest( you.get_location() );
         const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );

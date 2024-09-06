@@ -104,9 +104,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "mixed_dino",
-    "base_faction": "gator",
+    "base_faction": "mutant_piscivores",
     "neutral": [ "small_animal", "small_fisher" ],
-    "hate": [ "herbivore", "zombie", "human", "gator", "aquatic_predator" ],
+    "hate": [ "herbivore", "zombie", "human", "mutant_piscivores", "aquatic_predator" ],
     "by_mood": [ "mixed_dino", "predator_dino", "herbivore_dino", "fishing_dino" ]
   },
   {
@@ -115,7 +115,7 @@
     "base_faction": "aquatic_predator",
     "by_mood": [ "fishing_dino", "mixed_dino", "aquatic_predator" ],
     "neutral": [ "small_animal", "small_fisher" ],
-    "hate": [ "gator" ]
+    "hate": [ "mutant_piscivores" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -661,12 +661,6 @@
     "copy-from": "zombie_aquatic",
     "by_mood": [ "mixed_dino" ],
     "neutral": [ "small_fisher" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gator",
-    "copy-from": "gator",
-    "by_mood": [ "mixed_dino", "fishing_dino", "predator_dino", "herbivore_dino" ]
   },
   {
     "type": "MONSTER_FACTION",

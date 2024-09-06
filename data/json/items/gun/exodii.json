@@ -85,7 +85,7 @@
     "id": "sapra",
     "looks_like": "smle_mk3",
     "type": "GUN",
-    "name": { "str": "Exodii grenade launcher" },
+    "name": { "str": "Exodii Sapra grenade launcher" },
     "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3 x 110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
     "//": "Based on the Truvelo CMS.  No rifle grenades since it has a magazine.",
     "weight": "5900 g",

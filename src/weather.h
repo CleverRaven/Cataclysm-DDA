@@ -7,7 +7,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"

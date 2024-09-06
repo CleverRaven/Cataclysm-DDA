@@ -48,7 +48,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -104,7 +104,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -124,12 +124,12 @@
     "hp": 80,
     "speed": 40,
     "material": [ "steel" ],
-    "symbol": "R",
-    "color": "dark_gray",
+    "symbol": "F",
+    "color": "light_gray",
     "aggression": 100,
     "morale": 100,
     "vision_day": 50,
-    "revert_to_itype": "bot_secubot",
+    "revert_to_itype": "bot_secubot_liberty",
     "special_attacks": [
       {
         "type": "gun",
@@ -150,7 +150,59 @@
       "message": "Loud rock music blares as the %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "STUN_IMMUNE" ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
+  },
+  {
+    "id": "mon_secubot_america_refurbished",
+    "type": "MONSTER",
+    "name": {
+      "str": "refurbished autonomous TALON UGV Liberty Edition",
+      "str_pl": "refurbished autonomous TALON UGVs Liberty Edition"
+    },
+    "description": "Once a Talon UGV bot converted to shoot fireworks at trespassers, this has been refurbished and uses it's M16A4 once more.  It still has the American flag decal from it's service as a trespass deterrent.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "150 L",
+    "weight": "40750 g",
+    "hp": 80,
+    "speed": 40,
+    "material": [ "steel" ],
+    "symbol": "F",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 50,
+    "revert_to_itype": "bot_secubot_liberty",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "modular_m16a4",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Proud to be an American.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "death_drops": {  },
+    "death_function": {
+      "effect": { "id": "death_smokeburst", "hit_self": true },
+      "message": "Loud rock music blares as the %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "STUN_IMMUNE" ],
     "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
@@ -178,7 +230,7 @@
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ],
     "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
   },
   {
@@ -208,7 +260,7 @@
     "revert_to_itype": "bot_science_bot",
     "starting_ammo": { "bot_manhack": 5 },
     "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ [ "SCIENCE", 16 ], [ "TAZER", 10 ] ],
+    "special_attacks": [ [ "TAZER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
@@ -220,7 +272,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "STUN_IMMUNE"
     ],
@@ -260,7 +312,7 @@
       "GOODHEARING",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ],
@@ -303,7 +355,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -347,7 +399,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"

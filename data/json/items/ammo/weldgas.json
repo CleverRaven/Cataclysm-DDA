@@ -3,7 +3,7 @@
     "//": "roughly 35grams of acetylene per cubic foot at STP. Volume given is when compressed - B tank has 9.17 L tank and holds 40 cubic feet.",
     "id": "oxyacetylene",
     "type": "AMMO",
-    "name": { "str_sp": "acetylene" },
+    "name": { "str_sp": "oxyacetylene" },
     "description": "Pressurized, dangerous acetylene gas.  Can be used for welding or cutting with a torch.",
     "weight": "1 g",
     "volume": "250 ml",

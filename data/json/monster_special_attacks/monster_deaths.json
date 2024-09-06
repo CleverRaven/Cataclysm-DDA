@@ -69,7 +69,7 @@
     "shape": "blast",
     "effect": "attack",
     "max_level": 2,
-    "field_id": "fd_reality_tear",
+    "field_id": "fd_fatigue",
     "field_chance": 1,
     "min_field_intensity": 1,
     "field_intensity_increment": 1,
@@ -284,6 +284,18 @@
     "shape": "blast",
     "effect": "emit",
     "effect_str": "emit_smoke_blast",
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
+    "id": "death_smokeburst_tiny",
+    "type": "SPELL",
+    "name": { "str": "Tiny Smoke Explosion" },
+    "description": "Causes a tiny explosion of smoke.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_smoke_plume",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
@@ -514,10 +526,18 @@
     "valid_targets": [ "self", "ground" ],
     "min_damage": 3,
     "max_damage": 8,
-    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [
+      "RANDOM_DAMAGE",
+      "HOSTILE_SUMMON",
+      "PERMANENT",
+      "SPAWN_WITH_DEATH_DROPS",
+      "SILENT",
+      "NO_EXPLOSION_SFX",
+      "SPAWN_GROUP"
+    ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_spider_cellar_giant_s",
+    "effect_str": "GROUP_SPIDER_MOM_SUMMON",
     "min_aoe": 2,
     "max_aoe": 2
   },
@@ -646,13 +666,13 @@
     "valid_targets": [ "hostile", "ally" ],
     "effect": "attack",
     "shape": "blast",
-    "targeted_monster_ids": [ "mon_breather", "mon_breather_hub" ],
+    "targeted_monster_ids": [ "mon_breather", "mon_breather_hub", "mon_amalgamation_breather", "mon_amalgamation_breather_hub" ],
     "damage_type": "pure",
     "min_damage": 1000,
     "max_damage": 1000,
-    "min_aoe": 48,
-    "max_aoe": 48,
-    "aoe_increment": 48,
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "aoe_increment": 5,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   },
   {
@@ -735,23 +755,5 @@
     "min_range": 5,
     "max_range": 5,
     "extra_effects": [ { "id": "death_acid", "hit_self": true } ]
-  },
-  {
-    "id": "death_zombie_kinderling",
-    "type": "SPELL",
-    "name": { "str": "Zombie Kinderling Death" },
-    "description": "Zombie kinderling dies.",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "effect": "guilt",
-    "effect_str": "ZOMBIE",
-    "min_damage": 100,
-    "max_damage": 100,
-    "min_duration": 180000,
-    "max_duration": 180000,
-    "min_range": 5,
-    "max_range": 5,
-    "extra_effects": [ { "id": "death_smokeburst", "hit_self": true } ]
   }
 ]

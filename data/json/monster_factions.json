@@ -95,7 +95,7 @@
     "base_faction": "animal",
     "friendly": [ "attack_player_only" ],
     "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
-    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf", "dog_small" ]
+    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "coyote", "wolf", "dog_small" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -154,6 +154,12 @@
     "name": "dog_small",
     "base_faction": "small_animal",
     "neutral": [ "cat" ],
+    "hate": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "coyote",
+    "base_faction": "animal",
     "hate": [ "small_animal" ]
   },
   {
@@ -307,11 +313,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "gator",
-    "base_faction": "mutant_piscivores"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "molerat",
     "base_faction": "mutant"
   },
@@ -402,7 +403,6 @@
       "frog",
       "slug",
       "mutant_piscivores",
-      "gator",
       "molerat",
       "amigara",
       "mutant_with_vortex",
@@ -478,6 +478,13 @@
     "name": "centipede",
     "base_faction": "insect",
     "hate": [ "insect", "animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "centipede_house",
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider", "herbivore" ],
+    "hate": [ "insect", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",

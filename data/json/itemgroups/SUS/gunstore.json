@@ -16,26 +16,13 @@
     "id": "SUS_gunstore_safe_obscure",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the contents of rare back of house safes, with guns paired with their corresponding magazines",
+    "//2": "This group is for the contents of rare back of house safes.",
     "subtype": "collection",
     "entries": [
       { "group": "guns_pistol_obscure_display", "prob": 15 },
-      {
-        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
-        "prob": 45
-      },
-      {
-        "collection": [ { "group": "guns_shotgun_obscure_display" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          { "group": "guns_smg_display" },
-          { "group": "mags_smg_common", "count": [ 1, 8 ] },
-          { "group": "mags_smg_rare", "count": [ 1, 8 ] }
-        ],
-        "prob": 2
-      }
+      { "collection": [ { "group": "guns_rifle_obscure_display" } ], "prob": 45 },
+      { "collection": [ { "group": "guns_shotgun_obscure_display" } ], "prob": 1 },
+      { "collection": [ { "group": "guns_smg_display" } ], "prob": 2 }
     ]
   },
   {
@@ -46,7 +33,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "guns_common_display", "prob": 80 },
-      { "group": "mags_common_gunstore", "prob": 80 },
+      { "group": "mags_common", "prob": 80 },
       { "group": "gunmod_common", "prob": 15 },
       { "group": "conversion_kits", "prob": 15 },
       { "group": "book_gunmags", "prob": 60 },
@@ -128,7 +115,10 @@
       { "item": "shoulder_holster", "prob": 5 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "helmet_liner", "prob": 30 },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      {
+        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "prob": 10
+      },
       { "item": "knife_combat", "container-item": "sheath", "prob": 3 },
       { "item": "knife_combat_marine", "container-item": "sheath", "prob": 1 },
       { "item": "knife_combat_army", "container-item": "sheath", "prob": 1 },
@@ -142,7 +132,7 @@
       { "item": "goggles_ir", "prob": 1 },
       { "item": "bootsheath", "prob": 10 },
       { "item": "leg_sheath6", "prob": 5 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       { "group": "ear_protection", "prob": 45 },
       { "item": "hat_boonie", "prob": 30 },
       { "item": "balclava", "prob": 30 },

@@ -2,7 +2,6 @@
   {
     "id": "pyrokinesis_practice",
     "type": "nested_category",
-    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_METAPHYSICS",
@@ -37,26 +36,25 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 0,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLASH",
         "condition": { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_flash')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -71,26 +69,25 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMES",
         "condition": { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_eruption", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_eruption')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -105,28 +102,28 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE",
         "condition": { "math": [ "u_spell_level('pyrokinetic_cauterize')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_cauterize", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_cauterize')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_cauterize", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -144,6 +141,7 @@
     "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_cauterize", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -165,15 +163,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Cauterize power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_cauterize')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -190,28 +190,28 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
         "condition": { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_quell_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_quell_flames')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_quell_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -229,6 +229,7 @@
     "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_quell_flames", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -250,15 +251,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Quell Fire power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_quell_flames')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -275,28 +278,28 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES",
         "condition": { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_call_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_call_flames')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_call_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -314,6 +317,7 @@
     "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_call_flames", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -335,15 +339,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Banked Flames power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_call_flames')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -360,29 +366,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CLOAK",
         "condition": { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_cloak", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_cloak')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_cloak", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -400,6 +406,7 @@
     "id": "EOC_PRACTICE_PYROKIN_CLOAK_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_cloak", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -421,15 +428,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Cloak of Warmth power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_cloak')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -446,29 +455,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER",
         "condition": { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_flamethrower", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_flamethrower')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_flamethrower", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -486,6 +495,7 @@
     "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_flamethrower", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -507,15 +517,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flamethrower power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_flamethrower')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -532,29 +544,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_LANCE",
         "condition": { "math": [ "u_spell_level('pyrokinetic_lance')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_lance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_lance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_lance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -572,6 +584,7 @@
     "id": "EOC_PRACTICE_PYROKIN_LANCE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_lance", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -593,15 +606,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Incandescent Lance power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_lance')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -618,29 +633,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS",
         "condition": { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_thermogenesis", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_thermogenesis')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_thermogenesis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -658,6 +673,7 @@
     "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_thermogenesis", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -679,15 +695,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Thermogenesis power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -704,29 +722,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AURA",
         "condition": { "math": [ "u_spell_level('pyrokinetic_aura')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_aura')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -744,6 +762,7 @@
     "id": "EOC_PRACTICE_PYROKIN_AURA_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_aura", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -765,15 +784,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Blazing Aura power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_aura')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -790,29 +811,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 6,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAME_IMMUNITY",
         "condition": { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_flame_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_flame_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -830,6 +851,7 @@
     "id": "EOC_PRACTICE_PYROKIN_FLAME_IMMUNITY_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_flame_immunity", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -851,15 +873,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flameshield power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -876,29 +900,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 6,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_BLAST",
         "condition": { "math": [ "u_spell_level('pyrokinetic_blast')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_blast')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -916,6 +940,7 @@
     "id": "EOC_PRACTICE_PYROKIN_BLAST_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_blast", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -937,15 +962,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Conflagration power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_blast')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -962,29 +989,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 8,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AOE_BLAST",
         "condition": { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_aoe_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_aoe_blast')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_aoe_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -1002,6 +1029,7 @@
     "id": "EOC_PRACTICE_PYROKIN_AOE_BLAST_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_aoe_blast", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1023,15 +1051,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hellfire power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -1048,29 +1078,29 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 9,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_INCINERATION",
         "condition": { "math": [ "u_spell_level('pyrokinetic_incineration')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "pyrokinetic_incineration", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_pyrokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('pyrokinetic_incineration')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(10)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "pyrokinetic_incineration", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -1088,6 +1118,7 @@
     "id": "EOC_PRACTICE_PYROKIN_INCINERATION_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "pyrokinetic_incineration", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1109,15 +1140,17 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Crucible power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('pyrokinetic_incineration')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]

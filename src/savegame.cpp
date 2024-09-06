@@ -17,6 +17,7 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
@@ -68,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 33;
+const int savegame_version = 34;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -368,12 +369,19 @@ void overmap::load_monster_groups( const JsonArray &jsin )
     for( JsonArray mongroup_with_tripoints : jsin ) {
         mongroup new_group;
         new_group.deserialize( mongroup_with_tripoints.next_object() );
+        bool reset_target = false;
+        if( new_group.target ==  point_abs_sm() ) { // Remove after 0.I
+            reset_target = true;
+        }
 
         JsonArray tripoints_json = mongroup_with_tripoints.next_array();
         tripoint_om_sm temp;
         for( JsonValue tripoint_json : tripoints_json ) {
             temp.deserialize( tripoint_json );
             new_group.abs_pos = project_combine( pos(), temp );
+            if( reset_target ) { // Remove after 0.I
+                new_group.set_target( new_group.abs_pos.xy() );
+            }
             add_mon_group( new_group );
         }
 
@@ -417,6 +425,7 @@ void overmap::unserialize( const JsonObject &jsobj )
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
+        std::vector<tripoint_abs_omt> camps_to_place;
         JsonArray layers_json = jsobj.get_array( "layers" );
 
         for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -435,7 +444,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                                 rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
                             }
                         }
-                        if( is_oter_id_obsolete( tmp_ter ) ) {
+                        bool is_obsolete = is_oter_id_obsolete( tmp_ter );
+                        if( is_obsolete ) {
                             for( int p = i; p < i + count; p++ ) {
                                 oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                             }
@@ -445,6 +455,11 @@ void overmap::unserialize( const JsonObject &jsobj )
                             debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
                             tmp_otid = oter_omt_obsolete;
                         }
+                        if( !is_obsolete && oter_id_should_have_camp( oter_str_id( tmp_ter )->get_type_id() ) ) {
+                            for( int p = i; p < i + count; p++ ) {
+                                camps_to_place.emplace_back( project_combine( pos(), tripoint_om_omt( p, j, z - OVERMAP_DEPTH ) ) );
+                            }
+                        }
                     }
                     count--;
                     layer[z].terrain[i][j] = tmp_otid;
@@ -452,6 +467,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
         migrate_oter_ids( oter_id_migrations );
+        migrate_camps( camps_to_place );
     }
     for( JsonMember om_member : jsobj ) {
         const std::string name = om_member.name();
@@ -661,7 +677,21 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         } else if( name == "predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
-            om_member.read( flattened_predecessors, true );
+            JsonArray predecessors_json = om_member;
+            for( JsonArray point_and_predecessors : predecessors_json ) {
+                if( point_and_predecessors.size() != 2 ) {
+                    point_and_predecessors.throw_error( 2,
+                                                        "Invalid overmap predecessors: expected a point and an array" );
+                }
+                tripoint_om_omt point;
+                point_and_predecessors.read( 0, point, true );
+                std::vector<oter_id> predecessors;
+                for( std::string oterid : point_and_predecessors.get_array( 1 ) ) {
+                    predecessors.push_back( get_or_migrate_oter( oterid ) );
+                }
+                flattened_predecessors.emplace_back( point, std::move( predecessors ) );
+            }
+
             std::vector<oter_id> om_predecessors;
 
             for( auto& [p, serialized_predecessors] : flattened_predecessors ) {
@@ -902,7 +932,19 @@ void overmap::unserialize_view( const JsonObject &jsobj )
             JsonArray visible_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 JsonArray visible_by_z_json = visible_json.next_array();
-                unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                if( savegame_loading_version < 34 ) {
+                    cata::mdarray<bool, point_om_omt> old_vision;
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, old_vision );
+                    for( int y = 0; y < OMAPY; ++y ) {
+                        for( int x = 0; x < OMAPX; ++x ) {
+                            point_om_omt idx( x, y );
+                            layer[z].visible[idx] = old_vision[idx] ? om_vision_level::full :
+                                                    om_vision_level::unseen;
+                        }
+                    }
+                } else {
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                }
                 if( visible_by_z_json.has_more() ) {
                     visible_by_z_json.throw_error( "Too many sequences for z visible view" );
                 }
@@ -966,6 +1008,33 @@ void overmap::unserialize_view( const JsonObject &jsobj )
     }
 }
 template<typename MdArray>
+static void serialize_enum_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
+{
+    using enum_type = typename MdArray::value_type;
+    int count = 0;
+    enum_type lastval = enum_traits<enum_type>::last;
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const enum_type value = array[i][j];
+            if( value == lastval ) {
+                ++count;
+                continue;
+            }
+            if( count != 0 ) {
+                json.write( count );
+                json.end_array();
+            }
+            lastval = value;
+            json.start_array();
+            json.write( value );
+            count = 1;
+        }
+    }
+    json.write( count );
+    json.end_array();
+}
+
+template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
     static_assert( std::is_same_v<typename MdArray::value_type, bool>,
@@ -1005,7 +1074,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        serialize_array_to_compacted_sequence( json, layer[z].visible );
+        serialize_enum_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
         fout << std::endl;
     }
@@ -1422,6 +1491,8 @@ void game::unserialize_master( const JsonValue &jv )
             weather_manager::unserialize_all( jsin );
         } else if( name == "timed_events" ) {
             timed_event_manager::unserialize_all( jsin );
+        } else if( name == "overmapbuffer" ) {
+            overmap_buffer.deserialize_overmap_global_state( jsin );
         } else if( name == "placed_unique_specials" ) {
             overmap_buffer.deserialize_placed_unique_specials( jsin );
         }
@@ -1505,7 +1576,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "type", type );
         jo.read( "when", when );
         jo.read( "key", key );
-        point pt;
+        point_sm_ms pt;
         if( jo.has_string( "revert" ) ) {
             revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
         } else {
@@ -1523,9 +1594,9 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 }
                 // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
                 if( !jp.has_member( "point" ) ) {
-                    if( pt.x++ < SEEX ) {
-                        pt.x = 0;
-                        pt.y++;
+                    if( pt.x()++ < SEEX ) {
+                        pt.x() = 0;
+                        pt.y()++;
                     }
                 }
             }
@@ -1548,8 +1619,8 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
-        json.member( "placed_unique_specials" );
-        overmap_buffer.serialize_placed_unique_specials( json );
+        json.member( "overmapbuffer" );
+        overmap_buffer.serialize_overmap_global_state( json );
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
@@ -1604,14 +1675,14 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         if( elem.revert.is_uniform() ) {
-            jsout.member( "revert", elem.revert.get_ter( point_zero ) );
+            jsout.member( "revert", elem.revert.get_ter( point_sm_ms_zero ) );
         } else {
             jsout.member( "revert" );
             jsout.start_array();
             for( int y = 0; y < SEEY; y++ ) {
                 for( int x = 0; x < SEEX; x++ ) {
                     jsout.start_object();
-                    point pt( x, y );
+                    point_sm_ms pt( x, y );
                     jsout.member( "point", pt );
                     jsout.member( "furn", elem.revert.get_furn( pt ) );
                     jsout.member( "ter", elem.revert.get_ter( pt ) );
@@ -1684,9 +1755,26 @@ void creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
+void overmapbuffer::serialize_overmap_global_state( JsonOut &json ) const
 {
+    json.start_object();
+    json.member( "placed_unique_specials" );
     json.write_as_array( placed_unique_specials );
+    json.member( "overmap_count", overmap_buffer.overmap_count );
+    json.member( "unique_special_count", unique_special_count );
+    json.end_object();
+}
+
+void overmapbuffer::deserialize_overmap_global_state( const JsonObject &json )
+{
+    placed_unique_specials.clear();
+    JsonArray ja = json.get_array( "placed_unique_specials" );
+    for( const JsonValue &special : ja ) {
+        placed_unique_specials.emplace( special.get_string() );
+    }
+    unique_special_count.clear();
+    json.read( "unique_special_count", unique_special_count );
+    json.read( "overmap_count", overmap_count );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

@@ -7,7 +7,7 @@
 #include "rng.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior
@@ -100,7 +100,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         they.clear_worn();
 
         WHEN( "avatar tries to get the backpack with pick_up" ) {
-            item_location backpack_loc( map_cursor( ground ), &backpack_map );
+            item_location backpack_loc( map_cursor( tripoint_bub_ms( ground ) ), &backpack_map );
             const drop_locations &pack_droplocs = { std::make_pair( backpack_loc, 1 ) };
             they.pick_up( pack_droplocs );
             process_activity( they );
@@ -111,7 +111,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         }
 
         WHEN( "avatar tries to get the rope with pick_up" ) {
-            item_location rope_loc( map_cursor( ground ), &rope_map );
+            item_location rope_loc( map_cursor( tripoint_bub_ms( ground ) ), &rope_map );
             const drop_locations &rope_droplocs = { std::make_pair( rope_loc, 1 ) };
             they.pick_up( rope_droplocs );
             process_activity( they );
@@ -142,7 +142,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
     // Spawn items on the map at this location
     const tripoint ground = they.pos();
-    item &m4a1 = here.add_item( ground, item( itype_modular_m4_carbine ) );
+    item &m4a1 = here.add_item( ground, item( itype_debug_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -172,7 +172,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map
-            item_location m4_loc( map_cursor( they.pos() ), &m4a1 );
+            item_location m4_loc( map_cursor( they.get_location() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
             CHECK_FALSE( backpack.has_item( m4a1 ) );
             // Now pick up the M4

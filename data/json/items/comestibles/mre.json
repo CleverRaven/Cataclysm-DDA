@@ -25,7 +25,8 @@
     "calories": 289,
     "description": "The chili & beans entree from an MRE.",
     "material": [ "veggy", "bean" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -35,7 +36,8 @@
     "calories": 293,
     "description": "The BBQ beef entree from an MRE.",
     "material": [ "flesh" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -45,7 +47,8 @@
     "calories": 231,
     "description": "The chicken noodle entree from an MRE.",
     "material": [ "flesh", "veggy", "wheat" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -55,7 +58,8 @@
     "calories": 280,
     "description": "The spaghetti entree from an MRE.",
     "material": [ "flesh", "wheat" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -64,7 +68,8 @@
     "name": { "str": "chicken chunks entree" },
     "calories": 238,
     "description": "The chicken chunks entree from an MRE, with an included beef stick.",
-    "material": [ "flesh" ]
+    "material": [ "flesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -74,7 +79,8 @@
     "calories": 273,
     "description": "The beef taco entree from an MRE.",
     "material": [ "flesh", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -84,7 +90,8 @@
     "calories": 289,
     "description": "The beef brisket entree from an MRE.",
     "material": [ "flesh" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -94,7 +101,8 @@
     "calories": 311,
     "description": "The meatballs & marinara entree from an MRE.",
     "material": [ "flesh", "tomato" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -104,7 +112,8 @@
     "calories": 211,
     "description": "The beef stew entree from an MRE.",
     "material": [ "flesh", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -114,7 +123,8 @@
     "calories": 280,
     "description": "The chili & macaroni entree from an MRE.",
     "material": [ "wheat", "veggy" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -124,7 +134,8 @@
     "calories": 231,
     "description": "The vegetarian taco entree from an MRE.",
     "material": [ "veggy", "tomato" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -134,7 +145,8 @@
     "calories": 223,
     "description": "The macaroni & marinara entree from an MRE.",
     "material": [ "tomato", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -144,7 +156,8 @@
     "calories": 219,
     "description": "The creamy spinach fettuccine entree from an MRE.",
     "material": [ "veggy", "milk" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -154,7 +167,8 @@
     "calories": 248,
     "description": "The ratatouille entree from an MRE.",
     "material": [ "veggy", "tomato", "wheat" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -163,7 +177,8 @@
     "name": { "str": "cheese tortellini entree" },
     "calories": 251,
     "description": "The cheese tortellini entree from an MRE.",
-    "material": [ "tomato", "veggy", "milk" ]
+    "material": [ "tomato", "veggy", "milk" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -172,7 +187,8 @@
     "name": { "str": "mushroom fettuccine entree" },
     "calories": 239,
     "description": "The mushroom fettuccine entree from an MRE.",
-    "material": [ "mushroom", "veggy", "wheat" ]
+    "material": [ "mushroom", "veggy", "wheat" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -182,7 +198,8 @@
     "calories": 214,
     "description": "The Mexican chicken stew entree from an MRE.",
     "material": [ "tomato", "veggy", "flesh", "bean" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -192,7 +209,8 @@
     "calories": 264,
     "description": "The chicken burrito bowl entree from an MRE.",
     "material": [ "flesh", "veggy", "bean" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -202,7 +220,8 @@
     "calories": 218,
     "description": "The maple sausage entree from an MRE.",
     "material": [ "flesh", "junk" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -212,7 +231,8 @@
     "calories": 293,
     "description": "The ravioli entree from an MRE.",
     "material": [ "flesh", "wheat" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -221,7 +241,8 @@
     "name": { "str": "pepper jack beef entree" },
     "calories": 148,
     "description": "The pepper jack beef entree from an MRE.",
-    "material": [ "flesh", "milk" ]
+    "material": [ "flesh", "milk" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -231,7 +252,8 @@
     "calories": 249,
     "description": "The hash browns & bacon entree from an MRE.",
     "material": [ "flesh", "veggy" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -241,7 +263,8 @@
     "calories": 136,
     "description": "The lemon pepper tuna entree from an MRE.",
     "material": [ "flesh" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -251,7 +274,8 @@
     "calories": 130,
     "description": "The lobster seafood medley entree from an MRE.",
     "material": [ "flesh" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,7 +285,8 @@
     "calories": 247,
     "description": "The Asian beef & vegetables entree from an MRE.",
     "material": [ "flesh", "veggy" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -271,7 +296,8 @@
     "calories": 264,
     "description": "The chicken pesto & pasta entree from an MRE.",
     "material": [ "flesh", "wheat", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -281,7 +307,8 @@
     "calories": 262,
     "description": "The southwest beef & beans entree from an MRE.",
     "material": [ "flesh", "bean" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -292,7 +319,8 @@
     "description": "The dreaded four fingers of death.  It seems to be several decades old.",
     "price": "8 USD 50 cent",
     "material": [ "flesh", "junk", "bean" ],
-    "fun": -6
+    "fun": -6,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -303,7 +331,8 @@
     "description": "The pizza entree from an MRE, now in vegetarian form.",
     "price": "8 USD 50 cent",
     "material": [ "wheat", "milk" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -313,7 +342,8 @@
     "calories": 291,
     "description": "The pizza entree from an MRE, featuring pepperoni slices and cheese.",
     "material": [ "flesh", "wheat", "milk" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "abstract": "mre_side",
@@ -337,35 +367,39 @@
     "type": "COMESTIBLE",
     "id": "mre_potato",
     "copy-from": "mre_side",
-    "name": { "str": "potatoes, Au Gratin" },
+    "name": { "str_sp": "potatoes, Au Gratin" },
     "description": "Golden-fried potatoes.",
-    "material": [ "veggy" ]
+    "material": [ "veggy" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "mre_fried_rice",
     "copy-from": "mre_side",
-    "name": { "str_sp": "fried rice(small portion)" },
+    "name": { "str": "fried rice (small portion)", "str_pl": "fried rice (small portions)" },
     "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
-    "material": [ "wheat" ]
+    "material": [ "veggy" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "mre_zapplesauce",
     "copy-from": "mre_side",
-    "name": { "str": "zapplesauce" },
+    "name": { "str_sp": "zapplesauce" },
     "description": "Golden, jelly-like food with the flavor of apples.",
     "material": [ "fruit" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "mre_blackbeans",
     "copy-from": "mre_side",
-    "name": { "str": "black beans in sauce" },
+    "name": { "str_sp": "black beans in sauce" },
     "description": "A savory and flavorful combination of black beans and sauce.",
     "material": [ "bean" ],
-    "calories": 130
+    "calories": 130,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "abstract": "mre_dessert",
@@ -388,7 +422,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mre_carrot_cake",
-    "name": { "str_sp": "carrot pound cake" },
+    "name": { "str": "carrot pound cake" },
     "copy-from": "mre_dessert",
     "description": "Delicious cake with carrots blended seamlessly."
   },
@@ -396,7 +430,7 @@
     "type": "COMESTIBLE",
     "id": "mre_poppyseed_cake",
     "copy-from": "mre_carrot_cake",
-    "name": { "str_sp": "lemon poppy seed pound cake" },
+    "name": { "str": "lemon poppy seed pound cake" },
     "calories": 290,
     "description": "Cake filled with the goodness of lemon and poppy seeds."
   },
@@ -413,7 +447,7 @@
     "type": "COMESTIBLE",
     "id": "mre_chocolate_cake",
     "copy-from": "mre_dessert",
-    "name": { "str_sp": "chocolate chip toaster pastry" },
+    "name": { "str": "chocolate chip toaster pastry", "str_pl": "chocolate chip toaster pastries" },
     "calories": 210,
     "description": "Pastry with chocolate chips."
   },
@@ -421,7 +455,7 @@
     "type": "COMESTIBLE",
     "id": "mre_strawberry_cake",
     "copy-from": "mre_dessert",
-    "name": { "str_sp": "strawberry toaster pastry" },
+    "name": { "str": "strawberry toaster pastry", "str_pl": "strawberry toaster pastries" },
     "calories": 210,
     "description": "Strawberry-flavor pastry."
   }

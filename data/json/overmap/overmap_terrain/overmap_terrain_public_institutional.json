@@ -10,6 +10,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "church_roof", "church_2ndfloor_1", "church_3rdfloor_1", "church_roof_1" ],
+    "vision_levels": "roof_or_air",
     "copy-from": "generic_city_building",
     "name": "church roof",
     "sym": "C",
@@ -27,30 +28,35 @@
   {
     "type": "overmap_terrain",
     "id": [ "rural_church", "rural_church_parking" ],
+    "vision_levels": "isolated_building",
     "name": "rural church",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": [ "rural_church_steeple" ],
+    "vision_levels": "isolated_building",
     "name": "rural church steeple",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
     "id": [ "rural_church_steeple_roof" ],
+    "vision_levels": "roof_or_air",
     "name": "rural church steeple roof",
     "sym": "C",
     "color": "light_red",
-    "see_cost": 4
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": [ "rural_church_basement" ],
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "church basement",
     "sym": "B",
     "color": "light_red"
@@ -88,9 +94,10 @@
       "cathedral_3_SE"
     ],
     "name": "cathedral",
+    "vision_levels": "large_city_building",
     "sym": "C",
     "color": "i_light_red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -213,11 +220,12 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_hospital",
+    "vision_levels": "large_city_building",
     "copy-from": "generic_city_building",
     "name": "hospital",
     "sym": "H",
     "color": "red",
-    "extend": { "flags": [ "RISK_HIGH", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ] }
+    "extend": { "flags": [ "RISK_EXTREME", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -281,22 +289,24 @@
   {
     "type": "overmap_terrain",
     "id": [ "school_1_1", "school_1_3", "school_1_4", "school_1_5", "school_1_6", "school_1_7", "school_1_8", "school_1_9" ],
+    "vision_levels": "large_city_building",
     "name": "regional school",
     "sym": "s",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_BOOKS" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
   },
   {
     "type": "overmap_terrain",
     "id": "school_1_2",
+    "vision_levels": "large_city_building",
     "name": "regional school",
     "sym": "S",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_BOOKS" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
   },
   {
     "type": "overmap_terrain",
@@ -324,14 +334,16 @@
       "school_4_6",
       "school_4_7",
       "school_4_8",
-      "school_4_9"
+      "school_4_9",
+      "school_5_6"
     ],
     "name": "regional school",
+    "vision_levels": "large_city_building",
     "sym": "s",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SOURCE_BOOKS", "RISK_HIGH" ]
+    "flags": [ "SOURCE_BOOKS", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -346,11 +358,12 @@
       "prison_1_8",
       "prison_1_9"
     ],
+    "vision_levels": "large_building",
     "name": "prison",
     "sym": "p",
     "color": "i_light_blue",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -415,6 +428,12 @@
       "prison_alcatraz_13_2f",
       "prison_alcatraz_14_2f",
       "prison_alcatraz_15_2f",
+      "prison_alcatraz_10_3f",
+      "prison_alcatraz_9_3f",
+      "prison_alcatraz_6_3f",
+      "prison_alcatraz_15_3f",
+      "prison_alcatraz_14_3f",
+      "prison_alcatraz_11_3f",
       "prison_island_1_1",
       "prison_island_1_2",
       "prison_island_1_3",
@@ -445,6 +464,11 @@
       "prison_island_1_2f_13",
       "prison_island_1_2f_14",
       "prison_island_1_2f_15",
+      "prison_island_1_3f_1",
+      "prison_island_1_3f_4",
+      "prison_island_1_3f_5",
+      "prison_island_1_3f_11",
+      "prison_island_1_3f_14",
       "prison_island_1_ug_1",
       "prison_island_1_ug_2",
       "prison_island_1_ug_3",
@@ -461,10 +485,11 @@
       "prison_island_1_ug_14",
       "prison_island_1_ug_15"
     ],
+    "vision_levels": "large_structure",
     "name": "prison",
     "sym": "p",
     "color": "i_light_blue",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -518,46 +543,59 @@
     "type": "overmap_terrain",
     "id": [ "homeless_0_0_0", "homeless_1_0_0" ],
     "name": "homeless shelter",
+    "vision_levels": "city_building",
     "sym": "H",
     "color": "green",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "homeless_0_0_1", "homeless_1_0_1", "homeless_0_0_2", "homeless_1_0_2", "homeless_0_0_roof", "homeless_1_0_roof" ],
+    "id": [
+      "homeless_0_0_1",
+      "homeless_1_0_1",
+      "homeless_0_0_2",
+      "homeless_1_0_2",
+      "homeless_0_0_roof",
+      "homeless_1_0_roof",
+      "homeless_0_0_4"
+    ],
     "name": "homeless shelter",
+    "vision_levels": "city_building",
     "sym": "H",
     "color": "green",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0" ],
     "name": "town hall",
+    "vision_levels": "city_building",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1" ],
     "name": "town hall",
+    "vision_levels": "city_building",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
-    "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
+    "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof", "town_hall_1_1_upper_roof" ],
     "name": "town hall",
+    "vision_levels": "roof_or_air",
     "sym": "^",
     "color": "i_black",
-    "see_cost": 2,
+    "see_cost": "none",
     "mondensity": 1
   },
   {
@@ -571,10 +609,11 @@
       "sealab_small_-4",
       "sealab_small_-5"
     ],
+    "vision_levels": "large_structure",
     "name": "freshwater research station",
     "sym": "~",
     "color": "yellow",
-    "see_cost": 1
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -586,6 +625,8 @@
       "nursing_home_sh6",
       "nursing_home_sh7"
     ],
+    "vision_levels": "large_building",
+    "see_cost": "full_high",
     "name": "nursing home",
     "sym": "N",
     "color": "white"
@@ -593,6 +634,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
+    "vision_levels": "large_pavement",
+    "see_cost": "none",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
@@ -600,27 +643,26 @@
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh4" ],
-    "name": "road",
-    "sym": "┐",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "┐"
   },
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh8" ],
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_sh12" ],
-    "name": "road",
-    "sym": "┤",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "┤"
   },
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_1", "nursing_home_2", "nursing_home_3", "nursing_home_5", "nursing_home_6", "nursing_home_7" ],
+    "vision_levels": "large_building",
+    "see_cost": "full_high",
     "name": "nursing home",
     "sym": "N",
     "color": "white"
@@ -628,6 +670,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
+    "vision_levels": "large_building",
+    "see_cost": "none",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
@@ -635,23 +679,20 @@
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_4" ],
-    "name": "road",
-    "sym": "┐",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "┐"
   },
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_8" ],
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": [ "nursing_home_12" ],
-    "name": "road",
-    "sym": "┤",
-    "color": "dark_gray"
+    "copy-from": "road_abstract",
+    "sym": "┤"
   },
   {
     "type": "overmap_terrain",
@@ -663,6 +704,8 @@
       "nursing_home_5_roof",
       "nursing_home_6_roof"
     ],
+    "vision_levels": "roof_or_air",
+    "see_cost": "none",
     "name": "nursing home roof",
     "sym": "N",
     "color": "white"
@@ -683,6 +726,8 @@
       "nursing_home_b11",
       "nursing_home_b12"
     ],
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "nursing home basement",
     "sym": "N",
     "color": "light_gray"
@@ -703,6 +748,8 @@
       "nursing_home_bb11",
       "nursing_home_bb12"
     ],
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high",
     "name": "nursing home basement",
     "sym": "N",
     "color": "light_gray"
@@ -723,6 +770,8 @@
       "nursing_home_lab11",
       "nursing_home_lab12"
     ],
+    "vision_levels": "underground_stone",
+    "see_cost": "full_high",
     "name": "nursing home lab",
     "sym": "N",
     "color": "dark_gray"

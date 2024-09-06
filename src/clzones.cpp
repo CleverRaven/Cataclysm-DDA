@@ -310,7 +310,7 @@ plot_options::query_seed_result plot_options::query_seed()
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
         mgr.get_near( zone_type_LOOT_SEEDS, here.getglobal( player_character.pos() ), 60 );
     for( const tripoint_abs_ms &elem : zone_src_set ) {
-        tripoint elem_loc = here.getlocal( elem );
+        tripoint_bub_ms elem_loc = here.bub_from_abs( elem );
         for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
                 seed_inv.push_back( &it );
@@ -583,6 +583,11 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
@@ -609,13 +614,13 @@ std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     uilist as_m;
     as_m.desc_enabled = true;
-    as_m.text = _( "Select zone type:" );
+    as_m.title = _( "Select zone type:" );
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
         const zone_type &type = pair.second;
 
-        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
+        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), wrap60( type.desc() ) );
     }
 
     as_m.query();
@@ -1391,7 +1396,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
     // only non personal zones can be vehicle zones
     if( !personal ) {
-        optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
+        optional_vpart_position const vp = here.veh_at( here.bub_from_abs( start ) );
         if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
             if( start == end &&
@@ -1515,13 +1520,17 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        if( !zone.get_is_personal() ) {
+        if( !zone.get_is_personal() && target_map.inbounds_z( zone.get_center_point().z() ) ) {
             _rotate_zone( target_map, zone, turns );
         }
     }
 
-    for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
-        _rotate_zone( target_map, *zone, turns );
+    for( int z_level = target_map.supports_zlevels() ? -OVERMAP_DEPTH : target_map.get_abs_sub().z();
+         z_level <= ( target_map.supports_zlevels() ? OVERMAP_HEIGHT : target_map.get_abs_sub().z() );
+         z_level++ ) {
+        for( zone_data *zone : target_map.get_vehicle_zones( z_level ) ) {
+            _rotate_zone( target_map, *zone, turns );
+        }
     }
 }
 
@@ -1779,7 +1788,7 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        const tripoint pos = here.getlocal( zone.get_start_point() );
+        const tripoint_bub_ms pos = here.bub_from_abs( zone.get_start_point() );
         if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );

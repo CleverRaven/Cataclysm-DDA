@@ -9,6 +9,13 @@
     "class": "NC_ISHERWOOD_CARLOS",
     "attitude": 0,
     "mission": 7,
+    "age": 44,
+    "height": 176,
+    "str": 9,
+    "dex": 8,
+    "int": 7,
+    "per": 9,
+    "personality": { "aggression": -2, "bravery": 4, "collector": -2, "altruism": -1 },
     "chat": "TALK_ISHERWOOD_CARLOS",
     "mission_offered": "MISSION_ISHERWOOD_CARLOS_1",
     "faction": "isherwood_family"
@@ -19,13 +26,16 @@
     "name": { "str": "Carlos Isherwood" },
     "job_description": "I'm Jesse's husband, part of the Isherwood family.",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "BADKNEES" },
+      { "trait": "GOODMEMORY" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "gray" },
+      { "trait": "hair_short", "variant": "gray" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_male_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
@@ -55,7 +65,12 @@
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
         "topic": "TALK_CARLOS_FORGE",
         "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" } ],
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_about_jesse" } ] }
+          ]
+        }
       },
       {
         "text": "Can I do anything for you?",
@@ -95,7 +110,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_DONE",
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_SawMarshal" },
         "opinion": { "trust": -20, "value": -20 },
@@ -116,7 +131,10 @@
         "text": "Look, I took it off to show I'm not here as a marshal.  I'm just here as a traveler, someone who can maybe help you out.  I know you've got problems bigger than you can handle right now.",
         "topic": "TALK_ISHERWOOD_CARLOS_MarshalSaveBarry",
         "condition": {
-          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
         }
       },
       { "text": "…(Leave)", "topic": "TALK_DONE" }
@@ -130,7 +148,10 @@
         "*looks up warily as you approach",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+          "yes": {
+            "gendered_line": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+            "relevant_genders": [ "u" ]
+          },
           "no": ".  \"Yeah?\""
         }
       ]
@@ -154,7 +175,10 @@
         "text": "Fine.  Thanks.  Tell me more about what happened to Barry.",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -171,7 +195,10 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -261,13 +288,16 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
         }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE1",
-        "condition": { "not": { "npc_has_var": "carlos_has_anvil", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] } }
       },
       {
         "text": "Is your forge operational?",
@@ -282,12 +312,12 @@
       {
         "text": "Where can I find Chris?",
         "topic": "TALK_CARLOS_CHRIS1",
-        "condition": { "not": { "u_has_var": "u_found_chris_for_carlos", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] } }
       },
       {
         "text": "Where can I find Chris?",
         "topic": "TALK_CARLOS_CHRIS2",
-        "condition": { "u_has_var": "u_found_chris_for_carlos", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] }
       },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -335,13 +365,13 @@
     "value": 20000,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
         "search_range": 20,
-        "min_distance": 8
+        "min_distance": 2
       },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },

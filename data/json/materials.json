@@ -264,7 +264,6 @@
     "chip_resist": 8,
     "wind_resist": 90,
     "repaired_with": "bone",
-    "salvaged_into": "skewer_bone",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
@@ -396,6 +395,21 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
     "resist": { "bash": 1, "cut": 2, "acid": 10, "heat": 10, "bullet": 2 }
+  },
+  {
+    "type": "material",
+    "id": "yrax_quartz",
+    "name": "Quartz",
+    "//": "Density value assumes Titanium Diboride",
+    "density": 4.5,
+    "specific_heat_liquid": 1,
+    "specific_heat_solid": 1,
+    "latent_heat": 333,
+    "chip_resist": 2000,
+    "dmg_adj": [ "chipped", "cracked", "resonating", "fractal" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 4, "cut": 8, "acid": 14, "heat": 14, "bullet": 6 }
   },
   {
     "type": "material",
@@ -613,6 +627,14 @@
   },
   {
     "type": "material",
+    "id": "cotton_quilted_salted",
+    "name": "Salt Hardened Quilted Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
+  },
+  {
+    "type": "material",
     "id": "denim",
     "name": "Denim",
     "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
@@ -762,7 +784,8 @@
     "type": "material",
     "id": "drug_filler",
     "name": "Drug filler",
-    "copy-from": "flesh",
+    "copy-from": "powder",
+    "vitamins": [  ],
     "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
   },
@@ -1141,6 +1164,17 @@
     "fuel_data": {
       "//": "Roughly equivalent to LPG",
       "energy": "26000 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "crude_oil",
+    "density": 0.8,
+    "name": "Crude oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": "38000 kJ",
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     }
   },
@@ -1635,6 +1669,7 @@
     "copy-from": "plastic",
     "name": "Transparent Impact Resistant Plastic",
     "//2": "This one represents various transparent impact-resistant plastics, like polycarbonate.  Prime material for visors and safety goggles.",
+    "density": 1.2,
     "resist": { "bash": 4, "cut": 3, "acid": 9, "heat": 1, "bullet": 1.5 },
     "repair_difficulty": 4
   },
@@ -1809,6 +1844,19 @@
     ],
     "resist": { "bash": 5, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "butyl_rubber",
+    "copy-from": "rubber",
+    "name": "malleable rubber",
+    "density": 1.2,
+    "soft": true,
+    "chip_resist": 5,
+    "repaired_with": "chunk_rubber",
+    "dmg_adj": [ "compromised", "mangled", "shredded", "ruined" ],
+    "bash_dmg_verb": "mangled",
+    "cut_dmg_verb": "sliced"
   },
   {
     "type": "material",
@@ -2210,7 +2258,7 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
@@ -2224,7 +2272,7 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
@@ -2380,7 +2428,7 @@
   {
     "type": "material",
     "id": "veggy",
-    "name": "Vegetable Matter",
+    "name": "Plant Matter",
     "density": 1.1,
     "specific_heat_liquid": 3.9,
     "specific_heat_solid": 1.9,

@@ -60,7 +60,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
@@ -81,7 +80,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -111,8 +109,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-
-static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 static const mutation_category_id mutation_category_RAT( "RAT" );
@@ -1063,7 +1059,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     // TODO: Move this to update_needs when NPCs can mutate
     if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
             u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
-        here.is_outside( u.pos() ) ) {
+        here.is_outside( u.pos_bub() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
@@ -1085,7 +1081,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos_bub() ) ) {
                 if( u.get_sleepiness() >= 0 ) {
                     u.mod_sleepiness( -5 ); // Local guides need less sleep on fungal soil
                 }
@@ -1150,7 +1146,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
-                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_sleepiness() < 10 ||
+                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
                         one_in( u.get_sleepiness() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
@@ -1159,14 +1155,14 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
                 // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
             } else if( u.has_trait( trait_HIBERNATE ) ) {
-                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos() ) && ( u.get_sleepiness() < 10 ||
+                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
                         one_in( u.get_sleepiness() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
-            } else if( tirednessVal < here.ambient_light_at( u.pos() ) && ( u.get_sleepiness() < 10 ||
+            } else if( tirednessVal < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
                        one_in( u.get_sleepiness() / 2 ) ) ) {
                 u.add_msg_if_player( _( "It's too bright to sleep." ) );
                 // Set ourselves up for removal
@@ -1272,49 +1268,7 @@ void Character::hardcoded_effects( effect &it )
     map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
-    if( id == effect_dermatik ) {
-        bool triggered = false;
-        int formication_chance = 3600;
-        if( dur < 4_hours ) {
-            formication_chance += 14400 - to_turns<int>( dur );
-        }
-        if( one_in( formication_chance ) ) {
-            schedule_effect( effect_formication, 60_minutes, bp );
-        }
-        if( dur < 1_days && one_in( 14400 ) ) {
-            vomit();
-        }
-        if( dur > 1_days ) {
-            // Spawn some larvae!
-            // Choose how many insects; more for large characters
-            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
-            int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
-            // Figure out where they may be placed
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
-                                   _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( ; num_insects > 0; num_insects-- ) {
-                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
-                    if( one_in( 3 ) ) {
-                        grub->friendly = -1;
-                        grub->add_effect( effect_pet, 1_turns, true );
-                    }
-                }
-            }
-            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            schedule_effect_removal( effect_formication, bp );
-            mod_moves( -to_moves<int>( 6_seconds ) );
-            triggered = true;
-        }
-        if( triggered ) {
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
-        } else {
-            // Count duration up
-            it.mod_duration( 1_turns );
-        }
-    } else if( id == effect_formication ) {
+    if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {

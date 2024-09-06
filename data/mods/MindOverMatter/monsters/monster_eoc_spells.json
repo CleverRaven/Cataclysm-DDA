@@ -9,23 +9,28 @@
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 20,
-    "effect": "attack",
-    "damage_type": "psi_enervation_damage",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EATER_DRAIN",
     "shape": "blast",
-    "min_range": 30,
-    "min_damage": 1,
-    "max_damage": 1
+    "min_range": 30
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN",
-    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
-    "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
-    "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_2" } ]
+    "condition": "u_is_character",
+    "effect": [ { "run_eocs": "EOC_EATER_DRAIN_2" } ],
+    "false_effect": [ { "u_cast_spell": { "id": "eater_drain_health" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_2",
+    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
+    "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
+    "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATER_DRAIN_3",
     "condition": { "math": [ "u_val('stamina')", ">=", "200" ] },
     "effect": [
       { "u_cast_spell": { "id": "eater_drain_stamina" } },
@@ -163,6 +168,156 @@
               { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
               { "math": [ "u_pain()", "+=", "1" ] }
             ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clairsentient_discern_weakness_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Discern Weakness Triffid",
+    "description": "The triffid lays your weak points bare and shares them with others through the heartmind.  It's a bug if you have this.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "max_level": 100,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TRIFFID_CLEAR_DISCERN_WEAKNESS",
+    "shape": "blast",
+    "min_range": 3,
+    "max_range": 100,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TRIFFID_CLEAR_DISCERN_WEAKNESS",
+    "effect": [
+      { "math": [ "u_discern_weakness_clear_intelligence", "=", "1.15" ] },
+      { "math": [ "u_discern_weakness_clear_power_level", "=", "4" ] },
+      { "math": [ "u_nether_attunement_discern_weakness_scaling", "=", "1.05" ] },
+      {
+        "u_add_effect": "effect_clair_weak_point",
+        "duration": {
+          "math": [
+            "rng( ( ( (u_discern_weakness_clear_power_level * 1.5) + 13.5) * u_discern_weakness_clear_intelligence * u_nether_attunement_discern_weakness_scaling),( ( (u_discern_weakness_clear_power_level * 2.5) + 30) * u_discern_weakness_clear_intelligence * u_nether_attunement_discern_weakness_scaling) )"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "teleporter_triffid_summon_allies",
+    "type": "SPELL",
+    "name": "[Ψ]Teleporter Triffid Summon Allies",
+    "description": "The triffid uses its connection to the heartmind to teleport in guards around an intruder.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORTER_TRIFFID_SUMMON_ALLIES",
+    "shape": "blast",
+    "min_range": 3,
+    "max_range": 23,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_TRIFFID_SUMMON_ALLIES",
+    "//": "This could potentially summon 12 triffids around someone.  Hope they're ready for that.",
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_TRIFFID_HEARTGUARDS",
+        "group": true,
+        "real_count": [ 1, 2 ],
+        "min_radius": 2,
+        "max_radius": 6
+      }
+    ]
+  },
+  {
+    "id": "electrokinetic_power_draining",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining Spell",
+    "description": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE", "IGNORE_WALLS" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 5,
+    "max_aoe": 25
+  },
+  {
+    "id": "electrokinetic_power_draining_electric_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining monster attack",
+    "description": "Gremlin's power to damage electric monsters.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "max_level": 1,
+    "min_damage": 10,
+    "max_damage": 55
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "//": "x_in_y chance is because the power is an aura, to simulate it only hitting certain people instead of the player and all their followers.  If it becomes targeted, that will not be necessary.",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_CHARACTER_CHECK",
+            "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_ELECTROKINETIC_CHECK",
+                    "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
+                    "effect": {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [
+                        { "flags": [ "RECHARGE" ] },
+                        { "flags": [ "ELECTRONIC" ] },
+                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+                        { "flags": [ "USE_UPS" ] }
+                      ],
+                      "true_eocs": [
+                        {
+                          "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
+                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                        }
+                      ]
+                    },
+                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_MONSTER_CHECK",
+            "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 3 } }, { "u_has_flag": "ELECTRIC" } ] },
+            "effect": { "u_cast_spell": { "id": "electrokinetic_power_draining_electric_monster" } }
           }
         ]
       }

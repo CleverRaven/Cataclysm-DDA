@@ -119,10 +119,19 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
+
+static const attack_vector_id attack_vector_vector_null( "vector_null" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 
@@ -189,8 +198,6 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
-
-static const morale_type morale_null( "morale_null" );
 
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -661,6 +668,8 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    item_counter = 0;
+    update_link_traits();
     update_prefix_suffix_flags();
     return *this;
 }
@@ -1413,6 +1422,10 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( units::from_joule_per_gram( combined_specific_energy ) );
         }
 
+        if( item_counter > 0 || rhs.item_counter > 0 ) {
+            item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>
+                             ( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
+        }
     }
     charges += rhs.charges;
     if( !rhs.has_flag( flag_NO_PARASITES ) ) {
@@ -1803,7 +1816,7 @@ ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
 void item::force_insert_item( const item &it, pocket_type pk_type )
 {
     contents.force_insert_item( it, pk_type );
-    update_inherited_flags();
+    on_contents_changed();
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -1948,22 +1961,6 @@ static int get_ranged_pierce( const common_ranged_data &ranged )
     }
 
     return ranged.damage.damage_units.front().res_pen;
-}
-
-std::string item::info( bool showtext ) const
-{
-    std::vector<iteminfo> dummy;
-    return info( showtext, dummy );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
-{
-    return info( showtext, iteminfo, 1 );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
-{
-    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
 }
 
 // Generates a long-form description of the freshness of the given rottable food item.
@@ -2279,7 +2276,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, "WEAPON", &mon, bp );
+        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
+                             sub_body_part_sub_limb_debug, &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
@@ -2304,7 +2302,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, "WEAPON", &mon, bp );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_vector_null,
+                                 sub_body_part_sub_limb_debug, &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -2537,6 +2536,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            info.emplace_back( "BASE", _( "counter: " ), "", iteminfo::lower_is_better,
+                               item_counter );
             if( countdown_point != calendar::turn_max ) {
                 info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
                                    to_seconds<int>( countdown_point - calendar::turn ) );
@@ -2790,7 +2791,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
-        && player_character.allergy_type( *food_item ) != morale_null ) {
+        && player_character.allergy_type( *food_item ) != morale_type::NULL_ID() ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
@@ -3042,54 +3043,42 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> fx;
-    if( ammo.ammo_effects.count( "RECYCLED" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "MATCHHEAD" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_MATCHHEAD ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
                "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
-    } else if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    } else if( ammo.ammo_effects.count( ammo_effect_BLACKPOWDER ) &&
                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        for( const std::string &effect : ammo.ammo_effects ) {
-            if( string_starts_with( effect, "RECOVER_" ) ) {
-                ret_val<int> try_recover_chance =
-                    try_parse_integer<int>( effect.substr( 8 ), false );
-                if( !try_recover_chance.success() ) {
-                    debugmsg( "Error parsing ammo RECOVER_ denominator: %s",
-                              try_recover_chance.str() );
-                    break;
-                }
-                int recover_chance = try_recover_chance.value();
-                if( recover_chance <= 5 ) {
-                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 10 ) {
-                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 20 ) {
-                    fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 30 ) {
-                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
-                } else {
-                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
-                }
-                break;
-            }
+        if( ammo.recovery_chance <= 75 ) {
+            fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 80 ) {
+            fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 90 ) {
+            fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 95 ) {
+            fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+        } else {
+            fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
         }
     }
-    if( ammo.ammo_effects.count( "INCENDIARY" ) &&
+    if( ( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) ||
+          ammo.ammo_effects.count( ammo_effect_IGNITE ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
-        fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
+        fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }
     if( !fx.empty() ) {
         insert_separation_line( info );
@@ -3617,6 +3606,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
+    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
@@ -5584,9 +5578,11 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
+        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_vector_null,
+                                          sub_body_part_sub_limb_debug, nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, "WEAPON", nullptr, bp );
+        player_character.roll_all_damage( true, crit, true, *this, attack_vector_vector_null,
+                                          sub_body_part_sub_limb_debug, nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -6132,15 +6128,24 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     }
 }
 
-std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+std::vector<iteminfo> item::get_info( bool showtext ) const
 {
+    return get_info( showtext, 1 );
+}
+
+std::vector<iteminfo> item::get_info( bool showtext, int batch ) const
+{
+    return get_info( showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) const
+{
+    std::vector<iteminfo> info = {};
     const bool debug = g != nullptr && debug_mode;
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
     }
-
-    info.clear();
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
@@ -6244,7 +6249,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
+    return info;
+}
 
+std::string item::info( bool showtext ) const
+{
+    std::vector<iteminfo> dummy;
+    return info( showtext, dummy );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
+{
+    return info( showtext, iteminfo, 1 );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
+{
+    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+{
+    info = get_info( parts, batch );
     return format_item_info( info, {} );
 }
 
@@ -6344,7 +6370,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *this ) != morale_null ) {
+        if( player_character.allergy_type( *this ) != morale_type::NULL_ID() ) {
             return c_red;
         }
 
@@ -6889,7 +6915,9 @@ std::string item::display_name( unsigned int quantity ) const
             max_amount = mag->ammo_capacity( item_controller->find_template(
                                                  mag->ammo_default() )->ammo->type );
         }
-
+    } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        show_amt = true;
+        amount = ammo_remaining( player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
@@ -7942,10 +7970,8 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
 {
     const units::temperature dropoff = units::from_fahrenheit( 38 ); // F, ~3 C
     const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
-    const float safe_temp = 145; // F, ~63 C, safe temperature above which food stops rotting
 
-    if( temp <= temperatures::freezing ||
-        temp > units::from_fahrenheit( safe_temp ) ) {
+    if( temp <= temperatures::freezing ) {
         return 0.f;
     } else if( temp < dropoff ) {
         // ditch our fancy equation and do a linear approach to 0 rot from 38 F (3 C) -> 32 F (0 C)
@@ -7955,7 +7981,7 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
         // Exponential progress from 38 F (3 C) to 105 F (41 C)
         return 3600.f * std::exp2( ( units::to_fahrenheit( temp ) - 65.f ) / 16.f );
     } else {
-        // Constant rot from 105 F (41 C) to 145 F (63 C)
+        // Constant rot from 105 F (41 C) upwards
         // This is approximately 20364.67 rot/hour
         return 3600.f * std::exp2( ( max_rot_temp - 65.f ) / 16.f );
     }
@@ -8010,6 +8036,23 @@ void item::calc_rot_while_processing( time_duration processing_duration )
 
     // Apply no rot or temperature while smoking
     last_temp_check += processing_duration;
+}
+
+bool item::process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                 int max_air_exposure_hours,
+                                 time_duration time_delta )
+{
+    if( !has_own_flag( flag_FROZEN ) ) {
+        double environment_multiplier = here.is_outside( pos ) ? 2.0 : 1.0;
+        time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
+                                         rng_normal( 0.9, 1.1 ) * environment_multiplier;
+        if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
+            convert( *type->revert_to, carrier );
+            return true;
+        }
+        item_counter = to_seconds<int>( new_air_exposure );
+    }
+    return false;
 }
 
 int item::get_env_resist( int override_base_resist ) const
@@ -8958,9 +9001,10 @@ int item::repairable_levels() const
            : damage() > degradation(); // partial level of damage can still be repaired
 }
 
-item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
+item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        double enchant_multiplier )
 {
-    if( has_flag( flag_UNBREAKABLE ) ) {
+    if( has_flag( flag_UNBREAKABLE ) || enchant_multiplier <= 0.0f ) {
         return armor_status::UNDAMAGED;
     }
 
@@ -8971,8 +9015,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         return armor_status::UNDAMAGED;
     }
     // Fragile items take damage if the block more than 15% of their armor value
-    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
-        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
 
     // Scale chance of article taking damage based on the number of parts it covers.
@@ -8987,7 +9032,8 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const float post_mitigated_dmg = du.amount;
     // more gradual damage chance calc
-    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
+                                 enchant_multiplier;
     if( post_mitigated_dmg > armors_own_resist ) {
         // handle overflow, if you take a lot of damage your armor should be damaged
         if( damaged_chance >= 1 ) {
@@ -9004,11 +9050,16 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+           armor_status::DAMAGED;
 }
 
-item::armor_status item::damage_armor_transforms( damage_unit &du ) const
+item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
+    if( enchant_multiplier <= 0.0f ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = resist( du.type, true );
 
@@ -9020,7 +9071,7 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
 
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
-    float break_chance = 33.3f * ( du.amount / armors_own_resist );
+    float break_chance = 33.3f * ( du.amount / armors_own_resist ) * enchant_multiplier;
 
     float roll_to_break = rng_float( 0.0, 100.0 );
 
@@ -9698,6 +9749,11 @@ bool item::all_pockets_rigid() const
     return contents.all_pockets_rigid();
 }
 
+bool item::container_type_pockets_empty() const
+{
+    return contents.container_type_pockets_empty();
+}
+
 std::vector<const item_pocket *> item::get_all_contained_pockets() const
 {
     return contents.get_all_contained_pockets();
@@ -9865,7 +9921,7 @@ bool item::is_magazine_full() const
     return contents.is_magazine_full();
 }
 
-bool item::can_unload_liquid() const
+bool item::can_unload() const
 {
     if( has_flag( flag_NO_UNLOAD ) ) {
         return false;
@@ -10205,7 +10261,8 @@ std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_
 
 bool item::spill_contents( Character &c )
 {
-    if( !is_container() || is_container_empty() ) {
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
 
@@ -10221,10 +10278,16 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
-    if( !is_container() || is_container_empty() ) {
+    return item::spill_contents( tripoint_bub_ms( pos ) );
+}
+
+bool item::spill_contents( const tripoint_bub_ms &pos )
+{
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
-    return contents.spill_contents( pos );
+    return contents.spill_contents( pos.raw() );
 }
 
 bool item::spill_open_pockets( Character &guy, const item *avoid )
@@ -10680,6 +10743,14 @@ int item::shots_remaining( const Character *carrier ) const
 int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
+        const inventory &crafting_inventory = carrier->crafting_inventory();
+        const ammotype &a = *ammo.begin();
+        return crafting_inventory.charges_of( a->default_ammotype(), INT_MAX );
+    }
+
     int ret = 0;
 
     // Magazine in the item
@@ -10725,7 +10796,7 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     // UPS/bionic power can replace ammo requirement.
     // Only for tools. Guns should always use energy_drain for electricity use.
-    if( carrier != nullptr && type->tool ) {
+    if( is_tool_with_carrier ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             ret += units::to_kilojoule( carrier->get_power_level() );
         }
@@ -10882,6 +10953,23 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         return 0;
     }
     const int wanted_qty = qty;
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const ammotype ammo = ammo_type();
+        if( !ammo.is_null() ) {
+            const inventory &carrier_inventory = carrier->crafting_inventory();
+            itype_id ammo_type = ammo->default_ammotype();
+            const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
+
+            qty = std::min( wanted_qty, charges_avalable );
+
+            std::vector<item_comp> components;
+            components.emplace_back( ammo_type, qty );
+            carrier->consume_items( components, 1 );
+            return wanted_qty - qty;
+        }
+    }
 
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
@@ -10917,10 +11005,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
+    bool is_off_grid_powered = has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER );
+
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool &&
-        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
+    if( is_tool_with_carrier && is_off_grid_powered ) {
         units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -10938,6 +11027,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty = units::to_kilojoule( wanted_energy );
     }
     return wanted_qty - qty;
+}
+
+int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
+{
+    return item::ammo_consume( qty, pos.raw(), carrier );
 }
 
 units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
@@ -11024,6 +11118,9 @@ itype_id item::ammo_current() const
     if( ammo ) {
         return ammo->get_id();
     }
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return ammo_default();
+    }
 
     return itype_id::NULL_ID();
 }
@@ -11067,6 +11164,11 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     if( is_gun() ) {
         return type->gun->ammo;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return type->tool->ammo_id;
+    }
+
     return contents.ammo_types();
 }
 
@@ -11075,6 +11177,14 @@ ammotype item::ammo_type() const
     if( is_ammo() ) {
         return type->ammo->type;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const std::set<ammotype> ammo_type_choices = ammo_types();
+        if( !ammo_type_choices.empty() ) {
+            return *ammo_type_choices.begin();
+        }
+    }
+
     return ammotype::NULL_ID();
 }
 
@@ -11140,13 +11250,13 @@ itype_id item::common_ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<std::string> item::ammo_effects( bool with_ammo ) const
+std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {
-        return std::set<std::string>();
+        return std::set<ammo_effect_str_id>();
     }
 
-    std::set<std::string> res = type->gun->ammo_effects;
+    std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
@@ -11752,8 +11862,9 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    // Fire will depend on amount of fuel if stackable
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        int stack_burnt = std::max( 1, count() / type->stack_size );
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;
@@ -12470,7 +12581,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects );
+            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects, 1 );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
@@ -12623,7 +12734,7 @@ void item::apply_freezerburn()
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos, map &here,
-                                    Character *carrier, const temperature_flag flag, float spoil_modifier )
+                                    Character *carrier, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     const time_point now = calendar::turn;
 
@@ -12673,6 +12784,10 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     time_point time = last_temp_check;
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
+    const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
+                               type->revert_to;
+    int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
+                                     0;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -12737,6 +12852,11 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             }
             last_temp_check = time;
 
+            if( decays_in_air &&
+                process_decay_in_air( here, carrier, pos, max_air_exposure_hours, time_delta ) ) {
+                return false;
+            }
+
             // Calculate item rot
             if( process_rot ) {
                 calc_rot( env_temperature, spoil_modifier, time_delta );
@@ -12754,6 +12874,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now - time );
         last_temp_check = now;
+
+        if( decays_in_air &&
+            process_decay_in_air( here, carrier, pos, max_air_exposure_hours, now - time ) ) {
+            return false;
+        }
+
         if( process_rot ) {
             calc_rot( temp, spoil_modifier, now - time );
             return has_rotten_away() && carrier == nullptr;
@@ -13955,9 +14081,10 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
-    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + get_var( "dirt", 0 ) / 2000 );
+    // Rust is deterministic. At a total modifier of 1 (the max): 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level. At minimum dirt, the modifier is 0.3x the speed of the above mentioned figures.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + std::min( 0.3 + get_var( "dirt", 0 ) / 200,
+             1.0 ) );
     double time_mult = 1.0 + ( 4.0 * static_cast<double>( damage() ) ) / static_cast<double>
                        ( max_damage() );
     if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 * time_mult ) {
@@ -14008,14 +14135,22 @@ bool item::process_gun_cooling( Character *carrier )
 }
 
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                    temperature_flag flag, float spoil_multiplier_parent, bool recursive )
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
-    process_relic( carrier, pos );
+    return item::process( here, carrier, tripoint_bub_ms( pos ), insulation, flag,
+                          spoil_multiplier_parent, watertight_container, recursive );
+}
+
+bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
+{
+    process_relic( carrier, pos.raw() );
     if( recursive ) {
-        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
-                          spoil_multiplier_parent );
+        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
+                          spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+    return process_internal( here, carrier, pos.raw(), insulation, flag, spoil_multiplier_parent,
+                             watertight_container );
 }
 
 bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
@@ -14042,7 +14177,7 @@ void item::set_last_temp_check( const time_point &pt )
 }
 
 bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
-                             float insulation, const temperature_flag flag, float spoil_modifier )
+                             float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
         if( !has_var( "ethereal" ) ) {
@@ -14077,9 +14212,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            set_fault( faults::random_of_type( "wet" ) );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+                set_fault( faults::random_of_type( "shorted" ) );
             }
         }
 
@@ -14161,9 +14296,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         }
         // All foods that go bad have temperature
         if( has_temperature() &&
-            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier ) ) {
+            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
+                                     watertight_container ) ) {
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
+            }
+            if( is_corpse() ) {
+                here.handle_decayed_corpse( *this, here.getglobal( pos ) );
             }
             return true;
         }
@@ -14412,9 +14551,11 @@ template bool item::is_bp_comfortable<bodypart_id>( const bodypart_id &bp ) cons
 
 bool item::is_reloadable() const
 {
-    if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
-        return false; // turrets ignore NO_RELOAD flag
-
+    if( ( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) ||
+        ( is_gun() && !ammo_default() ) ) {
+        // turrets ignore NO_RELOAD flag
+        // don't show guns without default ammo defined in reload ui
+        return false;
     }
 
     for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
@@ -14549,6 +14690,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
     return ret_name;
 }
 
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
+}
+
 std::string item::get_corpse_name() const
 {
     return corpse_name;
@@ -14660,6 +14806,11 @@ bool item::on_drop( const tripoint &pos )
 }
 
 bool item::on_drop( const tripoint &pos, map &m )
+{
+    return item::on_drop( tripoint_bub_ms( pos ), m );
+}
+
+bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty

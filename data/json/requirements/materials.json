@@ -3,7 +3,25 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "super_glue", 10 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_any",
+    "type": "requirement",
+    "//": "Any type of all-surface glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_waterproof",
+    "type": "requirement",
+    "//": "Any type of waterproof glue, which is just about everything except bone/hide glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ] ] ]
+  },
+  {
+    "id": "glue_strong",
+    "type": "requirement",
+    "//": "Strong glue, such as superglues, epoxy resin.  Each unit is 0.5cm^2 of coverage",
+    "components": [ [ [ "super_glue", 1 ] ] ]
   },
   {
     "id": "adhesive_cordage",
@@ -390,6 +408,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "lc_steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from mild steel",
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
     "id": "bronze_tiny",
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from bronze",
@@ -417,6 +441,7 @@
         [ "duct_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
+        [ "bag_plastic_small", 4 ],
         [ "bottle_plastic_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
@@ -548,6 +573,22 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
+    "id": "any_water",
+    "type": "requirement",
+    "//": "Any kind of water, clean or not.",
+    "components": [
+      [
+        [ "water", 1 ],
+        [ "water_clean", 1 ],
+        [ "salt_water", 1 ],
+        [ "water_sewage", 1 ],
+        [ "water_murky", 1 ],
+        [ "water_spring", 1 ],
+        [ "saline", 5 ]
+      ]
+    ]
+  },
+  {
     "id": "nails",
     "type": "requirement",
     "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
@@ -557,6 +598,57 @@
     "type": "requirement",
     "//": "Both wax types, for when the recipe doesn't really care.",
     "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
+  },
+  {
+    "id": "plastic_bottles_any",
+    "type": "requirement",
+    "//": "Any plastic bottle, no matter of it's size.",
+    "components": [
+      [
+        [ "jug_plastic", 1 ],
+        [ "bottle_twoliter", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "bottle_plastic_seasoning_small", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "plastic_bottles_4l",
+    "type": "requirement",
+    "//": "Any plastic bottle, four liter of volume in total.",
+    "components": [ [ [ "jug_plastic", 2 ], [ "plastic_bottles_2l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_2l",
+    "type": "requirement",
+    "//": "Any plastic bottle, two liter of volume in total.",
+    "components": [ [ [ "bottle_twoliter", 1 ], [ "plastic_bottles_1l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_1l",
+    "type": "requirement",
+    "//": "Any plastic bottle, one liter of volume in total.",
+    "//2": "apparently we have no 1 L bottles in the game (yet)",
+    "components": [ [ [ "plastic_bottles_05l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_05l",
+    "type": "requirement",
+    "//": "Any plastic bottle, 0.5 liter of volume in total.",
+    "components": [
+      [
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 2 ],
+        [ "bottle_plastic_seasoning_small", 2 ]
+      ]
+    ]
   },
   {
     "id": "plain_necklaces",
@@ -588,5 +680,11 @@
         [ "onyx", 1 ]
       ]
     ]
+  },
+  {
+    "id": "any_condom",
+    "type": "requirement",
+    "//": "Prevents having to open condoms before crafts",
+    "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
   }
 ]

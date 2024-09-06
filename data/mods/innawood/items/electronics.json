@@ -13,7 +13,6 @@
     "material": [ "iron", "copper" ],
     "weight": "113 g",
     "volume": "1 L",
-    "to_hit": -1,
     "melee_damage": { "bash": 5 }
   },
   {

@@ -33,7 +33,6 @@
       ],
       "place_furniture": [ { "furn": "f_gas_tank", "x": 2, "y": 3 }, { "furn": "f_diesel_tank", "x": 4, "y": 3 } ],
       "terrain": {
-        "&": "t_atm",
         "+": "t_chaingate_l",
         "-": "t_chainfence_h",
         ".": "t_pavement",
@@ -42,7 +41,7 @@
         "|": "t_chainfence_v"
       },
       "gaspumps": { "G": { "fuel": "gasoline" }, "D": { "fuel": "diesel" } },
-      "furniture": { "9": "f_aut_gas_console" },
+      "furniture": { "9": "f_aut_gas_console", "&": "f_atm_off" },
       "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
       "place_liquids": [
@@ -96,13 +95,13 @@
         "x": "t_wall_glass",
         ":": "t_pavement_y",
         "*": "t_tree",
-        "A": "t_atm",
         "Á": "t_concrete",
         "]": "t_concrete",
         ".": "t_thconc_floor",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "A": "f_atm_off",
         "&": "f_trashcan",
         "{": "f_glass_fridge",
         "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -227,6 +226,7 @@
         "4|:  H  3     B6B =|A'|.",
         ".||00|||||0||||||||||||."
       ],
+      "palettes": [ "commercial" ],
       "terrain": {
         "A": "t_linoleum_gray",
         "R": "t_linoleum_gray",
@@ -255,7 +255,7 @@
         "Á": "f_sink",
         "B": "f_chair",
         "C": "f_desk",
-        "F": "f_glass_fridge",
+        "F": { "param": "display_fridge", "fallback": "f_glass_fridge" },
         "f": "f_fridge",
         "H": "f_armchair",
         "S": "f_stool",

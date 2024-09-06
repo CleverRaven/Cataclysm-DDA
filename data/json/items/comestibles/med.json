@@ -332,6 +332,28 @@
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
+    "id": "skunk_spray_neutralizing_solution",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "skunk spray neutralizing solution" },
+    "description": "A combination of hydrogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
+    "weight": "28 g",
+    "volume": "250 ml",
+    "price": "1 USD",
+    "price_postapoc": "5 USD",
+    "charges": 10,
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You cover yourself in the solution everywhere the spray touched your body.",
+      "effects": [ { "id": "skunk_spray_neutralizer" } ]
+    }
+  },
+  {
     "id": "cig",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -357,7 +379,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "cigar" },
-    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.\nA gentleman's vice, cigars set the civil man apart from the savage.",
+    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.",
     "weight": "9 g",
     "volume": "50 ml",
     "price": "2 USD",
@@ -466,7 +488,8 @@
     "charges": 4,
     "flags": [ "EATEN_COLD", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "myopia_contacts_weekly",
@@ -1087,6 +1110,26 @@
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
+    "id": "steroid_eyedrops",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "steroid eyedrops" },
+    "description": "A topical corticosteroid in the form of eye drops.  Can be used to treat irritation and inflammation of the eyes.",
+    "volume": "1 ml",
+    "weight": "3 g",
+    "price": "7 USD 50 cent",
+    "price_postapoc": "15 USD",
+    "symbol": "!",
+    "color": "light_blue",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You put the anti-inflammatory eyedrops into your eyes.",
+      "effects": [ { "id": "steroid_eye", "duration": "3 h" } ],
+      "moves": 300
+    },
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
+  },
+  {
     "id": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1608,7 +1651,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "light_gray",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
@@ -1689,7 +1732,7 @@
     "price_postapoc": "25 cent",
     "symbol": "!",
     "color": "brown",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "stim": 1,
     "healthy": -2,
     "fun": 5,
@@ -1750,7 +1793,10 @@
       "type": "consume_drug",
       "activation_message": "You take the %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
-    }
+    },
+    "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
+    "//2": "TODO: Fix this...",
+    "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ] ]
   },
   {
     "id": "calcium_tablet",
@@ -1786,7 +1832,8 @@
     "color": "white",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "flavored_bonemeal_tablet",
@@ -1805,7 +1852,8 @@
     "color": "yellow",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "gummy_vitamins",
@@ -1912,7 +1960,8 @@
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
       "moves": 40
-    }
+    },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "xanax",
@@ -1934,7 +1983,6 @@
       {
         "id": "xanax",
         "name": { "str_sp": "Xanax" },
-        "append": true,
         "description": "An anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual."
       }
     ],

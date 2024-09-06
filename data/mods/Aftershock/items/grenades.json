@@ -172,7 +172,7 @@
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": {
       "type": "explosion",
-      "fields_type": "fd_nuke_gas",
+      "fields_type": "fd_rad_glimmer",
       "fields_radius": 3,
       "fields_min_intensity": 3,
       "fields_max_intensity": 3,
@@ -180,6 +180,44 @@
     },
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "afs_toxic_grenade",
+    "type": "TOOL",
+    "copy-from": "grenade_canister",
+    "looks_like": "grenade",
+    "name": "neurotoxin grenade",
+    "price": "650 USD",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation.  Exposure proves fatal within seconds.  Use against human targets is considered in breach of the Ganymede Accords.",
+    "use_action": {
+      "need_wielding": true,
+      "target": "afs_toxic_grenade_act",
+      "msg": "You pull the pin on the grenade.",
+      "target_timer": "5 seconds",
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "afs_toxic_grenade_act",
+    "type": "TOOL",
+    "copy-from": "afs_toxic_grenade",
+    "name": "active neurotoxin grenade",
+    "looks_like": "grenade_act",
+    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation.  It's currently active.",
+    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
+    "countdown_action": {
+      "type": "explosion",
+      "explosion": { "power": 150, "max_noise": 250, "distance_factor": 0.7 },
+      "fields_radius": 4,
+      "fields_type": "fd_toxic_foam",
+      "fields_min_intensity": 3,
+      "fields_max_intensity": 6
+    },
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "afs_oxygen_bomb",

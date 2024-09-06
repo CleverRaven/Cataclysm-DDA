@@ -40,7 +40,7 @@
     "mod_targets": [ "shotgun" ],
     "damage_modifier": { "damage_type": "electric", "amount": 3, "armor_penetration": 7 },
     "energy_drain_modifier": "20 kJ",
-    "ammo_effects": [ "SMALL_ELECTRIC_BURST" ],
+    "ammo_effects": [ "SMALL_ELECTRIC_BURST", "MULTI_EFFECTS" ],
     "dispersion_modifier": 15,
     "range_modifier": 5,
     "handling_modifier": -2,

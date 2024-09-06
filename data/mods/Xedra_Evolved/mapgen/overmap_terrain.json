@@ -49,7 +49,8 @@
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",
-    "see_cost": 5
+    "vision_levels": "first_glance_forest",
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -58,7 +59,8 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "vision_levels": "always_full",
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -94,7 +96,7 @@
     "name": "cathedral",
     "sym": "C",
     "color": "i_light_red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -112,6 +114,7 @@
     ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
+    "vision_levels": "isolated_tower",
     "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
@@ -156,8 +159,9 @@
     "name": "elemental altar",
     "sym": "O",
     "color": "light_green",
+    "vision_levels": "open_land",
     "looks_like": "standing_stones",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -255,7 +259,8 @@
     "name": "great tree trunk",
     "sym": "F",
     "color": "brown",
-    "see_cost": 1
+    "vision_levels": "isolated_tower",
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -284,7 +289,7 @@
     "name": "great tree canopy",
     "sym": ",",
     "color": "green",
-    "see_cost": 1
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -302,7 +307,7 @@
     "name": "great tree roots",
     "sym": "#",
     "color": "brown",
-    "see_cost": 1
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -311,7 +316,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "pond_field",
-    "see_cost": 5
+    "see_cost": "low"
   },
   {
     "type": "overmap_terrain",
@@ -319,6 +324,6 @@
     "name": "pool depths",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "see_cost": "low"
   }
 ]

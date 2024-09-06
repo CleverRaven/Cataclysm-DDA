@@ -4,14 +4,24 @@
     "category": "armor",
     "type": "ARMOR",
     "name": { "str": "abstract combat exoskeleton" },
-    "price": "500 kUSD",
-    "price_postapoc": "1 kUSD",
+    "price": "60000 USD",
+    "price_postapoc": "5000 USD",
     "symbol": "[",
     "volume": "36000 ml",
     "weight": "13000 g",
     "environmental_protection": 20,
     "warmth": 40,
-    "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
+    "flags": [
+      "STURDY",
+      "PADDED",
+      "WATERPROOF",
+      "RAINPROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "SUN_GLASSES",
+      "COMBAT_TOGGLEABLE",
+      "MODULE_HOLDER"
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "pocket_data": [
       {
@@ -146,8 +156,8 @@
     "id": "combat_exoskeleton_heavy",
     "copy-from": "combat_exoskeleton_abstract",
     "type": "TOOL_ARMOR",
-    "name": { "str": "combat exoskeleton mk1" },
-    "description": "Colloquially known as a 'tank suit' in the media, these first-generation exoskeletons were tested in military service a few years back and determined to be too expensive for regular use.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "name": { "str": "combat exoskeleton mk1", "str_pl": "combat exoskeletons mk1" },
+    "description": "Colloquially known as a 'tank suit' in the media, these first-generation exoskeletons were tested in military service a few years back and determined to be too expensive for regular use.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_heavy",
     "ammo": "battery",
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ] },
@@ -170,6 +180,7 @@
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_heavy"
@@ -251,8 +262,8 @@
     "id": "combat_exoskeleton_medium",
     "copy-from": "combat_exoskeleton_abstract",
     "type": "TOOL_ARMOR",
-    "name": { "str": "combat exoskeleton mk2" },
-    "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
+    "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_basic",
     "ammo": "battery",
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ] },
@@ -275,6 +286,7 @@
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_medium"
@@ -356,8 +368,8 @@
     "id": "combat_exoskeleton_light",
     "copy-from": "combat_exoskeleton_abstract",
     "type": "TOOL_ARMOR",
-    "name": { "str": "combat exoskeleton mk3" },
-    "description": "The final iteration of military power armor before the fall of civilization, this version was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "name": { "str": "combat exoskeleton mk3", "str_pl": "combat exoskeletons mk3" },
+    "description": "The final iteration of military power armor before the fall of civilization, this version was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_light",
     "ammo": "battery",
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ] },
@@ -380,6 +392,7 @@
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
       "target": "combat_exoskeleton_light"
@@ -459,23 +472,87 @@
   },
   {
     "id": "combat_exoskeleton_light_salvaged",
-    "copy-from": "combat_exoskeleton_light",
+    "copy-from": "combat_exoskeleton_abstract",
     "type": "ARMOR",
-    "name": { "str": "salvaged combat exoskeleton" },
-    "description": "This used to be a combat exoskeleton of third generation but it has been rendered non-functional: as one might expect, this makes it a lot harder to wear.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
-    "relative": { "environmental_protection": 0, "warmth": 0 },
-    "proportional": { "volume": 0.25, "weight": 0.5, "price": 0.1, "price_postapoc": 0.1 },
+    "name": { "str": "salvaged combat exoskeleton mk3" },
+    "description": "This is supposed to be a combat exoskeleton of third generation but its environmental suit is severely damaged and the mechanical components are non functional.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "looks_like": "power_armor_light",
+    "proportional": { "volume": 0.5, "weight": 0.5, "price": 0.1, "price_postapoc": 0.1 },
+    "warmth": 0,
+    "environmental_protection": 0,
     "delete": {
       "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ]
     },
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "armor": [
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "eyes" ],
+        "encumbrance": 5,
+        "coverage": 50,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 1 } ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth" ],
+        "encumbrance": 10,
+        "coverage": 50,
+        "material": [ { "type": "thermo_resin", "thickness": 1 } ]
+      },
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 30,
-        "coverage": 5,
-        "material": [ { "type": "steel", "thickness": 5 }, { "type": "aluminum", "thickness": 5 } ]
+        "encumbrance": 10,
+        "coverage": 50,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 },
+          { "type": "steel", "thickness": 5, "covered_by_mat": 5 },
+          { "type": "aluminum", "thickness": 5, "covered_by_mat": 5 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "hand_l", "hand_r" ],
+        "encumbrance": 3,
+        "coverage": 50,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 3,
+        "coverage": 50,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   }

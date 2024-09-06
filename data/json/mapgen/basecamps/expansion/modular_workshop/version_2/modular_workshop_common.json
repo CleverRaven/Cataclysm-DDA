@@ -1,27 +1,5 @@
 [
   {
-    "type": "palette",
-    "id": "fbmw_2_common_palette",
-    "terrain": { ";": "t_dirt" },
-    "furniture": {
-      "t": "f_table",
-      "L": "f_dresser",
-      "x": "f_kiln_empty",
-      "f": "f_forge_rock",
-      "c": "f_workbench",
-      "h": "f_stool",
-      "A": "f_anvil",
-      "r": "f_rack_wood",
-      "Q": "f_bellows",
-      "b": "f_bench",
-      "z": "f_55gal_firebarrel",
-      "k": "f_clay_kiln",
-      "M": "f_armchair",
-      "B": "f_bookcase",
-      ";": "f_clear"
-    }
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_2",
@@ -69,10 +47,11 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 14, "y": 17 },
-        { "point": "furniture", "id": "f_forge_rock", "x": 16, "y": 17 },
-        { "point": "furniture", "id": "f_table", "x": 17, "y": 17 },
-        { "point": "furniture", "id": "f_dresser", "x": 18, "y": 17 }
+        { "point": "furniture", "id": "f_fireplace", "x": 14, "y": 17, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 14, "y": 17, "z": 1 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 16, "y": 17, "z": 0 },
+        { "point": "furniture", "id": "f_table", "x": 17, "y": 17, "z": 0 },
+        { "point": "furniture", "id": "f_dresser", "x": 18, "y": 17, "z": 0 }
       ],
       "place_loot": [ { "item": "makeshift_hammer", "x": 17, "y": 17, "chance": 100 } ]
     }
@@ -83,8 +62,8 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_kiln_empty", "x": 17, "y": 14 },
-        { "point": "furniture", "id": "f_kiln_empty", "x": 18, "y": 14 }
+        { "point": "furniture", "id": "f_kiln_empty", "x": 17, "y": 14, "z": 0 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 18, "y": 14, "z": 0 }
       ],
       "place_loot": [ { "item": "crucible", "x": 17, "y": 17, "chance": 100 } ]
     }
@@ -154,7 +133,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_common_pottery",
     "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18 } ] }
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 1, "y": 18, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -184,12 +168,13 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 8 },
-        { "point": "furniture", "id": "f_forge_rock", "x": 3, "y": 8 },
-        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 9 },
-        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 10 },
-        { "point": "furniture", "id": "f_armchair", "x": 2, "y": 10 },
-        { "point": "furniture", "id": "f_workbench", "x": 3, "y": 10 }
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 3, "y": 8, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 3, "y": 8, "z": 1 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 9, "z": 0 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_armchair", "x": 2, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_workbench", "x": 3, "y": 10, "z": 0 }
       ],
       "place_loot": [
         { "item": "tongs", "x": 3, "y": 10, "chance": 100 },

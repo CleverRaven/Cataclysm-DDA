@@ -24,6 +24,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
@@ -33,6 +34,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -58,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -236,6 +239,10 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "spoilage" );
         case SORTBY_PRICE:
             return _( "barter value" );
+        case SORTBY_PRICEPERVOLUME:
+            return _( "barter value / volume" );
+        case SORTBY_STACKS:
+            return _( "amount" );
     }
     return "!BUG!";
 }
@@ -653,6 +660,21 @@ struct advanced_inv_sorter {
                     return d1.items.front()->price( true ) > d2.items.front()->price( true );
                 }
                 break;
+            case SORTBY_PRICEPERVOLUME: {
+                const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                if( price_density1 != price_density2 ) {
+                    return price_density1 > price_density2;
+                }
+                break;
+            }
+            case SORTBY_STACKS:
+                if( d1.stacks != d2.stacks ) {
+                    return d1.stacks > d2.stacks;
+                }
+                break;
         }
         // secondary sort by name and link length
         auto const sort_key = []( advanced_inv_listitem const & d ) {
@@ -987,7 +1009,7 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
         item_list.push_back( entry.second );
     }
     for( const move_all_entry &entry : unsorted_fav_list ) {
-        item_list.push_back( entry.second );
+        fav_list.push_back( entry.second );
     }
     return true;
 }
@@ -1163,7 +1185,7 @@ bool advanced_inventory::move_all_items()
             player_character.assign_activity( act );
         }
     } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        const tripoint placement = darea.off;
+        const tripoint_rel_ms placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
 
@@ -1182,13 +1204,13 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        const pickup_activity_actor act( target_items, quantities, player_character.pos(), false );
+        const pickup_activity_actor act( target_items, quantities, player_character.pos_bub(), false );
         player_character.assign_activity( act );
     } else {
         // Vehicle and map destinations are handled the same.
 
         // Stash the destination
-        const tripoint relative_destination = darea.off;
+        const tripoint_rel_ms relative_destination = darea.off;
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1212,17 +1234,19 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
     sm.text = _( "Sort by…" );
-    sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
-    sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
-    sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );
-    sm.addentry( SORTBY_VOLUME,   true, 'v', get_sortname( SORTBY_VOLUME ) );
-    sm.addentry( SORTBY_DENSITY,  true, 'd', get_sortname( SORTBY_DENSITY ) );
-    sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
-    sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
-    sm.addentry( SORTBY_DAMAGE,   true, 'o', get_sortname( SORTBY_DAMAGE ) );
-    sm.addentry( SORTBY_AMMO,     true, 'a', get_sortname( SORTBY_AMMO ) );
-    sm.addentry( SORTBY_SPOILAGE, true, 's', get_sortname( SORTBY_SPOILAGE ) );
-    sm.addentry( SORTBY_PRICE,    true, 'b', get_sortname( SORTBY_PRICE ) );
+    sm.addentry( SORTBY_NONE,           true, 'u', _( "Unsorted (recently added first)" ) );
+    sm.addentry( SORTBY_NAME,           true, 'n', get_sortname( SORTBY_NAME ) );
+    sm.addentry( SORTBY_WEIGHT,         true, 'w', get_sortname( SORTBY_WEIGHT ) );
+    sm.addentry( SORTBY_VOLUME,         true, 'v', get_sortname( SORTBY_VOLUME ) );
+    sm.addentry( SORTBY_DENSITY,        true, 'd', get_sortname( SORTBY_DENSITY ) );
+    sm.addentry( SORTBY_CHARGES,        true, 'x', get_sortname( SORTBY_CHARGES ) );
+    sm.addentry( SORTBY_CATEGORY,       true, 'c', get_sortname( SORTBY_CATEGORY ) );
+    sm.addentry( SORTBY_DAMAGE,         true, 'o', get_sortname( SORTBY_DAMAGE ) );
+    sm.addentry( SORTBY_AMMO,           true, 'a', get_sortname( SORTBY_AMMO ) );
+    sm.addentry( SORTBY_SPOILAGE,       true, 's', get_sortname( SORTBY_SPOILAGE ) );
+    sm.addentry( SORTBY_PRICE,          true, 'b', get_sortname( SORTBY_PRICE ) );
+    sm.addentry( SORTBY_PRICEPERVOLUME, true, 'r', get_sortname( SORTBY_PRICEPERVOLUME ) );
+    sm.addentry( SORTBY_STACKS,         true, 't', get_sortname( SORTBY_STACKS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,
@@ -1472,14 +1496,14 @@ void advanced_inventory::start_activity(
             player_character.assign_activity(
                 wield_activity_actor( target_items.front(), quantities.front() ) );
         } else if( destarea == AIM_INVENTORY ) {
-            const std::optional<tripoint> starting_pos = from_vehicle
+            const std::optional<tripoint_bub_ms> starting_pos = from_vehicle
                     ? std::nullopt
-                    : std::optional<tripoint>( player_character.pos() );
+                    : std::optional<tripoint_bub_ms>( player_character.pos_bub() );
             const pickup_activity_actor act( target_items, quantities, starting_pos, false );
             player_character.assign_activity( act );
         } else {
             // Stash the destination
-            const tripoint relative_destination = squares[destarea].off;
+            const tripoint_rel_ms relative_destination = squares[destarea].off;
 
             const move_items_activity_actor act( target_items, quantities, to_vehicle, relative_destination );
             player_character.assign_activity( act );
@@ -1667,7 +1691,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
                 } else {
-                    const tripoint placement = squares[destarea].off;
+                    const tripoint_rel_ms placement = squares[destarea].off;
                     // incase there is vehicle cargo space at dest but the player wants to drop to ground
                     const bool force_ground = !to_vehicle;
                     std::vector<drop_or_stash_item_info> to_drop;
@@ -1769,10 +1793,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 
         item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
         data.handle_scrolling = true;
+        data.arrow_scrolling = true;
 
-        ret = draw_item_info( [&]() -> catacurses::window {
-            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
-        }, data ).get_first_input();
+        iteminfo_window info_window( data, point( info_startx(), 0 ), info_width(), TERMY );
+        info_window.execute();
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
         spane.scroll_by( +1 );
@@ -1792,7 +1816,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
-        g->wait_popup.reset();
+        g->wait_popup_reset();
     }
 
     if( !ui ) {
@@ -2051,16 +2075,22 @@ class query_destination_callback : public uilist_callback
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
+        float desired_extra_space_left( ) override {
+            return ImGui::CalcTextSize( "[1] [2] [3]" ).x;
+        }
 };
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
+    ImGui::TableSetColumnIndex( 0 );
+    ImGui::NewLine();
+    ImGui::NewLine();
+    ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
-    int ofs = -25 - 4;
     int sel = 0;
-    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
+    if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
-                  static_cast <aim_location>( menu->selected + 1 ) );
+                  static_cast <aim_location>( menu->hovered + 1 ) );
     }
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
@@ -2072,12 +2102,20 @@ void query_destination_callback::draw_squares( const uilist *menu )
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        const point p( square.hscreen + point( ofs, 5 ) );
-        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%s", key );
-        wprintz( menu->window, bcolor, "%c", bracket[1] );
+        // TODO(db48x): maybe make these clickable buttons or something
+        ImGui::PushID( i );
+        ImGui::BeginGroup();
+        ImGui::TextColored( bcolor, "%c", bracket[0] );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( kcolor, "%s", key.c_str() );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( bcolor, "%c", bracket[1] );
+        ImGui::EndGroup();
+        ImGui::PopID();
+        if( i % 3 != 0 ) {
+            ImGui::SameLine();
+        }
     }
-    wnoutrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -2092,8 +2130,6 @@ bool advanced_inventory::query_destination( aim_location &def )
 
     uilist menu;
     menu.text = _( "Select destination" );
-    /* free space for the squares */
-    menu.pad_left_setup = 9;
     query_destination_callback cb( *this );
     menu.callback = &cb;
 
@@ -2286,7 +2322,7 @@ void advanced_inventory::draw_minimap()
             continue;
         }
         advanced_inv_area sq = squares[panes[s].get_area()];
-        tripoint pt = pc + sq.off;
+        tripoint pt = pc + sq.off.raw();
         // invert the color if pointing to the player's position
         nc_color cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
                       invert_color( c_light_cyan ) : c_light_cyan.blink();

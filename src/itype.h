@@ -171,7 +171,7 @@ struct islot_comestible {
         std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
-        std::map<diseasetype_id, int> contamination;
+        std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
         std::map<material_id, int> materials;
@@ -739,7 +739,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Effects that are applied to the ammo when fired.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Location for gun mods.
      * Key is the location (untranslated!), value is the number of mods
@@ -786,6 +786,11 @@ struct islot_gun : common_ranged_data {
     * A value beneath 0.0 means that the gun cannot overheat.
     */
     double overheat_threshold = -1.0;
+
+    /**
+    *  Multiplier of the chance for the gun to jam.
+    */
+    double gun_jam_mult = 1;
 
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
@@ -857,6 +862,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
+
+    /** Multiplies base loudness as provided by the currently loaded ammo */
+    float loudness_multiplier = 1;
 
     /** How many moves does this gunmod take to install? */
     int install_time = -1;
@@ -945,6 +953,9 @@ struct islot_magazine {
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
+    /** Multiplier for the gun jamming from physical damage */
+    double mag_jam_mult = 1 ;
+
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
 
@@ -993,6 +1004,10 @@ struct islot_ammo : common_ranged_data {
      */
     int count = 1;
     /**
+     * Whether this multi-projectile shot has its effects applied to all projectiles
+     */
+    bool multi_projectile_effects = false;
+    /**
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;
@@ -1004,7 +1019,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * TODO: document me.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
@@ -1013,6 +1028,9 @@ struct islot_ammo : common_ranged_data {
 
     /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
     int recoil = 0;
+
+    /** Percentage of chance to recover the ammo after a shot*/
+    int recovery_chance = 0;
 
     /**
      * Should this ammo explode in fire?
@@ -1175,7 +1193,7 @@ struct memory_card_info {
     int recipes_amount;
     int recipes_level_min;
     int recipes_level_max;
-    std::set<std::string> recipes_categories;
+    std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
 };
 
@@ -1409,7 +1427,10 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
-        int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
+        // TODO: Add some very basic unweildiness calc for non specified to_hit?
+        int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
+        // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
+        bool using_legacy_to_hit = false;
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 

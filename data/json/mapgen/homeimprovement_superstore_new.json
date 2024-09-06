@@ -58,10 +58,10 @@
       "R": "t_linoleum_white",
       "w": "t_linoleum_white",
       "<": "t_stairs_up",
-      "$": "t_atm",
       "?": "t_railing"
     },
     "furniture": {
+      "$": "f_atm_off",
       "x": "f_console_broken",
       "V": "f_vending_c",
       "h": "f_chair",
@@ -91,8 +91,8 @@
       "s": "f_sink",
       "b": "f_bathtub",
       "(": "f_shower",
-      "é": "f_freezer",
-      "e": "f_fridge",
+      "é": [ [ "f_freezer", 10 ], [ "f_minifreezer", 2 ], [ "f_chest_minifreezer", 2 ], [ "f_heavy_duty_freezer", 1 ] ],
+      "e": [ [ "f_fridge", 10 ], [ "f_minifridge", 8 ], [ "f_heavy_duty_fridge", 1 ] ],
       "o": "f_oven",
       "w": [ "f_washer", "f_dryer" ],
       "L": "f_fireplace",
@@ -337,6 +337,41 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hdwr_large_1_1_2" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---                    ",
+        " -.-                    ",
+        " ---                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

@@ -147,12 +147,12 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                loc->display_name(), m.name( pos() )
+                loc->display_name(), m.name( pos_bub() )
             );
             item it_copy( *loc );
             loc.remove_item();
             // target item of `loc` is invalidated and should not be used from now on
-            m.add_item_or_charges( pos(), it_copy );
+            m.add_item_or_charges( pos_bub(), it_copy );
         }
     }
 }
@@ -334,7 +334,8 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                return item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                                      it ) );
             } else {
                 return added;
             }
@@ -368,7 +369,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+            added = added ? added : item_location( map_cursor( get_location() ), &map_added );
         }
     }
     return added;
@@ -394,7 +395,8 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                    loc = item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                                         it ) );
                 }
             } else {
                 loc = item_location( *this, &weapon );
@@ -459,10 +461,17 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
-            retval &= !here.add_item_or_charges( pos(), it ).is_null();
+            retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
+            if( !retval ) {
+                // No need to loop now, we already knew that there isn't enough room for the item.
+                break;
+            }
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+        } else {
+            retval = false;
+            break;
         }
     }
 
@@ -474,7 +483,7 @@ bool Character::i_drop_at( item &it, int qty )
     bool retval = true;
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
-        retval &= !here.add_item_or_charges( pos(), it ).is_null();
+        retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
     }
 
     return retval;
@@ -588,7 +597,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    const tripoint placement = target - pos();
+    const tripoint_rel_ms placement = tripoint_rel_ms( target - pos() );
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&
@@ -621,7 +630,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
@@ -663,7 +672,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos(), it );
+            get_map().add_item_or_charges( pos_bub(), it );
             // must be last
             i_rem( &it );
         }

@@ -362,21 +362,6 @@
     "name": { "str_sp": "fry" }
   },
   {
-    "id": "mon_fish_goldfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "goldfish" },
-    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 },
-    "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart."
-  },
-  {
-    "id": "mon_fry_goldfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
-    "name": { "str_sp": "fry" }
-  },
-  {
     "id": "mon_fish_koi",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",

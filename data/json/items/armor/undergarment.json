@@ -27,19 +27,19 @@
   {
     "id": "xl_arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "weight": "49 g",
     "volume": "350 ml",
     "copy-from": "arm_warmers",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_arm_warmers",
     "type": "ARMOR",
     "copy-from": "arm_warmers",
-    "name": { "str": "pair of XS arm warmers", "str_pl": "pairs of XS arm warmers" },
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bellyband",
@@ -292,17 +292,17 @@
     "id": "xl_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str": "XL binder" },
+    "name": { "str": "binder" },
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str": "XS binder" },
+    "name": { "str": "binder" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boxer_briefs",
@@ -320,24 +320,61 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "variants": [
+      {
+        "id": "boxer_brief_basic",
+        "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
+        "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
+        "expand_snippets": true,
+        "weight": 100
+      },
+      {
+        "id": "boxer_brief_makeshift",
+        "name": { "str": "homemade boxer briefs", "str_pl": "pairs of homemade boxer briefs" },
+        "description": "A pair of homemade boxer briefs, a marvel of basic sewing skills.",
+        "expand_snippets": true,
+        "weight": 0
+      },
+      {
+        "id": "boxer_brief_color",
+        "name": { "str": "solid boxer briefs", "str_pl": "pairs of solid boxer briefs" },
+        "description": "A pair of boxer briefs, these are a solid <color> color.",
+        "expand_snippets": true,
+        "weight": 300
+      },
+      {
+        "id": "boxer_brief_hearts",
+        "name": { "str": "heart boxer briefs", "str_pl": "pairs of heart boxer briefs" },
+        "description": "A pair of boxer briefs, adorned with little <color> hearts.",
+        "expand_snippets": true,
+        "weight": 100
+      },
+      {
+        "id": "boxer_brief_day",
+        "name": { "str": "day boxer briefs", "str_pl": "pairs of day boxer briefs" },
+        "description": "A pair of boxer briefs.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
+        "expand_snippets": true,
+        "weight": 30
+      }
+    ]
   },
   {
     "id": "xlboxer_briefs",
     "type": "ARMOR",
-    "name": { "str": "XL boxer briefs", "str_pl": "pairs of XL boxer briefs" },
+    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
     "weight": "50 g",
     "volume": "350 ml",
     "copy-from": "boxer_briefs",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboxer_briefs",
     "type": "ARMOR",
     "copy-from": "boxer_briefs",
-    "name": { "str": "XS boxer briefs", "str_pl": "pairs of XS boxer briefs" },
+    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boxer_shorts",
@@ -356,7 +393,57 @@
         "id": "flag_boxer_shorts",
         "name": { "str": "star-spangled boxer shorts", "str_pl": "pairs of star-spangled boxer shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true
+        "append": true,
+        "weight": 100
+      },
+      {
+        "id": "boxer_shorts_makeshift",
+        "name": { "str": "homemade boxer shorts", "str_pl": "pairs of homemade boxer shorts" },
+        "description": "A pair of homemade boxer shorts, a marvel of basic sewing skills.",
+        "expand_snippets": true,
+        "weight": 0
+      },
+      {
+        "id": "boxer_shorts_color",
+        "name": { "str": "solid boxer shorts", "str_pl": "pairs of solid boxer shorts" },
+        "description": "A pair of boxer shorts, these are a solid <color> color.",
+        "expand_snippets": true,
+        "weight": 400
+      },
+      {
+        "id": "boxer_shorts_hearts",
+        "name": { "str": "heart boxer shorts", "str_pl": "pairs of heart boxer shorts" },
+        "description": "A pair of boxer shorts, adorned with little <color> hearts.",
+        "expand_snippets": true,
+        "weight": 200
+      },
+      {
+        "id": "boxer_shorts_day",
+        "name": { "str": "day boxer shorts", "str_pl": "pairs of day boxer shorts" },
+        "description": "A pair of boxer shorts.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
+        "expand_snippets": true,
+        "weight": 30
+      },
+      {
+        "id": "boxer_shorts_money",
+        "name": { "str": "money boxer shorts", "str_pl": "pairs of money boxer shorts" },
+        "description": "A pair of boxer shorts adorned with images of hundred dollar bills.",
+        "expand_snippets": true,
+        "weight": 70
+      },
+      {
+        "id": "boxer_shorts_animal",
+        "name": { "str": "animal boxer shorts", "str_pl": "pairs of animal boxer shorts" },
+        "description": "A pair of boxer shorts, these are adorned with little <animals> in a pattern across the entire garment.",
+        "expand_snippets": true,
+        "weight": 70
+      },
+      {
+        "id": "boxer_shorts_cartoon",
+        "name": { "str": "cartoon boxer shorts", "str_pl": "pairs of cartoon boxer shorts" },
+        "description": "A pair of boxer shorts, merchandise for a famous cartoon.  It features <cartoon_blanket>.",
+        "expand_snippets": true,
+        "weight": 70
       }
     ],
     "weight": "42 g",
@@ -378,19 +465,19 @@
   {
     "id": "xlboxer_shorts",
     "type": "ARMOR",
-    "name": { "str": "XL boxer shorts", "str_pl": "pairs of XL boxer shorts" },
+    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boxer_shorts",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboxer_shorts",
     "type": "ARMOR",
     "copy-from": "boxer_shorts",
-    "name": { "str": "XS boxer shorts", "str_pl": "pairs of XS boxer shorts" },
+    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boy_shorts",
@@ -431,19 +518,19 @@
   {
     "id": "xlboy_shorts",
     "type": "ARMOR",
-    "name": { "str": "XL boy shorts", "str_pl": "pairs of XL boy shorts" },
+    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boy_shorts",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboy_shorts",
     "type": "ARMOR",
     "copy-from": "boy_shorts",
-    "name": { "str": "XS boy shorts", "str_pl": "pairs of XS boy shorts" },
+    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bra",
@@ -467,17 +554,17 @@
     "id": "xl_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str": "XL bra" },
+    "name": { "str": "bra" },
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str": "XS bra" },
+    "name": { "str": "bra" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "briefs",
@@ -750,15 +837,14 @@
     "id": "leg_warmers_xsf",
     "type": "ARMOR",
     "copy-from": "leg_warmers_f",
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
-    "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
+    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "leg_warmers_xl",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "90 g",
     "volume": "750 ml",
@@ -770,7 +856,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "PREFIX_XL" ],
     "armor": [
       {
         "encumbrance": 7,
@@ -785,9 +871,9 @@
     "id": "leg_warmers_xs",
     "type": "ARMOR",
     "copy-from": "leg_warmers",
-    "name": { "str": "pair of XS leg warmers", "str_pl": "pairs of XS leg warmers" },
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "long_underpants",
@@ -802,7 +888,7 @@
     "symbol": "[",
     "looks_like": "leggings",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
@@ -820,7 +906,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
@@ -846,7 +932,7 @@
     "symbol": "[",
     "looks_like": "long_undertop",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
@@ -912,19 +998,19 @@
   {
     "id": "xlsports_bra",
     "type": "ARMOR",
-    "name": { "str": "XL sports bra" },
+    "name": { "str": "sports bra" },
     "weight": "160 g",
     "volume": "750 ml",
     "copy-from": "sports_bra",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssports_bra",
     "type": "ARMOR",
     "copy-from": "sports_bra",
-    "name": { "str": "XS sports bra" },
+    "name": { "str": "sports bra" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "tank_top",
@@ -971,7 +1057,7 @@
   {
     "id": "tights",
     "type": "ARMOR",
-    "name": { "str_sp": "tights" },
+    "name": { "str": "tights", "str_pl": "pairs of tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -984,13 +1070,44 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ],
+    "variants": [
+      {
+        "id": "tights_basic",
+        "name": { "str": "tights", "str_pl": "pairs of tights" },
+        "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
+        "expand_snippets": true,
+        "weight": 50
+      },
+      {
+        "id": "tights_polka_dot",
+        "name": { "str": "polka dot tights", "str_pl": "pairs of polka dot tights" },
+        "description": "These are adorned with dozens of <color> polka dots.",
+        "expand_snippets": true,
+        "append": true,
+        "weight": 50
+      },
+      {
+        "id": "tights_print",
+        "name": { "str": "animal print tights", "str_pl": "pairs of animal print tights" },
+        "description": "A pair of snug cotton tights, featuring a classic <animal_print> pattern.",
+        "expand_snippets": true,
+        "weight": 150
+      },
+      {
+        "id": "tights_solid",
+        "name": { "str": "solid color tights", "str_pl": "pairs of solid color tights" },
+        "description": "A pair of cotton tights, these are a solid <color> color.",
+        "expand_snippets": true,
+        "weight": 300
+      }
+    ]
   },
   {
     "id": "under_armor",
     "type": "ARMOR",
     "name": { "str": "compression top" },
-    "description": "Nylon sportswear that clings to your chest and maintains body temperature.",
+    "description": "Nylon sportswear that clings to your chest and wicks away sweat.",
     "weight": "92 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -999,7 +1116,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 4,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 100, "covers": [ "torso" ] } ]
@@ -1008,7 +1125,7 @@
     "id": "under_armor_shorts",
     "type": "ARMOR",
     "name": { "str_sp": "compression shorts" },
-    "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and maintaining warmth.",
+    "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and wicking away sweat.",
     "weight": "82 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -1017,7 +1134,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 4,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
@@ -1038,7 +1155,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
-    "warmth": 10,
+    "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [

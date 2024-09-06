@@ -16,7 +16,7 @@
   {
     "type": "item_group",
     "id": "NC_GANGER_carried",
-    "items": [ [ "ear_plugs", 100 ], { "group": "NC_GANGER_misc", "count-min": 3, "count-max": 6 } ]
+    "items": [ [ "ear_plugs", 100 ], { "group": "NC_GANGER_misc", "count": [ 3, 6 ] } ]
   },
   {
     "id": "NC_GANGER_melee",
@@ -55,7 +55,7 @@
       { "item": "soldering_iron", "prob": 60 },
       { "item": "soldering_iron_portable", "prob": 60, "charges": [ 0, 50 ] },
       [ "solder_wire", 60 ],
-      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 5, "charges": [ 10, 100 ] },
       [ "codeine", 15 ],
       [ "oxycodone", 4 ],
       [ "morphine", 4 ],
@@ -176,7 +176,7 @@
   {
     "type": "item_group",
     "id": "NC_CYBERNINJA_carried",
-    "items": [ [ "ear_plugs", 100 ], { "group": "NC_CYBERNINJA_misc", "count-min": 3, "count-max": 6 } ]
+    "items": [ [ "ear_plugs", 100 ], { "group": "NC_CYBERNINJA_misc", "count": [ 3, 6 ] } ]
   },
   {
     "id": "NC_CYBERNINJA_melee",

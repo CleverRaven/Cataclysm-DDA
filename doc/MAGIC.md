@@ -225,13 +225,13 @@ Field group | Description | Example
 ---  | --- | ---
 `min_X`, `max_X`, ``X_increment`` | Minimum value, maximum value, and the value increase per level. <br>Note: a spell is not _set_ to have max_X at max lvl, max_X is the ceiling for the value: a spell with `min_damage: 0, max_damage: 100, damage_increment: 5` and `max_level: 10`, will deal 5 damage at lvl 1, 10 at lvl 2 and 50 at lvl 10, as [ 0 + ( 5 \* 10 ) ].  Similarly, if `max_damage` is instead 25, the damage will cap at spell lvl 5, as [ 0 + ( 5 \* 5 ) ] | `"min_damage": { "math": [ "u_skill('dodge') + u_val('intelligence')" ] },`,<br> `"min_range": 24,`,<br> `"min_aoe": { "math": [ "( VAR_1 / 3 )" ] },`.
 `min_damage`, `max_damage`, `damage_increment` |  "Damage" value of the spell by default (or healing, if value is negative).  The [spell effect](MAGIC.md#spell-effects) can modify its function.  When the spell doesn't increase by level (such as a monster spell), `min_damage` and `max_damage` can be set at the same value (`"min_damage": 15, "max_damage": 15`), `damage_increment` can be omitted. | "min_damage": 0,  <br>"max_damage": 100,  <br>"damage_increment": 5,|
-`min_duration`, `max_duration`, `duration_increment` | Duration of the spell `effects` and `effect_str`, depending on the type of the ID.  Writed in moves, so `100` means `1 second`, `1 minute` as `6000`, and so on. | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
+`min_duration`, `max_duration`, `duration_increment` | Duration of the spell `effects` and `effect_str`, depending on the type of the ID.  Written in moves, so `100` means `1 second`, `1 minute` as `6000`, and so on. | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
 `min_range`, `max_range`, `range_increment` | Distance from the caster to the target.  Can be omitted if the target is the caster (giving an buff/debuff, spawning an item).  <br>Note: the reality bubble diameter is ~60 tiles. | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
 `min_aoe`, `max_aoe`, `aoe_increment` | Short for "area of effect", area/zone of tiles that the spell will affect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
 `min_accuracy`, `max_accuracy`, `accuracy_increment` | Accuracy of the spell.  -20 accuracy will cause it to always miss, 20 will cause it always hit.  Currently doesn't work. | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
 `min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: dot values are rounded up, so 1.1 will be 2. | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
 `min_pierce`, `max_pierce`, `pierce_increment` | Armor "piercing", how much armor of the same `damage_type` the spell will ignore. | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
-`base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's writed in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
+`base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's written in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 `base_energy_cost`, `final_energy_cost`, `energy_increment` | Amount of energy spent for cast.  If several spells are chained, only the first one will apply the cost.  Ignored for monsters and items that cast spells. | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Allows the spell to spawn fields.  `field_id` describes which field will be spawned, `field_chance` describes the chance as ( 1 / `field_chance`).  <br>`min_field_intensity`, `max_field_intensity` and `field_intensity_increment` modify the field intensity and it's growth (e.g. fd_electricity intensity 1 is "spark", while intensity 10 is "electric cloud").  <br>`field_intensity_variance` allows to randomly increase or decrease the intensity of the spell as a percent (e.g. intensity 10 and variance 0.1 means it can grow or shrink by 10%, or go from 9 to 11). | "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
 `effect_str` | The "effect" the spell has (see [EFFECTS_JSON](EFFECTS_JSON.md)).  Varies according to the spell `effect` field. | "effect_str": "zapped", "effect_str": "mon_zombie",
@@ -280,7 +280,7 @@ Flag                       | Description
 `NO_HANDS`                 | Hands do not affect spell energy cost.
 `NO_LEGS`                  | Legs do not affect casting time.
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
-`NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation.
+`NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
 `PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
@@ -820,6 +820,7 @@ Character status value  | Description
 `DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when applying medicine.
 `DODGE_CHANCE`          | Modifies the probability to dodge an attack. Default is 0, so better to use `add`
 `EFFECTIVE_HEALTH_MOD`  | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+`EQUIPMENT_DAMAGE_CHANCE` | Modifies the likelihood that weapons and armor take durability damage.  Since it's a percent, using 'multiply' is recommended.  Positive values increase likelihood of damage while negative values decrease likelihood.  `multiply`: -1 and below result in indestructible equipment.
 `EXTRA_ACID`            | EXTRA_TYPE increases received damage of the selected type.
 `EXTRA_BASH`            | 
 `EXTRA_BIO`             | 
@@ -852,11 +853,12 @@ Character status value  | Description
 `MELEE_DAMAGE`          | Adds damage to melee attacks
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
-`METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never wear
+`METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
-`MOTION_VISION_RANGE`  | Reveals all monsters as a red `?` within the specified radius.
+`MOTION_VISION_RANGE`   | Reveals all monsters as a red `?` within the specified radius.
 `MOVE_COST`             | 
+`MUT_INSTABILITY_MOD`   | Modifies your instability score, which affects the chance to get bad mutation (scales with amount of good mutations you have, capping at 67%, check `Character::roll_bad_mutation` for more information). `add: 1` would be equal to having 1 good mutation more, increasing the chance to get bad mutation, `add: -1` would be like you have one good mutation less, decreasing the chance to get bad mutation.
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
 `MOVECOST_SWIM_MOD`     | How many moves you spend to move 1 tile in water; not shown in UI
@@ -873,9 +875,11 @@ Character status value  | Description
 `PAIN_PENALTY_MOD_SPEED`| Amount of speed you lose from pain. Default value is `pain^0.7`. Can't be bigger than 50 speed.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `PERCEPTION`            | Affects the perception stat.
-`POWER_TRICKLE`         | Generates this amount of joules each second. Default value is zero, so better to use `add`
+`PHASE_DISTANCE`        | Distance the character is able to teleport through impassible terrain.  Values less than 1 do nothing and the max distance is 48 tiles.
+`POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
+`RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
@@ -902,6 +906,8 @@ Character status value  | Description
 `STRENGTH`              | Affects the strength stat. Formula for all stat affecting enchantments are `(base_stat + enchantment_addition) * (enchantment_multiplier + 1)`. Str 8 with enchantment `add 2, multiply 1` result in `(8+2) * (1+1) = 10 * 2 =` 20 str
 `SWEAT_MULTIPLIER`      | Affects how much your body can sweat. Affects all bodyparts at once. Since it's a percent, using `multiply` is recommended.
 `THIRST`                | 
+`THROW_STR`             | Increases your strength for throwing purposes. Not limited by your throwing skill (you still throw it as precise as your skill allows you, just further). Only additive. Rule of thumb: one additional point of strength allow you to throw 113 g object 10 tiles further, or 1130 g object 1 tile further, limited by [ str * 3 + skill ]. Full calculations are in Character::throw_range
+`THROW_DAMAGE`          | Increases the damage of any thrown projectile. `add` adds this amount of damage to the projectile as bash damage, `multiply` would increase all projectile damage, not only bash type.
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
@@ -952,7 +958,9 @@ Character status value  | Description
 `ARMOR_HEAT`            | 
 `ARMOR_STAB`            | 
 `REGEN_HP`              | Affects the rate the monster recovers hp.
+`VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
+`LUMINATION`            | Affects monster luminance
 
 ### Enchantment value examples
 

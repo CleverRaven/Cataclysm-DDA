@@ -155,9 +155,9 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_breathe_skin",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "//": "effect used as tracker",
+    "name": [ "Oxygen Absorption" ],
+    "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -196,7 +196,7 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_reflex",
-    "name": [ "Enhanced Reflexes" ],
+    "name": [ "Heightened Reflexes" ],
     "desc": [ "You are enhancing your speed and senses." ],
     "apply_message": "",
     "remove_message": "The world speeds up again.",
@@ -219,7 +219,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "max((( 5 + ( u_spell_level('biokin_physical_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
+                "min((( 5 + ( u_spell_level('biokin_reflex_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
               ]
             }
           }
@@ -233,16 +233,10 @@
     "name": [ "Hardened Skin" ],
     "desc": [ "Your skin is more resilient thanks to psionic energy." ],
     "apply_message": "",
-    "remove_message": "The tingling fades away.",
-    "decay_messages": [
-      [ "The minor scratches you've gotten slowly start to ache as your powers fade.", "bad" ],
-      [ "The tingle across your skin is starting to lessen.", "bad" ]
-    ],
+    "remove_message": "The slight itching and waxiness in your skin fades away.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 62,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
     "enchantments": [
       {
@@ -269,7 +263,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "effect_type",
@@ -306,7 +301,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -439,7 +435,7 @@
             }
           },
           { "value": "MOVE_COST", "multiply": -0.1 },
-          { "value": "RECOIL_MODIFIER", "add": -30 },
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
@@ -488,7 +484,7 @@
         ]
       }
     ],
-    "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT", "UNCANNY_DODGE", "WATERWALKING", "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
@@ -660,7 +656,8 @@
     "id": "effect_clair_weak_point",
     "name": [ "Weaknesses Discerned" ],
     "desc": [ "Your vulnerabilities have been laid open." ],
-    "apply_message": "",
+    "apply_message": "You suddenly feel terribly vulnerable.",
+    "remove_message": "You no longer feel so exposed.",
     "rating": "bad",
     "max_duration": "1 minutes",
     "show_in_info": true,
@@ -669,31 +666,31 @@
         "values": [
           {
             "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_COLD",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           }
         ]
       }
@@ -765,25 +762,25 @@
       {
         "values": [
           {
-            "value": "BONUS_DODGE",
+            "value": "EVASION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.7)"
               ]
             }
           },
           {
-            "value": "BONUS_BLOCK",
+            "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
               ]
             }
           }
         ]
       }
     ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT" ]
   },
   {
     "type": "effect_type",
@@ -863,11 +860,28 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.96 },
           { "value": "EVASION", "add": 1 },
-          { "value": "REGEN_STAMINA", "multiply": -1 }
+          { "value": "REGEN_STAMINA", "multiply": -1 },
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "( 1 + ( u_spell_level('clair_astral_projection') * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
         ]
       }
     ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_FLYING",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WALK_UNDERWATER",
+      "NO_PSIONICS"
+    ]
   },
   {
     "type": "effect_type",
@@ -951,12 +965,9 @@
     "desc": [ "Your body is filled with electrical currents." ],
     "apply_message": "",
     "remove_message": "The tingling on your skin fades.",
-    "decay_messages": [ [ "The protective electrical currents are nearly gone.", "bad" ], [ "Your skin is losing its charge.", "bad" ] ],
     "rating": "good",
-    "max_duration": "20 minutes",
+    "max_duration": "7 days",
     "max_intensity": 49,
-    "dur_add_perc": 10,
-    "int_dur_factor": "25 s",
     "enchantments": [ "enchant_electrokin_zap_enemies" ],
     "flags": [ "EMP_IMMUNE" ]
   },
@@ -967,12 +978,9 @@
     "desc": [ "Your melee attacks unleash electrical blasts." ],
     "apply_message": "",
     "remove_message": "Your hands no longer spark with electricity.",
-    "decay_messages": [ [ "The charge in your hands is nearly gone.", "bad" ], [ "The current in your hands is fading.", "bad" ] ],
     "rating": "good",
-    "max_duration": "20 minutes",
+    "max_duration": "7 days",
     "max_intensity": 73,
-    "dur_add_perc": 10,
-    "int_dur_factor": "17 s",
     "enchantments": [ "enchant_electrokin_electric_strikes" ]
   },
   {
@@ -1050,15 +1058,9 @@
     "desc": [ "You are enhancing your nervous system." ],
     "apply_message": "",
     "remove_message": "Your reactions return to baseline.",
-    "decay_messages": [
-      [ "Your enhanced reactions are nearly gone.", "bad" ],
-      [ "Your reaction times are gradually becoming slower.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 61,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "removes_effects": [ "effect_electrokinetic_pain_immune" ],
     "enchantments": [
       {
@@ -1126,17 +1128,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_enemy_light",
+    "name": [ "Illuminated" ],
+    "desc": [ "The air around you is glowing." ],
+    "apply_message": "You are outlined in light.",
+    "remove_message": "The glow around you fades.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": {
+              "math": [
+                "min( (( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokin_dodge",
     "name": [ "Trick of the Light" ],
     "desc": [ "You are surrounded by shifting illusions, and your enemies struggle to see where your true form is." ],
     "apply_message": "",
     "remove_message": "The illusions around you suddenly vanish!",
-    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 38,
-    "dur_add_perc": 10,
-    "int_dur_factor": "24 s",
     "blocks_effects": [ "grabbed" ],
     "base_mods": { "dodge_mod": [ 6 ] },
     "enchantments": [
@@ -1214,14 +1237,11 @@
     "id": "effect_photokin_invisibility",
     "name": [ "Invisibility" ],
     "desc": [ "Nothing can see you." ],
-    "apply_message": "You refract light in a way that makes you appear invisible.",
-    "remove_message": "You let light flow naturally again.",
-    "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
-    "flags": [ "INVISIBLE" ],
-    "max_duration": "3 h",
+    "apply_message": "",
+    "remove_message": "The obscuring veil of light fades, revealing your presence.",
+    "max_duration": "7 days",
     "max_intensity": 177,
-    "dur_add_perc": 10,
-    "int_dur_factor": " 62 s"
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1262,12 +1282,9 @@
     "desc": [ "You are glowing like the sun." ],
     "apply_message": "",
     "remove_message": "The last light finally dies.",
-    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 46,
-    "dur_add_perc": 10,
-    "int_dur_factor": "20 s",
     "base_mods": { "dodge_mod": [ 4 ] },
     "enchantments": [ "enchant_photokin_blinding_glare" ]
   },
@@ -1310,16 +1327,11 @@
     "desc": [ "The air around you has its temperature controlled." ],
     "apply_message": "",
     "remove_message": "A cool breeze hits your skin.",
-    "decay_messages": [
-      [ "The warm air you've surrounded yourself with is nearly spent.", "bad" ],
-      [ "The air around you is slowing beginning to cool.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "60 minutes",
+    "max_duration": "7 days",
     "max_intensity": 77,
-    "dur_add_perc": 10,
-    "int_dur_factor": "46 s",
-    "enchantments": [ "enchant_pyrokin_cloak" ]
+    "enchantments": [ "enchant_pyrokin_cloak" ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -1337,12 +1349,9 @@
     "desc": [ "You are surrounded by flames." ],
     "apply_message": "",
     "remove_message": "The flames surrounding you gutter out.",
-    "decay_messages": [ [ "The flames around you spark fitfully.", "bad" ], [ "Your aura of flames is beginning to fade.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 31,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "enchantments": [ "enchant_pyrokinetic_aura" ]
   },
   {
@@ -1355,7 +1364,8 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 95,
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "blocks_effects": [ "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 100000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
@@ -1421,7 +1431,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",
@@ -1448,6 +1459,16 @@
     ],
     "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_lifting_field",
+    "name": [ "Lifting Field" ],
+    "desc": [ "You can hover a single item nearby, at the ready." ],
+    "apply_message": "",
+    "remove_message": "Your lifting field dissipates.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1544,7 +1565,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",
@@ -1633,9 +1654,16 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_mood_stabilization_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1690,6 +1718,13 @@
     "show_in_info": true,
     "base_mods": { "speed_mod": [ -30 ], "dodge_mod": [ -2 ], "hit_mod": [ -2 ], "bash_mod": [ -8 ] },
     "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_primal_terror_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1756,6 +1791,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_ephemeral_walk",
+    "name": [ "Ephemeral Walk" ],
+    "desc": [ "You exist slightly outside of baseline reality, allowing you to effortlessly walk through solid matter." ],
+    "remove_message": "The surrounding matter feels real again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
@@ -1764,7 +1821,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
-    "base_mods": { "speed_mod": [ -40 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {
@@ -1789,7 +1846,15 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporter_attuning_to_area",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1894,6 +1959,43 @@
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 2 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "bad",
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 0.01 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_bonus",
+    "name": [ "Leukocyte Accumulation" ],
+    "desc": [ "Your %s is receiving the bulk of your body's healing resources." ],
+    "apply_message": "",
+    "remove_message": "You stop concentrating your healing.",
+    "rating": "good",
+    "part_descs": true,
+    "max_intensity": 500,
+    "show_intensity": false,
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 20 ], "healing_head": [ 100 ], "healing_torso": [ 100 ] },
+    "scaling_mods": { "healing_rate": [ 6 ] }
   },
   {
     "type": "effect_type",

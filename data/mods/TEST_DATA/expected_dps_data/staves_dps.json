@@ -3,13 +3,22 @@
     "type": "test_data",
     "//": "typical value around 18",
     "expected_dps": {
-      "i_staff": 20.62,
-      "staff_sling": 11.56,
-      "q_staff": 15.74,
-      "shock_staff": 19.61,
-      "hockey_stick": 13.75,
+      "broom": 3.25,
       "pool_cue": 7.76,
-      "broom": 3.25
+      "staff_pipe": 11.09,
+      "staff_sling": 11.56,
+      "spear_shaft": 11.9,
+      "hockey_stick": 13.75,
+      "q_staff": 15.74,
+      "bo": 18.65,
+      "shock_staff": 19.61,
+      "art_staff": 20.62,
+      "i_staff": 20.62,
+      "lc_steel_staff": 20.79,
+      "mc_steel_staff": 21.54,
+      "hc_steel_staff": 21.95,
+      "ch_steel_staff": 22.3,
+      "qt_steel_staff": 22.87
     }
   }
 ]

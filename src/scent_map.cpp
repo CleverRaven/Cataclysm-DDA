@@ -100,6 +100,11 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
+int scent_map::get( const tripoint_bub_ms &p ) const
+{
+    return scent_map::get( p.raw() );
+}
+
 void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {

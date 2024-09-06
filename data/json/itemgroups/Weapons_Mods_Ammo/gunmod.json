@@ -37,7 +37,6 @@
       [ "wooden_grip", 5 ],
       [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
-      [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
       [ "light_grip", 50 ],
       [ "pistol_bayonet", 10 ],
@@ -154,13 +153,6 @@
     "//": "Default mods for m4 carbines issued with grenade launchers",
     "subtype": "distribution",
     "entries": [ { "item": "m203", "prob": 40 }, { "item": "m320_mod", "prob": 60 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "vz58v_mods",
-    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
-    "subtype": "collection",
-    "entries": [ { "item": "folding_stock" } ]
   },
   {
     "type": "item_group",

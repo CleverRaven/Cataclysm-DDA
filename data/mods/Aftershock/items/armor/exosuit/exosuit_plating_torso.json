@@ -129,7 +129,7 @@
     "copy-from": "exo_torso_steel",
     "name": { "str": "carbide torso plate (exosuit)", "str_pl": "carbide torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of vacuum-cast carbide.",
-    "weight": "37500 kg",
+    "weight": "50 kg",
     "material": [ "vacuum_carbide" ],
     "non_functional": "damaged_exo_torso_vcc",
     "armor": [

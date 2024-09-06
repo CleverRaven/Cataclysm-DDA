@@ -33,7 +33,7 @@
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
         dealt_projectile_attack &attack, const std::string &weapon_type )
 {
-    static const tripoint target_point{ 5, 5, 0 };
+    static const tripoint_bub_ms target_point{ 5, 5, 0 };
     map &here = get_map();
     for( int i = 0; i < 10; ++i ) {
         projectile projectile_copy = attack.proj;

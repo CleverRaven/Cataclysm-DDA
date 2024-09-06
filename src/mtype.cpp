@@ -119,8 +119,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_NO_NECRO,
             mon_flag_PACIFIST,
             mon_flag_PARALYZEVENOM,
-            mon_flag_PATH_AVOID_DANGER_1,
-            mon_flag_PATH_AVOID_DANGER_2,
+            mon_flag_PATH_AVOID_DANGER,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
@@ -245,8 +244,7 @@ void set_mon_flag_ids()
     mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
     mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
     mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
-    mon_flag_PATH_AVOID_DANGER_1 = mon_flag_id( "PATH_AVOID_DANGER_1" );
-    mon_flag_PATH_AVOID_DANGER_2 = mon_flag_id( "PATH_AVOID_DANGER_2" );
+    mon_flag_PATH_AVOID_DANGER = mon_flag_id( "PATH_AVOID_DANGER" );
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
@@ -310,6 +308,7 @@ mtype::mtype()
     reproduces = false;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
+    baby_monster_group = mongroup_id::NULL_ID();
     baby_egg = itype_id::NULL_ID();
 
     biosignatures = false;
@@ -319,6 +318,7 @@ mtype::mtype()
     sp_defense = nullptr;
     melee_training_cap = MAX_SKILL;
     harvest = harvest_list_human;
+    decay = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
 

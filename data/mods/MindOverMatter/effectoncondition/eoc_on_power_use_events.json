@@ -26,19 +26,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS",
+    "effect": [ { "run_eocs": [ "EOC_PHOTOKIN_REMOVE_INVISIBILITY" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS" ] },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
-    "condition": { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT" },
+        { "test_eoc": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "EOC_POWER_TOGGLE_REMOVE_MELEE_CANCELLABLE_EFFECTS" ] },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -130,7 +151,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "u_has_effect": "effect_photokin_dodge" },
-    "effect": [ { "u_lose_effect": "effect_photokin_dodge" } ]
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -520,13 +541,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
-    "condition": {
-      "math": [
-        "u_vitamin('vitamin_maintained_powers')",
-        ">=",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
-      ]
-    },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
@@ -540,13 +555,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
-    "condition": {
-      "math": [
-        "u_vitamin('vitamin_maintained_powers')",
-        "==",
-        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
-      ]
-    },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "concentration_calculations() + 1" ] },
     "effect": [
       { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
       { "u_lose_effect": "effect_psi_intense_concentration" },
@@ -559,18 +568,12 @@
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "condition": {
       "and": [
-        {
-          "math": [
-            "u_vitamin('vitamin_maintained_powers')",
-            ">",
-            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
-          ]
-        },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
         {
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
+                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -10, 0) * -10)"
               ]
             },
             "y": 100
@@ -585,17 +588,24 @@
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
           "+=",
-          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
+          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / concentration_calculations()"
         ]
+      },
+      {
+        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(15 * u_latest_channeled_power_difficulty)" ]
       }
     ],
     "false_effect": [
       {
         "run_eocs": [
           "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_CONCENTRATION_IN_NETHER_AREAS_ATTUNEMENT",
           "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK_CONCENTRATION",
           "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS"
         ]
+      },
+      {
+        "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(75 * u_latest_channeled_power_difficulty)" ]
       }
     ]
   },
@@ -663,9 +673,7 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        {
-          "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)" ]
-        }
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]

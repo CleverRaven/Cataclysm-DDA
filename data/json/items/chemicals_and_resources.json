@@ -56,7 +56,7 @@
   {
     "type": "AMMO",
     "id": "chunk_sulfur",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
@@ -123,7 +123,7 @@
   {
     "type": "AMMO",
     "id": "material_limestone",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "limestone" },
@@ -140,7 +140,7 @@
   {
     "type": "AMMO",
     "id": "material_quicklime",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "quicklime" },
@@ -207,14 +207,13 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "limestone shard" },
-    "category": "spare_parts",
+    "category": "chems",
     "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": "5 USD",
     "price_postapoc": "10 cent",
     "material": [ "stone" ],
     "weight": "2700 g",
     "volume": "1 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -235,7 +234,7 @@
   {
     "type": "GENERIC",
     "id": "material_rhodonite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "rhodonite" },
@@ -251,7 +250,7 @@
   {
     "type": "GENERIC",
     "id": "material_zincite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "zincite" },
@@ -355,13 +354,26 @@
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
     "weight": "500 g",
-    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.",
+    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.  Also, biogas production will start after one month.",
     "copy-from": "fertilizer_liquid",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": [ "fermented_fertilizer_liquid", "biogas" ] },
+    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fermentable_fish_mixture",
+    "name": { "str_sp": "fermentable fish mixture" },
+    "description": "A mixture of fish, sugars, and water.  Wait about two months for them to be fermented in an open tank.",
+    "copy-from": "fermentable_liquid_mixture",
+    "use_action": {
+      "type": "delayed_transform",
+      "target": "fermented_fertilizer_liquid",
+      "transform_age": 4320000,
+      "not_ready_msg": "The overpowering smell of the fermenting fish liquid makes it clear that it is not ready for use."
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -410,7 +422,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": [ "FUNGICIDE" ],
     "stim": -7,
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
     "healthy": -7,
@@ -430,7 +442,7 @@
     "weight": "50 g",
     "color": "pink",
     "looks_like": "fungicide",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "!",
     "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
     "price": "5 cent",
@@ -519,7 +531,7 @@
     "volume": "250 ml",
     "weight": "1760 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 100
   },
   {
@@ -532,7 +544,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of silvery-white metallic powder composed of nickel.  Common industrial uses include production of stainless steel as well as other alloys.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
     "weight": "36 mg",
@@ -619,7 +631,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A handful of dark green crystalline powder, with a weak pungent smell similar to that of hydrochloric acid.  Commonly used as a Lewis acid for catalyzing various chemical reactions.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "2900 mg",
@@ -636,7 +648,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of soft, colorless powder with a sharp pungent odor, also known as butter of antimony.  It's a catalyst for polymerization, hydrocracking, and chlorination reactions, and has some other niche uses.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "3140 mg",
@@ -1068,7 +1080,7 @@
     "volume": "89 ml",
     "weight": "151 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 1000
   },
   {
@@ -1120,7 +1132,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1138,7 +1150,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1155,7 +1167,7 @@
     "volume": "250 ml",
     "weight": "70 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 10,
     "melee_damage": { "bash": 1 }
   },
@@ -1194,8 +1206,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -1209,8 +1220,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1224,8 +1234,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1239,8 +1248,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "180 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1254,8 +1262,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1269,8 +1276,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1284,8 +1290,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1299,8 +1304,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1314,8 +1318,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1329,8 +1332,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1621,61 +1623,48 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_peptone_broth",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "name": { "str_sp": "peptone broth powder" },
+    "name": { "str_sp": "peptone water powder" },
     "symbol": ";",
-    "quench": -15,
-    "fun": -4,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "description": "A pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate, you could eat it too; it's not much different from cup noodle stock.",
-    "comestible_type": "INVALID",
+    "description": "A pre-mixed salty solution of protein and sugar meant for bacteria to eat.",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_agar",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "agar" },
     "symbol": ";",
-    "quench": -15,
-    "fun": -6,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "Clear flakes of processed seaweed that can be dissolved in boiling water to create a very sturdy, temperature-resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "1 ml",
     "//": "Bulk density is around 0.55 g/mL",
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_acrylamide",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "acrylamide" },
     "symbol": ";",
-    "quench": -15,
-    "healthy": -20,
-    "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "A handful of highly carcinogenic white powder that can be readily polymerized into a whole bunch of useful water-soluble gels.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
@@ -1807,21 +1796,16 @@
     "looks_like": "milk"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_citric_acid",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "citric acid" },
     "symbol": ";",
-    "quench": -15,
-    "healthy": -20,
-    "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "A manufactured form of citric acid that is commonly used as an additive in food, cleaning agents, and nutritional supplements.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
@@ -1868,7 +1852,8 @@
     "description": "A grayish, flexible vesicle filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "triffid_fungicide",
@@ -1878,7 +1863,8 @@
     "description": "A triffid sac filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
     "material": [ "veggy" ],
     "color": "light_blue",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "conc_venom",
@@ -1928,8 +1914,8 @@
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "red phosphorous" },
-    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
-    "weight": "100 mg",
+    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it in small portions as a propellant for bullets.",
+    "weight": "10 g",
     "volume": "5 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8-2.0 g/cm3",
     "container": "bottle_plastic_small",
@@ -1937,8 +1923,40 @@
     "color": "red",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "count": 1000,
-    "stack_size": 25
+    "stack_size": 1
+  },
+  {
+    "id": "red_phosphorous_small",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "small portion of red phosphorous" },
+    "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
+    "weight": "100 mg",
+    "volume": "5 ml",
+    "container": "bottle_plastic_small",
+    "symbol": "=",
+    "color": "red",
+    "price": "50 cent",
+    "price_postapoc": "2 cent",
+    "stack_size": 100
+  },
+  {
+    "id": "white_phosphorous",
+    "type": "AMMO",
+    "ammo_type": "components",
+    "category": "chems",
+    "name": { "str_sp": "white phosphorous" },
+    "description": "An allotrope of the element phosphorous.  Extremely flammable, produces toxic smoke, you can use it to make smoke bombs.",
+    "weight": "7500 mg",
+    "volume": "5 ml",
+    "//": "Density around 1.8g/cm3, but since it's a powder, it's a bit lower, around 1.5 g/cm3",
+    "container": "bottle_plastic_small",
+    "symbol": "=",
+    "color": "white",
+    "price": "50 cent",
+    "price_postapoc": "2 cent",
+    "stack_size": 1
   },
   {
     "id": "acetic_anhydride",
@@ -2078,7 +2096,6 @@
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
     "charges": 1,
-    "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },

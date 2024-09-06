@@ -23,7 +23,7 @@
         { "not": { "u_has_effect": "effect_psi_too_much_pain_cant_channel" } },
         {
           "math": [
-            "u_pain() - u_val('pkill')",
+            "u_pain('type': 'perceived')",
             ">=",
             "40 + ( 15 * ((u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic') ? 1 : 0) + (u_has_proficiency('prof_concentration_intermediate') ? 2 : 0) + (u_has_proficiency('prof_concentration_master') ? 3 : 0)))"
           ]
@@ -106,14 +106,92 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_YOU_ARE_NEAR_NETHER_POWER_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_YOU_ARE_IN_NETHER_POWER_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_EXTENDED_CHANNELING",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" },
+    "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
     "effect": [
       { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC')", "=", "25" ] },
       { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "-1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TORRENTIAL_CHANNELING",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "0.75" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -161,6 +239,7 @@
           "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
           "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
           "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+          "EOC_BIOKIN_REMOVE_HARDENED_SKIN",
           "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
           "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
           "EOC_BIOKIN_REMOVE_HAMMERHAND",
@@ -176,20 +255,28 @@
           "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
           "EOC_CLAIR_REMOVE_GROUP_TACTICS",
           "EOC_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
+          "EOC_ELECTROKIN_REMOVE_ZAP_ENEMIES",
+          "EOC_ELECTROKIN_REMOVE_MELEE_ATTACKS",
           "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
           "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
           "EOC_ELECTROKIN_REMOVE_REDUCE_PAIN",
+          "EOC_ELECTROKIN_REMOVE_SPEED_BOOST",
           "EOC_ELECTROKIN_REMOVE_LIGHTNING_AURA",
           "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
+          "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE",
           "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
           "EOC_PHOTOKIN_REMOVE_CAMOUFLAGE",
           "EOC_PHOTOKIN_REMOVE_HIDE_UGLY",
           "EOC_PHOTOKIN_REMOVE_RADIO",
+          "EOC_PHOTOKIN_REMOVE_INVISIBILITY",
+          "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE",
           "EOC_PYRO_REMOVE_FIRE_TOOL",
           "EOC_PYRO_REMOVE_WARMTH_CLOAK",
+          "EOC_PYROKIN_REMOVE_BLAZING_AURA",
           "EOC_PYRO_REMOVE_TORCH_WELD",
           "EOC_PYROKIN_REMOVE_FLAME_IMMUNITY",
           "EOC_TELEKIN_REMOVE_MOMENTUM",
+          "EOC_TELEKIN_REMOVE_LIFTING_FIELD",
           "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
           "EOC_TELEKIN_REMOVE_SHIELD",
           "EOC_TELEKIN_REMOVE_JACKING_TOOL",
@@ -198,15 +285,16 @@
           "EOC_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
           "EOC_TELEPATH_REMOVE_TELEPATHIC_MORALE",
           "EOC_TELEPATH_REMOVE_SENSE_MINDS",
+          "EOC_TELEPORT_REMOVE_EPHEMERAL_WALK",
           "EOC_TELEPORT_REMOVE_STRIDE",
           "EOC_VITAKIN_REMOVE_SLOW_BLEEDING",
+          "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
           "EOC_VITAKIN_REMOVE_CURE_DISEASE",
           "EOC_VITAKIN_REMOVE_SUPER_HEAL",
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "u_lose_effect": "effect_biokin_armor_skin" },
       { "u_lose_effect": "effect_biokin_sealed" },
       { "u_lose_effect": "effect_biokin_combat_dance" },
       { "u_lose_effect": "effect_biokin_perfected_motion" },
@@ -214,14 +302,7 @@
       { "u_remove_item_with": "clair_sense_rad_item" },
       { "u_lose_effect": "effect_clair_perfect_shot" },
       { "u_lose_effect": "effect_clair_omniscence" },
-      { "u_lose_effect": "effect_electrokin_zap_enemies" },
-      { "u_lose_effect": "effect_electrokin_melee_attacks" },
-      { "u_lose_effect": "effect_electrokinetic_speed_boost" },
-      { "u_lose_effect": "effect_photokin_dodge" },
-      { "u_lose_effect": "effect_photokin_invisibility" },
       { "u_lose_effect": "effect_photokin_arms" },
-      { "u_lose_effect": "effect_pyrokinetic_aura" },
-      { "u_lose_effect": "effect_pyrokinetic_flame_immunity" },
       { "u_lose_effect": "effect_telekinetic_slowfall" },
       { "u_lose_effect": "effect_telekinetic_aegis" },
       { "u_lose_effect": "effect_telepath_invisibility" },
@@ -241,6 +322,7 @@
           "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
           "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
           "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+          "EOC_BIOKIN_REMOVE_HARDENED_SKIN",
           "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
           "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
           "EOC_BIOKIN_REMOVE_HAMMERHAND",
@@ -256,20 +338,28 @@
           "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
           "EOC_CLAIR_REMOVE_GROUP_TACTICS",
           "EOC_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
+          "EOC_ELECTROKIN_REMOVE_ZAP_ENEMIES",
+          "EOC_ELECTROKIN_REMOVE_MELEE_ATTACKS",
           "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
           "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
           "EOC_ELECTROKIN_REMOVE_REDUCE_PAIN",
+          "EOC_ELECTROKIN_REMOVE_SPEED_BOOST",
           "EOC_ELECTROKIN_REMOVE_LIGHTNING_AURA",
           "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
+          "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE",
           "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
           "EOC_PHOTOKIN_REMOVE_CAMOUFLAGE",
           "EOC_PHOTOKIN_REMOVE_HIDE_UGLY",
           "EOC_PHOTOKIN_REMOVE_RADIO",
+          "EOC_PHOTOKIN_REMOVE_INVISIBILITY",
+          "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE",
           "EOC_PYRO_REMOVE_FIRE_TOOL",
           "EOC_PYRO_REMOVE_WARMTH_CLOAK",
+          "EOC_PYROKIN_REMOVE_BLAZING_AURA",
           "EOC_PYRO_REMOVE_TORCH_WELD",
           "EOC_PYROKIN_REMOVE_FLAME_IMMUNITY",
           "EOC_TELEKIN_REMOVE_MOMENTUM",
+          "EOC_TELEKIN_REMOVE_LIFTING_FIELD",
           "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
           "EOC_TELEKIN_REMOVE_SHIELD",
           "EOC_TELEKIN_REMOVE_JACKING_TOOL",
@@ -278,8 +368,10 @@
           "EOC_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
           "EOC_TELEPATH_REMOVE_TELEPATHIC_MORALE",
           "EOC_TELEPATH_REMOVE_SENSE_MINDS",
+          "EOC_TELEPORT_REMOVE_EPHEMERAL_WALK",
           "EOC_TELEPORT_REMOVE_STRIDE",
           "EOC_VITAKIN_REMOVE_SLOW_BLEEDING",
+          "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
           "EOC_VITAKIN_REMOVE_CURE_DISEASE",
           "EOC_VITAKIN_REMOVE_SUPER_HEAL",

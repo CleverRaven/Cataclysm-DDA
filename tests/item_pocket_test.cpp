@@ -1729,7 +1729,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns_and_gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "modular_m4_carbine" );
+    item m4a1( "debug_modular_m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );
@@ -1829,11 +1829,15 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     Character &u = get_player_character();
     clear_map();
     clear_character( u, true );
-    item_location cont1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_rigid ) );
-    item_location cont2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
-    item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
-    item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
-    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
+    item_location cont1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                         cont_nest_rigid ) );
+    item_location cont2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                         cont_nest_soft ) );
+    item_location obj1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                        rigid_obj ) );
+    item_location obj2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                        soft_obj ) );
+    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos_bub(), autopickup );
     u.assign_activity( act_actor );
 
     item_location pack;
@@ -2059,10 +2063,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( ( soft_nested ? "pickup most, nested empty" : "pickup all, overflow into nested" ) ) {
                 if( soft_nested ) {
@@ -2090,10 +2094,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
@@ -2122,10 +2126,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         obj2.remove_item();
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
@@ -2254,7 +2258,8 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
-    item_location jug_w_water( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
+    item_location jug_w_water( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                               cont_jug ) );
 
     GIVEN( "character wearing a multipocket liquid container" ) {
         item_location suit( u, & **u.wear_item( cont_suit, false ) );
@@ -2623,7 +2628,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     map &m = get_map();
     clear_map();
 
-    item_location backpack_loc( map_cursor( ipos ), &m.add_item( ipos, backpack ) );
+    item_location backpack_loc( map_cursor( tripoint_bub_ms( ipos ) ), &m.add_item( ipos, backpack ) );
     item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
     item_location water_loc( bottle_loc, &bottle_loc->only_item() );
 
@@ -2763,7 +2768,7 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     clear_map();
     tripoint_abs_omt const this_omt =
         project_to<coords::omt>( get_avatar().get_location() );
-    tripoint const this_bub = get_map().getlocal( project_to<coords::ms>( this_omt ) );
+    tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
     REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
     REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );
@@ -2866,6 +2871,59 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
                     return mod_it.type == it.type;
                 } );
                 compare_pockets( base_it, pocket_mod_data.second, false );
+            }
+        }
+    }
+}
+
+// Reproduce previous segfault from https://github.com/CleverRaven/Cataclysm-DDA/issues/75156
+TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    item pill( "tums" ); // "antacid pill"
+    REQUIRE( u.wear_item( item( "backpack" ) ) );
+    item_location backpack_loc = u.top_items_loc().front();
+    item *backpack = backpack_loc.get_item();
+    GIVEN( "spillable container contains two pillbottles, one with 4 pills and one with 1 pill" ) {
+        // Starting inventory looks like:
+        //   backpack >
+        //     steel_pan >
+        //       bottle_plastic_small > antacid tablet (1)
+        //       bottle_plastic_small > antacid tablet (4)
+        // It's a bit odd that we managed to put bottles into the frying
+        // pan in the first place, since the pan would normally reject that
+        // with a message stating that it would spill.
+        REQUIRE( backpack->put_in( item( "steel_pan" ), pocket_type::CONTAINER ).success() );
+        item *steelpan = backpack->all_items_top().front();
+        REQUIRE( steelpan->put_in( pill.in_its_container( 1 ), pocket_type::CONTAINER ).success() );
+        REQUIRE( steelpan->put_in( pill.in_its_container( 4 ), pocket_type::CONTAINER ).success() );
+        WHEN( "unload the pillbottle that only has one pill" ) {
+            item *bottle1 = steelpan->all_items_top().front();
+            item_location steelpan_loc( backpack_loc, steelpan );
+            item_location bottle1_loc( steelpan_loc, bottle1 );
+            unload_activity_actor::unload( u, bottle1_loc );
+            THEN( "pill is unloaded into bottle that previously had 4 pills, remaining empty bottle is kept" ) {
+                // Expected inventory after unloading should be:
+                //   backpack >
+                //     steel_pan
+                //     bottle_plastic_small
+                //     bottle_plastic_small > antacid tablet (5)
+                CHECK( here.i_at( u.pos_bub() ).empty() ); // no items spilled to ground
+                CHECK( u.top_items_loc().size() == 1 ); // backpack is still only inventory item
+                const std::list<item *> backpack_items_list = backpack->all_items_top();
+                const std::vector<item *> backpack_items_vec( backpack_items_list.begin(),
+                        backpack_items_list.end() );
+                CHECK( backpack_items_vec.size() == 3 );
+                CHECK( backpack_items_vec[0]->typeId().str() == "steel_pan" );
+                CHECK( backpack_items_vec[0]->empty() );
+                CHECK( backpack_items_vec[1]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[1]->empty() );
+                CHECK( backpack_items_vec[2]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[2]->all_items_top().size() == 5 );
+                CHECK_FALSE( static_cast<bool>( bottle1_loc ) );
             }
         }
     }

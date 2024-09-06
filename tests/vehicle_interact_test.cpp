@@ -45,7 +45,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );
         if( plug_in_tools && added_tool->can_link_up() ) {
-            added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north_west ),
+            added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint_north_west ),
                                  link_state::automatic );
             REQUIRE( added_tool->link().t_veh );
         }
@@ -94,7 +94,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 20, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 20, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 200, item( "welding_wire_steel" ) );
         test_repair( tools, true, true );
     }
@@ -112,9 +112,9 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
-        test_repair( tools, false, true );
+        test_repair( tools, false, false );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
@@ -123,7 +123,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, true, false );
     }
@@ -135,7 +135,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }
@@ -152,7 +152,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 5, item( "lc_steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false, false );
     }

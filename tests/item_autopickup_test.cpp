@@ -24,7 +24,7 @@ static const itype_id itype_candycigarette( "candycigarette" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_corpse( "corpse" );
-static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_diving_flashlight_small_hipower( "diving_flashlight_small_hipower" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_meat_canned( "meat_canned" );
@@ -200,7 +200,7 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -278,7 +278,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -287,7 +287,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 
     // flashlight > light battery (WL)
     WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
-        item item_flashlight = item( itype_flashlight );
+        item item_flashlight = item( itype_diving_flashlight_small_hipower );
         item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
         REQUIRE_FALSE( item_light_battery->is_null() );
 
@@ -319,7 +319,7 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -440,7 +440,7 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -517,7 +517,7 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -578,7 +578,7 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
 
     // this is where items will be picked up from
     const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( ground );
+    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
 
     // wield body bag and store item reference
     they.set_wielded_item( item( itype_bag_body_bag ) );

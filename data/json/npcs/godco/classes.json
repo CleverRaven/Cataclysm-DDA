@@ -574,12 +574,13 @@
     "name": { "str": "Trader" },
     "job_description": "I'm collecting gear and selling it at a high interest.",
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
     "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
     "shopkeeper_price_rules": [
       { "item": "icon", "price": 100 },
       {
         "group": "NC_EVAC_SHOPKEEP_misc",
-        "condition": { "not": { "npc_has_var": "general_meeting_u_paidoff", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_paidoff" } ] } },
         "markup": 3
       }
     ],
@@ -628,7 +629,7 @@
       { "item": "sports_bra" },
       { "item": "boxer_shorts" },
       { "item": "socks" },
-      { "item": "tshirt_text" },
+      { "item": "tshirt" },
       { "item": "skirt" },
       { "item": "sneakers" },
       { "item": "gloves_light" },
@@ -647,7 +648,7 @@
       { "item": "sneakers" },
       { "item": "briefs" },
       { "item": "bra" },
-      { "item": "tshirt_tour" },
+      { "item": "tshirt" },
       { "item": "pants_cargo" },
       { "item": "leather_belt" },
       { "item": "trenchcoat_leather" },
@@ -997,10 +998,7 @@
     "type": "item_group",
     "id": "GODCO_julian_carried",
     "subtype": "collection",
-    "entries": [
-      { "item": "glock17_17", "charges-min": 15, "charges-max": 17 },
-      { "item": "glock_17", "charges-min": 25, "charges-max": 30 }
-    ]
+    "entries": [ { "item": "glock17_17", "charges": [ 15, 17 ] }, { "item": "glock_17", "charges": [ 25, 30 ] } ]
   },
   {
     "type": "item_group",
@@ -1028,17 +1026,17 @@
     "items": [
       { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge_o2" },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
-      { "item": "bbgun", "prob": 15, "charges-min": 100 },
-      { "item": "bb", "prob": 10, "charges-min": 100 },
-      { "item": "tailors_kit", "prob": 15, "charges-min": 0 },
+      { "item": "bbgun", "prob": 15, "charges": [ 100, -1 ] },
+      { "item": "bb", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "tailors_kit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 20 },
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
       { "item": "glowstick", "prob": 50, "charges": 1400 },
       { "item": "handflare", "prob": 50, "charges": 300 },
-      { "item": "gasoline_lantern", "prob": 7, "charges-min": 100 },
-      { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
-      { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
       { "item": "pur_tablets", "prob": 10, "count": [ 15, 50 ] },
+      { "item": "gasoline_lantern", "prob": 7, "charges": [ 100, -1 ] },
+      { "item": "oil_lamp", "prob": 7, "charges": [ 100, -1 ] },
+      { "item": "lamp_oil", "prob": 5, "charges": [ 100, -1 ] },
       { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {
@@ -1215,7 +1213,7 @@
     "type": "item_group",
     "id": "GODCO_katherine_wield",
     "subtype": "collection",
-    "entries": [ { "item": "knife_steak" } ]
+    "entries": [ { "item": "knife_small", "variant": "knife_steak" } ]
   },
   {
     "type": "item_group",

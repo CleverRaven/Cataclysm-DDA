@@ -3,7 +3,7 @@
     "id": "20x66_10_mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "20x66mm 10-round magazine" },
+    "name": { "str": "compact caseless 10-round magazine" },
     "description": "A 10-round box magazine for use with the RM228 PDW and RM121 auxiliary shotgun.  Designated as RMSA10.",
     "weight": "210 g",
     "volume": "250 ml",

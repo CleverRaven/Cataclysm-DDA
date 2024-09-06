@@ -8,8 +8,12 @@
 #include <string>
 #include <string_view>
 
+#include "coords_fwd.h"
+
 class Character;
+class Creature;
 struct tripoint;
+
 template <typename E> struct enum_traits;
 
 namespace debug_menu
@@ -33,11 +37,14 @@ enum class debug_menu_index : int {
     LEARN_MA,
     UNLOCK_RECIPES,
     FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
+    SPAWN_HORDE,
     MAP_EDITOR,
     CHANGE_WEATHER,
     WIND_DIRECTION,
@@ -108,9 +115,11 @@ enum class debug_menu_index : int {
     last
 };
 
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
+// TODO: Get rid of untyped overload
 void wishitem( Character *you, const tripoint & );
+void wishitem( Character *you, const tripoint_bub_ms & );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( Character *you );
 void wishbionics( Character *you );
@@ -125,6 +134,8 @@ void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
 
 void debug();
+
+void do_debug_quick_setup();
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>
@@ -146,6 +157,8 @@ Container string_to_iterable( const std::string_view str, const std::string_view
 
     return res;
 }
+
+bool is_debug_character();
 
 /* Merges iterable elements into std::string with
  * @param delimiter between them

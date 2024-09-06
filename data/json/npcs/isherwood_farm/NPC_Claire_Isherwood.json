@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
+    "age": 67,
+    "height": 153,
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -138,7 +140,9 @@
         "text": "Hi, Jack suggested I stop by and say hello.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
         "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" } ],
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
+        "condition": {
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
+        }
       },
       {
         "text": "Can I do anything for you?",
@@ -353,8 +357,8 @@
     "has_generic_rewards": false,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,

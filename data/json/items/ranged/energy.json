@@ -18,13 +18,12 @@
     "weight": "10500 g",
     "volume": "4L",
     "price_postapoc": "100 USD",
-    "to_hit": -2,
     "range": 25,
     "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 60 },
     "dispersion": 90,
     "durability": 6,
     "clip_size": 25,
-    "reload": 200,
+    "reload": 700,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "grip", 1 ],
@@ -62,7 +61,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 25,
-    "reload": 700,
+    "reload": 200,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "grip", 1 ],

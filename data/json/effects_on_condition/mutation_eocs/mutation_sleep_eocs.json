@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRE_THRESHOLD_SPIDER_SLEEP_MUTATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_attempt_to_fall_asleep",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEB_WALKER" },
+        { "not": { "u_has_trait": "WEB_SPINNER" } },
+        { "not": { "u_has_trait": "WEB_WEAVER" } },
+        { "math": [ "u_field_strength('fd_web')", "<", "3" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "WEB_WALKER" } }, { "u_has_trait": "WEB_SPINNER" }, { "u_has_trait": "WEB_WEAVER" } ]
+    },
+    "effect": [ { "u_transform_radius": 0, "ter_furn_transform": "spider_clear_webs" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "spider_clear_webs",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_web" ] } ]
+  }
+]

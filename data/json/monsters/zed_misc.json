@@ -23,7 +23,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 1,
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "harvest": "zombie_animal",
     "vision_night": 7,
@@ -63,7 +63,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "RANGED_ATTACKER"
+      "RANGED_ATTACKER",
+      "POISON"
     ]
   },
   {
@@ -110,7 +111,8 @@
       }
     ],
     "regenerates": 40,
-    "armor": { "bash": 12, "cut": 2, "bullet": 1, "electric": 2 }
+    "armor": { "bash": 12, "cut": 2, "bullet": 1, "electric": 2 },
+    "burn_into": "mon_frog_smoker_hulk"
   },
   {
     "id": "mon_tadpole_grabber",
@@ -135,7 +137,7 @@
     "dodge": 4,
     "vision_day": 7,
     "vision_night": 7,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_basic_amphibian" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_basic_amphibian" ],
     "harvest": "exempt",
     "grab_strength": 15,
     "special_attacks": [
@@ -156,6 +158,7 @@
     "description": "The wound covered skin of this large bullfrog appears to be peeling in places, revealing a black goop beneath the surface.  Its vacant stare passes by anything that isn't food, and it will leap to devour anything it can.",
     "copy-from": "mon_proxy_frog_zombie",
     "attack_cost": 50,
+    "burn_into": "mon_frog_mummy",
     "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" }
   },
   {
@@ -200,7 +203,8 @@
       [ "SHRIEK_ALERT", 20 ],
       [ "SHRIEK_STUN", 5 ]
     ],
-    "armor": { "bash": 15, "cut": 7, "bullet": 5, "electric": 2 }
+    "armor": { "bash": 15, "cut": 7, "bullet": 5, "electric": 2 },
+    "burn_into": "mon_frog_smoker_hulk"
   },
   {
     "id": "mon_toad_zombie",
@@ -210,8 +214,8 @@
     "copy-from": "mon_proxy_frog_zombie",
     "color": "brown_green",
     "attack_cost": 50,
-    "upgrades": { "half_life": 30, "into": "mon_toad_bloat" },
-    "extend": { "flags": [ "POISON" ] }
+    "burn_into": "mon_frog_mummy",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" }
   },
   {
     "id": "mon_frog_shocker",
@@ -225,7 +229,14 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "dodge": 2,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_electromagnetics" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_basic_amphibian",
+      "prof_wp_zombie",
+      "prof_electromagnetics"
+    ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "harvest": "zombie_animal_electric",
     "luminance": 16,
@@ -237,6 +248,7 @@
         "move_cost": 0,
         "max_range": 6,
         "min_consider_range": 2,
+        "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       },
       {
@@ -258,6 +270,7 @@
       [ "PARROT", 8 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
+    "burn_into": "mon_frog_mummy",
     "extend": { "flags": [ "ELECTRIC" ] }
   },
   {
@@ -302,8 +315,8 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" },
-    "extend": { "flags": [ "POISON", "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "Create new death_sludge effect."
   },
   {
@@ -319,7 +332,7 @@
     "speed": 90,
     "symbol": "K",
     "color": "brown_green",
-    "melee_dice_sides": 5,
+    "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "dodge": 4,
     "armor": { "bash": 4, "cut": 2, "bullet": 1 },
@@ -348,9 +361,10 @@
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
+    "burn_into": "mon_frog_husk",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "//": "Translation note - 'Croaked' is a euphimistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
+    "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
   {
     "id": "mon_frog_shadow",
@@ -396,6 +410,7 @@
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
+    "burn_into": "mon_frog_husk",
     "extend": { "flags": [ "HARDTOSHOOT", "NIGHT_INVISIBILITY", "HIT_AND_RUN" ] }
   },
   {
@@ -442,7 +457,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "extend": { "flags": [ "POISON", "SLUDGETRAIL", "SLUDGEPROOF" ] },
+    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "When possible, give a sludge-spray on hit effect."
   },
   {
@@ -458,7 +473,14 @@
     "melee_skill": 6,
     "melee_dice": 5,
     "armor": { "bash": 15, "cut": 30, "bullet": 20, "electric": 4 },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_basic_amphibian",
+      "prof_wp_zombie",
+      "prof_wp_skeleton"
+    ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
     "attack_cost": 75,
     "grab_strength": 50,
@@ -494,7 +516,133 @@
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
-    "extend": { "flags": [ "POISON" ] }
+    "burn_into": "mon_frog_smoker_hulk"
+  },
+  {
+    "id": "mon_frog_husk",
+    "type": "MONSTER",
+    "name": { "str": "leaping husk" },
+    "description": "The dehydrated remains of a frog, like the unfortunate sort you might find trapped between a window and screen.  This one is much larger than those and surely capable of doing you real harm.  You see its dry skin crack and shed wisps of tainted dust as it moves.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "volume": "80 L",
+    "weight": "100 kg",
+    "hp": 45,
+    "speed": 80,
+    "symbol": "X",
+    "color": "brown_green",
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 2,
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "attack_cost": 60,
+    "grab_strength": 15,
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "move_cost": 0,
+        "max_range": 6,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
+      },
+      {
+        "id": "dusty_frog_leap",
+        "type": "spell",
+        "spell_data": { "id": "dusty_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
+      },
+      { "id": "scratch", "cooldown": 10 },
+      { "id": "bite_grab", "cooldown": 10 },
+      { "id": "drag_followup" }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "HARDTOSHOOT", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] }
+  },
+  {
+    "id": "mon_frog_mummy",
+    "type": "MONSTER",
+    "name": { "str": "batrachian mummy", "str_pl": "batrachian mummies" },
+    "description": "The ambulatory, desiccated corpse of an enormous amphibian.  What papery skin remains hugs tightly to the bones and shrunken flesh beneath.  Each stuttering leap it makes leaves it looking worse off as it sheds clouds of ash and soot.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "hp": 80,
+    "speed": 75,
+    "symbol": "H",
+    "color": "brown_green",
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "attack_cost": 75,
+    "grab_strength": 25,
+    "special_attacks": [
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 4,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
+      },
+      {
+        "id": "fragile_frog_leap",
+        "type": "spell",
+        "spell_data": { "id": "fragile_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
+      }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
+    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] }
+  },
+  {
+    "id": "mon_frog_smoker_hulk",
+    "type": "MONSTER",
+    "name": { "str": "batrachian smoker" },
+    "description": "Even without the haze of smoke that constantly fumes off of it, it would be difficult to tell what this once was.  The massive thing seems to have dried out and shriveled up, though unevenly.  Rind through core it has warped.  Its whole dry body crinkles and folds as it moves.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "volume": "200 L",
+    "weight": "180 kg",
+    "hp": 200,
+    "symbol": "H",
+    "color": "brown_green",
+    "melee_dice": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
+    "special_attacks": [
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 4,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
+      },
+      {
+        "id": "fragile_frog_leap",
+        "type": "spell",
+        "spell_data": { "id": "fragile_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
+      }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
+    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
   {
     "id": "mon_zombie_biter",
@@ -631,7 +779,7 @@
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
@@ -782,6 +930,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
+    "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
     "extend": {
@@ -789,6 +938,11 @@
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NEMESIS_DIED",
+    "effect": [ { "math": [ "Nemesis_iteration", "+=", "1" ] } ]
   },
   {
     "id": "mon_zombie_grabber",
@@ -808,6 +962,7 @@
     "harvest": "zombie_grabber",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -836,6 +991,7 @@
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": false,
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER" ] }
   },
@@ -889,6 +1045,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
+    "burn_into": "mon_zombie_fiend",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
@@ -995,7 +1152,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
@@ -1022,7 +1179,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "electric": 2 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
@@ -1078,7 +1235,49 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "regenerates": 12,
-    "upgrades": false,
+    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_hunter" },
+    "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
+    "id": "mon_zombie_regenerating_hunter",
+    "type": "MONSTER",
+    "name": { "str": "fleshy hunter" },
+    "description": "A zombie prowling around on all fours; its exposed muscles churn and snake, unraveling before restitching themselves elsewhere along its red-raw figure.",
+    "copy-from": "mon_zombie_hunter",
+    "regenerates": 12,
+    "color": "red_cyan",
+    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_final" },
+    "extend": { "flags": [ "SMELLS", "CLIMBS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
+    "id": "mon_zombie_regenerating_final",
+    "type": "MONSTER",
+    "name": { "str": "regenerating abomination" },
+    "description": "This zombie hardly resembles a human anymore - Its skeleton has been repeatedly dismantled and reassembled into a horrid quadrupedal shape, like some sort of mismatched action figure.  Slick, bloodied flesh writhes on its frame with an almost viscous quality, digesting and reconstituting itself in an endless ouroboros of undead flesh.",
+    "copy-from": "mon_zombie_predator",
+    "hp": 100,
+    "regenerates": 12,
+    "color": "red_cyan",
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.2 } ]
+      },
+      {
+        "id": "stretch_attack",
+        "cooldown": 10,
+        "move_cost": 50,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 7 } ]
+      },
+      { "id": "ranged_pull", "cooldown": 30, "grab_data": { "pull_weight_ratio": 1 } },
+      { "id": "grab_drag", "cooldown": 5 },
+      { "id": "drag_followup" },
+      { "id": "longswipe", "cooldown": 15 }
+    ],
+    "armor": { "electric": 1 },
+    "bleed_rate": 0,
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -1210,13 +1409,13 @@
     "copy-from": "mon_zombie_base",
     "hp": 90,
     "speed": 80,
-    "color": "light_gray_white",
+    "color": "dark_gray_white",
     "melee_skill": 7,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 7,
+    "dodge": 3,
     "bleed_rate": 125,
-    "vision_day": 1000,
+    "vision_day": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
     "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }

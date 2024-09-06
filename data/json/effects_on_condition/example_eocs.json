@@ -68,7 +68,7 @@
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_1",
     "effect": [
-      { "u_location_variable": { "u_val": "eoc_item_transporter_sample_loc" } },
+      { "u_location_variable": { "u_val": "eoc_sample_item_transporter_loc" } },
       { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
       { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
     ]
@@ -76,7 +76,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_2",
-    "condition": { "u_has_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
+    "condition": { "compare_string": [ "yes", { "u_val": "eoc_sample_item_transporter_set_coordinates" } ] },
     "effect": [
       {
         "u_run_inv_eocs": "manual_mult",
@@ -128,12 +128,12 @@
     "id": "EOC_if_else_test",
     "effect": [
       {
-        "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
+        "if": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] },
         "then": { "u_message": "You have variable." },
         "else": [
           { "u_message": "You don't have variable." },
           {
-            "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
+            "if": { "not": { "compare_string": [ "yes", { "u_val": "eoc_sample_if_else_test" } ] } },
             "then": [ { "u_add_var": "eoc_sample_if_else_test", "value": "yes" }, { "u_message": "Variable added." } ]
           }
         ]
@@ -186,7 +186,7 @@
     "type": "effect_on_condition",
     "id": "EOC_map_item_test2",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
       { "map_spawn_item": "bottle_plastic", "loc": { "context_val": "loc" } }
     ]
   },
@@ -195,12 +195,12 @@
     "id": "EOC_map_condition_test",
     "effect": [
       {
-        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
         "then": { "u_message": "Inside city" },
         "else": { "u_message": "Outside city" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,-1,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -214,7 +214,7 @@
         "else": { "u_message": "North furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(1,0,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -228,7 +228,7 @@
         "else": { "u_message": "East furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -242,7 +242,7 @@
         "else": { "u_message": "South furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(-1,0,0)" },
         "target_var": { "context_val": "loc" }
       },
       {
@@ -369,7 +369,7 @@
             "id": "EOC_player_see_test_nest",
             "condition": "player_see_u",
             "effect": { "message": "You can see <u_name>." },
-            "false_effect": { "message": "You cant see <u_name>." }
+            "false_effect": { "message": "You can't see <u_name>." }
           }
         ],
         "local": true
@@ -386,7 +386,7 @@
           {
             "if": { "u_can_see_location": { "context_val": "pos" } },
             "then": { "u_message": "You can see <context_val:pos>." },
-            "else": { "u_message": "You cant see <context_val:pos>." }
+            "else": { "u_message": "You can't see <context_val:pos>." }
           },
           {
             "u_run_npc_eocs": [
@@ -394,7 +394,7 @@
                 "id": "EOC_can_see_location_test_nest",
                 "condition": { "u_can_see_location": { "context_val": "pos" } },
                 "effect": { "message": "<u_name> can see <context_val:pos>." },
-                "false_effect": { "message": "<u_name> cant see <context_val:pos>." }
+                "false_effect": { "message": "<u_name> can't see <context_val:pos>." }
               }
             ],
             "local": true
@@ -510,6 +510,17 @@
     "effect": [
       { "u_set_talker": { "global_val": "u_character_id" } },
       { "u_message": "Your character id is <global_val:u_character_id>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_print_item_charge",
+    "condition": { "math": [ "n_val('power_max')", ">", "0" ] },
+    "effect": [
+      { "math": [ "ITEM_POWER", "=", "n_val('power')" ] },
+      { "math": [ "ITEM_POWER_MAX", "=", "n_val('power_max')" ] },
+      { "math": [ "ITEM_POWER_PERC", "=", "n_val('power_percentage')" ] },
+      { "u_message": "<global_val:ITEM_POWER> / <global_val:ITEM_POWER_MAX> (<global_val:ITEM_POWER_PERC>%)" }
     ]
   }
 ]

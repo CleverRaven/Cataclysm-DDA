@@ -367,7 +367,8 @@
         "d": [
           { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "electronics", "chance": 15 },
-          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 },
+          { "item": "collection_mindsight_and_note", "chance": 10 }
         ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
@@ -2452,7 +2453,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_terrain": [ { "ter": "t_nether_water_sh", "x": 0, "y": 0 } ],
-      "place_fields": [ { "field": "fd_reality_tear", "x": 0, "y": 0, "intensity": 3 } ],
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -2463,7 +2464,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_terrain": [ { "ter": "t_strconc_floor", "x": 0, "y": 0 } ],
-      "place_fields": [ { "field": "fd_reality_tear", "x": 0, "y": 0, "intensity": 3 } ],
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -2474,7 +2475,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_terrain": [ { "ter": "t_floor", "x": 0, "y": 0 } ],
-      "place_fields": [ { "field": "fd_reality_tear", "x": 0, "y": 0, "intensity": 3 } ],
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

@@ -24,7 +24,8 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coordinate_constants.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -450,6 +451,9 @@ struct vehicle_part {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
+        /** temporarily held projected position */
+        tripoint_bub_ms next_pos = tripoint_bub_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
+
         /** current part health with range [0,durability] */
         int hp() const;
 
@@ -624,7 +628,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -868,6 +872,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint_abs_ms &where );
+        // find_vehicle, but it compares the provided position to the position of
+        // every vehicle part instead of just the vehicle's position
+        static vehicle *find_vehicle_using_parts( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
@@ -921,9 +928,11 @@ class vehicle
          */
         bool mod_hp( vehicle_part &pt, int qty );
 
-        // check if given player controls this vehicle
+        // check if given character controls this vehicle
         bool player_in_control( const Character &p ) const;
-        // check if player controls this vehicle remotely
+        // check if the *player* character controls this vehicle
+        bool player_is_driving_this_veh() const;
+        // check if the given character controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
@@ -1008,7 +1017,8 @@ class vehicle
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        void start_engines( Character *driver = nullptr, bool take_control = false,
+                            bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
@@ -1062,7 +1072,8 @@ class vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
-        void merge_appliance_into_grid( vehicle &veh_target );
+        bool merge_appliance_into_grid( vehicle &veh_target );
+        void separate_from_grid( point mount );
 
         bool is_powergrid() const;
 
@@ -1177,27 +1188,32 @@ class vehicle
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        int part_with_feature( const point &pt, const std::string &f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( int p, vpart_bitflags f, bool unbroken, bool include_fake = false ) const;
         /**
         *  Returns index of part at mount point \p pt which has given \p f flag
         *  and is_available(), or -1 if no such part or it's not is_available()
@@ -1252,6 +1268,8 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                part_status_flag condition );  // TODO: Get rid of untyped operation.
+        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
                 const std::string &flag, part_status_flag condition ) const;
@@ -1379,6 +1397,9 @@ class vehicle
         bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
+        bool has_driver() const;
+        // get character that is currently controlling the vehicle's motion
+        Character *get_driver() const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
@@ -1518,6 +1539,9 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
+        // Get the total mass of the vehicle minus the weight of any creatures that are
+        // powering it; ie, the mass of the vehicle that the wheels are supporting
+        units::mass weight_on_wheels() const;
 
         // Gets the center of mass calculated for precalc[0] coordinates
         const point &rotated_center_of_mass() const;
@@ -1778,7 +1802,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                      const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
@@ -1946,6 +1971,12 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
 
+        // calculate the new projected points for all vehicle parts to move to
+        void part_project_points( const tripoint &dp );
+
+        // get all vehicle parts' projected points
+        std::set<tripoint_bub_ms> get_projected_part_points() const;
+
         /**
         * Consumes specified charges (or fewer) from the vehicle part
         * @param what specific type of charge required, e.g. 'battery'
@@ -2080,7 +2111,9 @@ class vehicle
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        // TODO: Get rid of untyped overload.
         void interact_with( const tripoint &p, bool with_pickup = false );
+        void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
 
@@ -2412,7 +2445,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );

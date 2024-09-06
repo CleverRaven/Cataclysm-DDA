@@ -6,9 +6,8 @@
     "description": "A small pouch that can be used to store most types of small ammunition; rockets, however, will not fit.  Use insert to store ammunition.",
     "weight": "490 g",
     "volume": "500 ml",
-    "price": "10 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": 1,
+    "price": "20 USD",
+    "price_postapoc": "6 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -71,8 +70,7 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "ammo_satchel",
@@ -82,7 +80,7 @@
     "weight": "180 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "6 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -110,8 +108,8 @@
     "description": "A fabric ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
-    "price": "12 USD 50 cent",
-    "price_postapoc": "20 USD",
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -207,17 +205,17 @@
     "id": "xl_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "name": { "str": "XL chest rig" },
+    "name": { "str": "chest rig" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "name": { "str": "XS chest rig" },
+    "name": { "str": "chest rig" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "javelin_bag",
@@ -297,7 +295,7 @@
     "volume": "250 ml",
     "weight": "60 g",
     "price": "20 USD",
-    "price_postapoc": "7 USD 50 cent",
+    "price_postapoc": "2 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -335,7 +333,7 @@
     "weight": "120 g",
     "volume": "250 ml",
     "price": "20 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "4 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
@@ -666,17 +664,17 @@
     "id": "xl_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "name": { "str": "XL tac vest" },
+    "name": { "str": "tac vest" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "name": { "str": "XS tac vest" },
+    "name": { "str": "tac vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "light_load_bearing_vest",
@@ -874,7 +872,7 @@
     "weight": "200 g",
     "volume": "250 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price_postapoc": "2 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -902,7 +900,7 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price_postapoc": "2 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -930,7 +928,7 @@
     "weight": "250 g",
     "volume": "400 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price_postapoc": "4 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -965,7 +963,7 @@
     "weight": "190 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price_postapoc": "4 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -994,7 +992,7 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": "30 USD",
-    "price_postapoc": "4 USD",
+    "price_postapoc": "6 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1022,7 +1020,7 @@
     "weight": "100 g",
     "volume": "100 ml",
     "price": "10 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "2 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1051,7 +1049,7 @@
     "weight": "220 g",
     "volume": "500 ml",
     "price": "90 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "2 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -1084,41 +1082,60 @@
   {
     "id": "gas_mask_pouch",
     "type": "ARMOR",
-    "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
+    "looks_like": "holster",
+    "//": " stats taken from: https://condoroutdoor.com/ma11.html",
     "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
     "description": "A large pouch capable of holding a gas mask and an additional filter, keeping both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "300 g",
     "volume": "250 ml",
-    "price": "20 USD",
-    "price_postapoc": "2 USD",
+    "//2": "Dimensions: 10.5x6.75x4 inches.",
+    "price": "19 USD 95 cent",
+    "price_postapoc": "1 USD 90 cent",
     "material": [ "nylon" ],
     "symbol": "[",
-    "looks_like": "holster",
     "color": "dark_gray",
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": [ 3, 4 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "2 kg",
-        "//": "gas masks don't seem to have lengths currently",
-        "max_item_length": "30 cm",
+        "max_contains_volume": "3546 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "27 cm",
+        "description": "The main compartment for a respirator.",
         "moves": 80,
         "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "950 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "8 cm",
+        "max_item_length": "12 cm",
+        "description": "A side pocket for a single spare filter.",
         "moves": 80,
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "150 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "17 cm",
+        "description": "An internal divider pocket for some small accessories.",
+        "moves": 80,
+        "volume_encumber_modifier": 0
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ]
   },
   {
     "id": "tactical_grenade_pouch",
@@ -1157,7 +1174,7 @@
     "weight": "500 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "6 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1231,7 +1248,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "price": "20 USD",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "4 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1245,19 +1262,19 @@
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL Kevlar vest" },
+    "name": { "str": "Kevlar vest" },
     "description": "A massive handmade imitation of a proper ballistic vest for abnormally large folks.  Large and heavy, but will still fit under an abnormally large coat.",
     "weight": "4210 g",
     "volume": "8 L",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "STURDY", "OVERSIZE" ],
+    "flags": [ "STURDY", "OVERSIZE", "PREFIX_XL" ],
     "armor": [
       {
         "material": [
@@ -1283,7 +1300,7 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "ammo_satchel_leather",
@@ -1293,7 +1310,7 @@
     "weight": "590 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "6 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -1322,7 +1339,7 @@
     "weight": "1140 g",
     "volume": "250 ml",
     "price": "12 USD 50 cent",
-    "price_postapoc": "20 USD",
+    "price_postapoc": "2 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -1352,7 +1369,6 @@
     "volume": "25 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1371,8 +1387,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_medium",
@@ -1383,7 +1398,6 @@
     "volume": "50 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1402,8 +1416,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_large",
@@ -1414,7 +1427,6 @@
     "volume": "100 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1433,7 +1445,6 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   }
 ]

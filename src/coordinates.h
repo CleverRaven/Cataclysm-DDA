@@ -11,7 +11,9 @@
 #include <utility>
 #include <vector>
 
+#include "cata_inline.h"
 #include "coordinate_conversions.h"
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "game_constants.h"
@@ -25,21 +27,6 @@ enum class direction : unsigned;
 
 namespace coords
 {
-
-enum class scale {
-    map_square,
-    submap,
-    overmap_terrain,
-    segment,
-    overmap,
-    vehicle
-};
-
-constexpr scale ms = scale::map_square;
-constexpr scale sm = scale::submap;
-constexpr scale omt = scale::overmap_terrain;
-constexpr scale seg = scale::segment;
-constexpr scale om = scale::overmap;
 
 constexpr int map_squares_per( scale s )
 {
@@ -61,15 +48,6 @@ constexpr int map_squares_per( scale s )
             constexpr_fatal( 0, "Requested scale of %d", s );
     }
 }
-
-enum class origin {
-    relative, // this is a special origin that can be added to any other
-    abs, // the global absolute origin for the entire game
-    submap, // from corner of submap
-    overmap_terrain, // from corner of overmap_terrain
-    overmap, // from corner of overmap
-    reality_bubble, // from corner of a reality bubble (aka 'map' or 'tinymap')
-};
 
 constexpr origin origin_from_scale( scale s )
 {
@@ -138,9 +116,10 @@ class coord_point_base
         Point raw_;
 };
 
-template<typename Point, typename Subpoint, bool InBounds>
+template<typename Point, typename Subpoint>
 class coord_point_mut : public coord_point_base<Point>
 {
+    protected:
         using base = coord_point_base<Point>;
 
     public:
@@ -187,318 +166,361 @@ class coord_point_mut : public coord_point_base<Point>
         }
 };
 
-template<typename Point, typename Subpoint>
-class coord_point_mut< Point, Subpoint, true> : public coord_point_base<Point>
+template<typename Point, origin Origin, scale Scale>
+class coord_point_ob : public
+    coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>
 {
-        using base = coord_point_base<Point>;
+        using base = coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>;
 
     public:
-        // Default constructed point is always inbounds.
-        constexpr coord_point_mut() = default;
-
-        // TODO: move the const accessors into base when cata-unsequenced-calls is fixed.
-        constexpr const Point &raw() const {
-            return this->raw_;
-        }
-
-        constexpr auto x() const {
-            return raw().x;
-        }
-        constexpr auto y() const {
-            return raw().y;
-        }
-        constexpr auto z() const {
-            return raw().z;
-        }
-
-    protected:
-        // Hide the constructors so they are not used by accident.
-        //
-        // Use make_unchecked instead.
-        explicit constexpr coord_point_mut( const Point &p ) : base( p ) {}
-        template <typename T>
-        constexpr coord_point_mut( const Subpoint &p, T z ) : base( p.raw(), z ) {}
-        template<typename T>
-        constexpr coord_point_mut( T x, T y ) : base( x, y ) {}
-        template<typename T>
-        constexpr coord_point_mut( T x, T y, T z ) : base( x, y, z ) {}
-};
-
-template<typename Point, origin Origin, scale Scale, bool InBounds = false>
-class coord_point : public
-    coord_point_mut<Point, coord_point<point, Origin, Scale, InBounds>, InBounds>
-{
-        using base = coord_point_mut<Point, coord_point<point, Origin, Scale, InBounds>, InBounds>;
         using base::base;
 
-    public:
         static constexpr int dimension = Point::dimension;
 
-        using this_as_tripoint_ob = coord_point<tripoint, Origin, Scale>;
-        using this_as_point = coord_point<point, Origin, Scale, InBounds>;
-        using this_as_ob = coord_point<Point, Origin, Scale>;
+        static constexpr bool is_inbounds = false;
+        using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
+        using this_as_point = coord_point_ob<point, Origin, Scale>;
+        using this_as_ob = coord_point_ob<Point, Origin, Scale>;
+        using this_as_tripoint_ob = coord_point_ob<tripoint, Origin, Scale>;
 
-        // Explicit functions to construct inbounds versions without doing any
-        // bounds checking. Only use these with a very good reason, when you
-        // are completely sure the result will be inbounds.
         template <typename T>
-        static constexpr coord_point make_unchecked( T x, T y ) {
-            return coord_point( x, y );
+        static constexpr coord_point_ob make_unchecked( T x, T y ) {
+            return coord_point_ob( x, y );
         }
         template <typename T>
-        static constexpr coord_point make_unchecked( T x, T y, T z ) {
-            return coord_point( x, y, z );
+        static constexpr coord_point_ob make_unchecked( T x, T y, T z ) {
+            return coord_point_ob( x, y, z );
         }
-        static constexpr coord_point make_unchecked( const this_as_ob &other ) {
-            return coord_point( other.raw() );
+        static constexpr coord_point_ob make_unchecked( const base &other ) {
+            return coord_point_ob( other );
         }
-        static constexpr coord_point make_unchecked( const Point &other ) {
-            return coord_point( other );
-        }
-        template <typename T>
-        static constexpr coord_point make_unchecked( const this_as_point &other, T z ) {
-            return coord_point( other, z );
+        static constexpr coord_point_ob make_unchecked( const Point &other ) {
+            return coord_point_ob( other );
         }
         template <typename T>
-        static constexpr coord_point make_unchecked( const point &other, T z ) {
-            return coord_point( other.x, other.y, z );
+        static constexpr coord_point_ob make_unchecked( const this_as_point &other, T z ) {
+            return coord_point_ob( other, z );
         }
-
-        // Allow implicit conversions from inbounds to out of bounds.
-        // NOLINTNEXTLINE(google-explicit-constructor)
-        operator this_as_ob() const {
-            return this_as_ob( this->raw() );
+        template <typename T>
+        static constexpr coord_point_ob make_unchecked( const point &other, T z ) {
+            return coord_point_ob( other.x, other.y, z );
         }
 
         constexpr auto xy() const {
-            return this_as_point::make_unchecked( this->raw().xy() );
+            return this_as_point( this->raw().xy() );
         }
 
-        friend inline this_as_ob operator+( const coord_point &l, const point &r ) {
+        friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
 
-        friend inline this_as_tripoint_ob operator+( const coord_point &l, const tripoint &r ) {
+        friend inline this_as_tripoint_ob operator+( const coord_point_ob &l, const tripoint &r ) {
             return this_as_tripoint_ob( l.raw() + r );
         }
 
-        friend inline this_as_ob operator+( const point &l, const coord_point &r ) {
+        friend inline this_as_ob operator+( const point &l, const coord_point_ob &r ) {
             return this_as_ob( l + r.raw() );
         }
 
-        friend inline this_as_tripoint_ob operator+( const tripoint &l, const coord_point &r ) {
+        friend inline this_as_tripoint_ob operator+( const tripoint &l, const coord_point_ob &r ) {
             return this_as_tripoint_ob( l + r.raw() );
         }
 
-        friend inline this_as_ob operator-( const coord_point &l, const point &r ) {
+        friend inline this_as_ob operator-( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() - r );
         }
 
-        friend inline this_as_tripoint_ob operator-( const coord_point &l, const tripoint &r ) {
+        friend inline this_as_tripoint_ob operator-( const coord_point_ob &l, const tripoint &r ) {
             return this_as_tripoint_ob( l.raw() - r );
         }
 };
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator+=( coord_point<Point, Origin, Scale>
-        &me, const coord_point<Point, origin::relative, Scale> &r )
+class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
+{
+        using base = coord_point_ob<Point, Origin, Scale>;
+        using base::base;
+
+    public:
+        static constexpr bool is_inbounds = true;
+        using this_as_tripoint = coord_point_ib<tripoint, Origin, Scale>;
+        using this_as_point = coord_point_ib<point, Origin, Scale>;
+        using this_as_tripoint_ob = coord_point_ob<tripoint, Origin, Scale>;
+        using this_as_ob = base;
+
+        // Explicit functions to construct inbounds versions without doing any
+        // bounds checking. Only use these with a very good reason, when you
+        // are completely sure the result will be inbounds.
+        template <typename T>
+        static constexpr coord_point_ib make_unchecked( T x, T y ) {
+            return coord_point_ib( x, y );
+        }
+        template <typename T>
+        static constexpr coord_point_ib make_unchecked( T x, T y, T z ) {
+            return coord_point_ib( x, y, z );
+        }
+        static constexpr coord_point_ib make_unchecked( const base &other ) {
+            return coord_point_ib( other );
+        }
+        static constexpr coord_point_ib make_unchecked( const Point &other ) {
+            return coord_point_ib( other );
+        }
+        template <typename T>
+        static constexpr coord_point_ib make_unchecked( const this_as_point &other, T z ) {
+            return coord_point_ib( other, z );
+        }
+        template <typename T>
+        static constexpr coord_point_ib make_unchecked( const point &other, T z ) {
+            return coord_point_ib( other.x, other.y, z );
+        }
+
+        // Allow implicit conversions from inbounds to out of bounds.
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        operator const this_as_ob &() const {
+            return *this;
+        }
+
+        const this_as_ob &as_ob() const {
+            return *this;
+        }
+
+        constexpr auto xy() const {
+            return this_as_point::make_unchecked( this->raw().xy() );
+        }
+};
+
+template<typename Point, origin Origin, scale Scale>
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator+=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const coord_point_ob<Point, origin::relative, Scale> &r )
 {
     me.raw() += r.raw();
     return me;
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator-=( coord_point<Point, Origin, Scale>
-        &me, const coord_point<Point, origin::relative, Scale> &r )
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator-=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const coord_point_ob<Point, origin::relative, Scale> &r )
 {
     me.raw() -= r.raw();
     return me;
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator+=( coord_point<Point, Origin, Scale>
-        &me, const point &r )
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator+=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const point &r )
 {
     me.raw() += r;
     return me;
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator-=( coord_point<Point, Origin, Scale>
-        &me, const point &r )
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator-=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const point &r )
 {
     me.raw() -= r;
     return me;
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator+=( coord_point<Point, Origin, Scale>
-        &me, const tripoint &r )
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator+=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const tripoint &r )
 {
     me.raw() += r;
     return me;
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline coord_point<Point, Origin, Scale> &operator-=( coord_point<Point, Origin, Scale>
-        &me, const tripoint &r )
+constexpr inline coord_point_ob<Point, Origin, Scale> &operator-=
+( coord_point_ob<Point, Origin, Scale>
+  &me, const tripoint &r )
 {
     me.raw() -= r;
     return me;
 }
 
-template<typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
-constexpr inline bool operator==( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
-                                  const coord_point<Point, Origin, Scale, RhsInBounds> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator==( const coord_point_ob<Point, Origin, Scale> &l,
+                                  const coord_point_ob<Point, Origin, Scale> &r )
 {
     return l.raw() == r.raw();
 }
 
-template<typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
-constexpr inline bool operator!=( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
-                                  const coord_point<Point, Origin, Scale, RhsInBounds> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator!=( const coord_point_ob<Point, Origin, Scale> &l,
+                                  const coord_point_ob<Point, Origin, Scale> &r )
 {
     return l.raw() != r.raw();
 }
 
-template<typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
-constexpr inline bool operator<( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
-                                 const coord_point<Point, Origin, Scale, RhsInBounds> &r )
+template<typename Point, origin Origin, scale Scale>
+constexpr inline bool operator<( const coord_point_ob<Point, Origin, Scale> &l,
+                                 const coord_point_ob<Point, Origin, Scale> &r )
 {
     return l.raw() < r.raw();
 }
 
-template<typename PointL, typename PointR, origin OriginL, scale Scale, bool InBounds>
+template<typename PointL, typename PointR, origin OriginL, scale Scale>
 constexpr inline auto operator+(
-    const coord_point<PointL, OriginL, Scale, InBounds> &l,
-    const coord_point<PointR, origin::relative, Scale> &r )
+    const coord_point_ob<PointL, OriginL, Scale> &l,
+    const coord_point_ob<PointR, origin::relative, Scale> &r )
 {
     using PointResult = decltype( PointL() + PointR() );
-    return coord_point<PointResult, OriginL, Scale>( l.raw() + r.raw() );
+    return coord_point_ob<PointResult, OriginL, Scale>( l.raw() + r.raw() );
 }
 
-template < typename PointL, typename PointR, origin OriginR, scale Scale, bool InBounds,
+template < typename PointL, typename PointR, origin OriginR, scale Scale,
            // enable_if to prevent ambiguity with above when both args are
            // relative
            typename = std::enable_if_t < OriginR != origin::relative >>
 constexpr inline auto operator+(
-    const coord_point<PointL, origin::relative, Scale> &l,
-    const coord_point<PointR, OriginR, Scale, InBounds> &r )
+    const coord_point_ob<PointL, origin::relative, Scale> &l,
+    const coord_point_ob<PointR, OriginR, Scale> &r )
 {
     using PointResult = decltype( PointL() + PointR() );
-    return coord_point<PointResult, OriginR, Scale>( l.raw() + r.raw() );
+    return coord_point_ob<PointResult, OriginR, Scale>( l.raw() + r.raw() );
 }
 
-template<typename PointL, typename PointR, origin OriginL, scale Scale, bool InBounds>
+template<typename PointL, typename PointR, origin OriginL, scale Scale>
 constexpr inline auto operator-(
-    const coord_point<PointL, OriginL, Scale, InBounds> &l,
-    const coord_point<PointR, origin::relative, Scale> &r )
+    const coord_point_ob<PointL, OriginL, Scale> &l,
+    const coord_point_ob<PointR, origin::relative, Scale> &r )
 {
     using PointResult = decltype( PointL() + PointR() );
-    return coord_point<PointResult, OriginL, Scale>( l.raw() - r.raw() );
+    return coord_point_ob<PointResult, OriginL, Scale>( l.raw() - r.raw() );
 }
 
-template < typename PointL, typename PointR, origin Origin, scale Scale, bool LhsInBounds,
-           bool RhsInBounds,
+template < typename PointL, typename PointR, origin Origin, scale Scale,
            // enable_if to prevent ambiguity with above when both args are
            // relative
            typename = std::enable_if_t < Origin != origin::relative >>
 constexpr inline auto operator-(
-    const coord_point<PointL, Origin, Scale, LhsInBounds> &l,
-    const coord_point<PointR, Origin, Scale, RhsInBounds> &r )
+    const coord_point_ob<PointL, Origin, Scale> &l,
+    const coord_point_ob<PointR, Origin, Scale> &r )
 {
     using PointResult = decltype( PointL() + PointR() );
-    return coord_point<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
+    return coord_point_ob<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
 }
 
 // Only relative points can be multiplied by a constant
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
-    int l, const coord_point<Point, origin::relative, Scale> &r )
+constexpr inline coord_point_ob<Point, origin::relative, Scale> operator*(
+    int l, const coord_point_ob<Point, origin::relative, Scale> &r )
 {
-    return coord_point<Point, origin::relative, Scale>( l * r.raw() );
+    return coord_point_ob<Point, origin::relative, Scale>( l * r.raw() );
 }
 
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
-    const coord_point<Point, origin::relative, Scale> &r, int l )
+constexpr inline coord_point_ob<Point, origin::relative, Scale> operator*(
+    const coord_point_ob<Point, origin::relative, Scale> &r, int l )
 {
-    return coord_point<Point, origin::relative, Scale>( r.raw() * l );
+    return coord_point_ob<Point, origin::relative, Scale>( r.raw() * l );
 }
 
-template<typename Point, origin Origin, scale Scale, bool InBounds>
+template<typename Point, origin Origin, scale Scale>
 inline std::ostream &operator<<( std::ostream &os,
-                                 const coord_point<Point, Origin, Scale, InBounds> &p )
+                                 const coord_point_ob<Point, Origin, Scale> &p )
 {
     return os << p.raw();
 }
 
-template <typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
-constexpr inline coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >
-coord_min( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
-           const coord_point<Point, Origin, Scale, RhsInBounds> &r )
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point < Point, Origin, Scale>
+coord_min( const coord_point_ob<Point, Origin, Scale> &l,
+           const coord_point_ob<Point, Origin, Scale> &r )
 {
-    return coord_point < Point, Origin, Scale, LhsInBounds &&
-           RhsInBounds >::make_unchecked( std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(),
-                                          r.z() ) );
+    return coord_point < Point, Origin, Scale >::make_unchecked( std::min( l.x(), r.x() ),
+            std::min( l.y(), r.y() ), std::min( l.z(),
+                    r.z() ) );
 }
 
-template <typename Point, origin Origin, scale Scale, bool LhsInBounds, bool RhsInBounds>
-constexpr inline coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >
-coord_max( const coord_point<Point, Origin, Scale, LhsInBounds> &l,
-           const coord_point<Point, Origin, Scale, RhsInBounds> &r )
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point < Point, Origin, Scale >
+coord_max( const coord_point_ob<Point, Origin, Scale> &l,
+           const coord_point_ob<Point, Origin, Scale> &r )
 {
-    return coord_point < Point, Origin, Scale, LhsInBounds &&
-           RhsInBounds >::make_unchecked( std::max( l.x(), r.x() ), std::max( l.y(), r.y() ), std::max( l.z(),
-                                          r.z() ) );
+    return coord_point < Point, Origin, Scale >::make_unchecked( std::max( l.x(), r.x() ),
+            std::max( l.y(), r.y() ), std::max( l.z(),
+                    r.z() ) );
 }
 
-template<int ScaleUp, int ScaleDown, scale ResultScale, bool InBounds>
+// Min and max of inbounds points results in an inbounds point.
+
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point_ib < Point, Origin, Scale>
+coord_min( const coord_point_ib<Point, Origin, Scale> &l,
+           const coord_point_ib<Point, Origin, Scale> &r )
+{
+    return coord_point_ib < Point, Origin, Scale >::make_unchecked( std::min( l.x(), r.x() ),
+            std::min( l.y(), r.y() ), std::min( l.z(),
+                    r.z() ) );
+}
+
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point_ib < Point, Origin, Scale >
+coord_max( const coord_point_ib<Point, Origin, Scale> &l,
+           const coord_point_ib<Point, Origin, Scale> &r )
+{
+    return coord_point_ib < Point, Origin, Scale >::make_unchecked( std::max( l.x(), r.x() ),
+            std::max( l.y(), r.y() ), std::max( l.z(),
+                    r.z() ) );
+}
+
+template<int ScaleUp, int ScaleDown, scale ResultScale>
 struct project_to_impl;
 
-template<int ScaleUp, scale ResultScale, bool InBounds>
-struct project_to_impl<ScaleUp, 0, ResultScale, InBounds> {
-    template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, Origin, ResultScale, InBounds> operator()(
-        const coord_point<Point, Origin, SourceScale, InBounds> &src ) {
+template<int ScaleUp, scale ResultScale>
+struct project_to_impl<ScaleUp, 0, ResultScale> {
+    template<template<class, origin, scale> class coord, typename Point, origin Origin, scale SourceScale>
+    coord<Point, Origin, ResultScale> CATA_FORCEINLINE operator()(
+        const coord<Point, Origin, SourceScale> src ) {
         // Inbounds points are guaranteed to be inbounds after scaling up.
         //
         // e.g. point_bub_sm_ib scaled up to point_bub_ms_ib points to the top
         // left of the submap, which is still inbounds.
-        return coord_point<Point, Origin, ResultScale, InBounds>::make_unchecked( multiply_xy( src.raw(),
+        return coord<Point, Origin, ResultScale>::make_unchecked( multiply_xy( src.raw(),
                 ScaleUp ) );
     }
 };
 
 template<int ScaleDown, scale ResultScale>
-struct project_to_impl<0, ScaleDown, ResultScale, false> {
+struct project_to_impl<0, ScaleDown, ResultScale> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, Origin, ResultScale> operator()(
-        const coord_point<Point, Origin, SourceScale> &src ) {
-        return coord_point<Point, Origin, ResultScale>(
+    coord_point_ob<Point, Origin, ResultScale> CATA_FORCEINLINE operator()(
+        const coord_point_ob<Point, Origin, SourceScale> src ) {
+        return coord_point_ob<Point, Origin, ResultScale>(
                    divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
     }
-};
 
-template<int ScaleDown, scale ResultScale>
-struct project_to_impl<0, ScaleDown, ResultScale, true> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, Origin, ResultScale, true> operator()(
-        const coord_point<Point, Origin, SourceScale, true> &src ) {
+    coord_point_ib<Point, Origin, ResultScale> CATA_FORCEINLINE operator()(
+        const coord_point_ib<Point, Origin, SourceScale> src ) {
         // Inbounds points are guaranteed to be inbounds after scaling down.
         //
         // They are also guaranteed to be >= 0, so we can use a more effecient method of scaling.
-        return coord_point<Point, Origin, ResultScale, true>::make_unchecked(
+        return coord_point_ib<Point, Origin, ResultScale>::make_unchecked(
                    divide_xy_round_to_minus_infinity_non_negative( src.raw(), ScaleDown ) );
     }
 };
 
-template<scale ResultScale, typename Point, origin Origin, scale SourceScale, bool InBounds>
-inline auto project_to( const coord_point<Point, Origin, SourceScale, InBounds> &src )
+template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
+CATA_FORCEINLINE auto project_to( const coord_point_ob<Point, Origin, SourceScale> src )
 {
     constexpr int scale_down = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     constexpr int scale_up = map_squares_per( SourceScale ) / map_squares_per( ResultScale );
-    return project_to_impl<scale_up, scale_down, ResultScale, InBounds>()( src );
+    return project_to_impl<scale_up, scale_down, ResultScale>()( src );
+}
+
+template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
+CATA_FORCEINLINE auto project_to( const coord_point_ib<Point, Origin, SourceScale> src )
+{
+    constexpr int scale_down = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
+    constexpr int scale_up = map_squares_per( SourceScale ) / map_squares_per( ResultScale );
+    return project_to_impl<scale_up, scale_down, ResultScale>()( src );
 }
 
 // Resolves the remainer type for project_remain. In most cases the result shares
@@ -509,27 +531,37 @@ inline auto project_to( const coord_point<Point, Origin, SourceScale, InBounds> 
 // do this for origin::reality_bubble
 template<typename Point, origin RemainderOrigin, scale SourceScale, bool InBounds>
 struct remainder_inbounds {
-    using type = coord_point<Point, RemainderOrigin, SourceScale, InBounds>;
+    using type =
+        std::conditional_t<InBounds, coord_point_ib<Point, RemainderOrigin, SourceScale>, coord_point_ob<Point, RemainderOrigin, SourceScale>>;
 };
 
 // *_sm_ms are always inbounds as remainder.
 template<typename Point, bool InBounds>
 struct remainder_inbounds<Point, origin::submap, scale::map_square, InBounds> {
-    using type = coord_point<Point, origin::submap, scale::map_square, true>;
+    using type = coord_point_ib<Point, origin::submap, scale::map_square>;
 };
 
 template<typename Point, origin RemainderOrigin, scale SourceScale, bool InBounds>
 using remainder_inbounds_t = typename
                              remainder_inbounds<Point, RemainderOrigin, SourceScale, InBounds>::type;
 
+template<typename Point, origin QuotientOrigin, scale SourceScale, bool InBounds>
+using quotient_type_t =
+    std::conditional_t<InBounds, coord_point_ib<Point, QuotientOrigin, SourceScale>, coord_point_ob<Point, QuotientOrigin, SourceScale>>;
+
 template<origin Origin, scale CoarseScale, scale FineScale, bool InBounds>
 struct quotient_remainder_helper {
     constexpr static origin RemainderOrigin = origin_from_scale( CoarseScale );
-    using quotient_type = coord_point<point, Origin, CoarseScale, InBounds>;
-    using quotient_type_tripoint = coord_point<tripoint, Origin, CoarseScale, InBounds>;
+    using quotient_type = quotient_type_t<point, Origin, CoarseScale, InBounds>;
+    using quotient_type_tripoint = quotient_type_t<tripoint, Origin, CoarseScale, InBounds>;
+    using quotient_type_ob = quotient_type_t<point, Origin, CoarseScale, false>;
+    using quotient_type_tripoint_ob = quotient_type_t<tripoint, Origin, CoarseScale, false>;
     using remainder_type = remainder_inbounds_t<point, RemainderOrigin, FineScale, InBounds>;
     using remainder_type_tripoint =
         remainder_inbounds_t<tripoint, RemainderOrigin, FineScale, InBounds>;
+    using remainder_type_ob = remainder_inbounds_t<point, RemainderOrigin, FineScale, false>;
+    using remainder_type_tripoint_ob =
+        remainder_inbounds_t<tripoint, RemainderOrigin, FineScale, false>;
 };
 
 template<origin Origin, scale CoarseScale, scale FineScale, bool InBounds>
@@ -553,8 +585,12 @@ struct quotient_remainder_tripoint {
     using helper = quotient_remainder_helper<Origin, CoarseScale, FineScale, InBounds>;
     using quotient_type = typename helper::quotient_type;
     using quotient_type_tripoint = typename helper::quotient_type_tripoint;
+    using quotient_type_ob = typename helper::quotient_type_ob;
+    using quotient_type_tripoint_ob = typename helper::quotient_type_tripoint_ob;
     using remainder_type = typename helper::remainder_type;
     using remainder_type_tripoint = typename helper::remainder_type_tripoint;
+    using remainder_type_ob = typename helper::remainder_type_ob;
+    using remainder_type_tripoint_ob = typename helper::remainder_type_tripoint_ob;
 
     // Annoyingly, for the conversion operators below to work correctly, we
     // need to have point and tripoint version of both quotient and remainder
@@ -578,6 +614,36 @@ struct quotient_remainder_tripoint {
     operator std::tuple<quotient_type &, remainder_type_tripoint &>() {
         return std::tie( quotient, remainder_tripoint );
     }
+
+    // Additional conversions that allow converting _ib results to _ob outputs.
+    // The template trickery is to avoid ambiguous overloads
+
+    template < typename quotient_tripoint_ob = quotient_type_tripoint_ob,
+               std::enable_if_t < !std::is_same_v<quotient_type_tripoint, quotient_tripoint_ob >> * = nullptr >
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator std::tuple<quotient_type_tripoint_ob &, remainder_type &>() {
+        return std::tie( static_cast<quotient_type_tripoint_ob &>( quotient_tripoint ), remainder );
+    }
+    template < typename quotient_ob = quotient_type_ob,
+               std::enable_if_t < !std::is_same_v<quotient_type, quotient_ob >> * = nullptr >
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator std::tuple<quotient_ob &, remainder_type_tripoint &>() {
+        return std::tie( static_cast<quotient_ob &>( quotient ), remainder_tripoint );
+    }
+
+    template < typename remainder_ob = remainder_type_ob,
+               std::enable_if_t < !std::is_same_v<remainder_type, remainder_ob >> * = nullptr >
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator std::tuple<quotient_type_tripoint &, remainder_ob &>() {
+        return std::tie( quotient_tripoint, static_cast<remainder_ob &>( remainder ) );
+    }
+    template < typename remainder_tripoint_ob = remainder_type_tripoint_ob,
+               std::enable_if_t < !std::is_same_v<remainder_type_tripoint, remainder_tripoint_ob >> * = nullptr >
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator std::tuple<quotient_type &, remainder_tripoint_ob &>() {
+        return std::tie( quotient, static_cast<remainder_tripoint_ob &>( remainder_tripoint ) );
+    }
+
 };
 
 // project_remain returns a helper struct, intended to be used with std::tie
@@ -599,9 +665,10 @@ struct quotient_remainder_tripoint {
 //  point_abs_om quotient;
 //  tripoint_om_sm remainder;
 //  std::tie( quotient, remainder ) = project_remain<coords::om>( val );
-template<scale ResultScale, origin Origin, scale SourceScale, bool InBounds>
-inline quotient_remainder_point<Origin, ResultScale, SourceScale, InBounds> project_remain(
-    const coord_point<point, Origin, SourceScale, InBounds> &src )
+template<scale ResultScale, origin Origin, scale SourceScale, template<class, origin, scale> class coord, bool InBounds = coord<point, Origin, SourceScale>::is_inbounds>
+CATA_FORCEINLINE quotient_remainder_point<Origin, ResultScale, SourceScale, InBounds>
+project_remain(
+    const coord<point, Origin, SourceScale> src )
 {
     constexpr int ScaleDown = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     static_assert( ScaleDown > 0, "You can only project to coarser coordinate systems" );
@@ -614,9 +681,10 @@ inline quotient_remainder_point<Origin, ResultScale, SourceScale, InBounds> proj
     return { quotient, remainder };
 }
 
-template<scale ResultScale, origin Origin, scale SourceScale, bool InBounds>
-inline quotient_remainder_tripoint<Origin, ResultScale, SourceScale, InBounds> project_remain(
-    const coord_point<tripoint, Origin, SourceScale, InBounds> &src )
+template<scale ResultScale, origin Origin, scale SourceScale, template<class, origin, scale> class coord, bool InBounds = coord<tripoint, Origin, SourceScale>::is_inbounds>
+CATA_FORCEINLINE quotient_remainder_tripoint<Origin, ResultScale, SourceScale, InBounds>
+project_remain(
+    const coord<tripoint, Origin, SourceScale> src )
 {
     using qrp = quotient_remainder_tripoint<Origin, ResultScale, SourceScale, InBounds>;
     using quotient_type_tripoint = typename qrp::quotient_type_tripoint;
@@ -629,175 +697,208 @@ inline quotient_remainder_tripoint<Origin, ResultScale, SourceScale, InBounds> p
 }
 
 template<typename PointL, typename PointR, origin CoarseOrigin, scale CoarseScale,
-         origin FineOrigin, scale FineScale, bool CoarseInBounds, bool FineInBounds>
+         origin FineOrigin, scale FineScale>
 inline auto project_combine(
-    const coord_point<PointL, CoarseOrigin, CoarseScale, CoarseInBounds> &coarse,
-    const coord_point<PointR, FineOrigin, FineScale, FineInBounds> &fine )
+    const coord_point_ob<PointL, CoarseOrigin, CoarseScale> &coarse,
+    const coord_point_ob<PointR, FineOrigin, FineScale> &fine )
 {
     static_assert( origin_from_scale( CoarseScale ) == FineOrigin,
                    "given point types are not compatible for combination" );
     static_assert( PointL::dimension != 3 || PointR::dimension != 3,
                    "two tripoints should not be combined; it's unclear how to handle z" );
     using PointResult = decltype( PointL() + PointR() );
-    const coord_point<PointL, CoarseOrigin, FineScale> refined_coarse =
+    const coord_point_ob<PointL, CoarseOrigin, FineScale> refined_coarse =
         project_to<FineScale>( coarse );
-    return coord_point < PointResult, CoarseOrigin, FineScale, CoarseInBounds &&
-           FineInBounds >::make_unchecked( refined_coarse.raw() + fine.raw() );
+    return coord_point < PointResult, CoarseOrigin, FineScale >::make_unchecked(
+               refined_coarse.raw() + fine.raw() );
 }
 
-template<scale FineScale, origin Origin, scale CoarseScale, bool InBounds>
-inline auto project_bounds( const coord_point<point, Origin, CoarseScale, InBounds> &coarse )
+template<typename PointL, typename PointR, origin CoarseOrigin, scale CoarseScale,
+         origin FineOrigin, scale FineScale>
+inline auto project_combine(
+    const coord_point_ib<PointL, CoarseOrigin, CoarseScale> &coarse,
+    const coord_point_ib<PointR, FineOrigin, FineScale> &fine )
+{
+    using PointResult = decltype( PointL() + PointR() );
+    return coord_point_ib<PointResult, CoarseOrigin, FineScale>::make_unchecked( project_combine(
+                coarse.as_ob(), fine.as_ob() ).raw() );
+}
+
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point_ob<point, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return half_open_rectangle<coord_point<point, Origin, FineScale>>(
+    return half_open_rectangle<coord_point_ob<point, Origin, FineScale>>(
                project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
-template<scale FineScale, origin Origin, scale CoarseScale, bool InBounds>
-inline auto project_bounds( const coord_point<tripoint, Origin, CoarseScale, InBounds> &coarse )
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point_ob<tripoint, Origin, CoarseScale> &coarse )
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
-    return half_open_cuboid<coord_point<tripoint, Origin, FineScale>>(
+    return half_open_cuboid<coord_point_ob<tripoint, Origin, FineScale>>(
                project_to<FineScale>( coarse ), project_to<FineScale>( coarse + one ) );
 }
 
 } // namespace coords
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool InBounds>
+template<typename Point, coords::origin Origin, coords::scale Scale>
 // NOLINTNEXTLINE(cert-dcl58-cpp)
-struct std::hash<coords::coord_point<Point, Origin, Scale, InBounds>> {
-    std::size_t operator()( const coords::coord_point<Point, Origin, Scale, InBounds> &p ) const {
+struct std::hash<coords::coord_point_ob<Point, Origin, Scale>> {
+    std::size_t operator()( const coords::coord_point_ob<Point, Origin, Scale> &p ) const {
         const hash<Point> h{};
         return h( p.raw() );
     }
 };
-
-/** Typedefs for point types with coordinate mnemonics.
- *
- * Each name is of the form (tri)point_<origin>_<scale>(_ib) where <origin> tells you
- * the context in which the point has meaning, and <scale> tells you what one unit
- * of the point means. The optional "_ib" suffix denotes that the type is guaranteed
- * to be inbounds.
- *
- * For example:
- * point_omt_ms is the position of a map square within an overmap terrain.
- * tripoint_rel_sm is a relative tripoint submap offset.
- *
- * For more details see doc/POINTS_COORDINATES.md.
- */
-/*@{*/
-using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
-using point_abs_ms = coords::coord_point<point, coords::origin::abs, coords::ms>;
-using point_sm_ms = coords::coord_point<point, coords::origin::submap, coords::ms>;
-using point_sm_ms_ib = coords::coord_point<point, coords::origin::submap, coords::ms, true>;
-using point_omt_ms = coords::coord_point<point, coords::origin::overmap_terrain, coords::ms>;
-using point_bub_ms = coords::coord_point<point, coords::origin::reality_bubble, coords::ms>;
-using point_bub_ms_ib =
-    coords::coord_point<point, coords::origin::reality_bubble, coords::ms, true>;
-using point_rel_sm = coords::coord_point<point, coords::origin::relative, coords::sm>;
-using point_abs_sm = coords::coord_point<point, coords::origin::abs, coords::sm>;
-using point_omt_sm = coords::coord_point<point, coords::origin::overmap_terrain, coords::sm>;
-using point_om_sm = coords::coord_point<point, coords::origin::overmap, coords::sm>;
-using point_bub_sm = coords::coord_point<point, coords::origin::reality_bubble, coords::sm>;
-using point_bub_sm_ib =
-    coords::coord_point<point, coords::origin::reality_bubble, coords::sm, true>;
-using point_rel_omt = coords::coord_point<point, coords::origin::relative, coords::omt>;
-using point_abs_omt = coords::coord_point<point, coords::origin::abs, coords::omt>;
-using point_om_omt = coords::coord_point<point, coords::origin::overmap, coords::omt>;
-using point_abs_seg = coords::coord_point<point, coords::origin::abs, coords::seg>;
-using point_rel_om = coords::coord_point<point, coords::origin::relative, coords::om>;
-using point_abs_om = coords::coord_point<point, coords::origin::abs, coords::om>;
-
-using tripoint_rel_ms = coords::coord_point<tripoint, coords::origin::relative, coords::ms>;
-using tripoint_abs_ms = coords::coord_point<tripoint, coords::origin::abs, coords::ms>;
-using tripoint_sm_ms = coords::coord_point<tripoint, coords::origin::submap, coords::ms>;
-using tripoint_sm_ms_ib = coords::coord_point<tripoint, coords::origin::submap, coords::ms, true>;
-using tripoint_omt_ms = coords::coord_point<tripoint, coords::origin::overmap_terrain, coords::ms>;
-using tripoint_bub_ms = coords::coord_point<tripoint, coords::origin::reality_bubble, coords::ms>;
-using tripoint_bub_ms_ib =
-    coords::coord_point<tripoint, coords::origin::reality_bubble, coords::ms, true>;
-using tripoint_rel_sm = coords::coord_point<tripoint, coords::origin::relative, coords::sm>;
-using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coords::sm>;
-using tripoint_om_sm = coords::coord_point<tripoint, coords::origin::overmap, coords::sm>;
-using tripoint_bub_sm = coords::coord_point<tripoint, coords::origin::reality_bubble, coords::sm>;
-using tripoint_bub_sm_ib =
-    coords::coord_point<tripoint, coords::origin::reality_bubble, coords::sm, true>;
-using tripoint_rel_omt = coords::coord_point<tripoint, coords::origin::relative, coords::omt>;
-using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
-using tripoint_om_omt = coords::coord_point<tripoint, coords::origin::overmap, coords::omt>;
-using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
-using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
-/*@}*/
 
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
 using coords::project_bounds;
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-inline int square_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                        const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+// Rebase relative coordinates to the base you know they're actually relative to.
+point_rel_ms rebase_rel( point_sm_ms );
+point_rel_ms rebase_rel( point_omt_ms p );
+point_rel_ms rebase_rel( point_bub_ms p );
+point_sm_ms rebase_sm( point_rel_ms p );
+point_omt_ms rebase_omt( point_rel_ms p );
+point_bub_ms rebase_bub( point_rel_ms p );
+
+tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
+tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
+tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_sm_ms rebase_sm( tripoint_rel_ms p );
+tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
+tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+
+// 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
+// has to be cast to a map to access common functionality. Note that this doesn't actually change anything
+// as the reference remains the same location regardless, and the map operation still knows how large the map is.
+point_bub_ms rebase_bub( point_omt_ms p );
+tripoint_bub_ms rebase_bub( tripoint_omt_ms p );
+tripoint_omt_ms rebase_omt( tripoint_bub_ms p );
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int square_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                        const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
 {
     return square_dist( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-inline int trig_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                      const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int trig_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                      const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
 {
     return trig_dist( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-inline int rl_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                    const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int rl_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                    const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
 {
     return rl_dist( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                           const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int manhattan_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                           const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
 {
     return manhattan_dist( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-inline int octile_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                        const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2, int multiplier = 1 )
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int octile_dist( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                        const coords::coord_point_ob<Point, Origin, Scale> &loc2, int multiplier = 1 )
 {
     return octile_dist( loc1.raw(), loc2.raw(), multiplier );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-direction direction_from( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                          const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale>
+direction direction_from( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                          const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
 {
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
-        line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
+std::vector < coords::coord_point < Point, Origin, Scale >>
+        line_to( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+                 const coords::coord_point_ob<Point, Origin, Scale> &loc2,
+                 const int t = 0 )
 {
-    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
-    std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t );
+    std::vector < coords::coord_point < Point, Origin, Scale >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {
-        return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
-               RhsInBounds >::make_unchecked( p );
+        return coords::coord_point < Point, Origin, Scale >::make_unchecked( p );
     } );
     return result;
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >
-midpoint( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-          const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
+std::vector < coords::coord_point_ib < Point, Origin, Scale >>
+        line_to( const coords::coord_point_ib<Point, Origin, Scale> &loc1,
+                 const coords::coord_point_ib<Point, Origin, Scale> &loc2,
+                 const int t = 0 )
 {
-    return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
-           RhsInBounds >::make_unchecked( ( loc1.raw() + loc2.raw() ) / 2 );
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t );
+    std::vector < coords::coord_point_ib < Point, Origin, Scale >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Point & p ) {
+        return coords::coord_point_ib < Point, Origin, Scale >::make_unchecked( p );
+    } );
+    return result;
+}
+
+template<typename Tripoint, coords::origin Origin, coords::scale Scale,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point < Tripoint, Origin, Scale >>
+        line_to( const coords::coord_point_ob<Tripoint, Origin, Scale> &loc1,
+                 const coords::coord_point_ob<Tripoint, Origin, Scale> &loc2,
+                 const int t = 0, const int t2 = 0 )
+{
+    std::vector<Tripoint> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
+    std::vector < coords::coord_point < Tripoint, Origin, Scale>> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point < Tripoint, Origin, Scale >::make_unchecked( p );
+    } );
+    return result;
+}
+
+template<typename Tripoint, coords::origin Origin, coords::scale Scale,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point_ib < Tripoint, Origin, Scale>>
+        line_to( const coords::coord_point_ib<Tripoint, Origin, Scale> &loc1,
+                 const coords::coord_point_ib<Tripoint, Origin, Scale> &loc2,
+                 const int t = 0, const int t2 = 0 )
+{
+    std::vector<Tripoint> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
+    std::vector < coords::coord_point_ib < Tripoint, Origin, Scale >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point_ib < Tripoint, Origin, Scale >::make_unchecked( p );
+    } );
+    return result;
+}
+
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point < Point, Origin, Scale >
+midpoint( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
+          const coords::coord_point_ob<Point, Origin, Scale> &loc2 )
+{
+    return coords::coord_point < Point, Origin, Scale >::make_unchecked( (
+                loc1.raw() + loc2.raw() ) / 2 );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point_ib < Point, Origin, Scale >
+midpoint( const coords::coord_point_ib<Point, Origin, Scale> &loc1,
+          const coords::coord_point_ib<Point, Origin, Scale> &loc2 )
+{
+    return coords::coord_point_ib < Point, Origin, Scale >::make_unchecked( (
+                loc1.raw() + loc2.raw() ) / 2 );
 }
 
 template<typename Point>
@@ -827,22 +928,30 @@ Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
-        closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
+std::vector<coords::coord_point_ob<Point, Origin, Scale>>
+        closest_points_first( const coords::coord_point_ob<Point, Origin, Scale> &loc,
                               int min_dist, int max_dist )
 {
     std::vector<Point> raw_result = closest_points_first( loc.raw(), min_dist, max_dist );
-    std::vector<coords::coord_point<Point, Origin, Scale>> result;
+    std::vector<coords::coord_point_ob<Point, Origin, Scale>> result;
     result.reserve( raw_result.size() );
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {
-        return coords::coord_point<Point, Origin, Scale>( p );
+        return coords::coord_point_ob<Point, Origin, Scale>( p );
     } );
     return result;
 }
-template<typename Point, coords::origin Origin, coords::scale Scale, bool InBounds>
-std::vector<coords::coord_point<Point, Origin, Scale>>
-        closest_points_first( const coords::coord_point<Point, Origin, Scale, InBounds> &loc,
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point_ob<Point, Origin, Scale>>
+        closest_points_first( const coords::coord_point_ob<Point, Origin, Scale> &loc,
+                              int max_dist )
+{
+    return closest_points_first( loc, 0, max_dist );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point_ib<Point, Origin, Scale>>
+        closest_points_first( const coords::coord_point_ib<Point, Origin, Scale> &loc,
                               int max_dist )
 {
     return closest_points_first( loc, 0, max_dist );
