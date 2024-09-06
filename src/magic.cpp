@@ -173,6 +173,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
         case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
         case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
+        case spell_flag::RESTORATION_SPELL: return "RESTORATION_SPELL";
+        case spell_flag::TRANSFORMATION_SPELL: return "TRANSFORMATION_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -2525,6 +2527,12 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     }
     if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
         spell_data.emplace_back( _( "is a conveyance spell" ) );
+    }
+    if( has_flag( spell_flag::RESTORATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a restoration spell" ) );
+    }
+    if( has_flag( spell_flag::TRANSFORMATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a transformation spell" ) );
     }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {

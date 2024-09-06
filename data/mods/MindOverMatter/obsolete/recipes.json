@@ -16,5 +16,38 @@
     ],
     "flags": [ "SECRET", "BLIND_EASY" ],
     "result_eocs": [ "EOC_NULL" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: damage balancing",
+    "id": "practice_vita_pain_split",
+    "description": "This recipe exists for an Obsolete power.",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
+        "effect": [
+          { "set_string_var": "vita_pain_split", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
   }
 ]

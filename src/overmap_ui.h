@@ -124,7 +124,6 @@ struct overmap_draw_data_t {
     input_context ictxt;
 
     overmap_draw_data_t() {
-        ui = std::make_shared<ui_adaptor>();
         ictxt = input_context( "OVERMAP" );
     }
 };

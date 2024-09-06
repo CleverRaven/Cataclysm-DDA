@@ -130,6 +130,31 @@
         "topic": "TALK_BLACKSMITH_FABRICATE"
       },
       {
+        "text": "Could you make me a weapon?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+            { "u_has_var": "dialogue_artisans_blacksmith_heard_the_deal", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
+      },
+      {
+        "text": "Could you make me a weapon?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+            {
+              "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
+              "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest",
+              "value": "yes"
+            }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH"
+      },
+      {
         "text": "How is my armor coming?",
         "condition": {
           "and": [
@@ -200,6 +225,16 @@
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "How is my weapon coming?",
+        "condition": {
+          "and": [
+            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
+            { "u_has_var": "dialogue_artisans_u_current_project", "value": "weapon" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_WEAPON_READY"
       },
       {
         "text": "You mentioned you'd need some special materials to make that nomad armor?",
