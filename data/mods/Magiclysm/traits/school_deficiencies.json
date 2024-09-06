@@ -12,7 +12,7 @@
   {
     "type": "mutation",
     "id": "NO_CASTING_EVOCATION_SPELLS",
-    "name": "School Deficiency: Channeling",
+    "name": "School Deficiency: Evocation",
     "points": -2,
     "description": "No matter how hard you try, you never managed to master evocation spells.  You are unable to cast any spell of the evocation school.",
     "starting_trait": true,
@@ -22,7 +22,7 @@
   {
     "type": "mutation",
     "id": "NO_CASTING_CONJURATION_SPELLS",
-    "name": "School Deficiency: Channeling",
+    "name": "School Deficiency: Conjuration",
     "points": -2,
     "description": "No matter how hard you try, you never managed to master conjuration spells.  You are unable to cast any spell of the conjuration school.",
     "starting_trait": true,
@@ -32,7 +32,7 @@
   {
     "type": "mutation",
     "id": "NO_CASTING_ENHANCEMENT_SPELLS",
-    "name": "School Deficiency: Channeling",
+    "name": "School Deficiency: Enhancement",
     "points": -2,
     "description": "No matter how hard you try, you never managed to master enhancement spells.  You are unable to cast any spell of the enhancement school.",
     "starting_trait": true,
