@@ -238,7 +238,7 @@
     "id": "psi_telekinetic_testsubject",
     "name": "Test Subject, Project ONYX LIGHTNING",
     "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
-    "points": 5,
+    "points": 13,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -246,12 +246,20 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
     "spells": [
-      { "id": "telekinetic_push", "level": 4 },
-      { "id": "telekinetic_pull", "level": 3 },
-      { "id": "telekinetic_momentum", "level": 2 },
-      { "id": "telekinetic_wave", "level": 2 }
+      { "id": "telekinetic_push", "level": 5 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 3 },
+      { "id": "telekinetic_slowfall", "level": 2 },
+      { "id": "telekinetic_momentum", "level": 6 }
+    ],
+    "recipes": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall"
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
@@ -259,11 +267,12 @@
         "entries": [
           { "item": "pants_army" },
           { "item": "gloves_tactical" },
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_combat", "container-item": "sheath" }
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "matrix_crystal_drained" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
@@ -305,23 +314,34 @@
     "type": "profession",
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
-    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
-    "points": 6,
+    "description": "The last thing you remember was inputting the jump coordinates into the tliltilhuicaātl drive and reaching out to initiate the transfer when there was a power surge and it felt like the entire ship was turning inside out.  Now, you have no idea where you are.",
+    "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
       { "level": 2, "name": "gun" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "survival" },
       { "level": 2, "name": "pistol" },
-      { "level": 5, "name": "metaphysics" }
+      { "level": 7, "name": "metaphysics" }
     ],
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT", "FIFTH_SUN_PEOPLE" ],
     "spells": [
-      { "id": "teleport_blink", "level": 8 },
-      { "id": "teleport_slow", "level": 1 },
-      { "id": "teleport_transpose", "level": 4 },
-      { "id": "teleport_phase", "level": 5 },
-      { "id": "teleport_farstep", "level": 3 }
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
     ],
-    "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_teleport_blink",
+      "practice_teleport_slow",
+      "practice_teleport_displacement",
+      "practice_teleport_phase",
+      "practice_teleport_stride",
+      "practice_teleport_farstep"
+    ],
+    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
@@ -333,32 +353,31 @@
           { "item": "itzcuauhtli_cape" },
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
-          {
-            "item": "mom_fusion_pistol",
-            "ammo-item": "mom_fusion_ammo",
-            "charges": 40,
-            "contents-item": [ "mom_fusion_mag" ]
-          },
+          { "item": "matrix_crystal_teleportation" },
+          { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
     "id": "psi_vitakinetic_healer",
     "name": "Faith Healer",
     "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
-    "points": 4,
+    "points": 8,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
-      { "id": "vita_stop_bleeding", "level": 2 },
-      { "id": "vita_health_power", "level": 5 },
-      { "id": "vita_hurt_touch", "level": 2 },
-      { "id": "vita_sleeping_trance", "level": 1 }
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_cure_disease", "level": 4 },
+      { "id": "vita_sleeping_trance", "level": 4 }
     ],
     "items": {
       "both": {
@@ -372,6 +391,7 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "holy_symbol" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" }
         ]
       },
