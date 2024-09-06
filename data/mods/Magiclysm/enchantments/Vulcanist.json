@@ -5,8 +5,8 @@
     "condition": "ALWAYS",
     "name": { "str": "Lava" },
     "description": "Your Vulcanist abilities grant you good resistance to temperature conditions, total heat immunity, and immunity to smoke.",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ],
-    "ench_effects": [ { "effect": "effect_vulcanist_no_smoke_or_blisters", "intensity": 1 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ]
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ],
+    "ench_effects": [ { "effect": "effect_vulcanist_no_smoke_or_blisters", "intensity": 1 } ]
   },
   {
     "type": "effect_type",
