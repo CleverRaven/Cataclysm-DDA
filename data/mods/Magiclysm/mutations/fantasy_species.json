@@ -808,7 +808,7 @@
     "type": "mutation",
     "id": "WINGS_BIRD",
     "copy-from": "WINGS_BIRD",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ], "prereqs": [ "RAVEN_BONES" ] }
   },
   {
     "type": "mutation",
