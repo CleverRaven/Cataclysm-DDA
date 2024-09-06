@@ -416,6 +416,7 @@
   {
     "type": "recipe",
     "result": "iv_black_dragon",
+    "id_suffix": "from black dragon mutagen",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -437,6 +438,7 @@
   {
     "type": "recipe",
     "result": "iv_black_dragon",
+    "id_suffix": "from yonug black dragon's heart",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
