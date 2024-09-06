@@ -146,7 +146,7 @@
     "changes_to": [ "THICKSKIN3" ],
     "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
     "integrated_armor": [ "integrated_reptilescales" ],
-    "passive_mods": { "dex_mod": -1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -170,7 +170,7 @@
     "description": "You are capable of carrying inhuman amounts - more than others with similar strength could.  Your maximum weight carried is increased by 70%.",
     "prereqs": "STRONGBACK",
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.7,
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.7 } ] } ],
     "category": [ "STEGO", "TYRANT", "HORNS" ]
   },
   {
@@ -390,7 +390,7 @@
       "base_damage": { "damage_type": "bash", "amount": 24 },
       "strength_damage": { "damage_type": "stab", "amount": 2 }
     },
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",

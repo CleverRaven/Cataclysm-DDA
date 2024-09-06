@@ -1,0 +1,37 @@
+[
+  {
+    "id": "box_small_plastic",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "secured plastic box", "str_pl": "secured plastic boxes" },
+    "description": "A small plastic box with a rugged exterior, the cover securely held by several small latches.",
+    "weight": "815 g",
+    "volume": "11100 ml",
+    "longest_side": "22 cm",
+    "//": "30 x 20 x 18,5 cm external, 27 x 17 x 16,5 cm cm internal",
+    "//2": "https://www.auer-packaging.com/gb/en/Euro-containers-with-hinge-lid/ED-3217-HG.html",
+    "price": "12 USD 75 cent",
+    "price_postapoc": "5 cent",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "7573 ml",
+        "max_contains_weight": "18 kg",
+        "max_item_length": "165 mm"
+      }
+    ]
+  },
+  {
+    "id": "30gal_barrel_mutagen",
+    "copy-from": "30gal_barrel",
+    "type": "GENERIC",
+    "name": { "str": "30 gallon barrel" },
+    "looks_like": "55gal_drum",
+    "description": "A huge plastic barrel with a watertight lid.  It's surface is completely covered with hazard warning labels and, most importantly, a giant red tape, that reads \"IMPURE CATALYST, DO NOT USE, FAILED SAMPLE, DO NOT USE, IMPURE CATALYST…\"",
+    "color": "light_blue"
+  }
+]

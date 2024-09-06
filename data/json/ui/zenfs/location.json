@@ -1,0 +1,125 @@
+[
+  {
+    "id": "zenfs_place_desc",
+    "type": "widget",
+    "style": "layout",
+    "width": 0,
+    "arrange": "columns",
+    "widgets": [ "place_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_place_desc_15",
+    "type": "widget",
+    "copy-from": "zenfs_place_desc",
+    "width": 15
+  },
+  {
+    "id": "zenfs_place_desc_19",
+    "type": "widget",
+    "copy-from": "zenfs_place_desc",
+    "width": 19
+  },
+  {
+    "id": "zenfs_omloc_desc",
+    "type": "widget",
+    "label": "Location",
+    "var": "overmap_loc_text",
+    "style": "text",
+    "width": 24,
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_omloc_desc_23",
+    "type": "widget",
+    "label": "Location",
+    "var": "overmap_loc_text",
+    "style": "text",
+    "width": 23,
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_overmap_11x7",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 11,
+    "height": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_overmap",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "widgets": [ "zenfs_overmap_11x7" ]
+  },
+  {
+    "id": "zenfs_overmap_divider",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": [
+      "zenfs_om_divider_l1",
+      "zenfs_om_divider_l2",
+      "zenfs_om_divider_l3",
+      "zenfs_om_divider_l4",
+      "zenfs_om_divider_l5",
+      "zenfs_om_divider_l6",
+      "zenfs_om_divider_l7"
+    ]
+  },
+  {
+    "id": "zenfs_om_divider_l1",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>╽</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l2",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l3",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┃</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l4",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l5",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┃</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l6",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l7",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>╿</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

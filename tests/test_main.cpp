@@ -64,6 +64,9 @@ static std::string error_fmt = "human-readable";
 static std::chrono::system_clock::time_point start;
 static std::chrono::system_clock::time_point end;
 static bool error_during_initialization{ false };
+static bool fail_to_init_game_state{ false };
+
+static bool needs_game{ false };
 
 static std::vector<mod_id> extract_mod_selection( const std::string_view mod_string )
 {
@@ -200,12 +203,22 @@ struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
     void testRunStarting( Catch::TestRunInfo const & ) override {
-        // TODO: Only init game if we're running tests that need it.
-        init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
-        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-        error_during_initialization = debug_has_error_been_observed();
+        if( needs_game ) {
+            try {
+                init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+            } catch( ... ) {
+                DebugLog( D_INFO, DC_ALL ) << "Fail to initialize global game state" << std::endl;
+                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                fail_to_init_game_state = true;
+                throw;
+            }
+            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+            error_during_initialization = debug_has_error_been_observed();
 
-        DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
+            DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
+        } else {
+            DebugLog( D_INFO, DC_ALL ) << "Running Catch2 session:" << std::endl;
+        }
         end = start = std::chrono::system_clock::now();
     }
 
@@ -378,6 +391,31 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed();
     }
 
+    // Tests not requiring the global game initialized are tagged with [nogame]
+    {
+        using namespace Catch;
+        Config const &config = session.config();
+        std::vector<TestCase> const &tcs = filterTests(
+                                               getAllTestCasesSorted( config ),
+                                               config.testSpec(),
+                                               config
+                                           );
+        for( TestCase const &tc : tcs ) {
+            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+            needs_game = true;
+            for( std::string const &tag : tc.getTestCaseInfo().tags ) {
+                if( tag == "nogame" ) {
+                    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                    needs_game = false;
+                    break;
+                }
+            }
+            if( needs_game ) {
+                break;
+            }
+        }
+    }
+
     try {
         result = session.run();
     } catch( const std::exception &err ) {
@@ -387,20 +425,17 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
-    if( world_generator == nullptr ) {
-        // The session run may not have initialized game state because asked to list tests
-        return result;
-    }
-
-    std::string world_name = world_generator->active_world->world_name;
-    if( result == 0 || dont_save ) {
-        world_generator->delete_world( world_name, true );
-    } else {
-        if( g->save() ) {
-            DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
+    if( world_generator ) {
+        std::string world_name = world_generator->active_world->world_name;
+        if( result == 0 || dont_save || fail_to_init_game_state ) {
+            world_generator->delete_world( world_name, true );
         } else {
-            DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
-            result = 1;
+            if( g->save() ) {
+                DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
+            } else {
+                DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
+                result = 1;
+            }
         }
     }
 

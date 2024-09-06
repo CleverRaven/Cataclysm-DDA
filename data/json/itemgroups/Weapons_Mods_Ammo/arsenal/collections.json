@@ -41,7 +41,7 @@
     "items": [
       { "group": "milspec_arsenal_9mm_gun&mags&cans", "prob": 96 },
       { "group": "milspec_arsenal_9mm_sub_gun&mags&cans", "prob": 100 },
-      { "group": "milspec_arsenal_shot_gun&mags&cans", "prob": 150 },
+      { "group": "milspec_arsenal_shot_gun&mags&cans", "prob": 15 },
       { "group": "milspec_arsenal_223_pouch_gun&mags&cans", "prob": 1000 },
       { "group": "milspec_arsenal_223_mg_gun&mags&cans", "prob": 260 },
       { "group": "milspec_arsenal_300blk_gun&mags&cans", "prob": 100 },
@@ -113,7 +113,7 @@
     "items": [
       { "group": "milspec_arsenal_9mm_gun&mags", "count": [ 1, 2 ], "prob": 96 },
       { "group": "milspec_arsenal_9mm_sub_gun&mags", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "milspec_arsenal_shot_gun&mags", "count": [ 1, 2 ], "prob": 150 },
+      { "group": "milspec_arsenal_shot_gun&mags", "count": [ 1, 2 ], "prob": 15 },
       { "group": "milspec_arsenal_223_gun&mags", "count": [ 1, 2 ], "prob": 1000 },
       { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 1, 2 ], "prob": 260 },
       { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 1, 2 ], "prob": 100 },

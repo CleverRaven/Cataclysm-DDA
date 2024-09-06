@@ -14,7 +14,7 @@
         "      |   ff|  ",
         "      *  Yhh|  ",
         "      |l ||||  ",
-        "      oE +_9|  ",
+        "      oE +~9|  ",
         "      |  |tS|  ",
         "      ||+||||  ",
         "      |I T s|  ",
@@ -25,7 +25,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "terrain": { "|": "t_wall_w" },
       "place_nested": [
         { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
       ]
@@ -46,7 +46,7 @@
         "      |Y hfH|  ",
         "      *  hfH|  ",
         "      |L ||||  ",
-        "      o  +_9|  ",
+        "      o  +~9|  ",
         "      |y |tS|  ",
         "      ||+||||  ",
         "      |R s@@|  ",
@@ -57,7 +57,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "terrain": { "|": "t_wall_w" },
       "place_nested": [
         { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
       ]
@@ -78,7 +78,7 @@
         "      |L  fh|  ",
         "      *   fh|  ",
         "      |E ||||  ",
-        "      o  +_9|  ",
+        "      o  +~9|  ",
         "      |Y |tS|  ",
         "      ||+||||  ",
         "      |I   R|  ",
@@ -89,7 +89,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "terrain": { "|": "t_wall_w" },
       "place_loot": [ { "item": "television", "x": 11, "y": [ 11, 12 ] } ],
       "place_nested": [
         { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
@@ -109,7 +109,7 @@
         "      ox  lH|  ",
         "      |x E H|  ",
         "      |L ||||  ",
-        "      *  +_9|  ",
+        "      *  +~9|  ",
         "      |Y |tS|  ",
         "      |2 ||||  ",
         "      oO   6o  ",
@@ -122,7 +122,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "terrain": { "|": "t_wall_w" },
       "place_loot": [ { "item": "television", "x": 7, "y": 2 } ],
       "place_nested": [
         { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
@@ -142,7 +142,7 @@
         "      oH   R|  ",
         "      |y Y R|  ",
         "      |  ||||  ",
-        "      *  +_9|  ",
+        "      *  +~9|  ",
         "      |L |tS|  ",
         "      |1 ||||  ",
         "      oO   Ao  ",
@@ -155,7 +155,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "terrain": { "|": "t_wall_w" },
       "place_nested": [
         { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
       ]

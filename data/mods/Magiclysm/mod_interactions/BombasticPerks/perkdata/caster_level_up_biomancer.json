@@ -5,6 +5,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "perk_caster_level_up_biomancer" },
-    "effect": [ { "arithmetic": [ { "u_val": "spell_level_adjustment", "school": "BIOMANCER" }, "+=", { "const": 1 } ] } ]
+    "effect": { "math": [ "u_school_level_adjustment( 'BIOMANCER' )", "+=", "1" ] }
   }
 ]

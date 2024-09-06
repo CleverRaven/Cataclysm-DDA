@@ -2,13 +2,16 @@
   {
     "id": "BGSS_PROFESSOR_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I'm actually a chemistry professor at Harvard.  I'd been on sabbatical for the last six months.  I can't imagine the university was a good place to be, given what I've heard about Boston… I'm not sure anyone made it out.  I was out at my cabin near Chatham, ostensibly working on the finishing touches for a paper, but mostly just sipping whisky and thanking my lucky stars for tenure.  Those were good days.  Then came <the_cataclysm>, the military convoys, the <zombies>.  My cabin was crushed by a <monster>, just collateral damage after it got blasted off Orleans by a tank.  I was already busy running frantically by then.",
+    "dynamic_line": {
+      "gendered_line": "I'm actually a chemistry professor at Harvard.  I'd been on sabbatical for the last six months.  I can't imagine the university was a good place to be, given what I've heard about Boston… I'm not sure anyone made it out.  I was out at my cabin near Chatham, ostensibly working on the finishing touches for a paper, but mostly just sipping whisky and thanking my lucky stars for tenure.  Those were good days.  Then came <the_cataclysm>, the military convoys, the <zombies>.  My cabin was crushed by a <monster>, just collateral damage after it got blasted off Orleans by a tank.  I was already busy running frantically by then.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Do you think there's some way your knowledge could help us understand all this?",
         "topic": "BGSS_PROFESSOR_1_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

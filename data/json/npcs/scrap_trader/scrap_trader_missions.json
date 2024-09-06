@@ -11,7 +11,7 @@
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAP_TRADER_GET_75_CHARCOAL",
-    "end": { "effect": [ { "npc_add_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
+    "end": { "effect": [ { "npc_add_var": "dialogue_trade_specific_metal_tradeable", "value": "yes" } ] },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need help…",
@@ -53,8 +53,8 @@
   {
     "id": "MISSION_SCRAP_TRADER_GET_100_SOLDER",
     "type": "mission_definition",
-    "name": "Obtain 100 Solder Wire",
-    "description": "Obtain 100 soldering wire in exchange for credit with the scrap merchant.",
+    "name": "Obtain 100 Solder",
+    "description": "Obtain 100 solder in exchange for credit with the scrap merchant.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "solder_wire",
     "count": 100,
@@ -65,7 +65,7 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need help…",
-      "offer": "That machine I put together needs some repairs on it, but I'm out of soldering wire.  If you could get me about 100 spools, I'll pay you for it.",
+      "offer": "That machine I put together needs some repairs on it, but I'm out of solder.  If you could get me about 100 spools, I'll pay you for it.",
       "advice": "An electronics store might have some.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
@@ -87,7 +87,7 @@
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH",
-    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
+    "start": { "assign_mission_target": { "om_terrain": "refctr_S3e", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",

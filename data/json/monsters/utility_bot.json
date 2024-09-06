@@ -33,7 +33,7 @@
       "PACIFIST",
       "PAY_BOT",
       "PET_HARNESSABLE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 10, "cut": 10, "bullet": 8 }
@@ -107,7 +107,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10 }
@@ -144,7 +144,7 @@
       "BIOLOGICALPROOF",
       "ELECTRONIC",
       "COLDPROOF",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "cut": 12, "bullet": 10 }

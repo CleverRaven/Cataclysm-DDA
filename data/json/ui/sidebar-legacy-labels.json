@@ -121,7 +121,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "fatigue_desc_label", "hunger_desc_label" ]
+    "widgets": [ "sleepiness_desc_label", "hunger_desc_label" ]
   },
   {
     "id": "ll_heat_weight_desc_layout",
@@ -169,7 +169,7 @@
     "id": "ll_place_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Place",
+    "label": { "ctxt": "UI sidebar", "str": "Place" },
     "arrange": "minimum_columns",
     "widgets": [ "ll_place_info", "ll_place_overmap" ]
   },

@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "gun_mode.h"
-#include "item.h"
 #include "map_iterator.h"
 #include "point.h"
 #include "type_id.h"

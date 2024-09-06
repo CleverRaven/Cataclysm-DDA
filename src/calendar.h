@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
-#include <iosfwd>
 #include <optional>
 #include <string>
 #include <utility>
@@ -13,7 +12,6 @@
 
 class JsonOut;
 class JsonValue;
-struct lat_long;
 struct rl_vec2d;
 class time_duration;
 class time_point;
@@ -121,6 +119,8 @@ time_duration year_length();
 /** @returns Time of a season (configured in current world settings) */
 time_duration season_length();
 void set_season_length( int dur );
+
+void set_location( float latitude, float longitude );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -599,6 +599,8 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
+/** Returns the time when the clock displays 12:00 */
+time_point noon( const time_point &p );
 /** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time - after dawn and before dusk. */

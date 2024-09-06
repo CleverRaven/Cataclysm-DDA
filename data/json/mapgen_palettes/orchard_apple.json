@@ -3,6 +3,9 @@
     "type": "palette",
     "id": "orchard_buildings",
     "terrain": {
+      " ": "t_region_groundcover_urban",
+      "d": "t_region_soil",
+      "$": "t_region_shrub_decorative",
       "*": "t_region_soil",
       "+": "t_door_c",
       "=": "t_door_metal_locked",
@@ -10,7 +13,7 @@
       ".": "t_pavement",
       ",": "t_floor",
       "^": "t_gutter_downspout",
-      "7": "t_tree",
+      "7": "t_region_tree_shade",
       "b": "t_region_soil",
       "M": "t_wall_metal_corrugated",
       "m": "t_metal_floor",

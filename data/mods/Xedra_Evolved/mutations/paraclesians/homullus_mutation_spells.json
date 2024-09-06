@@ -1,5 +1,239 @@
 [
   {
+    "id": "homullus_charm_feral_spell",
+    "type": "SPELL",
+    "name": "One of Us",
+    "description": "Insinuate yourself into a feral human's mind, tricking them into thinking you are an ally.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "charm_monster",
+    "shape": "blast",
+    "min_damage": { "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 8) + 45) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_duration": {
+      "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 10) + 60) * (scaling_factor(u_val('intelligence') ) ) " ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 25) + 120) * (scaling_factor(u_val('intelligence') ) ) " ]
+    },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('homullus_charm_feral_spell') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) )), 70)" ]
+    },
+    "max_range": 70,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -5,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -8,
+    "targeted_monster_species": [ "FERAL" ]
+  },
+  {
+    "id": "homullus_summon_feral_spell",
+    "type": "SPELL",
+    "name": "Calling the Lost and the Damned",
+    "description": "Feral humans come to your aid.",
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": 35,
+    "difficulty": 3,
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "effect": "summon",
+    "effect_str": "GROUP_FERAL",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 4,
+    "min_range": 1,
+    "max_range": 15,
+    "range_increment": 1,
+    "damage_increment": 0.15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
+    "id": "homullus_self_deception_spell",
+    "type": "SPELL",
+    "name": "Everything Will Be Fine",
+    "description": "Sometimes, it is best to focus on the positive.  This spell increases the Homullus's mood when cast.",
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "teachable": false,
+    "difficulty": 4,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_SELF_DECEPTION",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 360000 + (u_spell_level('homullus_self_deception_spell') * 90000) ) * scaling_factor(u_val('perception') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 360000 + (u_spell_level('homullus_self_deception_spell') * 90000) ) * scaling_factor(u_val('perception') )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 30000,
+    "final_casting_time": 6000,
+    "casting_time_increment": -1000
+  },
+  {
+    "id": "homullus_invisible_to_humans_spell",
+    "type": "SPELL",
+    "name": "A Face in the Crowd",
+    "description": "Though the teeming masses of humanity are gone, the Homullus can evoke their anonymizing essence with magick, rendering them invisible to any humans affected by the spell.",
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "IGNORE_WALLS" ],
+    "teachable": false,
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
+    "extra_effects": [ { "id": "homullus_invisible_to_humans_spell_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('homullus_invisible_to_humans_spell') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 25)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('homullus_invisible_to_humans_spell') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 25)"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 200,
+    "energy_increment": -10,
+    "base_casting_time": 250,
+    "final_casting_time": 75,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "homullus_invisible_to_humans_spell_self",
+    "type": "SPELL",
+    "name": "A Face in the Crowd Self",
+    "description": "Puts an effect on you so anyone affected by A Face in the Crowd knows to ignore you.  It's a bug if you have this directly.",
+    "message": "",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "telepathic_ignorance_self",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    }
+  },
+  {
+    "id": "homullus_reduced_visibility_ally_spell",
+    "type": "SPELL",
+    "name": "The Average Joe",
+    "description": "Weave a cloak of glamour around a target, making it more difficult for enemies to spot them.  This is not invisibility, and getting to close to a hostile target will allow them to see through the magick.",
+    "valid_targets": [ "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_homullus_reduced_visibility_ally",
+    "shape": "blast",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 4,
+    "min_range": 1,
+    "max_range": 20,
+    "range_increment": 0.4,
+    "base_casting_time": 450,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -8,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
+  },
+  {
+    "id": "homullus_restore_power_spell",
+    "type": "SPELL",
+    "name": "Dynamo",
+    "description": "Fueled by the power charging your leylines, touch a target to restore some of the power in a vehicle or power grid.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "SILENT", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "recharge_vehicle",
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 350) + 400) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 850) + 1500) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "min_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "final_energy_cost": 450,
+    "energy_increment": -10,
+    "base_casting_time": 1500,
+    "final_casting_time": 400,
+    "casting_time_increment": -50
+  },
+  {
+    "id": "homullus_add_learning_focus_spell",
+    "type": "SPELL",
+    "name": "The Scholar's Regard",
+    "description": "Unlike plants or animals, humans study subjects unrelated to survival.  This spell focuses the Homullus's mind, allowing easier learning.",
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "RANDOM_DURATION" ],
+    "teachable": false,
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_homullus_add_learning_focus",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 90000 + (u_spell_level('homullus_invisible_to_humans_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( 180000 + (u_spell_level('homullus_invisible_to_humans_spell') * 25000) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 850,
+    "final_energy_cost": 600,
+    "energy_increment": -8,
+    "base_casting_time": 500
+  },
+  {
     "id": "homullus_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Discover Goblin Fruit",
@@ -21,5 +255,60 @@
     "base_energy_cost": 450,
     "final_energy_cost": 350,
     "energy_increment": -4
+  },
+  {
+    "id": "homullus_road_translocate_spell",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome",
+    "description": "Humanity crisscrossed the Earth with roads, first small tracks, then earthen projects, and finally mighty asphalt webs upon which billions of people traveled every day.  The Homullus can stand on the remnants of that web and return to any remaining locus of civilization that they have attuned to.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_ALL_ROADS_TRANSLOCATE_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "homullus_road_translocate_attune",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome Attunement",
+    "description": "Attune to a location for later traveling.  You must attune at one of the remaining bastions of civilization or concentrations of humanity.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_ALL_ROADS_ATTUNEMENT_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "1440000 - max(( u_spell_level('homullus_road_translocate') * 108000), 90000)" ] }
+  },
+  {
+    "id": "homullus_civilization_translocate_attune_real",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome Attunement Real",
+    "description": "The actual All Roads Lead to Rome attunement spell.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_homullus_translocate_location_attune",
+    "shape": "blast",
+    "min_range": 1
   }
 ]

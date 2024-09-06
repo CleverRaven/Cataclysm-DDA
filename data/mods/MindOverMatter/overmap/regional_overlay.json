@@ -63,11 +63,43 @@
           "mx_phavian_science": 6
         }
       },
-      "agricultural": { "chance": 38, "extras": { "mx_phavian_science": 3 } },
-      "road": { "chance": 75, "extras": { "mx_phavian_science": 30 } },
+      "agricultural": {
+        "chance": 38,
+        "extras": {
+          "mx_alien_grass": 15,
+          "mx_alien_grass_2": 15,
+          "mx_alien_grass_3": 15,
+          "mx_alien_grass_4": 15,
+          "mx_alien_grass_5": 15,
+          "mx_alien_grove": 15,
+          "mx_nether_pond": 25,
+          "mx_glass_and_crystal": 25,
+          "mx_phavian_science": 3
+        }
+      },
+      "road": {
+        "chance": 75,
+        "extras": {
+          "mx_alien_grass": 15,
+          "mx_alien_grass_2": 15,
+          "mx_alien_grass_3": 15,
+          "mx_alien_grass_4": 15,
+          "mx_alien_grass_5": 15,
+          "mx_alien_grove": 15,
+          "mx_nether_pond": 25,
+          "mx_glass_and_crystal": 25,
+          "mx_phavian_science": 30
+        }
+      },
       "build": { "chance": 90, "extras": { "mx_phavian_science": 5 } },
-      "subway": { "chance": 75, "extras": { "mx_phavian_science": 8 } },
-      "lab_subway": { "chance": 25, "extras": { "mx_phavian_science": 5 } },
+      "subway": {
+        "chance": 75,
+        "extras": { "mx_alien_grass_3": 15, "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 8 }
+      },
+      "lab_subway": {
+        "chance": 25,
+        "extras": { "mx_alien_grass_3": 15, "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 5 }
+      },
       "phavian_lab_lot": {
         "chance": 3,
         "extras": {

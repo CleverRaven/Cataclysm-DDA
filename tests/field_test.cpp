@@ -23,6 +23,7 @@ static const efftype_id effect_test_rash( "test_rash" );
 static const field_type_str_id field_fd_acid( "fd_acid" );
 static const field_type_str_id field_fd_test( "fd_test" );
 
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
 static int count_fields( const field_type_str_id &field_type )
@@ -168,7 +169,7 @@ TEST_CASE( "fd_acid_falls_down", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_acid, 3 );
@@ -183,7 +184,7 @@ TEST_CASE( "fd_acid_falls_down", "[field]" )
     m.process_fields();
 
     // remove floor under the acid field
-    m.ter_set( p, t_open_air );
+    m.ter_set( p, ter_t_open_air );
     m.build_floor_cache( 0 );
     REQUIRE( m.valid_move( p, p + tripoint_below ) );
 
@@ -354,7 +355,7 @@ TEST_CASE( "radioactive_field", "[field]" )
     fields_test_setup();
     clear_radiation();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );

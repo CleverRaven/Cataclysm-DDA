@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdlib>  // Needed for rand()
-#include <functional>
 #include <optional>
 #include <string>
 #include <thread>
@@ -11,6 +10,7 @@
 
 #include "cuboid_rectangle.h"
 #include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "rng.h"
 #include "text_snippets.h"

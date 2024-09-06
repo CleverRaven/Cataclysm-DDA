@@ -20,6 +20,7 @@ const field_type_str_id fd_churned_earth( "fd_churned_earth" );
 const field_type_str_id fd_cold_air2( "fd_cold_air2" );
 const field_type_str_id fd_cold_air3( "fd_cold_air3" );
 const field_type_str_id fd_cold_air4( "fd_cold_air4" );
+const field_type_str_id fd_construction_site( "fd_construction_site" );
 const field_type_str_id fd_dazzling( "fd_dazzling" );
 const field_type_str_id fd_electricity( "fd_electricity" );
 const field_type_str_id fd_electricity_unlit( "fd_electricity_unlit" );
@@ -267,7 +268,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
         int chance;
         std::string issue;
         time_duration duration;
-        std::string speech;
+        translation speech;
         optional( joc, was_loaded, "chance", chance, 0 );
         optional( joc, was_loaded, "issue", issue );
         optional( joc, was_loaded, "duration", duration, 0_turns );

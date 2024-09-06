@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
@@ -71,6 +72,12 @@ struct sub_body_part_type {
     // used with secondary locations to define what sublocations
     // exist bellow them for things like discomfort
     std::vector<sub_bodypart_str_id> locations_under;
+
+    // These subparts act like this limb for armor coverage
+    // TODO: Coverage/Encumbrance multiplier
+    std::vector<sub_bodypart_str_id> similar_bodyparts;
+    // Unarmed damage when this subpart is our contact area
+    damage_instance unarmed_damage;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

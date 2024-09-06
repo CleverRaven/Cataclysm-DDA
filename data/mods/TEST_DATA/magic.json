@@ -173,6 +173,28 @@
     "energy_source": "MANA"
   },
   {
+    "id": "test_spell_tp_ghost",
+    "type": "SPELL",
+    "name": "Summon Ghost",
+    "description": "Call forth the ghost of a flimsy creature of tissue from the broom closet of your soul.",
+    "effect": "summon",
+    "effect_str": "test_mon_mummy",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "PERMANENT", "NO_CORPSE_QUIET" ],
+    "difficulty": 2,
+    "max_level": 50,
+    "min_damage": 1,
+    "max_damage": 100,
+    "damage_increment": 2,
+    "min_range": 1,
+    "max_range": 10,
+    "range_increment": 0.25,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA"
+  },
+  {
     "id": "test_field",
     "type": "field_type",
     "intensity_levels": [ { "name": "test field", "sym": "8" } ]

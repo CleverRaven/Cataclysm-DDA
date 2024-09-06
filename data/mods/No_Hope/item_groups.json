@@ -4,6 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "//2": "TODO: Check these are up to date and can't just add onto the vanilla versions using copy-from",
     "items": [
       { "group": "clothing_military_no_hope" },
       { "item": "elbow_pads", "prob": 10 },
@@ -99,13 +100,14 @@
     "type": "item_group",
     "id": "nohope_fuel_jp8",
     "items": [
-      { "item": "jp8", "prob": 70, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan" },
-      { "item": "jp8", "prob": 30, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan_big" }
+      { "item": "jp8", "prob": 70, "charges": [ 0, 5000 ], "container-item": "jerrycan" },
+      { "item": "jp8", "prob": 30, "charges": [ 0, 5000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
     "type": "item_group",
     "id": "trash_no_hope",
+    "//": "TODO: Why does this not just override the vanilla trash?",
     "items": [
       [ "bottle_plastic", 5 ],
       [ "bottle_plastic_small", 5 ],
@@ -128,8 +130,8 @@
       [ "cig_butt", 15 ],
       { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
       { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
-      { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
+      { "item": "lighter", "prob": 5, "charges": [ 0, 10 ] },
+      { "item": "matches", "prob": 5, "charges": [ 0, 20 ] },
       { "group": "newspaper", "prob": 10 },
       [ "handflare_dead", 3 ]
     ]
@@ -161,7 +163,7 @@
     "id": "tankbot",
     "items": [
       [ "tazer", 3 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
       [ "556", 8 ],
       [ "alloy_plate", 10 ],
       [ "sheet_kevlar_layered", 10 ],
@@ -174,7 +176,7 @@
     "type": "item_group",
     "id": "tripod",
     "items": [
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
       [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "alloy_plate", 10 ],
@@ -332,7 +334,7 @@
     "id": "mon_zombie_flamer",
     "ammo": 50,
     "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+    "entries": [ { "item": "flamethrower", "charges": [ 0, 500 ] } ]
   },
   {
     "type": "item_group",
@@ -340,5 +342,30 @@
     "subtype": "distribution",
     "copy-from": "bunker_basement_loot",
     "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
+  },
+  {
+    "id": "necropolis_visitors",
+    "type": "item_group",
+    "items": [ [ "newest_newspaper", 10 ], [ "necropolis_leaflet", 50 ] ]
+  },
+  {
+    "id": "vault_survival",
+    "//": "Used in the necropolis",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 90,
+    "items": [
+      { "group": "guns_rare_readied", "prob": 35 },
+      { "item": "mask_filter", "prob": 20 },
+      { "group": "ammo_pocket_batteries_full", "prob": 15 },
+      { "item": "radio", "prob": 10 },
+      { "item": "bandages", "prob": 10 },
+      { "item": "knife_combat", "prob": 20 },
+      { "item": "vest", "prob": 15 },
+      { "item": "cleansuit", "prob": 20 },
+      { "item": "rad_monitor", "prob": 10 },
+      { "item": "geiger_off", "prob": 10 },
+      { "item": "tool_belt", "prob": 15 }
+    ]
   }
 ]

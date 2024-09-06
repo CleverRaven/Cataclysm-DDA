@@ -226,7 +226,7 @@
   {
     "type": "GENERIC",
     "id": "mace_plus_one",
-    "copy-from": "mace",
+    "copy-from": "qt_mace",
     "name": { "str": "mace +1", "str_pl": "maces +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -234,7 +234,7 @@
   {
     "type": "GENERIC",
     "id": "mace_plus_two",
-    "copy-from": "mace",
+    "copy-from": "qt_mace",
     "name": { "str": "mace +2", "str_pl": "maces +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -338,7 +338,7 @@
   {
     "type": "GENERIC",
     "id": "battleaxe_plus_one",
-    "copy-from": "battleaxe",
+    "copy-from": "qt_battleaxe",
     "name": { "str": "battle axe +1", "str_pl": "battle axes +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -346,7 +346,7 @@
   {
     "type": "GENERIC",
     "id": "battleaxe_plus_two",
-    "copy-from": "battleaxe",
+    "copy-from": "qt_battleaxe",
     "name": { "str": "battle axe +2", "str_pl": "battle axes +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -355,7 +355,7 @@
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_one",
     "copy-from": "qt_cavalry_sabre",
-    "name": { "str": "cavalry sabre +1", "str_pl": "cavalry sabres +1" },
+    "name": { "str": "cavalry saber +1", "str_pl": "cavalry sabers +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
   },
@@ -363,7 +363,7 @@
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_two",
     "copy-from": "qt_cavalry_sabre",
-    "name": { "str": "cavalry sabre +2", "str_pl": "cavalry sabres +2" },
+    "name": { "str": "cavalry saber +2", "str_pl": "cavalry sabers +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
   },
@@ -434,7 +434,7 @@
   {
     "type": "GENERIC",
     "id": "knife_rambo_plus_one",
-    "copy-from": "knife_rambo",
+    "copy-from": "qt_knife_rambo",
     "name": { "str": "survival knife +1", "str_pl": "survival knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -442,7 +442,7 @@
   {
     "type": "GENERIC",
     "id": "knife_rambo_plus_two",
-    "copy-from": "knife_rambo",
+    "copy-from": "qt_knife_rambo",
     "name": { "str": "survival knife +2", "str_pl": "survival knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -450,7 +450,7 @@
   {
     "type": "GENERIC",
     "id": "knife_trench_plus_one",
-    "copy-from": "knife_trench",
+    "copy-from": "qt_knife_trench",
     "name": { "str": "trench knife +1", "str_pl": "trench knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -458,7 +458,7 @@
   {
     "type": "GENERIC",
     "id": "knife_trench_plus_two",
-    "copy-from": "knife_trench",
+    "copy-from": "qt_knife_trench",
     "name": { "str": "trench knife +2", "str_pl": "trench knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -482,7 +482,7 @@
   {
     "type": "GENERIC",
     "id": "kukri_plus_one",
-    "copy-from": "kukri",
+    "copy-from": "qt_kukri",
     "name": { "str": "kukri +1", "str_pl": "kukris +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -490,7 +490,7 @@
   {
     "type": "GENERIC",
     "id": "kukri_plus_two",
-    "copy-from": "kukri",
+    "copy-from": "qt_kukri",
     "name": { "str": "kukri +2", "str_pl": "kukris +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -683,8 +683,7 @@
     "weight": "1388 g",
     "volume": "1250 ml",
     "longest_side": "130 cm",
-    "price": 3900,
-    "to_hit": 2,
+    "price": "39 USD",
     "material": [ "wood", "bone" ],
     "symbol": "/",
     "color": "light_gray",
@@ -703,7 +702,7 @@
     "weight": "1422 g",
     "volume": "1350 ml",
     "longest_side": "130 cm",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": 3,
     "material": [ "hflesh", "bone" ],
     "symbol": "/",
@@ -731,12 +730,13 @@
     "weight": "995 g",
     "volume": "440 ml",
     "longest_side": "65 cm",
-    "price": 3900,
+    "price": "39 USD",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
@@ -752,12 +752,13 @@
     "weight": "1000 g",
     "volume": "550 ml",
     "longest_side": "65 cm",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
@@ -779,7 +780,7 @@
     "weight": "1530 g",
     "volume": "1550 ml",
     "longest_side": "185 cm",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": 4,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
@@ -798,7 +799,7 @@
     "weight": "1600 g",
     "volume": "1550 ml",
     "longest_side": "185 cm",
-    "price": 15000,
+    "price": "150 USD",
     "to_hit": 4,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
@@ -820,7 +821,7 @@
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
     "proportional": { "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 },
-    "price": 3900,
+    "price": "39 USD",
     "symbol": "/",
     "color": "light_gray",
     "weapon_category": [ "MEDIUM_SWORDS" ],
@@ -839,8 +840,8 @@
     "name": { "str": "Kelvinist Frostbind" },
     "//": "Stats based on scimitar +2, a weapon that will cast freezing touch when it hits, has wide strike",
     "description": "This curved sword, reminiscent of a scimitar, has a handle with an embedded crystal from which a cold wind emanates.  There are Kelvinist runes embedded in the blade.",
-    "price": 558000,
-    "price_postapoc": 21000,
+    "price": "5 kUSD 580 USD",
+    "price_postapoc": "210 USD",
     "proportional": { "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 },
     "techniques": [ "WBLOCK_2", "WIDE" ],
@@ -869,7 +870,7 @@
     "weight": "2850 g",
     "volume": "2025 ml",
     "longest_side": "90 cm",
-    "price": 3900,
+    "price": "39 USD",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
@@ -889,8 +890,8 @@
     "weight": "3755 g",
     "volume": "3500 ml",
     "longest_side": "90 cm",
-    "price": 55800,
-    "price_postapoc": 21000,
+    "price": "558 USD",
+    "price_postapoc": "210 USD",
     "to_hit": 0,
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
@@ -917,12 +918,13 @@
     "weight": "504 g",
     "volume": "500 ml",
     "longest_side": "25 cm",
-    "price": 3000,
+    "price": "30 USD",
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
     "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "melee_damage": { "bash": 2, "stab": 13 }
@@ -936,13 +938,14 @@
     "weight": "504 g",
     "volume": "500 ml",
     "longest_side": "25 cm",
-    "price": 15000,
+    "price": "150 USD",
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
     },
@@ -956,7 +959,6 @@
     "name": { "str": "springstaff(baton)", "str_pl": "springstaves(baton)" },
     "description": "This versatile weapon uses Technomancy-enhanced springs to keep the staff tips retracted while in baton configuration.  Activate to extend.",
     "weight": "1800 g",
-    "to_hit": 2,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel", "plastic" ],
@@ -973,7 +975,7 @@
     },
     "volume": "750 ml",
     "longest_side": "60 cm",
-    "price": 34000,
+    "price": "340 USD",
     "melee_damage": { "bash": 24 }
   },
   {
@@ -1000,7 +1002,7 @@
     },
     "volume": "3 L",
     "longest_side": "150 cm",
-    "price": 34000,
+    "price": "340 USD",
     "melee_damage": { "bash": 29 }
   },
   {
@@ -1014,7 +1016,7 @@
     "weight": "2750 g",
     "volume": "3550 ml",
     "longest_side": "150 cm",
-    "price": 10000,
+    "price": "100 USD",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": "/",

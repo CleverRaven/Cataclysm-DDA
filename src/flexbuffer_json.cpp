@@ -283,7 +283,7 @@ void JsonObject::report_unvisited() const
         skipped_members.erase( std::remove_if( skipped_members.begin(),
         skipped_members.end(), [this]( size_t idx ) {
             flexbuffers::String name = keys_[idx].AsString();
-            return strncmp( "//", name.c_str(), 2 ) == 0;
+            return strncmp( "//", name.c_str(), 2 ) == 0 && strcmp( "//~", name.c_str() ) != 0;
         } ), skipped_members.end() );
 
         if( !skipped_members.empty() ) {
@@ -334,9 +334,15 @@ void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_membe
     for( size_t skipped_member_idx : skipped_members ) {
         flexbuffers::String name = keys_[skipped_member_idx].AsString();
         try {
-            jo.throw_error_at( name.c_str(),
-                               string_format( "Invalid or misplaced field name \"%s\" in JSON data",
-                                              name.c_str() ) );
+            if( strcmp( "//~", name.c_str() ) == 0 ) {
+                jo.throw_error_at(
+                    name.c_str(),
+                    "\"//~\" should be within a text object and contain comments for translators." );
+            } else {
+                jo.throw_error_at( name.c_str(),
+                                   string_format( "Invalid or misplaced field name \"%s\" in JSON data",
+                                                  name.c_str() ) );
+            }
         } catch( const JsonError &e ) {
             debugmsg( "(json-error)\n%s", e.what() );
         }

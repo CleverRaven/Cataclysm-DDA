@@ -18,7 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"
@@ -55,6 +55,13 @@ class invlet_wrapper : private std::string
         explicit invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
         bool valid( int invlet ) const;
+
+        // Get ordinal number (first, second, third, ...) of invlet.
+        // Informs sorting order.
+        int ordinal( int invlet ) const {
+            return this->find( invlet );
+        }
+
         std::string get_allowed_chars() const {
             return *this;
         }
@@ -269,6 +276,7 @@ class inventory : public visitable
 
         // specifically used to for displaying non-empty liquid container color in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;
+        bool must_use_hallu_poison( const itype_id &id, int to_use ) const;
         void update_liq_container_count( const itype_id &id, int count );
         void replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max = false );
 

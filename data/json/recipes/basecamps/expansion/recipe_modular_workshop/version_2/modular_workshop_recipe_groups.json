@@ -45,7 +45,7 @@
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
-      { "id": "lc_steel_lump", "description": " Craft: Mild Carbon Steel, Lump" }
+      { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
   },
   {
@@ -68,17 +68,17 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "metal_file", "description": " Craft: Metal Fileset" },
       { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
-      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
+      { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "metalworking_tongs_casting", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
-      { "id": "lc_wire", "description": " Craft: Mild Carbon Steel, Wire" },
-      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Carbon Steel, Link" },
-      { "id": "lc_link_sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
-      { "id": "mc_steel_lump", "description": " Craft: Medium Carbon Steel, Lump" }
+      { "id": "lc_wire", "description": " Craft: Mild Steel, Wire" },
+      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Steel, Link" },
+      { "id": "lc_link_sheet", "description": " Craft: Mild Steel, Link Sheet" },
+      { "id": "mc_steel_lump", "description": " Craft: Medium Steel, Lump" }
     ]
   },
   {
@@ -95,14 +95,14 @@
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
-      { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
+      { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
       { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
-      { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
-      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
-      { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
-      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
-      { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" },
+      { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
+      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
+      { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
+      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
+      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" },
       { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
       { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
@@ -272,20 +272,20 @@
       { "id": "xl_armor_qt_heavyplate", "description": " Craft: Armor, XL Tempered Heavy Plate" },
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
-      { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Shamshir" },
+      { "id": "mc_broadsword", "description": " Craft: Sword, Medium Steel Broadsword" },
+      { "id": "mc_scimitar", "description": " Craft: Sword, Medium Steel Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
-      { "id": "rapier", "description": " Craft: Sword, Rapier" },
+      { "id": "mc_rapier", "description": " Craft: Sword, Medium Steel Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
+      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihänder" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" },
-      { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
-      { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
-      { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
-      { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" },
+      { "id": "hc_steel_lump", "description": " Craft: High Steel, Lump" },
+      { "id": "hc_wire", "description": " Craft: High Steel, Wire" },
+      { "id": "hc_chain_link_fabrication", "description": " Craft: High Steel, Link" },
+      { "id": "hc_link_sheet", "description": " Craft: High Steel, Link Sheet" },
       { "id": "qt_wire", "description": " Craft: Tempered Steel, Wire" },
       { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },
       { "id": "qt_link_sheet", "description": " Craft: Tempered Steel, Link Sheet" }
@@ -312,7 +312,7 @@
       { "id": "bottle_glass", "description": " Craft: Bottle, Glass" },
       { "id": "flask_glass", "description": " Craft: Flask, Glass" },
       { "id": "glass_sheet", "description": " Craft: Sheet, Glass" },
-      { "id": "jar_3l_glass_sealed", "description": " Craft: 3L Jar, Glass" },
+      { "id": "jar_3l_glass_sealed", "description": " Craft: 3 L Jar, Glass" },
       { "id": "jar_glass_sealed", "description": " Craft: Jar, Glass" },
       { "id": "tempered_glass_sheet", "description": " Craft: Tempered Sheet, Glass" }
     ]

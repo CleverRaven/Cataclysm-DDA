@@ -41,8 +41,8 @@ static void clear_game_drag( const ter_id &terrain )
 
     map &here = get_map();
     // hard force a rebuild of caches
-    here.shift( point_south );
-    here.shift( point_north );
+    here.shift( point_rel_sm_south );
+    here.shift( point_rel_sm_north );
 }
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )

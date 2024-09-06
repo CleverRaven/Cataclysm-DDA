@@ -47,9 +47,9 @@
         "9": "t_linoleum_gray",
         "-": "t_linoleum_gray"
       },
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 4, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 }
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 }
       ],
       "furniture": { "!": "f_region_flower" },
       "place_item": [

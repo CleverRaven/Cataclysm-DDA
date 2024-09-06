@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER",
-    "dynamic_line": "Are you one of them?",
+    "dynamic_line": { "gendered_line": "Are you one of them?", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "One of who?", "topic": "TALK_NC_FARMER_INTRO" },
       {
@@ -16,7 +16,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER_INTRO",
-    "dynamic_line": "Hey, you're alive!  Me too.  Been a long while since I've had a conversation.  Uh, with someone else.  Um.",
+    "dynamic_line": {
+      "gendered_line": "Hey, you're alive!  Me too.  Been a long while since I've had a conversation.  Uh, with someone else.  Um.",
+      "relevant_genders": [ "npc", "u" ]
+    },
     "responses": [
       { "text": "It's not safe here anymore, you need to move on.", "topic": "TALK_NC_FARMER_LEAVE" },
       { "text": "How did you make it?", "topic": "TALK_NC_FARMER_STORY1" },
@@ -28,7 +31,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER_LEAVE",
-    "dynamic_line": "I heard it's bad in the cities, back when the radio was still working.  Some of those things came through here.  I want to stay out in the country if I can stay safe.",
+    "dynamic_line": {
+      "gendered_line": "I heard it's bad in the cities, back when the radio was still working.  Some of those things came through here.  I want to stay out in the country if I can stay safe.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
@@ -72,7 +78,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER_STORY4",
-    "dynamic_line": "I'm a lot better now, I've been hunkering down here.  Something came by in the night screaming and crying, sounded just like that woman.  Maybe a ghost, I don't know.  It's good to have company again.  You're not a ghost, right?  On second thought, don't tell me if you are, I probably don't want to know.",
+    "dynamic_line": {
+      "gendered_line": "I'm a lot better now, I've been hunkering down here.  Something came by in the night screaming and crying, sounded just like that woman.  Maybe a ghost, I don't know.  It's good to have company again.  You're not a ghost, right?  On second thought, don't tell me if you are, I probably don't want to know.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
@@ -82,7 +91,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_FARMER_EXPERTISE",
-    "dynamic_line": "I grew up on the farm, I don't know much about ghosts and goblins, but I've spent a lot of time growing food and I work hard.  It's better in the country, cleaner.  Not as dangerous.  I hope.",
+    "dynamic_line": {
+      "gendered_line": "I grew up on the farm, I don't know much about ghosts and goblins, but I've spent a lot of time growing food and I work hard.  It's better in the country, cleaner.  Not as dangerous.  I hope.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_FARMER_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },

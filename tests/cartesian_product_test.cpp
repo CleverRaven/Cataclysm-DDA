@@ -2,7 +2,7 @@
 
 #include "cartesian_product.h"
 
-TEST_CASE( "cartesian_product" )
+TEST_CASE( "cartesian_product", "[nogame]" )
 {
     std::vector<int> empty;
     std::vector<int> singleton = { 0 };

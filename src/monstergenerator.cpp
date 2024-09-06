@@ -237,7 +237,7 @@ static creature_size volume_to_size( const units::volume &vol )
         return creature_size::tiny;
     } else if( vol <= 46250_ml ) {
         return creature_size::small;
-    } else if( vol <= 77500_ml ) {
+    } else if( vol <= 108000_ml ) {
         return creature_size::medium;
     } else if( vol <= 483750_ml ) {
         return creature_size::large;
@@ -377,11 +377,20 @@ void MonsterGenerator::finalize_mtypes()
                 armor_diff += dt.second;
             }
         }
+        std::unordered_set<std::string> blacklisted_specials{"PARROT", "PARROT_AT_DANGER", "GRAZE", "EAT_CROP", "EAT_FOOD", "EAT_CARRION"};
+        int special_attacks_diff = 0;
+        for( const auto &special : mon.special_attacks ) {
+            if( !blacklisted_specials.count( special.first ) ) {
+                special_attacks_diff++;
+            }
+        }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + mon.special_attacks.size() + 8 * mon.emit_fields.size() );
+                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
+
+        mon.difficulty = std::max( 1, mon.difficulty );
 
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
@@ -405,6 +414,8 @@ void MonsterGenerator::finalize_mtypes()
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
+
+        mon.mdeath_effect.has_effect = mon.mdeath_effect.sp.is_valid();
 
         mon.weakpoints.clear();
         for( const weakpoints_id &wpset : mon.weakpoints_deferred ) {
@@ -508,7 +519,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
-    new_actor->cooldown = 1;
+    new_actor->cooldown.min.dbl_val = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
@@ -589,10 +600,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
     add_hardcoded_attack( "RATTLE", mattack::rattle );
-    add_hardcoded_attack( "HOWL", mattack::howl );
     add_hardcoded_attack( "ACID", mattack::acid );
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
-    add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
     add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
@@ -600,7 +609,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
     add_hardcoded_attack( "RESURRECT", mattack::resurrect );
     add_hardcoded_attack( "SMASH", mattack::smash );
-    add_hardcoded_attack( "SCIENCE", mattack::science );
     add_hardcoded_attack( "GROWPLANTS", mattack::growplants );
     add_hardcoded_attack( "GROW_VINE", mattack::grow_vine );
     add_hardcoded_attack( "VINE", mattack::vine );
@@ -615,8 +623,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGUS_GROWTH", mattack::fungus_growth );
     add_hardcoded_attack( "FUNGUS_SPROUT", mattack::fungus_sprout );
     add_hardcoded_attack( "FUNGUS_FORTIFY", mattack::fungus_fortify );
-    add_hardcoded_attack( "DERMATIK", mattack::dermatik );
-    add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
@@ -626,30 +632,21 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "JACKSON", mattack::jackson );
     add_hardcoded_attack( "DANCE", mattack::dance );
     add_hardcoded_attack( "DOGTHING", mattack::dogthing );
-    add_hardcoded_attack( "TENTACLE", mattack::tentacle );
-    add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
-    add_hardcoded_attack( "STARE", mattack::stare );
-    add_hardcoded_attack( "FEAR_PARALYZE", mattack::fear_paralyze );
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
     add_hardcoded_attack( "SPEAKER", mattack::speaker );
-    add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
-    add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
-    add_hardcoded_attack( "MULTI_ROBOT", mattack::multi_robot );
     add_hardcoded_attack( "RATKING", mattack::ratking );
     add_hardcoded_attack( "GENERATOR", mattack::generator );
     add_hardcoded_attack( "UPGRADE", mattack::upgrade );
     add_hardcoded_attack( "BREATHE", mattack::breathe );
-    add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
     add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
-    add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
@@ -669,10 +666,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );
     add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
-    add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
-    add_hardcoded_attack( "STRETCH_BITE", mattack::stretch_bite );
     add_hardcoded_attack( "DOOT", mattack::doot );
-    add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
 }
 
@@ -819,6 +813,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
+    if( was_loaded && jo.has_object( "extend" ) ) {
+        JsonObject ext = jo.get_object( "extend" );
+        ext.allow_omitted_members();
+        if( ext.has_object( "armor" ) ) {
+            armor = extend_resistances_instance( armor, ext.get_object( "armor" ) );
+        }
+    }
     armor_proportional.reset();
     if( jo.has_object( "proportional" ) ) {
         JsonObject jprop = jo.get_object( "proportional" );
@@ -939,6 +940,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_member( "no_absorb_material" ) ) {
+        no_absorb_material.clear();
+        if( jo.has_array( "no_absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "no_absorb_material" ) ) {
+                no_absorb_material.emplace_back( mat );
+            }
+        } else {
+            no_absorb_material.emplace_back( jo.get_string( "no_absorb_material" ) );
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );
@@ -969,7 +981,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    optional( jo, was_loaded, "luminance", luminance, 0 );
+    assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
@@ -1068,6 +1080,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "dissect", dissect );
 
+    optional( jo, was_loaded, "decay", decay );
+
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
         for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
@@ -1141,9 +1155,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
-                  mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
+        if( up.has_string( "into_group" ) ) {
+            if( up.has_string( "into" ) ) {
+                jo.throw_error_at( "upgrades", "Cannot specify both into_group and into." );
+            }
+            mandatory( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {} );
+            upgrade_into = mtype_id::NULL_ID();
+        } else if( up.has_string( "into" ) ) {
+            mandatory( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {} );
+            upgrade_group = mongroup_id::NULL_ID();
+        }
         bool multi = !!upgrade_multi_range;
         optional( up, was_loaded, "multiple_spawns", multi, false );
         if( multi && jo.has_bool( "multiple_spawns" ) ) {
@@ -1261,6 +1282,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
+        optional( jop, was_loaded, "avoid_dangerous_fields", path_settings.avoid_dangerous_fields, false );
     }
 }
 
@@ -1444,8 +1466,6 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
-
     // Legacy support
     if( !jo.has_string( "id" ) ) {
         id = jo.get_string( "type" );
@@ -1454,7 +1474,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    assign( jo, "cooldown", cooldown, strict );
+    cooldown = get_dbl_or_var( jo, "cooldown", false, 0.0 );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us
@@ -1477,10 +1497,8 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
-        if( test_mode ) {
-            debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), new_attack->id.c_str() );
-        }
+        debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last.  Add different `id`s to each attack of this type to prevent this.",
+                  id.c_str(), new_attack->id.c_str() );
     }
 
     special_attacks.emplace( new_attack->id, new_attack );
@@ -1508,7 +1526,14 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
         }
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
-    new_attack.actor->cooldown = inner.get_int( 1 );
+    if( inner.has_array( 1 ) ) {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0],
+                                         "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1],
+                                         "special attack cooldown", 0.0 );
+    } else {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1], "special attack cooldown", 0.0 );
+    }
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }
@@ -1593,6 +1618,13 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const mtype &mon : mon_templates->get_all() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() == "dda" ) {
+            std::string mon_id = mon.id.str();
+            std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+            if( suffix_id != "mon" && suffix_id != "pseudo" ) {
+                debugmsg( "monster %s is missing mon_ (or pseudo_) prefix from id", mon.id.c_str() );
+            }
+        }
         if( mon.harvest.is_null() && !mon.has_flag( mon_flag_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1787,8 +1819,8 @@ void monster_death_effect::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "message", death_message, to_translation( "The %s dies!" ) );
     optional( jo, was_loaded, "effect", sp );
-    has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+    optional( jo, was_loaded, "eoc", eoc );
 }
 
 void monster_death_effect::deserialize( const JsonObject &data )

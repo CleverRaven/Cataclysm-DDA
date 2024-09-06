@@ -171,5 +171,42 @@
         { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 4, 4 ], "y": [ 6, 6 ] }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "//": "Assuming the metal walls aren't supposed to have roofs",
+    "method": "json",
+    "om_terrain": "smallscrapyard_ocu_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "   RRRRRRR              ",
+        "                        ",
+        "   rrrrr                ",
+        "   rrrrr                ",
+        "   rrrrr                ",
+        "   rrrrr                ",
+        "   rrrrr                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "r": "t_wood_treated_roof", "R": "t_flat_roof" },
+      "furniture": {  }
+    }
   }
 ]

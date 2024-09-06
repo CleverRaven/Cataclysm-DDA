@@ -3,23 +3,13 @@
     "type": "effect_on_condition",
     "id": "innawood_milder_portal_storms",
     "recurrence": 1,
-    "condition": {
-      "and": [
-        { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_min_woc" }, "<", { "time": "45 days" } ] }
-      ]
-    },
-    "deactivate_condition": {
-      "or": [
-        { "u_has_trait": "PORTAL_DEPENDENT" },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_min_woc" }, ">=", { "time": "45 days" } ] }
-      ]
-    },
+    "condition": { "and": [ { "not": { "u_has_trait": "PORTAL_DEPENDENT" } }, { "math": [ "ps_min_woc < time('45 days')" ] } ] },
+    "deactivate_condition": { "or": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "math": [ "ps_min_woc >= time('45 days')" ] } ] },
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "45 days" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "90 days" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length" }, "=", { "time": "15 minutes" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length" }, "=", { "time": "75 minutes" } ] }
+      { "math": [ "ps_min_woc", "=", "time('45 days')" ] },
+      { "math": [ "ps_max_woc", "=", "time('90 days')" ] },
+      { "math": [ "ps_min_length", "=", "time('15 minutes')" ] },
+      { "math": [ "ps_max_length", "=", "time('75 minutes')" ] }
     ]
   },
   {
@@ -37,16 +27,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_WEAKEN",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 1 } ] },
-    "effect": { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "--" ], "max": 8 }
+    "condition": { "math": [ "ps_base_str", ">=", "1" ] },
+    "effect": { "math": [ "ps_base_str", "=", "min(ps_base_str - 1, 8)" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SHORTEN",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "ps_min_length" }, ">=", { "time": "15 minutes" } ] },
+    "condition": { "math": [ "ps_min_length >= time('15 minutes')" ] },
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length" }, "-=", { "time": "15 minutes" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length" }, "-=", { "time": "15 minutes" } ] }
+      { "math": [ "ps_min_length", "-=", "time('15 minutes')" ] },
+      { "math": [ "ps_max_length", "-=", "time('15 minutes')" ] }
     ]
   }
 ]

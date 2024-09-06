@@ -1,0 +1,293 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGING_LIMB_SETUP",
+    "//": "Get the timer started, it should be added to all first-level changing traits",
+    "condition": { "math": [ "u_limb_progress_timer", "==", "0" ] },
+    "effect": [ { "math": [ "u_limb_progress_timer", "=", "time('now')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_GLARE",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "<eyes_glare>", "snippet": true, "type": "bad" },
+      { "u_add_effect": "glare", "duration": [ "1 m", "5 m" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_BLIND",
+    "condition": { "and": [ { "one_in_chance": 5 }, "u_can_see" ] },
+    "effect": [
+      { "u_message": "<eyes_blind>", "snippet": true, "type": "bad" },
+      { "u_add_effect": "blind", "duration": [ "2 s", "5 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_STUN",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "<eyes_stun>", "snippet": true, "type": "bad", "popup": true },
+      { "u_add_effect": "stunned", "duration": [ "5 s", "30 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARM_PAIN",
+    "effect": [ { "u_message": "<arm_pain>", "snippet": true }, { "math": [ "u_pain()", "+=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARM_DROP",
+    "condition": "u_has_weapon",
+    "effect": [ { "u_message": "<arm_drop>", "snippet": true }, "player_weapon_drop" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARM_ITCH",
+    "effect": [
+      { "u_message": "<arm_itch>", "snippet": true },
+      { "u_add_effect": "formication", "duration": 3600, "target_part": "arm_l" },
+      { "u_add_effect": "formication", "duration": 3600, "target_part": "arm_r" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRE_EYES_INSECT",
+    "//": "IF we're asleep, had three progress dreams and have enough juice -> grow eyes, ELSE IF we're asleep and one day since the last limb-related dream -> print dream and progress own var ELSE print failure.  Three dreams to progress",
+    "//LIMB-TODO": "Move arthropod/exoskeletal mutation trees over to use molting to progress",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('mutagen_insect')", ">=", "300" ] },
+        { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+        { "math": [ "u_progress_pre_eyes_insect", ">=", "3" ] },
+        { "u_has_effect": "sleep" },
+        { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+      ]
+    },
+    "effect": [
+      { "u_mutate_towards": "EYES_INSECT", "category": "INSECT", "use_vitamins": true },
+      {
+        "if": { "u_has_trait": "EYES_INSECT" },
+        "then": [
+          { "u_message": "<insect_eye_success>", "popup": true },
+          { "math": [ "u_progress_pre_eyes_insect", "=", "0" ] },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": { "u_message": "<insect_failure>", "type": "bad", "snippet": true }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_insect') + u_vitamin('mutagen')" ] }, "y": 1000 }
+            },
+            { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<insect_eye_dream>", "snippet": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_pre_eyes_insect", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          { "if": { "one_in_chance": 5 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
+          {
+            "if": { "one_in_chance": 10 },
+            "then": { "weighted_list_eocs": [ [ "EOC_EYES_BLIND", 1 ], [ "EOC_EYES_GLARE", 5 ], [ "EOC_EYES_STUN", 2 ] ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_INSECT",
+    "//": "Five progression dream steps steps",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('mutagen_insect')", ">=", "500" ] },
+        { "math": [ "u_vitamin('mutagen')", ">=", "500" ] },
+        { "math": [ "u_progress_eyes_insect", ">=", "5" ] },
+        { "u_has_effect": "sleep" },
+        { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+      ]
+    },
+    "effect": [
+      { "u_mutate_towards": "EYES_INSECT_2", "category": "INSECT", "use_vitamins": true },
+      {
+        "if": { "u_has_trait": "EYES_INSECT_2" },
+        "then": [
+          { "u_message": "<insect_eye_2_success>", "popup": true },
+          { "math": [ "u_progress_eyes_insect", "=", "0" ] },
+          { "u_set_field": "fd_blood_insect", "radius": 0 },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": { "u_message": "<insect_failure>", "type": "bad", "snippet": true }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_insect') + u_vitamin('mutagen')" ] }, "y": 1200 }
+            },
+            { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<insect_eye_dream>", "snippet": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_eyes_insect", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          { "if": { "one_in_chance": 8 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
+          {
+            "if": { "one_in_chance": 15 },
+            "then": { "weighted_list_eocs": [ [ "EOC_EYES_BLIND", 1 ], [ "EOC_EYES_GLARE", 5 ], [ "EOC_EYES_STUN", 2 ] ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRE_ARM_FEATHERS",
+    "//": "First-stage limb, single progress dream.  Dynamically decide on failure snips/mutation category",
+    "condition": {
+      "and": [
+        {
+          "or": [ { "math": [ "u_vitamin('mutagen_bird')", ">=", "200" ] }, { "math": [ "u_vitamin('mutagen_raptor')", ">=", "200" ] } ]
+        },
+        { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+        { "math": [ "u_progress_pre_arm_feathers", ">=", "1" ] },
+        { "u_has_effect": "sleep" },
+        { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('mutagen_bird')", ">=", "u_vitamin('mutagen_raptor')" ] },
+        "then": { "u_mutate_towards": "ARM_FEATHERS", "category": "BIRD", "use_vitamins": true },
+        "else": { "u_mutate_towards": "ARM_FEATHERS", "category": "RAPTOR", "use_vitamins": true }
+      },
+      {
+        "if": { "u_has_trait": "ARM_FEATHERS" },
+        "then": [
+          { "u_message": "<arm_feathers_success>", "popup": true },
+          { "math": [ "u_progress_pre_arm_feathers", "=", "0" ] },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": {
+          "if": { "math": [ "u_vitamin('mutagen_bird')", ">=", "u_vitamin('mutagen_raptor')" ] },
+          "then": { "u_message": "<bird_failure>", "type": "bad", "snippet": true },
+          "else": { "u_message": "<raptor_failure>", "type": "bad", "snippet": true }
+        }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_bird') + u_vitamin('mutagen_raptor') + u_vitamin('mutagen')" ] }, "y": 1500 }
+            },
+            { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<arm_feathers_dream>", "snippet": true, "popup": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_pre_arm_feathers", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          {
+            "if": { "one_in_chance": 5 },
+            "then": {
+              "if": { "math": [ "u_vitamin('mutagen_bird')", ">=", "u_vitamin('mutagen_raptor')" ] },
+              "then": { "u_message": "<bird_failure>", "type": "bad", "snippet": true },
+              "else": { "u_message": "<raptor_failure>", "type": "bad", "snippet": true }
+            }
+          },
+          {
+            "if": { "one_in_chance": 10 },
+            "then": { "weighted_list_eocs": [ [ "EOC_ARM_PAIN", 2 ], [ "EOC_ARM_ITCH", 5 ] ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARM_FEATHERS",
+    "//": "If you're on the way towards birdyness try growing wings.  No failure message unless you're birdier than raptorier; check if you either have the bird thresh or are still pre-thresh",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('mutagen_bird')", ">=", "300" ] },
+        { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+        { "math": [ "u_progress_wings_bird", ">=", "3" ] },
+        { "u_has_effect": "sleep" },
+        { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+      ]
+    },
+    "effect": [
+      { "u_mutate_towards": "WINGS_BIRD", "category": "BIRD", "use_vitamins": true },
+      {
+        "if": { "u_has_trait": "WINGS_BIRD" },
+        "then": [
+          { "u_message": "<wings_bird_success>", "popup": true },
+          { "math": [ "u_progress_wings_bird", "=", "0" ] },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": { "u_message": "<bird_failure>", "type": "bad", "snippet": true }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            { "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_bird')" ] }, "y": 400 } },
+            { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+            { "u_has_trait": "THRESH_BIRD" },
+            { "math": [ "time_since(u_limb_progress_timer)", ">=", "time('12 h')" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<wings_bird_dream>", "snippet": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_wings_bird", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          {
+            "if": {
+              "and": [
+                { "math": [ "u_vitamin('mutagen_bird')", ">", "200" ] },
+                { "or": [ { "u_has_trait": "THRESH_BIRD" }, { "not": { "u_has_flag": "MUTATION_THRESHOLD" } } ] }
+              ]
+            },
+            "then": [
+              { "if": { "one_in_chance": 5 }, "then": { "u_message": "<bird_failure>", "type": "bad", "snippet": true } },
+              {
+                "if": { "one_in_chance": 10 },
+                "then": { "weighted_list_eocs": [ [ "EOC_ARM_DROP", 1 ], [ "EOC_ARM_PAIN", 2 ], [ "EOC_ARM_ITCH", 5 ] ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

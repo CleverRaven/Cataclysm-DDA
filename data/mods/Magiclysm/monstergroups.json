@@ -10,10 +10,11 @@
     "name": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 920 },
+      { "monster": "mon_null", "weight": 860 },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_troll", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
+      { "monster": "mon_wolf_goblin", "weight": 10, "cost_multiplier": 4 },
       { "monster": "mon_claygolem", "weight": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "weight": 4, "cost_multiplier": 5 },
       { "monster": "mon_yulecat", "weight": 2, "cost_multiplier": 7 },
@@ -29,6 +30,21 @@
       },
       { "monster": "mon_were_zolf", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ], "starts": 800 },
       { "monster": "mon_winter_wolf", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 3 ], "starts": 750 },
+      {
+        "monster": "mon_goblin_warrior",
+        "weight": 10,
+        "cost_multiplier": 5,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "NIGHT" ]
+      },
+      {
+        "monster": "mon_goblin_bugbear",
+        "weight": 5,
+        "cost_multiplier": 5,
+        "pack_size": [ 2, 4 ],
+        "starts": "15 days",
+        "conditions": [ "NIGHT" ]
+      },
       { "monster": "mon_irongolem", "weight": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "weight": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] },
       { "monster": "mon_owlbear_zombie", "weight": 7, "cost_multiplier": 10, "starts": "15 days" },
@@ -36,6 +52,7 @@
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
       { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
+      { "monster": "mon_ogre_spider", "weight": 5, "cost_multiplier": 12, "starts": "60 days" },
       {
         "group": "GROUP_FOREST_SPIRIT",
         "weight": 15,
@@ -53,24 +70,29 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL",
-    "//": "default ferals",
-    "default": "mon_feral_human_crowbar",
-    "monsters": [ { "monster": "mon_feral_human_magician", "weight": 2, "cost_multiplier": 2 } ]
+    "name": "GROUP_FERAL_WIZARDS",
+    "monsters": [
+      { "monster": "mon_feral_human_magician", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_druid", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_druid_enhanced", "weight": 5, "cost_multiplier": 4 },
+      { "monster": "mon_feral_earthshaper", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_earthshaper_enhanced", "weight": 5, "cost_multiplier": 4 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 958 },
+      { "monster": "mon_null", "weight": 940 },
       { "monster": "mon_black_pudding", "weight": 14, "pack_size": [ 4, 6 ] },
       { "monster": "mon_stirge", "weight": 7, "pack_size": [ 2, 8 ] },
       { "monster": "mon_wisp", "weight": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_wisp", "weight": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
       { "monster": "mon_dragon_black_young", "weight": 1, "cost_multiplier": 65 },
-      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 },
+      { "group": "GROUP_OGRE", "weight": 4, "cost_multiplier": 12 },
+      { "monster": "mon_troll_water", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "group": "GROUP_FOREST_SPIRIT_SWAMP", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
@@ -79,10 +101,11 @@
     "name": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 835 },
+      { "monster": "mon_null", "weight": 782 },
       { "monster": "mon_owlbear", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_shrieker", "weight": 10 },
       { "monster": "mon_lemure", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_troll_stone", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       {
         "monster": "mon_owlbear_zombie",
         "weight": 40,
@@ -100,6 +123,16 @@
       { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" },
       { "group": "GROUP_EARTH_SPIRIT_CAVE", "weight": 50 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "monsters": [ { "monster": "mon_otyugh", "weight": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "monsters": [ { "monster": "mon_otyugh", "weight": 15 } ]
   },
   {
     "type": "monstergroup",
@@ -146,7 +179,12 @@
     "type": "monstergroup",
     "name": "GROUP_WORM",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_worm", "weight": 995 }, { "monster": "mon_bulette", "weight": 5, "cost_multiplier": 40 } ]
+    "monsters": [
+      { "monster": "mon_worm_small", "weight": 500 },
+      { "monster": "mon_worm", "weight": 445 },
+      { "monster": "mon_ankheg", "weight": 50, "cost_multiplier": 6 },
+      { "monster": "mon_bulette", "weight": 5, "cost_multiplier": 40 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -201,6 +239,30 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_OGRE",
+    "//": "Contains ogres and their various mutations",
+    "monsters": [
+      { "monster": "mon_ogre", "weight": 500 },
+      { "monster": "mon_ogre", "weight": 100, "ends": "7 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "28 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "90 days" },
+      { "monster": "mon_ogre_mage", "weight": 100 },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 100, "starts": "7 days" },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 150, "starts": "28 days" },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 150, "starts": "90 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OGRE_MUTANTS",
+    "monsters": [
+      { "monster": "mon_ogre_twoheaded", "weight": 500 },
+      { "monster": "mon_ogre_spider", "weight": 400 },
+      { "monster": "mon_ogre_giant", "weight": 100 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_TOWER_GOLEM",
     "//": "Cheap golems used to defend the average wizard's tower.",
     "monsters": [
@@ -222,6 +284,38 @@
       { "monster": "mon_freedom_toad", "weight": 100, "pack_size": [ 1, 4 ] },
       { "monster": "mon_peeper_frog", "weight": 100, "pack_size": [ 2, 6 ] },
       { "monster": "mon_gray_frog", "weight": 100, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ALL_GOBLINS",
+    "monsters": [
+      { "monster": "mon_goblin_warrior", "weight": 335 },
+      { "monster": "mon_feral_goblin", "weight": 50 },
+      { "monster": "mon_wolf_goblin", "weight": 75 },
+      { "monster": "mon_wolf_goblin", "weight": 15, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goblin_warrior", "weight": 100, "ends": "7 days" },
+      { "monster": "mon_goblin_warrior", "weight": 125, "ends": "28 days" },
+      { "monster": "mon_goblin_warrior", "weight": 150, "ends": "90 days" },
+      { "monster": "mon_goblin_mage_poison", "weight": 25 },
+      { "monster": "mon_goblin_warrior", "weight": 35, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goblin_slinger", "weight": 65, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_troll_goblin_tamed", "weight": 15 },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 100, "starts": "7 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 125, "starts": "28 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "starts": "90 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_MUTANTS",
+    "monsters": [
+      { "monster": "mon_orc_warrior", "weight": 400 },
+      { "monster": "mon_orc_archer", "weight": 150 },
+      { "monster": "mon_orc_blood_warrior", "weight": 100 },
+      { "monster": "mon_orc_mage_blood", "weight": 25 },
+      { "monster": "mon_goblin_bugbear", "weight": 250 },
+      { "monster": "mon_goblin_bugbear_stalker", "weight": 75 }
     ]
   },
   {
@@ -292,7 +386,8 @@
       { "monster": "mon_feral_dwarf_axe", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_goblin", "weight": 20, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_ravenfolk", "weight": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_lizardfolk", "weight": 10, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_feral_lizardfolk", "weight": 10, "pack_size": [ 2, 3 ] },
+      { "group": "GROUP_FERAL_WIZARDS", "weight": 5 }
     ]
   },
   {
@@ -429,6 +524,24 @@
       { "monster": "mon_gelatin_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIFIED_ANIMALS",
+    "default": "mon_zombie_dog",
+    "//": "For overrun or feral druid spaces",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "weight": 200 },
+      { "monster": "mon_zombie_dog", "weight": 25, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zolf", "weight": 100 },
+      { "monster": "mon_zombie_pig", "weight": 150 },
+      { "monster": "mon_zeer", "weight": 150 },
+      { "monster": "mon_zeer", "weight": 25, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zougar", "weight": 100 },
+      { "monster": "mon_zombear", "weight": 75 },
+      { "monster": "mon_zoose", "weight": 50 },
+      { "monster": "mon_owlbear_zombie", "weight": 25 }
     ]
   }
 ]

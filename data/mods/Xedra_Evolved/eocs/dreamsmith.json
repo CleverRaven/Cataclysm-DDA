@@ -104,7 +104,7 @@
           "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
           "effect": [
             {
-              "u_message": "A brilliant idea about the properties of dreamdross  hits your head, and you think you know how to utilize it now.",
+              "u_message": "A brilliant idea about the properties of dreamdross hits your head, and you think you know how to utilize it now.",
               "type": "good"
             }
           ]
@@ -136,7 +136,8 @@
           "dreamforged_glaive_healing",
           "dreamforged_tsurugi_speed",
           "dreamforged_q_staff_exp",
-          "dreamforged_armguard_plate_gunslinger"
+          "dreamforged_armguard_plate_gunslinger",
+          "dreamforged_bed_of_restful_repose"
         ],
         "type": "recipe",
         "true_eocs": {

@@ -34,7 +34,7 @@
         "   --  --  --  --  --   "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix", "x": [ 12, 22 ], "y": [ 19, 22 ] } ],
+      "place_loot": [ { "item": "con_mix_foldable", "x": [ 12, 22 ], "y": [ 19, 22 ] } ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 11, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -73,7 +73,7 @@
         "   @@  sss   11 22 22   "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix", "x": [ 1, 9 ], "y": [ 16, 19 ] } ],
+      "place_loot": [ { "item": "con_mix_foldable", "x": [ 1, 9 ], "y": [ 16, 19 ] } ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 20, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -112,7 +112,7 @@
         " ss      --   --        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix", "x": [ 2, 8 ], "y": [ 19, 21 ] } ],
+      "place_loot": [ { "item": "con_mix_foldable", "x": [ 2, 8 ], "y": [ 19, 21 ] } ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 5, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -151,7 +151,7 @@
         "                        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix", "x": [ 7, 13 ], "y": [ 1, 5 ] } ],
+      "place_loot": [ { "item": "con_mix_foldable", "x": [ 7, 13 ], "y": [ 1, 5 ] } ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 4, "y": 4, "chance": 70, "rotation": 90 } ]
     }
   }

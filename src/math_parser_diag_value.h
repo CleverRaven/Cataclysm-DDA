@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 #define CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 
-#include <map>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <variant>
 #include <vector>
 
 #include "dialogue_helpers.h"
+#include "math_parser.h"
 
 class math_exp;
 struct dialogue;
@@ -24,8 +25,11 @@ struct diag_value {
 
     // these functions can be used at parse time if the parameter needs to be of exactly this type
     // with no conversion. These throw so they should *NOT* be used at runtime.
+    bool is_dbl() const;
     double dbl() const;
+    bool is_str() const;
     std::string_view str() const;
+    bool is_var() const;
     var_info var() const;
     bool is_array() const;
     diag_array const &array() const;
@@ -64,7 +68,5 @@ struct deref_diag_value {
         bool mutable _used = false;
         diag_value _val;
 };
-
-using diag_kwargs = std::map<std::string, deref_diag_value>;
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H

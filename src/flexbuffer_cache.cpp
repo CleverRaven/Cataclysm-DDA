@@ -1,26 +1,28 @@
 #include "flexbuffer_cache.h"
 
 #include <chrono>
+#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
-#include <iostream>
+#include <limits>
 #include <memory>
-#include <mutex>
+#include <optional>
+#include <sstream>
 #include <stdexcept>
+#include <system_error>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include <flatbuffers/flatbuffers.h>
+#include <flatbuffers/flexbuffers.h>
 #include <flatbuffers/idl.h>
-#include <flatbuffers/util.h>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "cata_utility.h"
 #include "filesystem.h"
 #include "json.h"
-#include "json_error.h"
-#include "make_static.h"
 #include "mmap_file.h"
-#include "path_info.h"
 
 namespace
 {

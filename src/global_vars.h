@@ -28,9 +28,13 @@ class global_variables
             global_values.erase( key );
         }
 
-        std::string get_global_value( const std::string &key ) const {
+        std::optional<std::string> maybe_get_global_value( const std::string &key ) const {
             auto it = global_values.find( key );
-            return ( it == global_values.end() ) ? "" : it->second;
+            return it == global_values.end() ? std::nullopt : std::optional<std::string> { it->second };
+        }
+
+        std::string get_global_value( const std::string &key ) const {
+            return maybe_get_global_value( key ).value_or( std::string{} );
         }
 
         std::unordered_map<std::string, std::string> get_global_values() const {

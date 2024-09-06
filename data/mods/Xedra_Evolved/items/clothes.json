@@ -44,7 +44,7 @@
     "id": "alt_tshirt",
     "type": "ARMOR",
     "name": { "str": "slightly off t-shirt" },
-    "description": "A short-sleeved cotton shirt with a design.  The design seems strange somehow when you think about this t-shirt as compared to others you've seen before.",
+    "description": "A short-sleeved cotton tee featuring a uniquely odd design that sets it apart from any you've seen before.",
     "copy-from": "tshirt",
     "variant_type": "generic",
     "variants": [
@@ -88,7 +88,7 @@
       {
         "id": "sunnyvale_tshirt",
         "name": { "str": "sunnyvale t-shirt" },
-        "description": "This t-shirt displays a purple sun rising over a town that looks like it came out of a Doctor Seus book.",
+        "description": "This t-shirt displays a purple sun rising over a town that looks like it came out of a Doctor Seuss book.",
         "symbol": "o",
         "color": "dark_gray",
         "weight": 1
@@ -347,8 +347,7 @@
     "id": "pants_no_pocket_gossamer",
     "type": "ARMOR",
     "copy-from": "pants",
-    "name": { "ctxt": "clothing", "str_sp": "gossamer hose" },
-    "//~": "Hose here refers to the Medieval clothing.",
+    "name": { "//~": "Hose here refers to the Medieval clothing.", "ctxt": "clothing", "str_sp": "gossamer hose" },
     "description": "A pair of tight-fitting gossamer pants with no pockets.  They would have been the absolute height of fashion five hundred years ago.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
@@ -410,5 +409,26 @@
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
     ],
     "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "cloak_verdant",
+    "type": "ARMOR",
+    "name": { "str": "verdant cloak" },
+    "description": "A heavy cloak made of living leaves with long twigs and branches connecting them, meant to be thrown over your body.",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": "107 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": -1,
+    "material": [ "veggy" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "green",
+    "warmth": 30,
+    "material_thickness": 0.4,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_cloak" } ] }
   }
 ]

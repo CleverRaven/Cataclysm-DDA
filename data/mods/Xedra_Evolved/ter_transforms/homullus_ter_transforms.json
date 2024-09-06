@@ -1,0 +1,14 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_homullus_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_homullus_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "You close your eyes and listen to the sounds of civilization.",
+        "message_good": true
+      }
+    ]
+  }
+]

@@ -5,7 +5,7 @@
     "type": "COMESTIBLE",
     "name": "Ierde destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Ierde draught.",
@@ -18,7 +18,7 @@
     "type": "COMESTIBLE",
     "name": "Arvore destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Arvore draught.",
@@ -31,7 +31,7 @@
     "type": "COMESTIBLE",
     "name": "Undine destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Undine draught.",
@@ -44,7 +44,7 @@
     "type": "COMESTIBLE",
     "name": "Salamander destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Salamander draught.",
@@ -57,7 +57,7 @@
     "type": "COMESTIBLE",
     "name": "Homullus destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Homullus draught.",
@@ -70,7 +70,7 @@
     "type": "COMESTIBLE",
     "name": "Sylph destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the Sylph draught.",

@@ -57,7 +57,13 @@
       ],
       "palettes": [ "great_tree" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { " ": "t_region_groundcover" }
+      "terrain": { " ": "t_region_groundcover" },
+      "place_monster": [
+        { "monster": "mon_defender_wood", "x": 4, "y": 4, "chance": 25 },
+        { "monster": "mon_defender_wood", "x": 44, "y": 4, "chance": 25 },
+        { "monster": "mon_defender_wood", "x": 4, "y": 45, "chance": 25 },
+        { "monster": "mon_defender_wood", "x": 44, "y": 45, "chance": 25 }
+      ]
     }
   },
   {

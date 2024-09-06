@@ -13,12 +13,10 @@ def parse_furniture(json, origin):
     if "bash" in json:
         if "sound" in json["bash"]:
             write_text(json["bash"]["sound"], origin,
-                       comment="Bashing sound of furniture \"{}\"".
-                       format(name))
+                       comment="Bashing sound")
         if "sound_fail" in json["bash"]:
             write_text(json["bash"]["sound_fail"], origin,
-                       comment="Bashing failed sound of furniture \"{}\""
-                       .format(name))
+                       comment="Bashing failed sound")
     if "examine_action" in json:
         parse_examine_action(json["examine_action"], origin,
                              "furniture \"{}\"".format(name))

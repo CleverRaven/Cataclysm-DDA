@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install dependencies (ubuntu)
         run: |
@@ -31,16 +31,16 @@ jobs:
         run: ls -a
 
       - name: Upload zipped html as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: formatter
           path: formatter.html
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: gh-pages
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.1.4
         with:
           name: formatter
 
@@ -48,7 +48,7 @@ jobs:
         run: ls -a
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.TX_PR_CREATOR }}
           commit-message: JSON linter gh-pages file update

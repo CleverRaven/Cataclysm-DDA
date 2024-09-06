@@ -67,7 +67,7 @@
     "terrain": [
       {
         "result": [ "t_triffid_bark_wall" ],
-        "valid_terrain": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor", "t_barkfloor_no_roof" ],
         "message": "The bark surges upward as the roots below grow into a heavy, solid wall covered in bark."
       },
       {
@@ -87,7 +87,7 @@
     "id": "ter_arvore_wood_floor",
     "terrain": [
       {
-        "result": [ "t_barkfloor" ],
+        "result": [ "t_barkfloor_no_roof" ],
         "valid_terrain": [
           "t_grass",
           "t_grass_long",
@@ -99,6 +99,7 @@
           "t_grass_dead",
           "t_grass_white",
           "t_sand",
+          "t_moss",
           "t_clay",
           "t_sandmound",
           "t_forestfloor"
@@ -106,9 +107,9 @@
         "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
       },
       {
-        "result": [ "t_barkfloor_no_roof" ],
-        "valid_terrain": [ "t_barkfloor" ],
-        "message": "The ground churns as bark-covered roots quest upward."
+        "result": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor_no_roof" ],
+        "message": "The ground churns as bark-covered roots quest upward, forming an intertwining roof."
       },
       {
         "result": [ "t_barkfloor_no_roof" ],
@@ -149,6 +150,7 @@
           "t_grass_dead",
           "t_grass_white",
           "t_sand",
+          "t_moss",
           "t_clay",
           "t_sandmound",
           "t_forestfloor"
@@ -331,5 +333,51 @@
       }
     ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "MOUNTABLE", "BLOCK_WIND", "ORGANIC" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_verdant_tree_transform",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory", 32 ],
+          [ "t_tree_walnut", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut", 8 ],
+          [ "t_tree_hazelnut", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple", 2 ],
+          [ "t_tree_cherry", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear", 2 ],
+          [ "t_tree_plum", 2 ],
+          [ "t_tree_elderberry", 2 ],
+          [ "t_tree_mulberry", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_flags": [ "BURROWABLE", "DIGGABLE", "COLLAPSES", "DOOR", "FLAT_SURF", "FUNGUS", "PLANTABLE", "ROAD", "ROUGH", "SHALLOW_WATER" ],
+        "message": "The target's limbs begin stretching and spreading toward the sky as their body elongates, and in moments, a tree that could have stood for a hundred years stands in their place."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_living_tent",
+    "terrain": [
+      {
+        "result": "t_arvore_living_tent",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "Vines and brambles rapidly grow from the ground into a small shelter."
+      }
+    ]
   }
 ]

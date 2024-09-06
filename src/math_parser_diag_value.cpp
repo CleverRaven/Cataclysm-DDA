@@ -3,7 +3,6 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include <utility>
 #include <variant>
 
 #include "cata_utility.h"
@@ -57,6 +56,11 @@ constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
 
 } // namespace
 
+bool diag_value::is_dbl() const
+{
+    return std::holds_alternative<double>( data );
+}
+
 double diag_value::dbl() const
 {
     return _diag_value_at_parse_time<double>( data );
@@ -100,6 +104,11 @@ double diag_value::dbl( dialogue const &d ) const
     data );
 }
 
+bool diag_value::is_str() const
+{
+    return std::holds_alternative<std::string>( data );
+}
+
 std::string_view diag_value::str() const
 {
     return _diag_value_at_parse_time<std::string, std::string_view>( data );
@@ -133,6 +142,11 @@ std::string diag_value::str( dialogue const &d ) const
         },
     },
     data );
+}
+
+bool diag_value::is_var() const
+{
+    return std::holds_alternative<var_info>( data );
 }
 
 var_info diag_value::var() const

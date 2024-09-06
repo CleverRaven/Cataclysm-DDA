@@ -2,14 +2,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
@@ -18,55 +21,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_breathe_skin')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_breathe_skin" } }
       ]
@@ -86,63 +41,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_FLEXIBILITY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] }
+          ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_flexibility')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_flexibility" } }
       ]
@@ -162,14 +75,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_DASH",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -181,62 +97,14 @@
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] }
                   ]
                 }
               ]
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
@@ -254,14 +122,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ARMOR_SKIN",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -280,55 +151,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_armor_skin" } }
       ]
@@ -348,14 +171,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_CLIMATE_CONTROL",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -369,55 +195,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_climate_control" } }
       ]
@@ -437,14 +215,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ADRENALINE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -458,55 +239,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_adrenaline" } }
       ]
@@ -526,14 +259,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ENHANCE_MOBILITY",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -554,55 +290,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_enhance_mobility" } }
       ]
@@ -622,14 +310,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HAMMERHAND",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
@@ -638,55 +329,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hammerhand" } }
       ]
@@ -706,18 +349,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_REFLEX_ENHANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
@@ -728,55 +374,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_reflex_enhance" } }
       ]
@@ -796,14 +394,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_SEALED_SYSTEM",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -822,55 +423,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_sealed_system" } }
       ]
@@ -890,14 +443,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_METABOLISM_ENHANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
@@ -911,55 +467,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_metabolism_enhance" } }
       ]
@@ -979,14 +487,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_COMBAT_DANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
@@ -1001,55 +512,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_combat_dance" } }
       ]
@@ -1069,14 +532,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_PERFECTED_MOTION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
@@ -1085,55 +551,7 @@
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_perfected_motion" } }
       ]
@@ -1153,76 +571,31 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HURRICANE_BLOWS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "10" ] },
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "12" ] }
                   ]
                 }
               ]
             }
           ]
         },
-        {
-          "not": {
-            "u_has_any_effect": [
-              "sleep",
-              "effect_psi_learning_new_power",
-              "effect_vitakin_wakeful_resting",
-              "infected",
-              "spores",
-              "taint",
-              "visuals",
-              "hallu",
-              "motor_seizure",
-              "frostbite",
-              "blisters",
-              "formication",
-              "pre_common_cold",
-              "common_cold",
-              "pre_flu",
-              "flu",
-              "pre_conjunctivitis_viral",
-              "conjunctivitis_viral",
-              "pre_conjunctivitis_bacterial",
-              "conjunctivitis_bacterial",
-              "asthma",
-              "brainworms",
-              "bloodworms",
-              "grabbed",
-              "lack_sleep",
-              "sleep_deprived",
-              "under_operation",
-              "zapped",
-              "electrocuted",
-              "anemia",
-              "redcells_anemia",
-              "scurvy",
-              "toxin_buildup",
-              "bad_food_ennui",
-              "hypovolemia",
-              "disabled",
-              "foodpoison",
-              "venom_pain",
-              "venom_dmg",
-              "badpoison",
-              "onfire",
-              "dazed",
-              "stunned"
-            ]
-          }
-        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('biokin_hurricane_blows')", "<=", "0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hurricane_blows" } }
       ]

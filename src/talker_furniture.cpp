@@ -46,9 +46,9 @@ tripoint_abs_omt talker_furniture::global_omt_location() const
     return get_player_character().global_omt_location();
 }
 
-std::string talker_furniture::get_value( const std::string &var_name ) const
+std::optional<std::string> talker_furniture::maybe_get_value( const std::string &var_name ) const
 {
-    return me_comp->get_value( var_name );
+    return me_comp->maybe_get_value( var_name );
 }
 
 void talker_furniture::set_value( const std::string &var_name, const std::string &value )

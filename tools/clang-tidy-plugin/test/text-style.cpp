@@ -23,6 +23,7 @@ static void bar()
     foo( "Dark days ahead;" );
     foo( "What?!?" );
     foo( "Yes\u2026" );
+    foo( "\"It'll work.\"" );
     foo( "C.R.I.T." );
     foo( "C. D. D. A." );
     foo( "Periods (.) should be followed by double spaces." );
@@ -72,6 +73,11 @@ static void bar()
     foo( "foo..." );
     // CHECK-MESSAGES: [[@LINE-1]]:14: warning: ellipsis preferred over three dots.
     // CHECK-FIXES: foo( "foo\u2026" );
+    foo( "\u201CIt doesn\u2019t work\u201D" );
+    // CHECK-MESSAGES: [[@LINE-1]]:11: warning: double quote preferred over left double quote.
+    // CHECK-MESSAGES: [[@LINE-2]]:25: warning: single quote preferred over right single quote.
+    // CHECK-MESSAGES: [[@LINE-3]]:37: warning: double quote preferred over right double quote.
+    // CHECK-FIXES: foo( "\"It doesn't work\"" )
     foo( "Three.  \nTwo.  One." );
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: unnecessary spaces at end of line.
     // CHECK-FIXES: foo( "Three.\nTwo.  One." );

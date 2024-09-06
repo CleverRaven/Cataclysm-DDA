@@ -50,6 +50,7 @@
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
       { "item": "dinosuit" },
+      { "item": "cardboard_crown_loose" },
       { "item": "boots_winter" },
       { "item": "coat_winter" }
     ]
@@ -69,7 +70,7 @@
       {
         "condition": {
           "and": [
-            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "mission_dinodave_cardboard_donor" } ] },
             { "not": "has_no_available_mission" }
           ]
         },
@@ -82,13 +83,13 @@
         },
         "text": "What are you going to do with all that cardboard now?",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "u_add_var": "general_recruit_dave_happy", "value": "yes" }
       },
       {
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
-            { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] }
           ]
         },
         "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
@@ -108,7 +109,10 @@
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
       "yes": "Oh nice.  Crunchings and munchings.  That's a cool, a cool thing.",
-      "no": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that."
+      "no": {
+        "gendered_line": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that.",
+        "relevant_genders": [ "u" ]
+      }
     },
     "responses": [
       { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
@@ -159,7 +163,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
-    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_dinodave_cardboard_donor", "value": "yes" } },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -212,10 +216,7 @@
       "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
-          "u_has_var": "beggars_recruited",
-          "type": "general",
-          "context": "recruit",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ],
           "yes": "but the others have left, and\u0020",
           "no": "and I feel bad with all the help you've given me already, but\u0020"
         },
@@ -224,7 +225,7 @@
     },
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
@@ -385,7 +386,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -399,10 +400,11 @@
       "success_lie": "I don't understand.",
       "failure": "No!  Oh god, no, this can't be happening…"
     },
+    "//": "todo2: migrate u refugee happiness to global",
     "end": {
       "effect": [
-        { "u_adjust_var": "dave_castle_stage", "adjustment": 1 },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+        { "math": [ "dave_castle_stage", "++" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
         { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
       ]
     }
@@ -412,7 +414,7 @@
     "update_mapgen_id": "cardboard_castle_1_main",
     "method": "json",
     "object": {
-      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
       "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }

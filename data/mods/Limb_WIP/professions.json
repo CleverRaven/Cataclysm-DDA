@@ -1,0 +1,162 @@
+[
+  {
+    "type": "profession",
+    "id": "mutant_amputee",
+    "name": "Mutant Para-Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 2,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "knit_scarf" },
+          { "item": "coat_lab" },
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
+          { "item": "folded_wheelchair_generic" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_amputee_noarms",
+    "name": "Mutant Bilateral Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 0,
+    "skills": [ { "level": 4, "name": "chemistry" }, { "level": 4, "name": "electronics" } ],
+    "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "knit_scarf" },
+          { "item": "coat_lab" },
+          { "item": "glasses_safety" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_amputee_everything",
+    "name": "Mutant Quadruple Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": -4,
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "knit_scarf" },
+          { "item": "coat_lab" },
+          { "item": "glasses_safety" },
+          { "item": "folded_wheelchair_generic" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
+    "id": "amputee_nolegs",
+    "name": "Para-Amputee",
+    "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
+    "points": 0,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "mbag" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "folded_wheelchair_generic" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_noarms",
+    "name": "Bilateral Amputee",
+    "description": "By some unfortunate means, you have lost both of your arms.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  You only need your legs to kick somebody's ass, if it comes down to it.",
+    "points": -4,
+    "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_everything",
+    "name": "Quadruple Amputee",
+    "description": "By some unfortunate means, you have lost all of your limbs.  Since then, you have learned to live with your disability and have adapted around it very well, living a relatively normal life with a bit of help.  What are you going to do now that all the doctors are dead?",
+    "points": -6,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
+          { "item": "folded_wheelchair_generic" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  }
+]

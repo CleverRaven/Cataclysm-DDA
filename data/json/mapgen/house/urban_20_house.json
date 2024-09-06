@@ -9,8 +9,8 @@
         "..............-----.............................",
         "........#oooo#-----!.!.......---................",
         ".[...####AffA###+###o#########+######o###o##....",
-        ".....#CC,AffA,,  xxx RRRE|S,9|L|BtS|d @@@ d#^...",
-        "..!..oO,,AffA,,          +,,t|||B,,+  @@@  #....",
+        ".....#CC,AffA,,  xxx RRRE|S~9|L|BtS|d @@@ d#^...",
+        "..!..oO,,AffA,,          +~~t|||B~~+  @@@  #....",
         ".....#7,,,,,,,, :::::    |||||<|||||  @@@  #....",
         ".....oS,,,,,,,, ::ff:              +       o..[.",
         ".....#7,,,,,,,, H::::              |       #!...",
@@ -46,17 +46,9 @@
         "T": "t_thconc_floor",
         "X": "t_thconc_floor",
         "'": "t_thconc_floor",
-        ",": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "C": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "W": "t_linoleum_white",
+        ",": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         ".": [
           [ "t_region_groundcover_urban", 400 ],
           [ "t_region_soil", 100 ],
@@ -74,10 +66,8 @@
         "Z": "f_floor_lamp"
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.03 } ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "suburban_home", "x": 15, "y": 14, "chance": 40, "rotation": 0 }
-      ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 15, "y": 14, "chance": 40, "rotation": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 0 } ],
       "place_item": [ { "item": "television", "x": 18, "y": 3 } ]
     }
   },
@@ -115,10 +105,7 @@
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        ",": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "S": "t_linoleum_white",
+        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "/": "t_flat_roof",
         "-": "t_gutter",
         "'": "t_gutter_drop",

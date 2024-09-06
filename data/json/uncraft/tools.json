@@ -204,7 +204,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
     "result": "fishing_rod_professional",

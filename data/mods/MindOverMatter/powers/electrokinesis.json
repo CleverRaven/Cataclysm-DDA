@@ -52,7 +52,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "psi_dazed_zap",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": {
@@ -87,9 +86,9 @@
   {
     "id": "electrokinetic_zap_enemies",
     "type": "SPELL",
-    "name": "[Ψ]Electrical Discharge",
-    "description": "Build up a charge in your body, zapping anyone who attempts to attack you.  It will also protect you from EMP attacks.",
-    "message": "Your skin tingles.",
+    "name": "[Ψ]Electrical Discharge (C)",
+    "description": "Build up a charge in your body, zapping anyone who attempts to attack you.  It will also protect you from EMP attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
@@ -97,9 +96,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_zap_enemies",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_ZAP_ENEMIES_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -112,18 +110,22 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1100,
-    "energy_increment": -120,
-    "base_casting_time": 125,
-    "final_casting_time": 45,
-    "casting_time_increment": -5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_zap_enemies') > -1 ? 0 : max((3500 - (u_spell_level('electrokinetic_zap_enemies') * 120)), 1100)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_zap_enemies') > -1 ? 10 : max((125 -(u_spell_level('electrokinetic_zap_enemies') * 5)), 45)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_melee_attacks",
     "type": "SPELL",
-    "name": "[Ψ]Voltaic Strikes",
-    "description": "Unleash electrical blasts on those you strike in melee.",
+    "name": "[Ψ]Voltaic Strikes (C)",
+    "description": "Unleash electrical blasts on those you strike in melee.  It also provides protection against electrical damage.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "Lightning crackles between your fingers!",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -132,9 +134,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokin_melee_attacks",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MELEE_ATTACKS_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -147,12 +148,54 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3750,
-    "final_energy_cost": 1450,
-    "energy_increment": -115,
-    "base_casting_time": 85,
-    "final_casting_time": 35,
-    "casting_time_increment": -6
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_melee_attacks') > -1 ? 0 : max((3750 - (u_spell_level('electrokinetic_melee_attacks') * 115)), 1450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_melee_attacks') > -1 ? 10 : max((85 -(u_spell_level('electrokinetic_melee_attacks') * 6)), 35)"
+      ]
+    }
+  },
+  {
+    "id": "electrokinetic_hacking_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Hacking Interface (C)",
+    "description": "Create an electrical interface with your powers, allowing you to hack nearby devices as if you were using a computer.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_HACKING_INTERFACE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max((6500 - (u_spell_level('electrokinetic_hacking_interface') * 150)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_hacking_interface') * 9)), 150)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_personal_battery",
@@ -173,12 +216,12 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "energy_source": "STAMINA",
@@ -208,7 +251,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "stunned",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
@@ -288,7 +330,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "line",
     "damage_type": "electric",
     "min_damage": {
@@ -336,16 +377,15 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "recharge_vehicle",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_recharge_vehicle') * 125) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_recharge_vehicle') * 125) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
@@ -359,8 +399,8 @@
     "id": "electrokinetic_pain_immune",
     "type": "SPELL",
     "name": "[Ψ]Analgesic Block",
-    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-acceleration.",
-    "message": "The pain just…disappears.",
+    "description": "By clamping down on all pain signals you can completely eliminate your ability to feel pain briefly.  This does not eliminate the source of pain, and when the power ends all of the original pain and more will return.\n\nAnalgesic Block is <color_red>incompatible</color> with Neuro-Acceleration.",
+    "message": "The pain just… disappears.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
@@ -370,7 +410,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -394,9 +433,9 @@
     "id": "electrokinetic_speed_boost",
     "type": "SPELL",
     "name": "[Ψ]Neuro-acceleration",
-    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nNeuro-acceleration is <color_red>incompatible</color> with Analgesic Block.",
+    "description": "You can improve the efficiency of your or an ally's nervous system, allowing for much faster response times.  This also increases the target's ability to retain information.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Neuro-acceleration is <color_red>incompatible</color> with Analgesic Block.  When used on <color_green>allies</color>, the power has <color_yellow>one-half the normal duration</color>.",
     "//": "This does not increase intelligence for balance reasons.",
-    "message": "You enhance your target's neurons.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally" ],
     "spell_class": "ELECTROKINETIC",
@@ -404,28 +443,31 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokinetic_speed_boost",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_SPEED_BOOST_TARGET_CHECKER",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 1800) + 8100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('electrokinetic_speed_boost') * 2700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('electrokinetic_speed_boost') * 5700) + 28600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 2750,
-    "energy_increment": -135,
-    "base_casting_time": 165,
-    "final_casting_time": 75,
-    "casting_time_increment": -5.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 0 : max((6000 - (u_spell_level('electrokinetic_speed_boost') * 135)), 2750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_speed_boost') > -1 ? 10 : max((165 -(u_spell_level('electrokinetic_speed_boost') * 5.5)), 75)"
+      ]
+    }
   },
   {
     "id": "electrokinetic_kill_robot",
@@ -441,10 +483,7 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_seven", "hit_self": true },
-      { "id": "electrokinetic_kill_robot_sparks", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "electrokinetic_kill_robot_sparks", "hit_self": false } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": 150,
@@ -462,7 +501,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "targeted_monster_species": [ "CYBORG", "ROBOT" ],
+    "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
     "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ]
   },
   {
@@ -490,14 +529,52 @@
     "max_range": 50,
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
-    "targeted_monster_species": [ "CYBORG", "ROBOT" ],
+    "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
     "ignored_monster_species": [ "YRAX_CONSTRUCT", "PSI_NULL" ]
+  },
+  {
+    "id": "electrokinetic_robot_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Robotic Interface",
+    "description": "Use your powers to remotely interface with a robot's internal circuitry, allowing you to hack it if you have the skill.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_ROBOT_INTERFACE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 5000,
+    "energy_increment": -125,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5
+  },
+  {
+    "id": "electro_spawn_robot_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Create Robotic Interface",
+    "description": "Creates a tool used to hack robots.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "electro_robot_interface",
+    "shape": "blast",
+    "min_duration": 0,
+    "max_duration": 0
   },
   {
     "id": "electrokinetic_lightning_aura",
     "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura",
-    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from EMP attacks while active.",
+    "name": "[Ψ]Galvanic Aura (C)",
+    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from electricity while active.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>",
     "message": "The air around you hums with power.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -506,9 +583,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokinetic_lightning_aura",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_LIGHTNING_AURA_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -521,12 +597,66 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 9000,
-    "final_energy_cost": 4500,
-    "energy_increment": -200,
-    "base_casting_time": 150,
-    "final_casting_time": 55,
-    "casting_time_increment": -8.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
+      ]
+    }
+  },
+  {
+    "id": "electrokinetic_lightning_aura_spark",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Sparks",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
+    "effect": "emit",
+    "effect_str": "emit_shock_cloud_big",
+    "shape": "blast",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] }
+  },
+  {
+    "id": "electrokinetic_lightning_aura_attack_placeholder",
+    "//": "Currently galvanic aura successfully calls this spell to attack enemies.  However, it does not 'draw a line' towards the enemy, merely spawning ontop of them.  Still not fully functional.",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Bolt",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "line",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 1) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('electrokinetic_lightning_bolt') * 1.5) + 20) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_spell_level('electrokinetic_lightning_aura') * 0.33) + 2) * (scaling_factor(u_val('intelligence') ) ), 10)"
+      ]
+    },
+    "max_range": 10,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 1
   },
   {
     "id": "electrokinetic_lightning_blast",
@@ -542,10 +672,7 @@
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_nine", "hit_self": true },
-      { "id": "electrokinetic_lightning_blast_trail", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "electrokinetic_lightning_blast_trail", "hit_self": false } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": {
@@ -640,7 +767,6 @@
     "effect": "revive",
     "effect_str": "ZOMBIE",
     "extra_effects": [
-      { "id": "psionic_drained_difficulty_ten", "hit_self": true },
       { "id": "electrokinetic_revive_charm", "hit_self": false },
       { "id": "electrokinetic_revive_heal", "hit_self": false },
       { "id": "electrokinetic_revive_debuff", "hit_self": false }

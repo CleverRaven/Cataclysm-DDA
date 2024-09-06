@@ -12,14 +12,20 @@
     "default": "psionic_charge_power"
   },
   {
+    "type": "ammunition_type",
+    "id": "noetic_charge_power",
+    "name": "noetic energy",
+    "default": "noetic_charge_power"
+  },
+  {
     "id": "mom_pulse_rifle_ammo",
     "type": "AMMO",
     "name": { "str_sp": "LV429 pulse shot" },
     "description": "A charge for the LV429.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 160,
-    "price_postapoc": 800,
+    "price": "1 USD 60 cent",
+    "price_postapoc": "8 USD",
     "material": [ "superalloy", "steel" ],
     "symbol": "=",
     "color": "red",
@@ -35,7 +41,7 @@
     "type": "AMMO",
     "id": "psionic_charge_power",
     "category": "spare_parts",
-    "price": 1000,
+    "price": "10 USD",
     "name": { "str_sp": "matrix charge" },
     "symbol": "=",
     "color": "white",
@@ -46,5 +52,13 @@
     "ammo_type": "psionic_charge_power",
     "material": [ "nether_crystal" ],
     "count": 100
+  },
+  {
+    "type": "AMMO",
+    "id": "noetic_charge_power",
+    "copy-from": "psionic_charge_power",
+    "name": { "str_sp": "noetic energy" },
+    "ammo_type": "noetic_charge_power",
+    "description": "Power charge for psychic phenomena."
   }
 ]

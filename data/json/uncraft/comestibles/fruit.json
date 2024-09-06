@@ -37,7 +37,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "seed_rose", 1 ] ] ]
+    "components": [ [ [ "seed_rose", 1 ] ], [ [ "rose_hips_cut", 1 ] ] ]
   },
   {
     "result": "grapes",
@@ -123,13 +123,5 @@
     "activity_level": "NO_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "seed_maianthemum_stellatum", 1 ] ] ]
-  },
-  {
-    "result": "mutfruit",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mutfruit_peeled", 1 ] ], [ [ "seed_mutant", 1 ] ] ]
   }
 ]

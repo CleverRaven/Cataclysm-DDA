@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "avatar.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "effect.h"
@@ -214,6 +215,11 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+bool talker_character_const::is_trait_purifiable( const trait_id &trait_to_check ) const
+{
+    return me_chr_const->purifiable( trait_to_check );
+}
+
 bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
 {
     return me_chr_const->knows_recipe( &*recipe_to_check );
@@ -248,6 +254,28 @@ void talker_character::mutate_category( const mutation_category_id &mut_cat,
                                         const bool &use_vitamins )
 {
     me_chr->mutate_category( mut_cat, use_vitamins );
+}
+
+void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
+                                       const bool &use_vitamins )
+{
+    me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
+void talker_character::set_trait_purifiability( const trait_id &trait, const bool &purifiable )
+{
+    // If we want to set it non-purifiable and we didn't already do that and we really do have the trait
+    if( me_chr->has_trait( trait ) ) {
+        if( !purifiable && !me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.insert( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s unpurifiable", trait.c_str() );
+        };
+        // If we want to set it purifiable
+        if( purifiable && me_chr->my_intrinsic_mutations.count( trait ) ) {
+            me_chr->my_intrinsic_mutations.erase( trait );
+            add_msg_debug( debugmode::DF_MUTATION, "Setting trait %s purifiable", trait.c_str() );
+        }
+    }
 }
 
 void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
@@ -386,6 +414,19 @@ int talker_character_const::get_spell_count( const trait_id &school ) const
     return count;
 }
 
+int talker_character_const::get_spell_sum( const trait_id &school, int min_level ) const
+{
+    int count = 0;
+
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        if( school.is_null() || ( sp->spell_class() == school &&
+                                  sp->get_effective_level() >= min_level ) ) {
+            count = count + sp->get_effective_level() ;
+        }
+    }
+    return count;
+}
+
 void talker_character::set_spell_level( const spell_id &sp, int new_level )
 {
     me_chr->magic->set_spell_level( sp, new_level, me_chr );
@@ -409,6 +450,11 @@ time_duration talker_character_const::proficiency_practiced_time( const proficie
 void talker_character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
 {
     me_chr->set_proficiency_practiced_time( prof, turns );
+}
+
+void talker_character::train_proficiency_for( const proficiency_id &prof, int turns )
+{
+    me_chr->practice_proficiency( prof, time_duration::from_seconds<int>( turns ) );
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
@@ -447,9 +493,10 @@ void talker_character::remove_effect( const efftype_id &old_effect, const std::s
     me_chr->remove_effect( old_effect, target_part );
 }
 
-std::string talker_character_const::get_value( const std::string &var_name ) const
+std::optional<std::string> talker_character_const::maybe_get_value( const std::string &var_name )
+const
 {
-    return me_chr_const->get_value( var_name );
+    return me_chr_const->maybe_get_value( var_name );
 }
 
 void talker_character::set_value( const std::string &var_name, const std::string &value )
@@ -614,9 +661,9 @@ int talker_character_const::get_activity_level() const
     return me_chr_const->activity_level_index();
 }
 
-int talker_character_const::get_fatigue() const
+int talker_character_const::get_sleepiness() const
 {
-    return me_chr_const->get_fatigue();
+    return me_chr_const->get_sleepiness();
 }
 
 int talker_character_const::get_hunger() const
@@ -673,6 +720,11 @@ void talker_character::shout( const std::string &speech, bool order )
 int talker_character_const::pain_cur() const
 {
     return me_chr_const->get_pain();
+}
+
+int talker_character_const::perceived_pain_cur() const
+{
+    return me_chr_const->get_perceived_pain();
 }
 
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
@@ -768,9 +820,9 @@ bool talker_character_const::can_see_location( const tripoint &pos ) const
     return me_chr_const->sees( pos );
 }
 
-void talker_character::set_fatigue( int amount )
+void talker_character::set_sleepiness( int amount )
 {
-    me_chr->set_fatigue( amount );
+    me_chr->set_sleepiness( amount );
 }
 
 void talker_character::mod_daily_health( int amount, int cap )
@@ -1066,7 +1118,8 @@ std::string talker_character_const::proficiency_training_text( const talker &stu
 
     if( cost > 0 ) {
         //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
-        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
+        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str,
+                              cost / 100 );
     }
     //~ Proficiency name: (current_practice) -> (next_practice)
     return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
@@ -1147,10 +1200,9 @@ std::string talker_character_const::spell_seminar_text( const spell_id &s ) cons
     return s->name.translated();
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
+std::vector<bodypart_id> talker_character::get_all_body_parts( get_body_part_flags flags ) const
 {
-    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
-                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
+    return me_chr->get_all_body_parts( flags );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const
@@ -1186,8 +1238,9 @@ void talker_character::die()
 matec_id talker_character::get_random_technique( Creature &t, bool crit,
         bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
-    return me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter, block_counter,
-                                   blacklist );
+    return std::get<0>( me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter,
+                        block_counter,
+                        blacklist ) );
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,
@@ -1204,4 +1257,14 @@ void talker_character::learn_martial_art( const matype_id &id ) const
 void talker_character::forget_martial_art( const matype_id &id ) const
 {
     me_chr->martial_arts_data->clear_style( id );
+}
+
+int talker_character_const::climate_control_str_heat() const
+{
+    return me_chr_const->climate_control_strength().first;
+}
+
+int talker_character_const::climate_control_str_chill() const
+{
+    return me_chr_const->climate_control_strength().second;
 }

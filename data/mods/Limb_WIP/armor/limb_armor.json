@@ -1,0 +1,345 @@
+[
+  {
+    "id": "debug_belt_tail",
+    "repairs_like": "scarf",
+    "type": "ARMOR",
+    "name": { "str": "debug tail belt" },
+    "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with little encumbrance",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "25 cent",
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "material_thickness": 2000,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "encumbrance": 2, "coverage": 100, "covers": [ "debug_tail" ], "specifically_covers": [ "sub_limb_debug_tail_1" ] }
+    ]
+  },
+  {
+    "id": "debug_belt_tail_weighted",
+    "type": "ARMOR",
+    "copy-from": "debug_belt_tail",
+    "name": { "str": "first weighted debug tail belt" },
+    "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with extreme encumbrance",
+    "armor": [
+      {
+        "encumbrance": 120,
+        "coverage": 100,
+        "covers": [ "torso", "debug_tail" ],
+        "specifically_covers": [ "sub_limb_debug_tail_1" ]
+      }
+    ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "debug_helmet_dragonfly",
+    "name": { "str": "debug dragonfly helmet" },
+    "description": "An example helmet to test on custom heads.  Should blind you.",
+    "copy-from": "helmet_scrap",
+    "armor": [
+      {
+        "material": [ { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 300,
+        "coverage": 100,
+        "covers": [ "head_dragonfly", "eyes_dragonfly" ]
+      }
+    ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "integrated_feathers",
+    "copy-from": "integrated_feathers",
+    "name": { "str_sp": "feathers" },
+    "armor": [
+      {
+        "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "arm_feathers_l",
+          "arm_feathers_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_arms_basic",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - arms" },
+    "description": "The durable alloy armor which protects the sensitive components that operate your bionic arms.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": 1,
+    "material": [ "kevlar_rigid", "superalloy" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_bionic_basic_l", "arm_bionic_basic_r", "hand_bionic_basic_l", "hand_bionic_basic_r" ],
+        "specifically_covers": [
+          "arm_shoulder_l",
+          "arm_shoulder_r",
+          "arm_upper_l",
+          "arm_upper_r",
+          "arm_elbow_l",
+          "arm_elbow_r",
+          "arm_lower_l",
+          "arm_lower_r",
+          "hand_wrist_l",
+          "hand_wrist_r",
+          "hand_fingers_l",
+          "hand_fingers_r",
+          "hand_palm_l",
+          "hand_palm_r",
+          "hand_back_l",
+          "hand_back_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "armor_bio_arm_l",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - left arm" },
+    "copy-from": "armor_bio_arms_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_bionic_basic_l", "arm_bionic_basic_l" ],
+        "specifically_covers": [
+          "arm_shoulder_l",
+          "arm_upper_l",
+          "arm_elbow_l",
+          "arm_lower_l",
+          "hand_wrist_l",
+          "hand_fingers_l",
+          "hand_palm_l",
+          "hand_back_l"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_arm_r",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - right arm" },
+    "copy-from": "armor_bio_arms_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_bionic_basic_r", "arm_bionic_basic_r" ],
+        "specifically_covers": [
+          "arm_shoulder_r",
+          "arm_upper_r",
+          "arm_elbow_r",
+          "arm_lower_r",
+          "hand_wrist_r",
+          "hand_fingers_r",
+          "hand_palm_r",
+          "hand_back_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_legs_basic",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - legs" },
+    "description": "The durable alloy armor which protects the sensitive components that operate your bionic legs.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": 1,
+    "material": [ "kevlar_rigid", "superalloy" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_bionic_basic_l", "leg_bionic_basic_r", "foot_bionic_basic_l", "foot_bionic_basic_r" ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_hip_r",
+          "leg_upper_l",
+          "leg_upper_r",
+          "leg_knee_l",
+          "leg_knee_r",
+          "leg_lower_l",
+          "leg_lower_r",
+          "foot_ankle_l",
+          "foot_ankle_r",
+          "foot_heel_l",
+          "foot_heel_r",
+          "foot_sole_l",
+          "foot_sole_r",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_arch_l",
+          "foot_arch_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "armor_bio_leg_l",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - left leg" },
+    "copy-from": "armor_bio_legs_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_bionic_basic_l", "foot_bionic_basic_l" ],
+        "specifically_covers": [
+          "leg_hip_l",
+          "leg_upper_l",
+          "leg_knee_l",
+          "leg_lower_l",
+          "foot_ankle_l",
+          "foot_heel_l",
+          "foot_sole_l",
+          "foot_toes_l",
+          "foot_arch_l"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_leg_r",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - right leg" },
+    "copy-from": "armor_bio_legs_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_bionic_basic_r", "foot_bionic_basic_r" ],
+        "specifically_covers": [
+          "leg_hip_r",
+          "leg_upper_r",
+          "leg_knee_r",
+          "leg_lower_r",
+          "foot_ankle_r",
+          "foot_heel_r",
+          "foot_sole_r",
+          "foot_toes_r",
+          "foot_arch_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_treads",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - tank treads" },
+    "description": "The protective armor for the bionic tank treads which replace the legs.",
+    "volume": "80000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": 1,
+    "material": [ "superalloy", "rubber", "qt_steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "200 kg",
+        "max_item_length": "50 cm",
+        "moves": 500,
+        "description": "Cargo storage compartment.",
+        "rigid": true
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "leg_bionic_treads" ],
+        "specifically_covers": [ "bionic_treads_body" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "cover_vitals": 100
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_bionic_treads" ],
+        "specifically_covers": [ "bionic_treads_treads" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ],
+        "cover_vitals": 100
+      }
+    ]
+  }
+]

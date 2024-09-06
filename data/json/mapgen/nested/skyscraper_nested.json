@@ -176,8 +176,8 @@
         "U": "f_trashcan"
       },
       "set": [
-        { "square": "terrain", "id": "t_floor", "x": 4, "y": 16, "x2": 19, "y2": 20 },
-        { "square": "terrain", "id": "t_floor", "x": 12, "y": 21, "x2": 19, "y2": 23 }
+        { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 16, "x2": 19, "y2": 20 },
+        { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 21, "x2": 19, "y2": 23 }
       ],
       "items": {
         "C": { "item": "behindcounter", "chance": 40 },
@@ -493,13 +493,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",
@@ -587,13 +587,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",

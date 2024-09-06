@@ -514,45 +514,6 @@
     ]
   },
   {
-    "name": "GROUP_MANSION",
-    "override": true,
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_null", "weight": 823 },
-      { "monster": "mon_rat_thing", "weight": 10, "pack_size": [ 5, 20 ] },
-      {
-        "monster": "mon_ghast",
-        "weight": 5,
-        "cost_multiplier": 3,
-        "pack_size": [ 1, 5 ],
-        "conditions": [ "NIGHT", "DUSK" ]
-      },
-      { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_ghoul", "weight": 5, "pack_size": [ 5, 7 ] },
-      { "monster": "mon_feral_human_pipe", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_feral_maid_broom", "weight": 10 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 10 },
-      { "monster": "mon_feral_maid_knife", "weight": 10 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_feral_armored_battleaxe", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
-      { "monster": "mon_shoggoth", "weight": 2, "cost_multiplier": 10, "starts": "7 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "28 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 4, "cost_multiplier": 10, "starts": "90 days", "pack_size": [ 1, 4 ] }
-    ]
-  },
-  {
-    "name": "GROUP_PANICROOM",
-    "override": true,
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null" } ]
-  },
-  {
     "type": "monstergroup",
     "name": "GROUP_HOSPITAL",
     "override": true,

@@ -59,7 +59,6 @@ enum class spell_flag : int {
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     NO_EXPLOSION_SFX, // spell has no visual explosion
-    LIQUID, // effects applied by this spell can be resisted with waterproof equipment if targeting a body part. doesn't apply to damage (yet)
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -82,6 +81,7 @@ enum class spell_flag : int {
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NO_CORPSE_QUIET, // allow summoned monsters to vanish/leave without leaving a corpse
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
@@ -432,6 +432,7 @@ class spell
 
         // Temporary adjustments caused by EoC's
         int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_damage_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
         float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
@@ -617,10 +618,16 @@ class spell
         // heals the critter at the location, returns amount healed (Character heals each body part)
         int heal( const tripoint &target, Creature &caster ) const;
 
+        // casts the spell effect from an item.  less functionality compared to creature casting.
+        void cast_spell_effect( const tripoint &target ) const;
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
+        void cast_all_effects( const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
@@ -719,13 +726,15 @@ class known_magic
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+        // returns which invlets are already in use
+        void update_used_invlets( std::set<int> &used_invlets );
 
         void toggle_favorite( const spell_id &sp );
         bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
-        // gets invlet if assigned, or -1 if not
+        // gets invlet if assigned, or 0 if not
         int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
 
@@ -863,6 +872,7 @@ class spellbook_callback : public uilist_callback
     public:
         void add_spell( const spell_id &sp );
         void refresh( uilist *menu ) override;
+        float desired_extra_space_right( ) override;
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,

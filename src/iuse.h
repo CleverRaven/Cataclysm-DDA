@@ -80,22 +80,16 @@ std::optional<int> call_of_tindalos( Character *, item *, const tripoint & );
 std::optional<int> camera( Character *, item *, const tripoint & );
 std::optional<int> can_goo( Character *, item *, const tripoint & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint & );
+std::optional<int> heat_solid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_all_items( Character *p, item *it, const tripoint & );
 std::optional<int> capture_monster_veh( Character *, item *, const tripoint & );
-std::optional<int> carver_off( Character *, item *, const tripoint & );
-std::optional<int> carver_on( Character *, item *, const tripoint & );
-std::optional<int> chainsaw_off( Character *, item *, const tripoint & );
-std::optional<int> chainsaw_on( Character *, item *, const tripoint & );
 std::optional<int> change_eyes( Character *, item *, const tripoint & );
 std::optional<int> change_skin( Character *, item *, const tripoint & );
 std::optional<int> chop_logs( Character *, item *, const tripoint & );
 std::optional<int> chop_tree( Character *, item *, const tripoint & );
-std::optional<int> circsaw_on( Character *, item *, const tripoint & );
-std::optional<int> e_circsaw_on( Character *, item *, const tripoint & );
 std::optional<int> clear_rubble( Character *, item *, const tripoint & );
 std::optional<int> coin_flip( Character *, item *, const tripoint & );
-std::optional<int> combatsaw_off( Character *, item *, const tripoint & );
-std::optional<int> combatsaw_on( Character *, item *, const tripoint & );
-std::optional<int> toolweapon_deactivate( Character *, item *, const tripoint & );
 std::optional<int> contacts( Character *, item *, const tripoint & );
 std::optional<int> crowbar( Character *, item *, const tripoint & );
 std::optional<int> crowbar_weak( Character *, item *, const tripoint & );
@@ -106,14 +100,10 @@ std::optional<int> directional_hologram( Character *, item *, const tripoint & )
 std::optional<int> dive_tank_activate( Character *, item *, const tripoint & );
 std::optional<int> dive_tank( Character *, item *, const tripoint & );
 std::optional<int> dog_whistle( Character *, item *, const tripoint & );
-std::optional<int> e_combatsaw_off( Character *, item *, const tripoint & );
-std::optional<int> e_combatsaw_on( Character *, item *, const tripoint & );
 std::optional<int> ehandcuffs( Character *, item *, const tripoint & );
 std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint & );
 std::optional<int> epic_music( Character *, item *, const tripoint & );
 std::optional<int> einktabletpc( Character *, item *, const tripoint & );
-std::optional<int> elec_chainsaw_off( Character *, item *, const tripoint & );
-std::optional<int> elec_chainsaw_on( Character *, item *, const tripoint & );
 std::optional<int> emf_passive_on( Character *, item *, const tripoint & );
 std::optional<int> extinguisher( Character *, item *, const tripoint & );
 std::optional<int> fill_pit( Character *, item *, const tripoint & );
@@ -134,9 +124,8 @@ std::optional<int> granade_act( Character *, item *, const tripoint & );
 std::optional<int> grenade_inc_act( Character *, item *, const tripoint & );
 std::optional<int> gun_repair( Character *, item *, const tripoint & );
 std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
-std::optional<int> hacksaw( Character *, item *, const tripoint & );
+std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
 std::optional<int> hairkit( Character *, item *, const tripoint & );
-std::optional<int> hammer( Character *, item *, const tripoint & );
 std::optional<int> hand_crank( Character *, item *, const tripoint & );
 std::optional<int> heat_food( Character *, item *, const tripoint & );
 std::optional<int> heatpack( Character *, item *, const tripoint & );
@@ -147,6 +136,8 @@ std::optional<int> jet_injector( Character *, item *, const tripoint & );
 std::optional<int> lumber( Character *, item *, const tripoint & );
 std::optional<int> ma_manual( Character *, item *, const tripoint & );
 std::optional<int> magic_8_ball( Character *, item *, const tripoint & );
+std::optional<int> measure_resonance( Character *, item *, const tripoint & );
+std::optional<int> change_outfit( Character *, item *, const tripoint & );
 std::optional<int> electricstorage( Character *, item *, const tripoint & );
 std::optional<int> ebooksave( Character *, item *, const tripoint & );
 std::optional<int> ebookread( Character *, item *, const tripoint & );
@@ -178,8 +169,6 @@ std::optional<int> radio_off( Character *, item *, const tripoint & );
 std::optional<int> radio_on( Character *, item *, const tripoint & );
 std::optional<int> radio_tick( Character *, item *, const tripoint & );
 std::optional<int> remove_all_mods( Character *, item *, const tripoint & );
-std::optional<int> rm13armor_off( Character *, item *, const tripoint & );
-std::optional<int> rm13armor_on( Character *, item *, const tripoint & );
 std::optional<int> robotcontrol( Character *, item *, const tripoint & );
 std::optional<int> rpgdie( Character *, item *, const tripoint & );
 std::optional<int> seed( Character *, item *, const tripoint & );
@@ -198,8 +187,6 @@ std::optional<int> tazer2( Character *, item *, const tripoint & );
 std::optional<int> teleport( Character *, item *, const tripoint & );
 std::optional<int> toolmod_attach( Character *, item *, const tripoint & );
 std::optional<int> towel( Character *, item *, const tripoint & );
-std::optional<int> trimmer_off( Character *, item *, const tripoint & );
-std::optional<int> trimmer_on( Character *, item *, const tripoint & );
 std::optional<int> unfold_generic( Character *, item *, const tripoint & );
 std::optional<int> unpack_item( Character *, item *, const tripoint & );
 std::optional<int> vibe( Character *, item *, const tripoint & );
@@ -262,6 +249,23 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
+struct heating_requirements {
+    units::volume volume;
+    int ammo;
+    int time;
+};
+struct heater {
+    item_location loc;
+    bool consume_flag;
+    int available_heater;
+    int heating_effect;
+    tripoint_abs_ms vpt;
+    bool pseudo_flag;
+};
+heater find_heater( Character *, item * );
+heating_requirements heating_requirements_for_weight( const units::mass &,
+        const units::mass &, const units::volume & );
+
 using use_function_pointer = std::optional<int> ( * )( Character *, item *,
                              const tripoint & );
 
@@ -281,7 +285,7 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( const JsonObject &jo ) = 0;
+        virtual void load( const JsonObject &jo, const std::string &src ) = 0;
         virtual std::optional<int> use( Character *, item &, const tripoint & ) const = 0;
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
@@ -324,7 +328,9 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
+        // TODO: get rid of untyped overload
         std::optional<int> call( Character *, item &, const tripoint & ) const;
+        std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
         ret_val<void> can_call( const Character &, const item &, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {

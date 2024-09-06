@@ -10,86 +10,56 @@
         "text": "Skeletal",
         "color": "red",
         "//": "between 1 and 2 points of BMI from bodyfat (4-8% of normal healthy weight is fat)",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
       },
       {
         "id": "emaciated",
         "text": "Emaciated",
         "color": "light_red",
         "//": "between 0 and 1 points of BMI from bodyfat (0-4% of normal healthy weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "underweight",
         "text": "Underweight",
         "color": "yellow",
         "//": "between 2 and 3 points of BMI from bodyfat (8-12% of normal healthy weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "normal",
         "text": "Normal",
         "color": "light_gray",
         "//": "3-5 points of BMI from fat (12-20% of body weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "overweight",
         "text": "Overweight",
         "color": "c_light_gray",
         "//": "5-10 points of BMI from fat (20-33% of body weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "obese",
         "text": "Obese",
         "color": "light_red",
         "//": "10-15 points of BMI from fat (33-43% of body weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "very_obese",
         "text": "Very Obese",
         "color": "red",
         "//": "15-20 points of BMI from fat (43-50% of normal healthy body weight is fat)",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "morbidly_obese",
         "text": "Morbidly Obese",
         "color": "red",
         "//": "20+ points of BMI from fat (more than half your bodyweight is fat)",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       }
     ]
   },

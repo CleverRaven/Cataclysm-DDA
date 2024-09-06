@@ -12,7 +12,7 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -29,7 +29,7 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -45,18 +45,21 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_FEMA_EVACUEE_1_ESCAPE1",
     "type": "talk_topic",
-    "dynamic_line": "That place was chaos.  I only stayed a few hours.  They had a big backhoe running, digging a huge pit in a cordoned section they wouldn't let us near.  Well, I managed to sneak over that way, and saw them dumping load after load of the dead in the pit, pouring dirt back over them even as they revived and tried to climb out.  Even with all the shit I've seen since, it haunts me.  I knew then I had to get out.  Luckily for me, we were attacked the next morning by some giant horror, a kind I haven't really seen since then.  While the guards were busy with that, I grabbed some supplies I'd stocked up over the night and I fucked right out of there.  A few others tried to fuck out with me, but as far as I know I was the only lucky one.",
+    "dynamic_line": {
+      "gendered_line": "That place was chaos.  I only stayed a few hours.  They had a big backhoe running, digging a huge pit in a cordoned section they wouldn't let us near.  Well, I managed to sneak over that way, and saw them dumping load after load of the dead in the pit, pouring dirt back over them even as they revived and tried to climb out.  Even with all the shit I've seen since, it haunts me.  I knew then I had to get out.  Luckily for me, we were attacked the next morning by some giant horror, a kind I haven't really seen since then.  While the guards were busy with that, I grabbed some supplies I'd stocked up over the night and I fucked right out of there.  A few others tried to fuck out with me, but as far as I know I was the only lucky one.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "TK: In a future version this character will give you directions to the FEMA camp.",
     "responses": [
       { "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -73,7 +76,7 @@
       {
         "text": "Sorry for asking.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Sorry for asking.  <end_talking>",
@@ -85,7 +88,10 @@
   {
     "id": "CWH_FEMA_EVACUEE_1_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "Woof, you ready for a real hot take?  The <swear> government did this to us.  Intentionally, or at least sort-of intentionally.",
+    "dynamic_line": {
+      "gendered_line": "Woof, you ready for a real hot take?  The <swear> government did this to us.  Intentionally, or at least sort-of intentionally.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Oh?", "topic": "CWH_FEMA_EVACUEE_1_IDEAS2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -98,7 +104,7 @@
     "dynamic_line": "Damn right.  They lied to us for god knows how long about what was going on because they didn't want us to figure it out.  It probably started as a way to keep the people in line, but it backfired somehow.  My guess is they tried to de-educate us, tried to mislead us, and when that wasn't working they tried actual drugs in the water to make us stupid or something.  Instead of just stupid, some people got violent.  Then they tried to leverage that to put in martial law, but that didn't work and they wound up fighting hordes of people.  Only they didn't realize their <swear> brain drugs were some kind of mutagen that turn people into zombies.",
     "responses": [
       { "text": "What about all the other stuff?", "topic": "CWH_FEMA_EVACUEE_1_IDEAS3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -106,6 +112,9 @@
     "id": "CWH_FEMA_EVACUEE_1_IDEAS3",
     "type": "talk_topic",
     "dynamic_line": "I think it's mostly mutation.  I don't know what they used, but it's some real mad science shit, I didn't think most of this was even possible.  I also wonder if whatever they put in the water has made us a bit crazy.  Maybe some of this is just a hallucination?  That one blows my mind a bit, I'm not sure I believe it but I got nothin' else.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

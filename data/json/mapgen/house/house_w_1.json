@@ -134,6 +134,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_w_1_basement",
+    "weight": 190,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -198,6 +199,61 @@
             [ "room_6x6_office_N", 30 ]
           ]
         }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_w_1_basement",
+    "weight": 10,
+    "object": {
+      "fill_ter": "t_water_sh_flood",
+      "rows": [
+        "                        ",
+        " ||||||||               ",
+        " |1.....|               ",
+        " |......||||||||        ",
+        " |......2......|        ",
+        " |.............|        ",
+        " |.............|        ",
+        " |.............|        ",
+        " |U............|        ",
+        " |Z..<.........|        ",
+        " |J...........||        ",
+        " |W...........|         ",
+        " |JJ..........|         ",
+        " |............|         ",
+        " |3...........|||       ",
+        " |...........z.F|       ",
+        " |.........z.g|||       ",
+        " |........|||||         ",
+        " |........|             ",
+        " |........|             ",
+        " |........|             ",
+        " |........|             ",
+        " ||||||||||             ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty_flooded" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "5x5_holdout_S", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "room_6x6_brewer_W", 5 ], [ "room_6x6_junk_W", 30 ], [ "room_6x6_office_W", 30 ] ] },
+        "3": { "chunks": [ [ "room_8x8_junk_N", 30 ], [ "room_6x6_office_N", 30 ] ] }
       }
     }
   }

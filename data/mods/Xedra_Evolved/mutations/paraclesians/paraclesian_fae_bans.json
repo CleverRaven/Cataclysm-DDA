@@ -1,0 +1,683 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_BROKE_FAE_BAN",
+    "effect": [
+      {
+        "u_add_morale": "morale_broke_fae_ban",
+        "bonus": -20,
+        "max_bonus": -80,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      {
+        "u_add_effect": "effect_broke_fae_ban",
+        "duration": { "math": [ "rand(259200) + 86400" ] },
+        "intensity": { "math": [ "u_effect_intensity('effect_broke_fae_ban') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN",
+    "//": "This is separate rather than in-line due to bug #70978",
+    "effect": [ { "math": [ "u_pain()", "+=", "rand(35) + 8" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_CUT_TREE",
+    "eoc_type": "EVENT",
+    "required_event": "cuts_tree",
+    "condition": { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_NURTURING_THE_GREEN" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stabbing pain as the tree falls.  One of your own, murdered by your hand.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_LIGHT_FIRE",
+    "//": "Ideally this would trigger on any uncontained fire, but outdoor fires will do for now",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "u_has_trait": "ARVORE" },
+        { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
+        {
+          "or": [
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living')", ">=", "0" ] },
+            { "math": [ "u_spell_level('arvore_overgrowth_spell')", ">=", "0" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "Your heart races as you spark the fire.  A fire, outdoors, in the view of the trees and the grasses.  Visions of charred wood, of blackened trunks and broken branches, fill your mind.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_MOSS" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+            { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "math": [ "u_val('sleepiness')", "+=", "150" ] },
+      {
+        "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_GAIN_ANTI_JUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance trait when gaining the Solar Rejuvenation or Verdant Blood traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "ARVORE_SUN_NUTRIENTS", { "context_val": "trait" } ] },
+            { "compare_string": [ "ARVORE_BLOOD", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "ARVORE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_DIDNT_SLEEP_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            "u_is_outside",
+            {
+              "and": [
+                { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
+                { "not": { "u_is_on_terrain": "t_rock_floor" } },
+                { "not": { "u_is_on_terrain": "t_rock_smooth" } },
+                { "not": { "u_is_on_terrain": "t_rock_wall_half" } },
+                { "not": { "u_is_on_terrain": "t_dirt_underground" } },
+                { "not": { "u_is_on_terrain": "t_mud_underground" } },
+                { "not": { "u_is_on_terrain": "t_moss_underground" } },
+                { "not": { "u_is_on_terrain": "t_clay_underground" } },
+                { "not": { "u_is_on_terrain": "t_claymound_underground" } },
+                { "not": { "u_is_on_terrain": "t_sand_underground" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "math": [ "u_val('sleepiness')", "+=", "150" ] },
+      {
+        "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_USED_TOOLS_ON_THE_EARTH",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_IERDE" },
+        { "u_has_trait": "IERDE_RESHAPE_THE_EARTH" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stabbing pain as your tools dig into the living earth.  Tools made of material torn from the earth by humans.  You should not be using them.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the The Soil Knows Those Who Treat Upon It or the In the Earthmother's Embrace traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "IERDE_DETECT_NEARBY_MONSTERS_EARTH", { "context_val": "trait" } ] },
+            { "compare_string": [ "IERDE_SINK_INTO_EARTH", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "IERDE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_GAIN_HEAVY_SLEEPER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Very Heavy Sleeper traits when gaining the Unceasing Strength of the Earth or the Blood of the Earth trait",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "IERDE_CARDIO2", { "context_val": "trait" } ] },
+            { "compare_string": [ "IERDE_SLOW_BLEEDING", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "IERDE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HEAVYSLEEPER2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_character",
+    "condition": { "u_has_trait": "THRESH_HOMULLUS" },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_HOMULLUS" },
+        {
+          "or": [
+            { "and": [ { "npc_has_species": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
+            { "npc_has_species": "FERAL" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_DIDNT_SLEEP_NEAR_HUMANS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "u_has_trait": "HOMULLUS_BACKSTAGE" }, { "u_has_trait": "HOMULLUS_REGEN_STAMINA" } ] },
+            { "u_has_trait": "THRESH_HOMULLUS" }
+          ]
+        },
+        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You awaken with a start as a terrible feeling of crushing loneliness grips you.  You were meant to live in close contact with humans, not wake up to an empty home.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_PICKY_EATER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Picky Eater and Junkfood Intolerance traits when gaining the The Top of the Food Chain trait",
+    "condition": {
+      "and": [ { "compare_string": [ "HOMULLUS_EAT_DEMIHUMANS", { "context_val": "trait" } ] }, { "u_has_trait": "HOMULLUS" } ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KEEP_FOOD_TRAITS",
+    "//": "This is to prevent the Homullus from purifying those traits away as long as they have The Top of the Food Chain, or are post-threshold.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "HOMULLUS_EAT_DEMIHUMANS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+        { "or": [ { "not": { "u_has_trait": "PICKYEATER" } }, { "not": { "u_has_trait": "ANTIJUNK" } } ] }
+      ]
+    },
+    "effect": [ { "u_add_trait": "PICKYEATER" }, { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FAE_BAN_GET_WET",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "THRESH_SALAMANDER" }, { "u_has_trait": "SALAMANDER_SKIN_2" } ] },
+        { "compare_string": [ "wet", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "Accursed water!  The touch of it burns you like acid, reminding you of your nature.  Your flames must not be dowsed.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FAE_BAN_GAIN_PYROMANIA",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Pyromania trait when gaining the Stove's Caress and One in the Sea or the Reading the Heartfires traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SALAMANDER_COOKING_HEAT", { "context_val": "trait" } ] },
+            { "compare_string": [ "SALAMANDER_HEAT_EYES2", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SALAMANDER" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "PYROMANIA" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_trait": "SYLPH_DEX_BONUS_2" } ] },
+        { "or": [ { "not": "u_is_outside" }, { "u_is_on_terrain_with_flag": "INDOORS" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You gasp as you awaken, the still air barely moving into your lungs.  You long for the blowing winds.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "u_has_trait": "SYLPH_FLY_AT_WILL" },
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_sylph_underground_timer", "duration": "61 minutes" },
+      {
+        "queue_eocs": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+        "time_in_future": [ "60 minutes", "60 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "math": [ "u_val('pos_z')", ">=", "0" ] },
+        { "u_has_effect": "effect_sylph_underground_timer" },
+        "u_is_outside"
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_sylph_underground_timer" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+    "condition": { "and": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_effect": "effect_sylph_underground_timer" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "The walls seem like they're closing in on you.  You were born to fly free, to dance on the winds, not to cower underground like a worm.  You have to get out to the open sky.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the Call the Children of the Winds or the Breathe Without Air traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "air_sprite", { "context_val": "trait" } ] },
+            { "compare_string": [ "BREATHE_WO_AIR", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SYLPH" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_GAIN_MOOD_SWINGS",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Mood Swings trait when gaining the Ice-Clear Thoughts or the Born of a Gale traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SYLPH_INT_BONUS_1", { "context_val": "trait" } ] },
+            { "compare_string": [ "SLYPH_RESIST_COLD2", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "SYLPH" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "MOODSWINGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_SLEEP_ON_LAND",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "THRESH_UNDINE" }, { "u_has_trait": "UNDINE_SLEEP_WATER" }, { "not": "u_is_underwater" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You gasp as you awaken, thin air barely filling your lungs as you struggle to breath.  You long for the soothing embrace of the waters.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_GAIN_ANTIJUNK",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Junkfood Intolerance traits when gaining the Cleansing the Poison Well or the Summon Rain traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "FOUL_WATER", { "context_val": "trait" } ] },
+            { "compare_string": [ "SUMMON_RAIN", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_GAIN_LIGHTWEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the Lightweight trait when gaining the One Foot in the River and One in the Sea or the Embrace of the Waters traits",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "SALTWATER_TO_FRESHWATER", { "context_val": "trait" } ] },
+            { "compare_string": [ "UNDINE_SLEEP_WATER", { "context_val": "trait" } ] }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "LIGHTWEIGHT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_arvore_sylph_undine_wearing_iron", "duration": "PERMANENT" },
+            { "queue_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+          ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_arvore_sylph_undine_wearing_iron" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [
+        { "material": "steel", "worn_only": true },
+        { "material": "lc_steel", "worn_only": true },
+        { "material": "mc_steel", "worn_only": true },
+        { "material": "hc_steel", "worn_only": true },
+        { "material": "ch_steel", "worn_only": true },
+        { "material": "lc_steel_chain", "worn_only": true },
+        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "hc_steel_chain", "worn_only": true },
+        { "material": "ch_steel_chain", "worn_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_arvore_sylph_undine_wearing_steel", "duration": "PERMANENT" },
+            { "queue_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+          ],
+          "false_effect": [ { "u_lose_effect": "effect_arvore_sylph_undine_wearing_steel" } ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_arvore_sylph_undine_wearing_steel" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_ierde_salamander_wearing_iron", "duration": "PERMANENT" },
+            { "queue_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+          ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_ierde_salamander_wearing_iron" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [
+        { "material": "steel", "worn_only": true },
+        { "material": "lc_steel", "worn_only": true },
+        { "material": "mc_steel", "worn_only": true },
+        { "material": "hc_steel", "worn_only": true },
+        { "material": "ch_steel", "worn_only": true },
+        { "material": "lc_steel_chain", "worn_only": true },
+        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "hc_steel_chain", "worn_only": true },
+        { "material": "ch_steel_chain", "worn_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_ierde_salamander_wearing_steel", "duration": "PERMANENT" },
+            { "queue_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+          ],
+          "false_effect": [ { "u_lose_effect": "effect_ierde_salamander_wearing_steel" } ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_ierde_salamander_wearing_steel" } ]
+        }
+      ]
+    }
+  }
+]

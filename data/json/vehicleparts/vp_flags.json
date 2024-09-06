@@ -181,7 +181,7 @@
   {
     "id": "WIND_TURBINE",
     "type": "json_flag",
-    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1m/s of wind the vehicle is exposed to."
+    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
   },
   {
     "id": "WATER_WHEEL",
@@ -694,5 +694,14 @@
   {
     "id": "IGNORE_HEIGHT_REQUIREMENT",
     "type": "json_flag"
+  },
+  {
+    "id": "WHEEL_MOUNT_CONCRETE_MIX",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_CONCRETE_MIX",
+    "type": "json_flag",
+    "requires_flag": "WHEEL_MOUNT_CONCRETE_MIX"
   }
 ]

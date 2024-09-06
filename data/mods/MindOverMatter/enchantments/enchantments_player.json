@@ -4,7 +4,7 @@
     "id": "enchant_clair_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+    "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "HEARING_MULT", "multiply": 2.5 } ],
     "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_potion_clairvoyance" } ] } ] }
   },
   {
@@ -25,22 +25,6 @@
     "max_field_intensity": 1,
     "min_duration": 200,
     "max_duration": 200
-  },
-  {
-    "type": "enchantment",
-    "id": "enchant_clair_speed_read",
-    "condition": "ALWAYS",
-    "has": "HELD",
-    "values": [
-      {
-        "value": "READING_EXP",
-        "add": {
-          "math": [
-            "( ( u_spell_level('clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
-          ]
-        }
-      }
-    ]
   },
   {
     "type": "enchantment",
@@ -138,64 +122,6 @@
   },
   {
     "type": "enchantment",
-    "id": "enchant_electrokin_lightning_aura",
-    "condition": "ALWAYS",
-    "has": "HELD",
-    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "electrokinetic_lightning_aura_attack" } ] } ] },
-    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('electrokinetic_lightning_aura') * -1" ] } } ]
-  },
-  {
-    "id": "electrokinetic_lightning_aura_attack",
-    "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura Sparks",
-    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
-    "spell_class": "ELECTROKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
-    "effect": "emit",
-    "effect_str": "emit_shock_cloud_big",
-    "shape": "blast",
-    "damage_type": "electric",
-    "max_level": { "math": [ "int_to_level(1)" ] }
-  },
-  {
-    "id": "electrokinetic_lightning_aura_attack_placeholder",
-    "//": "This one doesn't work currently.  Preserved here until it's fixed.",
-    "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura Bolt",
-    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
-    "spell_class": "ELECTROKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_HANDS", "NO_LEGS" ],
-    "effect": "attack",
-    "shape": "line",
-    "damage_type": "electric",
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 1) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_spell_level('electrokinetic_lightning_bolt') * 1.5) + 20) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "min_range": {
-      "math": [
-        "min( ( (u_spell_level('electrokinetic_lightning_aura') * 0.33) + 2) * (scaling_factor(u_val('intelligence') ) ), 10)"
-      ]
-    },
-    "max_range": 10,
-    "field_id": "fd_electricity",
-    "min_field_intensity": 1,
-    "max_field_intensity": 4,
-    "field_chance": 1
-  },
-  {
-    "type": "enchantment",
     "id": "enchant_pyrokin_cloak",
     "condition": "ALWAYS",
     "has": "HELD",
@@ -221,7 +147,7 @@
         "value": "ARMOR_HEAT",
         "add": {
           "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
           ]
         }
       },

@@ -65,6 +65,17 @@
     "id": "chris_body",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ax" }, { "item": "corpse_gunned", "damage": 4 } ]
+    "entries": [
+      { "item": "ax" },
+      { "item": "corpse_gunned", "damage": 4 },
+      { "item": "boots_hiking" },
+      { "item": "socks" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans_ripped" },
+      { "item": "jersey", "damage": [ 0, 2 ] },
+      { "item": "coat_rain", "damage": [ 0, 2 ], "prob": 30 },
+      { "item": "gloves_light", "prob": 50 },
+      { "item": "hat_ball", "prob": 40 }
+    ]
   }
 ]

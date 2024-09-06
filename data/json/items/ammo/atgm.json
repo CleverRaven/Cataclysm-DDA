@@ -2,8 +2,8 @@
   {
     "type": "AMMO",
     "id": "atgm_heat",
-    "price": 70000,
-    "price_postapoc": 5000,
+    "price": "700 USD",
+    "price_postapoc": "50 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "name": { "str_sp": "152mm ATGM HEAT" },
     "symbol": "=",

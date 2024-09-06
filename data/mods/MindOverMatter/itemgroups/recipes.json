@@ -5,6 +5,7 @@
     "id": "psionic_recipes_beginner",
     "items": [
       [ "schematics_matrix_crystal_ground", 3 ],
+      [ "manual_psionic_ritual", 2 ],
       [ "schematics_reactant_liquid_base", 3 ],
       [ "schematics_matrix_channeling", 2 ],
       [ "schematics_matrix_aligning", 1 ]

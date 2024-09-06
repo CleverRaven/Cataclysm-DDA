@@ -169,8 +169,11 @@
     "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
-    "movecost_modifier": 1.05
+    "enchantments": [
+      {
+        "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -182,7 +185,7 @@
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -306,7 +309,12 @@
     "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
-    "passive_mods": { "str_mod": -1, "dex_mod": 2 }
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_HP", "multiply": -0.12 }, { "value": "STRENGTH", "add": -1 }, { "value": "DEXTERITY", "add": 2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -331,8 +339,8 @@
     "types": [ "HEARING" ],
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
-    "flags": [ "SUPER_HEARING" ],
-    "hearing_modifier": 1.75
+    "flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -345,8 +353,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SEESLEEP" ],
-    "fatigue_modifier": -0.166667,
-    "fatigue_regen_modifier": 1
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 1 }, { "value": "SLEEPINESS", "multiply": -0.166667 } ] } ]
   },
   {
     "type": "mutation",
@@ -492,12 +499,19 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
-    "passive_mods": { "str_mod": -3, "dex_mod": 2 },
-    "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.25,
-    "dodge_modifier": 2,
-    "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0
+    "enchantments": [
+      {
+        "values": [
+          { "value": "DODGE_CHANCE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.25 },
+          { "value": "STRENGTH", "add": -3 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.7 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -513,44 +527,15 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
-      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": -50 } ] },
-      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "SLEEPY", "add": -50 }, { "value": "OVERMAP_SIGHT", "add": 6 } ]
+      },
+      {
+        "condition": "is_day",
+        "values": [ { "value": "SLEEPY", "add": 50 }, { "value": "OVERMAP_SIGHT", "add": -2 } ]
+      }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL_DAY",
-    "name": { "str": "Nocturnal OverMap Day Vision" },
-    "//": "Invisible to player, sets overmap vision",
-    "points": 0,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "This adjusts goblin overmap sight so their vision is not as far during the day.",
-    "mixed_effect": true,
-    "valid": false,
-    "player_display": false,
-    "overmap_sight": -2,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "NOCTURNAL_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL_NIGHT",
-    "name": { "str": "Nocturnal OverMap Night Vision" },
-    "points": 0,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "This adjusts goblin overmap sight so their vision is farther at night.",
-    "mixed_effect": true,
-    "valid": false,
-    "player_display": false,
-    "overmap_sight": 6,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "NOCTURNAL_DAY", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -560,19 +545,22 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
+    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it was considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
     "types": [ "TEETH" ],
     "category": [ "SPECIES_GOBLIN" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your teeth into %s!",
-        "attack_text_npc": "%1$s sinks their teeth into %2$s!",
-        "blocker_mutations": [ "FANGS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 6 }
-      }
-    ]
+    "integrated_armor": [ "integrated_goblin_teeth" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_EYES",
+    "valid": false,
+    "name": { "str": "Nocturnal Vision" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human.",
+    "category": [ "SPECIES_GOBLIN" ],
+    "enchantments": [ "ench_goblin_eyes" ]
   },
   {
     "type": "mutation",
@@ -612,20 +600,28 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "flags": [ "LARGE" ],
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
-    "stomach_size_multiplier": 1.25,
-    "weight_capacity_modifier": 1.05,
-    "movecost_swim_modifier": 0.9
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
-    "name": { "str": "Webbed Feet" },
+    "name": { "str": "Lizardfolk Feet" },
     "//": "Alternate so webbed hands are not a prerequisite",
     "points": 1,
     "types": [ "FEET" ],
-    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "description": "Your feet are heavily webbed, with three large scaled toes and a dewclaw in the back, allowing you to swim faster.  However, your feet are not designed for human footwear.",
     "category": [ "SPECIES_LIZARDFOLK" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
     "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
     "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
@@ -646,8 +642,14 @@
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "SPECIES_LIZARDFOLK" ],
-    "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": 0.5
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -694,9 +696,19 @@
   },
   {
     "type": "mutation",
-    "id": "MUZZLE_LONG",
-    "copy-from": "MUZZLE_LONG",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+    "id": "MUZZLE_LONG_LIZ",
+    "name": { "str": "Lizardfolk Muzzle" },
+    "points": 0,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
+    "types": [ "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "restricts_gear": [ "mouth" ],
+    "social_modifiers": { "intimidate": 10 },
+    "integrated_armor": [ "integrated_lizardfolk_teeth" ]
   },
   {
     "type": "mutation",
@@ -732,7 +744,9 @@
     "name": { "str": "Ravenfolk Legs" },
     "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
     "category": [ "SPECIES_RAVENFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "extend": { "prereqs": [ "RAVEN_BONES" ] },
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",

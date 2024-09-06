@@ -130,6 +130,11 @@ float vitamin::RDA_to_default( int percent ) const
     return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
 }
 
+int vitamin::units_absorption_per_day() const
+{
+    return ( 24_hours / rate_ );
+}
+
 int vitamin::units_from_mass( vitamin_units::mass val ) const
 {
     if( !weight_per_unit.has_value() ) {

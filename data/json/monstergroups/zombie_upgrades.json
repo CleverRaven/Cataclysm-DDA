@@ -18,8 +18,11 @@
       { "monster": "mon_zombie_necro", "weight": 15 },
       { "monster": "mon_zombie_necro_boomer", "weight": 12 },
       { "monster": "mon_boomer", "weight": 90 },
-      { "monster": "mon_zombie_brute", "weight": 45 },
+      { "monster": "mon_zombie_brute", "weight": 20 },
+      { "monster": "mon_zombie_bruiser", "weight": 30 },
       { "monster": "mon_zombie_master", "weight": 3 },
+      { "monster": "mon_zombie_lashing", "weight": 60 },
+      { "monster": "mon_zombie_ocular", "weight": 8 },
       { "monster": "mon_zombie_hollow", "weight": 5 },
       { "monster": "mon_zombie_thorny", "weight": 30 },
       { "monster": "mon_zombie_static", "weight": 50 },
@@ -213,9 +216,9 @@
     "name": "GROUP_SKELETON_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_skeleton", "weight": 720 },
-      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton", "weight": 600 },
+      { "monster": "mon_skeleton_slasher", "weight": 120, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_brute", "weight": 160, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_necro", "weight": 60, "cost_multiplier": 2 }
     ]

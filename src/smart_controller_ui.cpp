@@ -1,8 +1,6 @@
 #include "smart_controller_ui.h"
 
 #include <algorithm>
-#include <functional>
-#include <iosfwd>
 #include <optional>
 #include <string>
 #include <vector>
@@ -10,12 +8,12 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static catacurses::window init_window()

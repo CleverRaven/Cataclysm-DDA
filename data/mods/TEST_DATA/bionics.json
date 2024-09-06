@@ -37,7 +37,7 @@
     "description": "Woodshed, in your chest..",
     "volume": "301 L",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -54,5 +54,247 @@
         "material_restriction": [ "wood" ]
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "TEST_ENCH_BIONIC_LEG_L",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "test_bionic_basic_leg_l" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "TEST_ENCH_BIONIC_LEG_R",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "test_bionic_basic_leg_r" } ]
+  },
+  {
+    "id": "test_bionic_basic_leg_l",
+    "type": "body_part",
+    "name": "left bionic leg",
+    "name_multiple": "bionic legs",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left bionic leg" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "bionic legs" },
+    "heading": "bionic l. leg",
+    "heading_multiple": "bionic legs",
+    "hp_bar_ui_text": "LB LEG",
+    "encumbrance_text": "Running and swimming are slowed.",
+    "encumbrance_threshold": 6,
+    "main_part": "test_bionic_basic_leg_l",
+    "connected_to": "torso",
+    "opposite_part": "test_bionic_basic_leg_r",
+    "hit_size": 13,
+    "hit_difficulty": 0.9,
+    "limb_type": "leg",
+    "limb_scores": [ [ "manip", 0.2, 0.4 ], [ "move_speed", 0.6 ], [ "swim", 0.35 ], [ "block", 1 ], [ "crawl", 0.5 ], [ "footing", 0.6 ] ],
+    "side": "left",
+    "stylish_bonus": 1,
+    "hot_morale_mod": 0.0,
+    "cold_morale_mod": 0.0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "is_limb": true,
+    "base_hp": 150,
+    "drench_capacity": 1100,
+    "smash_message": "You bring your knee down on the %s, smashing it.",
+    "no_power_effect": "test_no_power_leg_l",
+    "effects_on_hit": [
+      {
+        "id": "bouldering",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 3,
+        "chance": 20,
+        "chance_dmg_scaling": 2,
+        "duration": 3,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "power_efficiency": 1000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 3,
+    "stat_hp_mods": { "str_mod": 0 },
+    "sub_parts": [ "test_bionic_basic_leg_sub_l" ]
+  },
+  {
+    "id": "test_bionic_basic_leg_r",
+    "type": "body_part",
+    "name": "right bionic leg",
+    "name_multiple": "bionic legs",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right bionic leg" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "bionic legs" },
+    "heading": "bionic r. leg",
+    "heading_multiple": "bionic legs",
+    "hp_bar_ui_text": "RB LEG",
+    "encumbrance_text": "Running and swimming are slowed.",
+    "encumbrance_threshold": 6,
+    "main_part": "test_bionic_basic_leg_r",
+    "connected_to": "torso",
+    "opposite_part": "test_bionic_basic_leg_l",
+    "hit_size": 13,
+    "hit_difficulty": 0.9,
+    "limb_type": "leg",
+    "limb_scores": [ [ "manip", 0.2, 0.4 ], [ "move_speed", 0.6 ], [ "swim", 0.35 ], [ "block", 1 ], [ "crawl", 0.5 ], [ "footing", 0.6 ] ],
+    "side": "right",
+    "stylish_bonus": 1,
+    "hot_morale_mod": 0.0,
+    "cold_morale_mod": 0.0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "is_limb": true,
+    "base_hp": 150,
+    "drench_capacity": 1100,
+    "smash_message": "You bring your knee down on the %s, smashing it.",
+    "no_power_effect": "test_no_power_leg_r",
+    "effects_on_hit": [
+      {
+        "id": "bouldering",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 3,
+        "chance": 20,
+        "chance_dmg_scaling": 2,
+        "duration": 3,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "power_efficiency": 1000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 3,
+    "stat_hp_mods": { "str_mod": 0 },
+    "sub_parts": [ "test_bionic_basic_leg_sub_r" ]
+  },
+  {
+    "id": "test_bionic_basic_leg_sub_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bionic_basic_leg_l",
+    "side": 1,
+    "opposite": "test_bionic_basic_leg_sub_r",
+    "name_multiple": "bionic sublegs",
+    "name": "left bionic subleg"
+  },
+  {
+    "id": "test_bionic_basic_leg_sub_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bionic_basic_leg_r",
+    "side": 2,
+    "opposite": "test_bionic_basic_leg_sub_l",
+    "name_multiple": "bionic sublegs",
+    "name": "right bionic subleg"
+  },
+  {
+    "id": "test_bio_limb_leg_l",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Left Leg CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "30000 g",
+    "difficulty": 3,
+    "volume": "8000 ml"
+  },
+  {
+    "id": "test_bio_limb_leg_r",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Right Leg CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "30000 g",
+    "difficulty": 3,
+    "volume": "8000 ml"
+  },
+  {
+    "type": "effect_type",
+    "id": "test_no_power_leg_l",
+    "name": [ "Low Power (Left Leg)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.5 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "test_no_power_leg_r",
+    "name": [ "Low Power (Right Leg)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.2 },
+      { "limb_score": "move_speed", "modifier": 0.2 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "test_bio_limb_leg_l",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Left Leg" },
+    "description": "CBM which replaces your left leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "TEST_ENCH_BIONIC_LEG_L" ]
+  },
+  {
+    "id": "test_bio_limb_leg_r",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Right Leg" },
+    "description": "CBM which replaces your right leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "TEST_ENCH_BIONIC_LEG_R" ]
   }
 ]

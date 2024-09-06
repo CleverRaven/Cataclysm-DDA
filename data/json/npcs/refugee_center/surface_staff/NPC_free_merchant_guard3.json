@@ -24,7 +24,10 @@
   {
     "id": "TALK_EVAC_GUARD3_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+    "dynamic_line": {
+      "gendered_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
   },
   {
@@ -45,7 +48,7 @@
   {
     "id": "TALK_EVAC_GUARD3_HIDE2",
     "type": "talk_topic",
-    "dynamic_line": "You're new here, who the hell put you up to this crap?",
+    "dynamic_line": { "gendered_line": "You're new here, who the hell put you up to this crap?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Get bent, traitor!",

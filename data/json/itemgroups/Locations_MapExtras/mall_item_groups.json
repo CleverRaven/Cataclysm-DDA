@@ -66,7 +66,8 @@
       { "group": "protein_bottle_full", "prob": 40 },
       { "item": "caff_gum", "prob": 30, "count": 5 },
       { "item": "nic_gum", "prob": 25, "count": 5 },
-      [ "bathroom_scale", 20 ]
+      [ "bathroom_scale", 20 ],
+      { "group": "pillbox_any_empty", "prob": 20 }
     ]
   },
   {
@@ -158,14 +159,14 @@
     "id": "knife_shop",
     "type": "item_group",
     "items": [
-      [ "knife_butcher", 20 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 20 },
       [ "knife_combat", 5 ],
       [ "knife_combat_army", 2 ],
       [ "knife_combat_marine", 1 ],
       [ "knife_KABAR", 35 ],
       { "item": "knife_combat_army", "variant": "akbayonet", "prob": 10, "entry-wrapper": "sheath" },
       { "group": "infantry_knives", "prob": 5 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],

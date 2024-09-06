@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "study VERDANT HAND combat protocol",
+    "name": "study VERDANT HAND combat protocols",
     "id": "learn_psionic_combat",
     "description": "Study and attempt to internalize the practices in the VERDANT HAND Combat Protocol training manual.  There's a lot in there; it may take you more than one attempt to understand it.",
     "category": "CC_PSIONIC",
@@ -21,11 +21,28 @@
         "id": "EOC_UNLOCK_PSIONIC_COMBAT",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-            { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
-            { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "5" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "4" ] }
+              ]
+            },
             { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] },
-            { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "4" ] }
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "7" ] },
+                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+              ]
+            }
           ]
         },
         "effect": {
@@ -42,7 +59,7 @@
                 "u_message": "You've done it.  After long effort, you've mastered the VERDANT HAND protocols.  Bring on the zombies; you'll smash them to pieces with your fists.",
                 "type": "good"
               },
-              { "u_add_trait": "KI_STRIKE" },
+              { "u_add_trait": "VERDANT_HAND_PROTOCOLS" },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,30 )" ] },
               { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
             ],

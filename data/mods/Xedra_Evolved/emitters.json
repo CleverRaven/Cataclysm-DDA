@@ -12,5 +12,12 @@
     "field": "fd_pollen_arvore_weaken",
     "intensity": 2,
     "qty": 25
+  },
+  {
+    "id": "emit_hot_air4_blast",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 100
   }
 ]

@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_zombie_soldier_death_drops_no_hope",
+    "//": "TODO: Check this is up to date and can't just add onto the vanilla version using copy-from",
     "type": "item_group",
     "subtype": "collection",
     "magazine": 100,

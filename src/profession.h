@@ -76,6 +76,8 @@ class profession
         std::vector<matype_id> _starting_martialarts_choices;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        std::set<string_id<profession>> _hobby_exclusion;
+        bool hobbies_whitelist = true;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
@@ -122,6 +124,7 @@ class profession
         std::vector<recipe_id> recipes() const;
         std::vector<matype_id> ma_known() const;
         std::vector<matype_id> ma_choices() const;
+        bool allows_hobby( const string_id<profession> &hobby )const;
         int ma_choice_amount;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
@@ -134,6 +137,9 @@ class profession
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
+
+        //returns the profession id
+        profession_id get_profession_id() const;
 
         /**
          * Check if this type of profession has a certain flag set.
@@ -160,6 +166,17 @@ class profession
         std::set<trait_id> get_forbidden_traits() const;
 
         bool is_hobby() const;
+        bool is_blacklisted() const;
+};
+
+struct profession_blacklist {
+    std::set<string_id<profession>> professions;
+    bool whitelist = false;
+
+    static void load_profession_blacklist( const JsonObject &jo, std::string_view src );
+    static void reset();
+    void load( const JsonObject &jo, std::string_view );
+    void check_consistency() const;
 };
 
 #endif // CATA_SRC_PROFESSION_H
