@@ -153,6 +153,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "item": "water_clean" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "group": "charged_electrical_measuring" },
           { "group": "charged_laptop" },
