@@ -55,6 +55,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "STOMACH"
+  },
+  {
+    "type": "mutation_type",
     "id": "MANA_ADD"
   },
   {

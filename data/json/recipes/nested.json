@@ -503,9 +503,15 @@
       "helmet_acidchitin",
       "helmet_acidchitin_xs",
       "xl_helmet_acidchitin",
+      "helmet_acidchitin_light",
+      "helmet_acidchitin_light_xs",
+      "xl_helmet_acidchitin_light",
       "helmet_chitin",
       "helmet_chitin_xs",
-      "xl_helmet_chitin"
+      "xl_helmet_chitin",
+      "helmet_chitin_light",
+      "helmet_chitin_light_xs",
+      "xl_helmet_chitin_light"
     ],
     "difficulty": 6
   },

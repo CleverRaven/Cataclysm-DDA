@@ -450,8 +450,6 @@ class uilist // NOLINT(cata-xy)
     public:
         // Iternal states
         // TODO make private
-        std::vector<std::string> textformatted;
-
         catacurses::window window;
 
         int vshift = 0;
