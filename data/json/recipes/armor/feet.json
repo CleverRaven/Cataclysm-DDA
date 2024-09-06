@@ -1171,10 +1171,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "90 m",
-    "proficiencies": [
-      { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_leatherworking_basic" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_leatherworking_basic" } ],
     "book_learn": [ [ "tailor_japanese", 0 ], [ "textbook_armeast", 0 ] ],
     "using": [ [ "tailoring_leather_patchwork", 1 ] ]
   },
