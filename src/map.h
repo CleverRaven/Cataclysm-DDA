@@ -2196,9 +2196,8 @@ class map
         // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
         // @param turns number of 90 clockwise turns to make
-        // @param setpos_safe if true, being used outside of mapgen and can use setpos to
-        // set NPC positions.  if false, cannot use setpos
-        void rotate( int turns, bool setpos_safe = false );
+        // Note that this operation actually only works on tinymap and smallmap.
+        void rotate( int turns );
 
         // Not protected/private for mapgen.cpp access
         // Mirrors the current map horizontally and/or vertically (both is technically
