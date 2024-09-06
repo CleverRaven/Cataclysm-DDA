@@ -54,14 +54,13 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator", "kraken" ],
-    "by_mood": [ "fish" ]
+    "hate": [ "aquatic_predator", "kraken", "fish_large", "fish_mutant_passive" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "kraken",
     "hate": [ "aquatic_predator", "zombie_aquatic" ],
-    "by_mood": [ "fish" ]
+    "by_mood": [ "fish_medium", "fish_large", "fish_mutant_passive" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -93,9 +92,175 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal",
-    "friendly": [ "attack_player_only" ],
-    "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
-    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "coyote", "wolf", "dog_small" ]
+    "//": "Base faction for animals roughly the size of a rabbit. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
+    "neutral": [ "zombie", "exodii", "isolated_artisans", "nether", "animal", "yrax" ],
+    "by_mood": [ "bear", "fox", "big_cat", "dog", "coyote", "wolf" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mammal_small",
+    "base_faction": "small_animal",
+    "by_mood": "snake_small"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mammal_small_predator",
+    "base_faction": "mammal_small",
+    "hate": [ "tiny_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "opossum",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "skunk",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "raccoon",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ferret",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dog_small",
+    "base_faction": "mammal_small_predator",
+    "friendly": [ "dog" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cat",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "otter",
+    "base_faction": "mammal_small",
+    "neutral": "snake_small",
+    "hate": [ "fish_tiny", "fish_small", "fish_medium", "amphibian_tiny", "reptile_tiny_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_flying",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_flightless",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_waterfowl",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_small_waterfowl_predator",
+    "base_faction": "bird_small_waterfowl",
+    "hate": [ "amphibian_tiny", "fish_tiny", "fish_small", "snake_tiny_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_small",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "snake_small",
+    "base_faction": "reptile_small",
+    "neutral": [ "small_animal", "bird_tiny_flying", "otter" ],
+    "hate": [ "tiny_animal", "mammal_small" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_small_aquatic",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "turtle_small",
+    "base_faction": "reptile_small_aquatic"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "turtle_small_predator",
+    "base_faction": "turtle_small",
+    "neutral": [ "bird_tiny_flying" ],
+    "hate": [ "tiny_animal", "fish_tiny", "fish_small" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tiny_animal",
+    "base_faction": "small_animal",
+    "//": "Base faction for animals roughly the size of a rat or a squirrel. Avoid giving this specific faction to monsters, instead check if there's a baby faction from this one that suits the monster better.",
+    "neutral": [ "small_animal", "bear", "big_cat", "razorclaw", "mantis", "frog" ],
+    "by_mood": [ "mammal_small_predator", "weasel", "snake_tiny_aquatic", "snake_small", "turtle_small_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mammal_tiny",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "weasel",
+    "base_faction": "mammal_tiny",
+    "hate": [ "tiny_animal", "mammal_tiny" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_flying",
+    "base_faction": "tiny_animal",
+    "neutral": [ "snake_tiny_aquatic", "snake_small", "turtle_small_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_flightless",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bird_tiny_waterfowl",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "amphibian_tiny",
+    "base_faction": "tiny_animal",
+    "by_mood": [ "otter", "bird_small_waterfowl_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_tiny",
+    "base_faction": "tiny_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizard_tiny",
+    "base_faction": "reptile_tiny"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "reptile_tiny_aquatic",
+    "base_faction": "tiny_animal",
+    "neutral": [ "snake_tiny_aquatic" ],
+    "by_mood": [ "otter" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "snake_tiny_aquatic",
+    "base_faction": "reptile_tiny_aquatic",
+    "neutral": [ "bird_tiny_flying", "reptile_tiny_aquatic" ],
+    "by_mood": [ "bird_small_waterfowl_predator" ],
+    "hate": [ "tiny_animal", "fish_tiny" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -112,14 +277,10 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "vermin",
-    "base_faction": "small_animal"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "bear",
     "base_faction": "animal",
     "//": "Hunts small things, can't resist honey",
+    "neutral": [ "tiny_animal" ],
     "hate": [ "small_animal", "bee" ],
     "by_mood": [ "fish" ]
   },
@@ -133,27 +294,15 @@
     "type": "MONSTER_FACTION",
     "name": "big_cat",
     "base_faction": "animal",
+    "neutral": [ "tiny_animal" ],
     "hate": [ "small_animal", "herbivore" ],
     "by_mood": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "cat",
-    "base_faction": "small_animal",
-    "neutral": [ "dog_small" ],
-    "hate": [ "small_animal" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "dog",
     "base_faction": "animal",
-    "hate": [ "small_animal" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "dog_small",
-    "base_faction": "small_animal",
-    "neutral": [ "cat" ],
+    "friendly": [ "dog_small" ],
     "hate": [ "small_animal" ]
   },
   {
@@ -176,15 +325,14 @@
   {
     "type": "MONSTER_FACTION",
     "name": "rat",
-    "base_faction": "vermin",
+    "base_faction": "mammal_tiny",
     "neutral": [ "ratkin" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
-    "by_mood": [ "bear", "big_cat", "kraken", "fish_mutant_passive" ],
+    "by_mood": [ "bear", "big_cat", "aquatic_predator", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
     "neutral": [
       "zombie",
       "bot",
@@ -204,19 +352,34 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "fish_mutant_passive",
-    "//": "This is for fish mutants that are either herbivores or carnivores but not aggressive enough to where they'd attack fish of similar size as them. They don't hate anyone because I don't want them all to blindly flail around the rivers murdering things if they're not predators.",
+    "name": "fish_tiny",
     "base_faction": "fish",
-    "by_mood": [
-      "fish",
-      "strider",
-      "aquatic_predator",
-      "zombie_aquatic",
-      "mutant_piscivores",
-      "crayfish",
-      "beetle_diving",
-      "water_scorpion"
-    ]
+    "by_mood": [ "otter", "turtle_small_predator", "snake_tiny_aquatic", "bird_small_waterfowl_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_small",
+    "base_faction": "fish",
+    "by_mood": [ "otter", "turtle_small_predator", "bird_small_waterfowl_predator" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_medium",
+    "base_faction": "fish",
+    "by_mood": [ "otter", "kraken" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_large",
+    "base_faction": "fish",
+    "by_mood": [ "kraken", "zombie_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_mutant_passive",
+    "//": "This is for fish mutants that are either herbivores or carnivores not aggressive enough to attack fish of similar size as them.",
+    "base_faction": "fish",
+    "by_mood": [ "kraken", "zombie_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -288,12 +451,14 @@
     "name": "razorclaw",
     "base_faction": "mutant",
     "//": "Protect their nest, grumpy",
+    "neutral": [ "tiny_animal" ],
     "by_mood": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "frog",
     "base_faction": "mutant",
+    "neutral": [ "tiny_animal" ],
     "by_mood": [ "animal" ],
     "hate": [ "small_animal", "insect" ]
   },
@@ -310,11 +475,6 @@
     "base_faction": "mutant",
     "by_mood": [ "mutant", "mutant_piscivores" ],
     "hate": [ "fish" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "molerat",
-    "base_faction": "mutant"
   },
   {
     "type": "MONSTER_FACTION",
@@ -403,7 +563,6 @@
       "frog",
       "slug",
       "mutant_piscivores",
-      "molerat",
       "amigara",
       "mutant_with_vortex",
       "corvid",
@@ -595,6 +754,7 @@
     "type": "MONSTER_FACTION",
     "name": "mantis",
     "base_faction": "insect",
+    "neutral": [ "tiny_animal" ],
     "by_mood": [ "centipede", "spider", "ant", "acid_ant" ],
     "hate": [ "insect", "small_animal" ]
   },
