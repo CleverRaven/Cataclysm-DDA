@@ -348,9 +348,7 @@
       {
         "text": "Do you think, monsters that kidnaped Barry are responsible for end of the world?",
         "topic": "TALK_CHRIS_THEORIES2",
-        "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued", "==", "1" ] } ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued", "==", "1" ] } ] }
       },
       { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       {
