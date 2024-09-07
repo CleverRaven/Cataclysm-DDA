@@ -73,7 +73,6 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "material_thickness": 2,
@@ -236,7 +235,6 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray"
