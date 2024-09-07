@@ -2405,8 +2405,8 @@ static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 class spellcasting_callback : public uilist_callback
 {
     private:
-        int scroll_pos = 0;
         std::vector<spell *> known_spells;
+        cataimgui::scroll spell_info_scroll = cataimgui::scroll::none;
         void display_spell_info( size_t index );
     public:
         // invlets reserved for special functions
@@ -2442,11 +2442,13 @@ class spellcasting_callback : public uilist_callback
                     get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
-            } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
-                scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
             } else if( action == "SCROLL_FAVORITE" ) {
                 get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
                 reflesh_favorite( menu, known_spells );
+            } else if( action == "SCROLL_UP_SPELL_MENU" ) {
+                spell_info_scroll = cataimgui::scroll::line_up;
+            } else if( action == "SCROLL_DOWN_SPELL_MENU" ) {
+                spell_info_scroll = cataimgui::scroll::line_down;
             }
             return false;
         }
@@ -2568,11 +2570,12 @@ void spellcasting_callback::display_spell_info( size_t index )
     const spell &sp = *known_spells[ index ];
     Character &pc = get_player_character();
 
+    cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
     // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
-    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as other imgui menus
-    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 6 );
+    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as oth er imgui menus
+    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 16 );
     cataimgui::draw_colored_text( sp.description(), spell_info_width );
     ImGui::NewLine();
     cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ), spell_info_width );
