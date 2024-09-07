@@ -480,11 +480,11 @@
       { "id": "vita_health_power", "level": 8 },
       { "id": "vita_slow_bleeding", "level": 8 },
       { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_concentrated_healing", "level": 6 },
       { "id": "vita_health_power_ally", "level": 4 },
       { "id": "vita_remove_poison", "level": 6 },
       { "id": "vita_sleeping_trance", "level": 5 },
-      { "id": "vita_cure_disease", "level": 5 },
-      { "id": "vita_pain_split", "level": 6 }
+      { "id": "vita_cure_disease", "level": 5 }
     ]
   },
   {
@@ -500,11 +500,11 @@
       { "id": "vita_health_power", "level": 10 },
       { "id": "vita_slow_bleeding", "level": 9 },
       { "id": "vita_stop_bleeding", "level": 8 },
+      { "id": "vita_concentrated_healing", "level": 8 },
       { "id": "vita_health_power_ally", "level": 8 },
       { "id": "vita_remove_poison", "level": 6 },
       { "id": "vita_sleeping_trance", "level": 7 },
       { "id": "vita_cure_disease", "level": 7 },
-      { "id": "vita_pain_split", "level": 8 },
       { "id": "vita_stop_infection", "level": 12 },
       { "id": "vita_healing_trance", "level": 6 },
       { "id": "vita_blood_purge", "level": 6 },

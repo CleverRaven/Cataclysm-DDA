@@ -737,7 +737,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "scan" }
+    "name": { "str": "Scan" }
   },
   {
     "type": "item_action",
