@@ -1106,5 +1106,26 @@
     "effect": "emit",
     "effect_str": "emit_rad_leak",
     "shape": "blast"
+  },
+  {
+    "id": "animist_cast_spells_when_silent",
+    "type": "SPELL",
+    "name": "Vocalize",
+    "description": "Channel magic through your soul instead of your voice, allowing you to cast spells that require speech even when mute.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
+    "max_level": 10,
+    "spell_class": "ANIMIST",
+    "effect": "attack",
+    "effect_str": "effect_animist_vocalize",
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 4,
+    "min_duration": 30000,
+    "max_duration": 300000,
+    "duration_increment": 30000,
+    "energy_source": "MANA",
+    "base_casting_time": 250,
+    "base_energy_cost": 250
   }
 ]

@@ -1191,6 +1191,7 @@
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
           { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_light_target", "prob": 50 },
           { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
           { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
@@ -1202,6 +1203,7 @@
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
+          { "item": "spell_scroll_magus_silence", "prob": 35 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
@@ -1245,6 +1247,7 @@
         "distribution": [
           { "item": "priest_advanced", "prob": 10 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
           { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
         ],
