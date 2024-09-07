@@ -1294,8 +1294,10 @@
     "desc": [ "You are immune to heat and fire." ],
     "rating": "good",
     "show_in_info": true,
-    "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ "ench_heat_and_fire_immunity" ]
+    "blocks_effects": [ "blisters" ],
+    "removes_effects": [ "onfire" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ],
+    "flags": [ "HEAT_IMMUME" ]
   },
   {
     "type": "effect_type",
