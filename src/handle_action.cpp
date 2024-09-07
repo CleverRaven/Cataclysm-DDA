@@ -974,7 +974,7 @@ static void smash()
     }
 
     if( should_pulp ) {
-        player_character.assign_activity( pulp_activity_actor( here.getglobal( smashp ) ) );
+        player_character.assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
         return; // don't smash terrain if we've smashed a corpse
     }
 

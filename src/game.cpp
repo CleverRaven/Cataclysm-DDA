@@ -10931,11 +10931,11 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                     }
                 }
                 if( !places.empty() ) {
-                    u.assign_activity( pulp_activity_actor( places, true ) );
+                    u.assign_activity( pulp_activity_actor( places ) );
                 }
             } else {
                 if( corpse_available( u.pos_bub() ) ) {
-                    u.assign_activity( pulp_activity_actor( m.getglobal( u.pos_bub() ), true ) );
+                    u.assign_activity( pulp_activity_actor( m.getglobal( u.pos_bub() ) ) );
                 }
             }
         }
