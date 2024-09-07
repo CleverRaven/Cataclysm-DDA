@@ -808,7 +808,7 @@
     "type": "mutation",
     "id": "WINGS_BIRD",
     "copy-from": "WINGS_BIRD",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ], "prereqs": [ "RAVEN_BONES" ] }
   },
   {
     "type": "mutation",
@@ -839,5 +839,17 @@
     "id": "BIRD_EYE",
     "copy-from": "BIRD_EYE",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_FEATHERS",
+    "copy-from": "ARM_FEATHERS",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOLLOW_BONES",
+    "copy-from": "HOLLOW_BONES",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   }
 ]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "debug_belt_tail",
+    "repairs_like": "scarf",
+    "type": "ARMOR",
+    "name": { "str": "debug tail belt" },
+    "description": "This is a template for judo belts.  If found in a game, it is a bug.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 25,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "debug_tail" ], "specifically_covers": [ "sub_limb_debug_tail" ] } ]
+  },
+  {
+    "id": "debug_belt_tail_weighted",
+    "type": "ARMOR",
+    "copy-from": "debug_belt_tail",
+    "name": { "str": "weighted debug tail belt" },
+    "armor": [
+      {
+        "encumbrance": 120,
+        "coverage": 50,
+        "covers": [ "torso", "debug_tail" ],
+        "specifically_covers": [ "sub_limb_debug_tail" ]
+      }
+    ]
+  }
+]
