@@ -788,4 +788,6 @@
       { "id": "random_animal_lion", "text": { "ctxt": "<animal>", "str": "lion" } },
       { "id": "random_animal_bear", "text": { "ctxt": "<animal>", "str": "bear" } },
       { "id": "random_animal_armadillo", "text": { "ctxt": "<animal>", "str": "armadillo" } }
+    ]
+  }
 ]
