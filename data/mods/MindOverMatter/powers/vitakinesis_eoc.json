@@ -1035,7 +1035,6 @@
       { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
       { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
       { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
-      { "u_cast_spell": { "id": "vita_pain_split", "hit_self": true } },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },

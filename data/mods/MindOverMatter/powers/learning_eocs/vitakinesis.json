@@ -301,7 +301,7 @@
             {
               "and": [
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "5" ] },
-                { "math": [ "u_spell_level('vita_pain_split')", ">=", "6" ] }
+                { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "6" ] }
               ]
             }
           ]
@@ -420,7 +420,7 @@
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "12" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "8" ] },
                     { "math": [ "u_spell_level('vita_cure_disease')", ">=", "12" ] }
                   ]
                 }
@@ -469,7 +469,7 @@
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "10" ] },
                     { "math": [ "u_spell_level('vita_remove_poison')", ">=", "7" ] },
                     { "math": [ "u_spell_level('vita_blood_purge')", ">=", "5" ] }
                   ]
