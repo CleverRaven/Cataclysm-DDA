@@ -35,6 +35,7 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "display.h"
+#include "debug_menu.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
@@ -1151,6 +1152,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
         print_hint( "PLACE_SPECIAL", c_light_blue );
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "LONG_TELEPORT", c_light_blue );
+        print_hint( "MODIFY_HORDE", c_light_blue );
         ++y;
     }
 
@@ -1627,6 +1629,92 @@ static void set_special_args( tripoint_abs_omt &curs )
     *maybe_args = args;
 }
 
+static void modify_horde_func( tripoint_abs_omt &curs )
+{
+    overmap &map_at_cursor = overmap_buffer.get( project_to<coords::om>( curs ).xy() );
+    std::vector<std::reference_wrapper<mongroup>> hordes =
+                map_at_cursor.debug_unsafe_get_groups_at( curs );
+    if( hordes.empty() ) {
+        if( !query_yn( _( "No hordes there.  Would you like to make a new horde?" ) ) ) {
+            return;
+        } else {
+            debug_menu::wishmonstergroup( curs );
+            return;
+        }
+    }
+    uilist horde_list;
+    int entry_num = 0;
+    for( auto &horde_wrapper : hordes ) {
+        mongroup &mg = horde_wrapper.get();
+        // We do some special handling here to provide the information in as simple a way as possible
+        // emulates horde behavior
+        int displayed_monster_num = mg.monsters.empty() ? mg.population : mg.monsters.size();
+        std::string horde_description = string_format( _( "group(type: %s) with %d monsters" ),
+                                        mg.type.c_str(), displayed_monster_num );
+        horde_list.addentry( entry_num, true, -1, horde_description );
+    }
+    horde_list.query();
+    int &selected_group = horde_list.ret;
+    if( selected_group < 0 || static_cast<size_t>( selected_group ) > hordes.size() ) {
+        return;
+    }
+    mongroup &chosen_group = hordes[selected_group];
+
+    uilist smenu;
+    smenu.addentry( 0, true, 'I', _( "Set horde's interest (in %%)" ) );
+    smenu.addentry( 1, true, 'D', _( "Set horde's destination" ) );
+    smenu.addentry( 2, true, 'P', _( "Modify horde's population" ) );
+    smenu.addentry( 3, true, 'M', _( "Add a new monster to the horde" ) );
+    smenu.addentry( 4, true, 'B', _( "Set horde behavior" ) );
+    smenu.addentry( 5, true, 'T', _( "Set horde's boolean values" ) );
+    smenu.addentry( 6, true, 'A', _( "Add another horde to this location" ) );
+    smenu.query();
+    int new_value = 0;
+    tripoint_abs_omt horde_destination = tripoint_abs_omt_zero;
+    switch( smenu.ret ) {
+        case 0:
+            query_int( new_value, _( "Set interest to what value?  Currently %d" ), chosen_group.interest );
+            chosen_group.set_interest( new_value );
+            break;
+        case 1:
+            popup( _( "Select a target destination for the horde." ) );
+            horde_destination = ui::omap::choose_point( true );
+            if( horde_destination == overmap::invalid_tripoint || horde_destination == tripoint_abs_omt_zero ) {
+                break;
+            }
+            chosen_group.target = project_to<coords::sm>( horde_destination ).xy();
+            break;
+        case 2:
+            query_int( new_value, _( "Set population to what value?  Currently %d" ), chosen_group.population );
+            chosen_group.population = new_value;
+            break;
+        case 3:
+            debug_menu::wishmonstergroup_mon_selection( chosen_group );
+            break;
+        case 4:
+            // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
+            popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
+                   static_cast<int>( chosen_group.behaviour ) );
+            query_int( new_value, "" );
+            chosen_group.behaviour = static_cast<mongroup::horde_behaviour>( new_value );
+            break;
+        case 5:
+            // One day we'll be able to simply convert booleans to strings...
+            chosen_group.horde = query_yn(
+                                     _( "Set group's \"horde\" value to true?  (Select no to set to false)  \nCurrently %s" ),
+                                     chosen_group.horde ? _( "true" ) : _( "false" ) );
+            chosen_group.dying = query_yn(
+                                     _( "Set group's \"dying\" value to true?  (Select no to set to false)  \nCurrently %s" ),
+                                     chosen_group.dying ? _( "true" ) : _( "false" ) );
+            break;
+        case 6:
+            debug_menu::wishmonstergroup( curs );
+            break;
+        default:
+            break;
+    }
+}
+
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt &dest,
         bool driving )
 {
@@ -1807,6 +1895,7 @@ static tripoint_abs_omt display()
         ictxt.register_action( "PLACE_SPECIAL" );
         ictxt.register_action( "SET_SPECIAL_ARGS" );
         ictxt.register_action( "LONG_TELEPORT" );
+        ictxt.register_action( "MODIFY_HORDE" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -2011,6 +2100,9 @@ static tripoint_abs_omt display()
         } else if( action == "LONG_TELEPORT" && curs != overmap::invalid_tripoint ) {
             g->place_player_overmap( curs );
             add_msg( _( "You teleport to submap %s." ), curs.to_string() );
+            action = "QUIT";
+        } else if( action == "MODIFY_HORDE" ) {
+            modify_horde_func( curs );
             action = "QUIT";
         } else if( action == "MISSIONS" ) {
             g->list_missions();
@@ -2279,6 +2371,7 @@ void ui::omap::display()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t(); //reset data
     g->overmap_data.origin_pos = get_player_character().global_omt_location();
+    g->overmap_data.debug_editor = debug_mode; // always display debug editor if game is in debug mode
     overmap_ui::display();
 }
 
