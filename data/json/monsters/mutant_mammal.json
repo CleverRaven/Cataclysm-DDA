@@ -193,7 +193,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "reproduction": { "baby_monster": "mon_deer_mutant_spider_fawn", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_deer_mutant_spider_fawn" }, "baby_count": 1, "baby_timer": 330 },
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -260,7 +260,7 @@
     "melee_skill": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "vision_night": 7,
-    "reproduction": { "baby_monster": "mon_dog_mutant_loper_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_mutant_loper_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "stomach_size": 400,
     "armor": { "bash": 1, "cut": 1 },
@@ -293,7 +293,7 @@
     "morale": 12,
     "melee_skill": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "reproduction": { "baby_monster": "mon_dog_mutant_mauler_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_mutant_mauler_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "special_attacks": [
       {
@@ -335,7 +335,7 @@
     "melee_skill": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "grab_strength": 15,
-    "reproduction": { "baby_monster": "mon_dog_mutant_thrasher_pup", "baby_count": 6, "baby_timer": 220 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_mutant_thrasher_pup" }, "baby_count": 6, "baby_timer": 220 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "special_attacks": [
       {

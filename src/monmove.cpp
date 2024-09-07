@@ -416,8 +416,14 @@ void monster::anger_cub_threatened( monster_plan &mon_plan )
     }
 
     for( monster &tmp : g->all_monsters() ) {
-        if( type->baby_monster == tmp.type->id ||
-            MonsterGroupManager::IsMonsterInGroup( type->baby_monster_group, tmp.type->id ) ) {
+        bool is_baby = false;
+        if( !type->baby_type.baby_monster.is_null() ) {
+            is_baby = type->baby_type.baby_monster == tmp.type->id;
+        }
+        if( !type->baby_type.baby_monster_group.is_null() ) {
+            is_baby = MonsterGroupManager::IsMonsterInGroup( type->baby_type.baby_monster_group, tmp.type->id );
+        }
+        if( is_baby ) {
             // baby nearby; is the player too close?
             mon_plan.dist = tmp.rate_target( *mon_plan.target, mon_plan.dist, mon_plan.smart_planning );
             if( mon_plan.dist <= 3 ) {
