@@ -5,11 +5,7 @@
     "type": "harvest",
     "copy-from": "zombie_grabber",
     "delete": { "entries": [ { "drop": "sinew", "mass_ratio": 0.00035 } ] },
-    "extend": {
-      "entries": [
-        { "drop": "grappler_sinew", "mass_ratio": 0.00035 }
-      ]
-    }
+    "extend": { "entries": [ { "drop": "grappler_sinew", "mass_ratio": 0.00035 } ] }
   },
   {
     "id": "pig_with_skull",

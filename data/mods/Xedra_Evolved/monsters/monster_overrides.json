@@ -1,5 +1,5 @@
 [
-	{
+  {
     "id": "mon_bear_cub",
     "type": "MONSTER",
     "copy-from": "mon_bear",
