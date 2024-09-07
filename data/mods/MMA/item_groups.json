@@ -6,6 +6,11 @@
     "copy-from": "book_martial_rare",
     "extend": {
       "items": [
+        [ "manual_centipede", 50 ],
+        [ "manual_lizard", 50 ],
+        [ "manual_scorpion", 50 ],
+        [ "manual_toad", 50 ],
+        [ "manual_venom_snake", 50 ],
         [ "manual_mma_desert_wind", 50 ],
         [ "manual_mma_diamond_mind", 50 ],
         [ "manual_mma_iron_heart", 50 ],

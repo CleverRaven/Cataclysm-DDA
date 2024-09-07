@@ -78,14 +78,9 @@
       { "item": "manual_tai_chi", "prob": 50 },
       { "item": "manual_wingchun", "prob": 50 },
       { "item": "manual_tiger", "prob": 10 },
-      { "item": "manual_toad", "prob": 10 },
-      { "item": "manual_venom_snake", "prob": 10 },
-      { "item": "manual_centipede", "prob": 10 },
       { "item": "manual_crane", "prob": 10 },
       { "item": "manual_dragon", "prob": 10 },
       { "item": "manual_leopard", "prob": 10 },
-      { "item": "manual_lizard", "prob": 10 },
-      { "item": "manual_scorpion", "prob": 10 },
       { "item": "manual_snake", "prob": 10 }
     ]
   },
