@@ -2519,6 +2519,8 @@ void monster::load( const JsonObject &data )
     data.read( "baby_timer", baby_timer );
     if( baby_timer && *baby_timer == calendar::before_time_starts ) {
         baby_timer.reset();
+    } else if( reproduces && type->baby_timer && !baby_timer ) {  // Remove after 0.I
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
