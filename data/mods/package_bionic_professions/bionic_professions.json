@@ -13,7 +13,7 @@
     "points": 5,
     "skills": [ { "level": 3, "name": "swimming" } ],
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
-    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ]
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "items": {
       "both": {
         "entries": [
@@ -310,7 +310,14 @@
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert", "prof_dissect_humans", "prof_gross_anatomy" ],
+    "proficiencies": [
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
