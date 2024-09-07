@@ -580,7 +580,13 @@
         "search_range": 240
       }
     },
-    "end": { "effect": [ "stop_following", { "math": [ "isherwood_barry_rescued", "=", "1" ] } ] },
+    "end": {
+      "effect": [
+        "stop_following",
+        { "math": [ "isherwood_barry_rescued", "=", "1" ] },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//": "Dialogue is handled externally.",
     "dialogue": {
