@@ -22,6 +22,7 @@
       "SHADE_SKIN",
       "SHADE_LEGS",
       "SHADE_ARMS",
+      "SHADE_EYES",
       "SHADE_HANDS",
       "SHADE_FEET",
       "SHADE_STOMACH",
@@ -56,6 +57,21 @@
     "valid": false,
     "purifiable": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_EYES",
+    "name": { "str": "Shade Eyes" },
+    "description": "Bright yellow eyes shine out from the shadowy crevices of your face.",
+    "//": "This is the baseline Gracken eyes mutation. TODO: Jsonify nightvision so you can ditch the NIGHTVISION trait.",
+    "types": [ "EYES" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 4,
+    "ugliness": 1,
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
   {
     "type": "mutation",
