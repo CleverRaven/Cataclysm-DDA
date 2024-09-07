@@ -91,6 +91,8 @@ enum class spell_flag : int {
     ENHANCEMENT_SPELL, // Enhancement spell category, used for Magiclysm proficiencies
     ENERVATION_SPELL, // Enervation spell category, used for Magiclysm proficiencies
     CONVEYANCE_SPELL, // Conveyance spell category, used for Magiclysm proficiencies
+    RESTORATION_SPELL, // Restoration spell category, used for Magiclysm proficiencies
+    TRANSFORMATION_SPELL, // Transformation spell category, used for Magiclysm proficiencies
     LAST
 };
 

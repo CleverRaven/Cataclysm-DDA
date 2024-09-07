@@ -702,7 +702,7 @@ class map
                    bool with_fields = true ) const;
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range, int &bresenham_slope,
                    bool with_fields = true, bool allow_cached = true ) const;
-        int64_t sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
+        point sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -2196,9 +2196,8 @@ class map
         // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
         // @param turns number of 90 clockwise turns to make
-        // @param setpos_safe if true, being used outside of mapgen and can use setpos to
-        // set NPC positions.  if false, cannot use setpos
-        void rotate( int turns, bool setpos_safe = false );
+        // Note that this operation actually only works on tinymap and smallmap.
+        void rotate( int turns );
 
         // Not protected/private for mapgen.cpp access
         // Mirrors the current map horizontally and/or vertically (both is technically
@@ -2602,7 +2601,7 @@ class map
         /**
          * Cache of coordinate pairs recently checked for visibility.
          */
-        using lru_cache_t = lru_cache<int64_t, char>;
+        using lru_cache_t = lru_cache<point, char>;
         mutable lru_cache_t skew_vision_cache;
         mutable lru_cache_t skew_vision_wo_fields_cache;
 

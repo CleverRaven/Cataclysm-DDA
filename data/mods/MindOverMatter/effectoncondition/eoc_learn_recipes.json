@@ -1025,12 +1025,12 @@
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALTH_POWER",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_BLEEDING",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CONCENTRATED_HEALING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_REMOVE_POISON",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CURE_DISEASE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
-          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
@@ -1063,6 +1063,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CONCENTRATED_HEALING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_concentrated_healing" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_hurt_touch" } ]
@@ -1090,12 +1096,6 @@
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_sleeping_trance" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
-    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_vita_pain_split" } ]
   },
   {
     "type": "effect_on_condition",

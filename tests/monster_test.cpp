@@ -420,7 +420,6 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    creature_tracker &creatures = get_creature_tracker();
     tripoint loc = get_avatar().pos() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
     test_monster.set_baby_timer( calendar::turn - 1_days );
@@ -443,7 +442,6 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    creature_tracker &creatures = get_creature_tracker();
     tripoint loc = get_avatar().pos() + tripoint_east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
     test_monster.set_baby_timer( calendar::turn - 1_days );
