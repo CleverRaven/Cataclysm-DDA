@@ -237,9 +237,9 @@
       "Photos of someone's luxurious house.",
       "You feel nostalgic as you stare at the photo.",
       "You exhale through your nostrils at a niche meme.",
-      "Some wild photos from a wedding reception.",
-      "A tasteful drawing of an anthropomorphic <animal>.",
-      "A less-than-tasteful drawing of an anthropomorphic <animal>."
+      "Some hilarious photos of drunken tomfoolery.",
+      "Some tasteful drawings of an anthropomorphic <animal>.",
+      "Some less-than-tasteful drawings of an anthropomorphic <animal>."
     ]
   },
   {
@@ -764,7 +764,7 @@
     ]
   },
   {
-    "type": "snippet".
+    "type": "snippet",
     "category": "<animal>",
     "//": "For use in anywhere you want a depiction of a random animal to appear.  Feel free to add more.",
     "text": [    
