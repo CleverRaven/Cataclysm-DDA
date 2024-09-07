@@ -71,7 +71,8 @@
     "visibility": 4,
     "ugliness": 1,
     "category": [ "GRACKEN" ],
-    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "gracken_eyes" } ] } ]
   },
   {
     "type": "mutation",
