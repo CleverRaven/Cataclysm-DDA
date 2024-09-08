@@ -261,7 +261,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET"
       },
       {
-        "text": "[Put in broken triakias.]",
+        "text": "[Deliver a broken triakis drone.]",
         "condition": { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
