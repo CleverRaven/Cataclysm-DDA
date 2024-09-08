@@ -2755,7 +2755,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            std::abs( static_cast<int>( food_item->count() ) * batch ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && player_character.has_flag( json_flag_CARNIVORE_DIET ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_flag( flag_CARNIVORE_DIET ) ) ) ) {
         info.emplace_back( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() );
     }
 
