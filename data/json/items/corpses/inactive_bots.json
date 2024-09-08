@@ -782,10 +782,10 @@
     "weight": "8282 kg",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "melee_damage": { "bash": 1000 },
     "material": [ "yrax_quartz", "gold" ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
+    "melee_damage": { "bash": 1000 },
     "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_golden_monolith_activation" ] }
   },
   {

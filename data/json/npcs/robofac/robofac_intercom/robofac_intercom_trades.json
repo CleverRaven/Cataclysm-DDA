@@ -411,7 +411,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT",
     "type": "talk_topic",
-    "dynamic_line": "I'm impressed you managed to drag it inside.  We gonna need to fix lift after this one.",
+    "dynamic_line": "I'm impressed you managed to drag it inside.  We gonna need to fix the lift after this one.",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
@@ -422,7 +422,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET",
     "type": "talk_topic",
-    "dynamic_line": "I belive we already have similar model already but is nice to have more, it will allow us be more active in our research.",
+    "dynamic_line": "I believe we already have similar model already but is nice to have more, it will allow us be more active in our research.",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
