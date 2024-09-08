@@ -357,110 +357,60 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
     "type": "talk_topic",
     "dynamic_line": "I belive we already have similar model in better condition but is nice to have something for reference.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
     "type": "talk_topic",
     "dynamic_line": "We can look at this but it appears to miss quite alot to it.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH",
     "type": "talk_topic",
     "dynamic_line": "That is quite a lot of broken metal, let's hope R&D can at least salvage materials.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_DELTA",
     "type": "talk_topic",
     "dynamic_line": "You don't need to pick up all glossy scrap that you find.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG",
     "type": "talk_topic",
     "dynamic_line": "We witnessed it as a part of larger construct.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT",
     "type": "talk_topic",
     "dynamic_line": "I'm impressed you managed to drag it inside.  We gonna need to fix the lift after this one.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET",
     "type": "talk_topic",
     "dynamic_line": "I believe we already have similar model already but is nice to have more, it will allow us be more active in our research.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS",
     "type": "talk_topic",
     "dynamic_line": "Oh what an interesting piece R&D will have a field day with it.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH",
     "type": "talk_topic",
     "dynamic_line": "I assume you were trying to figure out limits of hm12.  I guess they are right here.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA",
     "type": "talk_topic",
     "dynamic_line": "I doubt we can get a lot of information from this drone but thanks.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   }
 ]
