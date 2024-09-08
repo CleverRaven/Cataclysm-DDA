@@ -248,7 +248,7 @@
       "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward based depending on what you managed to scavange.",
+    "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward based depending on what you managed to scavenge.",
     "responses": [
       {
         "text": "[Put in broken trifacet.]",
@@ -356,13 +356,13 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
     "type": "talk_topic",
-    "dynamic_line": "I belive we already have similar model in better condition but is nice to have something for reference.",
+    "dynamic_line": "I believe we already have similar model in better condition but is nice to have something for reference.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
     "type": "talk_topic",
-    "dynamic_line": "We can look at this but it appears to miss quite alot to it.",
+    "dynamic_line": "We can look at this but it appears to miss quite a lot to it.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
