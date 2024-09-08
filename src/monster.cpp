@@ -308,9 +308,6 @@ monster::monster( const mtype_id &id ) : monster()
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
-    if( reproduces && type->baby_timer ) {
-        baby_timer.emplace( calendar::turn + *type->baby_timer );
-    }
     biosignatures = type->biosignatures;
     if( monster::has_flag( mon_flag_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
@@ -553,11 +550,6 @@ void monster::try_upgrade( bool pin_time )
         }
         upgrade_time += next_upgrade;
     }
-}
-
-void monster::set_baby_timer( const time_point &time )
-{
-    baby_timer.emplace( time );
 }
 
 void monster::try_reproduce()
