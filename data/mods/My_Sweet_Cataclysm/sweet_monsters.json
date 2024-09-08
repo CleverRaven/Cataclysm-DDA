@@ -514,7 +514,7 @@
     "harvest": "gum_spider",
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
-    "upgrade": { "age_grow": 30, "into": "mon_spider_gum" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_gum" },
     "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   },
   {
@@ -543,7 +543,7 @@
     "harvest": "caff_gum_spider",
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
-    "upgrade": { "age_grow": 30, "into": "mon_gum_spider_wolf" },
+    "upgrades": { "age_grow": 30, "into": "mon_gum_spider_wolf" },
     "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   },
   {
