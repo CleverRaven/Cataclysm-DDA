@@ -232,7 +232,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( you.has_flag( flag_CARNIVORE_DIET ) && comest.has_flag( flag_CARNIVORE_OK ) &&
+    if( you.has_flag( json_flag_CARNIVORE_DIET ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_vitamin( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
@@ -918,7 +918,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
-    if( has_flag( flag_CARNIVORE_DIET ) && compute_effective_nutrients( food ).kcal() > 0 &&
+    if( has_flag( json_flag_CARNIVORE_DIET ) && compute_effective_nutrients( food ).kcal() > 0 &&
         food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
@@ -993,7 +993,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    const bool carnivore = has_flag( flag_CARNIVORE_DIET );
+    const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
     const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
@@ -1432,7 +1432,7 @@ void Character::modify_morale( item &food, const int nutr )
     // Organs are still usually negative due to fun values as low as -35.
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
-        const bool carnivore = has_flag( flag_CARNIVORE_DIET );
+        const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
         const bool culler = has_flag( json_flag_PRED1 );
         const bool hunter = has_flag( json_flag_PRED2 );
         const bool predator = has_flag( json_flag_PRED3 );
@@ -1477,7 +1477,7 @@ void Character::modify_morale( item &food, const int nutr )
             }
             // Carnivores CAN eat junk food, but they won't like it much.
             // Pizza-scraping happens in consume_effects.
-            if( has_flag( flag_CARNIVORE_DIET ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+            if( has_flag( json_flag_CARNIVORE_DIET ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
                 add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
                 add_morale( morale_no_digest, -25, -125, 30_minutes, 24_minutes );
             }
