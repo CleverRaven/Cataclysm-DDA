@@ -321,7 +321,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET"
       },
       {
-        "text": "[Put in deactivated triakis.]",
+        "text": "[Deliver a deactivated triakis.]",
         "condition": { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_triakis", "count": 1, "popup": true },
