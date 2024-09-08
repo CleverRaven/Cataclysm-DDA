@@ -341,7 +341,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH"
       },
       {
-        "text": "[Put in deactivated delta.]",
+        "text": "[Deliver a deactivated delta.]",
         "condition": { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_delta", "count": 1, "popup": true },
