@@ -17,6 +17,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
+    "recurrence": [ "14 days", "28 days" ],
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+        { "math": [ "u_vitamin('changeling_dreams')", "==", "0" ] }
+      ]
+    },
+    "effect": { "math": [ "u_vitamin('changeling_dreams')", "+=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",

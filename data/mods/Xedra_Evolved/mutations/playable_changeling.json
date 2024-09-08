@@ -41,7 +41,7 @@
     "type": "mutation",
     "id": "FAIR_FOLK_COMMONER_BROWNIE",
     "name": { "str": "Brownie Changeling" },
-    "description": "This tracks your heritage, used for advancement.  YOu shouldn't see it.",
+    "description": "This tracks your heritage, used for advancement.  You shouldn't see it.",
     "points": 4,
     "valid": false,
     "purifiable": false,
