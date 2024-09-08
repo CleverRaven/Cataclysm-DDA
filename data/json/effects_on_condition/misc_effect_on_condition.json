@@ -144,7 +144,7 @@
     "id": "yrax_delta_activation",
     "effect": [
       { "u_spawn_monster": "mon_yrax_delta", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      { "u_message": "The hostile delta violently unfolds just clear of your hand!", "type": "bad" }
+      { "u_message": "The hostile delta starts flying just as you release it!", "type": "bad" }
     ]
   },
   {
