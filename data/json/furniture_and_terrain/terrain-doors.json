@@ -3086,7 +3086,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
-    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF", "TRANSPARENT", "TRANSLUCENT" ],
+    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_o",
     "copy-from": "t_door_glass_c"
   },
@@ -3101,7 +3101,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
-    "flags": [ "DOOR", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "TRANSLUCENT" ],
+    "flags": [ "DOOR", "NOITEM", "SUPPORTS_ROOF", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_lab_o",
     "copy-from": "t_door_glass_frosted_c"
   },

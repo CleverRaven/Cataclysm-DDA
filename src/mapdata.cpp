@@ -680,7 +680,8 @@ void load_terrain( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 {
-    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
+    if( !transparent && ( flag == ter_furn_flag::TFLAG_TRANSPARENT ||
+                          flag == ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         transparent = true;
     }
 

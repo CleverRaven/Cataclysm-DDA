@@ -1019,7 +1019,6 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
-      "TRANSPARENT",
       "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
@@ -1053,7 +1052,6 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
-      "TRANSPARENT",
       "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
@@ -1087,7 +1085,6 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
-      "TRANSPARENT",
       "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
