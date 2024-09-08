@@ -1,6 +1,22 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER" },
+        { "not": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_CHOICE" } },
+        {
+          "not": {
+            "u_has_any_trait": [ "FAIR_FOLK_COMMONER_BROWNIE", "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_SELKIE", "FAIR_FOLK_COMMONER_TROW" ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",

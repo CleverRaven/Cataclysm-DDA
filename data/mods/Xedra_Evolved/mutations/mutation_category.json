@@ -72,5 +72,9 @@
   {
     "type": "mutation_type",
     "id": "MANA_SIPHON"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HERITAGE"
   }
 ]

@@ -6,16 +6,16 @@
     "name": "Unknowing Changeling, Noble (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "UNKNOWING_CHANGELING" ]
+    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "ELFA_EARS", "UNKNOWING_CHANGELING_NOBLE" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "hobby_species_changeling_commoner",
     "name": "Unknowing Changeling, Commoner (Species)",
-    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  While your time in the mortal realm has covered over any distinctions that might have been derived from your heritage, when the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "THRESH_FAIR_FOLK_COMMONER", "UNKNOWING_CHANGELING" ]
+    "traits": [ "THRESH_FAIR_FOLK_COMMONER", "ELFA_EARS", "UNKNOWING_CHANGELING_COMMONER" ]
   },
   {
     "type": "mutation",
@@ -39,9 +39,44 @@
   },
   {
     "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_BROWNIE",
+    "name": { "str": "Brownie Changeling" },
+    "description": "This tracks your heritage, used for advancement.  YOu shouldn't see it.",
+    "points": 4,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_POOKA",
+    "name": { "str": "Pooka Changeling" },
+    "copy-from": "FAIR_FOLK_COMMONER_BROWNIE"
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_SELKIE",
+    "name": { "str": "Selkie Changeling" },
+    "copy-from": "FAIR_FOLK_COMMONER_BROWNIE"
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_TROW",
+    "name": { "str": "Trow Changeling" },
+    "copy-from": "FAIR_FOLK_COMMONER_BROWNIE"
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_TROW",
+    "name": { "str": "Made Commoner Choice" },
+    "description": "This tracks your heritage, used to prevent picking more than one heritage.  You shouldn't see it.",
+    "copy-from": "FAIR_FOLK_COMMONER_BROWNIE"
+  },
+  {
+    "type": "mutation",
     "id": "UNKNOWING_CHANGELING_NOBLE",
     "name": { "str": "Changeling" },
-    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has innured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has inured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
     "mixed_effect": true,
     "valid": false,
     "starting_trait": false,
@@ -49,6 +84,7 @@
     "profession": true,
     "points": 0,
     "allowed_category": [ "FAIR_FOLK_NOBLE" ],
+    "types": [ "HERITAGE" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {

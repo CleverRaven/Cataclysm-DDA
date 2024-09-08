@@ -147,5 +147,14 @@
     "max": 2500,
     "rate": "1 h",
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "changeling_dreams",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Changeling Heritage" },
+    "min": 0,
+    "max": 1,
+    "rate": "0 m"
   }
 ]

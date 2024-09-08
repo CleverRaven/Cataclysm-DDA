@@ -1,0 +1,27 @@
+[
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_NOBLE",
+    "text": [ "You have bad dreams." ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_BROWNIE",
+    "text": [ "You have bad dreams." ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_POOKA",
+    "text": [ "You have bad dreams." ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_SELKIE",
+    "text": [ "You have bad dreams." ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_TROW",
+    "text": [ "You have bad dreams." ]
+  }
+]
