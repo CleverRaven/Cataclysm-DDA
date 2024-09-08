@@ -125,6 +125,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "yrax_triakis_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_triakis", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile triakis violently unfolds just clear of your hand!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_golden_monolith_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_golden_monolith", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The monoliths appears to be scanning it surrondings once again.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_delta_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_delta", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile delta violently unfolds just clear of your hand!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "add_effect",
     "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
   },
