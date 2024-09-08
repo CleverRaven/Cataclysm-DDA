@@ -4,7 +4,7 @@
     "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "u_has_any trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+    "condition": { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
     "effect": [
       { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
     ]
@@ -14,7 +14,7 @@
     "id": "EOC_UNKNOWING_CHANGELING_WIELDING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
-    "condition": { "u_has_any trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+    "condition": { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
     "effect": [
       { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
     ]
