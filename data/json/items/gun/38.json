@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "2 Shot Special" },
+    "name": { "str": "double barrel .38 pistol" },
     "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
     "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "ascii_picture": "2_shot_special",
@@ -26,45 +26,10 @@
     "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [  ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ],
-    "melee_damage": { "bash": 3 }
-  },
-  {
-    "id": "cop_38",
-    "copy-from": "pistol_base",
-    "looks_like": "glock_17",
-    "type": "GUN",
-    "name": { "str": "COP .357 Derringer" },
-    "description": "A small, chubby derringer pistol bearing a slight resemblance to the Mossberg Brownie.  It uses a rotating firing pin to fire the individual hammers of the four barrels arranged in a square formation.",
-    "weight": "800 g",
-    "volume": "399 ml",
-    "longest_side": "162 mm",
-    "barrel_length": "83 mm",
-    "price": "1 kUSD 200 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "ammo": [ "357mag", "38" ],
-    "range": 3,
-    "dispersion": 520,
-    "durability": 6,
-    "blackpowder_tolerance": 96,
-    "clip_size": 4,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "belt clip", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 4, "38": 4 } } ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -72,8 +37,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "S&W Model 10" },
+    "name": { "str": "six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "model_10_revolver",
+        "name": { "str": "S&W Model 10" },
+        "description": "The Model 10 is one of the oldest firearm models still in production, and most produced handguns, with production dating back to 1899.  Starting life as the Model 1899 Hand Ejector, it only picked up the current name of Model 10 in the 1950s.  Despite .38 Special and .357 Magnum being the same caliber, Model 10s were produced to handle blackpowder loads, and while modern smokeless loads of .38 Special work fine, .357 Magnum could cause the Model 10 to catastrophically fail."
+      }
+    ],
     "weight": "975 g",
     "volume": "402 ml",
     "longest_side": "252 mm",
@@ -81,7 +54,6 @@
     "//": "101.6mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
     "price": "424 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "38" ],
@@ -94,49 +66,6 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "ammo_restriction": { "38": 6 },
-        "allowed_speedloaders": [ "38_speedloader6" ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "mr73",
-    "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
-    "type": "GUN",
-    "name": { "str_sp": "Manurhin MR 73" },
-    "description": "A finely made .357 Magnum revolver with a 4 inch barrel.  It has adjustable sights, big plastic grips and a very smooth trigger.",
-    "weight": "970 g",
-    "volume": "600 ml",
-    "longest_side": "273 mm",
-    "barrel_length": "133 mm",
-    "price": "3 kUSD 600 USD",
-    "price_postapoc": "20 USD",
-    "built_in_mods": [ "match_trigger" ],
-    "default_mods": [ "pistol_grip" ],
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "357mag", "38" ],
-    "dispersion": 280,
-    "durability": 10,
-    "blackpowder_tolerance": 56,
-    "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "357mag": 6, "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
     ],
@@ -168,15 +97,7 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "barrel_length": "600 mm",
-    "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ],
@@ -187,8 +108,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Ruger LCR .38" },
+    "name": { "str": "conceal-carry six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_lcr_38",
+        "name": { "str": "Ruger LCR" },
+        "description": "The Ruger LCR (Lightweight Compact Revolver) is a modern revolver, starting production in just 2010.  It's a lightweight, aluminum-framed revolver, designed for conceal carry with its double-action-only trigger, lightweight and compact size.  Due to the double-action trigger, it is more possible to carry it in your pocket instead of a holster due to the heavy trigger, but still ill-advised."
+      }
+    ],
     "weight": "382 g",
     "volume": "321 ml",
     "longest_side": "192 mm",
@@ -196,7 +125,6 @@
     "//": "47mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
     "price": "545 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -2,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -225,21 +153,72 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "colt_python",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str_sp": ".357 revolver" },
+    "//": "This is the Colt Python 2020 6-inch version.",
+    "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
+    "//s": "omg twd reference :O",
+    "weight": "1300 g",
+    "volume": "703 ml",
+    "longest_side": "292 mm",
+    "barrel_length": "152 mm",
+    "symbol": "(",
+    "color": "light_gray",
+    "//2": "Price of one according to colt's own website. Goddamn.",
+    "price": "1 kUSD 599 USD",
+    "price_postapoc": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "balance": "neutral", "surface": "point" },
+    "material": [ "steel", "wood" ],
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 280,
+    "durability": 10,
+    "blackpowder_tolerance": 48,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stocks mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_python",
+        "name": { "str_sp": "Colt Python" },
+        "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
+      }
+    ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "sw_619",
     "copy-from": "pistol_revolver",
-    "//": "Tileset whitelist for revolvers.",
     "type": "GUN",
-    "name": { "str_sp": "S&W 619" },
-    "description": "A seven-round .357 revolver sold by Smith & Wesson.  Can also fire .38 Special.  It features a fixed rear sight and a reinforced frame.",
+    "name": { "str_sp": "7-shots .357 revolver" },
+    "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
-    "weight": "1074 g",
-    "volume": "608 ml",
-    "longest_side": "278 mm",
-    "barrel_length": "140 mm",
-    "//2": "100mm + 40mm max OAL for 357mag. Revolvers just built different.",
-    "price": "620 USD",
+    "weight": "1280 g",
+    "volume": "760 ml",
+    "//1": "took 5mm off `longest_side` so it can fit regular holsters",
+    "longest_side": "300 mm",
+    "//2": "barrel length (152mm) + cylinder length (40mm)",
+    "barrel_length": "192  mm",
+    "price": "980 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -265,6 +244,112 @@
         "allowed_speedloaders": [ "38_speedloader" ]
       }
     ],
-    "melee_damage": { "bash": 9 }
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw_619",
+        "name": { "str_sp": "S&W 686 Plus" },
+        "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
+      }
+    ]
+  },
+  {
+    "id": "chiappa_rhino",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": { "str_sp": ".357 revolver" },
+    "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
+    "symbol": "(",
+    "color": "light_gray",
+    "looks_like": "sw_619",
+    "price": "1 kUSD 800 USD",
+    "price_postapoc": "80 USD",
+    "material": [ "steel", "wood" ],
+    "weight": "936 g",
+    "volume": "700 ml",
+    "longest_side": "267 mm",
+    "barrel_length": "152 mm",
+    "dispersion": 300,
+    "durability": 10,
+    "blackpowder_tolerance": 56,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo": [ "357mag", "38" ],
+    "clip_size": 6,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "chiappa_rhino",
+        "name": { "str": "Chiappa Rhino" },
+        "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder to alleviate muzzle flip."
+      }
+    ]
+  },
+  {
+    "id": "rp63",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str_sp": ".357-caliber snub-nosed revolver" },
+    "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rp63",
+        "name": { "str": "Rossi RP63 revolver" },
+        "description": "A small frame, stainless-steel Brazilian wheel gun with rubberized grips, a serrated front sight, and a satin finish, boasting a 6-round cylinder of .357-magnum persuasion.  Affordable, before the world collapsed, and confidently asserted by Rossi themselves to be the ideal carry gun for its rounded butt and 3-inch barrel, you aren't wholly sure that such assertions accounted for zombies."
+      }
+    ],
+    "weight": "774 g",
+    "volume": "614 ml",
+    "longest_side": "19 cm",
+    "barrel_length": "116 mm",
+    "//": "72.6mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
+    "//2": "Dimensions are 19.3x13.3x3.7 cm, with the final result trimmed by 35% to account for the inherent empty spaces.",
+    "//3": "Yes, the revolver is actually 193 mm long rather than 19 cm, but I deemed not having it fit in a standard-sized pocket because of a 3 mm difference to be silly.",
+    "price": "469 USD 99 cent",
+    "price_postapoc": "10 USD 40 cent",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "357mag", "38" ],
+    "//4": "3 to 3.5-inch groups at 10 yards shooting off-handed: https://www.shootingillustrated.com/content/review-rossi-rp-63-revolver/",
+    "dispersion": 350,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

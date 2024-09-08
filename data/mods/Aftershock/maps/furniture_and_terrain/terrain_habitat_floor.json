@@ -27,6 +27,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_clearcrete_roof",
+    "name": "clearcrete skylight",
+    "description": "A roof made from transparent fiber-reinforced concrete, allowing light to pass through.  Often used to build greenhouses in unfavorable environments.",
+    "symbol": "o",
+    "looks_like": "t_glass_roof",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "stone shattering",
+      "sound_fail": "whunk!",
+      "ter_set": "t_null",
+      "items": [ { "item": "clearcrete_chunk", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor_olight_inactive",
     "name": "metal floor, with inactive overhead light",
     "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls, with a still-functioning inactive light attached to the ceiling above.",

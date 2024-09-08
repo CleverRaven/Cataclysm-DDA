@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "egg_dino",
     "name": "dinosaur egg",
-    "looks_like": "egg_reptile",
+    "looks_like": "egg_chicken",
     "weight": "2 kg",
     "color": "green",
     "spoils_in": "32 days",
@@ -19,14 +19,14 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dino_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino",
-    "looks_like": "egg_reptile",
     "spoils_in": "16 days",
     "weight": "57 g",
     "comestible_type": "FOOD",
@@ -36,14 +36,14 @@
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
     "volume": "12 ml",
-    "rot_spawn": "GROUP_EGG_DINO_SMALL"
+    "rot_spawn": "GROUP_EGG_DINO_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dino_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
-    "looks_like": "egg_reptile",
     "spoils_in": "64 days",
     "weight": "4 kg",
     "comestible_type": "FOOD",
@@ -51,13 +51,14 @@
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_DINO_LARGE"
+    "rot_spawn": "GROUP_EGG_DINO_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dino_theropod",
     "name": "dinosaur egg",
-    "looks_like": "egg_bird",
+    "looks_like": "egg_chicken",
     "weight": "2 kg",
     "color": "green",
     "spoils_in": "32 days",
@@ -73,32 +74,35 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_THEROPOD",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dino_theropod_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino_small",
-    "looks_like": "egg_bird",
+    "looks_like": "egg_chicken",
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL"
+    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dino_theropod_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
-    "looks_like": "egg_bird",
+    "looks_like": "egg_chicken",
     "weight": "4 kg",
     "comestible_type": "FOOD",
     "calories": 5200,
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
+    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -748,21 +752,21 @@
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_reptile",
+    "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
   },
   {
@@ -780,7 +784,8 @@
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -797,7 +802,8 @@
     "fun": 10,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -814,6 +820,7 @@
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   }
 ]

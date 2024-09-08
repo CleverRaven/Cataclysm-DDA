@@ -58,10 +58,10 @@
       "R": "t_linoleum_white",
       "w": "t_linoleum_white",
       "<": "t_stairs_up",
-      "$": "t_atm",
       "?": "t_railing"
     },
     "furniture": {
+      "$": "f_atm_off",
       "x": "f_console_broken",
       "V": "f_vending_c",
       "h": "f_chair",
@@ -337,6 +337,41 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hdwr_large_1_1_2" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---                    ",
+        " -.-                    ",
+        " ---                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

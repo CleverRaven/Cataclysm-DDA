@@ -73,7 +73,7 @@
       { "id": "lava_bomb_shrapnel" },
       { "id": "lava_bomb_heat" },
       { "id": "lava_bomb_ter" },
-      { "id": "eoc_evocation_setup" }
+      { "id": "eoc_evocation_setup", "hit_self": true }
     ],
     "spell_class": "VULCANIST"
   },
@@ -103,7 +103,7 @@
     "energy_increment": 5,
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
-    "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" }, { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "VULCANIST"
   },
   {

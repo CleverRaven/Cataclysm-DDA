@@ -75,6 +75,8 @@ namespace io
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
+            case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
@@ -94,6 +96,7 @@ namespace io
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchant_vals::mod::VISION_RANGE: return "VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
@@ -183,6 +186,7 @@ namespace io
             case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
             case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
             case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
+            case enchant_vals::mod::PHASE_DISTANCE: return "PHASE_DISTANCE";
             case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
             case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
             case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
@@ -193,6 +197,8 @@ namespace io
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
             case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::THROW_STR: return "THROW_STR";
+            case enchant_vals::mod::THROW_DAMAGE: return "THROW_DAMAGE";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
@@ -240,13 +246,10 @@ enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
         if( inline_id.empty() ) {
             jv.throw_error( "Inline enchantment cannot be created without an id." );
         }
-        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
-            jv.throw_error( "Inline enchantment " + inline_id +
-                            " cannot be created as an enchantment already has this id." );
-        }
 
         enchantment inline_enchant;
         inline_enchant.load( jv.get_object(), src, inline_id );
+        mod_tracker::assign_src( inline_enchant, src );
         spell_factory.insert( inline_enchant );
         return enchantment_id( inline_id );
     } else {
@@ -324,7 +327,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -343,7 +348,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }

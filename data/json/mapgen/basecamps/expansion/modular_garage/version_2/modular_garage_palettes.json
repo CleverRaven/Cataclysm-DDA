@@ -71,5 +71,11 @@
     "id": "fbmg_2_wood_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_floor", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_wall_wood" },
     "furniture": {  }
+  },
+  {
+    "type": "palette",
+    "id": "fbmg_2_brick_palette",
+    "terrain": { ",": "t_dirtfloor", ".": "t_floor", "+": "t_rdoor_c", "v": "t_window_no_curtains", "w": "t_brick_wall" },
+    "furniture": {  }
   }
 ]

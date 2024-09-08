@@ -110,7 +110,8 @@
     "spoils_in": "60 days",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

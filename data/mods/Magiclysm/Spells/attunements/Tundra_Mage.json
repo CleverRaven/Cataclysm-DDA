@@ -22,7 +22,7 @@
     "flags": [ "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "crack",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "cold_snap_freeze" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "cold_snap_freeze" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -52,7 +52,7 @@
     "spell_class": "TUNDRA_MAGE",
     "effect": "summon",
     "effect_str": "mon_winter_wolf",
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600, 4)" ] },

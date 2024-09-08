@@ -4,13 +4,7 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
-        "prob": 88,
-        "charges": [ 0, 30 ],
-        "contents-group": "issued_carbine_mods"
-      },
+      { "group": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-group": "issued_carbine_mods" },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
@@ -32,7 +26,7 @@
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+    "entries": [ { "group": "modular_m4a1", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
@@ -467,7 +461,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
-      { "item": "mask_gas", "prob": 20, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 20 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 80 }
     ]
@@ -638,7 +632,7 @@
       { "item": "20x66_slug", "prob": 4 },
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 7 },
+      { "group": "modular_m4a1", "prob": 7 },
       { "group": "m4_cqbr", "prob": 1 },
       { "item": "modular_m16a4", "prob": 5 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_m16a3", "prob": 1 },
@@ -787,6 +781,7 @@
       { "item": "knife_folding", "prob": 20 },
       { "item": "glasses_safety", "prob": 45 },
       { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "steroid_eyedrops", "prob": 10, "count": [ 1, 10 ] },
       { "item": "screwdriver", "prob": 5 },
       { "item": "glasses_eye", "prob": 30 },
       { "item": "tool_belt", "prob": 20 },
@@ -928,7 +923,7 @@
       { "item": "combo_cover", "prob": 5 },
       { "group": "military_ballistic_vest", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
@@ -967,7 +962,7 @@
       { "item": "survnote", "prob": 2 },
       { "item": "robot_controls", "prob": 3 },
       { "item": "solarpack", "prob": 1 },
-      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "prob": 20, "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
     ]
   },

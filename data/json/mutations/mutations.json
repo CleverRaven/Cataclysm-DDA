@@ -238,6 +238,7 @@
       "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
+      "RESTRICTED",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -1032,9 +1033,10 @@
     "type": "mutation",
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
-    "points": 3,
-    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+    "points": 0,
+    "description": "You have an exceptional memory, and find it easy to remember things.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
     "types": [ "MEMORY" ],
+    "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ],
     "starting_trait": true,
     "valid": false,
@@ -1081,6 +1083,7 @@
     "vitamin_cost": 160,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "category": [ "MOUSE", "LUPINE" ],
+    "cancels": [ "PICKYEATER" ],
     "starting_trait": true,
     "active": true,
     "enchantments": [
@@ -1259,8 +1262,20 @@
     "vitamin_cost": 260,
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
+    "flags": [ "ROBUST_GENETIC" ],
+    "cancels": [ "CHAOTIC_BAD", "RESTRICTED" ],
     "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESTRICTED",
+    "name": { "str": "Restricted Genetics" },
+    "points": 3,
+    "vitamin_cost": 160,
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category.  Any that you previously developed are safe, for now.",
+    "allowed_category": [ "ALPHA" ],
+    "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -1429,6 +1444,7 @@
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
     "purifiable": false,
     "starting_trait": true,
+    "player_display": false,
     "valid": false,
     "cancels": [ "XXXL" ]
   },
@@ -1440,6 +1456,7 @@
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
     "purifiable": false,
     "starting_trait": true,
+    "player_display": false,
     "valid": false,
     "cancels": [ "XS" ]
   },
@@ -1830,11 +1847,12 @@
     "type": "mutation",
     "id": "FORGETFUL",
     "name": { "str": "Forgetful" },
-    "points": -3,
+    "points": 0,
     "vitamin_cost": 160,
-    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you have trouble keeping your story straight when lying.",
     "types": [ "MEMORY" ],
     "social_modifiers": { "lie": -5 },
+    "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ],
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ]
@@ -2180,7 +2198,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST" ],
+    "cancels": [ "ROBUST", "RESTRICTED" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
@@ -2620,7 +2638,7 @@
     "id": "FROG_EYES",
     "//": "Currently without the NV from URSINE_EYE",
     "name": { "str": "Frog Eyes" },
-    "points": 1,
+    "points": 0,
     "vitamin_cost": 60,
     "visibility": 8,
     "ugliness": 4,
@@ -2675,6 +2693,7 @@
     "description": "We have begun adapting local physiology to Mycus physical structure, greatly reducing wet effects.",
     "purifiable": false,
     "category": [ "MYCUS" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "prereqs": [ "M_IMMUNE" ],
     "threshreq": [ "THRESH_MYCUS" ],
     "leads_to": [ "M_DEFENDER" ],
@@ -2702,7 +2721,7 @@
     "ugliness": 8,
     "description": "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
     "purifiable": false,
-    "flags": [ "HEAT_IMMUNE" ],
+    "flags": [ "HEAT_IMMUNE", "IRRITANT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN" ],
     "prereqs2": [ "M_DEFENDER" ],
@@ -2732,7 +2751,7 @@
     "ugliness": 10,
     "description": "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
     "purifiable": false,
-    "flags": [ "HEAT_IMMUNE" ],
+    "flags": [ "HEAT_IMMUNE", "IRRITANT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN2" ],
     "threshreq": [ "THRESH_MYCUS" ],
@@ -2749,7 +2768,17 @@
       { "part": "torso", "ignored": 60 }
     ],
     "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5 } ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "FUNGUS" } ],
+        "comfort": "very_comfortable",
+        "msg_try": {
+          "text": "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades.",
+          "rating": "good"
+        }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4425,8 +4454,7 @@
       "ench_quadruped_movement_full",
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
       { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
     ]
@@ -4440,8 +4468,6 @@
     "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
     "active": true,
-    "kcal": true,
-    "cost": 400,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
@@ -5661,7 +5687,8 @@
     "prereqs": [ "GASTROPOD_FOOT" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
     "changes_to": [ "SNAIL_TRAIL" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -5680,7 +5707,8 @@
       "base_damage": { "damage_type": "acid", "amount": 6 }
     },
     "prereqs": [ "MUCUS_SECRETION" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -5693,6 +5721,7 @@
     "description": "You've developed some ability to control your slime emissions.  As a result of this you can leave trails of slime anywhere you walk.",
     "prereqs": [ "MUCUS_SECRETION" ],
     "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "active": true,
     "cost": 174,
     "time": "100 s",
@@ -5787,7 +5816,30 @@
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
     "flags": [ "WEBWALK" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web", "intensity": 3 },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "comfort": "sleep_aid",
+        "use_better_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "These thick webs support your weight, and are strangely comfortable…", "rating": "good" }
+      },
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web" },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "add_human_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "You try to sleep, but the webs get in the way.  You brush them aside.", "rating": "info" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5800,7 +5852,20 @@
     "prereqs": [ "WEB_WALKER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "changes_to": [ "WEB_WEAVER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5818,7 +5883,20 @@
     "cost": 69,
     "time": "100 s",
     "kcal": true,
-    "thirst": true
+    "thirst": true,
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6634,6 +6712,7 @@
     "vitamin_cost": 60,
     "visibility": 8,
     "ugliness": 4,
+    "mixed_effect": true,
     "types": [ "EYES" ],
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
@@ -7066,6 +7145,7 @@
     "description": "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
     "purifiable": false,
     "prereqs": [ "MANDIBLES" ],
+    "prereqs2": [ "CHITIN", "CHITIN2", "CHITIN2_MOLTED" ],
     "category": [ "INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
@@ -7701,6 +7781,7 @@
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
     "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD", "GASTROPOD", "BATRACHIAN" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "wet_protection": [
       { "part": "head", "neutral": 3, "good": 4 },
       { "part": "leg_l", "neutral": 7, "good": 14 },
@@ -7727,6 +7808,7 @@
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
     "category": [ "SLIME", "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
@@ -8040,7 +8122,45 @@
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET", "ROOTS3" ]
+    "flags": [ "TOUGH_FEET", "ROOTS3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "vehicle" } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "It's impossible to sleep in this wheeled pot!", "rating": "bad" }
+      },
+      {
+        "conditions": [ { "type": "furniture", "id": "f_null", "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "The humans' furniture blocks your roots.  You can't get comfortable.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLOWABLE", "invert": true },
+          { "type": "terrain", "flag": "PLANTABLE", "invert": true },
+          { "type": "terrain", "id": "t_pit", "invert": true },
+          { "type": "terrain", "id": "t_pit_shallow", "invert": true }
+        ],
+        "comfort": "impossible",
+        "msg_try": { "text": "Your roots scrabble ineffectively at the unyielding surface.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLANTABLE" },
+          { "type": "terrain", "id": "t_dirt" },
+          { "type": "terrain", "id": "t_pit" },
+          { "type": "terrain", "id": "t_pit_shallow" }
+        ],
+        "conditions_any": true,
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "PLOWABLE" } ],
+        "comfort": "comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8487,7 +8607,14 @@
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell2" ]
+    "integrated_armor": [ "integrated_shell2" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL2", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8505,7 +8632,14 @@
     "category": [ "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell3" ]
+    "integrated_armor": [ "integrated_shell3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL3", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8876,7 +9010,7 @@
     "name": { "str": "Acidproof" },
     "points": 3,
     "vitamin_cost": 160,
-    "flags": [ "ACID_IMMUNE" ],
+    "flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ],
     "description": "Your mutated flesh is immune to the damaging effects of acid.",
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
@@ -8937,9 +9071,21 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "SEESLEEP", "FROG_EYES" ],
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
+    "prereqs": [ "SEESLEEP", "FROG_EYES", "GILLS_CEPH" ],
+    "category": [ "FISH", "BATRACHIAN", "CEPHALOPOD" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -9024,6 +9170,17 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_FBI",
+    "//": "This doesn't do anything at the moment, as I am too scared of breaking C++ things, but it will eventually.",
+    "name": { "str": "Special Agent" },
+    "points": 0,
+    "description": "You are a member of the Federal Bureau of Investigation, also known as the FBI.  You have jurisdiction throughout the remaining 49 States, Indian Country, and any other territories of the USA.  Whether that means anything now is another question.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Churl" },
     "points": 0,
@@ -9080,7 +9237,7 @@
     "name": { "str": "MD" },
     "points": 0,
     "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access.",
-    "description": "You were just through with the administrative formalities for your residency when the Cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
+    "description": "You trained as a medical professional in a clinic or hospital.  You can put \"Dr.\" in front of your name and everything.",
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -9170,16 +9327,6 @@
     "description": "You have some training in the art of kickboxing.  It's just boxing with kicks, right?",
     "valid": false,
     "initial_ma_styles": [ "style_kickboxing" ],
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
-    "id": "PROF_AUTODOC",
-    "name": { "str": "Autodoc Specialist" },
-    "points": 0,
-    "description": "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
-    "valid": false,
     "purifiable": false,
     "profession": true
   },
@@ -9637,6 +9784,173 @@
   },
   {
     "type": "mutation",
+    "id": "MUTE_BIRD",
+    "name": { "str": "Mute (Bird)" },
+    "points": -2,
+    "description": "Your mouth and larynx have changed dramatically, rendering you incapable of human speech.  With enough practice you could relearn imitating their weird ape chirps, but it will take time.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "BIRD" ],
+    "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
+    "flags": [ "MUTE" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_BIRD_OK",
+    "name": { "str": "Speech Mimicry (Bird)" },
+    "points": 0,
+    "description": "Your throat cramps, your beak twitches, but you can speak human again if you want.",
+    "category": [ "BIRD" ],
+    "prereqs": [ "MUTE_BIRD" ],
+    "valid": false,
+    "purifiable": false,
+    "//": "Least punishing social malus, but still not nothing",
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -4 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.4 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.4 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.4 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_CEPH",
+    "name": { "str": "Mute (Cephalopod)" },
+    "points": -2,
+    "description": "Your beak and new lungs have diverged too much from your human form to be capable of human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "BEAK" ],
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_CEPH_OK",
+    "name": { "str": "Speech Mimicry (Cephalopod)" },
+    "points": 0,
+    "description": "Contorting your voice to match your surroundings is just as necessary as changing your color, even if learning it was a pain.",
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "MUTE_CEPH" ],
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -6 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.6 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.6 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.6 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_GASTROPOD",
+    "name": { "str": "Mute (Snail)" },
+    "points": -2,
+    "description": "Just losing your teeth would have been an adjustment, but with your new tongue human speech is straight-up impossible.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "GASTROPOD_EXTREMITY2", "GASTROPOD_EXTREMITY3" ],
+    "changes_to": [ "MUTE_GASTROPOD_OK" ],
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_GASTROPOD_OK",
+    "name": { "str": "Speech Mimicry (Snail)" },
+    "points": 0,
+    "description": "Fine control of your radula was hard to learn, but now that you mapped out which calcified not-tooth on there makes what pitch you can open your mouth and…speak.  Yes, let's call it speaking.",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "MUTE_GASTROPOD" ],
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -7 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.7 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.7 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.7 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_INSECT",
+    "name": { "str": "Mute (Insect)" },
+    "points": -2,
+    "description": "Your mandibles already made speech hard, but now that you don't even have a tongue…<color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "INSECT" ],
+    "prereqs": [ "PROBOSCIS" ],
+    "flags": [ "MUTE" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_INSECT_OK",
+    "name": { "str": "Speech Mimicry (Insect)" },
+    "points": 0,
+    "description": "Using all this new anatomy cramps you up, and there's spittle flying everywhere, but you can manage short sentences of whistling almost-words.",
+    "category": [ "INSECT" ],
+    "prereqs": [ "MUTE_INSECT" ],
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -7 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.7 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.7 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.7 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_SLIME",
+    "name": { "str": "Mute (Slime)" },
+    "points": -2,
+    "description": "Your mouth is gone.  Oh, wait, there's one, isn't there?  If only it stopped moving around you might start to relearn something like human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "SLIME" ],
+    "prereqs": [ "AMORPHOUS" ],
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_SLIME_OK",
+    "name": { "str": "Speech Mimicry (Slime)" },
+    "points": 0,
+    "description": "Each word its own custom bubble under your membrane, waiting for its turn to pop.  It sounds like something small and furry drowning in sourdough, but if you manage to convince somebody to listen to you they will probably understand.",
+    "category": [ "SLIME" ],
+    "prereqs": [ "MUTE_SLIME" ],
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -9 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.9 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.9 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.9 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "NOMAD",
     "name": { "str": "Nomad" },
     "points": -1,
@@ -9829,7 +10143,7 @@
     "id": "HAS_NEMESIS",
     "name": { "str": "Hunted" },
     "points": -1,
-    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "description": "Something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false
@@ -10085,6 +10399,7 @@
     "vitamin_cost": 60,
     "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
     "category": [ "ALPHA" ],
+    "cancels": [ "GOURMAND" ],
     "starting_trait": true
   },
   {
@@ -10114,6 +10429,48 @@
     "mixed_effect": true,
     "flags": [ "SOCIAL2" ],
     "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AMOG",
+    "name": { "str": "Alpha Member of the Group" },
+    "points": 1,
+    "vitamin_cost": 160,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
+    "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
+    "mixed_effect": true,
+    "purifiable": false,
+    "flags": [ "SOCIAL2" ],
+    "category": [ "ALPHA" ],
+    "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
+    "triggers": [
+      [
+        {
+          "condition": { "or": [ { "math": [ "u_val('morale')", "<", "-75" ] }, { "math": [ "u_val('morale')", "<", "75" ] } ] }
+        }
+      ],
+      [
+        { "condition": { "or": [ { "math": [ "u_val('stim')", "<", "-50" ] }, { "math": [ "u_val('stim')", "<", "50" ] } ] } }
+      ]
+    ],
+    "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "DARK_TRIAD",
+    "name": { "str": "Dark Triad" },
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
+    "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
+    "valid": false,
+    "mixed_effect": true,
+    "points": -1,
+    "flags": [ "ASOCIAL2" ],
+    "category": [ "ALPHA" ],
+    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] } } ] ],
+    "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
+    "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 }
   },
   {
     "type": "mutation",

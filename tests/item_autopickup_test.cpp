@@ -24,7 +24,7 @@ static const itype_id itype_candycigarette( "candycigarette" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_corpse( "corpse" );
-static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_diving_flashlight_small_hipower( "diving_flashlight_small_hipower" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_meat_canned( "meat_canned" );
@@ -287,7 +287,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 
     // flashlight > light battery (WL)
     WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
-        item item_flashlight = item( itype_flashlight );
+        item item_flashlight = item( itype_diving_flashlight_small_hipower );
         item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
         REQUIRE_FALSE( item_light_battery->is_null() );
 

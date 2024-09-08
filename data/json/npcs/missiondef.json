@@ -330,9 +330,7 @@
     "end": {
       "effect": [
         "stop_following",
-        {
-          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
-        }
+        { "weighted_list_eocs": [ [ "get_katana", 5 ], [ "get_deagle_44", 10 ], [ "get_m4_carbine", 6 ] ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -972,7 +970,7 @@
     "global": true,
     "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
-    "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
+    "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
   },
   {
     "type": "effect_on_condition",

@@ -116,6 +116,7 @@
     "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
     "effect": [
       { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "run_eocs": "EOC_VALIDATE_PORT_AUGUSTMOON" },
       { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "1 seconds" },
       { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
       {
@@ -143,6 +144,7 @@
     "id": "EOC_AFS_AUGUSTMOON_SPACEPORT_TP",
     "effect": [
       { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "run_eocs": "EOC_VALIDATE_PORT_AUGUSTMOON" },
       { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
       {
         "u_location_variable": { "context_val": "crate_loc" },
@@ -170,6 +172,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORT_TO_LANDING_PAD_TP",
     "effect": [
+      { "run_eocs": "EOC_VALIDATE_LANDING_PAD" },
       {
         "u_location_variable": { "context_val": "crate_loc" },
         "terrain": "t_intermodal_crate_scripted_source",
@@ -192,6 +195,61 @@
       {
         "u_message": "An orbital drop in a rackety cargo shuttle preceded by an almost interminable wait within Port Augustmoon customs level leads you to the planetary wastes below.\n\n What passes by the spaceport is nothing but a small radio outpost surrounded by chainlink fencing.  Beyond it, any guarantees of civilization are left behind.",
         "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VALIDATE_PORT_AUGUSTMOON",
+    "condition": {
+      "and": [
+        { "math": [ "has_var(Port_augustmoon)" ] },
+        { "math": [ "has_var(Port_augustmoon_cargo)" ] },
+        { "math": [ "has_var(augustmoon_main_concourse1)" ] },
+        { "math": [ "has_var(augustmoon_main_concourse2)" ] }
+      ]
+    },
+    "false_effect": [
+      { "u_message": "MANUALLY FINDING PORT AUGUSTMOON AS A FALLBACK.  (PRESS SPACE).", "popup": true },
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 1380 },
+        "zone": "ZONE_START_POINT",
+        "target_max_radius": 30
+      },
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 1380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true, "search_range": 1380 }
+      },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true, "search_range": 1380 }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VALIDATE_LANDING_PAD",
+    "condition": { "and": [ { "math": [ "has_var(landing_pad)" ] }, { "math": [ "has_var(landing_pad_cargo)" ] } ] },
+    "false_effect": [
+      { "u_message": "MANUALLY FINDING THE LANDING PAD AS A FALLBACK.  (PRESS SPACE).", "popup": true },
+      {
+        "u_location_variable": { "global_val": "landing_pad" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 1380 },
+        "zone": "ZONE_START_POINT",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "landing_pad_cargo" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 1380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
       }
     ]
   },

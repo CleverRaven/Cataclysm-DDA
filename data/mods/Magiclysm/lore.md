@@ -5,7 +5,7 @@ It doesn't really affect you in a way that would affect doing things in real lif
 
 The industrial revolution was the downturn of magic.
 At the time of WWI, about 80% of the population of the world could cast 1 spell, and about 40% of those could cast more than one
-At the time of the cataclysm, 20-30% of the population could cast 1 spell and about 10% of those could cast more than one.
+At the time of the Cataclysm, 20-30% of the population could cast 1 spell and about 10% of those could cast more than one.
 High-powered combat spells are either family or military secrets
 
 That being said, it's common knowledge that magic is a thing. People who are a powerful mage are often well-known in their communities, and carry high-profile jobs.
@@ -26,8 +26,8 @@ In the case of "how is a spell part of a class?" the spell's characteristics det
 - Animist: Spirits. As Magus is the physical universe, animist is the metaphysical. Usually misunderstood and as such has a bit of a stigma throughout history as necromancers. This class also features blood magic, which is another reason it has a stigma.
 - Kelvinist: Heat and Cold spells. Can also produce light to a lesser degree.
 - Stormshaper: Wind, weather, and electricity. Most of these spells are really loud.
-- Technomancer: Invention. This usually manifests as spells that summon arms and armor, holograms, tools, and buffs that focus on the human condition. The Technomancer rune is also uniquely versatile, allowing for much wider ability for magic to work with mundane inventions. Technomancer became a lot more popular with the invention of electricity, even while magic as a whole declined, as it has a finer control of electricity than stormshaper, though it does not have the power.
-- Earthshaper: Stone, dirt, geography, things to do with the earth. The spells often focus on melee and defense. Lava is a high-tier earthshaper thing as well. This class features spells that use stamina as their energy source.
+- Technomancer: Invention. This usually manifests as spells that summon arms and armor, holograms, tools, and buffs that focus on the human condition. The Technomancer rune is also uniquely versatile, allowing for much wider ability for magic to work with mundane inventions. Technomancer became a lot more popular with the invention of electricity, even while magic as a whole declined, as it has a finer control of electricity than Stormshaper, though it does not have the power.
+- Earthshaper: Stone, dirt, geography, things to do with the earth. The spells often focus on melee and defense. Lava is a high-tier Earthshaper thing as well. This class features spells that use stamina as their energy source.
 - Biomancer: Flesh mage. Manipulating the caster's flesh is easier but higher tier spells can manipulate others' flesh. Features Acid.
 - Druid: Plant mage. Communes with nature. The typical "druid" of old is usually a combination of this class and Earthshaper. Has a slight secondary affinity with water.
 

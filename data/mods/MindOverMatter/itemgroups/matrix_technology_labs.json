@@ -101,7 +101,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "collection_force_field_and_note",
-    "items": [ { "item": "force_field_generator", "prob": 1 }, { "item": "lab_file_OS647_P_item", "prob": 1 } ]
+    "items": [ { "item": "force_field_generator", "prob": 100 }, { "item": "lab_file_OS647_P_item", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "collection_mindsight_and_note",
+    "items": [ { "item": "psionic_mindsight_glasses", "prob": 100 }, { "item": "lab_file_QD944_P_item", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -183,5 +189,11 @@
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] }
     ]
+  },
+  {
+    "id": "clairsentience_telepathy_matrix_technology",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "collection_mindsight_and_note", "prob": 1 }, { "item": "psionic_telepathic_dampener", "prob": 1 } ]
   }
 ]

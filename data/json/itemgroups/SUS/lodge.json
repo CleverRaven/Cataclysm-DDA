@@ -29,7 +29,6 @@
       { "item": "ruger_1022", "prob": 70, "charges": [ 0, 10 ] },
       { "item": "ruger_mini", "prob": 10, "charges": [ 0, 5 ] },
       { "item": "win70", "prob": 20, "charges": [ 0, 3 ] },
-      { "item": "colt_lightning", "prob": 2, "charges": [ 0, 10 ] },
       { "item": "henry_big_boy", "prob": 2, "charges": [ 0, 10 ] },
       { "item": "weatherby_5", "prob": 2, "charges": [ 0, 3 ] },
       { "item": "single_sling", "prob": 10 }

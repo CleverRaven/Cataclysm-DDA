@@ -6,7 +6,7 @@
     "description": "Speak a short phrase and transform your footsteps into burning pits of flame, leaving a trail of fire behind you.  Each step will consume mana, but you will be immune to fire while the spell is in effect.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_FAIL" ],
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
     "shape": "blast",
@@ -107,7 +107,7 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "LOUD", "CONCENTRATE", "IGNITE_FLAMMABLE", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
     "effect": "attack",
     "shape": "blast",
-    "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" }, { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "heat",
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(90, 1)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.9, 0.03)" ] },
@@ -163,7 +163,7 @@
     "max_damage": -120,
     "damage_increment": -2.9,
     "max_level": 35,
-    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" }, { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" }, { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {

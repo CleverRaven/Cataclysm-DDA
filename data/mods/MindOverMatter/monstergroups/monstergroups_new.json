@@ -1,5 +1,22 @@
 [
   {
+    "name": "GROUP_ANIMAL_PSIONS",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_hidebehind", "weight": 20 },
+      { "monster": "mon_psi_gremlin", "weight": 100 },
+      { "monster": "mon_psi_gremlin", "weight": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_cockatrice", "weight": 75 },
+      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_hodag", "weight": 10 },
+      { "monster": "mon_bandersnatch", "weight": 5 },
+      { "monster": "mon_fear_hawk", "weight": 10 },
+      { "monster": "mon_cockatrice", "weight": 2, "pack_size": [ 2, 2 ] }
+    ]
+  },
+  {
     "name": "GROUP_FERAL_PSYCHIC",
     "type": "monstergroup",
     "monsters": [
@@ -75,7 +92,6 @@
       { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 60, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 60, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 60, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "weight": 60, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_star_vampire", "weight": 10, "cost_multiplier": 0 },
@@ -94,7 +110,7 @@
   {
     "name": "GROUP_FEAR_HAWKS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fear_hawk", "weight": 8 }, { "monster": "mon_null", "weight": 25 } ]
+    "monsters": [ { "monster": "mon_fear_hawk", "weight": 1000 } ]
   },
   {
     "type": "monstergroup",
@@ -225,7 +241,6 @@
     "monsters": [
       { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 80, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 80, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 80, "cost_multiplier": 0 },

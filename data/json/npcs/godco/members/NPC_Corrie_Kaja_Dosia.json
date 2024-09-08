@@ -11,21 +11,25 @@
       "TALK_GODCO_Corrie_Mood"
     ],
     "responses": [
-      { "text": "How did you get here?", "topic": "TALK_GODCO_Corrie_Story" },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_GODCO_Corrie_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Corrie_Mood" },
       { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Corrie_Community" },
       {
         "text": "Want to come with me?",
         "topic": "TALK_GODCO_Corrie_Recruit",
-        "condition": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_completed_godco_corrie_machine" } ] }
       },
       {
         "text": "What needs to be done?",
         "topic": "TALK_GODCO_Corrie_Mission",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" } },
-            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" } }
+            { "not": { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_corrie_machine" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_completed_godco_corrie_machine" } ] } }
           ]
         }
       }
@@ -34,16 +38,20 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_1",
-    "dynamic_line": "Hey there, <name_g>.  Welcome to the losers club.",
+    "dynamic_line": {
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "&Corrie briefly glances at you and shoots a glare.  \"What do you want?\"",
+      "no": "Hey there, <name_g>.  Welcome to the losers club."
+    },
     "responses": [
       {
         "text": "I'm just passing through.",
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetA"
@@ -53,9 +61,9 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetB"
@@ -65,20 +73,35 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetC"
       },
       {
         "text": "Hey Corrie, you free?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
+          ]
+        },
         "topic": "TALK_GODCO_Corrie_2"
       },
       {
+        "text": "Hey Corrie, you free?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] }
+          ]
+        },
+        "topic": "TALK_GODCO_Corrie_Angry"
+      },
+      {
         "text": "Hey Corrie.  I gotta go.",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_corrie" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -141,8 +164,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardIcon",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "icon" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "icon", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },
@@ -151,8 +174,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardRation",
         "condition": {
           "and": [
-            { "u_has_var": "mission_reward_godco_machine_reward", "value": "ration" },
-            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
+            { "compare_string": [ "ration", { "u_val": "mission_reward_godco_machine_reward" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_reward_unclaimed_machine_reward" } ] }
           ]
         }
       },
@@ -255,5 +278,20 @@
       { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
       { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Angry",
+    "dynamic_line": "No, not really.  It's not like I've got any business with you anyways.",
+    "responses": [
+      { "text": "What's the attitude for?", "topic": "TALK_GODCO_Corrie_Angry_Pressed" },
+      { "text": "I'm outta here then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Angry_Pressed",
+    "dynamic_line": "You know <swear> well what I'm upset about <name_b>.  Now go away.",
+    "responses": [ { "text": "See you later <name_b>.", "topic": "TALK_DONE" } ]
   }
 ]

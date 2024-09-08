@@ -159,7 +159,7 @@
     "id": "knife_shop",
     "type": "item_group",
     "items": [
-      [ "knife_butcher", 20 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 20 },
       [ "knife_combat", 5 ],
       [ "knife_combat_army", 2 ],
       [ "knife_combat_marine", 1 ],

@@ -152,6 +152,7 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground",
       "sloc_lodge_ground",
       "sloc_light_industry_scen"
     ],
@@ -259,7 +260,7 @@
     "name": "Challenge - Hunted Forever",
     "points": -5,
     "forced_traits": [ "HAS_NEMESIS" ],
-    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can try to fight it, but each time it falls it will rise again.  The only escape is for you to die.",
+    "description": "Since the start of the Cataclysm, they have been hunting you relentlessly.  You can try to fight them, but each time one falls another takes its place.  The only escape is for you to die.",
     "allowed_locs": [
       "sloc_house",
       "sloc_house_boarded",
@@ -608,7 +609,8 @@
       "sloc_campsite",
       "sloc_campground",
       "sloc_cabin_lake",
-      "sloc_lighthouse_ground"
+      "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground"
     ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],

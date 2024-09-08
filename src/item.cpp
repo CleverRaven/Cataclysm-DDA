@@ -119,6 +119,13 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
@@ -191,8 +198,6 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
-
-static const morale_type morale_null( "morale_null" );
 
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -663,6 +668,8 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    item_counter = 0;
+    update_link_traits();
     update_prefix_suffix_flags();
     return *this;
 }
@@ -1415,6 +1422,10 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( units::from_joule_per_gram( combined_specific_energy ) );
         }
 
+        if( item_counter > 0 || rhs.item_counter > 0 ) {
+            item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>
+                             ( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
+        }
     }
     charges += rhs.charges;
     if( !rhs.has_flag( flag_NO_PARASITES ) ) {
@@ -1950,22 +1961,6 @@ static int get_ranged_pierce( const common_ranged_data &ranged )
     }
 
     return ranged.damage.damage_units.front().res_pen;
-}
-
-std::string item::info( bool showtext ) const
-{
-    std::vector<iteminfo> dummy;
-    return info( showtext, dummy );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
-{
-    return info( showtext, iteminfo, 1 );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
-{
-    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
 }
 
 // Generates a long-form description of the freshness of the given rottable food item.
@@ -2541,6 +2536,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            info.emplace_back( "BASE", _( "counter: " ), "", iteminfo::lower_is_better,
+                               item_counter );
             if( countdown_point != calendar::turn_max ) {
                 info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
                                    to_seconds<int>( countdown_point - calendar::turn ) );
@@ -2794,7 +2791,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
-        && player_character.allergy_type( *food_item ) != morale_null ) {
+        && player_character.allergy_type( *food_item ) != morale_type::NULL_ID() ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
@@ -3046,52 +3043,40 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> fx;
-    if( ammo.ammo_effects.count( "RECYCLED" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "MATCHHEAD" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_MATCHHEAD ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
                "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
-    } else if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    } else if( ammo.ammo_effects.count( ammo_effect_BLACKPOWDER ) &&
                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        for( const std::string &effect : ammo.ammo_effects ) {
-            if( string_starts_with( effect, "RECOVER_" ) ) {
-                ret_val<int> try_recover_chance =
-                    try_parse_integer<int>( effect.substr( 8 ), false );
-                if( !try_recover_chance.success() ) {
-                    debugmsg( "Error parsing ammo RECOVER_ denominator: %s",
-                              try_recover_chance.str() );
-                    break;
-                }
-                int recover_chance = try_recover_chance.value();
-                if( recover_chance <= 5 ) {
-                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 10 ) {
-                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 20 ) {
-                    fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 30 ) {
-                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
-                } else {
-                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
-                }
-                break;
-            }
+        if( ammo.recovery_chance <= 75 ) {
+            fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 80 ) {
+            fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 90 ) {
+            fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 95 ) {
+            fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+        } else {
+            fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
         }
     }
-    if( ( ammo.ammo_effects.count( "INCENDIARY" ) || ammo.ammo_effects.count( "IGNITE" ) ) &&
+    if( ( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) ||
+          ammo.ammo_effects.count( ammo_effect_IGNITE ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }
@@ -3621,6 +3606,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
+    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
@@ -6138,15 +6128,24 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     }
 }
 
-std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+std::vector<iteminfo> item::get_info( bool showtext ) const
 {
+    return get_info( showtext, 1 );
+}
+
+std::vector<iteminfo> item::get_info( bool showtext, int batch ) const
+{
+    return get_info( showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) const
+{
+    std::vector<iteminfo> info = {};
     const bool debug = g != nullptr && debug_mode;
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
     }
-
-    info.clear();
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
@@ -6250,7 +6249,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
+    return info;
+}
 
+std::string item::info( bool showtext ) const
+{
+    std::vector<iteminfo> dummy;
+    return info( showtext, dummy );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
+{
+    return info( showtext, iteminfo, 1 );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
+{
+    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+{
+    info = get_info( parts, batch );
     return format_item_info( info, {} );
 }
 
@@ -6350,7 +6370,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *this ) != morale_null ) {
+        if( player_character.allergy_type( *this ) != morale_type::NULL_ID() ) {
             return c_red;
         }
 
@@ -8016,6 +8036,23 @@ void item::calc_rot_while_processing( time_duration processing_duration )
 
     // Apply no rot or temperature while smoking
     last_temp_check += processing_duration;
+}
+
+bool item::process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                 int max_air_exposure_hours,
+                                 time_duration time_delta )
+{
+    if( !has_own_flag( flag_FROZEN ) ) {
+        double environment_multiplier = here.is_outside( pos ) ? 2.0 : 1.0;
+        time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
+                                         rng_normal( 0.9, 1.1 ) * environment_multiplier;
+        if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
+            convert( *type->revert_to, carrier );
+            return true;
+        }
+        item_counter = to_seconds<int>( new_air_exposure );
+    }
+    return false;
 }
 
 int item::get_env_resist( int override_base_resist ) const
@@ -10241,11 +10278,16 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
+    return item::spill_contents( tripoint_bub_ms( pos ) );
+}
+
+bool item::spill_contents( const tripoint_bub_ms &pos )
+{
     if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
         is_container_empty() ) {
         return true;
     }
-    return contents.spill_contents( pos );
+    return contents.spill_contents( pos.raw() );
 }
 
 bool item::spill_open_pockets( Character &guy, const item *avoid )
@@ -11208,13 +11250,13 @@ itype_id item::common_ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<std::string> item::ammo_effects( bool with_ammo ) const
+std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {
-        return std::set<std::string>();
+        return std::set<ammo_effect_str_id>();
     }
 
-    std::set<std::string> res = type->gun->ammo_effects;
+    std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
@@ -11820,8 +11862,9 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    // Fire will depend on amount of fuel if stackable
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        int stack_burnt = std::max( 1, count() / type->stack_size );
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;
@@ -12538,7 +12581,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects );
+            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects, 1 );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
@@ -12691,7 +12734,7 @@ void item::apply_freezerburn()
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos, map &here,
-                                    Character *carrier, const temperature_flag flag, float spoil_modifier )
+                                    Character *carrier, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     const time_point now = calendar::turn;
 
@@ -12741,6 +12784,10 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     time_point time = last_temp_check;
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
+    const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
+                               type->revert_to;
+    int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
+                                     0;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -12805,6 +12852,11 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             }
             last_temp_check = time;
 
+            if( decays_in_air &&
+                process_decay_in_air( here, carrier, pos, max_air_exposure_hours, time_delta ) ) {
+                return false;
+            }
+
             // Calculate item rot
             if( process_rot ) {
                 calc_rot( env_temperature, spoil_modifier, time_delta );
@@ -12822,6 +12874,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now - time );
         last_temp_check = now;
+
+        if( decays_in_air &&
+            process_decay_in_air( here, carrier, pos, max_air_exposure_hours, now - time ) ) {
+            return false;
+        }
+
         if( process_rot ) {
             calc_rot( temp, spoil_modifier, now - time );
             return has_rotten_away() && carrier == nullptr;
@@ -14077,14 +14135,22 @@ bool item::process_gun_cooling( Character *carrier )
 }
 
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                    temperature_flag flag, float spoil_multiplier_parent, bool recursive )
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
-    process_relic( carrier, pos );
+    return item::process( here, carrier, tripoint_bub_ms( pos ), insulation, flag,
+                          spoil_multiplier_parent, watertight_container, recursive );
+}
+
+bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
+{
+    process_relic( carrier, pos.raw() );
     if( recursive ) {
-        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
-                          spoil_multiplier_parent );
+        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
+                          spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+    return process_internal( here, carrier, pos.raw(), insulation, flag, spoil_multiplier_parent,
+                             watertight_container );
 }
 
 bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
@@ -14111,7 +14177,7 @@ void item::set_last_temp_check( const time_point &pt )
 }
 
 bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
-                             float insulation, const temperature_flag flag, float spoil_modifier )
+                             float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
         if( !has_var( "ethereal" ) ) {
@@ -14230,9 +14296,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         }
         // All foods that go bad have temperature
         if( has_temperature() &&
-            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier ) ) {
+            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
+                                     watertight_container ) ) {
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
+            }
+            if( is_corpse() ) {
+                here.handle_decayed_corpse( *this, here.getglobal( pos ) );
             }
             return true;
         }
@@ -14620,6 +14690,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
     return ret_name;
 }
 
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
+}
+
 std::string item::get_corpse_name() const
 {
     return corpse_name;
@@ -14731,6 +14806,11 @@ bool item::on_drop( const tripoint &pos )
 }
 
 bool item::on_drop( const tripoint &pos, map &m )
+{
+    return item::on_drop( tripoint_bub_ms( pos ), m );
+}
+
+bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty

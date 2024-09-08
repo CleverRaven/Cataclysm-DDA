@@ -37,6 +37,7 @@
     "id": "NC_CARAVAN_MERCHANT",
     "name": { "str": "Trader" },
     "job_description": "I'm collecting gear and selling it.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_EVACUEE" },
       { "group": "NPC_starting_traits" },
@@ -53,6 +54,7 @@
     "id": "NC_CARAVAN_GUARD",
     "name": { "str": "Bounty Hunter" },
     "job_description": "I'm a killer for hire.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_POLICE" },
       { "group": "NPC_starting_traits" },
@@ -128,7 +130,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -154,7 +156,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -222,7 +224,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -241,7 +243,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },
@@ -259,7 +261,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
-            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_refugee_center" } ] } }
           ]
         }
       },

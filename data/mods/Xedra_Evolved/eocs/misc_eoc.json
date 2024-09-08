@@ -39,5 +39,215 @@
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "250" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_DAFFODIL",
+    "condition": { "u_has_effect": "called_daffodil" },
+    "effect": [ { "u_message": "You can't call more daffodil yet.", "type": "bad" } ],
+    "false_effect": [ { "u_add_effect": "called_daffodil", "duration": "24 hours" }, { "u_cast_spell": { "id": "call_daffodil_real" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_caster_necklace_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_is_wearing": "dream_attuning_necklace" },
+    "effect": [
+      { "math": [ "u_school_level_adjustment('DREAMER')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('EATER')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('DREAMSMITH')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('INVENTOR')", "+=", "5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_LOOT",
+    "effect": [
+      { "u_message": "As the shadow dissipates, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "shadow_singularity_piece", "count": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_DRAINER_LOOT",
+    "effect": [
+      { "u_message": "As the mosquito fades away, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "dream_drainer_heart", "count": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUNA_ATTUNED_LOOT",
+    "effect": [
+      { "u_message": "As the revenant decoheres, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "moonstruck_pearl", "count": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD",
+    "effect": [
+      { "u_location_variable": { "context_val": "near_tear" }, "field": "fd_fatigue", "target_max_radius": 5 },
+      {
+        "if": { "map_field_id": "fd_fatigue", "loc": { "context_val": "near_tear" } },
+        "then": { "run_eocs": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_SUCCESS" },
+        "else": { "run_eocs": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_FAIL" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_SUCCESS",
+    "effect": [
+      { "u_spawn_item": "stormwrought_blood_itert" },
+      {
+        "u_message": "The ritual harnesses the energies of the tear to infuse some blood with it, leaving behind a small ball of almost-solid blood.  It only needs to bath in the energies of the storms until it is fully charged and it will be ready to use.",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_FAIL",
+    "effect": [
+      {
+        "u_message": "Without the proximity of a tear in reality, the ritual fails to harness any energy and the blood boils away.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "CHARGE_STORMWROUGHT_BLOOD",
+    "recurrence": "5 minutes",
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 12 } ] },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        { "u_has_item": "stormwrought_blood_itert" },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      }
+    },
+    "effect": [
+      { "math": [ "u_stormwrought_blood_charge", "++" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "STORMWROUGHT_BLOOD_FULL_CHARGE",
+            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "25" ] },
+            "effect": [
+              { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
+              { "u_remove_item_with": "stormwrought_blood_itert" },
+              { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
+              { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "STORMWROUGHT_BLOOD_HIGH_CHARGE",
+                    "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "10" ] },
+                    "effect": [
+                      {
+                        "u_message": "The stormwrought blood boils intensely for a moment before returning to its inert state.",
+                        "type": "info"
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "STORMWROUGHT_BLOOD_LOW_CHARGE",
+                            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "1" ] },
+                            "effect": [ { "u_message": "The stormwrought blood boils a little, then becomes inert again.", "type": "info" } ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUMMON_DREAM_DRAINER",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SUMMON_DREAM_DRAINER_2",
+            "effect": [
+              { "npc_cast_spell": { "id": "dream_drainer_maker_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
+              { "u_remove_item_with": "dream_drainer_catalyst" },
+              { "remove_active_mission": "MISSION_KILL_DREAM_DRAINER" },
+              { "assign_mission": "MISSION_KILL_DREAM_DRAINER" },
+              {
+                "npc_message": "The mosquito consumes the catalyst and suddenly starts filling with air as it reshapes itself.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_TO_SUMMON_REVENANT",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_CHECK_TO_SUMMON_REVENANT_MOON_DARK_OUTSIDE",
+          "condition": { "and": [ { "math": [ "moon_phase() == 4" ] }, "u_is_outside", { "not": "is_day" } ] },
+          "effect": [
+            {
+              "u_message": "You utter the last words of the ritual and the revenant suddently animates, disappears and reappears nearby, a deadly glare in its eyes.",
+              "type": "mixed"
+            },
+            {
+              "u_spawn_monster": "mon_luna_attuned_revenant",
+              "real_count": 1,
+              "min_radius": 20,
+              "max_radius": 25,
+              "spawn_message": "You see a flash of moonlight surrounding a tall, slender being.",
+              "spawn_message_plural": "You see a flash of moonlight surrounding tall, slender beings."
+            },
+            { "u_remove_item_with": "revenant_effigy" },
+            { "assign_mission": "MISSION_KILL_LUNA_ATTUNED" },
+            { "queue_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
+          ],
+          "false_effect": [
+            {
+              "u_message": "The revenant cannot be animated unless a sufficient amount of the light of a full moon shines upon it.",
+              "type": "bad"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_LUNA_MISSION",
+    "effect": { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
   }
 ]

@@ -3,7 +3,7 @@
     "id": "MISSION_GODCO_COOK_FOOD_1",
     "type": "mission_definition",
     "name": { "str": "Picky Meals" },
-    "description": "Find 20 pounds of salt.",
+    "description": "Find 15 pounds (2000 units) of salt.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
@@ -13,7 +13,7 @@
     "followup": "MISSION_GODCO_COOK_FOOD_2",
     "dialogue": {
       "describe": "I need a supply of salt.",
-      "offer": "I know this doesn't sound important, but I am running low on salt.  We don't just need it as a seasoning, it's also vital for food preservation.  Could you find about 20 pounds of salt for me?",
+      "offer": "I know this doesn't sound important, but I am running low on salt.  We don't just need it as a seasoning, it's also vital for food preservation.  Could you find about 15 pounds of salt for me?",
       "accepted": "Don't forget to tell me when you have them.",
       "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
       "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
@@ -22,7 +22,8 @@
       "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_2",
@@ -47,7 +48,8 @@
       "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_COOK_FOOD_3",
@@ -57,12 +59,12 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
-    "item": "knife_butcher",
+    "item": "knife_huge",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need something sharper.",
-      "offer": "I don't have any butcher knives in here.  It's difficult to cut anything hard without it.  It's good to have one, even though I won't use it that often.  Could you get me one?",
+      "offer": "I don't have any butcher knives in here.  It's difficult to cut anything hard without it.  It's good to have one, even though I won't use it that often.  Could you get me one, or anything similarly suitable?",
       "accepted": "Thank you for accepting.  I can't cut anything with this dull knife.",
       "rejected": "I guess I have to cut them with my steak knife.",
       "advice": "Butcher knives are not that rare to find.  They are commonly found in kitchens.",
@@ -71,7 +73,8 @@
       "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_FOOD_GUARD_BOOK",
@@ -96,7 +99,8 @@
       "success_lie": "Could you give them to me?",
       "failure": "Fine.  I can read something else."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 2, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP",
@@ -113,7 +117,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I'd like to have some cans to store food in.",
-      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty tin cans for me, I'd really appreciate it.",
+      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty medium tin cans for me, I'd really appreciate it.",
       "accepted": "Just bring it to me when you have it.",
       "rejected": "Nevermind then.  I hope you'll change your mind.",
       "advice": "I'd look anywhere there's food waste or scrap piles.  We can wash out the cans when we get them.",
@@ -122,7 +126,8 @@
       "success_lie": "Could you give them to me?",
       "failure": "Fine.  I'll get them myself."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2 } }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
@@ -148,7 +153,8 @@
       "success_lie": "Where is it?",
       "failure": "Fine.  I can read something else."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 7 } ], "opinion": { "trust": 1 } }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 7 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_FOOD_GUARD_BETTER_FOOD_STORAGE",
@@ -179,7 +185,8 @@
         { "u_spawn_item": "icon", "count": 137 }
       ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
-    }
+    },
+    "fail": { "opinion": { "anger": 3 } }
   },
   {
     "id": "MISSION_GODCO_GET_GUITAR_STRING",
@@ -204,8 +211,10 @@
       "failure": "Don't worry about it, I'll do it myself."
     },
     "end": {
-      "effect": [ { "npc_add_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "u_spawn_item": "icon", "count": 1 } ]
-    }
+      "effect": [ { "npc_add_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "u_spawn_item": "icon", "count": 1 } ],
+      "opinion": { "trust": 1, "value": 1 }
+    },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_DARRYL_WELL1",
@@ -242,8 +251,10 @@
           { "point": "furniture", "id": "f_null", "x": 15, "y": 23 },
           { "point": "terrain", "id": "t_covered_well", "x": 15, "y": 23 }
         ]
-      }
-    }
+      },
+      "opinion": { "trust": 1, "value": 1 }
+    },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_DARRYL_WELL2",
@@ -271,8 +282,10 @@
     },
     "end": {
       "effect": [ { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "yes" }, { "u_spawn_item": "icon", "count": 6 } ],
-      "update_mapgen": { "om_terrain": "godco_5", "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 23 } ] }
-    }
+      "update_mapgen": { "om_terrain": "godco_5", "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 23 } ] },
+      "opinion": { "trust": 1, "value": 1 }
+    },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_DARRYL_COOP1",
@@ -302,8 +315,10 @@
         { "math": [ "darryl_building_coop", "=", "1" ] },
         { "queue_eocs": "godco_place_coop_new", "time_in_future": "168 hours" },
         { "u_spawn_item": "icon", "count": 6 }
-      ]
-    }
+      ],
+      "opinion": { "trust": 2, "value": 2 }
+    },
+    "fail": { "opinion": { "anger": 2 } }
   },
   {
     "id": "MISSION_GODCO_RUSSELL_TROPHY1",
@@ -332,7 +347,8 @@
       "success_lie": "You liar!",
       "failure": "You give up?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ], "opinion": { "trust": 2, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_RUSSELL_TROPHY2",
@@ -372,8 +388,10 @@
         { "u_spawn_item": "270win_jsp", "count": 4 },
         { "u_spawn_item": "icon", "count": 5 },
         { "run_eocs": "EOC_MISSION_GODCO_TROPHY2_done" }
-      ]
-    }
+      ],
+      "opinion": { "trust": 2, "value": 2 }
+    },
+    "fail": { "opinion": { "anger": 2 } }
   },
   {
     "id": "MISSION_GODCO_RUSSELL_TROPHY3",
@@ -404,8 +422,10 @@
         { "u_spawn_item": "270win_jsp", "count": 8 },
         { "u_spawn_item": "icon", "count": 8 },
         { "npc_add_effect": "hunt_godco_russell", "duration": "PERMANENT" }
-      ]
-    }
+      ],
+      "opinion": { "trust": 1, "value": 1 }
+    },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
@@ -423,8 +443,10 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 12 },
         { "u_add_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" }
-      ]
+      ],
+      "opinion": { "trust": 3, "value": 3 }
     },
+    "fail": { "opinion": { "anger": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "//": "Quest handled via external dialogue, player will never see this text.",
@@ -507,7 +529,8 @@
         ]
       }
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ], "opinion": { "trust": 2, "value": 2 } },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_GREENWOOD_2",
     "dialogue": {
@@ -547,7 +570,8 @@
       "success_lie": "What good does this do us?",
       "failure": "I'll have to make my own, I guess…"
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_GREENWOOD_3",
@@ -575,7 +599,8 @@
       "failure": "I'll have to make my own, I guess…"
     },
     "//": "5.50 (price of bibles) x 20 (count), with a 10% upcharge as a delivery fee. Divide by 2.50 to convert to icons.",
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 48 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 48 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_JULIAN_PAPER",
@@ -601,7 +626,8 @@
       "success_lie": "Could you give it to me then?",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ], "opinion": { "trust": 2, "value": 2 } },
+    "fail": { "opinion": { "anger": 2 } }
   },
   {
     "id": "MISSION_GODCO_JULIAN_RINGS",
@@ -613,7 +639,8 @@
     "difficulty": 7,
     "count": 2,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 100 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 100 } ], "opinion": { "trust": 4, "value": 4 } },
+    "fail": { "opinion": { "anger": 4 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -632,7 +659,7 @@
     "id": "MISSION_GODCO_GEMMA_SUPPLEMENTS",
     "type": "mission_definition",
     "name": { "str": "Retrieve the fertility supplements" },
-    "description": "Get Gemma's fertility supplements.",
+    "description": "Get Gemma's 25 fertility supplements.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fert_supplement",
     "count": 25,
@@ -650,8 +677,10 @@
       "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
     },
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ]
+      "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ],
+      "opinion": { "trust": 2, "value": 2 }
     },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -676,7 +705,8 @@
     "count": 10,
     "difficulty": 1,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -705,8 +735,10 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 155 },
         { "npc_add_var": "mission_meeting_jane_willing_to_follow", "value": "yes" }
-      ]
+      ],
+      "opinion": { "trust": 3, "value": 3 }
     },
+    "fail": { "opinion": { "anger": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -748,8 +780,10 @@
       "effect": [
         { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
-      ]
-    }
+      ],
+      "opinion": { "trust": 1, "value": 1 }
+    },
+    "fail": { "opinion": { "anger": 1 } }
   },
   {
     "id": "MISSION_GODCO_FELICITY_1",
@@ -761,7 +795,8 @@
     "count": 800,
     "difficulty": 3,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ], "opinion": { "trust": 3, "value": 2 } },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_FELICITY_2",
     "has_generic_rewards": false,
@@ -788,8 +823,10 @@
     "difficulty": 1,
     "value": 0,
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ]
+      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ],
+      "opinion": { "trust": 1, "value": 1 }
     },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -823,8 +860,10 @@
         { "u_spawn_item": "glasses_reading" },
         { "u_spawn_item": "knitting_needles" },
         { "u_add_var": "general_completed_theresa_going_away", "value": "yes" }
-      ]
+      ],
+      "opinion": { "trust": 4, "value": 4 }
     },
+    "fail": { "opinion": { "anger": 6 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -848,7 +887,8 @@
     "item": "candle",
     "difficulty": 1,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ], "opinion": { "trust": 2, "value": 3 } },
+    "fail": { "opinion": { "anger": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -872,7 +912,8 @@
     "item": "can_tuna",
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ], "opinion": { "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -896,7 +937,8 @@
     "item": "chemistry_set",
     "difficulty": 3,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ], "opinion": { "trust": 2, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_KOSTAS_2",
     "has_generic_rewards": false,
@@ -916,7 +958,7 @@
     "id": "MISSION_GODCO_KOSTAS_2",
     "type": "mission_definition",
     "name": { "str": "Pebble Pusher" },
-    "description": "Get 814 pounds of gravel (5,600 pebbles) for Kostas.",
+    "description": "Get 814 pounds of pebbles (5,600 pebbles) for Kostas.",
     "//": "Enough pebbles for 28 planters.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "pebble",
@@ -927,18 +969,20 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
         { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" }
-      ]
+      ],
+      "opinion": { "trust": 3, "value": 2 }
     },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_KOSTAS_3",
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Get 5,600 pebbles.",
-      "offer": "Demand for my herbal medicine has gone up recently, and I'm struggling to get all of my ingredients sustainably.  I'm going to build some planters on the rooftop, but I lack the material to do so in full.  I'd compensate you fairly for 814 pounds of gravel.",
+      "offer": "Demand for my herbal medicine has gone up recently, and I'm struggling to get all of my ingredients sustainably.  I'm going to build some planters on the rooftop, but I lack the material to do so in full.  I'd compensate you fairly for 814 pounds of pebbles.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
       "advice": "An outdoor emporium should have some.  Of course, you could always dig them up from a lakeshore or driveway.",
-      "inquire": "Do you have the rocks?",
+      "inquire": "Do you have the pebbles?",
       "success": "Blessings be unto you.  I'll start on the garden right away.",
       "success_lie": "What good is this?",
       "failure": "That's too bad…"
@@ -954,6 +998,8 @@
     "difficulty": 6,
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "end": { "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Get a Marloss berry.",
@@ -976,7 +1022,8 @@
     "item": "eink_tablet_pc",
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_TOM_2",
     "has_generic_rewards": false,
@@ -1002,7 +1049,8 @@
     "count": 25,
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2, "value": 2 } },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_TOM_3",
     "has_generic_rewards": false,
@@ -1028,7 +1076,8 @@
     "count": 200,
     "difficulty": 8,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 30 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 30 } ], "opinion": { "trust": 3, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -1052,7 +1101,8 @@
     "item": "software_math",
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_OLWEN_2",
     "has_generic_rewards": false,
@@ -1083,8 +1133,10 @@
         { "u_spawn_item": "icon", "count": 6 },
         { "mapgen_update": "olwen_radio_adapter", "om_terrain": "godco_1_2" },
         { "u_add_var": "general_mission_godco_has_radio", "value": "yes" }
-      ]
+      ],
+      "opinion": { "trust": 2, "value": 2 }
     },
+    "fail": { "opinion": { "anger": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -1109,7 +1161,8 @@
     "count": 300,
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 15 } ], "opinion": { "trust": 1, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_MARIA_2",
     "has_generic_rewards": false,
@@ -1134,7 +1187,8 @@
     "item": "electric_spinwheel",
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2, "value": 1 } },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -1159,7 +1213,8 @@
     "count": 200,
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 20 } ], "opinion": { "trust": 2, "value": 2 } },
+    "fail": { "opinion": { "anger": 2 } },
     "followup": "MISSION_GODCO_HELENA_2",
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -1190,8 +1245,10 @@
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
         { "queue_eocs": "godco_place_wall_new", "time_in_future": "432 hours" },
         { "u_spawn_item": "icon", "count": 40 }
-      ]
+      ],
+      "opinion": { "trust": 2, "value": 1 }
     },
+    "fail": { "opinion": { "anger": 1 } },
     "followup": "MISSION_GODCO_HELENA_3",
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -1227,7 +1284,8 @@
         ]
       }
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 35 } ] },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 35 } ], "opinion": { "trust": 3, "value": 2 } },
+    "fail": { "opinion": { "anger": 4 } },
     "followup": "MISSION_GODCO_HELENA_4",
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -1258,8 +1316,10 @@
         { "math": [ "godco_has_canningpots", "=", "1" ] },
         { "u_spawn_item": "icon", "count": 80 },
         { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
-      ]
+      ],
+      "opinion": { "trust": 1, "value": 1 }
     },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -1281,7 +1341,7 @@
     "description": "Go to the location Helena told you about and see who's there.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {
@@ -1289,8 +1349,10 @@
         { "math": [ "godco_met_merchants", "=", "0" ] },
         { "u_spawn_item": "icon", "count": 5 },
         { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
-      ]
+      ],
+      "opinion": { "trust": 1, "value": 1 }
     },
+    "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {

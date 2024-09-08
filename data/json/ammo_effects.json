@@ -168,12 +168,7 @@
   {
     "id": "ROBOT_DAZZLE",
     "type": "ammo_effect",
-    "//": "Applies sensor-stunning effect to robots. Hardcoded"
-  },
-  {
-    "id": "RECOVER_X",
-    "type": "ammo_effect",
-    "//": " Has a [(X-1)/X] probability to create a single charge of the used ammo at the point of impact. Change the X with any number, like 'RECOVER_2' means [(2-1)/2]=50% chance. Hardcoded"
+    "//": "Applies sensor-stunning effect to robots.  Only intended to affect ROBOTs not CYBORGs. Hardcoded"
   },
   {
     "id": "RECYCLED",
@@ -426,5 +421,11 @@
     "type": "ammo_effect",
     "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "GENE_STING_BARB",
+    "type": "ammo_effect",
+    "//": "runs EoC that cause you to mutate",
+    "eoc": [ "EOC_random_mutate" ]
   }
 ]

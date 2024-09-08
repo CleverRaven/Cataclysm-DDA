@@ -145,7 +145,7 @@
         { "item": "rad_gear", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "used_1st_aid", "chance": 5 },
         { "item": "softdrugs", "chance": 3 },
-        { "item": "harddrugs", "chance": 2 },
+        { "item": "harddrugs_residential", "chance": 2 },
         { "item": "drugs_rare", "chance": 1 }
       ],
       "L": [

@@ -70,6 +70,23 @@
   <provides>
     <binary>cataclysm-tiles</binary>
   </provides>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/menu.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/game.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/c0eed669da247c8e9be9a5176aaf3cbd922e48a7/data/screenshots/credits.png</image>
+    </screenshot>
+  </screenshots>
+
+  <developer id="org.cataclysmdda">
+    <name>Kevin Granade and Contributors</name>
+  </developer>
+
   <releases>
     <release version="0.G Gaiman" date="2023-03-01">
       <description>

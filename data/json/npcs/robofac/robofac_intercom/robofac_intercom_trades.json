@@ -116,8 +116,7 @@
       "math": [ "portal_storm_small_data_sold", ">=", "3" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
         "no": "Excellent; this should be enough to work with.  Here's your agreed-upon reward.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Thank you.\"  The recording changes hands."
       }
@@ -137,8 +136,7 @@
       "math": [ "portal_storm_medium_data_sold", ">=", "15" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
         "no": "Great!  This looks like a very high-quality recording.  Because this data is much better, we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Excellent.\"  The recording changes hands."
       }
@@ -155,8 +153,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
       "no": "Uh… please allow me a second to check this in.\"  The tray slides shut, and the intercom turns off.  Roughly a minute later, it turns back on.  \"Well, it looks like this is a real treasure trove of information.  In fact, you've made quite an impression on R&D, and probably just saved us a few weeks of research at the least.  They demanded you be given a pretty significant accomplishment bonus, so… well, there you go.\"  The tray slides open, revealing an impressive pile of coins.\n\n\"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "Fantastic.\"  The recording changes hands.  \"At this rate, we'll have some real results soon."
     },
@@ -167,5 +164,73 @@
       ],
       "sentinel": "nre_trade"
     }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": "There is an infinite supply of the stuff but I guess from us you can get it clean and undamaged.  That'll be $400.",
+    "responses": [
+      {
+        "text": "[8 HGC] Deal!",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'm a little tight on funds right now.  Can we work out a buy now pay later deal?",
+        "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 8 } } },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": "So we'd need a sweeter deal than just the money if we did this.",
+    "responses": [
+      {
+        "text": "I can pay you what I owe in cash and looted gear.",
+        "effect": [ { "npc_add_var": "u_pay_back_on_cash", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
+      },
+      {
+        "text": "If you give me this deal you can have all the alien corpses, their stuff and their tower",
+        "effect": [ { "npc_add_var": "u_pay_back_on_specimens", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ],
+      "yes": "Well it might be more interesting than straight gear.  Tell us when it's available for inspection.  We expect you back in 20 days or less.",
+      "no": "20 days then for payment."
+    },
+    "responses": [
+      {
+        "text": "Much obliged.",
+        "effect": [
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "assign_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
   }
 ]

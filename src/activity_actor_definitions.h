@@ -51,6 +51,7 @@ class aim_activity_actor : public activity_actor
         std::string action;
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
+        bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
         item_location reload_loc = item_location();
@@ -89,6 +90,7 @@ class aim_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
+        bool check_gun_ability_to_shoot( Character &who, item &it );
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
@@ -496,12 +498,12 @@ class move_items_activity_actor : public activity_actor
         std::vector<item_location> target_items;
         std::vector<int> quantities;
         bool to_vehicle;
-        tripoint relative_destination;
+        tripoint_rel_ms relative_destination;
         bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
+                                   bool to_vehicle, tripoint_rel_ms relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
             relative_destination( relative_destination ),
@@ -1048,7 +1050,7 @@ class drop_activity_actor : public activity_actor
     public:
         drop_activity_actor() = default;
         drop_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                             const tripoint &placement, const bool force_ground )
+                             const tripoint_rel_ms &placement, const bool force_ground )
             : items( items ), placement( placement ), force_ground( force_ground ) {}
 
         activity_id get_type() const override {
@@ -1074,7 +1076,7 @@ class drop_activity_actor : public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool force_ground = false;
         bool current_bulk_unload = false;
 };
@@ -1084,7 +1086,7 @@ class stash_activity_actor: public activity_actor
     public:
         stash_activity_actor() = default;
         stash_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                              const tripoint &placement )
+                              const tripoint_rel_ms &placement )
             : items( items ), placement( placement ) {}
 
         activity_id get_type() const override {
@@ -1110,7 +1112,7 @@ class stash_activity_actor: public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool current_bulk_unload = false;
 };
 
@@ -1255,7 +1257,7 @@ class disassemble_activity_actor : public activity_actor
         int moves_total;
         float activity_override = NO_EXERCISE; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
-        bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
+        bool use_cached_workbench_multiplier = false; // NOLINT(cata-serialize)
     public:
         item_location target;
 
@@ -1737,7 +1739,7 @@ class heat_activity_actor : public activity_actor
             to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
 
         activity_id get_type() const override {
-            return activity_id( "ACT_HEAT" );
+            return activity_id( "ACT_HEATING" );
         }
 
         void start( player_activity &act, Character & ) override;
@@ -2181,6 +2183,41 @@ class unload_loot_activity_actor : public activity_actor
         int stage;
         std::unordered_set<tripoint> coord_set;
         tripoint placement;
+};
+
+class pulp_activity_actor : public activity_actor
+{
+    public:
+        pulp_activity_actor() = default;
+        explicit pulp_activity_actor( const tripoint_abs_ms placement,
+                                      const bool pulp_acid = false ) : placement( { placement } ),
+        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
+                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_PULP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pulp_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
+            return actor.pulp_acid == pulp_acid;
+        }
+        std::set<tripoint_abs_ms> placement;
+        int num_corpses;
+        bool pulp_acid;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

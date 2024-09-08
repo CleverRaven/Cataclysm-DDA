@@ -15,7 +15,12 @@
     "type": "item_group",
     "id": "SUS_book_nonf_soft",
     "copy-from": "SUS_book_nonf_soft",
-    "extend": { "items": [ { "item": "book_nonf_magic_origin_of_species", "prob": 1 } ] }
+    "extend": {
+      "items": [
+        { "item": "book_nonf_magic_origin_of_species", "prob": 1 },
+        { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -135,9 +140,9 @@
   },
   {
     "type": "item_group",
-    "id": "mags_rifle_rare",
-    "copy-from": "mags_rifle_rare",
-    "extend": { "items": [ [ "borealmosin_clip", 5 ] ] }
+    "id": "mags_common",
+    "copy-from": "mags_common",
+    "extend": { "items": [ [ "borealmosin_clip", 4 ] ] }
   },
   {
     "type": "item_group",
@@ -1191,6 +1196,7 @@
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
           { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_light_target", "prob": 50 },
           { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
           { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
@@ -1202,6 +1208,7 @@
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
+          { "item": "spell_scroll_magus_silence", "prob": 35 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
@@ -1216,7 +1223,8 @@
           { "item": "magus_spellbook", "prob": 25 },
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
           { "item": "spell_scroll_magus_haste", "prob": 50 },
-          { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 }
+          { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
+          { "item": "spell_scroll_magus_slow", "prob": 50 }
         ],
         "prob": 10
       },
@@ -1244,6 +1252,7 @@
         "distribution": [
           { "item": "priest_advanced", "prob": 10 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
           { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
         ],
@@ -1841,5 +1850,11 @@
       { "item": "potion_fruit_grapes", "prob": 1 },
       { "item": "potion_fruit_mayapple", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "group_forge_warp_items",
+    "items": [ { "item": "forge_warp_scroll", "count": [ 1, 3 ] } ]
   }
 ]

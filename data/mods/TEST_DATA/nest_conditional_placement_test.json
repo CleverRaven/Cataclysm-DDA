@@ -138,6 +138,7 @@
     "name": "nest conditional placement test",
     "sym": ".",
     "color": "white",
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {

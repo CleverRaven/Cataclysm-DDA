@@ -29,7 +29,6 @@
     "longest_side": "88 cm",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "red",
@@ -92,6 +91,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__chainsaw",
@@ -178,6 +178,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__polesaw",
@@ -265,6 +266,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__circsaw",
@@ -339,6 +341,7 @@
     "color": "light_gray",
     "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and hammering them.",
+    "category": "tools",
     "price": "25 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
@@ -349,7 +352,6 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "category": "weapons",
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "melee_damage": { "bash": 10, "cut": 20 }
   },
@@ -364,7 +366,6 @@
     "longest_side": "28 cm",
     "price": "200 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -435,6 +436,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__elec_chainsaw",
@@ -506,6 +508,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Turn off",
+        "ammo_scale": 0,
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
@@ -575,7 +578,7 @@
     "longest_side": "56 cm",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "uneven" },
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -593,7 +596,7 @@
     "longest_side": "56 cm",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
@@ -612,7 +615,6 @@
     "longest_side": "46 cm",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -630,7 +632,6 @@
     "volume": "250 ml",
     "longest_side": "20 cm",
     "price": "2 USD",
-    "to_hit": 2,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
