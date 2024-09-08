@@ -67,7 +67,7 @@
   },
   {
     "type": "mutation",
-    "id": "FAIR_FOLK_COMMONER_TROW",
+    "id": "UNKNOWING_CHANGELING_COMMONER_CHOICE",
     "name": { "str": "Made Commoner Choice" },
     "description": "This tracks your heritage, used to prevent picking more than one heritage.  You shouldn't see it.",
     "copy-from": "FAIR_FOLK_COMMONER_BROWNIE"
