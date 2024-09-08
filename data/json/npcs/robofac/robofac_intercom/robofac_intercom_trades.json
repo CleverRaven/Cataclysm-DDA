@@ -331,7 +331,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS"
       },
       {
-        "text": "[Roll in deactivated monolith.]",
+        "text": "[Deliver a deactivated monolith.]",
         "condition": { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_golden_monolith", "count": 1, "popup": true },
