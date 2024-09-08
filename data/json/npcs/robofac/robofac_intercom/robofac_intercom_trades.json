@@ -362,7 +362,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
     "type": "talk_topic",
-    "dynamic_line": "We can look at this but it appears to miss quite a lot to it.",
+    "dynamic_line": "We can probably gain some insight from studying this unit, but  it appears seriously damaged",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
