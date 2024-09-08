@@ -8023,7 +8023,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
             const mtype *corpse_mtype = corpse.get_mtype();
             const bool acid_immune = you.is_immune_damage( damage_acid ) ||
                                      you.is_immune_field( fd_acid );
-            if( corpse_mtype->bloodType().obj().has_acid && ( !acid_immune || !pulp_acid ) ) {
+            if( !pulp_acid && corpse_mtype->bloodType().obj().has_acid  && !acid_immune ) {
                 //don't smash acid zombies when auto pulping unprotected
                 continue;
             }
