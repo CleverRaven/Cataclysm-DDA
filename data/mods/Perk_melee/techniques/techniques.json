@@ -210,7 +210,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.2 },
       { "stat": "damage", "type": "stab", "scale": 0.2 }
     ],
-    "messages": [ "You slash at the %s as you dodge", "<npcname> shaleshes at the %s as they dodge" ],
+    "messages": [ "You slash at the %s as you dodge", "<npcname> slashes at %s as they dodge" ],
     "eocs": [ "EOC_PERK_DODGE_RETREAT_MANUAL" ],
     "attack_vectors": [ "vector_null" ]
   },
