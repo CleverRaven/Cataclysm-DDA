@@ -4113,8 +4113,9 @@ void iexamine::keg( Character &you, const tripoint &examp )
     if( !liquid_present || has_container_with_liquid ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
-        auto drinks_inv = you.items_with( []( const item & it ) {
-            return it.made_of( phase_id::LIQUID );
+        auto drinks_inv = you.items_with( [&you]( const item & it ) {
+            item *parent_item = you.find_parent( it );
+            return it.made_of( phase_id::LIQUID ) && ( !parent_item || parent_item->can_unload() ) ;
         } );
         if( drinks_inv.empty() ) {
             add_msg( m_info, _( "You don't have any drinks to fill the %s with." ), keg_name );

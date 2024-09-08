@@ -281,7 +281,6 @@
     "volume": "1200 ml",
     "price": "100 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "nylon", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
