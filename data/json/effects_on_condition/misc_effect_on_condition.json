@@ -136,7 +136,7 @@
     "id": "yrax_golden_monolith_activation",
     "effect": [
       { "u_spawn_monster": "mon_golden_monolith", "real_count": 1, "min_radius": 1, "max_radius": 2 },
-      { "u_message": "The monoliths appears to be scanning it surroundings once again.", "type": "bad" }
+      { "u_message": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.", "type": "bad" }
     ]
   },
   {
