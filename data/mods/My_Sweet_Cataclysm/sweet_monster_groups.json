@@ -38,16 +38,15 @@
     "name": "GROUP_EGG_COOKIE_EGG",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cookie_hydra_youth" } ]
-  },
-  {
+  },{
     "name": "GROUP_EGG_GUM",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_spider_gum" } ]
+    "monsters": [ { "monster": "mon_spider_gum_baby" } ]
   },
   {
     "name": "GROUP_EGG_CAFFGUM",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_gum_spider_wolf" } ]
+    "monsters": [ { "monster": "mon_gum_spider_wolf_baby" } ]
   },
   {
     "name": "GROUP_EGG_CHOC_COW",
