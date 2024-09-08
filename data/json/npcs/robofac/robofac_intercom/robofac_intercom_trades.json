@@ -456,11 +456,6 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA",
     "type": "talk_topic",
     "dynamic_line": "I doubt we can get a lot of information from this drone but thanks.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   }
 ]
